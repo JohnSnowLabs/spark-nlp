@@ -7,7 +7,8 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
@@ -23,7 +24,14 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
   protected val missingRefMsg: String = s"Please set storageRef param in $this."
 
-  protected def index(storageSourcePath: String, connections: Map[Database.Value, RocksDBConnection], resource: ExternalResource): Unit
+  protected def index(
+                       storageSourcePath: String,
+                       readAs: ReadAs.Value,
+                       writers: Map[Database.Name, StorageWriter[_]],
+                       readOptions: Map[String, String] = Map()
+                     ): Unit
+
+  protected def createWriter(database: Name): StorageWriter[_]
 
   private def indexDatabases(
                               databases: Array[Database.Value],
@@ -42,16 +50,19 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
       .map{ case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile))}
       .toMap
 
+    val writers = databases.map(d => (d, createWriter(d))).toMap[Database.Name, StorageWriter[_]]
+
     if (new Path(storageSourcePath).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
       /** ToDo: What if the file is too large to copy to local? Index directly from hadoop? */
       val tmpFile = Files.createTempFile("sparknlp_", ".str").toAbsolutePath.toString
       fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      index(tmpFile, connections, resource)
+      index(tmpFile, resource.readAs, writers, resource.options)
       FileHelper.delete(tmpFile)
     } else {
-      index(storageSourcePath, connections, resource)
+      index(storageSourcePath, resource.readAs, writers, resource.options)
     }
 
+    writers.values.foreach(_.close())
     connections.values.foreach(_.close())
   }
 
@@ -77,9 +88,9 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
-    locators.foreach(locator => {
-      StorageHelper.sendToCluster(tmpLocalDestinations.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
-    })
+    tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) => {
+      StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+    }}
 
     // 3. Create Spark Embeddings
     locators.map(locator => RocksDBConnection.getOrCreate(locator.clusterFileName))

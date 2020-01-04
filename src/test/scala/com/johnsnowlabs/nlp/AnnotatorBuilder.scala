@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
@@ -78,8 +79,20 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val entityExtractor = new TextMatcher()
       .setInputCols(if (sbd) "sentence" else "document", "token")
       .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
-      .setOutputCol("entity").
-      setCaseSensitive(caseSensitive)
+      .setOutputCol("entity")
+      .setCaseSensitive(caseSensitive)
+      .setTokenizer(new Tokenizer().fit(dataset))
+    val data = withTokenizer(dataset, sbd)
+    entityExtractor.fit(data).transform(data)
+  }
+
+  def withFullBigTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+    val entityExtractor = new BigTextMatcher()
+      .setInputCols(if (sbd) "sentence" else "document", "token")
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
+      .setOutputCol("entity")
+      .setCaseSensitive(caseSensitive)
+      .setTokenizer(new Tokenizer().fit(dataset))
     val data = withTokenizer(dataset, sbd)
     entityExtractor.fit(data).transform(data)
   }

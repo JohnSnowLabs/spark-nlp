@@ -1,13 +1,14 @@
 package com.johnsnowlabs.nlp.annotators.btm
 
+import com.johnsnowlabs.collections.StorageSearchTrie
 import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, _}
 import com.johnsnowlabs.nlp.annotators.TokenizerModel
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection}
+import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection, StorageWriter}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
@@ -48,29 +49,41 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
   /**
     * Loads entities from a provided source.
     */
-  private def loadEntities(vocabWriter: TMVocabWriter): Unit = {
-    val phrases: Seq[Iterator[String]] = ResourceHelper.parseLinesIterator($(entities))
-    phrases.foreach {
-      lines => {
-        lines.foreach(line => {
-          val tokens = get(tokenizer) match {
-            case Some(tokenizerModel) =>
-              val annotation = Seq(Annotation(line))
-              tokenizerModel.annotate(annotation).map(_.result).toArray
-            case _ => line.split(" ")
-          }
-
-        })
-      }
-    }
+  private def loadEntities(path: String, writers: Map[Database.Name, StorageWriter[_]]): Unit = {
+    val inputFiles: Seq[Iterator[String]] =
+      ResourceHelper.parseLinesIterator(ExternalResource(path, ReadAs.TEXT, Map()))
+    inputFiles.foreach { inputFile => {
+      StorageSearchTrie.load(inputFile, writers, get(tokenizer), $(caseSensitive))
+    }}
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): BigTextMatcherModel = {
-    ???
+    indexStorage(dataset.sparkSession, $(entities))
+    new BigTextMatcherModel()
+      .setInputCols($(inputCols))
+      .setOutputCol($(outputCol))
+      .setCaseSensitive($(caseSensitive))
+      .setStorageRef($(storageRef))
+      .setMergeOverlapping($(mergeOverlapping))
   }
 
-  override protected def index(storageSourcePath: String, connections: Map[Database.Value, RocksDBConnection], resource: ExternalResource): Unit = {
-    ???
+  override protected def createWriter(database: Name): StorageWriter[_] = {
+    val connection = createDatabaseConnection(database)
+    database match {
+      case Database.TMVOCAB => new TMVocabReadWriter(connection, $(caseSensitive))
+      case Database.TMEDGES => new TMEdgesReadWriter(connection, $(caseSensitive))
+      case Database.TMNODES => new TMNodesWriter(connection)
+    }
+  }
+
+  override protected def index(
+                                storageSourcePath: String,
+                                readAs: ReadAs.Value,
+                                writers: Map[Database.Name, StorageWriter[_]],
+                                readOptions: Map[String, String]
+                              ): Unit = {
+    require(readAs == ReadAs.TEXT, "BigTextMatcher only supports TEXT input formats at the moment.")
+    loadEntities(storageSourcePath, writers)
   }
 
   override protected val databases: Array[Name] = Array(

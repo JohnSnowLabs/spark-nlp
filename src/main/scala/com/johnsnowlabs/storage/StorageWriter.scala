@@ -2,42 +2,28 @@ package com.johnsnowlabs.storage
 
 import org.rocksdb.{WriteBatch, WriteOptions}
 
-abstract class StorageWriter[A](connection: RocksDBConnection,
-                                autoFlushAfter: Option[Int]
-                               ) extends AutoCloseable {
+trait StorageWriter[A] extends HasConnection {
 
-  connection.connectReadWrite
-
-  var batch = new WriteBatch()
-  var batchSize = 0
-
-  def flush(): Unit = {
-    val writeOptions = new WriteOptions()
-    connection.getDb.write(writeOptions, batch)
-    batch.close()
-    batch = new WriteBatch()
-    batchSize = 0
-  }
-
-  def add(word: String, content: A): Unit = {
-    batch.put(word.getBytes, toBytes(content))
-    batchSize += 1
-
-    if (autoFlushAfter.isDefined) {
-      if (batchSize >= autoFlushAfter.get)
-        flush()
-    }
-  }
+  final protected var updatesCount = 0
 
   def toBytes(content: A): Array[Byte]
 
-  override def close(): Unit = {
-    if (batchSize > 0)
-      flush()
+  def add(word: String, content: A): Unit
 
-    connection.close()
+  protected def getUpdatesCount: Int = updatesCount
+
+  protected def put(batch: WriteBatch, word: String, content: A): Unit = {
+    batch.put(word.trim.getBytes, toBytes(content))
+    updatesCount += 1
   }
 
+  def flush(batch: WriteBatch): Unit = {
+    val writeOptions = new WriteOptions()
+    connection.getDb.write(writeOptions, batch)
+    batch.close()
+    updatesCount = 0
+  }
 
+  def close(): Unit
 
 }

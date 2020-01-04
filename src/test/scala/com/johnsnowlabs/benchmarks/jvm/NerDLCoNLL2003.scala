@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEm
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsReader, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsReader, WordEmbeddingsTextIndexer, WordEmbeddingsWriter}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.RocksDBConnection
 import org.tensorflow.Session
@@ -30,10 +30,10 @@ object NerDLCoNLL2003 extends App {
   lazy val connection = RocksDBConnection.getOrCreate(wordEmbeddingsCache)
 
   if (!new File(wordEmbeddingsCache).exists()) {
-    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, connection)
+    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsDim, 5000), (1000000.0/wordEmbeddingsDim).toInt)
   }
 
-  val embeddings = new WordEmbeddingsReader(connection, false, wordEmbeddingsDim)
+  val embeddings = new WordEmbeddingsReader(connection, false, wordEmbeddingsDim, 1000)
 
   val reader = CoNLL()
   val trainDataset = toTrain(reader.readDocs(trainFile), embeddings)
