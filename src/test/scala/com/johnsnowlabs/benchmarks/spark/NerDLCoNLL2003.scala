@@ -38,6 +38,7 @@ object NerDLPipeline extends App {
       .setBatchSize(32)
       .setOutputCol("ner")
       .setVerbose(Verbose.Epochs)
+      .setGraphFolder("src/test/resources/graph/")
 
     val converter = new NerConverter()
       .setInputCols("document", "token", "ner")

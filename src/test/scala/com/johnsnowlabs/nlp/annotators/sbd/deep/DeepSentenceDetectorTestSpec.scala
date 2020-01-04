@@ -45,6 +45,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setOutputCol("ner")
     .setMaxEpochs(100)
     .setRandomSeed(0)
+    .setGraphFolder("src/test/resources/graph/")
+
 
   private val weakNer = new NerDLApproach()
     .setInputCols("document", "token", "glove")
@@ -52,6 +54,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
     .setOutputCol("ner")
     .setMaxEpochs(100)
     .setRandomSeed(0)
+    .setGraphFolder("src/test/resources/graph/")
+
 
   private val nerConverter = new NerConverter()
     .setInputCols(Array("document", "token", "ner"))
@@ -137,6 +141,8 @@ class DeepSentenceDetectorTestSpec extends FlatSpec with DeepSentenceDetectorBeh
       .setOutputCol("ner")
       .setMaxEpochs(100)
       .setRandomSeed(0)
+      .setGraphFolder("src/test/resources/graph/")
+
     nerTagger.fit(glove.fit(nerDataset).transform(nerDataset))
   }
 
