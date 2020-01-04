@@ -107,14 +107,13 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 100, 101))
   }
 
-  "NerDL Approach" should "validate against part of the training dataset" ignore {
+  "NerDL Approach" should "validate against part of the training dataset" in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
     val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
 
     val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
-//    val embeddings = WordEmbeddingsModel.pretrained()
 
     val trainData = embeddings.transform(training_data)
     val testData = embeddings.transform(test_data)
@@ -134,6 +133,7 @@ class NerDLSpec extends FlatSpec {
       .setValidationSplit(0.1f)
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
+      .setGraphFolder("src/test/resources/graph/")
       .fit(trainData)
 
     ner.write.overwrite()save("./tmp_ner_dl_tf115")
