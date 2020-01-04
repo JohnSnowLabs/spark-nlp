@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.storage.{Database, HasStorage, StorageWriter}
+import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection, StorageWriter}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -61,8 +61,7 @@ class WordEmbeddings(override val uid: String)
 
   override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 
-  override protected def createWriter(database: Name): StorageWriter[_] = {
-    val connection = createDatabaseConnection(database)
+  override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
     new WordEmbeddingsWriter(connection, $(caseSensitive), $(dimension), 5000)
   }
 }
