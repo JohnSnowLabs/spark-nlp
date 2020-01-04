@@ -55,7 +55,7 @@ class WordEmbeddingsModel(override val uid: String)
 
   override protected def createReader(database: Database.Name): WordEmbeddingsReader = {
     new WordEmbeddingsReader(
-      RocksDBConnection.getOrCreate(database, $(storageRef)),
+      createDatabaseConnection(database),
       $(caseSensitive),
       $(dimension),
       scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows

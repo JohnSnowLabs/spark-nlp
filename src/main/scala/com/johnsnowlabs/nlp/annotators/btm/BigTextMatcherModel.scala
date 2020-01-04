@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.btm
 
-import com.johnsnowlabs.collections.SearchTrie
+import com.johnsnowlabs.collections.{SearchTrie, StorageSearchTrie}
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.storage.Database.Name
+import com.johnsnowlabs.storage.{Database, HasStorageModel, StorageReader}
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
 
@@ -16,16 +18,13 @@ import scala.collection.mutable.ArrayBuffer
   * @@ entitiesPath: Path to file with phrases to search
   * @@ insideSentences: Should Extractor search only within sentence borders?
   */
-class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTextMatcherModel] {
+class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTextMatcherModel] with HasStorageModel {
 
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
 
-  val searchTrie = new StructFeature[SearchTrie](this, "searchTrie")
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
-
-  def setSearchTrie(value: SearchTrie): this.type = set(searchTrie, value)
 
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
@@ -42,6 +41,13 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
       (rs ::: sep).reverse
   }
   protected def merge(rs: List[(Int,Int)]): List[(Int,Int)] = collapse(rs.sortBy(_._1))
+
+  @transient private lazy val searchTrie = new StorageSearchTrie(
+    getReader(Database.TMVOCAB).asInstanceOf[TMVocabReader],
+    getReader(Database.TMEDGES).asInstanceOf[TMEdgesReader],
+    getReader(Database.TMNODES).asInstanceOf[TMNodesReader],
+    $(caseSensitive)
+  )
 
   /**
     * Searches entities and stores them in the annotation
@@ -61,7 +67,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
           token.begin >= sentence.begin &&
             token.end <= sentence.end)
 
-      val foundTokens = $$(searchTrie).search(tokens.map(_.result)).toList
+      val foundTokens =  searchTrie.search(tokens.map(_.result)).toList
 
       val finalTokens = if($(mergeOverlapping)) merge(foundTokens) else foundTokens
 
@@ -88,6 +94,20 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
     result
   }
 
+  override protected val databases: Array[Name] = Array(
+    Database.TMVOCAB,
+    Database.TMEDGES,
+    Database.TMNODES
+  )
+
+  override protected def createReader(database: Name): StorageReader[_] = {
+    val connection = createDatabaseConnection(database)
+    database match {
+      case Database.TMVOCAB => new TMVocabReader(connection, $(caseSensitive))
+      case Database.TMEDGES => new TMEdgesReader(connection, $(caseSensitive))
+      case Database.TMNODES => new TMNodesReader(connection, $(caseSensitive))
+    }
+  }
 }
 
 trait ReadablePretrainedBigTextMatcher extends ParamsAndFeaturesReadable[BigTextMatcherModel] with HasPretrained[BigTextMatcherModel] {

@@ -1,20 +1,15 @@
 package com.johnsnowlabs.storage
 
 import com.johnsnowlabs.nlp.util.LruMap
-import spire.ClassTag
 
-abstract class StorageReader[A: ClassTag](
-                                 connection: RocksDBConnection,
-                                 caseSensitiveIndex: Boolean,
-                                 lruCacheSize: Int = 100000) extends AutoCloseable {
+trait StorageReader[A] extends HasConnection {
 
-  connection.connectReadOnly
+  protected val caseSensitiveIndex: Boolean
+  protected def cacheSize: Int
 
-  @transient val lru = new LruMap[String, Option[A]](lruCacheSize)
+  @transient val lru = new LruMap[String, A](cacheSize)
 
   def emptyValue: A
-
-  def getConnection: RocksDBConnection = connection
 
   def fromBytes(source: Array[Byte]): A
 
@@ -36,9 +31,7 @@ abstract class StorageReader[A: ClassTag](
   }
 
   def lookup(index: String): Option[A] = {
-    synchronized {
-      lru.getOrElseUpdate(index, lookupByIndex(index))
-    }
+    lru.getOrElseUpdate(index, lookupByIndex(index))
   }
 
   def containsIndex(index: String): Boolean = {
@@ -46,10 +39,6 @@ abstract class StorageReader[A: ClassTag](
     connection.getDb.get(wordBytes) != null ||
       (connection.getDb.get(index.trim.toLowerCase.getBytes()) != null) ||
       (connection.getDb.get(index.trim.toUpperCase.getBytes()) != null)
-  }
-
-  override def close(): Unit = {
-    connection.close()
   }
 
 }

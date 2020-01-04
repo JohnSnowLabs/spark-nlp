@@ -1,4 +1,10 @@
 package com.johnsnowlabs.collections
+
+import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.annotators.TokenizerModel
+import com.johnsnowlabs.nlp.annotators.btm.{TMEdgesReadWriter, TMEdgesReader, TMNodesReader, TMNodesWriter, TMVocabReadWriter, TMVocabReader, TrieNode}
+import com.johnsnowlabs.storage.{Database, RocksDBConnection, StorageBatchWriter, StorageWriter}
+
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
@@ -7,24 +13,13 @@ import scala.collection.mutable.ArrayBuffer
   * Immutable Collection that used for fast substring search
   * Implementation of Aho-Corasick algorithm https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm
   */
-case class SearchTrie
-(
-  vocabulary: Map[String, Int],
-  edges: Map[(Int, Int), Int],
+class StorageSearchTrie(
+                         vocabReader: TMVocabReader,
+                         edgesReader: TMEdgesReader,
+                         nodesReader: TMNodesReader,
+                         caseSensitive: Boolean
+                       ) {
 
-  // In order to optimize 4 values are stored in the same Vector
-  // Pi - prefix function
-  // Is Leaf - whether node is leaf?
-  // Length - length from Root to node (in words)
-  // Previous Leaf - Link to leaf that suffix of current path from root
-  nodes: Vector[(Int, Boolean, Int, Int)],
-  caseSensitive: Boolean
-)
-{
-  val caseSearch = if (caseSensitive)
-    (word: String) => vocabulary.getOrElse(word, -1)
-  else
-    (word: String) => vocabulary.getOrElse(word.toLowerCase, -1)
   /**
     * Searchs phrases in the text
     * @param text test to search in
@@ -38,24 +33,25 @@ case class SearchTrie
       var currentId = nodeId
 
       while (currentId >= 0) {
-        if (isLeaf(currentId))
-          result.append((index - length(currentId) + 1, index))
+        val node = nodesReader.lookup(currentId)
+        if (node.isLeaf)
+          result.append((index - node.length + 1, index))
 
-        currentId = lastLeaf(currentId)
+        currentId = node.lastLeaf
       }
     }
 
     for ((word, index) <- text.zipWithIndex) {
-      val wordId = caseSearch(word)
+      val wordId = vocabReader.lookup(word).getOrElse(vocabReader.emptyValue)
       if (wordId < 0) {
         nodeId = 0
       } else {
         var found = false
 
         while (nodeId > 0 && !found) {
-          val newId = edges.getOrElse((nodeId, wordId), -1)
+          val newId = edgesReader.lookup((nodeId, wordId)).getOrElse(edgesReader.emptyValue)
           if (newId < 0) {
-            nodeId = pi(nodeId)
+            nodeId = nodesReader.lookup(nodeId).pi
           }
           else {
             nodeId = newId
@@ -65,7 +61,7 @@ case class SearchTrie
         }
 
         if (!found) {
-          nodeId = edges.getOrElse((nodeId, wordId), 0)
+          nodeId = edgesReader.lookup((nodeId, wordId)).getOrElse(0)
           addResultIfNeed(nodeId, index)
         }
       }
@@ -73,40 +69,38 @@ case class SearchTrie
 
     result
   }
-
-  def pi(nodeId: Int): Int = nodes(nodeId)._1
-
-  def isLeaf(nodeId: Int): Boolean = nodes(nodeId)._2
-
-  def length(nodeId: Int): Int = nodes(nodeId)._3
-
-  def lastLeaf(nodeId: Int): Int = nodes(nodeId)._4
 }
 
-
-object SearchTrie {
-  def apply(phrases: Array[Array[String]], caseSensitive: Boolean = false): SearchTrie = {
+object StorageSearchTrie {
+  def load(
+            inputFileLines: Iterator[String],
+            writers: Map[Database.Value, StorageWriter[_]],
+            withTokenizer: Option[TokenizerModel],
+            caseSensitive: Boolean
+          ): Unit = {
 
     // Have only root at the beginning
-    val vocab = mutable.Map[String, Int]()
-    val edges = mutable.Map[(Int, Int), Int]()
+    val vocabrw = writers(Database.TMVOCAB).asInstanceOf[TMVocabReadWriter]
+    var vocabSize = 0
+
+    val edgesrw = writers(Database.TMEDGES).asInstanceOf[TMEdgesReadWriter]
+
+    val nodesrw = writers(Database.TMNODES).asInstanceOf[TMNodesWriter]
+
     val parents = mutable.ArrayBuffer(0)
     val parentWord = mutable.ArrayBuffer(0)
 
     val isLeaf = mutable.ArrayBuffer(false)
     val length = mutable.ArrayBuffer(0)
 
-    def cu(w: String): Int = {
-      val r = vocab.getOrElseUpdate(w, {
-        vocab.size
+    def vocabUpdate(w: String): Int = {
+      val r = vocabrw.lookup(w).getOrElse({
+        vocabrw.add(w, vocabSize)
+        vocabSize
       })
+      vocabSize += 1
       r
     }
-
-    val caseUpdate = if (caseSensitive)
-      (w: String) => cu(w)
-    else
-      (w: String) => vocab.getOrElseUpdate(w.toLowerCase, vocab.size)
 
     def addNode(parentNodeId: Int, wordId: Int): Int = {
       parents.append(parentNodeId)
@@ -118,12 +112,23 @@ object SearchTrie {
     }
 
     // Add every phrase as root from root in the tree
-    for (phrase <- phrases) {
+    for (line <- inputFileLines) {
+      val phrase = withTokenizer match {
+        case Some(tokenizerModel) =>
+          val annotation = Seq(Annotation(line))
+          tokenizerModel.annotate(annotation).map(_.result).toArray
+        case _ => line.split(" ")
+      }
+
       var nodeId = 0
 
       for (word <- phrase) {
-        val wordId = caseUpdate(word)
-        nodeId = edges.getOrElseUpdate((nodeId, wordId), addNode(nodeId, wordId))
+        val wordId = vocabUpdate(word)
+        nodeId = edgesrw.lookup((nodeId, wordId)).getOrElse({
+          val r = addNode(nodeId, wordId)
+          edgesrw.add((nodeId, wordId), r)
+          r
+        })
       }
 
       if (nodeId > 0)
@@ -149,7 +154,7 @@ object SearchTrie {
 
       while (candidate > 0) {
         candidate = calcPi(candidate)
-        val answer = edges.getOrElse((candidate, wordId), 0)
+        val answer = edgesrw.lookup((candidate, wordId)).getOrElse(0)
         if (answer > 0) {
           pi(v) = answer
           candidate = 0
@@ -189,9 +194,16 @@ object SearchTrie {
       calcLastLeaf(i)
     }
 
-    val nodes = pi.zip(isLeaf).zip(length).zip(lastLeaf)
-      .map{case (((a,b),c),d) => (a,b,c,d)}.toVector
+    pi.zip(isLeaf).zip(length).zip(lastLeaf)
+      .zipWithIndex
+      .foreach{case ((((a,b),c),d), i) => nodesrw.add(i, TrieNode(a,b,c,d))}
 
-    SearchTrie(vocab.toMap, edges.toMap, nodes, caseSensitive)
+    vocabrw.close()
+    edgesrw.close()
+    nodesrw.close()
+
   }
 }
+
+
+

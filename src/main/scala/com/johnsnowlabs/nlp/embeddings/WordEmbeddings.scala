@@ -2,8 +2,9 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection}
+import com.johnsnowlabs.nlp.util.io.ReadAs
+import com.johnsnowlabs.storage.Database.Name
+import com.johnsnowlabs.storage.{Database, HasStorage, StorageWriter}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -38,21 +39,32 @@ class WordEmbeddings(override val uid: String)
     model
   }
 
-  override protected def index(storageSourcePath: String, connections: Map[Database.Value, RocksDBConnection], resource: ExternalResource): Unit = {
-    val connection = connections.values.headOption
-      .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddings connections from locators"))
+  override protected def index(
+                                storageSourcePath: String,
+                                readAs: ReadAs.Value,
+                                writers: Map[Database.Name, StorageWriter[_]],
+                                readOptions: Map[String, String]
+                              ): Unit = {
+    val writer = writers.values.headOption
+      .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))
+      .asInstanceOf[WordEmbeddingsWriter]
 
-    if (resource.readAs == ReadAs.TEXT) {
-      WordEmbeddingsTextIndexer.index(storageSourcePath, connection)
+    if (readAs == ReadAs.TEXT) {
+      WordEmbeddingsTextIndexer.index(storageSourcePath, writer, (1000000.0/$(dimension)).toInt)
     }
-    else if (resource.readAs == ReadAs.BINARY) {
-      WordEmbeddingsBinaryIndexer.index(storageSourcePath, connection)
+    else if (readAs == ReadAs.BINARY) {
+      WordEmbeddingsBinaryIndexer.index(storageSourcePath, writer, (1000000.0/$(dimension)).toInt)
     }
     else
       throw new IllegalArgumentException("Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
   }
 
   override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
+
+  override protected def createWriter(database: Name): StorageWriter[_] = {
+    val connection = createDatabaseConnection(database)
+    new WordEmbeddingsWriter(connection, $(caseSensitive), $(dimension), 5000)
+  }
 }
 
 object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]
