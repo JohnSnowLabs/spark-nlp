@@ -31,7 +31,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
                        readOptions: Map[String, String] = Map()
                      ): Unit
 
-  protected def createWriter(database: Name): StorageWriter[_]
+  protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_]
 
   private def indexDatabases(
                               databases: Array[Database.Value],
@@ -48,9 +48,10 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
     lazy val connections = databases.zip(localFiles)
       .map{ case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile))}
-      .toMap
 
-    val writers = databases.map(d => (d, createWriter(d))).toMap[Database.Name, StorageWriter[_]]
+    val writers = connections.map{ case (db, conn) =>
+      (db, createWriter(db, conn))
+    }.toMap[Database.Name, StorageWriter[_]]
 
     if (new Path(storageSourcePath).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
       /** ToDo: What if the file is too large to copy to local? Index directly from hadoop? */
@@ -63,7 +64,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     }
 
     writers.values.foreach(_.close())
-    connections.values.foreach(_.close())
+    connections.map(_._2).foreach(_.close())
   }
 
   private def preload(

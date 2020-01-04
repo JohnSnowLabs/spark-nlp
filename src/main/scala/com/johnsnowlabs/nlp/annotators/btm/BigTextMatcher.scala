@@ -67,8 +67,7 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
       .setMergeOverlapping($(mergeOverlapping))
   }
 
-  override protected def createWriter(database: Name): StorageWriter[_] = {
-    val connection = createDatabaseConnection(database)
+  override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
     database match {
       case Database.TMVOCAB => new TMVocabReadWriter(connection, $(caseSensitive))
       case Database.TMEDGES => new TMEdgesReadWriter(connection, $(caseSensitive))
