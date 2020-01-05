@@ -1,17 +1,18 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.collections.SearchTrie
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, DocumentAssembler}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, DocumentAssembler, HasFeatures, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.param.BooleanParam
 
-class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] {
+class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
@@ -24,6 +25,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
   val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to match regardless of case. Defaults true")
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
+  val tokenizer = new StructFeature[TokenizerModel](this, "tokenizer")
 
   setDefault(inputCols,Array(TOKEN))
   setDefault(caseSensitive, true)
@@ -34,6 +36,10 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
   def setEntities(path: String, readAs: ReadAs.Format, options: Map[String, String] = Map("format" -> "text")): this.type =
     set(entities, ExternalResource(path, readAs, options))
+
+  def setTokenizer(tokenizer: TokenizerModel): this.type = set(this.tokenizer, tokenizer)
+
+  def getTokenizer: TokenizerModel = $$(tokenizer)
 
   def setCaseSensitive(v: Boolean): this.type =
     set(caseSensitive, v)
@@ -50,12 +56,21 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     */
   private def loadEntities(dataset: Dataset[_]): Array[Array[String]] = {
     val phrases: Array[String] = ResourceHelper.parseLines($(entities))
-    val tokenizer = new Tokenizer().fit(dataset)
-    val parsedEntities: Array[Array[String]] = phrases.map {
-      line =>
-        val annotation = Seq(Annotation(line))
-        val tokens = tokenizer.annotate(annotation)
-        tokens.map(_.result).toArray
+    val parsedEntities: Array[Array[String]] = {
+      get(tokenizer) match {
+        case Some(tokenizerModel: TokenizerModel) =>
+          phrases.map {
+            line =>
+              val annotation = Seq(Annotation(line))
+              val tokens = tokenizerModel.annotate(annotation)
+              tokens.map(_.result).toArray
+          }
+        case _ =>
+          phrases.map {
+            line =>
+              line.split(" ")
+          }
+      }
     }
     parsedEntities
   }

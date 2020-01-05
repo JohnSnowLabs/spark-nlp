@@ -567,6 +567,87 @@ class TextMatcherModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
 
 
+class BigTextMatcher(AnnotatorApproach):
+
+    entities = Param(Params._dummy(),
+                     "entities",
+                     "ExternalResource for entities",
+                     typeConverter=TypeConverters.identity)
+
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in index lookups",
+                          typeConverter=TypeConverters.toBoolean)
+
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    tokenizer = Param(Params._dummy(),
+                          "tokenizer",
+                          "TokenizerModel to use to tokenize input file for building a Trie",
+                          typeConverter=TypeConverters.identity)
+
+    @keyword_only
+    def __init__(self):
+        super(BigTextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher")
+        self._setDefault(caseSensitive=True)
+        self._setDefault(mergeOverlapping=False)
+
+    def _create_model(self, java_model):
+        return TextMatcherModel(java_model=java_model)
+
+    def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        return self._set(entities=ExternalResource(path, read_as, options.copy()))
+
+    def setCaseSensitive(self, b):
+        return self._set(caseSensitive=b)
+
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
+    def setTokenizer(self, tokenizer_model):
+        tokenizer_model._transfer_params_to_java()
+        return self._set(tokenizer_model._java_obj)
+
+
+class BigTextMatcherModel(AnnotatorModel):
+    name = "BigTextMatcherModel"
+
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in index lookups",
+                          typeConverter=TypeConverters.toBoolean)
+
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    searchTrie = Param(Params._dummy(),
+                       "searchTrie",
+                       "searchTrie",
+                       typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.btm.TextMatcherModel", java_model=None):
+        super(BigTextMatcherModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
+    def setCaseSensitive(self, v):
+        return self._set(caseSensitive=v)
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+
+
 class PerceptronApproach(AnnotatorApproach):
     posCol = Param(Params._dummy(),
                    "posCol",

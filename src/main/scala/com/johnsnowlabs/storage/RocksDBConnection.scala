@@ -62,10 +62,18 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     }
   }
 
+  def reconnectReadWrite: RocksDB = {
+    require(Option(db).isDefined, "Tried to reconnect on a closed connection")
+    close()
+    connectReadWrite
+  }
+
   override def close(): Unit = {
-    db.close()
-    db = null
-    RocksDBConnection.cache.remove(path)
+    if (Option(db).isDefined) {
+      db.close()
+      db = null
+      RocksDBConnection.cache.remove(path)
+    }
   }
 
   def getDb: RocksDB = {
