@@ -7,10 +7,18 @@ trait StorageReadWriter[A] extends StorageWriter[A] {
   this: StorageReader[A] =>
 
   def add(word: String, content: A): Unit = {
+    lru.update(word, Some(content))
     if (lru.getSize >= cacheSize) {
       flush(new WriteBatch())
     }
-    lru.update(word, Some(content))
+  }
+
+  override def lookup(index: String): Option[A] = {
+    val result = lru.getOrElseUpdate(index, lookupByIndex(index))
+    if (lru.getSize >= cacheSize) {
+      flush(new WriteBatch())
+    }
+    result
   }
 
   override def flush(batch: WriteBatch): Unit = {
