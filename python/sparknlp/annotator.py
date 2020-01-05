@@ -607,7 +607,7 @@ class BigTextMatcher(AnnotatorApproach):
     def setMergeOverlapping(self, b):
         return self._set(mergeOverlapping=b)
 
-    def setTokenizer(self, tokenizer_model: TokenizerModel):
+    def setTokenizer(self, tokenizer_model):
         tokenizer_model._transfer_params_to_java()
         return self._set(tokenizer_model._java_obj)
 
