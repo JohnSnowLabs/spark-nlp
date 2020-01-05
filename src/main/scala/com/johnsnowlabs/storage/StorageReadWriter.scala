@@ -7,11 +7,10 @@ trait StorageReadWriter[A] extends StorageWriter[A] {
   this: StorageReader[A] =>
 
   def add(word: String, content: A): Unit = {
-    if (getUpdatesCount >= cacheSize) {
+    if (lru.getSize >= cacheSize) {
       flush(new WriteBatch())
     }
     lru.update(word, Some(content))
-    updatesCount += 1
   }
 
   override def flush(batch: WriteBatch): Unit = {
@@ -19,6 +18,9 @@ trait StorageReadWriter[A] extends StorageWriter[A] {
       put(batch, word, content)
     }
     super.flush(batch)
+    lru.clear()
+    if (connection.isConnected)
+      connection.reconnectReadWrite
   }
 
   override def close(): Unit = {

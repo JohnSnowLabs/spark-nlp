@@ -96,15 +96,8 @@ object SearchTrie {
     val isLeaf = mutable.ArrayBuffer(false)
     val length = mutable.ArrayBuffer(0)
 
-    def cu(w: String): Int = {
-      val r = vocab.getOrElseUpdate(w, {
-        vocab.size
-      })
-      r
-    }
-
     val caseUpdate = if (caseSensitive)
-      (w: String) => cu(w)
+      (w: String) => vocab.getOrElseUpdate(w, vocab.size)
     else
       (w: String) => vocab.getOrElseUpdate(w.toLowerCase, vocab.size)
 

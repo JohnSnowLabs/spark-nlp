@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -37,6 +38,11 @@ package object annotator {
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
   type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
   object TextMatcherModel extends ReadablePretrainedTextMatcher
+
+  type BigTextMatcher = com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
+  object BigTextMatcher extends DefaultParamsReadable[BigTextMatcher]
+  type BigTextMatcherModel = com.johnsnowlabs.nlp.annotators.btm.BigTextMatcherModel
+  object BigTextMatcherModel extends ReadablePretrainedBigTextMatcher
 
   type RegexMatcher = com.johnsnowlabs.nlp.annotators.RegexMatcher
   object RegexMatcher extends DefaultParamsReadable[RegexMatcher]
