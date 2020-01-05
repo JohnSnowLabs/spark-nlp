@@ -71,7 +71,7 @@ class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
 
     val entityExtractor = new BigTextMatcher()
       .setInputCols("sentence", "token")
-      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
+      .setStoragePath("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
       .setOutputCol("entity")
 
     val finisher = new Finisher()

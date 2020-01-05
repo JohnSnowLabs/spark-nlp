@@ -7,7 +7,7 @@ import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection, StorageWriter}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.Dataset
 
 class WordEmbeddings(override val uid: String)
   extends AnnotatorApproach[WordEmbeddingsModel]
@@ -24,10 +24,6 @@ class WordEmbeddings(override val uid: String)
 
   override protected val missingRefMsg: String = s"Please set storageRef param in $this. This ref is useful for other annotators" +
     " to require this particular set of embeddings. You can use any memorable name such as 'glove' or 'my_embeddings'."
-
-  override def beforeTraining(spark: SparkSession): Unit = {
-    indexStorage(spark, $(storagePath))
-  }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordEmbeddingsModel = {
     val model = new WordEmbeddingsModel()
