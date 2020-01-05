@@ -12,6 +12,9 @@ trait HasStorageRef extends ParamsAndFeaturesWritable {
 
   setDefault(storageRef, this.uid)
 
+  def createDatabaseConnection(database: Database.Name): RocksDBConnection =
+    RocksDBConnection.getOrCreate(database, $(storageRef))
+
   def setStorageRef(value: String): this.type = {
     if (get(storageRef).nonEmpty)
       throw new UnsupportedOperationException(s"Cannot override storage ref on $this. " +

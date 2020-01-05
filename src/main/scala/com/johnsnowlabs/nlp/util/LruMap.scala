@@ -4,29 +4,44 @@ import scala.collection.mutable
 
 
 class LruMap[TKey, TValue](maxCacheSize: Int) {
-  val cache = mutable.Map[TKey, TValue]()
-  val lru = mutable.PriorityQueue[KeyPriority]()(KeyPriorityOrdering)
+  private val cache = mutable.Map[TKey, TValue]()
+  private val lru = mutable.PriorityQueue[KeyPriority]()(KeyPriorityOrdering)
 
-  var counter = 0
+  private var counter = 0
 
   private def deleteOne(): Unit = {
     val oldest = lru.dequeue().key
     cache.remove(oldest)
   }
 
-  def getOrElseUpdate(key: TKey, valueCreator: => TValue): TValue = {
-    val oldValue = cache.get(key)
-    if (oldValue.isDefined) {
-      oldValue.get
-    } else {
-      if (cache.size >= maxCacheSize)
-        deleteOne()
+  def clear(): Unit = {
+    cache.clear()
+    lru.clear()
+    counter = 0
+  }
 
-      val value = valueCreator
-      cache(key) = value
+  def getSize: Int = cache.size
+
+  def foreach: (((TKey, TValue)) => Any) => Unit = cache.foreach
+
+  def update(key: TKey, value: => Option[TValue]): Option[TValue] = {
+    if (cache.size >= maxCacheSize)
+      deleteOne()
+
+    if (value.isDefined) {
+      cache(key) = value.get
       counter += 1
       lru.enqueue(KeyPriority(key, counter))
-      value
+    }
+    value
+  }
+
+  def getOrElseUpdate(key: TKey, valueCreator: => Option[TValue]): Option[TValue] = {
+    val oldValue = cache.get(key)
+    if (oldValue.isDefined) {
+      oldValue
+    } else {
+      update(key, valueCreator)
     }
   }
 
