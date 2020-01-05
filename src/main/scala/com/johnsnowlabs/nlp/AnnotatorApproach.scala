@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.{ParamMap, StringArrayParam}
+import com.johnsnowlabs.storage.HasStorage
+import org.apache.spark.ml.param.ParamMap
 import org.apache.spark.ml.{Estimator, Model, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
@@ -40,8 +41,16 @@ abstract class AnnotatorApproach[M <: Model[M]]
     }
   }
 
+  private def indexIfStorage(dataset: Dataset[_]): Unit = {
+    this match {
+      case withStorage: HasStorage => withStorage.indexStorage(dataset.sparkSession, withStorage.getStoragePath)
+      case _ =>
+    }
+  }
+
   override final def fit(dataset: Dataset[_]): M = {
     beforeTraining(dataset.sparkSession)
+    indexIfStorage(dataset)
     val model = copyValues(train(dataset).setParent(this))
     onTrained(model, dataset.sparkSession)
     model

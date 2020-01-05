@@ -20,6 +20,8 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
   def setStoragePath(path: String, readAs: String): this.type = set(storagePath, new ExternalResource(path, readAs, Map.empty[String, String]))
 
+  def setStoragePath(path: String, readAs: ReadAs.Value): this.type = setStoragePath(path, readAs.toString)
+
   def getStoragePath: ExternalResource = $(storagePath)
 
   protected val missingRefMsg: String = s"Please set storageRef param in $this."
@@ -152,7 +154,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     src
   }
 
-  protected def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
+  def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
     require(isDefined(storageRef), missingRefMsg)
     preload(
       resource,

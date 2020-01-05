@@ -89,7 +89,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullBigTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new BigTextMatcher()
       .setInputCols(if (sbd) "sentence" else "document", "token")
-      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
+      .setStoragePath("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
       .setOutputCol("entity")
       .setCaseSensitive(caseSensitive)
       .setTokenizer(new Tokenizer().fit(dataset))

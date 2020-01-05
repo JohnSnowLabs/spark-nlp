@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.btm
 import com.johnsnowlabs.collections.StorageSearchTrie
 import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, _}
 import com.johnsnowlabs.nlp.annotators.TokenizerModel
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.AnnotatorApproach
@@ -24,19 +23,12 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
 
   override val description: String = "Extracts entities from target dataset given in a text file"
 
-  val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
   val tokenizer = new StructFeature[TokenizerModel](this, "tokenizer")
 
   setDefault(inputCols,Array(TOKEN))
   setDefault(caseSensitive, true)
   setDefault(mergeOverlapping, false)
-
-  def setEntities(value: ExternalResource): this.type =
-    set(entities, value)
-
-  def setEntities(path: String, readAs: ReadAs.Format, options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(entities, ExternalResource(path, readAs, options))
 
   def setTokenizer(tokenizer: TokenizerModel): this.type = set(this.tokenizer, tokenizer)
 
@@ -58,7 +50,6 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): BigTextMatcherModel = {
-    indexStorage(dataset.sparkSession, $(entities))
     new BigTextMatcherModel()
       .setInputCols($(inputCols))
       .setOutputCol($(outputCol))
