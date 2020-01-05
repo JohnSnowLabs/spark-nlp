@@ -16,8 +16,7 @@ import scala.collection.mutable.ArrayBuffer
 class StorageSearchTrie(
                          vocabReader: TMVocabReader,
                          edgesReader: TMEdgesReader,
-                         nodesReader: TMNodesReader,
-                         caseSensitive: Boolean
+                         nodesReader: TMNodesReader
                        ) {
 
   /**
@@ -75,8 +74,7 @@ object StorageSearchTrie {
   def load(
             inputFileLines: Iterator[String],
             writers: Map[Database.Value, StorageWriter[_]],
-            withTokenizer: Option[TokenizerModel],
-            caseSensitive: Boolean
+            withTokenizer: Option[TokenizerModel]
           ): Unit = {
 
     // Have only root at the beginning

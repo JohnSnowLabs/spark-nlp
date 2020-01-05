@@ -1,11 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.btm
 
-import com.johnsnowlabs.collections.{SearchTrie, StorageSearchTrie}
+import com.johnsnowlabs.collections.StorageSearchTrie
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.storage.{Database, HasStorageModel, StorageReader}
+import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReader}
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
 
@@ -45,8 +44,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
   @transient private lazy val searchTrie = new StorageSearchTrie(
     getReader(Database.TMVOCAB).asInstanceOf[TMVocabReader],
     getReader(Database.TMEDGES).asInstanceOf[TMEdgesReader],
-    getReader(Database.TMNODES).asInstanceOf[TMNodesReader],
-    $(caseSensitive)
+    getReader(Database.TMNODES).asInstanceOf[TMNodesReader]
   )
 
   /**
@@ -100,8 +98,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
     Database.TMNODES
   )
 
-  override protected def createReader(database: Name): StorageReader[_] = {
-    val connection = createDatabaseConnection(database)
+  override protected def createReader(database: Name, connection: RocksDBConnection): StorageReader[_] = {
     database match {
       case Database.TMVOCAB => new TMVocabReader(connection, $(caseSensitive))
       case Database.TMEDGES => new TMEdgesReader(connection, $(caseSensitive))

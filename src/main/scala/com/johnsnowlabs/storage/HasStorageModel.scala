@@ -3,7 +3,7 @@ package com.johnsnowlabs.storage
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
-trait HasStorageModel extends HasStorageReader with HasStorageRef {
+trait HasStorageModel extends HasStorageReader {
 
   def serializeStorage(path: String, spark: SparkSession): Unit = {
     databases.foreach(database => {

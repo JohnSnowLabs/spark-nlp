@@ -53,7 +53,7 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
     val inputFiles: Seq[Iterator[String]] =
       ResourceHelper.parseLinesIterator(ExternalResource(path, ReadAs.TEXT, Map()))
     inputFiles.foreach { inputFile => {
-      StorageSearchTrie.load(inputFile, writers, get(tokenizer), $(caseSensitive))
+      StorageSearchTrie.load(inputFile, writers, get(tokenizer))
     }}
   }
 
