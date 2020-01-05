@@ -13,7 +13,7 @@ trait StorageReader[A] extends HasConnection {
 
   def fromBytes(source: Array[Byte]): A
 
-  private def lookupByIndex(index: String): Option[A] = {
+  protected def lookupByIndex(index: String): Option[A] = {
     lazy val resultLower = connection.getDb.get(index.trim.toLowerCase.getBytes())
     lazy val resultUpper = connection.getDb.get(index.trim.toUpperCase.getBytes())
     lazy val resultExact = connection.getDb.get(index.trim.getBytes())
