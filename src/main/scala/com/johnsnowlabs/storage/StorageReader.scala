@@ -22,8 +22,6 @@ trait StorageReader[A] extends HasConnection {
       Some(fromBytes(resultExact))
     else if (!caseSensitiveIndex && resultLower != null)
       Some(fromBytes(resultLower))
-    else if (!caseSensitiveIndex && resultExact != null)
-      Some(fromBytes(resultExact))
     else if (!caseSensitiveIndex && resultUpper != null)
       Some(fromBytes(resultUpper))
     else

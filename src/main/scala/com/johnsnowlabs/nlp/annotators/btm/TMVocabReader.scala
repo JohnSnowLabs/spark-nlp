@@ -11,6 +11,6 @@ class TMVocabReader(protected val connection: RocksDBConnection, protected val c
     BigInt(source).toInt
   }
 
-  override protected def cacheSize: Int = 5000
+  override protected def cacheSize: Int = 1
 
 }

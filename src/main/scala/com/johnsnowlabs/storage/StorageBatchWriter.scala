@@ -16,12 +16,12 @@ trait StorageBatchWriter[A] extends StorageWriter[A] {
   def add(word: String, content: A): Unit = {
     /** calling .trim because we always trim in reader */
     put(localBatch, word, content)
-    if (getUpdatesCount >= autoFlushAfter)
+    if (getBatchSize >= autoFlushAfter)
       flush(localBatch)
   }
 
   override def close(): Unit = {
-    if (getUpdatesCount > 0)
+    if (getBatchSize > 0)
       flush(localBatch)
 
     super.close()

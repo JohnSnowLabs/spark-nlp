@@ -17,6 +17,6 @@ class TMEdgesReader(
     super.lookup(index.toString())
   }
 
-  override protected def cacheSize: Int = 5000
+  override protected def cacheSize: Int = 1
 
 }

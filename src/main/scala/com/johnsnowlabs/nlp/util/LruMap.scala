@@ -14,6 +14,12 @@ class LruMap[TKey, TValue](maxCacheSize: Int) {
     cache.remove(oldest)
   }
 
+  def clear(): Unit = {
+    cache.clear()
+  }
+
+  def getSize: Int = cache.size
+
   def foreach: (((TKey, TValue)) => Any) => Unit = cache.foreach
 
   def update(key: TKey, value: => Option[TValue]): Option[TValue] = {
