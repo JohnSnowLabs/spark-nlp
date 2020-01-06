@@ -286,6 +286,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLr(0.1f)
       .setBatchSize(9)
       .setOutputCol("ner")
+      .setGraphFolder("src/test/resources/graph/")
       .fit(df)
   }
 
