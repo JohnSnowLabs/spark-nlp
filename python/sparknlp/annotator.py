@@ -1609,6 +1609,8 @@ class NGramGenerator(AnnotatorModel):
     enableCumulative = Param(Params._dummy(), "enableCumulative", "whether to calculate just the actual n-grams " +
                              "or all n-grams from 1 through n", typeConverter=TypeConverters.toBoolean)
 
+    delimiter = Param(Params._dummy(), "delimiter", "String to use to join the tokens ", typeConverter=TypeConverters.toString)
+
     def setN(self, value):
         """
         Sets the value of :py:attr:`n`.
@@ -1620,6 +1622,14 @@ class NGramGenerator(AnnotatorModel):
         Sets the value of :py:attr:`enableCumulative`.
         """
         return self._set(enableCumulative=value)
+
+    def setDelimiter(self, value):
+        """
+        Sets the value of :py:attr:`delimiter`.
+        """
+        if len(value) > 1:
+            raise Exception("Delimiter should have length == 1")
+        return self._set(delimiter=value)
 
 
 class ChunkEmbeddings(AnnotatorModel):
