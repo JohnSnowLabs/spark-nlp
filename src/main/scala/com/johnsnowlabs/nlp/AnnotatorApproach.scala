@@ -43,7 +43,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
 
   private def indexIfStorage(dataset: Dataset[_]): Unit = {
     this match {
-      case withStorage: HasStorage => withStorage.indexStorage(dataset.sparkSession, withStorage.getStoragePath)
+      case withStorage: HasStorage => withStorage.indexStorage(dataset, withStorage.getStoragePath)
       case _ =>
     }
   }

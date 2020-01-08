@@ -12,7 +12,7 @@ import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
@@ -27,6 +27,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
   protected val missingRefMsg: String = s"Please set storageRef param in $this."
 
   protected def index(
+                       fitDataset: Dataset[_],
                        storageSourcePath: String,
                        readAs: ReadAs.Value,
                        writers: Map[Database.Name, StorageWriter[_]],
@@ -39,6 +40,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
                               databases: Array[Database.Value],
                               storageSourcePath: String,
                               localFiles: Array[String],
+                              fitDataset: Dataset[_],
                               spark: SparkContext,
                               resource: ExternalResource
                            ): Unit = {
@@ -59,10 +61,10 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
       /** ToDo: What if the file is too large to copy to local? Index directly from hadoop? */
       val tmpFile = Files.createTempFile("sparknlp_", ".str").toAbsolutePath.toString
       fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      index(tmpFile, resource.readAs, writers, resource.options)
+      index(fitDataset, tmpFile, resource.readAs, writers, resource.options)
       FileHelper.delete(tmpFile)
     } else {
-      index(storageSourcePath, resource.readAs, writers, resource.options)
+      index(fitDataset, storageSourcePath, resource.readAs, writers, resource.options)
     }
 
     writers.values.foreach(_.close())
@@ -70,6 +72,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
   }
 
   private def preload(
+                       fitDataset: Dataset[_],
                        resource: ExternalResource,
                        spark: SparkSession,
                        databases: Array[Database.Value]
@@ -87,7 +90,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
 
-    indexDatabases(databases, sourceEmbeddingsPath, tmpLocalDestinations, sparkContext, resource)
+    indexDatabases(databases, sourceEmbeddingsPath, tmpLocalDestinations, fitDataset, sparkContext, resource)
 
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
@@ -154,11 +157,12 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     src
   }
 
-  def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
+  def indexStorage(fitDataset: Dataset[_], resource: ExternalResource): Unit = {
     require(isDefined(storageRef), missingRefMsg)
     preload(
+      fitDataset,
       resource,
-      spark,
+      fitDataset.sparkSession,
       databases
     )
   }
