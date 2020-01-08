@@ -36,6 +36,7 @@ class WordEmbeddings(override val uid: String)
   }
 
   override protected def index(
+                                fitDataset: Dataset[_],
                                 storageSourcePath: String,
                                 readAs: ReadAs.Value,
                                 writers: Map[Database.Name, StorageWriter[_]],
