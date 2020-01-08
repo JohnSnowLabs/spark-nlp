@@ -28,8 +28,12 @@ trait StorageReader[A] extends HasConnection {
       None
   }
 
-  def lookup(index: String): Option[A] = {
+  protected def _lookup(index: String): Option[A] = {
     lru.getOrElseUpdate(index, lookupDisk(index))
+  }
+
+  def lookup(index: String): Option[A] = {
+    _lookup(index)
   }
 
   def containsIndex(index: String): Boolean = {
