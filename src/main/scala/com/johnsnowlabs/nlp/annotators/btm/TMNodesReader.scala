@@ -22,6 +22,6 @@ class TMNodesReader(
     value
   }
 
-  override protected def cacheSize: Int = 5000
+  override protected def readCacheSize: Int = 5000
 
 }

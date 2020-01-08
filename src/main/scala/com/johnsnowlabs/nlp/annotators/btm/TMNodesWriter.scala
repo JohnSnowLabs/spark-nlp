@@ -20,5 +20,5 @@ class TMNodesWriter(
     super.add(word.toString, value)
   }
 
-  override protected val autoFlushAfter: Int = 5000
+  override protected val writeBufferSize: Int = 5000
 }

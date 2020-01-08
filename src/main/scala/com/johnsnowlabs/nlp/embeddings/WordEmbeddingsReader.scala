@@ -25,5 +25,5 @@ class WordEmbeddingsReader(
     result
   }
 
-  override protected def cacheSize: Int = maxCacheSize
+  override protected def readCacheSize: Int = maxCacheSize
 }

@@ -4,17 +4,14 @@ import org.rocksdb.{WriteBatch, WriteOptions}
 
 trait StorageWriter[A] extends HasConnection {
 
-  final private var batchSize = 0
+  protected val writeBufferSize: Int
 
   def toBytes(content: A): Array[Byte]
 
   def add(word: String, content: A): Unit
 
-  protected def getBatchSize: Int = batchSize
-
   protected def put(batch: WriteBatch, word: String, content: A): Unit = {
     batch.put(word.trim.getBytes, toBytes(content))
-    batchSize += 1
   }
 
   def flush(batch: WriteBatch): Unit = {
@@ -24,7 +21,6 @@ trait StorageWriter[A] extends HasConnection {
       connection.getDb.write(writeOptions, batch)
     }
     batch.close()
-    batchSize = 0
   }
 
   def close(): Unit
