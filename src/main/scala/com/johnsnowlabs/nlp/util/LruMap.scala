@@ -19,6 +19,7 @@ class LruMap[TKey, TValue](maxCacheSize: Int) {
     cache.clear()
     lru.clear()
     priorityCounter = 0
+    size = 0
   }
 
   def getSize: Int = {

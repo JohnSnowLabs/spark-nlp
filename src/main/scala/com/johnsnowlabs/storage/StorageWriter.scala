@@ -4,7 +4,7 @@ import org.rocksdb.{WriteBatch, WriteOptions}
 
 trait StorageWriter[A] extends HasConnection {
 
-  protected val writeBufferSize: Int
+  protected def writeBufferSize: Int
 
   def toBytes(content: A): Array[Byte]
 
