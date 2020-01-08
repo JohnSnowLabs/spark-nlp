@@ -12,6 +12,8 @@ class WordEmbeddingsWriter(
                           )
   extends WordEmbeddingsReader(connection, caseSensitiveIndex, dimension, maxCacheSize) with StorageReadWriter[Array[Float]] {
 
+  override protected def writeBufferSize: Int = 5000
+
   override def toBytes(content: Array[Float]): Array[Byte] = {
     val buffer = ByteBuffer.allocate(content.length * 4)
     buffer.order(ByteOrder.LITTLE_ENDIAN)
