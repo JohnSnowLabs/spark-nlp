@@ -16,6 +16,10 @@ trait StorageReadWriter[A] extends StorageWriter[A] {
     toBeWritten.update(word, Some(content))
   }
 
+  override def lookup(index: String): Option[A] = {
+    toBeWritten.get(index).orElse(_lookup(index))
+  }
+
   override def flush(batch: WriteBatch): Unit = {
     toBeWritten.foreach{case (word, content) =>
       put(batch, word, content)
