@@ -5,15 +5,15 @@ import com.johnsnowlabs.nlp.util.LruMap
 trait StorageReader[A] extends HasConnection {
 
   protected val caseSensitiveIndex: Boolean
-  protected def cacheSize: Int
+  protected def readCacheSize: Int
 
-  @transient val lru = new LruMap[String, A](cacheSize)
+  @transient private val lru = new LruMap[String, A](readCacheSize)
 
   def emptyValue: A
 
   def fromBytes(source: Array[Byte]): A
 
-  protected def lookupByIndex(index: String): Option[A] = {
+  protected def lookupDisk(index: String): Option[A] = {
     lazy val resultLower = connection.getDb.get(index.trim.toLowerCase.getBytes())
     lazy val resultUpper = connection.getDb.get(index.trim.toUpperCase.getBytes())
     lazy val resultExact = connection.getDb.get(index.trim.getBytes())
@@ -28,8 +28,12 @@ trait StorageReader[A] extends HasConnection {
       None
   }
 
+  protected def _lookup(index: String): Option[A] = {
+    lru.getOrElseUpdate(index, lookupDisk(index))
+  }
+
   def lookup(index: String): Option[A] = {
-    lru.getOrElseUpdate(index, lookupByIndex(index))
+    _lookup(index)
   }
 
   def containsIndex(index: String): Boolean = {
