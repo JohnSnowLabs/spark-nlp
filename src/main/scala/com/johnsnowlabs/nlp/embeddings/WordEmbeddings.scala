@@ -37,20 +37,20 @@ class WordEmbeddings(override val uid: String)
 
   override protected def index(
                                 fitDataset: Dataset[_],
-                                storageSourcePath: String,
-                                readAs: ReadAs.Value,
+                                storageSourcePath: Option[String],
+                                readAs: Option[ReadAs.Value],
                                 writers: Map[Database.Name, StorageWriter[_]],
-                                readOptions: Map[String, String]
+                                readOptions: Option[Map[String, String]]
                               ): Unit = {
     val writer = writers.values.headOption
       .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))
       .asInstanceOf[WordEmbeddingsWriter]
 
-    if (readAs == ReadAs.TEXT) {
-      WordEmbeddingsTextIndexer.index(storageSourcePath, writer, (1000000.0/$(dimension)).toInt)
+    if (readAs.get == ReadAs.TEXT) {
+      WordEmbeddingsTextIndexer.index(storageSourcePath.get, writer, (1000000.0/$(dimension)).toInt)
     }
-    else if (readAs == ReadAs.BINARY) {
-      WordEmbeddingsBinaryIndexer.index(storageSourcePath, writer, (1000000.0/$(dimension)).toInt)
+    else if (readAs.get == ReadAs.BINARY) {
+      WordEmbeddingsBinaryIndexer.index(storageSourcePath.get, writer, (1000000.0/$(dimension)).toInt)
     }
     else
       throw new IllegalArgumentException("Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
