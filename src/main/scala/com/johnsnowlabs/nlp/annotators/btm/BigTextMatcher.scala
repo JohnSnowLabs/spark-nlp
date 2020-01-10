@@ -68,13 +68,13 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
 
   override protected def index(
                                 fitDataset: Dataset[_],
-                                storageSourcePath: String,
-                                readAs: ReadAs.Value,
+                                storageSourcePath: Option[String],
+                                readAs: Option[ReadAs.Value],
                                 writers: Map[Database.Name, StorageWriter[_]],
-                                readOptions: Map[String, String]
+                                readOptions: Option[Map[String, String]]
                               ): Unit = {
-    require(readAs == ReadAs.TEXT, "BigTextMatcher only supports TEXT input formats at the moment.")
-    loadEntities(storageSourcePath, writers)
+    require(readAs.get == ReadAs.TEXT, "BigTextMatcher only supports TEXT input formats at the moment.")
+    loadEntities(storageSourcePath.get, writers)
   }
 
   override protected val databases: Array[Name] = Array(
