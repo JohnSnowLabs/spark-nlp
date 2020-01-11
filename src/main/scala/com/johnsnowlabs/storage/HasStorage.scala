@@ -75,7 +75,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
                        resource: Option[ExternalResource],
                        spark: SparkSession,
                        databases: Array[Database.Value]
-                     ): Array[RocksDBConnection] = {
+                     ): Unit = {
 
     val sparkContext = spark.sparkContext
 
@@ -92,12 +92,12 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
-    tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) => {
+    tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
       StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
-    }}
+    }
 
     // 3. Create Spark Embeddings
-    locators.map(locator => RocksDBConnection.getOrCreate(locator.clusterFileName))
+    locators.foreach(locator => RocksDBConnection.getOrCreate(locator.clusterFileName))
   }
 
 
