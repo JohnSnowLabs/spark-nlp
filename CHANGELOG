@@ -1,4 +1,23 @@
-CHANGELOG:
+========
+2.3.6
+========
+---------------
+Overview
+---------------
+This minor release fixes a bug in ChunkEmbeddings causing an out of boundaries exception in some scenarios. We
+also switch to maven coordinates as default source for start() function since spark-packages has not been responsive
+on their package approval process. Thank you all for your consistent feedback.
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in Chunk Embeddings caused by out of bound exception in some scenarios
+
+---------------
+Other
+---------------
+* start() function switched to use maven coordinates instead
+
 ========
 2.3.5
 ========
@@ -11,13 +30,10 @@ Spark NLP `2.3.4` is a very stable and rock-solid release. However, we wanted to
 ---------------
 Bugfixes
 ---------------
-
-- https://github.com/JohnSnowLabs/spark-nlp/pull/702 Date matcher fixes flexible dates
-- https://github.com/JohnSnowLabs/spark-nlp/pull/718 Fixed a bug in a pragmatic sentence detector where a sub matched group contained a dollar sign.
-- https://github.com/JohnSnowLabs/spark-nlp/pull/719 Move import to top-level to avoid import fail in Spark NLP functions
-- https://github.com/JohnSnowLabs/spark-nlp/pull/709 https://github.com/JohnSnowLabs/spark-nlp/pull/716 Some improvements in our documentation thanks to @marcinic @howmuchcomputer
-
-
+* https://github.com/JohnSnowLabs/spark-nlp/pull/702 Date matcher fixes flexible dates
+* https://github.com/JohnSnowLabs/spark-nlp/pull/718 Fixed a bug in a pragmatic sentence detector where a sub matched group contained a dollar sign.
+* https://github.com/JohnSnowLabs/spark-nlp/pull/719 Move import to top-level to avoid import fail in Spark NLP functions
+* https://github.com/JohnSnowLabs/spark-nlp/pull/709 https://github.com/JohnSnowLabs/spark-nlp/pull/716 Some improvements in our documentation thanks to @marcinic @howmuchcomputer
 
 ========
 2.3.4
