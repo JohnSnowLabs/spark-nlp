@@ -22,11 +22,9 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
   }
 
   private def findLocalDb: String = {
-    val localPath = RocksDBConnection.getLocalPath(path)+"/storage"
+    val localPath = RocksDBConnection.getLocalPath(path)
     if (new File(localPath).exists()) {
       localPath
-    } else if (new File(path+"/storage").exists()) {
-      path+"/storage"
     } else if (new File(path).exists()) {
       path
     } else {
@@ -44,6 +42,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
       db
     } else {
       db = RocksDB.open(getOptions, findLocalDb)
+      RocksDBConnection.cache.update(path, this)
       db
     }
   }
@@ -106,6 +105,6 @@ object RocksDBConnection {
 
   def getOrCreate(database: Database.Name, refName: String): RocksDBConnection = getOrCreate(database.toString, refName)
 
-  def getLocalPath(fileName: String): String = Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/"+fileName)).toString
+  def getLocalPath(fileName: String): String = Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/storage/"+fileName)).toString
 
 }
