@@ -6,8 +6,6 @@ import org.apache.spark.sql.Dataset
 
 trait HasStorageRef extends ParamsAndFeaturesWritable {
 
-  protected val databases: Array[Database.Name]
-
   val storageRef = new Param[String](this, "storageRef", "storage unique identifier")
 
   setDefault(storageRef, this.uid)

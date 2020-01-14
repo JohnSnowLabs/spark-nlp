@@ -16,6 +16,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
 
+  protected val databases: Array[Database.Name]
+
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
   def setStoragePath(path: String, readAs: String): this.type = set(storagePath, new ExternalResource(path, readAs, Map.empty[String, String]))
@@ -93,7 +95,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
     tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
-      StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext, isIndexed = false)
+      StorageHelper.sendToCluster(new Path(tmpLocalDestination), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
     }
 
     // 3. Create Spark Embeddings

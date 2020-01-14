@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -89,8 +90,16 @@ class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
         finisher
       ))
 
-    recursivePipeline.fit(data).transform(data).show(false)
+    val m = recursivePipeline.fit(data)
+    m.write.overwrite().save("./tst_bigtm")
+    m.transform(data).show(false)
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
+  }
+
+  "A big text matcher pipeline" should "work fine" in {
+    val m = PipelineModel.load("./tst_bigtm")
+    val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
+    m.transform(dataset).show(false)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

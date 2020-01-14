@@ -20,8 +20,6 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
   def this() = this(Identifiable.randomUID("NER"))
 
-  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
-
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
   val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
   val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures")
