@@ -1,7 +1,6 @@
 package com.johnsnowlabs.storage
 
-import com.johnsnowlabs.util.FileHelper
-import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 
@@ -22,7 +21,7 @@ object StorageHelper {
 
     val locator = StorageLocator(database, storageRef, spark, fs)
 
-    sendToCluster(storageSourcePath, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, spark.sparkContext, isIndexed = true)
+    sendToCluster(new Path(storageSourcePath), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, spark.sparkContext)
 
     RocksDBConnection.getOrCreate(locator.clusterFileName)
   }
@@ -45,32 +44,32 @@ object StorageHelper {
     fs.copyFromLocalFile(false, true, index, dst)
   }
 
-  def sendToCluster(localDestination: String, clusterFilePath: Path, clusterFileName: String, destinationScheme: String, sparkContext: SparkContext, isIndexed: Boolean): Unit = {
+  def sendToCluster(source: Path, clusterFilePath: Path, clusterFileName: String, destinationScheme: String, sparkContext: SparkContext): Unit = {
     if (destinationScheme == "file") {
-      copyIndexToLocal(new Path(localDestination), new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext, isIndexed)
+      copyIndexToLocal(source, new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
     } else {
-      copyIndexToCluster(localDestination, clusterFilePath, sparkContext)
-      FileHelper.delete(localDestination)
+      copyIndexToCluster(source, clusterFilePath, sparkContext)
     }
   }
 
-  private def copyIndexToCluster(localFile: String, dst: Path, spark: SparkContext): String = {
-    val fs = new Path(localFile).getFileSystem(spark.hadoopConfiguration)
-    val src = new Path(localFile)
+  private def copyIndexToCluster(sourcePath: Path, dst: Path, spark: SparkContext): String = {
+    val fs = sourcePath.getFileSystem(spark.hadoopConfiguration)
+    if (fs.getScheme == "file") {
+      val src = sourcePath
+      fs.copyFromLocalFile(false, true, src, dst)
+    } else {
+      FileUtil.copy(fs, sourcePath, fs, dst, false, true, spark.hadoopConfiguration)
+    }
 
-    /** This fails if working on local file system, because spark.addFile will detect simoultaneous writes on same location and fail */
-    fs.copyFromLocalFile(false, true, src, dst)
-    fs.deleteOnExit(dst)
-
-    spark.addFile(dst.toString, true)
+    spark.addFile(dst.toString, recursive = true)
 
     dst.toString
   }
 
-  private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext, isIndexed: Boolean) = {
+  private def copyIndexToLocal(source: Path, destination: Path, context: SparkContext): Unit = {
     /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage because of bad crc */
     val fs = source.getFileSystem(context.hadoopConfiguration)
-    fs.copyFromLocalFile(false, true, source, if (isIndexed) destination.getParent else destination)
+    fs.copyFromLocalFile(false, true, source, destination)
   }
 
 }

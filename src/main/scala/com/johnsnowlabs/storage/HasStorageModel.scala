@@ -5,14 +5,17 @@ import org.apache.spark.sql.SparkSession
 
 trait HasStorageModel extends HasStorageReader {
 
+  protected val databases: Array[Database.Name]
+
   def serializeStorage(path: String, spark: SparkSession): Unit = {
     databases.foreach(database => {
-      val source = RocksDBConnection.getLocalPath(getReader(database).getConnection.getFileName)
-      val index = new Path(source).getParent
+      val databaseFileName = getReader(database).getConnection.getFileName
+      val source = RocksDBConnection.getLocalPath(databaseFileName)
+      val index = new Path(source)
 
       val uri = new java.net.URI(path)
       val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-      val dst = StorageLocator.getStorageSerializedPath(path)
+      val dst = StorageLocator.getStorageSerializedPath(path, databaseFileName)
 
       StorageHelper.save(fs, index, dst)
     })
@@ -23,15 +26,16 @@ trait HasStorageModel extends HasStorageReader {
   }
 
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
-    val src = StorageLocator.getStorageSerializedPath(path)
-    databases.foreach(database =>
+    databases.foreach(database => {
+      val dbFolder = StorageHelper.resolveStorageName(database.toString, $(storageRef))
+      val src = StorageLocator.getStorageSerializedPath(path, dbFolder)
       StorageHelper.load(
         src.toUri.toString,
         spark,
         database.toString,
         $(storageRef)
       )
-    )
+    })
   }
 
 }
