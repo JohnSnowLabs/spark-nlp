@@ -115,7 +115,6 @@ class NerDLModel(override val uid: String)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
-  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 }
 
 trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {

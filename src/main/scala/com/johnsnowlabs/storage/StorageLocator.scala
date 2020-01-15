@@ -27,6 +27,6 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 }
 
 object StorageLocator {
-  def getStorageSerializedPath(path: String): Path =
-    Path.mergePaths(new Path(path), new Path("/storage"))
+  def getStorageSerializedPath(path: String, folder: String): Path =
+    Path.mergePaths(new Path(path), new Path("/storage/"+folder))
 }
