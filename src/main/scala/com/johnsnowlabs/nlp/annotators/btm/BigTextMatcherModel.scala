@@ -4,7 +4,7 @@ import com.johnsnowlabs.collections.StorageSearchTrie
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReader}
+import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
 
@@ -107,7 +107,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
   }
 }
 
-trait ReadablePretrainedBigTextMatcher extends ParamsAndFeaturesReadable[BigTextMatcherModel] with HasPretrained[BigTextMatcherModel] {
+trait ReadablePretrainedBigTextMatcher extends StorageReadable[BigTextMatcherModel] with HasPretrained[BigTextMatcherModel] {
   override val defaultModelName = None
   override def pretrained(): BigTextMatcherModel = super.pretrained()
   override def pretrained(name: String): BigTextMatcherModel = super.pretrained(name)

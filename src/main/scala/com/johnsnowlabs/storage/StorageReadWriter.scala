@@ -1,31 +1,34 @@
 package com.johnsnowlabs.storage
 
-import com.johnsnowlabs.nlp.util.LruMap
 import org.rocksdb.WriteBatch
+import scala.collection.mutable.{Map => MMap}
 
 trait StorageReadWriter[A] extends StorageWriter[A] {
 
   this: StorageReader[A] =>
 
-  @transient private val toBeWritten: LruMap[String, A] = new LruMap[String, A](writeBufferSize)
+  @transient private val readableWriteBuffer: MMap[String, A] = MMap.empty[String, A]
+  private var bufferCounter = 0
 
   def add(word: String, content: A): Unit = {
-    if (toBeWritten.getSize >= writeBufferSize) {
+    if (bufferCounter >= writeBufferSize) {
       flush(new WriteBatch())
+      bufferCounter = 0
     }
-    toBeWritten.update(word, Some(content))
+    bufferCounter += 1
+    readableWriteBuffer.update(word, content)
   }
 
   override def lookup(index: String): Option[A] = {
-    toBeWritten.get(index).orElse(_lookup(index))
+    readableWriteBuffer.get(index).orElse(_lookup(index))
   }
 
   override def flush(batch: WriteBatch): Unit = {
-    toBeWritten.foreach{case (word, content) =>
+    readableWriteBuffer.foreach{case (word, content) =>
       put(batch, word, content)
     }
     super.flush(batch)
-    toBeWritten.clear()
+    readableWriteBuffer.clear()
     if (connection.isConnected)
       connection.reconnectReadWrite
   }

@@ -158,7 +158,6 @@ class BertEmbeddings(override val uid: String) extends
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
-  override protected val databases: Array[Name] = Array.empty
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {

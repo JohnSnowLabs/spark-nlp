@@ -7,7 +7,7 @@ trait StorageReader[A] extends HasConnection {
   protected val caseSensitiveIndex: Boolean
   protected def readCacheSize: Int
 
-  @transient private val lru = new LruMap[String, A](readCacheSize)
+  @transient private val lru = new LruMap[String, Option[A]](readCacheSize)
 
   def emptyValue: A
 
