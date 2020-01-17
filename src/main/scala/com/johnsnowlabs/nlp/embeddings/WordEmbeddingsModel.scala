@@ -59,7 +59,7 @@ class WordEmbeddingsModel(override val uid: String)
       $(caseSensitive),
       $(dimension),
       scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
-        (100.0/$(dimension))*50000,
+        (100.0/$(dimension))*200000,
         50000
       ).toInt)
   }
