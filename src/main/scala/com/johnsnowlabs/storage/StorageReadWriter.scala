@@ -35,6 +35,7 @@ trait StorageReadWriter[A] extends StorageWriter[A] {
 
   override def close(): Unit = {
     flush(new WriteBatch())
+    this.clear()
     super.close()
   }
 

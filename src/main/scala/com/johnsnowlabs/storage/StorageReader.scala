@@ -43,4 +43,8 @@ trait StorageReader[A] extends HasConnection {
       (connection.getDb.get(index.trim.toUpperCase.getBytes()) != null)
   }
 
+  def clear(): Unit = {
+    lru.clear()
+  }
+
 }
