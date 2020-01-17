@@ -1529,11 +1529,28 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddings"
 
+    writeBufferSize = Param(Params._dummy(),
+                               "writeBufferSize",
+                               "buffer size limit before dumping to disk storage while writing",
+                               typeConverter=TypeConverters.toInt)
+
+    readCacheSize = Param(Params._dummy(),
+                            "readCacheSize",
+                            "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                            typeConverter=TypeConverters.toInt)
+
+    def setWriteBuffer(self, v):
+        return self._set(writeBufferSize=v)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
+
     @keyword_only
     def __init__(self):
         super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
         self._setDefault(
             caseSensitive=False,
+            writeBufferSize=10000,
             storageRef=self.uid
         )
 
@@ -1544,6 +1561,14 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
+
+    readCacheSize = Param(Params._dummy(),
+                          "readCacheSize",
+                          "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                          typeConverter=TypeConverters.toInt)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
