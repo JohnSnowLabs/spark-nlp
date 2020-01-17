@@ -44,13 +44,13 @@ class WordEmbeddings(override val uid: String)
                               ): Unit = {
     val writer = writers.values.headOption
       .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))
-      .asInstanceOf[WordEmbeddingsWriter]
+      .asInstanceOf[WordEmbeddingsReadWriter]
 
     if (readAs.get == ReadAs.TEXT) {
-      WordEmbeddingsTextIndexer.index(storageSourcePath.get, writer, (1000000.0/$(dimension)).toInt)
+      WordEmbeddingsTextIndexer.index(storageSourcePath.get, writer)
     }
     else if (readAs.get == ReadAs.BINARY) {
-      WordEmbeddingsBinaryIndexer.index(storageSourcePath.get, writer, (1000000.0/$(dimension)).toInt)
+      WordEmbeddingsBinaryIndexer.index(storageSourcePath.get, writer)
     }
     else
       throw new IllegalArgumentException("Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
@@ -59,7 +59,7 @@ class WordEmbeddings(override val uid: String)
   override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 
   override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
-    new WordEmbeddingsWriter(connection, $(caseSensitive), $(dimension), 5000)
+    new WordEmbeddingsReadWriter(connection, $(caseSensitive), $(dimension), 5000)
   }
 }
 
