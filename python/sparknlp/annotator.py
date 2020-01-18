@@ -1539,7 +1539,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
                             "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
                             typeConverter=TypeConverters.toInt)
 
-    def setWriteBuffer(self, v):
+    def setWriteBufferSize(self, v):
         return self._set(writeBufferSize=v)
 
     def setReadCacheSize(self, v):

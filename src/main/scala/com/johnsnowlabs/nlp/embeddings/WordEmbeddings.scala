@@ -28,7 +28,7 @@ class WordEmbeddings(override val uid: String)
 
   val writeBufferSize = new IntParam(this, "writeBufferSize", "buffer size limit before dumping to disk storage while writing")
   setDefault(writeBufferSize, 10000)
-  def setWriteBuffer(value: Int): this.type = set(writeBufferSize, value)
+  def setWriteBufferSize(value: Int): this.type = set(writeBufferSize, value)
 
   val readCacheSize = new IntParam(this, "readCacheSize", "cache size for items retrieved from storage. Increase for performance but higher memory consumption")
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
