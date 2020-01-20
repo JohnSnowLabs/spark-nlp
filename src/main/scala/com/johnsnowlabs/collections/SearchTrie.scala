@@ -177,7 +177,7 @@ object SearchTrie {
     }
 
 
-    for (i <- 0 until parents.size) {
+    for (i <- parents.indices) {
       calcPi(i)
       calcLastLeaf(i)
     }

@@ -108,19 +108,9 @@ class _LightPipeline(ExtendedJavaWrapper):
 # ==================
 
 
-class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
-    def __init__(self, path, spark, embformat, ref, ndims, case):
-        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load", path, spark._jsparkSession, embformat, ref, ndims, case)
-
-
-class _EmbeddingsHelperSave(ExtendedJavaWrapper):
-    def __init__(self, path, embeddings, spark):
-        super(_EmbeddingsHelperSave, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.save", path, embeddings.jembeddings, spark._jsparkSession)
-
-
-class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
-    def __init__(self, annotator):
-        super(_EmbeddingsHelperFromAnnotator, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getFromAnnotator", annotator._java_obj)
+class _StorageHelper(ExtendedJavaWrapper):
+    def __init__(self, path, spark, database):
+        super(_StorageHelper, self).__init__("com.johnsnowlabs.storage.StorageHelper.load", path, spark._jsparkSession, database)
 
 
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):
@@ -151,3 +141,10 @@ class _CoverageResult(ExtendedJavaWrapper):
 class _BertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadFromPython", path, jspark)
+
+
+class _USELoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel",
+                                         path,
+                                         jspark)

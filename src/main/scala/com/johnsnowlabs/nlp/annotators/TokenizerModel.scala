@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
-import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 
@@ -20,6 +20,8 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   val exceptions: StringArrayParam = new StringArrayParam(this, "exceptions", "Words that won't be affected by tokenization rules")
   val caseSensitiveExceptions: BooleanParam = new BooleanParam(this, "caseSensitiveExceptions", "Whether to care for case sensitiveness in exceptions")
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed legth for each token")
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each token")
 
   setDefault(
     targetPattern -> "\\S+",
@@ -43,6 +45,12 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
   def setCaseSensitiveExceptions(value: Boolean): this.type = set(caseSensitiveExceptions, value)
   def getCaseSensitiveExceptions(value: Boolean): Boolean = $(caseSensitiveExceptions)
+
+  def setMinLength(value: Int): this.type = set(minLength, value)
+  def getMinLength(value: Int): Int = $(minLength)
+
+  def setMaxLength(value: Int): this.type = set(maxLength, value)
+  def getMaxLength(value: Int): Int = $(maxLength)
 
   private val PROTECT_CHAR = "ↈ"
   private val BREAK_CHAR = "ↇ"
@@ -70,8 +78,8 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
         if (get(exceptions).isDefined &&
           (
             candidate.matched.contains(PROTECT_CHAR) ||
-            casedMatchExists(candidate.matched)
-          )) {
+              casedMatchExists(candidate.matched)
+            )) {
           /** Put back character and move on */
           Seq(IndexedToken(
             text.content.slice(text.start + candidate.start, text.start + candidate.end),
@@ -79,27 +87,31 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
             text.start + candidate.end - 1
           ))
         } else {
-        /** Step 3, If no exception found, find candidates through the possible general rule patterns*/
-        $$(rules).findMatchFirstOnly(candidate.matched).map {m =>
-          var curPos = m.content.start
-          (1 to m.content.groupCount)
-            .map (i => {
-              val target = m.content.group(i)
-              val it = IndexedToken(
-                target,
-                text.start + candidate.start + curPos,
-                text.start + candidate.start + curPos + target.length - 1
-              )
-              curPos += target.length
-              it
-            })
-          /** Step 4, If rules didn't match, return whatever candidate we have and leave it as is*/
+          /** Step 3, If no exception found, find candidates through the possible general rule patterns*/
+          $$(rules).findMatchFirstOnly(candidate.matched).map {m =>
+            var curPos = m.content.start
+            (1 to m.content.groupCount)
+              .map (i => {
+                val target = m.content.group(i)
+                val it = IndexedToken(
+                  target,
+                  text.start + candidate.start + curPos,
+                  text.start + candidate.start + curPos + target.length - 1
+                )
+                curPos += target.length
+                it
+              })
+            /** Step 4, If rules didn't match, return whatever candidate we have and leave it as is*/
           }.getOrElse(Seq(IndexedToken(
             candidate.matched,
             text.start + candidate.start,
             text.start + candidate.end - 1
-        )))
-      }}.toArray.filter(t => t.token.nonEmpty)
+          )))
+        }
+      }.toArray
+        .filter(t => t.token.nonEmpty)
+        .filter(t => t.token.length >= ${minLength})
+        .filter(t => t.token.length <= ${maxLength})
       TokenizedSentence(tokens, text.index)
     }
   }

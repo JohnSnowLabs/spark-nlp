@@ -35,7 +35,7 @@ class PerceptronApproachDistributed(override val uid: String) extends AnnotatorA
 
   def setCorpus(path: String,
                 delimiter: String,
-                readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                readAs: ReadAs.Format = ReadAs.SPARK,
                 options: Map[String, String] = Map("format" -> "text")): this.type =
     set(corpus, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 

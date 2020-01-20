@@ -364,6 +364,7 @@ val chunker = new Chunker()
 
 - setN: number elements per n-gram (>=1)
 - setEnableCumulative: whether to calculate just the actual n-grams or all n-grams from 1 through n
+- setDelimiter: Glue character used to join the tokens
 
 **Example:**
 
@@ -375,6 +376,7 @@ ngrams_cum = NGramGenerator() \
             .setOutputCol("ngrams") \
             .setN(2) \
             .setEnableCumulative(True)
+            .setDelimiter("_")
 ```
 
 ```scala
@@ -383,6 +385,7 @@ val nGrams = new NGramGenerator()
       .setOutputCol("ngrams")
       .setN(2)
       .setEnableCumulative(true)
+      .setDelimiter("_")
 ```
 
 ### DateMatcher

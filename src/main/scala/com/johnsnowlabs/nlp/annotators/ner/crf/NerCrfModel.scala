@@ -5,16 +5,18 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.storage.{Database, HasStorageRef}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
+import org.apache.spark.sql.Dataset
 
 
 /*
   Named Entity Recognition model
  */
 
-class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] {
+class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -75,6 +77,11 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
       TaggedSentence(words)
     }
+  }
+
+  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    validateStorageRef(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    dataset
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {

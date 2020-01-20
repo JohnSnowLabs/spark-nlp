@@ -1,15 +1,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import org.apache.spark.sql.types._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest._
 
 class WordEmbeddingsTestSpec extends FlatSpec {
 
-  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" in {
-
+  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" ignore {
 
     val words = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/clinical_words.txt")
     val notWords = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/not_words.txt")
@@ -22,12 +21,10 @@ class WordEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = new WordEmbeddings()
+    val embeddings = WordEmbeddingsModel.pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("src/test/resources/embeddings/embeddings.1d.test.txt",
-        1, WordEmbeddingsFormat.TEXT)
-      .setCaseSensitive(true)
+      .setCaseSensitive(false)
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(
@@ -56,6 +53,48 @@ class WordEmbeddingsTestSpec extends FlatSpec {
 
     assert(wordsOverallCoverage == 1)
     assert(notWordsOverallCoverage == 0)
+  }
+
+  "Word Embeddings" should "store and load from disk" in {
+
+    val data =
+      ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/clinical_words.txt")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("word")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = new WordEmbeddings()
+      .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT)
+      .setDimension(4)
+      .setStorageRef("glove_4d")
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        embeddings
+      ))
+
+    val model = pipeline.fit(data)
+
+    model.write.overwrite().save("./tmp_embeddings_pipeline")
+
+    model.transform(data).show(5)
+
+    val loadedPipeline1 = PipelineModel.load("./tmp_embeddings_pipeline")
+
+    loadedPipeline1.transform(data).show(5)
+
+    val loadedPipeline2 = PipelineModel.load("./tmp_embeddings_pipeline")
+
+    loadedPipeline2.transform(data).show(5)
   }
 
 }

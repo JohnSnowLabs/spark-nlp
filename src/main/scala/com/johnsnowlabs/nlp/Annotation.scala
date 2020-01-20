@@ -65,8 +65,8 @@ object Annotation {
   }
 
   private val ANNOTATION_NAME = "__annotation"
-  val RESULT = "result"
-  val EMBEDDINGS = "embeddings"
+  private val RESULT = "result"
+  private val EMBEDDINGS = "embeddings"
 
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
@@ -75,7 +75,7 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField("embeddings", ArrayType(FloatType, false), true)
+    StructField(EMBEDDINGS, ArrayType(FloatType, false), true)
   ))
 
   val arrayType = new ArrayType(dataType, false)
