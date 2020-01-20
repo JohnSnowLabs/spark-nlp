@@ -4,12 +4,13 @@ import java.io.File
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.ml.PipelineModel
@@ -69,7 +70,7 @@ class NerDLApproach(override val uid: String)
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
   def setEnableOutputLogs(enableOutputLogs: Boolean):NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
   def setTestDataset(path: String,
-                     readAs: ReadAs.Format = ReadAs.SPARK_DATASET,
+                     readAs: ReadAs.Format = ReadAs.SPARK,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
     set(testDataset, ExternalResource(path, readAs, options))
 
@@ -84,14 +85,14 @@ class NerDLApproach(override val uid: String)
     batchSize -> 8,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
-    useContrib -> {if (SystemUtils.IS_OS_WINDOWS) false else true},
+    useContrib -> true,
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
     enableOutputLogs -> false
   )
 
-  override val verboseLevel = Verbose($(verbose))
+  override val verboseLevel: Verbose.Level = Verbose($(verbose))
 
   def calculateEmbeddingsDim(sentences: Seq[WordpieceEmbeddingsSentence]): Int = {
     sentences.find(s => s.tokens.nonEmpty)
@@ -118,6 +119,8 @@ class NerDLApproach(override val uid: String)
       val testDataFrame = ResourceHelper.readParquetSparkDatFrame($(testDataset))
       NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn))
     }
+
+    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
 
     val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
     val trainSentences = trainDataset.map(r => r._2)
@@ -178,6 +181,7 @@ class NerDLApproach(override val uid: String)
       .setBatchSize($(batchSize))
       .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setIncludeConfidence($(includeConfidence))
+      .setStorageRef(embeddingsRef)
 
     if (get(configProtoBytes).isDefined)
       model.setConfigProtoBytes($(configProtoBytes))
@@ -188,7 +192,7 @@ class NerDLApproach(override val uid: String)
 }
 
 trait WithGraphResolver  {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = false): String = {
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = true): String = {
     val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
 
@@ -196,8 +200,7 @@ trait WithGraphResolver  {
     val embeddingsFiltered = files.map { filePath =>
       val file = new File(filePath)
       val name = file.getName
-
-      val graphPrefix = if (loadContrib) "blstm_" else "blstm-noncontrib_"
+      val graphPrefix = "blstm_"
 
       if (name.startsWith(graphPrefix)) {
         val clean = name.replace(graphPrefix, "").replace(".pb", "")

@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -34,6 +34,8 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
   val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
   val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed legth for each token")
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each token")
 
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
 
@@ -52,7 +54,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   def getExceptions: Array[String] = $(exceptions)
 
   def setExceptionsPath(path: String,
-               readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+               readAs: ReadAs.Format = ReadAs.TEXT,
                options: Map[String, String] = Map("format" -> "text")): this.type =
     set(exceptionsPath, ExternalResource(path, readAs, options))
 
@@ -96,10 +98,26 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     $(splitChars)
   }
 
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
+  def getMinLength(value: Int): Int = $(minLength)
+
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${minLength}, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+  def getMaxLength(value: Int): Int = $(maxLength)
+
   setDefault(
     targetPattern -> "\\S+",
     contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
-    caseSensitiveExceptions -> true
+    caseSensitiveExceptions -> true,
+    minLength -> 0,
+    maxLength -> 99999
   )
 
   def buildRuleFactory: RuleFactory = {
@@ -147,6 +165,8 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
       .setCaseSensitiveExceptions($(caseSensitiveExceptions))
       .setTargetPattern($(targetPattern))
       .setRules(ruleFactory)
+      .setMinLength($(minLength))
+      .setMaxLength($(maxLength))
 
     if (processedExceptions.nonEmpty)
       raw.setExceptions(processedExceptions)

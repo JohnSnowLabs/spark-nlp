@@ -9,16 +9,18 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.storage.{Database, HasStorageRef}
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
+    with HasStorageRef
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
@@ -90,6 +92,11 @@ class NerDLModel(override val uid: String)
 
   private var _model: Option[Broadcast[TensorflowNer]] = None
 
+  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    validateStorageRef(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    dataset
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     // Parse
@@ -107,6 +114,7 @@ class NerDLModel(override val uid: String)
     super.onWrite(path, spark)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
+
 }
 
 trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {

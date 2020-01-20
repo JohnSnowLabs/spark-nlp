@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._
@@ -29,7 +28,8 @@ class NerPerfTest extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token", "pos")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("./glove.6B.100d.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt", "TEXT")
+      .setDimension(100)
 
     val ner = new NerCrfApproach().
       setInputCols("document", "token", "pos", "embeddings").
@@ -79,19 +79,22 @@ class NerPerfTest extends FlatSpec {
     val embeddings = new WordEmbeddings()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setEmbeddingsSource("./embeddings.bin", 200, WordEmbeddingsFormat.BINARY)
+      .setStoragePath("./embeddings.bin", "BINARY")
+      .setDimension(200)
 
     val ner = new NerDLApproach().
-      setInputCols("document", "token", "embeddings").
-      setOutputCol("ner").
-      setLabelColumn("label").
-      setOutputCol("ner").
-      setMinEpochs(1).
-      setMaxEpochs(30).
-      setRandomSeed(0).
-      setVerbose(2).
-      setDropout(0.8f).
-      setBatchSize(18)
+      setInputCols("document", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setMinEpochs(1)
+      .setMaxEpochs(30)
+      .setRandomSeed(0)
+      .setVerbose(2)
+      .setDropout(0.8f)
+      .setBatchSize(18)
+      .setGraphFolder("src/test/resources/graph/")
+
 
     val finisher = new Finisher().
       setInputCols("ner")

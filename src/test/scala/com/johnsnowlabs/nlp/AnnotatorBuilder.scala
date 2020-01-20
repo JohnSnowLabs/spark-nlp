@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
@@ -10,7 +11,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.training.POS
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsFormat, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -77,9 +78,21 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withFullTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
     val entityExtractor = new TextMatcher()
       .setInputCols(if (sbd) "sentence" else "document", "token")
-      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
-      .setOutputCol("entity").
-      setCaseSensitive(caseSensitive)
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
+      .setOutputCol("entity")
+      .setCaseSensitive(caseSensitive)
+      .setTokenizer(new Tokenizer().fit(dataset))
+    val data = withTokenizer(dataset, sbd)
+    entityExtractor.fit(data).transform(data)
+  }
+
+  def withFullBigTextMatcher(dataset: Dataset[Row], caseSensitive: Boolean = true, sbd: Boolean = true): Dataset[Row] = {
+    val entityExtractor = new BigTextMatcher()
+      .setInputCols(if (sbd) "sentence" else "document", "token")
+      .setStoragePath("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
+      .setOutputCol("entity")
+      .setCaseSensitive(caseSensitive)
+      .setTokenizer(new Tokenizer().fit(dataset))
     val data = withTokenizer(dataset, sbd)
     entityExtractor.fit(data).transform(data)
   }
@@ -111,7 +124,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withRegexMatcher(dataset: Dataset[Row], strategy: String): Dataset[Row] = {
     val regexMatcher = new RegexMatcher()
-      .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.LINE_BY_LINE, Map("delimiter" -> ",")))
+      .setRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
       .setStrategy(strategy)
       .setInputCols(Array("document"))
       .setOutputCol("regex")
@@ -120,6 +133,14 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def withDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
     val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+    dateMatcher.transform(dataset)
+  }
+
+  def withMultiDateMatcher(dataset: Dataset[Row]): Dataset[Row] = {
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
       .setOutputCol("date")
     dateMatcher.transform(dataset)
   }
@@ -134,7 +155,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.LINE_BY_LINE, Map("delimiter"->",")))
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter"->",")))
     sentimentDetector.fit(data).transform(data)
   }
 
@@ -239,9 +260,11 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
   def getGLoveEmbeddings(dataset: Dataset[Row]): WordEmbeddingsModel = {
     new WordEmbeddings()
-      .setEmbeddingsSource("src/test/resources/ner-corpus/embeddings.100d.test.txt", 100, WordEmbeddingsFormat.TEXT)
+      .setStoragePath("src/test/resources/ner-corpus/embeddings.100d.test.txt", "TEXT")
+      .setDimension(100)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+      .setStorageRef("embeddings_ner_100")
       .fit(dataset)
   }
 
@@ -263,6 +286,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setLr(0.1f)
       .setBatchSize(9)
       .setOutputCol("ner")
+      .setGraphFolder("src/test/resources/graph/")
       .fit(df)
   }
 

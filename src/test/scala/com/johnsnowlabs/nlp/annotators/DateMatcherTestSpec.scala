@@ -60,13 +60,13 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
   }
 
   val dateSentences: Array[(String, Option[Calendar])] = Array(
-//    ("1978-01-28", Some(new Calendar.Builder().setDate(1978, 1-1, 28).build)),
-//    ("1984/04/02", Some(new Calendar.Builder().setDate(1984, 4-1, 2).build)),
-//    ("1/02/1980", Some(new Calendar.Builder().setDate(1980, 1-1, 2).build)),
-//    ("2/28/79", Some(new Calendar.Builder().setDate(1979, 2-1, 28).build)),
-//    ("The 31st of April in the year 2008", Some(new Calendar.Builder().setDate(2008, 4-1, 31).build)),
-//    ("Fri, 21 Nov 1997", Some(new Calendar.Builder().setDate(1997, 11-1, 21).build)),
-//    ("Jan 21, '97", Some(new Calendar.Builder().setDate(1997, 1-1, 21).build)),
+    ("1978-01-28", Some(new Calendar.Builder().setDate(1978, 1-1, 28).build)),
+    ("1984/04/02", Some(new Calendar.Builder().setDate(1984, 4-1, 2).build)),
+    ("1/02/1980", Some(new Calendar.Builder().setDate(1980, 1-1, 2).build)),
+    ("2/28/79", Some(new Calendar.Builder().setDate(1979, 2-1, 28).build)),
+    ("The 31st of April in the year 2008", Some(new Calendar.Builder().setDate(2008, 4-1, 31).build)),
+    ("Fri, 21 Nov 1997", Some(new Calendar.Builder().setDate(1997, 11-1, 21).build)),
+    ("Jan 21, '97", Some(new Calendar.Builder().setDate(1997, 1-1, 21).build)),
     ("Sun, Nov 21", Some(new Calendar.Builder().setDate(currentYear, 11-1, 21).build)),
     ("jan 1st", Some(new Calendar.Builder().setDate(currentYear, 1-1, 1).build)),
     //NS: "february twenty-eighth",
@@ -109,7 +109,8 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     ("3", None),
     ("Xgeva", None),
     ("today 4", Some(Calendar.getInstance)),
-    ("1 month", None)
+    ("1 month", None),
+    ("07/2015", Some(new Calendar.Builder().setDate(2015, 7-1, 1).build))
   )
 
   dateSentences.map(date => dateMatcher.extractDate(date._1)).zip(dateSentences).foreach(dateAnswer => {

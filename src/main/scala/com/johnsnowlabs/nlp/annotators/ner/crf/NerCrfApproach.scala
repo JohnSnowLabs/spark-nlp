@@ -6,24 +6,21 @@ import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.Dataset
-import org.slf4j.LoggerFactory
 
 /*
   Algorithm for training Named Entity Recognition Model.
    */
 class NerCrfApproach(override val uid: String)
   extends AnnotatorApproach[NerCrfModel]
-    with NerApproach[NerCrfApproach]
-{
+    with NerApproach[NerCrfApproach] {
 
   def this() = this(Identifiable.randomUID("NER"))
-
-  private val logger = LoggerFactory.getLogger("NerCrfApproach")
 
   override val description = "CRF based Named Entity Recognition Tagger"
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
@@ -55,7 +52,7 @@ class NerCrfApproach(override val uid: String)
 
   def setExternalFeatures(path: String,
                           delimiter: String,
-                          readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                          readAs: ReadAs.Format = ReadAs.TEXT,
                           options: Map[String, String] = Map("format" -> "text")): this.type =
     set(externalFeatures, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
@@ -94,6 +91,8 @@ class NerCrfApproach(override val uid: String)
       randomSeed = get(randomSeed)
     )
 
+    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+
     val crf = new LinearChainCrf(params)
     val crfModel = crf.trainSGD(crfDataset)
 
@@ -101,6 +100,7 @@ class NerCrfApproach(override val uid: String)
       .setModel(crfModel)
       .setDictionaryFeatures(dictFeatures)
       .setIncludeConfidence($(includeConfidence))
+      .setStorageRef(embeddingsRef)
 
     if (isDefined(entities))
       model.setEntities($(entities))
