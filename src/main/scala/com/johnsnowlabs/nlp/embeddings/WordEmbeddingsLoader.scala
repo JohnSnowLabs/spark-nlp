@@ -11,8 +11,7 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: Iterator[String],
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int
+             writer: WordEmbeddingsReadWriter
            ): Unit = {
     try {
       for (line <- source) {
@@ -28,12 +27,11 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: String,
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int
+             writer: WordEmbeddingsReadWriter
            ): Unit = {
     val sourceFile = Source.fromFile(source)("UTF-8")
     val lines = sourceFile.getLines()
-    index(lines, writer, autoFlushAfter)
+    index(lines, writer)
     sourceFile.close()
   }
 }
@@ -45,9 +43,7 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: DataInputStream,
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int,
-             lruCacheSize: Int): Unit = {
+             writer: WordEmbeddingsReadWriter): Unit = {
 
     try {
       // File Header
@@ -71,14 +67,12 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: String,
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int,
-             lruCacheSize: Int = 100000): Unit = {
+             writer: WordEmbeddingsReadWriter): Unit = {
 
     val ds = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))
 
     try {
-      index(ds, writer, autoFlushAfter, lruCacheSize)
+      index(ds, writer)
     } finally {
       ds.close()
     }

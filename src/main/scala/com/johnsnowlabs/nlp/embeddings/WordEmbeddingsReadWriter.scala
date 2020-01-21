@@ -4,15 +4,16 @@ import java.nio.{ByteBuffer, ByteOrder}
 
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
 
-class WordEmbeddingsWriter(
-                            override val connection: RocksDBConnection,
-                            caseSensitiveIndex: Boolean,
-                            dimension: Int,
-                            maxCacheSize: Int
+class WordEmbeddingsReadWriter(
+                                override val connection: RocksDBConnection,
+                                caseSensitiveIndex: Boolean,
+                                dimension: Int,
+                                maxCacheSize: Int,
+                                writeBuffer: Int
                           )
   extends WordEmbeddingsReader(connection, caseSensitiveIndex, dimension, maxCacheSize) with StorageReadWriter[Array[Float]] {
 
-  override protected def writeBufferSize: Int = 5000
+  override protected def writeBufferSize: Int = writeBuffer
 
   override def toBytes(content: Array[Float]): Array[Byte] = {
     val buffer = ByteBuffer.allocate(content.length * 4)
