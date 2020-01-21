@@ -20,5 +20,5 @@ class TMNodesWriter(
     super.add(word.toString, value)
   }
 
-  override protected def writeBufferSize: Int = 5000
+  override protected def writeBufferSize: Int = 10000
 }

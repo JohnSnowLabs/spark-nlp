@@ -2,10 +2,10 @@ package com.johnsnowlabs.nlp.util
 
 import scala.collection.mutable
 
-
+@specialized
 class LruMap[TKey, TValue](maxCacheSize: Int) {
   private val cache = mutable.Map.empty[TKey, TValue]
-  private val lru = mutable.PriorityQueue[KeyPriority]()(KeyPriorityOrdering)
+  private val lru = mutable.PriorityQueue.empty[KeyPriority](KeyPriorityOrdering)
 
   private var priorityCounter = 0
   private var size = 0
@@ -35,10 +35,11 @@ class LruMap[TKey, TValue](maxCacheSize: Int) {
     else if (isNewKey)
       size += 1
 
-    cache(key) = value
+    val content = value
+    cache(key) = content
     priorityCounter += 1
     lru.enqueue(KeyPriority(key, priorityCounter))
-    value
+    content
   }
 
   def getOrElseUpdate(key: TKey, valueCreator: => TValue): TValue = {
@@ -50,13 +51,13 @@ class LruMap[TKey, TValue](maxCacheSize: Int) {
     }
   }
 
-  def get(key: TKey): TValue = {
-    cache(key)
+  def get(key: TKey): Option[TValue] = {
+    cache.get(key)
   }
 
   case class KeyPriority(key: TKey, priority: Int)
 
   object KeyPriorityOrdering extends Ordering[KeyPriority] {
-    override def compare(x: KeyPriority, y: KeyPriority): Int = x.priority.compareTo(y.priority)
+    override def compare(x: KeyPriority, y: KeyPriority): Int = y.priority.compareTo(x.priority)
   }
 }
