@@ -85,6 +85,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
       sentences._2.flatMap { chunk =>
 
         val sentenceId = chunk.metadata("sentence")
+
         //TODO: Check why some chunks end up without WordEmbeddings
         if(sentenceId.toInt < embeddingsSentences.length) {
 

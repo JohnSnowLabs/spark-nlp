@@ -6,7 +6,7 @@ import com.johnsnowlabs.ml.crf.{CrfDataset, DatasetMetadata, InstanceLabels, Tex
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.crf.{DictionaryFeatures, FeatureGenerator}
-import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsBinaryIndexer, WordEmbeddingsReader, WordEmbeddingsTextIndexer}
+import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsBinaryIndexer, WordEmbeddingsReader, WordEmbeddingsTextIndexer, WordEmbeddingsReadWriter}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.RocksDBConnection
 
@@ -38,14 +38,14 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     if (!new File(fileDb).exists()) {
       embeddingsFormat match {
         case ReadAs.TEXT =>
-          WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, connection)
+          WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, new WordEmbeddingsReadWriter(connection, false, wordEmbeddingsNDims, 5000, 5000))
         case ReadAs.BINARY =>
-          WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, connection)
+          WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, new WordEmbeddingsReadWriter(connection, false, wordEmbeddingsNDims, 5000, 5000))
       }
     }
 
     if (new File(fileDb).exists()) {
-      wordEmbeddings = new WordEmbeddingsReader(connection, normalize, wordEmbeddingsNDims)
+      wordEmbeddings = new WordEmbeddingsReader(connection, normalize, wordEmbeddingsNDims, 1000)
     }
   }
 
