@@ -11,31 +11,27 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: Iterator[String],
-             connection: RocksDBConnection,
-             autoFlushAfter: Option[Integer]
+             writer: WordEmbeddingsReadWriter
            ): Unit = {
-    val indexer = new WordEmbeddingsWriter(connection,autoFlushAfter)
-
     try {
       for (line <- source) {
         val items = line.split(" ")
         val word = items(0)
         val embeddings = items.drop(1).map(i => i.toFloat)
-        indexer.add(word, embeddings)
+        writer.add(word, embeddings)
       }
     } finally {
-      indexer.close()
+      writer.close()
     }
   }
 
   def index(
              source: String,
-             connection: RocksDBConnection,
-             autoFlashAfter: Option[Integer] = Some(1000)
+             writer: WordEmbeddingsReadWriter
            ): Unit = {
     val sourceFile = Source.fromFile(source)("UTF-8")
     val lines = sourceFile.getLines()
-    index(lines, connection, autoFlashAfter)
+    index(lines, writer)
     sourceFile.close()
   }
 }
@@ -47,11 +43,7 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: DataInputStream,
-             connection: RocksDBConnection,
-             autoFlashAfter: Option[Integer],
-             lruCacheSize: Int): Unit = {
-    val indexer = new WordEmbeddingsWriter(connection, autoFlashAfter)
-    val reader = new WordEmbeddingsReader(connection, caseSensitiveIndex=true, 0, lruCacheSize)
+             writer: WordEmbeddingsReadWriter): Unit = {
 
     try {
       // File Header
@@ -63,26 +55,24 @@ object WordEmbeddingsBinaryIndexer {
         val word = readString(source)
 
         // Unit Vector
-        val vector = readFloatVector(source, vecSize, reader)
-        indexer.add(word, vector)
+        val vector = readFloatVector(source, vecSize, writer)
+        writer.add(word, vector)
       }
 
       logger.info(s"Loaded $numWords words, vector size $vecSize")
     } finally {
-      indexer.close()
+      writer.close()
     }
   }
 
   def index(
              source: String,
-             connection: RocksDBConnection,
-             autoFlashAfter: Option[Integer] = Some(1000),
-             lruCacheSize: Int = 100000): Unit = {
+             writer: WordEmbeddingsReadWriter): Unit = {
 
     val ds = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))
 
     try {
-      index(ds, connection, autoFlashAfter, lruCacheSize)
+      index(ds, writer)
     } finally {
       ds.close()
     }

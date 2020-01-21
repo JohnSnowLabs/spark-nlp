@@ -83,16 +83,18 @@ class NerPerfTest extends FlatSpec {
       .setDimension(200)
 
     val ner = new NerDLApproach().
-      setInputCols("document", "token", "embeddings").
-      setOutputCol("ner").
-      setLabelColumn("label").
-      setOutputCol("ner").
-      setMinEpochs(1).
-      setMaxEpochs(30).
-      setRandomSeed(0).
-      setVerbose(2).
-      setDropout(0.8f).
-      setBatchSize(18)
+      setInputCols("document", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setMinEpochs(1)
+      .setMaxEpochs(30)
+      .setRandomSeed(0)
+      .setVerbose(2)
+      .setDropout(0.8f)
+      .setBatchSize(18)
+      .setGraphFolder("src/test/resources/graph/")
+
 
     val finisher = new Finisher().
       setInputCols("ner")

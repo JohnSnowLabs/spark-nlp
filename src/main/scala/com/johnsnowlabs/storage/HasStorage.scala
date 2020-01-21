@@ -7,75 +7,103 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
-import com.johnsnowlabs.nlp.util.io.ExternalResource
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
+
+  protected val databases: Array[Database.Name]
 
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
   def setStoragePath(path: String, readAs: String): this.type = set(storagePath, new ExternalResource(path, readAs, Map.empty[String, String]))
 
-  def getStoragePath: ExternalResource = $(storagePath)
+  def setStoragePath(path: String, readAs: ReadAs.Value): this.type = setStoragePath(path, readAs.toString)
+
+  def getStoragePath: Option[ExternalResource] = get(storagePath)
 
   protected val missingRefMsg: String = s"Please set storageRef param in $this."
 
-  protected def index(storageSourcePath: String, connection: RocksDBConnection, resource: ExternalResource): Unit
+  protected def index(
+                       fitDataset: Dataset[_],
+                       storageSourcePath: Option[String],
+                       readAs: Option[ReadAs.Value],
+                       writers: Map[Database.Name, StorageWriter[_]],
+                       readOptions: Option[Map[String, String]] = None
+                     ): Unit
 
-  private def indexDatabase(storageSourcePath: String,
-                            localFile: String,
-                            spark: SparkContext,
-                            resource: ExternalResource
+  protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_]
+
+  private def indexDatabases(
+                              databases: Array[Database.Value],
+                              resource: Option[ExternalResource],
+                              localFiles: Array[String],
+                              fitDataset: Dataset[_],
+                              spark: SparkContext
                            ): Unit = {
 
-    val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+    require(databases.length == localFiles.length, "Storage temp locations must be equal to the amount of databases")
 
-    lazy val connection = RocksDBConnection.getOrCreate(localFile)
+    lazy val connections = databases.zip(localFiles)
+      .map{ case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile))}
 
-    if (new Path(storageSourcePath).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
+    val writers = connections.map{ case (db, conn) =>
+      (db, createWriter(db, conn))
+    }.toMap[Database.Name, StorageWriter[_]]
+
+    val storageSourcePath = resource.map(r => importIfS3(r.path, spark).toUri.toString)
+    if (resource.isDefined && new Path(resource.get.path).getFileSystem(spark.hadoopConfiguration).getScheme != "file") {
+      val uri = new java.net.URI(storageSourcePath.get.replaceAllLiterally("\\", "/"))
+      val fs = FileSystem.get(uri, spark.hadoopConfiguration)
+      /** ToDo: What if the file is too large to copy to local? Index directly from hadoop? */
       val tmpFile = Files.createTempFile("sparknlp_", ".str").toAbsolutePath.toString
-      fs.copyToLocalFile(new Path(storageSourcePath), new Path(tmpFile))
-      index(tmpFile, connection, resource)
+      fs.copyToLocalFile(new Path(storageSourcePath.get), new Path(tmpFile))
+      index(fitDataset, Some(tmpFile), resource.map(_.readAs), writers, resource.map(_.options))
       FileHelper.delete(tmpFile)
     } else {
-      index(storageSourcePath, connection, resource)
+      index(fitDataset, storageSourcePath, resource.map(_.readAs), writers, resource.map(_.options))
     }
 
+    writers.values.foreach(_.close())
+    connections.map(_._2).foreach(_.close())
   }
 
   private def preload(
-                       resource: ExternalResource,
+                       fitDataset: Dataset[_],
+                       resource: Option[ExternalResource],
                        spark: SparkSession,
-                       database: String
-                     ): RocksDBConnection = {
+                       databases: Array[Database.Value]
+                     ): Unit = {
 
-    val sourceEmbeddingsPath = importIfS3(resource.path, spark).toUri.toString
     val sparkContext = spark.sparkContext
 
-    val tmpLocalDestination = {
-      Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
-        .toAbsolutePath
+    val tmpLocalDestinations = {
+      databases.map( _ =>
+        Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
+          .toAbsolutePath.toString
+      )
     }
 
     val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
 
-    val locator = StorageLocator(database, $(storageRef), spark, fileSystem)
+    indexDatabases(databases, resource, tmpLocalDestinations, fitDataset, sparkContext)
 
-    // 1 and 2.  Copy to local and Index Word Embeddings
-    indexDatabase(sourceEmbeddingsPath, tmpLocalDestination.toString, sparkContext, resource)
+    val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
-    StorageHelper.sendToCluster(tmpLocalDestination.toString, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+    tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
+      StorageHelper.sendToCluster(new Path(tmpLocalDestination), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+    }
 
     // 3. Create Spark Embeddings
-    RocksDBConnection.getOrCreate(locator.clusterFileName)
+    locators.foreach(locator => RocksDBConnection.getOrCreate(locator.clusterFileName))
   }
 
 
-  private def importIfS3(path: String, spark: SparkSession): Path = {
+  private def importIfS3(path: String, spark: SparkContext): Path = {
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     var src = new Path(path)
     //if the path contains s3a download to local cache if not present
@@ -90,17 +118,17 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
         }
         var old_key = ""
         var old_secret = ""
-        if (spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-          old_key = spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-          old_secret = spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+        if (spark.hadoopConfiguration.get("fs.s3a.access.key") != null) {
+          old_key = spark.hadoopConfiguration.get("fs.s3a.access.key")
+          old_secret = spark.hadoopConfiguration.get("fs.s3a.secret.key")
         }
         try {
           val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
           if (!Files.exists(Paths.get(dst.toUri.getPath))) {
             //download s3 resource locally using config keys
-            spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
-            spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
-            val s3fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+            spark.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
+            spark.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
+            val s3fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
             val dst_tmp = new Path(ResourceDownloader.cacheFolder, src.getName + "_tmp")
 
@@ -119,8 +147,8 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
         finally {
           //reset the keys
           if (!old_key.equals("")) {
-            spark.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", old_key)
-            spark.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)
+            spark.hadoopConfiguration.set("fs.s3a.access.key", old_key)
+            spark.hadoopConfiguration.set("fs.s3a.secret.key", old_secret)
           }
         }
 
@@ -129,14 +157,13 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     src
   }
 
-  protected def indexStorage(spark: SparkSession, resource: ExternalResource): Unit = {
+  def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
     require(isDefined(storageRef), missingRefMsg)
-    databases.foreach(database =>
-      preload(
-        resource,
-        spark,
-        database.toString
-      )
+    preload(
+      fitDataset,
+      resource,
+      fitDataset.sparkSession,
+      databases
     )
   }
 

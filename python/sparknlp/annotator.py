@@ -567,6 +567,87 @@ class TextMatcherModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
 
 
+class BigTextMatcher(AnnotatorApproach):
+
+    entities = Param(Params._dummy(),
+                     "entities",
+                     "ExternalResource for entities",
+                     typeConverter=TypeConverters.identity)
+
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in index lookups",
+                          typeConverter=TypeConverters.toBoolean)
+
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    tokenizer = Param(Params._dummy(),
+                          "tokenizer",
+                          "TokenizerModel to use to tokenize input file for building a Trie",
+                          typeConverter=TypeConverters.identity)
+
+    @keyword_only
+    def __init__(self):
+        super(BigTextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher")
+        self._setDefault(caseSensitive=True)
+        self._setDefault(mergeOverlapping=False)
+
+    def _create_model(self, java_model):
+        return TextMatcherModel(java_model=java_model)
+
+    def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        return self._set(entities=ExternalResource(path, read_as, options.copy()))
+
+    def setCaseSensitive(self, b):
+        return self._set(caseSensitive=b)
+
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
+    def setTokenizer(self, tokenizer_model):
+        tokenizer_model._transfer_params_to_java()
+        return self._set(tokenizer_model._java_obj)
+
+
+class BigTextMatcherModel(AnnotatorModel):
+    name = "BigTextMatcherModel"
+
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in index lookups",
+                          typeConverter=TypeConverters.toBoolean)
+
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    searchTrie = Param(Params._dummy(),
+                       "searchTrie",
+                       "searchTrie",
+                       typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.btm.TextMatcherModel", java_model=None):
+        super(BigTextMatcherModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
+    def setCaseSensitive(self, v):
+        return self._set(caseSensitive=v)
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+
+
 class PerceptronApproach(AnnotatorApproach):
     posCol = Param(Params._dummy(),
                    "posCol",
@@ -1448,11 +1529,28 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddings"
 
+    writeBufferSize = Param(Params._dummy(),
+                               "writeBufferSize",
+                               "buffer size limit before dumping to disk storage while writing",
+                               typeConverter=TypeConverters.toInt)
+
+    readCacheSize = Param(Params._dummy(),
+                            "readCacheSize",
+                            "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                            typeConverter=TypeConverters.toInt)
+
+    def setWriteBufferSize(self, v):
+        return self._set(writeBufferSize=v)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
+
     @keyword_only
     def __init__(self):
         super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
         self._setDefault(
             caseSensitive=False,
+            writeBufferSize=10000,
             storageRef=self.uid
         )
 
@@ -1463,6 +1561,14 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
+
+    readCacheSize = Param(Params._dummy(),
+                          "readCacheSize",
+                          "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                          typeConverter=TypeConverters.toInt)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
@@ -1509,7 +1615,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                              TypeConverters.toListString)
 
     poolingLayer = Param(Params._dummy(),
-                         "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings",
+                         "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings",
                          typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):

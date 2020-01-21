@@ -5,9 +5,12 @@ import math
 import sys
 from sentence_grouper import SentenceGrouper
 
+
 class NerModel:
     # If session is not defined than default session will be used
     def __init__(self, session=None, dummy_tags=None, use_contrib=True, use_gpu_device=0):
+        tf.disable_v2_behavior()
+
         self.word_repr = None
         self.word_embeddings = None
         self.session = session
@@ -18,11 +21,10 @@ class NerModel:
 
         if self.session is None:
             self.session_created = True
-            self.session = tf.compat.v1.Session(config=tf.ConfigProto(
-                allow_soft_placement=True, log_device_placement=False
-                ))
-
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+            self.session = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(
+                allow_soft_placement=True,
+                log_device_placement=True))
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("char_repr") as scope:
                 # shape = (batch size, sentence, word)
@@ -48,18 +50,22 @@ class NerModel:
         self._context_added = False
         self._encode_added = False
 
-    def add_bilstm_char_repr(self, nchars = 101, dim=25, hidden=25):
+    def add_bilstm_char_repr(self, nchars=101, dim=25, hidden=25):
         self._char_bilstm_added = True
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("char_repr_lstm") as scope:
                 # 1. Lookup for character embeddings
                 char_range = math.sqrt(3 / dim)
-                embeddings = tf.compat.v1.get_variable(name="char_embeddings", dtype=tf.float32,
-                                             shape=[nchars, dim],
-                                             initializer=tf.compat.v1.random_uniform_initializer(-char_range, char_range),
-                                             use_resource=False)
+                embeddings = tf.compat.v1.get_variable(name="char_embeddings",
+                                                       dtype=tf.float32,
+                                                       shape=[nchars, dim],
+                                                       initializer=tf.compat.v1.random_uniform_initializer(
+                                                           -char_range,
+                                                           char_range
+                                                       ),
+                                                       use_resource=False)
 
                 # shape = (batch, sentence, word, char embeddings dim)
                 char_embeddings = tf.nn.embedding_lookup(params=embeddings, ids=self.char_ids)
@@ -97,7 +103,7 @@ class NerModel:
     def add_cnn_char_repr(self, nchars=101, dim=25, nfilters=25, pad=2):
         self._char_cnn_added = True
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("char_repr_cnn") as scope:
                 # 1. Lookup for character embeddings
@@ -138,7 +144,7 @@ class NerModel:
     def add_pretrained_word_embeddings(self, dim=100):
         self._word_embeddings_added = True
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
             with tf.compat.v1.variable_scope("word_repr") as scope:
                 # shape = (batch size, sentence, dim)
                 self.word_embeddings = tf.compat.v1.placeholder(tf.float32, shape=[None, None, dim],
@@ -151,7 +157,7 @@ class NerModel:
 
     def _create_lstm_layer(self, inputs, hidden_size, lengths):
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
 
             if not self.use_contrib:
                 model = tf.keras.Sequential([
@@ -183,7 +189,7 @@ class NerModel:
 
     def _multiply_layer(self, source, result_size, activation=tf.nn.relu):
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
 
             ntime_steps = tf.shape(input=source)[1]
             source_size = source.shape[2]
@@ -216,7 +222,7 @@ class NerModel:
         self._context_added = True
         self.ntags = ntags
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
             context_repr = self._multiply_layer(self.word_repr, 2*hidden_size)
             # Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`
             context_repr = tf.nn.dropout(x=context_repr, rate=1-self.dropout)
@@ -290,7 +296,7 @@ class NerModel:
                "Add inference layer by method add_inference_layer before adding training layer")
         self._training_added = True
 
-        with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+        with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
 
             with tf.compat.v1.variable_scope("training", reuse=None) as scope:
                 optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=self.lr)
@@ -385,7 +391,7 @@ class NerModel:
         assert(self._training_added, "Add training layer by method add_training_op before running training")
 
         if init_variables:
-            with tf.device('/gpu:{}'.format(self.use_gpu_device)):
+            with tf.compat.v1.device('/gpu:{}'.format(self.use_gpu_device)):
                 self.session.run(tf.compat.v1.global_variables_initializer())
 
         print('trainig started')

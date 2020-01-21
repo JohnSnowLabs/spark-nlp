@@ -218,6 +218,23 @@ object ResourceHelper {
   }
 
   /**
+    * General purpose line parser from source
+    * Currently read only text files
+    * @return
+    */
+  def parseLinesIterator(
+                  er: ExternalResource
+                ): Seq[Iterator[String]] = {
+    er.readAs match {
+      case TEXT =>
+        val sourceStream = SourceStream(er.path)
+        sourceStream.content
+      case _ =>
+        throw new Exception("Unsupported readAs")
+    }
+  }
+
+  /**
     * General purpose tuple parser from source
     * Currently read only text files
     * @return

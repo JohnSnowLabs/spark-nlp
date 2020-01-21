@@ -30,7 +30,7 @@ class BertEmbeddings(override val uid: String) extends
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-  val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings")
+  val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings")
 
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -158,7 +158,6 @@ class BertEmbeddings(override val uid: String) extends
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
-  override protected val databases: Array[Name] = Array.empty
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
