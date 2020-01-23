@@ -18,10 +18,13 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     options.setCreateIfMissing(true)
     options.setCompressionType(CompressionType.NO_COMPRESSION)
     options.setWriteBufferSize(20 * 1 << 20)
+    options.setKeepLogFileNum(1)
+    options.setDbLogDir(System.getProperty("java.io.tmpdir"))
+
     options
   }
 
-  private def findLocalDb: String = {
+  def findLocalIndex: String = {
     val localPath = RocksDBConnection.getLocalPath(path)
     if (new File(localPath).exists()) {
       localPath
@@ -41,7 +44,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     if (Option(db).isDefined) {
       db
     } else {
-      db = RocksDB.open(getOptions, findLocalDb)
+      db = RocksDB.open(getOptions, findLocalIndex)
       RocksDBConnection.cache.update(path, this)
       db
     }
@@ -55,7 +58,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     else if (Option(db).isDefined)
       db
     else {
-      db = RocksDB.openReadOnly(getOptions, findLocalDb)
+      db = RocksDB.openReadOnly(getOptions, findLocalIndex)
       RocksDBConnection.cache.update(path, this)
       db
     }
@@ -105,6 +108,8 @@ object RocksDBConnection {
 
   def getOrCreate(database: Database.Name, refName: String): RocksDBConnection = getOrCreate(database.toString, refName)
 
-  def getLocalPath(fileName: String): String = Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/storage/"+fileName)).toString
+  def getLocalPath(fileName: String): String = {
+    Path.mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/storage/"+fileName)).toString
+  }
 
 }

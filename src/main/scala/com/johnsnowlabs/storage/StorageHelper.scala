@@ -27,20 +27,20 @@ object StorageHelper {
   }
 
   def save(path: String, connection: RocksDBConnection, spark: SparkSession): Unit = {
-    StorageHelper.save(path, spark, connection.getFileName)
+    StorageHelper.save(path, spark, connection)
   }
 
-  private def save(path: String, spark: SparkSession, fileName: String): Unit = {
-    val index = new Path(RocksDBConnection.getLocalPath(fileName))
+  private def save(path: String, spark: SparkSession, connection: RocksDBConnection): Unit = {
+    val index = new Path("file://"+connection.findLocalIndex).getParent
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val dst = new Path(path)
+    val dst = new Path(path+"/storage/")
 
     save(fs, index, dst)
   }
 
-  def save(fs: FileSystem, index: Path, dst: Path): Unit = {
+  private def save(fs: FileSystem, index: Path, dst: Path): Unit = {
     fs.copyFromLocalFile(false, true, index, dst)
   }
 
@@ -56,7 +56,7 @@ object StorageHelper {
     val fs = sourcePath.getFileSystem(spark.hadoopConfiguration)
     if (fs.getScheme == "file") {
       val src = sourcePath
-      fs.copyFromLocalFile(false, true, src, dst)
+      dst.getFileSystem(spark.hadoopConfiguration).copyFromLocalFile(false, true, src, dst)
     } else if (!fs.exists(dst)) {
       FileUtil.copy(fs, sourcePath, fs, dst, false, true, spark.hadoopConfiguration)
     }
