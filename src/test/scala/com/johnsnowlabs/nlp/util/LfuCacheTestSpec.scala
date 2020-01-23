@@ -67,14 +67,13 @@ class LfuCacheTestSpec extends FlatSpec {
 
     assert(lfu.getSize == 5, "Size not as expected after getting and updated cache")
 
-    lfu.getOrElseUpdate("new", 1.11)
     lfu.getOrElseUpdate("even newer", 4.13)
 
     assert(lfu.getSize == 5, "Size not as expected after adding 2 new values")
-    assert(lfu.get("new").isDefined, "Recently added key is not in the lfu!")
+    assert(lfu.get("even newer").isDefined, "Recently added key is not in the lfu!")
 
     assert(lfu.get("c").isEmpty, "value 'c' should not be in lfu since it was never used")
-    assert(lfu.get("d").isEmpty, "value 'd' should not be in lfu since it was rarely queried (once)")
+    assert(lfu.get("r").isEmpty, "value 'd' should not be in lfu since it was rarely queried (once)")
   }
 
 }

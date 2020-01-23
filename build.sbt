@@ -15,7 +15,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.4.0-rc1"
+version := "2.4.0-rc2"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -32,7 +32,7 @@ spIncludeMaven in ThisBuild:= false
 
 spAppendScalaVersion := false
 
-resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
+resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
 
