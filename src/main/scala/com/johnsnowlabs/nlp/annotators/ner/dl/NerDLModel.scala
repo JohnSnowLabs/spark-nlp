@@ -130,20 +130,11 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 }
 
 trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with HasPretrained[NerDLModel] {
-  val WIN_MODEL_NAME = "ner_dl"
-  val UNIX_MODEL_NAME = "ner_dl_contrib"
-
-  override val defaultModelName = Some("ner_dl_by_os")
+  val MODEL_NAME = "ner_dl"
+  override val defaultModelName: Some[String] = Some("ner_dl")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): NerDLModel = {
-    val finalName = if (name == defaultModelName.get) {
-      if (SystemUtils.IS_OS_WINDOWS)
-        WIN_MODEL_NAME
-      else
-        UNIX_MODEL_NAME
-    }
-    else name
-    ResourceDownloader.downloadModel(NerDLModel, finalName, Option(lang), remoteLoc)
+    ResourceDownloader.downloadModel(NerDLModel, MODEL_NAME, Option(lang), remoteLoc)
   }
   /** Java compliant-overrides */
   override def pretrained(): NerDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
