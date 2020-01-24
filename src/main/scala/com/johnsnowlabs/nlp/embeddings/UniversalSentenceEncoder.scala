@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, Param}
+import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -22,14 +22,6 @@ class UniversalSentenceEncoder(override val uid: String)
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  val tfHubModelPath =
-    new Param[String](this, "tfHubModelPath", "Internal use only.")
-
-  def setTfHubModelPath(path: String): UniversalSentenceEncoder.this.type =
-    set(this.tfHubModelPath, path)
-
-  def getTfHubModelPath: String = $(tfHubModelPath)
-
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
@@ -42,6 +34,12 @@ class UniversalSentenceEncoder(override val uid: String)
 
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
+
+  private var tfHubPath: String = ""
+  def setTFhubPath(value: String): Unit = {
+    tfHubPath = value
+  }
+  def getTFhubPath: String = tfHubPath
 
   private var _model: Option[Broadcast[TensorflowUSE]] = None
 
@@ -73,7 +71,7 @@ class UniversalSentenceEncoder(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowHub(path, tfPath = getTfHubModelPath, spark)
+    writeTensorflowHub(path, tfPath = getTFhubPath, spark)
   }
 
 }
@@ -127,8 +125,10 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $tfHubPath"
     )
 
-    new UniversalSentenceEncoder()
-      .setTfHubModelPath(tfHubPath)
+    val USE = new UniversalSentenceEncoder()
+    USE.setTFhubPath(tfHubPath)
+
+    USE
   }
 }
 
