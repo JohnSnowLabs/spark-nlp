@@ -1,7 +1,9 @@
 package com.johnsnowlabs.storage
 
+import java.io.File
+
 import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
-import org.apache.spark.SparkContext
+import org.apache.spark.{SparkContext, SparkFiles}
 import org.apache.spark.sql.SparkSession
 
 
@@ -53,16 +55,19 @@ object StorageHelper {
   }
 
   private def copyIndexToCluster(sourcePath: Path, dst: Path, spark: SparkContext): String = {
-    val fs = sourcePath.getFileSystem(spark.hadoopConfiguration)
-    if (fs.getScheme == "file") {
-      val src = sourcePath
-      dst.getFileSystem(spark.hadoopConfiguration).copyFromLocalFile(false, true, src, dst)
-    } else if (!fs.exists(dst)) {
-      FileUtil.copy(fs, sourcePath, fs, dst, false, true, spark.hadoopConfiguration)
+    if (!new File(SparkFiles.get(dst.getName)).exists()) {
+      val srcFS = sourcePath.getFileSystem(spark.hadoopConfiguration)
+      val dstFS = dst.getFileSystem(spark.hadoopConfiguration)
+
+      if (srcFS.getScheme == "file") {
+        val src = sourcePath
+        dstFS.copyFromLocalFile(false, true, src, dst)
+      } else {
+        FileUtil.copy(srcFS, sourcePath, dstFS, dst, false, true, spark.hadoopConfiguration)
+      }
+
+      spark.addFile(dst.toString, recursive = true)
     }
-
-    spark.addFile(dst.toString, recursive = true)
-
     dst.toString
   }
 
