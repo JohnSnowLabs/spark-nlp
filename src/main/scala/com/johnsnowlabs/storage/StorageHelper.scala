@@ -33,7 +33,7 @@ object StorageHelper {
   }
 
   private def save(path: String, spark: SparkSession, connection: RocksDBConnection): Unit = {
-    val index = new Path("file://"+connection.findLocalIndex).getParent
+    val index = new Path("file://"+connection.findLocalIndex)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
