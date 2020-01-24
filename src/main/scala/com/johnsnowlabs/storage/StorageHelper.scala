@@ -43,6 +43,8 @@ object StorageHelper {
   }
 
   private def save(fs: FileSystem, index: Path, dst: Path): Unit = {
+    if (!fs.exists(dst))
+      fs.mkdirs(dst)
     fs.copyFromLocalFile(false, true, index, dst)
   }
 
