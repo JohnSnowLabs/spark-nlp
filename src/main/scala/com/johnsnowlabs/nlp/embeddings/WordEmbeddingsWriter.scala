@@ -4,14 +4,14 @@ import java.nio.{ByteBuffer, ByteOrder}
 
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageBatchWriter}
 
-class WordEmbeddingsReadWriter(
+class WordEmbeddingsWriter(
                                 override val connection: RocksDBConnection,
                                 caseSensitiveIndex: Boolean,
                                 dimension: Int,
                                 maxCacheSize: Int,
                                 writeBuffer: Int
                           )
-  extends WordEmbeddingsReader(connection, caseSensitiveIndex, dimension, maxCacheSize) with StorageBatchWriter[Array[Float]] {
+  extends StorageBatchWriter[Array[Float]] with ReadsFromBytes {
 
   override protected def writeBufferSize: Int = writeBuffer
 
