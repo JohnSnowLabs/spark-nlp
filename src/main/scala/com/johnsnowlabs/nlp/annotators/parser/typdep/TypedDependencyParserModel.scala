@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import gnu.trove.map.hash.TObjectIntHashMap
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
@@ -31,7 +32,7 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
   private lazy val dependencyPipe = $$(trainDependencyPipe)
   private lazy val parameters = new Parameters(dependencyPipe, options)
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
     var sentenceId = 0
     val dictionariesValues = dependencyPipe.getDictionariesSet.getDictionaries.map { dictionary =>
       val predictionParameters = getPredictionParametersInstance

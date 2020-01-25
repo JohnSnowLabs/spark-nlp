@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
@@ -25,7 +26,7 @@ class DependencyParserModel(override val uid: String) extends AnnotatorModel[Dep
     dependencyParsedSentence
   }
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
     val posTaggedSentences = PosTagged.unpack(annotations)
     val sentencesWithDependency = posTaggedSentences.map{sentence => getDependencyParsedSentence(sentence)}
     val dependencyParser = DependencyParsed.pack(sentencesWithDependency)

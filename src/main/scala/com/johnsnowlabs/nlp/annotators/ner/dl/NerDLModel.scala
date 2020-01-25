@@ -12,6 +12,7 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.{Database, HasStorageRef}
 import org.apache.commons.lang.SystemUtils
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -97,7 +98,7 @@ class NerDLModel(override val uid: String)
     dataset
   }
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
 
     // Parse
     val tokenized = WordpieceEmbeddingsSentence.unpack(annotations).toArray

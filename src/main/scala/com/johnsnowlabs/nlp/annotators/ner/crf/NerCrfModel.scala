@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.storage.{Database, HasStorageRef}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.Dataset
@@ -84,7 +85,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
     dataset
   }
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
     val sourceSentences = PosTagged.unpack(annotations)
     val withEmbeddings = WordpieceEmbeddingsSentence.unpack(annotations)
     val taggedSentences = tag(sourceSentences.zip(withEmbeddings))

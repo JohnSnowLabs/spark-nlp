@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.AnalysisException
 import org.scalatest._
 
 /**
@@ -14,7 +14,7 @@ class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[Dummy
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array.empty[AnnotatorType]
   def this() = this(Identifiable.randomUID("DUMMY"))
   setDefault(inputCols, Array.empty[String])
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] =
     Seq(Annotation(
       outputAnnotatorType,
       0,
@@ -31,7 +31,7 @@ class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorMo
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DUMMY)
   def this() = this(Identifiable.randomUID("DEMANDING_DUMMY"))
   setDefault(inputCols, Array(DUMMY))
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] =
     Seq(Annotation(
       DUMMY,
       11,
