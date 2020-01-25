@@ -11,7 +11,7 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: Iterator[String],
-             writer: WordEmbeddingsReadWriter
+             writer: WordEmbeddingsWriter
            ): Unit = {
     try {
       for (line <- source) {
@@ -27,7 +27,7 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: String,
-             writer: WordEmbeddingsReadWriter
+             writer: WordEmbeddingsWriter
            ): Unit = {
     val sourceFile = Source.fromFile(source)("UTF-8")
     val lines = sourceFile.getLines()
@@ -43,7 +43,7 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: DataInputStream,
-             writer: WordEmbeddingsReadWriter): Unit = {
+             writer: WordEmbeddingsWriter): Unit = {
 
     try {
       // File Header
@@ -67,7 +67,7 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: String,
-             writer: WordEmbeddingsReadWriter): Unit = {
+             writer: WordEmbeddingsWriter): Unit = {
 
     val ds = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))
 
@@ -102,7 +102,7 @@ object WordEmbeddingsBinaryIndexer {
   /**
     * Read a Vector - Array of Floats from the binary model:
     */
-  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsReader): Array[Float] = {
+  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsWriter): Array[Float] = {
     // Read Bytes
     val vectorBuffer = Array.fill[Byte](4 * vectorSize)(0)
     ds.read(vectorBuffer)
