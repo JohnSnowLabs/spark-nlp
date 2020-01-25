@@ -95,7 +95,8 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
 
     tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
-      StorageHelper.sendToCluster(new Path(tmpLocalDestination), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+      /** tmpFiles indexed must be explicitly set to be local files */
+      StorageHelper.sendToCluster(new Path("file://"+tmpLocalDestination), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
     }
 
     // 3. Create Spark Embeddings

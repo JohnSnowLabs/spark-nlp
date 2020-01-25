@@ -140,7 +140,7 @@ class _CoverageResult(ExtendedJavaWrapper):
 
 class _BertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadFromPython", path, jspark)
+        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadSavedModel", path, jspark)
 
 
 class _USELoader(ExtendedJavaWrapper):
