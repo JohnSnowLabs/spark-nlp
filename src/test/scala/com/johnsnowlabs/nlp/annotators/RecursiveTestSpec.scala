@@ -124,4 +124,35 @@ class RecursiveTestSpec extends FlatSpec {
     succeed
   }
 
+  "Lazy Recursive Model" should "work well in LightPipeline" in {
+    import com.johnsnowlabs.nlp.recursive._
+
+    val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
+
+    val someModel = new SomeModel() {
+      override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+
+        val result = recursivePipeline.get.stages(1) match {
+          case t: TokenizerModel => t.annotate(annotations)
+          case _ => fail("Could not pattern match a TokenizerModel !")
+        }
+
+        // re-tokenize document annotations input
+        result
+      }
+
+      override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+
+    }.setInputCols("document").setOutputCol("baaar")
+    val pipeline = new Pipeline().setStages(Array(document, lazyTokenizer, someModel))
+    val output = pipeline.fit(data)
+
+    val result = output.annotate("Peter is a good person")
+
+    assert(result.keys.size == 2)
+    assert(result.contains("baaar"))
+    assert(result.apply("baaar").length == 5)
+
+  }
+
 }

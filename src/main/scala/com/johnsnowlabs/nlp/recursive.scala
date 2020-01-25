@@ -8,6 +8,8 @@ package object recursive {
     new RecursivePipeline(pipeline)
   implicit def pm2recursive(pipelineModel: PipelineModel): RecursivePipelineModel =
     new RecursivePipelineModel(pipelineModel.uid, pipelineModel)
+  implicit def pm2light(pipelineModel: PipelineModel): LightPipeline =
+    new LightPipeline(pipelineModel)
 
   implicit class Recursive(p: Pipeline) {
     def recursive: RecursivePipeline = {
