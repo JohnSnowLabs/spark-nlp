@@ -55,7 +55,7 @@ class WordEmbeddings(override val uid: String)
                               ): Unit = {
     val writer = writers.values.headOption
       .getOrElse(throw new IllegalArgumentException("Received empty WordEmbeddingsWriter from locators"))
-      .asInstanceOf[WordEmbeddingsReadWriter]
+      .asInstanceOf[WordEmbeddingsWriter]
 
     if (readAs.get == ReadAs.TEXT) {
       WordEmbeddingsTextIndexer.index(storageSourcePath.get, writer)
@@ -70,7 +70,7 @@ class WordEmbeddings(override val uid: String)
   override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
 
   override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
-    new WordEmbeddingsReadWriter(connection, $(caseSensitive), $(dimension), get(readCacheSize).getOrElse(5000), $(writeBufferSize))
+    new WordEmbeddingsWriter(connection, $(caseSensitive), $(dimension), get(readCacheSize).getOrElse(5000), $(writeBufferSize))
   }
 }
 
