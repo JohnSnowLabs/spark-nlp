@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 
 import annotation.{tailrec => tco}
@@ -48,7 +49,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
     * @return Extracted Entities
     */
   /** Defines annotator phrase matching depending on whether we are using SBD or not */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
 
     val result = ArrayBuffer[Annotation]()
 

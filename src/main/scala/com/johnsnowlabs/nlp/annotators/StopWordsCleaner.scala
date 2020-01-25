@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import java.util.Locale
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamValidators, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
@@ -59,7 +60,7 @@ class StopWordsCleaner(override val uid: String) extends AnnotatorModel[StopWord
     locale -> getDefaultOrUS.toString
   )
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
 
     val annotationsWithoutStopWords = if ($(caseSensitive)) {
       val stopWordsSet = $(stopWords).toSet

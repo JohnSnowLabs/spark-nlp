@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] {
@@ -11,7 +12,7 @@ class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] {
 
   override val inputAnnotatorTypes: Array[String] = Array(CHUNK)
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
     annotations.map(annotation => {
       Annotation(
         outputAnnotatorType,

@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -16,7 +17,7 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
     annotations.groupBy(token => token.result)
       .map{case (_, sentenceAnnotations) =>
           Annotation(

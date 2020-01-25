@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk]{
@@ -12,7 +13,7 @@ class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk]{
 
   def this() = this(Identifiable.randomUID("TOKEN2CHUNK"))
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
     annotations.map { token =>
       Annotation(
         CHUNK,
