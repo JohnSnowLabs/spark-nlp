@@ -1649,20 +1649,20 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         self._setDefault(
             dimension=768,
             batchSize=32,
-            maxSentenceLength=64,
-            caseSensitive=False,
+            maxSentenceLength=128,
+            caseSensitive=True,
             poolingLayer=0
         )
 
     @staticmethod
-    def loadFromPython(folder, spark_session):
+    def loadSavedModel(folder, spark_session):
         from sparknlp.internal import _BertLoader
         jModel = _BertLoader(folder, spark_session._jsparkSession)._java_obj
         return BertEmbeddings(java_model=jModel)
 
 
     @staticmethod
-    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
