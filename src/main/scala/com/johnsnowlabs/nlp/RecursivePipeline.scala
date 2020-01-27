@@ -13,6 +13,8 @@ class RecursivePipeline(override val uid: String, baseStages: Array[PipelineStag
 
   def this() = this(Identifiable.randomUID("RECURSIVE_PIPELINE"), Array.empty)
 
+  def this(uid: String) = this(uid, Array.empty)
+
   def this(pipeline: Pipeline) = this(pipeline.uid, pipeline.getStages)
 
   this.setStages(baseStages)
