@@ -76,7 +76,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
     val documentsWithChunks = annotations
       .filter(token => token.annotatorType == CHUNK)
-      .groupBy(_.metadata.head._2.toInt)
+      .groupBy(_.metadata.getOrElse[String]("chunk", "0").toInt)
       .toSeq
       .sortBy(_._1)
 
