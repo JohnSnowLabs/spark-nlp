@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, DocumentAssembler}
-import org.apache.spark.ml.PipelineModel
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -33,7 +32,7 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
   def this() = this(Identifiable.randomUID("STEMMER"))
 
   /** one-to-one stem annotation that returns single hard-stem per token */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] =
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { tokenAnnotation =>
         val stem = EnglishStemmer.stem(tokenAnnotation.result)
         Annotation(

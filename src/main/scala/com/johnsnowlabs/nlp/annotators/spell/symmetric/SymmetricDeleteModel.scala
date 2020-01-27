@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.spell.symmetric
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
@@ -52,7 +51,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   case class SuggestedWord(correction: String, frequency: Long, distance: Int, score: Double)
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token => {
       val verifiedWord = checkSpellWord(token.result)
       Annotation(

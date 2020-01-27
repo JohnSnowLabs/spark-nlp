@@ -1,11 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.ner
-import java.util.Locale
-
-import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.StopWordsRemover
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamValidators, StringArrayParam}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.param.{Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 
@@ -32,7 +27,7 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
     newResult -> "I-OVERWRITE"
   )
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]) : Seq[Annotation]= {
+  override def annotate(annotations: Seq[Annotation]) : Seq[Annotation]= {
 
     var annotationsOverwritten = annotations
 

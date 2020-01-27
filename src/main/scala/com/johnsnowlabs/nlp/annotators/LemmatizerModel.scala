@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {
@@ -21,7 +20,7 @@ class LemmatizerModel(override val uid: String) extends AnnotatorModel[Lemmatize
   /**
     * @return one to one annotation from token to a lemmatized word, if found on dictionary or leave the word as is
     */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { tokenAnnotation =>
       val token = tokenAnnotation.result
       Annotation(

@@ -5,7 +5,6 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
 
@@ -53,7 +52,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
     * @return Extracted Entities
     */
   /** Defines annotator phrase matching depending on whether we are using SBD or not */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val result = ArrayBuffer[Annotation]()
 

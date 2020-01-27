@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -61,7 +60,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   def setModel(targetModel: AveragedPerceptron): this.type = set(model, targetModel)
 
   /** One to one annotation standing from the Tokens perspective, to give each word a corresponding Tag */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
     val tagged = tag(tokenizedSentences.toArray)
     PosTagged.pack(tagged)

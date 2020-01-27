@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import java.util.Calendar
 
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -118,7 +117,7 @@ class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDat
   /** One to one relationship between content document and output annotation
     * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
     */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getFormat)
     annotations.flatMap( annotation =>
       extractDate(annotation.result).map(matchedDate => Annotation(

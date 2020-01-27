@@ -25,7 +25,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
           val combinedAnnotations =
             recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
-          annotations.updated(recursiveAnnotator.getOutputCol, recursiveAnnotator.annotate(combinedAnnotations, Some(pipelineModel)))
+          annotations.updated(recursiveAnnotator.getOutputCol, recursiveAnnotator.annotate(combinedAnnotations, pipelineModel))
         case annotator: AnnotatorModel[_] =>
           val combinedAnnotations =
             annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
