@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.Identifiable
 
@@ -25,7 +24,7 @@ class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter
   val whiteList: StringArrayParam = new StringArrayParam(this, "whiteList", "If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels")
   def setWhiteList(list:String*) = set(whiteList, list.toArray)
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = NerTagged.unpack(annotations)
     val docs = annotations.filter(a => a.annotatorType == AnnotatorType.DOCUMENT)
     val entities = sentences.zip(docs.zipWithIndex).flatMap{case (sentence, doc) => NerTagsEncoding.fromIOB(sentence, doc._1, sentenceIndex=doc._2)}

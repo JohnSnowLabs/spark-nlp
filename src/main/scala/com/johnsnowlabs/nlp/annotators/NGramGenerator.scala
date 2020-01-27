@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
@@ -82,7 +81,7 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
     docAnnotation
   }
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val documentsWithTokens = annotations
       .filter(token => token.annotatorType == TOKEN)

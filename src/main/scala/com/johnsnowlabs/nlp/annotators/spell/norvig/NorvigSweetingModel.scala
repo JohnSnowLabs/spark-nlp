@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
 
@@ -40,7 +39,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     (min, max)
   }
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token =>
         val verifiedWord = checkSpellWord(token.result)
         Annotation(

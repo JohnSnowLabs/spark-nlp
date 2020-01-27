@@ -5,7 +5,6 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -118,7 +117,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   }
 
   /** one to many annotation */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = tag(sentences)
     TokenizedWithSentence.pack(tokenized)

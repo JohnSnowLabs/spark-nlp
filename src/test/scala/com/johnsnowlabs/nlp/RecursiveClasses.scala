@@ -22,11 +22,14 @@ class SomeModelTest(override val uid: String) extends AnnotatorModel[SomeModelTe
 
   def this() = this("bar_uid")
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
-    require(recursivePipeline.isDefined, "RecursiveModel Did not receive any recursive pipelines")
-    require(recursivePipeline.get.stages.length == 2, "RecursiveModel Did not receive exactly two stages in the recursive pipeline")
-    require(recursivePipeline.get.stages.last.isInstanceOf[TokenizerModel], "RecursiveModel Last stage of recursive pipeline is not the last stage of the recursive pipeline")
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
+    require(recursivePipeline.stages.length == 2, "RecursiveModel Did not receive exactly two stages in the recursive pipeline")
+    require(recursivePipeline.stages.last.isInstanceOf[TokenizerModel], "RecursiveModel Last stage of recursive pipeline is not the last stage of the recursive pipeline")
     Seq.empty
+  }
+
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    throw new IllegalStateException("SomeModelTest does not have an annotate that works without recursion")
   }
 
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)

@@ -5,7 +5,6 @@ import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.util.regex.MatchStrategy.MatchStrategy
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
@@ -51,7 +50,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
     .setRules($$(rules).map(r => new RegexRule(r._1, r._2)))
 
   /** one-to-many annotation that returns matches as annotations*/
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.zipWithIndex.flatMap { case (annotation, annotationIndex) =>
       matchFactory
         .findMatch(annotation.result).zipWithIndex.map { case (matched, idx) =>

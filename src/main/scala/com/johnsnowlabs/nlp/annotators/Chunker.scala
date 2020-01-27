@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators
 
 import scala.util.matching.Regex
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -66,7 +65,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
     Some(indexAnnotations.map(indexAnnotation => getPhrase(indexAnnotation, annotations)).toArray)
   }
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val sentences = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
 

@@ -19,7 +19,7 @@ abstract class SomeModel(override val uid: String) extends AnnotatorModel[SomeMo
 
   def this() = this("bar_uid")
 
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation]
+  override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation]
 
   override val inputAnnotatorTypes: Array[String]
   override val outputAnnotatorType: AnnotatorType = "BAR"
@@ -47,11 +47,15 @@ class RecursiveTestSpec extends FlatSpec {
         assert(recursivePipeline.get.stages(1).isInstanceOf[TokenizerModel], "because train has not received a document assembler")
 
         new SomeModel() {
-          override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+          override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
             annotations
           }
 
           override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
+
+          override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
+            annotate(annotations)
+          }
         }
       }
     }.setInputCols("token").setOutputCol("baaar")
@@ -67,14 +71,13 @@ class RecursiveTestSpec extends FlatSpec {
     import com.johnsnowlabs.nlp.recursive._
 
     val someModel = new SomeModel() {
-      override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+      override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
         assert(annotations.nonEmpty, "because received no annotations to annotate")
         assert(annotations.map(_.annotatorType).toSet.size == 1, "because did not get exactly DOCUMENT type annotations")
-        assert(recursivePipeline.isDefined, "because recursive pipelinemodel was not defined in the recursive stage")
-        assert(recursivePipeline.get.stages.length == 2, "because inner recursive pipeline did not have exactly 2 previous annotators")
-        assert(recursivePipeline.get.stages(1).isInstanceOf[TokenizerModel], "because second recursive annotator was not a tokenizer model")
+        assert(recursivePipeline.stages.length == 2, "because inner recursive pipeline did not have exactly 2 previous annotators")
+        assert(recursivePipeline.stages(1).isInstanceOf[TokenizerModel], "because second recursive annotator was not a tokenizer model")
 
-        val result = recursivePipeline.get.stages(1) match {
+        val result = recursivePipeline.stages(1) match {
           case t: TokenizerModel => t.annotate(annotations)
           case _ => fail("Could not pattern match a TokenizerModel !")
         }
@@ -83,6 +86,9 @@ class RecursiveTestSpec extends FlatSpec {
         assert(result.map(_.result).length == 5, "because did not tokenize correctly into 5 tokens")
 
         result
+      }
+      override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+        throw new IllegalStateException("SomeModel does not accept annotate without recursion")
       }
 
       override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
@@ -99,9 +105,10 @@ class RecursiveTestSpec extends FlatSpec {
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
 
     val someModel = new SomeModel() {
-      override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
 
-        val result = recursivePipeline.get.stages(1) match {
+      override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
+
+        val result = recursivePipeline.stages(1) match {
           case t: TokenizerModel => t.annotate(annotations)
           case _ => fail("Could not pattern match a TokenizerModel !")
         }
@@ -112,6 +119,9 @@ class RecursiveTestSpec extends FlatSpec {
 
       override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
 
+      override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+        throw new IllegalStateException("SomeModel does not accept annotate without recursion")
+      }
     }.setInputCols("document").setOutputCol("baaar")
     val pipeline = new Pipeline().setStages(Array(document, lazyTokenizer, someModel))
     val output = pipeline.fit(data).recursive.transform(data)
@@ -130,9 +140,12 @@ class RecursiveTestSpec extends FlatSpec {
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
 
     val someModel = new SomeModel() {
-      override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] = {
+      override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+        throw new IllegalStateException("SomeModel does not accept annotate without recursion")
+      }
 
-        val result = recursivePipeline.get.stages(1) match {
+      override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
+        val result = recursivePipeline.stages(1) match {
           case t: TokenizerModel => t.annotate(annotations)
           case _ => fail("Could not pattern match a TokenizerModel !")
         }

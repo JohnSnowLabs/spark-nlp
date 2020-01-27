@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -51,7 +50,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   protected def getSlangDict: Map[String, String] = $$(slangDict)
 
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
-  override def annotate(annotations: Seq[Annotation], recursivePipeline: Option[PipelineModel]): Seq[Annotation] =
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
 
     annotations.flatMap { originalToken =>
 
