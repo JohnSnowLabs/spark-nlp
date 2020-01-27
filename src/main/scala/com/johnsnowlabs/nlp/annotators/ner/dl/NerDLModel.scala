@@ -9,8 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.storage.{Database, HasStorageRef}
-import org.apache.commons.lang.SystemUtils
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
