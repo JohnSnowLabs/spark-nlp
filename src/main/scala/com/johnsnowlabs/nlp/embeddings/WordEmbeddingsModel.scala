@@ -8,6 +8,7 @@ import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntParam
 
 class WordEmbeddingsModel(override val uid: String)

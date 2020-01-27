@@ -158,14 +158,19 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     src
   }
 
+  private var preloaded = false
+
   def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
-    require(isDefined(storageRef), missingRefMsg)
-    preload(
-      fitDataset,
-      resource,
-      fitDataset.sparkSession,
-      databases
-    )
+    if (!preloaded) {
+      preloaded = true
+      require(isDefined(storageRef), missingRefMsg)
+      preload(
+        fitDataset,
+        resource,
+        fitDataset.sparkSession,
+        databases
+      )
+    }
   }
 
 }
