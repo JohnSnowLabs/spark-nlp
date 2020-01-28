@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.util.DefaultParamsReadable
 
-object base {
+package object base {
 
   type DocumentAssembler = com.johnsnowlabs.nlp.DocumentAssembler
   object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]

@@ -53,7 +53,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
   def setSlangDictionary(path: String,
                          delimiter: String,
-                         readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+                         readAs: ReadAs.Format = ReadAs.TEXT,
                          options: Map[String, String] = Map("format" -> "text")): this.type =
     set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 

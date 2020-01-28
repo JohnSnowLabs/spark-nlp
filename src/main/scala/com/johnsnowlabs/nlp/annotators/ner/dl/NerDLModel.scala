@@ -9,16 +9,17 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import org.apache.commons.lang.SystemUtils
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
+    with HasStorageRef
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
@@ -90,6 +91,11 @@ class NerDLModel(override val uid: String)
 
   private var _model: Option[Broadcast[TensorflowNer]] = None
 
+  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    validateStorageRef(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    dataset
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     // Parse
@@ -107,6 +113,7 @@ class NerDLModel(override val uid: String)
     super.onWrite(path, spark)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_nerdl", NerDLModel.tfFile, configProtoBytes = getConfigProtoBytes)
   }
+
 }
 
 trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTensorflowModel {
@@ -122,20 +129,10 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 }
 
 trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with HasPretrained[NerDLModel] {
-  val WIN_MODEL_NAME = "ner_dl"
-  val UNIX_MODEL_NAME = "ner_dl_contrib"
-
-  override val defaultModelName = Some("ner_dl_by_os")
+  override val defaultModelName: Some[String] = Some("ner_dl")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): NerDLModel = {
-    val finalName = if (name == defaultModelName.get) {
-      if (SystemUtils.IS_OS_WINDOWS)
-        WIN_MODEL_NAME
-      else
-        UNIX_MODEL_NAME
-    }
-    else name
-    ResourceDownloader.downloadModel(NerDLModel, finalName, Option(lang), remoteLoc)
+    ResourceDownloader.downloadModel(NerDLModel, name, Option(lang), remoteLoc)
   }
   /** Java compliant-overrides */
   override def pretrained(): NerDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)

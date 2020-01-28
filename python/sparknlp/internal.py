@@ -1,7 +1,125 @@
-from pyspark import SparkContext
+from abc import ABC
+
+from pyspark import SparkContext, keyword_only
 from pyspark.ml import PipelineModel
-from pyspark.ml.wrapper import JavaWrapper
+from pyspark.ml.wrapper import JavaWrapper, JavaTransformer, JavaEstimator, JavaModel
+from pyspark.ml.util import JavaMLWritable, JavaMLReadable, JavaMLReader
 from pyspark.sql.dataframe import DataFrame
+from pyspark.ml.param.shared import Params
+import re
+
+
+# Helper class used to generate the getters for all params
+class ParamsGettersSetters(Params):
+    getter_attrs = []
+
+    def __init__(self):
+        super(ParamsGettersSetters, self).__init__()
+        for param in self.params:
+            param_name = param.name
+            fg_attr = "get" + re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
+            fs_attr = "set" + re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
+            # Generates getter and setter only if not exists
+            try:
+                getattr(self, fg_attr)
+            except AttributeError:
+                setattr(self, fg_attr, self.getParamValue(param_name))
+            try:
+                getattr(self, fs_attr)
+            except AttributeError:
+                setattr(self, fs_attr, self.setParamValue(param_name))
+
+    def getParamValue(self, paramName):
+        def r():
+            try:
+                return self.getOrDefault(paramName)
+            except KeyError:
+                return None
+        return r
+
+    def setParamValue(self, paramName):
+        def r(v):
+            self.set(self.getParam(paramName), v)
+            return self
+        return r
+
+
+class AnnotatorJavaMLReadable(JavaMLReadable):
+    @classmethod
+    def read(cls):
+        """Returns an MLReader instance for this class."""
+        return AnnotatorJavaMLReader(cls())
+
+
+class AnnotatorJavaMLReader(JavaMLReader):
+    @classmethod
+    def _java_loader_class(cls, clazz):
+        if hasattr(clazz, '_java_class_name') and clazz._java_class_name is not None:
+            return clazz._java_class_name
+        else:
+            return JavaMLReader._java_loader_class(clazz)
+
+
+class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
+    @keyword_only
+    def __init__(self, classname):
+        super(AnnotatorTransformer, self).__init__()
+        kwargs = self._input_kwargs
+        if 'classname' in kwargs:
+            kwargs.pop('classname')
+        self.setParams(**kwargs)
+        self.__class__._java_class_name = classname
+        self._java_obj = self._new_java_obj(classname, self.uid)
+
+
+class RecursiveEstimator(JavaEstimator, ABC):
+
+    def _fit_java(self, dataset, pipeline=None):
+        self._transfer_params_to_java()
+        if pipeline:
+            return self._java_obj.recursiveFit(dataset._jdf, pipeline._to_java())
+        else:
+            return self._java_obj.fit(dataset._jdf)
+
+    def _fit(self, dataset, pipeline=None):
+        java_model = self._fit_java(dataset, pipeline)
+        model = self._create_model(java_model)
+        return self._copyValues(model)
+
+    def fit(self, dataset, params=None, pipeline=None):
+        if params is None:
+            params = dict()
+        if isinstance(params, (list, tuple)):
+            models = [None] * len(params)
+            for index, model in self.fitMultiple(dataset, params):
+                models[index] = model
+            return models
+        elif isinstance(params, dict):
+            if params:
+                return self.copy(params)._fit(dataset, pipeline=pipeline)
+            else:
+                return self._fit(dataset, pipeline=pipeline)
+        else:
+            raise ValueError("Params must be either a param map or a list/tuple of param maps, "
+                             "but got %s." % type(params))
+
+
+class RecursiveTransformer(JavaModel):
+
+    def _transform_recursive(self, dataset, recursive_pipeline):
+        self._transfer_params_to_java()
+        return DataFrame(self._java_obj.recursiveTransform(dataset._jdf, recursive_pipeline._to_java()), dataset.sql_ctx)
+
+    def transform_recursive(self, dataset, recursive_pipeline, params=None):
+        if params is None:
+            params = dict()
+        if isinstance(params, dict):
+            if params:
+                return self.copy(params)._transform_recursive(dataset, recursive_pipeline)
+            else:
+                return self._transform_recursive(dataset, recursive_pipeline)
+        else:
+            raise ValueError("Params must be a param map but got %s." % type(params))
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -102,25 +220,14 @@ class _LightPipeline(ExtendedJavaWrapper):
     def __init__(self, pipelineModel, parse_embeddings):
         super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java(), parse_embeddings)
 
-
 # ==================
 # Utils
 # ==================
 
 
-class _EmbeddingsHelperLoad(ExtendedJavaWrapper):
-    def __init__(self, path, spark, embformat, ref, ndims, case):
-        super(_EmbeddingsHelperLoad, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.load", path, spark._jsparkSession, embformat, ref, ndims, case)
-
-
-class _EmbeddingsHelperSave(ExtendedJavaWrapper):
-    def __init__(self, path, embeddings, spark):
-        super(_EmbeddingsHelperSave, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.save", path, embeddings.jembeddings, spark._jsparkSession)
-
-
-class _EmbeddingsHelperFromAnnotator(ExtendedJavaWrapper):
-    def __init__(self, annotator):
-        super(_EmbeddingsHelperFromAnnotator, self).__init__("com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper.getFromAnnotator", annotator._java_obj)
+class _StorageHelper(ExtendedJavaWrapper):
+    def __init__(self, path, spark, database):
+        super(_StorageHelper, self).__init__("com.johnsnowlabs.storage.StorageHelper.load", path, spark._jsparkSession, database)
 
 
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):
@@ -150,4 +257,11 @@ class _CoverageResult(ExtendedJavaWrapper):
 
 class _BertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadFromPython", path, jspark)
+        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadSavedModel", path, jspark)
+
+
+class _USELoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel",
+                                         path,
+                                         jspark)

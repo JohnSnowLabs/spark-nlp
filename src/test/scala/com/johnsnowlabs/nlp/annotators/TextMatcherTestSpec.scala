@@ -70,7 +70,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
     val entityExtractor = new TextMatcher()
       .setInputCols("sentence", "token")
-      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.LINE_BY_LINE)
+      .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
       .setOutputCol("entity")
 
     val finisher = new Finisher()

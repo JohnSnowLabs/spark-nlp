@@ -9,6 +9,16 @@ import org.scalatest.FlatSpec
 
 class ResourceHelperTestSpec extends FlatSpec {
 
+  "Resource helper" should "load a file line by line as an array" in {
+    val externalResource = ExternalResource("src/test/resources/resource-helper/gender.tsv", ReadAs.TEXT,
+      Map("delimiter" -> "\t"))
+    val expectedDictionary = Map("Female" -> List("lady", "women"), "Male" -> List("man", "boy", "male", "son"))
+
+    val dictionary = ResourceHelper.parseKeyListValues(externalResource)
+
+    assert(dictionary == expectedDictionary)
+  }
+
   "List directory" should "correctly list file inside resource directory" in {
     val files = ResourceHelper.listResourceDirectory("ner-dl").toList
     val targetFiles = new File("src/main/resources/ner-dl").list.map{
@@ -23,7 +33,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   "Resource helper" should "transform files' content in an array of string representation" in {
 
-    val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.LINE_BY_LINE,
+    val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.TEXT,
                                             Map.empty[String, String])
     val iteratorRepresentation = ResourceHelper.getFilesContentBuffer(externalResource)
     val expectedIteratorRepresentation = Seq(Array(s"ByeWorld").toIterator,
@@ -36,20 +46,21 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   }
 
-  it should "raise an error when SPARK_DATASET is set in RedAs parameter" in {
+  it should "raise an error when SPARK is set in RedAs parameter" in {
 
-    val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK_DATASET,
+    val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK,
       Map("format"->"text"))
     val caught = intercept[Exception] {
       ResourceHelper.getFilesContentBuffer(externalResource)
     }
+
 
     assert(caught.getMessage == "Unsupported readAs")
   }
 
   it should "raise FileNotFound exception when a wrong path is sent" in {
 
-    val externalResource = ExternalResource("wrong/path/", ReadAs.LINE_BY_LINE,
+    val externalResource = ExternalResource("wrong/path/", ReadAs.TEXT,
       Map.empty[String, String])
     val expectedMessage = "file or folder: wrong/path/ not found"
 

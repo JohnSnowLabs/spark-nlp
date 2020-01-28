@@ -70,7 +70,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
   "A Dependency Parser Approach" should "read CoNLL data from universal dependency format file" in {
 
     val trainingFile = "src/test/resources/parser/labeled/train_small.conllu.txt"
-    val externalResource = ExternalResource(trainingFile, ReadAs.LINE_BY_LINE, Map.empty[String, String])
+    val externalResource = ExternalResource(trainingFile, ReadAs.TEXT, Map.empty[String, String])
     val conllUAsArray = ResourceHelper.parseLines(externalResource)
     val dependencyParserApproach = new DependencyParserApproach()
     val expectedTrainingSentences: List[Sentence] = List(

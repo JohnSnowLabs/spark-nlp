@@ -29,19 +29,19 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
   //TODO: Enable more training parameters from Options
 
-  def setConll2009(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+  def setConll2009(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                    options: Map[String, String] = Map.empty[String, String]): this.type = {
     set(conll2009, ExternalResource(path, readAs, options))
   }
 
-  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.LINE_BY_LINE,
+  def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                 options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
   def setNumberOfIterations(value: Int): this.type  = set(numberOfIterations, value)
 
-  setDefault(conll2009, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
-  setDefault(conllU, ExternalResource("", ReadAs.LINE_BY_LINE,  Map.empty[String, String]))
+  setDefault(conll2009, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
+  setDefault(conllU, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
   private lazy val trainFile = {
