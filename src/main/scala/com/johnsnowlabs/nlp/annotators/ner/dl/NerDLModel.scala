@@ -9,8 +9,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.storage.{Database, HasStorageRef}
-import org.apache.commons.lang.SystemUtils
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -130,11 +129,10 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
 }
 
 trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with HasPretrained[NerDLModel] {
-  val MODEL_NAME = "ner_dl"
   override val defaultModelName: Some[String] = Some("ner_dl")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): NerDLModel = {
-    ResourceDownloader.downloadModel(NerDLModel, MODEL_NAME, Option(lang), remoteLoc)
+    ResourceDownloader.downloadModel(NerDLModel, name, Option(lang), remoteLoc)
   }
   /** Java compliant-overrides */
   override def pretrained(): NerDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
