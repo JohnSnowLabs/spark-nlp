@@ -11,7 +11,7 @@ import org.apache.spark.sql.functions.size
 
 class StopWordsCleanerTestSpec extends FlatSpec {
 
-  "StopWordsCleanre" should "correctly remove stop words from tokenizer's results" in {
+  "StopWordsCleaner" should "correctly remove stop words from tokenizer's results" in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),

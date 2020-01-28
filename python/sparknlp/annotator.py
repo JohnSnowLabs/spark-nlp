@@ -3,7 +3,6 @@
 ##
 
 import sys
-from enum import Enum
 from sparknlp.common import *
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
@@ -90,6 +89,16 @@ class Tokenizer(AnnotatorApproach):
                        "character list used to separate from the inside of tokens",
                        typeConverter=TypeConverters.toListString)
 
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
     name = 'Tokenizer'
 
     @keyword_only
@@ -98,7 +107,9 @@ class Tokenizer(AnnotatorApproach):
         self._setDefault(
             targetPattern="\\S+",
             contextChars=[".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"],
-            caseSensitiveExceptions=True
+            caseSensitiveExceptions=True,
+            minLength=0,
+            maxLength=99999
         )
 
     def getInfixPatterns(self):
@@ -177,6 +188,12 @@ class Tokenizer(AnnotatorApproach):
             split_chars = []
         split_chars.append(value)
         return self._set(splitChars=split_chars)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     def _create_model(self, java_model):
         return TokenizerModel(java_model=java_model)
@@ -316,7 +333,7 @@ class Normalizer(AnnotatorApproach):
     def setLowercase(self, value):
         return self._set(lowercase=value)
 
-    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setSlangDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -371,7 +388,7 @@ class RegexMatcher(AnnotatorApproach):
     def setStrategy(self, value):
         return self._set(strategy=value)
 
-    def setExternalRules(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setExternalRules(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -405,7 +422,7 @@ class Lemmatizer(AnnotatorApproach):
     def _create_model(self, java_model):
         return LemmatizerModel(java_model=java_model)
 
-    def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.LINE_BY_LINE,
+    def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.TEXT,
                       options={"format": "text"}):
         opts = options.copy()
         if "keyDelimiter" not in opts:
@@ -430,11 +447,35 @@ class LemmatizerModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(LemmatizerModel, name, lang, remote_loc)
 
 
-class DateMatcher(AnnotatorModel):
+class DateMatcherUtils(Params):
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
                        typeConverter=TypeConverters.toString)
+
+    readMonthFirst = Param(Params._dummy(),
+                           "readMonthFirst",
+                           "Whether to parse july 07/05/2015 or as 05/07/2015",
+                           typeConverter=TypeConverters.toBoolean
+                           )
+
+    defaultDayWhenMissing = Param(Params._dummy(),
+                                  "defaultDayWhenMissing",
+                                  "which day to set when it is missing from parsed input",
+                                  typeConverter=TypeConverters.toInt
+                                  )
+
+    def setFormat(self, value):
+        return self._set(dateFormat=value)
+
+    def setReadMonthFirst(self, value):
+        return self._set(readMonthFirst=value)
+
+    def setDefaultDayWhenMissing(self, value):
+        return self._set(defaultDayWhenMissing=value)
+
+
+class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     name = "DateMatcher"
 
@@ -442,11 +483,24 @@ class DateMatcher(AnnotatorModel):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd"
+            dateFormat="yyyy/MM/dd",
+            readMonthFirst=True,
+            defaultDayWhenMissing=1
         )
 
-    def setFormat(self, value):
-        return self._set(dateFormat=value)
+
+class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
+
+    name = "MultiDateMatcher"
+
+    @keyword_only
+    def __init__(self):
+        super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")
+        self._setDefault(
+            dateFormat="yyyy/MM/dd",
+            readMonthFirst=True,
+            defaultDayWhenMissing=1
+        )
 
 
 class TextMatcher(AnnotatorApproach):
@@ -462,9 +516,9 @@ class TextMatcher(AnnotatorApproach):
                           typeConverter=TypeConverters.toBoolean)
 
     mergeOverlapping = Param(Params._dummy(),
-                          "mergeOverlapping",
-                          "whether to merge overlapping matched chunks. Defaults false",
-                          typeConverter=TypeConverters.toBoolean)
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
@@ -475,7 +529,7 @@ class TextMatcher(AnnotatorApproach):
     def _create_model(self, java_model):
         return TextMatcherModel(java_model=java_model)
 
-    def setEntities(self, path, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
     def setCaseSensitive(self, b):
@@ -488,6 +542,16 @@ class TextMatcher(AnnotatorApproach):
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
 
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    searchTrie = Param(Params._dummy(),
+                       "searchTrie",
+                       "searchTrie",
+                       typeConverter=TypeConverters.identity)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
         super(TextMatcherModel, self).__init__(
             classname=classname,
@@ -496,6 +560,87 @@ class TextMatcherModel(AnnotatorModel):
 
     def setMergeOverlapping(self, b):
         return self._set(mergeOverlapping=b)
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+
+
+class BigTextMatcher(AnnotatorApproach):
+
+    entities = Param(Params._dummy(),
+                     "entities",
+                     "ExternalResource for entities",
+                     typeConverter=TypeConverters.identity)
+
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in index lookups",
+                          typeConverter=TypeConverters.toBoolean)
+
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    tokenizer = Param(Params._dummy(),
+                          "tokenizer",
+                          "TokenizerModel to use to tokenize input file for building a Trie",
+                          typeConverter=TypeConverters.identity)
+
+    @keyword_only
+    def __init__(self):
+        super(BigTextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher")
+        self._setDefault(caseSensitive=True)
+        self._setDefault(mergeOverlapping=False)
+
+    def _create_model(self, java_model):
+        return TextMatcherModel(java_model=java_model)
+
+    def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        return self._set(entities=ExternalResource(path, read_as, options.copy()))
+
+    def setCaseSensitive(self, b):
+        return self._set(caseSensitive=b)
+
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
+    def setTokenizer(self, tokenizer_model):
+        tokenizer_model._transfer_params_to_java()
+        return self._set(tokenizer_model._java_obj)
+
+
+class BigTextMatcherModel(AnnotatorModel):
+    name = "BigTextMatcherModel"
+
+    caseSensitive = Param(Params._dummy(),
+                          "caseSensitive",
+                          "whether to ignore case in index lookups",
+                          typeConverter=TypeConverters.toBoolean)
+
+    mergeOverlapping = Param(Params._dummy(),
+                             "mergeOverlapping",
+                             "whether to merge overlapping matched chunks. Defaults false",
+                             typeConverter=TypeConverters.toBoolean)
+
+    searchTrie = Param(Params._dummy(),
+                       "searchTrie",
+                       "searchTrie",
+                       typeConverter=TypeConverters.identity)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.btm.TextMatcherModel", java_model=None):
+        super(BigTextMatcherModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    def setMergeOverlapping(self, b):
+        return self._set(mergeOverlapping=b)
+
+    def setCaseSensitive(self, v):
+        return self._set(caseSensitive=v)
 
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
@@ -571,10 +716,20 @@ class SentenceDetectorParams:
                              "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
                              typeConverter=TypeConverters.toBoolean)
 
-    maxLength = Param(Params._dummy(),
-                      "maxLength",
-                      "length at which sentences will be forcibly split. Defaults to 240",
+    splitLength = Param(Params._dummy(),
+                      "splitLength",
+                      "length at which sentences will be forcibly split.",
                       typeConverter=TypeConverters.toInt)
+
+    minLength = Param(Params._dummy(),
+                        "minLength",
+                        "Set the minimum allowed length for each sentence.",
+                        typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                        "maxLength",
+                        "Set the maximum allowed length for each sentence",
+                        typeConverter=TypeConverters.toInt)
 
 
 class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -593,6 +748,12 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def setExplodeSentences(self, value):
         return self._set(explodeSentences=value)
 
+    def setSplitLength(self, value):
+        return self._set(splitLength=value)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
     def setMaxLength(self, value):
         return self._set(maxLength=value)
 
@@ -600,8 +761,14 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def __init__(self):
         super(SentenceDetector, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
-        self._setDefault(useAbbreviations=True, useCustomBoundsOnly=False, customBounds=[],
-                         explodeSentences=False)
+        self._setDefault(
+            useAbbreviations=True,
+            useCustomBoundsOnly=False,
+            customBounds=[],
+            explodeSentences=False,
+            minLength=0,
+            maxLength=99999
+        )
 
 
 class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -636,8 +803,8 @@ class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
     def setUseCustomBoundsOnly(self, value):
         return self._set(useCustomBoundsOnly=value)
 
-    def setMaxLength(self, value):
-        return self._set(maxLength=value)
+    def setSplitLength(self, value):
+        return self._set(splitLength=value)
 
     @keyword_only
     def __init__(self):
@@ -690,7 +857,7 @@ class SentimentDetector(AnnotatorApproach):
         self._setDefault(positiveMultiplier=1.0, negativeMultiplier=-1.0, incrementMultiplier=2.0,
                          decrementMultiplier=-2.0, reverseMultiplier=-1.0, enableScore=False)
 
-    def setDictionary(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={'format': 'text'}):
+    def setDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={'format': 'text'}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -847,7 +1014,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
                          reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
         self.dictionary_path = ""
 
-    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
         self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
@@ -925,7 +1092,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
         self.dictionary_path = ""
 
-    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
         self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
@@ -1027,7 +1194,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     def setMinW(self, w):
         return self._set(minW=w)
 
-    def setExternalFeatures(self, path, delimiter, read_as=ReadAs.LINE_BY_LINE, options={"format": "text"}):
+    def setExternalFeatures(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -1147,7 +1314,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         self._set(evaluationLogExtended=v)
         return self
 
-    def setTestDataset(self, path, read_as=ReadAs.SPARK_DATASET, options={"format": "parquet"}):
+    def setTestDataset(self, path, read_as=ReadAs.SPARK, options={"format": "parquet"}):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def setIncludeConfidence(self, value):
@@ -1176,7 +1343,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         )
 
 
-class NerDLModel(AnnotatorModel):
+class NerDLModel(AnnotatorModel, HasStorageRef):
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
@@ -1198,16 +1365,9 @@ class NerDLModel(AnnotatorModel):
         return self._set(includeConfidence=value)
 
     @staticmethod
-    def pretrained(name="ner_dl_by_os", lang="en", remote_loc=None):
+    def pretrained(name="ner_dl", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        if name == "ner_dl_by_os":
-            if sys.platform == 'win32':
-                final_name = 'ner_dl'
-            else:
-                final_name = 'ner_dl_contrib'
-        else:
-            final_name = name
-        return ResourceDownloader.downloadModel(NerDLModel, final_name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
 
 
 class NerConverter(AnnotatorModel):
@@ -1253,11 +1413,11 @@ class DependencyParserApproach(AnnotatorApproach):
     def setNumberOfIterations(self, value):
         return self._set(numberOfIterations=value)
 
-    def setDependencyTreeBank(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setDependencyTreeBank(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
-    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConllU(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(conllU=ExternalResource(path, read_as, opts))
 
@@ -1306,11 +1466,11 @@ class TypedDependencyParserApproach(AnnotatorApproach):
         super(TypedDependencyParserApproach,
               self).__init__(classname="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach")
 
-    def setConll2009(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConll2009(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(conll2009=ExternalResource(path, read_as, opts))
 
-    def setConllU(self, path, read_as=ReadAs.LINE_BY_LINE, options={"key": "value"}):
+    def setConllU(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
         opts = options.copy()
         return self._set(conllU=ExternalResource(path, read_as, opts))
 
@@ -1358,77 +1518,50 @@ class TypedDependencyParserModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc)
 
 
-class WordEmbeddings(AnnotatorApproach, HasWordEmbeddings):
+class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddings"
 
-    sourceEmbeddingsPath = Param(Params._dummy(),
-                                 "sourceEmbeddingsPath",
-                                 "Word embeddings file",
-                                 typeConverter=TypeConverters.toString)
+    writeBufferSize = Param(Params._dummy(),
+                               "writeBufferSize",
+                               "buffer size limit before dumping to disk storage while writing",
+                               typeConverter=TypeConverters.toInt)
 
-    embeddingsFormat = Param(Params._dummy(),
-                             "embeddingsFormat",
-                             "Word vectors file format",
-                             typeConverter=TypeConverters.toInt)
+    readCacheSize = Param(Params._dummy(),
+                            "readCacheSize",
+                            "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                            typeConverter=TypeConverters.toInt)
+
+    def setWriteBufferSize(self, v):
+        return self._set(writeBufferSize=v)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
 
     @keyword_only
     def __init__(self):
         super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
         self._setDefault(
-            caseSensitive=False
+            caseSensitive=False,
+            writeBufferSize=10000,
+            storageRef=self.uid
         )
-
-    class Format(Enum):
-        SPARKNLP = 1
-        TEXT = 2
-        BINARY = 3
-
-    def setEmbeddingsSource(self, path, nDims, format):
-        self._set(sourceEmbeddingsPath=path)
-        try:
-            if isinstance(format, int):
-                self._set(embeddingsFormat=self.Format(format).value)
-            else:
-                self._set(embeddingsFormat=self.Format[format.upper()].value)
-        except (KeyError, ValueError):
-            raise Exception("Format parameter must be one of {}".format([item.name for item in self.Format]))
-        return self._set(dimension=nDims)
-
-    def setSourcePath(self, path):
-        return self._set(sourceEmbeddingsPath=path)
-
-    def getSourcePath(self):
-        return self.getParamValue("sourceEmbeddingsPath")
-
-    def setEmbeddingsFormat(self, format):
-        return self._set(embeddingsFormat=self.Format[format.upper()].value)
-
-    def getEmbeddingsFormat(self):
-        value = self._getParamValue("embeddingsFormat")
-        if value == 1:
-            return "SPARKNLP"
-        elif value == 2:
-            return "TEXT"
-        else:
-            return "BINARY"
-
-    def getEmbeddingsPath(self):
-        return self.getOrDefault(self.sourceEmbeddingsPath)
-
-    def getDimension(self):
-        return self.getOrDefault(self.dimension)
-
-    def getFormat(self):
-        return self.getOrDefault(self.embeddingsFormat)
 
     def _create_model(self, java_model):
         return WordEmbeddingsModel(java_model=java_model)
 
 
-class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
+class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
+
+    readCacheSize = Param(Params._dummy(),
+                          "readCacheSize",
+                          "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                          typeConverter=TypeConverters.toInt)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
@@ -1455,7 +1588,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasWordEmbeddings):
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddings):
+class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
 
     name = "BertEmbeddings"
 
@@ -1475,7 +1608,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
                              TypeConverters.toListString)
 
     poolingLayer = Param(Params._dummy(),
-                         "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings",
+                         "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings",
                          typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
@@ -1509,20 +1642,20 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddings):
         self._setDefault(
             dimension=768,
             batchSize=32,
-            maxSentenceLength=64,
-            caseSensitive=False,
+            maxSentenceLength=128,
+            caseSensitive=True,
             poolingLayer=0
         )
 
     @staticmethod
-    def loadFromPython(folder, spark_session):
+    def loadSavedModel(folder, spark_session):
         from sparknlp.internal import _BertLoader
         jModel = _BertLoader(folder, spark_session._jsparkSession)._java_obj
         return BertEmbeddings(java_model=jModel)
 
 
     @staticmethod
-    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
@@ -1689,3 +1822,35 @@ class NerOverwriter(AnnotatorModel):
 
     def setNewResult(self, value):
         return self._set(newResult=value)
+
+
+class UniversalSentenceEncoder(AnnotatorModel):
+
+    name = "UniversalSentenceEncoder"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder", java_model=None):
+        super(UniversalSentenceEncoder, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _USELoader
+        jModel = _USELoader(folder, spark_session._jsparkSession)._java_obj
+        return UniversalSentenceEncoder(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="tfhub_use", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)

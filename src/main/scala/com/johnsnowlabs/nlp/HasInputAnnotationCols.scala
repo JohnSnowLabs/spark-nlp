@@ -26,6 +26,14 @@ trait HasInputAnnotationCols extends Params {
     set(inputCols, value)
   }
 
+  protected def msgHelper(schema: StructType): String = {
+    val schemaInfo = schema.map(sc => (
+      "column_name="+sc.name,
+      "is_nlp_annotator="+sc.metadata.contains("annotatorType")+
+        {if (sc.metadata.contains("annotatorType")) ",type="+sc.metadata.getString("annotatorType") else ""}))
+    s"\nCurrent inputCols: ${getInputCols.mkString(",")}. Dataset's columns:\n${schemaInfo.mkString("\n")}."
+  }
+
   final protected def checkSchema(schema: StructType, inputAnnotatorType: String): Boolean = {
     schema.exists {
       field => {

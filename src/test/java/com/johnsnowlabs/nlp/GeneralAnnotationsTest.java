@@ -2,8 +2,8 @@ package com.johnsnowlabs.nlp;
 
 import com.johnsnowlabs.nlp.annotators.LemmatizerModel;
 import com.johnsnowlabs.nlp.annotators.Tokenizer;
-import com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper;
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline;
+import com.johnsnowlabs.storage.StorageHelper;
 import org.apache.spark.ml.Pipeline;
 import org.apache.spark.ml.PipelineModel;
 import org.apache.spark.ml.PipelineStage;
@@ -64,13 +64,12 @@ public class GeneralAnnotationsTest {
 
         System.out.println(lightPipeline.annotateJava(list));
 
-        EmbeddingsHelper.load(
+        StorageHelper.load(
                 "src/test/resources/random_embeddings_dim4.txt",
                 spark,
-                "TEXT",
                 "random",
-                4,
-                false);
+                "random_ref"
+                );
 
         System.out.println("\nFinished testing Spark NLP on JAVA");
 

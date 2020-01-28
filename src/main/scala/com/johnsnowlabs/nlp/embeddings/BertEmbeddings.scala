@@ -5,11 +5,12 @@ import java.io.File
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -18,8 +19,9 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 class BertEmbeddings(override val uid: String) extends
   AnnotatorModel[BertEmbeddings]
   with WriteTensorflowModel
-  with HasEmbeddings
-{
+  with HasEmbeddingsProperties
+  with HasStorageRef
+  with HasCaseSensitiveProperties {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
@@ -27,7 +29,7 @@ class BertEmbeddings(override val uid: String) extends
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-  val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hiddent layer, -2 for second-to-last hiddent layer, and 0 for first layer which is called embeddings")
+  val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings")
 
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -84,9 +86,16 @@ class BertEmbeddings(override val uid: String) extends
   setDefault(
     dimension -> 768,
     batchSize -> 32,
-    maxSentenceLength -> 64,
+    maxSentenceLength -> 128,
+    caseSensitive -> true,
     poolingLayer -> 0
   )
+
+  private var tfHubPath: String = ""
+  def setTFhubPath(value: String): Unit = {
+    tfHubPath = value
+  }
+  def getTFhubPath: String = tfHubPath
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
   def getModelIfNotSet: TensorflowBert = _model.get.value
@@ -99,10 +108,6 @@ class BertEmbeddings(override val uid: String) extends
             tensorflow,
             sentenceStartTokenId,
             sentenceEndTokenId,
-            maxSentenceLength = $(maxSentenceLength),
-            batchSize = $(batchSize),
-            dimension = $(dimension),
-            caseSensitive = $(caseSensitive),
             configProtoBytes = getConfigProtoBytes
           )
         )
@@ -134,29 +139,38 @@ class BertEmbeddings(override val uid: String) extends
     if(tokenizedSentences.nonEmpty) {
       val sentences = SentenceSplit.unpack(annotations)
       val tokenized = tokenize(sentences)
-      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(poolingLayer))
+      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
+        tokenized,
+        tokenizedSentences,
+        $(poolingLayer),
+        $(batchSize),
+        $(maxSentenceLength),
+        $(dimension),
+        $(caseSensitive)
+      )
       WordpieceEmbeddingsSentence.pack(withEmbeddings)
-    }else {
+    } else {
       Seq.empty[Annotation]
     }
   }
 
-  override def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension)))
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowHub(path, tfPath = getTFhubPath, spark)
   }
+
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
-  override val defaultModelName = Some("bert_base_cased")
+  override val defaultModelName: Some[String] = Some("bert_base_cased")
   /** Java compliant-overrides */
   override def pretrained(): BertEmbeddings = super.pretrained()
   override def pretrained(name: String): BertEmbeddings = super.pretrained(name)
@@ -170,29 +184,38 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "bert_tensorflow"
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_bert_tf")
+
+    val tf = readTensorflowHub(path, spark, "_bert_tf", zipped = false, useBundle = true, tags = Array("serve"))
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadFromPython(folder: String, spark: SparkSession): BertEmbeddings = {
+  def loadSavedModel(folder: String, spark: SparkSession): BertEmbeddings = {
+
     val f = new File(folder)
-    val vocab = new File(folder, "vocab.txt")
+    val savedModel = new File(folder, "saved_model.pb")
+    require(f.exists, s"Folder $folder not found")
+    require(f.isDirectory, s"File $folder is not folder")
+    require(
+      savedModel.exists(),
+      s"savedModel file saved_model.pb not found in folder $folder"
+    )
+
+    val vocab = new File(folder+"/assets", "vocab.txt")
     require(f.exists, s"Folder $folder not found")
     require(f.isDirectory, s"File $folder is not folder")
     require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $folder")
 
-    LoadsContrib.loadContribToCluster(spark)
-
-    val wrapper = TensorflowWrapper.read(folder, zipped = false)
-
-    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.LINE_BY_LINE, Map("format" -> "text"))
+    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    new BertEmbeddings()
+    val Bert = new BertEmbeddings()
       .setVocabulary(words)
-      .setModelIfNotSet(spark, wrapper)
+
+    Bert.setTFhubPath(folder)
+
+    Bert
   }
 }
 

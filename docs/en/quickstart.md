@@ -31,9 +31,9 @@ It is recommended to have basic knowledge of the framework and a working environ
 To start using the library, execute any of the following lines depending on your desired use case:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.4
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.4
-spark-submit --packages JohnSnowLabs:spark-nlp:2.3.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 ### Straight forward Python on jupyter notebook
@@ -91,7 +91,7 @@ spark = SparkSession.builder \
     .appName('Spark NLP') \
     .config("spark.driver.memory", "6g") \
     .config("spark.executor.memory", "6g") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.4") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5") \
     .getOrCreate()
 ```
 
@@ -124,16 +124,16 @@ notebook with a Spark (including sparknlp) session directly opened by
 running in your terminal:
 
 ```bash
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 ### Spark NLP from Scala
 
 You can start a spark REPL with Scala by running in your terminal a
-spark-shell including the JohnSnowLabs:spark-nlp:2.3.4 package:
+spark-shell including the com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5 package:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 ### Databricks cloud cluster & Apache Zeppelin
@@ -147,7 +147,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.4
 For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS**_ utilizing --packages instruction shown above like this
 
 ```bash
-export SPARK_SUBMIT_OPTIONS="--packages JohnSnowLabs:spark-nlp:2.3.4"
+export SPARK_SUBMIT_OPTIONS="--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5"
 ```
 
 ### S3 based standalone cluster (No Hadoop)
@@ -210,14 +210,14 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.5
 ```
 
 ### Explain Document ML
@@ -756,142 +756,6 @@ Map[String,Seq[String]] =
     token -> List(Hello, world, ,, please, annotate, my, text),
     sentence -> List(Hello world, please annotate my text)
     )
-```
-
-## Utilizing Spark NLP OCR Module
-
-Spark NLP OCR Module is not included within Spark NLP. It is not an
-annotator and not an extension to Spark ML. You can include it by
-adding the following parameters when starting the spark session in
-your terminal:
-
-```bash
-spark-shell --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.3.4,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.4,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-pyspark --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.3.4,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.4,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-spark-submit --repositories http://repo.spring.io/plugins-release --packages JohnSnowLabs:spark-nlp:2.3.4,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.4,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3
-```
-
-This is the equivalent code for python:
-
-***Python code***
-
-```python
-from pyspark.sql import SparkSession
-
-spark = SparkSession.builder \
-    .master("local[*]") \
-    .appName("Spark NLP with OCR") \
-    .config("spark.driver.memory", "6g") \
-    .config("spark.executor.memory", "6g") \
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.4,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.4,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
-    .getOrCreate()
-```
-
-You can find more details about OCR setup (including instructions of how
-to use it over image-type PDFs without text) at 
-[https://nlp.johnsnowlabs.com/docs/en/ocr](https://nlp.johnsnowlabs.com/docs/en/ocr)
-
-### Creating Spark datasets from PDF (To be used with Spark NLP)
-
-You can use OcrHelper to directly create spark dataframes from PDF.
-This will hold entire documents in single rows, meant to be later
-processed by a SentenceDetector. This way, you won't be breaking the
-content in rows as if you were reading a standard document. Metadata
-columns are added automatically and will include page numbers, file
-name and other useful information per row.
-
-***Python code***
-
-```python
-from pyspark.sql import SparkSession
-from sparknlp.ocr import OcrHelper
-from sparknlp import DocumentAssembler
-
-spark = SparkSession.builder \
-    .master("local[*]") \
-    .appName("Spark NLP with OCR") \
-    .config("spark.driver.memory", "6g") \
-    .config("spark.executor.memory", "6g") \
-    .config("spark.jars.repositories", "http://repo.spring.io/plugins-release") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.4,com.johnsnowlabs.nlp:spark-nlp-ocr_2.11:2.3.4,javax.media.jai:com.springsource.javax.media.jai.core:1.1.3") \
-    .getOrCreate()
-
-data = OcrHelper().createDataset(spark = spark, input_path = "/your/example.pdf" )
-documentAssembler = DocumentAssembler().setInputCol("text")
-annotations = documentAssembler.transform(data)
-annotations.columns
-```
-
-```bash
-['text', 'pagenum', 'method', 'noiselevel', 'confidence', 'positions',
- 'filename', 'document']
-```
-
-***Scala code***
-
-```scala
-import com.johnsnowlabs.nlp.util.io.OcrHelper
-import com.johnsnowlabs.nlp.DocumentAssembler
-
-val myOcrHelper = new OcrHelper
-val data = myOcrHelper.createDataset(spark, "/your/example.pdf")
-val documentAssembler = new DocumentAssembler().setInputCol("text")
-val annotations = documentAssembler.transform(data)
-annotations.columns
-```
-
-```bash
-Array[String] = Array(text, pagenum, method, noiselevel, confidence, positions, filename, document)
-```
-
-... where the text column of the annotations spark dataframe includes the text content of the PDF, pagenum the page number, etc...
-
-### Creating an Array of Strings from PDF (For LightPipeline)
-
-Another way, would be to simply create an array of strings. This is
-useful for example if you are parsing a small amount of pdf files and
-would like to use LightPipelines instead. See an example below.
-
-***Scala code***
-
-```scala
-import com.johnsnowlabs.nlp.util.io.OcrHelper
-import com.johnsnowlabs.nlp.{DocumentAssembler,LightPipeline}
-import com.johnsnowlabs.nlp.annotator.SentenceDetector
-import org.apache.spark.ml.Pipeline
-
-val myOcrHelper = new OcrHelper
-val raw = myOcrHelper.createMap("/pdfs/")
-val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
-val lightPipeline = new LightPipeline(new Pipeline().setStages(Array(documentAssembler, sentenceDetector)).fit(Seq.empty[String].toDF("text")))
-val annotations = ligthPipeline.annotate(raw.values.toArray)
-```
-
-Now to get the whole first PDF content in your **/pdfs/** folder you can
-use:
-
-```scala
-annotations(0)("document")(0)
-```
-
-and to get the third sentence found in that first pdf:
-
-```scala
-annotations(0)("sentence")(2)
-```
-
-To get from the fifth pdf the second sentence:
-
-```scala
-annotations(4)("sentence")(1)
-```
-
-Similarly, the whole content of the fifth pdf can be retrieved by:
-
-```scala
-annotations(4)("document")(0)
 ```
 
 ## Training annotators

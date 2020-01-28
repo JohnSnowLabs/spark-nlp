@@ -1,12 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
 import com.johnsnowlabs.ml.tensorflow.{DatasetEncoderParams, NerDatasetEncoder, TensorflowNer, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.embeddings.{ClusterWordEmbeddings, WordEmbeddingsFormat}
+import com.johnsnowlabs.storage.{RocksDBConnection, StorageHelper}
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -39,16 +38,13 @@ object NerDLModelPythonReader {
                               folder: String,
                               spark: SparkSession,
                               embeddingsDim: Int,
-                              normalize: Boolean,
-                              format: WordEmbeddingsFormat.Format
-                            ): ClusterWordEmbeddings = {
-    ClusterWordEmbeddings(
-      spark.sparkContext,
+                              normalize: Boolean
+                            ): RocksDBConnection = {
+    StorageHelper.load(
       Paths.get(folder, embeddingsFile).toString,
-      embeddingsDim,
-      normalize,
-      format,
-      "python_tf_model"
+      spark,
+      "python_tf_model",
+      "python_tf_ref"
     )
   }
 

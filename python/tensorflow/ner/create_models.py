@@ -5,16 +5,16 @@ import ner_model
 import argparse
 
 
-def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension, number_of_chars, lstm_size=128):
+def create_graph(output_path, number_of_tags, embeddings_dimension, number_of_chars, lstm_size=128):
     if sys.version_info[0] != 3 or sys.version_info[1] >= 7:
         raise Exception('Python 3.7 or above not supported by tensorflow')
-    if tf.__version__ != '1.12.0':
-        return Exception('Spark NLP is compiled with Tensorflow 1.12.0. Please use such version.')
+    if tf.__version__ != '1.15.0':
+        return Exception('Spark NLP is compiled with TensorFlow 1.15.0. Please use such version.')
     tf.reset_default_graph()
-    name_prefix = 'blstm-noncontrib' if not use_contrib else 'blstm'
+    name_prefix = 'blstm'
     model_name = name_prefix+'_{}_{}_{}_{}'.format(number_of_tags, embeddings_dimension, lstm_size, number_of_chars)
     with tf.Session() as session:
-        ner = ner_model.NerModel(session=None, use_contrib=use_contrib)
+        ner = ner_model.NerModel(session=None)
         ner.add_cnn_char_repr(number_of_chars, 25, 30)
         ner.add_bilstm_char_repr(number_of_chars, 25, 30)
         ner.add_pretrained_word_embeddings(embeddings_dimension)
@@ -32,7 +32,7 @@ def create_graph(output_path, use_contrib, number_of_tags, embeddings_dimension,
 
 def main(arguments):
     use_contrib = False if os.name == 'nt' else arguments.use_contrib
-    create_graph(arguments.output, use_contrib, arguments.n_tags, arguments.e_dim, arguments.n_chars)
+    create_graph(arguments.output, arguments.n_tags, arguments.e_dim, arguments.n_chars)
 
 
 if __name__ == "__main__":

@@ -1,71 +1,14 @@
+from abc import ABC
+
 from pyspark import keyword_only
-from pyspark.ml.util import JavaMLWritable
-from pyspark.ml.wrapper import JavaTransformer, JavaEstimator
+from pyspark.ml.wrapper import JavaEstimator
 from pyspark.ml.param.shared import Param, Params, TypeConverters
 from pyspark.ml.pipeline import Pipeline, PipelineModel, Estimator, Transformer
-from sparknlp.common import ParamsGettersSetters, AnnotatorProperties
-from sparknlp.util import AnnotatorJavaMLReadable
+from sparknlp.common import AnnotatorProperties
+from sparknlp.internal import AnnotatorTransformer, RecursiveEstimator, RecursiveTransformer
+
 from sparknlp.annotation import Annotation
 import sparknlp.internal as _internal
-
-
-class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
-    @keyword_only
-    def __init__(self, classname):
-        super(AnnotatorTransformer, self).__init__()
-        kwargs = self._input_kwargs
-        if 'classname' in kwargs:
-            kwargs.pop('classname')
-        self.setParams(**kwargs)
-        self.__class__._java_class_name = classname
-        self._java_obj = self._new_java_obj(classname, self.uid)
-
-
-class JavaRecursiveEstimator(JavaEstimator):
-
-    def _fit_java(self, dataset, pipeline=None):
-        """
-        Fits a Java model to the input dataset.
-        :param dataset: input dataset, which is an instance of
-                        :py:class:`pyspark.sql.DataFrame`
-        :param params: additional params (overwriting embedded values)
-        :return: fitted Java model
-        """
-        self._transfer_params_to_java()
-        if pipeline:
-            return self._java_obj.recursiveFit(dataset._jdf, pipeline._to_java())
-        else:
-            return self._java_obj.fit(dataset._jdf)
-
-    def _fit(self, dataset, pipeline=None):
-        java_model = self._fit_java(dataset, pipeline)
-        model = self._create_model(java_model)
-        return self._copyValues(model)
-
-    def fit(self, dataset, params=None, pipeline=None):
-        """
-        Fits a model to the input dataset with optional parameters.
-        :param dataset: input dataset, which is an instance of :py:class:`pyspark.sql.DataFrame`
-        :param params: an optional param map that overrides embedded params. If a list/tuple of
-                       param maps is given, this calls fit on each param map and returns a list of
-                       models.
-        :returns: fitted model(s)
-        """
-        if params is None:
-            params = dict()
-        if isinstance(params, (list, tuple)):
-            models = [None] * len(params)
-            for index, model in self.fitMultiple(dataset, params):
-                models[index] = model
-            return models
-        elif isinstance(params, dict):
-            if params:
-                return self.copy(params)._fit(dataset, pipeline=pipeline)
-            else:
-                return self._fit(dataset, pipeline=pipeline)
-        else:
-            raise ValueError("Params must be either a param map or a list/tuple of param maps, "
-                             "but got %s." % type(params))
 
 
 class LightPipeline:
@@ -145,24 +88,49 @@ class RecursivePipeline(Pipeline, JavaEstimator):
                 indexOfLastEstimator = i
         transformers = []
         for i, stage in enumerate(stages):
-            if isinstance(stage, Transformer):
-                transformers.append(stage)
-                dataset = stage.transform(dataset)
-            elif isinstance(stage, JavaRecursiveEstimator):
-                model = stage.fit(dataset, pipeline=PipelineModel(transformers))
-                transformers.append(model)
-                if i < indexOfLastEstimator:
-                    dataset = model.transform(dataset)
-            else:
-                model = stage.fit(dataset)
-                transformers.append(model)
-                if i < indexOfLastEstimator:
-                    dataset = model.transform(dataset)
             if i <= indexOfLastEstimator:
-                pass
+                if isinstance(stage, Transformer):
+                    transformers.append(stage)
+                    dataset = stage.transform(dataset)
+                elif isinstance(stage, RecursiveEstimator):
+                    model = stage.fit(dataset, pipeline=PipelineModel(transformers))
+                    transformers.append(model)
+                    if i < indexOfLastEstimator:
+                        dataset = model.transform(dataset)
+                else:
+                    model = stage.fit(dataset)
+                    transformers.append(model)
+                    if i < indexOfLastEstimator:
+                        dataset = model.transform(dataset)
             else:
                 transformers.append(stage)
         return PipelineModel(transformers)
+
+
+class RecursivePipelineModel(PipelineModel):
+
+    def __init__(self, pipeline_model):
+        super(PipelineModel, self).__init__()
+        self.stages = pipeline_model.stages
+
+    def _transform(self, dataset):
+        for t in self.stages:
+            if isinstance(t, HasRecursiveTransform):
+                # drops current stage from the recursive pipeline within
+                dataset = t.transform_recursive(dataset, PipelineModel(self.stages[:-1]))
+            elif isinstance(t, AnnotatorProperties) and t.getLazyAnnotator():
+                pass
+            else:
+                dataset = t.transform(dataset)
+        return dataset
+
+
+class HasRecursiveFit(RecursiveEstimator, ABC):
+    pass
+
+
+class HasRecursiveTransform(RecursiveTransformer):
+    pass
 
 
 class DocumentAssembler(AnnotatorTransformer):

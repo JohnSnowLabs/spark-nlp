@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -9,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadUSETensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedUSEModel, ReadablePretrainedWordEmbeddings}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -37,6 +38,11 @@ package object annotator {
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
   type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
   object TextMatcherModel extends ReadablePretrainedTextMatcher
+
+  type BigTextMatcher = com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
+  object BigTextMatcher extends DefaultParamsReadable[BigTextMatcher]
+  type BigTextMatcherModel = com.johnsnowlabs.nlp.annotators.btm.BigTextMatcherModel
+  object BigTextMatcherModel extends ReadablePretrainedBigTextMatcher
 
   type RegexMatcher = com.johnsnowlabs.nlp.annotators.RegexMatcher
   object RegexMatcher extends DefaultParamsReadable[RegexMatcher]
@@ -132,5 +138,8 @@ package object annotator {
 
   type NerOverwriter = com.johnsnowlabs.nlp.annotators.ner.NerOverwriter
   object NerOverwriter extends DefaultParamsReadable[NerOverwriter]
+
+  type UniversalSentenceEncoder = com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
+  object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
 
 }

@@ -3,7 +3,6 @@ package com.johnsnowlabs.benchmarks.jvm
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf, LinearChainCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.training.CoNLL2003NerReader
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsFormat
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 
 import scala.collection.mutable
@@ -20,9 +19,9 @@ import scala.collection.mutable
 object NerCrfCoNLL2003 extends App {
   val folder = "./"
 
-  val trainFile = ExternalResource(folder + "eng.train", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.LINE_BY_LINE, Map.empty[String, String])
-  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.LINE_BY_LINE, Map.empty[String, String])
+  val trainFile = ExternalResource(folder + "eng.train", ReadAs.TEXT, Map.empty[String, String])
+  val testFileA = ExternalResource(folder + "eng.testa", ReadAs.TEXT, Map.empty[String, String])
+  val testFileB = ExternalResource(folder + "eng.testb", ReadAs.TEXT, Map.empty[String, String])
 
   val embeddingsDims = 100
   val embeddingsFile = folder + s"glove.6B.${embeddingsDims}d.txt"
@@ -31,8 +30,8 @@ object NerCrfCoNLL2003 extends App {
     embeddingsFile,
     embeddingsDims,
     normalize=false, // Not normalize might give weight to People names due to upper case, although may overfit
-    WordEmbeddingsFormat.TEXT,
-    Some(ExternalResource("src/test/resources/ner-corpus/dict.txt", ReadAs.LINE_BY_LINE, Map.empty[String, String]))
+    ReadAs.TEXT,
+    Some(ExternalResource("src/test/resources/ner-corpus/dict.txt", ReadAs.TEXT, Map.empty[String, String]))
   )
 
   def trainModel(er: ExternalResource): LinearChainCrfModel = {

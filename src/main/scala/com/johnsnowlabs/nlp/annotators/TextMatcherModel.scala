@@ -4,10 +4,10 @@ import com.johnsnowlabs.collections.SearchTrie
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.serialization.ArrayFeature
+import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param.BooleanParam
-import annotation.{tailrec => tco}
 
+import annotation.{tailrec => tco}
 import scala.collection.mutable.ArrayBuffer
 
 /**
@@ -22,23 +22,14 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
 
-  val parsedEntities = new ArrayFeature[Array[String]](this, "parsedEntities")
-  val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to match regardless of case. Defaults true")
+  val searchTrie = new StructFeature[SearchTrie](this, "searchTrie")
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
 
-  def setEntities(value: Array[Array[String]]): this.type = set(parsedEntities, value)
-
-  def setCaseSensitive(v: Boolean): this.type =
-    set(caseSensitive, v)
-
-  def getCaseSensitive: Boolean =
-    $(caseSensitive)
+  def setSearchTrie(value: SearchTrie): this.type = set(searchTrie, value)
 
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
-
-  lazy val searchTrie = SearchTrie.apply($$(parsedEntities), $(caseSensitive))
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
@@ -70,7 +61,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
           token.begin >= sentence.begin &&
             token.end <= sentence.end)
 
-      val foundTokens = searchTrie.search(tokens.map(_.result)).toList
+      val foundTokens = $$(searchTrie).search(tokens.map(_.result)).toList
 
       val finalTokens = if($(mergeOverlapping)) merge(foundTokens) else foundTokens
 

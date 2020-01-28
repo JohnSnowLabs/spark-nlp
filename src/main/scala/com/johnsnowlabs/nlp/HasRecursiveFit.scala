@@ -12,10 +12,7 @@ trait HasRecursiveFit[M <: Model[M]] {
   this: AnnotatorApproach[M] =>
 
     final def recursiveFit(dataset: Dataset[_], recursivePipeline: PipelineModel): M = {
-      beforeTraining(dataset.sparkSession)
-      val model = copyValues(train(dataset, Some(recursivePipeline)).setParent(this))
-      onTrained(model, dataset.sparkSession)
-      model
+      _fit(dataset, Some(recursivePipeline))
     }
 
 }

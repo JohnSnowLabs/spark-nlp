@@ -17,15 +17,9 @@ class RuleFactory(matchStrategy: MatchStrategy.MatchStrategy,
                   transformStrategy: TransformStrategy.TransformStrategy = TransformStrategy.NO_TRANSFORM)
   extends RuleSymbols with Serializable {
 
-  /**
-    * Internal representation of a regex match
-    * @param content the matching component, which holds [[Regex.Match]] information, plus its user identification
-    * @param identifier user provided identification of a rule
-    */
-  protected case class RuleMatch(content: Regex.Match, identifier: String)
-
   import TransformStrategy._
   import MatchStrategy._
+  import RuleFactory.RuleMatch
 
   /** Helper functions to identify context in a word for debugging */
   private def logSubStartHelper(start: Int): Int = if (start > 10) start - 10 else  0
@@ -166,6 +160,13 @@ object RuleFactory {
   def lateMatching(transformStrategy: TransformStrategy.TransformStrategy)
                   (matchStrategy: MatchStrategy.MatchStrategy): RuleFactory =
     new RuleFactory(matchStrategy, transformStrategy)
+
+  /**
+    * Internal representation of a regex match
+    * @param content the matching component, which holds [[Regex.Match]] information, plus its user identification
+    * @param identifier user provided identification of a rule
+    */
+  case class RuleMatch(content: Regex.Match, identifier: String)
 }
 
 /**

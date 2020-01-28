@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.{ParamMap, StringArrayParam}
-import org.apache.spark.ml.{Estimator, Model, PipelineModel}
+import com.johnsnowlabs.storage.HasStorage
+import org.apache.spark.ml.param.ParamMap
+import org.apache.spark.ml.{Estimator, Model, PipelineModel, Transformer}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
 import org.apache.spark.ml.util.DefaultParamsWritable
@@ -18,7 +19,8 @@ abstract class AnnotatorApproach[M <: Model[M]]
     with HasInputAnnotationCols
     with HasOutputAnnotationCol
     with HasOutputAnnotatorType
-    with DefaultParamsWritable {
+    with DefaultParamsWritable
+    with CanBeLazy {
 
   val description: String
 
@@ -40,19 +42,32 @@ abstract class AnnotatorApproach[M <: Model[M]]
     }
   }
 
-  override final def fit(dataset: Dataset[_]): M = {
+  private def indexIfStorage(dataset: Dataset[_]): Unit = {
+    this match {
+      case withStorage: HasStorage => withStorage.indexStorage(dataset, withStorage.getStoragePath)
+      case _ =>
+    }
+  }
+
+  protected def _fit(dataset: Dataset[_], recursiveStages: Option[PipelineModel]): M = {
     beforeTraining(dataset.sparkSession)
-    val model = copyValues(train(dataset).setParent(this))
+    indexIfStorage(dataset)
+    val model = copyValues(train(dataset, recursiveStages).setParent(this))
     onTrained(model, dataset.sparkSession)
     model
+  }
+
+  override final def fit(dataset: Dataset[_]): M = {
+    _fit(dataset, None)
   }
 
   override final def copy(extra: ParamMap): Estimator[M] = defaultCopy(extra)
 
   /** requirement for pipeline transformation validation. It is called on fit() */
   override final def transformSchema(schema: StructType): StructType = {
-    require(validate(schema), s"Wrong or missing inputCols annotators in $uid. " +
-      s"Received inputCols: ${getInputCols.mkString(",")}. Make sure such annotators exist in your pipeline, " +
+    require(validate(schema), s"Wrong or missing inputCols annotators in $uid.\n" +
+      msgHelper(schema) +
+      s"\nMake sure such annotators exist in your pipeline, " +
       s"with the right output names and that they have following annotator types: " +
       s"${inputAnnotatorTypes.mkString(", ")}")
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()

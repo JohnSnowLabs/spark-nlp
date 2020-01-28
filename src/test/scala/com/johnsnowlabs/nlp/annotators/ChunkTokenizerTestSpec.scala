@@ -31,7 +31,7 @@ class ChunkTokenizerTestSpec extends FlatSpec {
 
     val entityExtractor = new TextMatcher()
       .setInputCols("sentence", "token")
-      .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.LINE_BY_LINE)
+      .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.TEXT)
       .setOutputCol("entity")
 
     val chunkTokenizer = new ChunkTokenizer()
