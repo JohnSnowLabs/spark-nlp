@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.Model
+import org.apache.spark.ml.{Model, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
@@ -11,13 +11,13 @@ import org.apache.spark.sql.functions._
  * https://issues.apache.org/jira/browse/SPARK-7768
   */
 abstract class AnnotatorModel[M <: Model[M]]
-    extends RawAnnotator[M] {
+    extends RawAnnotator[M] with CanBeLazy {
 
   /**
     * internal types to show Rows as a relevant StructType
     * Should be deleted once Spark releases UserDefinedTypes to @developerAPI
     */
-  private type AnnotationContent = Seq[Row]
+  protected type AnnotationContent = Seq[Row]
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -39,6 +39,34 @@ abstract class AnnotatorModel[M <: Model[M]]
 
   protected def afterAnnotate(dataset: DataFrame): DataFrame = dataset
 
+  protected def _transform(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
+    require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid.\n" +
+      msgHelper(dataset.schema) +
+      s"\nMake sure such annotators exist in your pipeline, " +
+      s"with the right output names and that they have following annotator types: " +
+      s"${inputAnnotatorTypes.mkString(", ")}")
+
+    val inputDataset = beforeAnnotate(dataset)
+
+    val processedDataset = inputDataset.withColumn(
+      getOutputCol,
+      wrapColumnMetadata({
+        this match {
+          case a: HasRecursiveTransform[M] =>
+            a.dfRecAnnotate(recursivePipeline.get)(
+              array(getInputCols.map(c => dataset.col(c)):_*)
+            )
+          case _ =>
+            dfAnnotate(
+              array(getInputCols.map(c => dataset.col(c)):_*)
+            )
+        }
+      })
+    )
+
+    afterAnnotate(processedDataset)
+  }
+
   /**
     * Given requirements are met, this applies ML transformation within a Pipeline or stand-alone
     * Output annotation will be generated as a new column, previous annotations are still available separately
@@ -48,22 +76,7 @@ abstract class AnnotatorModel[M <: Model[M]]
     * @return
     */
   override final def transform(dataset: Dataset[_]): DataFrame = {
-    require(validate(dataset.schema), s"Wrong or missing inputCols annotators in $uid. " +
-      s"Received inputCols: ${$(inputCols).mkString(",")}. Make sure such annotators exist in your pipeline, " +
-      s"with the right output names and that they have following annotator types: " +
-      s"${inputAnnotatorTypes.mkString(", ")}")
-
-    val inputDataset = beforeAnnotate(dataset)
-
-    val processedDataset = inputDataset.withColumn(
-      getOutputCol,
-      wrapColumnMetadata(dfAnnotate(
-        array(getInputCols.map(c => dataset.col(c)):_*)
-      ))
-    )
-
-    afterAnnotate(processedDataset)
-
+    _transform(dataset, None)
   }
 
 }

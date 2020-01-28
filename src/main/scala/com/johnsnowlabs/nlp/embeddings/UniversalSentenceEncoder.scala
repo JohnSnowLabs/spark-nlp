@@ -7,6 +7,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession

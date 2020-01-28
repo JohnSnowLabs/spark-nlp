@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
-import org.apache.spark.ml.param.{DoubleParam, BooleanParam}
+import org.apache.spark.ml.param.{BooleanParam, DoubleParam}
 import org.apache.spark.ml.util.Identifiable
 
 /**
