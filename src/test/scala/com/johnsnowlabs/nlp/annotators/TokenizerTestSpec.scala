@@ -45,7 +45,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   val expected1b = Array(
     "Hello", ",", "I", "won't", "be", "from", "New York", "in", "the", "U.S.A", ".", "(", "and", "you", "know", "it",
     "héroe", ").", "Give", "me", "my", "horse", "!", "or", "$100", "bucks", "'", "He", "said", "',", "I'll",
-    "defeat", "markus", "-", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www.google.com", "."
+    "defeat", "markus", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www.google.com", "."
   )
 
   "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" in {
@@ -374,6 +374,33 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
       result.sameElements(Seq("Hello", "York")),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}"
+    )
+  }
+
+  "a Tokenizer" should "work correctly with multiple split chars" in {
+    val data = DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to the ground#earth.")
+    val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
+      .setSplitChars(Array("-", "#"))
+      .fit(data)
+
+    val expected = Seq(
+      Annotation("token", 0, 4, "Hello", Map("sentence" -> "0")),
+      Annotation("token", 6, 8, "big", Map("sentence" -> "0")),
+      Annotation("token", 10, 13, "city", Map("sentence" -> "0")),
+      Annotation("token", 15, 16, "of", Map("sentence" -> "0")),
+      Annotation("token", 18, 23, "lights", Map("sentence" -> "0")),
+      Annotation("token", 25, 31, "welcome", Map("sentence" -> "0")),
+      Annotation("token", 33, 34, "to", Map("sentence" -> "0")),
+      Annotation("token", 36, 38, "the", Map("sentence" -> "0")),
+      Annotation("token", 40, 45, "ground", Map("sentence" -> "0")),
+      Annotation("token", 47, 51, "earth", Map("sentence" -> "0")),
+      Annotation("token", 52, 52, ".", Map("sentence" -> "0"))
+    )
+    val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
+    assert(
+      result.sameElements(expected),
+      s"because result tokens differ: " +
+        s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}"
     )
   }
 }
