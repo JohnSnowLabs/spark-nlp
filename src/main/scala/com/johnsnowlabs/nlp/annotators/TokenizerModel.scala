@@ -22,6 +22,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed legth for each token")
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each token")
+  val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
 
   setDefault(
     targetPattern -> "\\S+",
@@ -51,6 +52,20 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
   def setMaxLength(value: Int): this.type = set(maxLength, value)
   def getMaxLength(value: Int): Int = $(maxLength)
+
+  def setSplitChars(v: Array[String]): this.type = {
+    require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
+    set(splitChars, v)
+  }
+
+  def addSplitChars(v: String): this.type = {
+    require(v.length == 1, "Context char must have length == 1")
+    set(splitChars, get(splitChars).getOrElse(Array.empty[String]) :+ v)
+  }
+
+  def getSplitChars: Array[String] = {
+    $(splitChars)
+  }
 
   private val PROTECT_CHAR = "ↈ"
   private val BREAK_CHAR = "ↇ"
@@ -88,18 +103,37 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
           ))
         } else {
           /** Step 3, If no exception found, find candidates through the possible general rule patterns*/
-          $$(rules).findMatchFirstOnly(candidate.matched).map {m =>
+          val rr = $$(rules).findMatchFirstOnly(candidate.matched).map {m =>
             var curPos = m.content.start
             (1 to m.content.groupCount)
-              .map (i => {
+              .flatMap (i => {
                 val target = m.content.group(i)
-                val it = IndexedToken(
-                  target,
-                  text.start + candidate.start + curPos,
-                  text.start + candidate.start + curPos + target.length - 1
-                )
-                curPos += target.length
-                it
+                if (target.nonEmpty && isSet(splitChars) && $(splitChars).exists(target.contains)) {
+                  try {
+                    val strs = target.split($(splitChars).mkString("|"))
+                    strs.map(str =>
+                      try {
+                        IndexedToken(
+                          str,
+                          text.start + candidate.start + curPos,
+                          text.start + candidate.start + curPos + str.length - 1
+                        )
+                      } finally {
+                        curPos += str.length + 1
+                      }
+                    )
+                  } finally {
+                    curPos -= 1
+                  }
+                } else {
+                  val it = IndexedToken(
+                    target,
+                    text.start + candidate.start + curPos,
+                    text.start + candidate.start + curPos + target.length - 1
+                  )
+                  curPos += target.length
+                  Seq(it)
+                }
               })
             /** Step 4, If rules didn't match, return whatever candidate we have and leave it as is*/
           }.getOrElse(Seq(IndexedToken(
@@ -107,6 +141,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
             text.start + candidate.start,
             text.start + candidate.end - 1
           )))
+          rr
         }
       }.toArray
         .filter(t => t.token.nonEmpty)
