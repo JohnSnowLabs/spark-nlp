@@ -378,7 +378,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
   }
 
   "a Tokenizer" should "work correctly with multiple split chars" in {
-    val data = DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to the ground#earth.")
+    val data = DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to the ground###earth.")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token")
       .setSplitChars(Array("-", "#"))
       .fit(data)
@@ -393,8 +393,8 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
       Annotation("token", 33, 34, "to", Map("sentence" -> "0")),
       Annotation("token", 36, 38, "the", Map("sentence" -> "0")),
       Annotation("token", 40, 45, "ground", Map("sentence" -> "0")),
-      Annotation("token", 47, 51, "earth", Map("sentence" -> "0")),
-      Annotation("token", 52, 52, ".", Map("sentence" -> "0"))
+      Annotation("token", 49, 53, "earth", Map("sentence" -> "0")),
+      Annotation("token", 54, 54, ".", Map("sentence" -> "0"))
     )
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
     assert(
