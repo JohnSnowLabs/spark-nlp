@@ -222,6 +222,11 @@ class TokenizerModel(AnnotatorModel):
                   "Rules structure factory containing pre processed regex rules",
                   typeConverter=TypeConverters.identity)
 
+    splitChars = Param(Params._dummy(),
+                       "splitChars",
+                       "character list used to separate from the inside of tokens",
+                       typeConverter=TypeConverters.toListString)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TokenizerModel", java_model=None):
         super(TokenizerModel, self).__init__(
             classname=classname,
@@ -231,6 +236,17 @@ class TokenizerModel(AnnotatorModel):
             targetPattern="\\S+",
             caseSensitiveExceptions=True
         )
+
+    def setSplitChars(self, value):
+        return self._set(splitChars=value)
+
+    def addSplitChars(self, value):
+        try:
+            split_chars = self.getSplitChars()
+        except KeyError:
+            split_chars = []
+        split_chars.append(value)
+        return self._set(splitChars=split_chars)
 
     @staticmethod
     def pretrained(name="token_rules", lang="en", remote_loc=None):
