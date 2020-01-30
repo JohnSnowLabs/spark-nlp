@@ -101,6 +101,9 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
               None
           )
 
+          //TODO: Calculate coverage in previous map all together
+          val coverage = 1.0 * tokensWithEmbeddings.filter(!_.isOOV).length / tokensWithEmbeddings.length
+
           val finalEmbeddings = if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
 
           Some(Annotation(
@@ -111,6 +114,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
             metadata = Map("sentence" -> sentenceId.toString,
               "token" -> chunk.result.toString,
               "pieceId" -> "-1",
+              "coverage" -> ((1000 * coverage).round / 1000).toString,
               "isWordStart" -> "true"
             ),
             embeddings = calculateChunkEmbeddings(finalEmbeddings)
