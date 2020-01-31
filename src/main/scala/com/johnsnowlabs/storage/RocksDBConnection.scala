@@ -35,7 +35,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
       require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: $path\n" +
         s" This usually means:\n1. You have not loaded any storage under such ref\n2." +
         s" You are trying to use cluster mode without a proper shared filesystem.\n3. source was not provided to Storage creation" +
-        s"\n4. If you are trying to utilize Storage defined elsewhere, make sure you it's appropriate ref. ")
+        s"\n4. If you are trying to utilize Storage defined elsewhere, make sure it has the appropriate ref. ")
       localFromClusterPath
     }
   }
