@@ -67,7 +67,7 @@ class WordEmbeddings(override val uid: String)
       throw new IllegalArgumentException("Invalid WordEmbeddings read format. Must be either TEXT or BINARY")
   }
 
-  override val databases: Array[Database.Name] = Array(Database.EMBEDDINGS)
+  override val databases: Array[Database.Name] = WordEmbeddingsModel.databases
 
   override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
     new WordEmbeddingsWriter(connection, $(caseSensitive), $(dimension), get(readCacheSize).getOrElse(5000), $(writeBufferSize))
