@@ -14,7 +14,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
+trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSensitiveProperties {
 
   protected val databases: Array[Database.Name]
 

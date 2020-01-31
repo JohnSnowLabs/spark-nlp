@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.btm
 
 import com.johnsnowlabs.collections.StorageSearchTrie
-import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, _}
+import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, DOCUMENT, CHUNK}
 import com.johnsnowlabs.nlp.annotators.TokenizerModel
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -10,7 +10,7 @@ import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection, StorageWriter}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigTextMatcherModel] with HasStorage {
@@ -77,10 +77,7 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
     loadEntities(storageSourcePath.get, writers)
   }
 
-  override protected val databases: Array[Name] = Array(
-    Database.TMVOCAB,
-    Database.TMEDGES,
-    Database.TMNODES
-  )
+  override protected val databases: Array[Name] = BigTextMatcherModel.databases
 }
 
+object BigTextMatcher extends DefaultParamsReadable[BigTextMatcher]

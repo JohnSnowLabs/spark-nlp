@@ -92,11 +92,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
     result
   }
 
-  override protected val databases: Array[Name] = Array(
-    Database.TMVOCAB,
-    Database.TMEDGES,
-    Database.TMNODES
-  )
+  override protected val databases: Array[Name] = BigTextMatcherModel.databases
 
   override protected def createReader(database: Name, connection: RocksDBConnection): StorageReader[_] = {
     database match {
@@ -108,6 +104,11 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
 }
 
 trait ReadablePretrainedBigTextMatcher extends StorageReadable[BigTextMatcherModel] with HasPretrained[BigTextMatcherModel] {
+  override val databases: Array[Name] = Array(
+    Database.TMVOCAB,
+    Database.TMEDGES,
+    Database.TMNODES
+  )
   override val defaultModelName = None
   override def pretrained(): BigTextMatcherModel = super.pretrained()
   override def pretrained(name: String): BigTextMatcherModel = super.pretrained(name)

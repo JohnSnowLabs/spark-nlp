@@ -583,7 +583,7 @@ class TextMatcherModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
 
 
-class BigTextMatcher(AnnotatorApproach):
+class BigTextMatcher(AnnotatorApproach, HasStorage):
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -628,8 +628,9 @@ class BigTextMatcher(AnnotatorApproach):
         return self._set(tokenizer_model._java_obj)
 
 
-class BigTextMatcherModel(AnnotatorModel):
+class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     name = "BigTextMatcherModel"
+    HasStorageModel.databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -1570,6 +1571,8 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
+
+    HasStorageModel.databases = ['EMBEDDINGS']
 
     readCacheSize = Param(Params._dummy(),
                           "readCacheSize",
