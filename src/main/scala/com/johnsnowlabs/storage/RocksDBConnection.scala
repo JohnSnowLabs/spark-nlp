@@ -33,7 +33,8 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     } else {
       val localFromClusterPath = SparkFiles.get(path)
       require(new File(localFromClusterPath).exists(), s"Storage not found under given ref: $path\n" +
-        s" This usually means:\n1. You have not loaded any storage under such ref\n2." +
+        s" This usually means:\n1. You have not loaded any storage under such ref or one of your Storage based annotators " +
+        s"has `includeStorage` set to false and must be loaded manually\n2." +
         s" You are trying to use cluster mode without a proper shared filesystem.\n3. source was not provided to Storage creation" +
         s"\n4. If you are trying to utilize Storage defined elsewhere, make sure it has the appropriate ref. ")
       localFromClusterPath
