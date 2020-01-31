@@ -28,16 +28,12 @@ object StorageHelper {
     RocksDBConnection.getOrCreate(locator.clusterFileName)
   }
 
-  def save(path: String, connection: RocksDBConnection, spark: SparkSession): Unit = {
-    StorageHelper.save(path, spark, connection)
-  }
-
-  private def save(path: String, spark: SparkSession, connection: RocksDBConnection): Unit = {
+  def save(path: String, connection: RocksDBConnection, spark: SparkSession, withinStorage: Boolean): Unit = {
     val index = new Path("file://"+connection.findLocalIndex)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val dst = new Path(path+"/storage/")
+    val dst = new Path(path+{if (withinStorage) "/storage/" else ""})
 
     save(fs, index, dst)
   }
