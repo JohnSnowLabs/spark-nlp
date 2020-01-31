@@ -265,3 +265,8 @@ class _USELoader(ExtendedJavaWrapper):
         super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel",
                                          path,
                                          jspark)
+
+
+class _ElmoLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_ElmoLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings.loadSavedModel", path, jspark)
