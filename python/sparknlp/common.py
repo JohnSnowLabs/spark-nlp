@@ -115,8 +115,30 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties):
         return self.getOrDefault("storagePath")
 
 
-class HasStorageModel(HasCaseSensitiveProperties):
-    pass
+class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties):
+
+    databases = None
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        if not HasStorageModel.databases:
+            raise NotImplementedError("AnnotatorModel with HasStorageModel did not implement 'HasStorageModel.databases'")
+        for database in HasStorageModel.databases:
+            _internal._StorageHelper(path, spark, database, storage_ref)
+
+
+class HasExcludableStorage:
+
+    includeStorage = Param(Params._dummy(),
+                        "includeStorage",
+                        "whether to include indexed storage in trained model",
+                        typeConverter=TypeConverters.toBoolean)
+
+    def setIncludeStorage(self, value):
+        return self._set(includeStorage=value)
+
+    def getIncludeStorage(self):
+        return self.getOrDefault("includeStorage")
 
 
 class AnnotatorApproach(JavaEstimator, JavaMLWritable, _internal.AnnotatorJavaMLReadable, AnnotatorProperties,
