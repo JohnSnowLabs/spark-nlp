@@ -1861,3 +1861,63 @@ class UniversalSentenceEncoder(AnnotatorModel):
     def pretrained(name="tfhub_use", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
+
+
+class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "ElmoEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    poolingLayer = Param(Params._dummy(),
+                         "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo",
+                         typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setPoolingLayer(self, layer):
+        if layer == "word_emb":
+            return self._set(poolingLayer=layer)
+        elif layer == "lstm_outputs1":
+            return self._set(poolingLayer=layer)
+        elif layer == "lstm_outputs2":
+            return self._set(poolingLayer=layer)
+        elif layer == "elmo":
+            return self._set(poolingLayer=layer)
+        else:
+            return self._set(poolingLayer="word_emb")
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings", java_model=None):
+        super(ElmoEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            poolingLayer="word_emb"
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _ElmoLoader
+        jModel = _ElmoLoader(folder, spark_session._jsparkSession)._java_obj
+        return ElmoEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="elmo", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
