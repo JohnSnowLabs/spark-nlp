@@ -119,6 +119,10 @@ class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties):
 
     databases = None
 
+    def saveStorage(self, path, spark):
+        self._transfer_params_to_java()
+        self._java_obj.saveStorage(path, spark._jsparkSession, False)
+
     @staticmethod
     def loadStorage(path, spark, storage_ref):
         if not HasStorageModel.databases:
