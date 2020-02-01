@@ -96,7 +96,8 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
     tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
       /** tmpFiles indexed must be explicitly set to be local files */
-      StorageHelper.sendToCluster(new Path("file://"+tmpLocalDestination), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+      val uri = "file://"+(new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath)
+      StorageHelper.sendToCluster(new Path(uri), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
     }
 
     // 3. Create Spark Embeddings
