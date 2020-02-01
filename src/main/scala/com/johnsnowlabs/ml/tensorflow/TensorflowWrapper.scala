@@ -248,7 +248,9 @@ object TensorflowWrapper {
       val session = new Session(graph, tfSessionConfig)
       val varPath = Paths.get(folder, "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables.index")
-      session.runner.addTarget("save/restore_all")
+      session.runner
+        .addTarget("save/restore_all")
+        .addTarget("init_all_tables")
         .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
         .run()
       (graph, session, varPath, idxPath)
