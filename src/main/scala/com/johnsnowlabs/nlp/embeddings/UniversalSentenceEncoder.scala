@@ -97,7 +97,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_use_tf")
+    val tf = readTensorflowModel(path, spark, "_use_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -115,7 +115,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $folder"
     )
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
     val USE = new UniversalSentenceEncoder()
       .setModelIfNotSet(spark, wrapper)

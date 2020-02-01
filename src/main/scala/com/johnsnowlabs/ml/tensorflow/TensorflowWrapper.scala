@@ -217,7 +217,8 @@ object TensorflowWrapper {
             file: String,
             zipped: Boolean = true,
             useBundle: Boolean = false,
-            tags: Array[String] = Array.empty[String]
+            tags: Array[String] = Array.empty[String],
+            initAllTables: Boolean = false
           ): TensorflowWrapper = {
     val t = new TensorResources()
 
@@ -240,19 +241,27 @@ object TensorflowWrapper {
       val session = model.session()
       val varPath = Paths.get(folder, "variables", "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables", "variables.index")
-      session.runner().addTarget("init_all_tables")
-
+      if(initAllTables) {
+        session.runner().addTarget("init_all_tables")
+      }
       (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
       val session = new Session(graph, tfSessionConfig)
       val varPath = Paths.get(folder, "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables.index")
-      session.runner
-        .addTarget("save/restore_all")
-        .addTarget("init_all_tables")
-        .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
-        .run()
+      if(initAllTables) {
+        session.runner
+          .addTarget("save/restore_all")
+          .addTarget("init_all_tables")
+          .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
+          .run()
+      }else{
+        session.runner
+          .addTarget("save/restore_all")
+          .feed("save/Const", t.createTensor(Paths.get(folder, "variables").toString))
+          .run()
+      }
       (graph, session, varPath, idxPath)
     }
 

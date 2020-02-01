@@ -148,7 +148,7 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "elmo_tensorflow"
 
   def readTensorflow(instance: ElmoEmbeddings, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_elmo_tf")
+    val tf = readTensorflowModel(path, spark, "_elmo_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -165,7 +165,7 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $folder"
     )
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
     val Elmo = new ElmoEmbeddings()
       .setModelIfNotSet(spark, wrapper)
