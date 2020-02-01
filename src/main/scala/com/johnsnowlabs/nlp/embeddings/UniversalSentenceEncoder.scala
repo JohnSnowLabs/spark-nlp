@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -72,7 +71,8 @@ class UniversalSentenceEncoder(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowHub(path, tfPath = getTFhubPath, spark)
+    //    writeTensorflowHub(path, tfPath = getTFhubPath, spark)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_use", UniversalSentenceEncoder.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
@@ -84,11 +84,8 @@ trait ReadablePretrainedUSEModel
 
   /** Java compliant-overrides */
   override def pretrained(): UniversalSentenceEncoder = super.pretrained()
-
   override def pretrained(name: String): UniversalSentenceEncoder = super.pretrained(name)
-
   override def pretrained(name: String, lang: String): UniversalSentenceEncoder = super.pretrained(name, lang)
-
   override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder = super.pretrained(name, lang, remoteLoc)
 }
 
@@ -96,43 +93,37 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[UniversalSentenceEncoder] =>
 
   /*Needs to point to an actual folder rather than a .pb file*/
-  override val tfFile: String = ""
+  override val tfFile: String = "use_tensorflow"
 
-  def readTensorflow(instance: UniversalSentenceEncoder,
-                     path: String,
-                     spark: SparkSession): Unit = {
-    val tf = readTensorflowHub(
-      path,
-      spark,
-      "_use_tf",
-      zipped = false,
-      useBundle = true,
-      tags = Array("serve")
-    )
+  def readTensorflow(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
+
+    val tf = readTensorflowModel(path, spark, "_use_tf")
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfHubPath: String,
+  def loadSavedModel(folder: String,
                      spark: SparkSession): UniversalSentenceEncoder = {
-    val f = new File(tfHubPath)
-    val savedModel = new File(tfHubPath, "saved_model.pb")
+    val f = new File(folder)
+    val savedModel = new File(folder, "saved_model.pb")
 
-    require(f.exists, s"Folder $tfHubPath not found")
-    require(f.isDirectory, s"File $tfHubPath is not folder")
+    require(f.exists, s"Folder $folder not found")
+    require(f.isDirectory, s"File $folder is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $tfHubPath"
+      s"savedModel file saved_model.pb not found in folder $folder"
     )
 
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+
     val USE = new UniversalSentenceEncoder()
-    USE.setTFhubPath(tfHubPath)
+      .setModelIfNotSet(spark, wrapper)
+
+    USE.setTFhubPath(folder)
 
     USE
   }
 }
 
-object UniversalSentenceEncoder
-  extends ReadablePretrainedUSEModel
-    with ReadUSETensorflowModel
+object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
