@@ -41,11 +41,11 @@ trait WriteTensorflowModel {
   }
 
   def writeTensorflowHub(
-                            path: String,
-                            tfPath: String,
-                            spark: SparkSession,
-                            suffix: String = "_use"
-                          ): Unit = {
+                          path: String,
+                          tfPath: String,
+                          spark: SparkSession,
+                          suffix: String = "_use"
+                        ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -77,7 +77,8 @@ trait ReadTensorflowModel {
                            suffix: String,
                            zipped:Boolean = true,
                            useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty
+                           tags:Array[String]=Array.empty,
+                           initAllTables: Boolean = false
                          ): TensorflowWrapper = {
 
     LoadsContrib.loadContribToCluster(spark)
@@ -94,7 +95,7 @@ trait ReadTensorflowModel {
 
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = tags, useBundle = useBundle)
+      zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
@@ -103,13 +104,13 @@ trait ReadTensorflowModel {
   }
 
   def readTensorflowHub(
-                           path: String,
-                           spark: SparkSession,
-                           suffix: String,
-                           zipped:Boolean = true,
-                           useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty
-                         ): TensorflowWrapper = {
+                         path: String,
+                         spark: SparkSession,
+                         suffix: String,
+                         zipped:Boolean = true,
+                         useBundle:Boolean = false,
+                         tags:Array[String]=Array.empty
+                       ): TensorflowWrapper = {
 
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
