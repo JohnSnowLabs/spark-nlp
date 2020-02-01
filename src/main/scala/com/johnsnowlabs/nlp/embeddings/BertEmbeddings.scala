@@ -10,7 +10,6 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -164,13 +163,14 @@ class BertEmbeddings(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowHub(path, tfPath = getTFhubPath, spark)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
   override val defaultModelName: Some[String] = Some("bert_base_cased")
+
   /** Java compliant-overrides */
   override def pretrained(): BertEmbeddings = super.pretrained()
   override def pretrained(name: String): BertEmbeddings = super.pretrained(name)
@@ -185,7 +185,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowHub(path, spark, "_bert_tf", zipped = false, useBundle = true, tags = Array("serve"))
+    val tf = readTensorflowModel(path, spark, "_bert_tf")
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -210,8 +210,11 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+
     val Bert = new BertEmbeddings()
       .setVocabulary(words)
+      .setModelIfNotSet(spark, wrapper)
 
     Bert.setTFhubPath(folder)
 
