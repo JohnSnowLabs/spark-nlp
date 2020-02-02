@@ -73,7 +73,7 @@ class StorageSearchTrie(
 object StorageSearchTrie {
   def load(
             inputFileLines: Iterator[String],
-            writers: Map[Database.Value, StorageWriter[_]],
+            writers: Map[Database.Name, StorageWriter[_]],
             withTokenizer: Option[TokenizerModel]
           ): Unit = {
 
