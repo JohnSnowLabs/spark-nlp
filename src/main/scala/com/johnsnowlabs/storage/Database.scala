@@ -1,8 +1,20 @@
 package com.johnsnowlabs.storage
 
-object Database extends Enumeration {
-  type Name = Value
-  val EMBEDDINGS: Value = Value
-
-  val TMVOCAB, TMEDGES, TMNODES = Value
+trait Database extends Serializable {
+  val name: String
+}
+object Database {
+  type Name = Database
+  val EMBEDDINGS: Name = new Name {
+    override val name: String = "EMBEDDINGS"
+  }
+  val TMVOCAB: Name = new Name {
+    override val name: String = "TMVOCAB"
+  }
+  val TMEDGES: Name = new Name {
+    override val name: String = "TMEDGES"
+  }
+  val TMNODES: Name = new Name {
+    override val name: String = "TMNODES"
+  }
 }
