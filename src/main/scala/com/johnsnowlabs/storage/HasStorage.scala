@@ -39,7 +39,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
   protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_]
 
   private def indexDatabases(
-                              databases: Array[Database.Value],
+                              databases: Array[Database.Name],
                               resource: Option[ExternalResource],
                               localFiles: Array[String],
                               fitDataset: Dataset[_],
@@ -76,7 +76,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
                        fitDataset: Dataset[_],
                        resource: Option[ExternalResource],
                        spark: SparkSession,
-                       databases: Array[Database.Value]
+                       databases: Array[Database.Name]
                      ): Unit = {
 
     val sparkContext = spark.sparkContext
