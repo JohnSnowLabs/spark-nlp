@@ -1,4 +1,62 @@
 ========
+2.4.0
+========
+---------------
+Overview
+---------------
+We are very excited to finally release Spark NLP v2.4.0! This has been one of the largest releases we have ever made since the inception of the library! 
+The new release of Spark NLP `2.4.0` has been migrated to TensorFlow `1.15.0` which takes advantage of the latest deep learning technologies and pre-trained models.
+
+------------------------------
+Major features and improvements
+------------------------------
+
+* **NEW:** TensorFlow 1.15.0
+* **NEW:** Universal Sentence Encoder with 2 new models from TF Hub
+* **NEW:** ElmoEmbeddings with a pre-trained model from TF Hub
+* **NEW:** All our pre-trained models are now cross-platform! 
+* **NEW:** For the first time, all the multi-lingual models and pipelines are available for Windows users (French, German and Italian)
+* **Nwe:** MultiDateMatcher to support multiple dates in a sentence
+* BertEmbeddings improvements with 5 new models from TF Hub
+* ChunkEmbeddings improvements
+* NGramsGenerator improvements
+* Tokenizer improvements 
+* WordEmbeddings and RocksDB improvements
+* Pretrained API improvements
+* DateMatcher improvements
+
+----------------------------
+Backwards incompatibilities
+----------------------------
+
+Please note that in `2.4.0` we have added `storageRef` parameter to our `WordEmbeddogs`. This means every `WordEmbeddingsModel` will now have `storageRef` which is also bind to `NerDLModel` trained by that embeddings.
+This assures users won't use a `NerDLModel` with a wrong `WordEmbeddingsModel`.
+
+Example:
+
+```scala
+val embeddings = new WordEmbeddings()
+      .setStoragePath("/tmp/glove.6B.100d.txt", ReadAs.TEXT)
+      .setDimension(100)
+      .setStorageRef("glove_100d") // Use or save this WordEmbeddings with storageRef
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+```
+
+If you save the`WordEmbeddings` model the `storageRef` will be `glove_100d`. If you ever train any `NerDLApproach` the `glove_100d` will bind to that `NerDLModel`.
+
+If you have already `WordEmbeddingsModels` saved from earlier versions, you either need to re-save them with `storageRed` or you can manually add this param in their `metadata/`. The same advice works for the `NerDLModel` from earlier versions.
+
+
+---------------
+Bugfixes
+---------------
+* Fixed splitChars in Tokenizer
+* Fixed DataMatcher for 
+* Fixed ChunkEmbeddings with empty sentence
+
+
+========
 2.3.6
 ========
 ---------------
