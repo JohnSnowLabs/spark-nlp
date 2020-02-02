@@ -15,15 +15,16 @@ object StorageHelper {
             storageSourcePath: String,
             spark: SparkSession,
             database: String,
-            storageRef: String
+            storageRef: String,
+            withinStorage: Boolean
           ): RocksDBConnection = {
 
-    val uri = new java.net.URI(storageSourcePath.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dbFolder = StorageHelper.resolveStorageName(database.toString, storageRef)
+    val src = StorageLocator.getStorageSerializedPath(storageSourcePath.replaceAllLiterally("\\", "/"), dbFolder, withinStorage)
 
-    val locator = StorageLocator(database, storageRef, spark, fs)
+    val locator = StorageLocator(database, storageRef, spark)
 
-    sendToCluster(new Path(storageSourcePath), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, spark.sparkContext)
+    sendToCluster(src, locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, spark.sparkContext)
 
     RocksDBConnection.getOrCreate(locator.clusterFileName)
   }

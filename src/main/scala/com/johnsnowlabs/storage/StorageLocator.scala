@@ -6,7 +6,9 @@ import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
-case class StorageLocator(database: String, storageRef: String, sparkSession: SparkSession, fs: FileSystem) {
+case class StorageLocator(database: String, storageRef: String, sparkSession: SparkSession) {
+
+  private val fs = FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
 
   private val clusterTmpLocation: String = {
     val tmpLocation = ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
@@ -27,12 +29,12 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
   }
 
   val destinationScheme: String = {
-    new Path(clusterFileName).getFileSystem(sparkSession.sparkContext.hadoopConfiguration).getScheme
+    fs.getScheme
   }
 
 }
 
 object StorageLocator {
-  def getStorageSerializedPath(path: String, folder: String): Path =
-    Path.mergePaths(new Path(path), new Path("/storage/"+folder))
+  def getStorageSerializedPath(path: String, folder: String, withinStorage: Boolean): Path =
+    Path.mergePaths(new Path(path), new Path((if (withinStorage) "/storage/" else "/")+folder))
 }
