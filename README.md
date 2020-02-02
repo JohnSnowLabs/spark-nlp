@@ -382,11 +382,8 @@ Spark NLP offers more than `25 pre-trained pipelines` in `4 languages`.
 | -------------------- | ---------------------- |
 | Explain Document ML  | `explain_document_ml`  |
 | Explain Document DL | `explain_document_dl`  |
-| Explain Document DL Win | `explain_document_dl_noncontrib`  |
 | Explain Document DL Fast | `explain_document_dl_fast`  |
-| Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  |
 | Recognize Entities DL | `recognize_entities_dl` |
-| Recognize Entities DL Win | `recognize_entities_dl_noncontrib` |
 | OntoNotes Entities Small | `onto_recognize_entities_sm` |
 | OntoNotes Entities Large | `onto_recognize_entities_lg` |
 | Match Datetime | `match_datetime` |
@@ -459,7 +456,6 @@ Spark NLP offers more than `30 pre-trained models` in `4 languages`.
 |PerceptronModel (POS)                   |   `pos_anc`     |
 |NerCRFModel (NER with GloVe)            |    `ner_crf`    |
 |NerDLModel (NER with GloVe)             |    `ner_dl`    |
-|NerDLModel (NER with GloVe)             |    `ner_dl_contrib`    |
 |NerDLModel (NER with BERT)| `ner_dl_bert_base_cased`|
 |NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|
 |NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|
