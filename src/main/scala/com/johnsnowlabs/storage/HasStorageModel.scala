@@ -24,13 +24,12 @@ trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
   def deserializeStorage(path: String, spark: SparkSession): Unit = {
     if ($(includeStorage))
       databases.foreach(database => {
-        val dbFolder = StorageHelper.resolveStorageName(database.toString, $(storageRef))
-        val src = StorageLocator.getStorageSerializedPath(path, dbFolder)
         StorageHelper.load(
-          src.toUri.toString,
+          path,
           spark,
           database.toString,
-          $(storageRef)
+          $(storageRef),
+          withinStorage = true
         )
       })
   }
