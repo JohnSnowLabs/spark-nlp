@@ -13,7 +13,8 @@ trait StorageReadable[T <: HasStorageModel with HasFeatures] extends ParamsAndFe
         path,
         spark,
         database.toString,
-        storageRef
+        storageRef,
+        withinStorage = false
       )
     })
   }
