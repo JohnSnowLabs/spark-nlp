@@ -72,10 +72,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
-    //
+
     val emptyVector = Array.fill(dim)(0f)
 
-    Seq(Array(emptyVector))
     batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
       if (ids.length > embeddings.length) {
         embeddings.take(embeddings.length - 1) ++
