@@ -143,10 +143,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
           )))
           rr
         }
-      }.toArray
-        .filter(t => t.token.nonEmpty)
-        .filter(t => t.token.length >= ${minLength})
-        .filter(t => t.token.length <= ${maxLength})
+      }.filter(t => t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m => t.token.length <= m)).toArray
       TokenizedSentence(tokens, text.index)
     }
   }
