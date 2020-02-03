@@ -88,11 +88,9 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
       )
     }
 
-    val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
-
     indexDatabases(databases, resource, tmpLocalDestinations, fitDataset, sparkContext)
 
-    val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
+    val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark))
 
     tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
       /** tmpFiles indexed must be explicitly set to be local files */

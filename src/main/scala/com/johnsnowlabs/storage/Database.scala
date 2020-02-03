@@ -2,6 +2,9 @@ package com.johnsnowlabs.storage
 
 trait Database extends Serializable {
   val name: String
+  override def toString: String = {
+    name
+  }
 }
 object Database {
   type Name = Database
