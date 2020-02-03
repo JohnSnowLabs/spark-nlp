@@ -109,6 +109,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
             end = chunk.end,
             result = chunk.result,
             metadata = Map("sentence" -> sentenceId.toString,
+              "chunk" -> chunk.metadata.getOrElse("chunk", "0"),
               "token" -> chunk.result.toString,
               "pieceId" -> "-1",
               "isWordStart" -> "true"
