@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ReadTensorflowModel - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel</title>
-          <meta name="description" content="ReadTensorflowModel - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel" />
-          <meta name="keywords" content="ReadTensorflowModel Spark NLP 2.3.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel" />
+          <title>ReadTensorflowModel - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel</title>
+          <meta name="description" content="ReadTensorflowModel - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel" />
+          <meta name="keywords" content="ReadTensorflowModel Spark NLP 2.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -54,7 +54,7 @@
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../../nlp/embeddings/BertEmbeddings$.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a>, <a href="../../nlp/annotator/package$$BertEmbeddings$.html" class="extype" name="com.johnsnowlabs.nlp.annotator.BertEmbeddings">BertEmbeddings</a>, <a href="../../nlp/annotators/ner/dl/NerDLModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel">NerDLModel</a>, <a href="../../nlp/annotator/package$$NerDLModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotator.NerDLModel">NerDLModel</a>, <a href="../../nlp/embeddings/ReadBertTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadBertTensorflowModel">ReadBertTensorflowModel</a>, <a href="../../nlp/annotators/ner/dl/ReadsNERGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.ReadsNERGraph">ReadsNERGraph</a></div>
+            <div class="subClasses hiddenContent"><a href="../../nlp/embeddings/BertEmbeddings$.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a>, <a href="../../nlp/annotator/package$$BertEmbeddings$.html" class="extype" name="com.johnsnowlabs.nlp.annotator.BertEmbeddings">BertEmbeddings</a>, <a href="../../nlp/embeddings/ElmoEmbeddings$.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings">ElmoEmbeddings</a>, <a href="../../nlp/annotator/package$$ElmoEmbeddings$.html" class="extype" name="com.johnsnowlabs.nlp.annotator.ElmoEmbeddings">ElmoEmbeddings</a>, <a href="../../nlp/annotator/package$$NerDLModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotator.NerDLModel">NerDLModel</a>, <a href="../../nlp/annotators/ner/dl/NerDLModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel">NerDLModel</a>, <a href="../../nlp/embeddings/ReadBertTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadBertTensorflowModel">ReadBertTensorflowModel</a>, <a href="../../nlp/embeddings/ReadElmoTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadElmoTensorflowModel">ReadElmoTensorflowModel</a>, <a href="../../nlp/embeddings/ReadUSETensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadUSETensorflowModel">ReadUSETensorflowModel</a>, <a href="../../nlp/annotators/ner/dl/ReadsNERGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.ReadsNERGraph">ReadsNERGraph</a>, <a href="../../nlp/annotator/package$$UniversalSentenceEncoder$.html" class="extype" name="com.johnsnowlabs.nlp.annotator.UniversalSentenceEncoder">UniversalSentenceEncoder</a>, <a href="../../nlp/embeddings/UniversalSentenceEncoder$.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder">UniversalSentenceEncoder</a></div>
           </div></div>
         
 
@@ -367,19 +367,36 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel#readTensorflowModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
-      <a id="readTensorflowModel(String,SparkSession,String,Boolean,Boolean,Array[String]):TensorflowWrapper"></a>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel#readTensorflowHub" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readTensorflowHub(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
+      <a id="readTensorflowHub(String,SparkSession,String,Boolean,Boolean,Array[String]):TensorflowWrapper"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">readTensorflowModel</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="useBundle">useBundle: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">Array.empty</span></span>)</span><span class="result">: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>
+        <span class="name">readTensorflowHub</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="useBundle">useBundle: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">Array.empty</span></span>)</span><span class="result">: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel@readTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel@readTensorflowHub(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel#readTensorflowModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
+      <a id="readTensorflowModel(String,SparkSession,String,Boolean,Boolean,Array[String],Boolean):TensorflowWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readTensorflowModel</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="useBundle">useBundle: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">Array.empty</span></span>, <span name="initAllTables">initAllTables: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel@readTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
