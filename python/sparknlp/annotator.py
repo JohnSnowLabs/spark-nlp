@@ -630,7 +630,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 
 class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     name = "BigTextMatcherModel"
-    HasStorageModel.databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
+    databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -663,6 +663,10 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     def pretrained(name, lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        HasStorageModel.loadStorages(path, spark, storage_ref, BigTextMatcherModel.databases)
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -1571,8 +1575,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
-
-    HasStorageModel.databases = ['EMBEDDINGS']
+    databases = ['EMBEDDINGS']
 
     readCacheSize = Param(Params._dummy(),
                           "readCacheSize",
@@ -1605,6 +1608,10 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     def pretrained(name="glove_100d", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        HasStorageModel.loadStorages(path, spark, storage_ref, WordEmbeddingsModel.databases)
 
 
 class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
