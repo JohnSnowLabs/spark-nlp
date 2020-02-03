@@ -116,8 +116,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     targetPattern -> "\\S+",
     contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
     caseSensitiveExceptions -> true,
-    minLength -> 0,
-    maxLength -> 99999
+    minLength -> 0
   )
 
   def buildRuleFactory: RuleFactory = {
@@ -160,7 +159,9 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
       .setTargetPattern($(targetPattern))
       .setRules(ruleFactory)
       .setMinLength($(minLength))
-      .setMaxLength($(maxLength))
+
+    if (isDefined(maxLength))
+      raw.setMaxLength($(maxLength))
 
     if (processedExceptions.nonEmpty)
       raw.setExceptions(processedExceptions)
