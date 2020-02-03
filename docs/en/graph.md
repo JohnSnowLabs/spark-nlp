@@ -3,7 +3,7 @@ layout: article
 title: Tensorflow Graph
 permalink: /docs/en/graph
 key: docs-graph
-modify_date: "2019-09-10"
+modify_date: "2020-02-03"
 ---
 
 NER DL uses Char CNNs - BiLSTM - CRF Neural Network architecture. Spark NLP defines this architecture through a Tensorflow graph, which requires the following parameters:
@@ -37,12 +37,13 @@ To overcome this exception message we have to follow these steps:
 2. Go to *python/tensorflow/ner/* path
 
 3. Run python file `create_models` with number of tags, embeddings dimension and number of char values mentioned on your exception message error.
+
     ```bash
-    python create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars] [output_path] 
+    python create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars] [output_path]
     ```
-    
+
 4. This will generate a graph on the directory defined on `output_path argument.
 
 5. Retry training with `NerDLApproach` annotator but this time use the parameter `setGraphFolder` with the path of your graph.
 
-**Note:**  Make sure that you have Python 3 and Tensorflow 1.12.0 installed on your system since `create_models` requires those versions to generate the graph successfully
+**Note:**  Make sure that you have Python 3 and Tensorflow 1.15.0 installed on your system since `create_models` requires those versions to generate the graph successfully.
