@@ -1,9 +1,9 @@
 ---
 layout: article
-title: Spark OCR 2.0
+title: Spark OCR 2.0 (Licensed)
 permalink: /docs/en/ocr_transformers
 key: docs-ocr-transformers
-modify_date: "2019-12-20"
+modify_date: "2020-02-03"
 ---
 Spark OCR provides set of Spark ML transformers/estimators that help users create and use OCR pipelines. 
 It built on top of Tesseract OCR.
