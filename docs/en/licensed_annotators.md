@@ -60,18 +60,41 @@ type: "present", "absent", "hypothetical", "conditional", "associated_with_other
 
 ### EntityResolver
 
-Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model.
+Assigns a standard code (ICD10 CM, PCS; ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Clinical Models.
 
 **Input types:** "ner_chunk_tokenized", "embeddings"
 
-**Output type:** "resolution_cm"
+**Output type:** "entity"
+
+**Functions:**
+
+- setLabelCol(k)
+- setNeighbours(k)
+- setThreshold(dist)
+- setMergeChunks(merge)
+- setMissAsEmpty(value)
+
+### Chunk2Token
+
+Transforms a complete chunk Annotation into a token Annotation without further tokenization, as opposed to ChunkTokenizer.
+
+**Input types:** "chunk",
+
+**Output type:** "token"
+
+### ChunkEntityResolver
+
+Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings
+
+**Input types:** "chunk_token", "embeddings"
+
+**Output type:** "resolution"
 
 **Functions:**
 
 - setSearchTree(s)
 - setNeighbours(k)
 - setThreshold(dist)
-- setMergeChunks(merge)
 - setMissAsEmpty(value)
 
 ### DeIdentificator
