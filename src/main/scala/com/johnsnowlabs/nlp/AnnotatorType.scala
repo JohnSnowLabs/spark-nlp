@@ -8,6 +8,7 @@ object AnnotatorType {
   val SENTENCE_EMBEDDINGS = "sentence_embeddings"
   val DATE = "date"
   val ENTITY = "entity"
+  val ENTITY_PARTITION = "entity_partition"
   val SENTIMENT = "sentiment"
   val POS = "pos"
   val CHUNK = "chunk"
