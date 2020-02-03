@@ -18,12 +18,12 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Using Spark NLP](#usage)  
   * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
-  * [Compiled JARs](#compiled-jars)
   * [Scala](#scala)
     * [Maven](#maven)
     * [SBT](#sbt)
   * [Python](#python)
     * [Pip/Conda](#pipconda)
+  * [Compiled JARs](#compiled-jars)
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [Google Colab Notebook](#google-colab-notebook)
@@ -79,7 +79,7 @@ For more examples you can visit our dedicated [repository](https://github.com/Jo
 
 ## Apache Spark Support
 
-Spark NLP *2.3.6* has been built on top of Apache Spark 2.4.4
+Spark NLP *2.4.0* has been built on top of Apache Spark 2.4.4
 
 | Spark NLP   |   Spark 2.3.x         | Spark 2.4   |
 |-------------|-------------------------------------|--------------|
@@ -103,26 +103,130 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.3.6` to you spark command
+To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.3.6
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.6
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.3.6
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-NOTE: You can also use Maven repo directly instead of Spark Packages:
+## Scala
 
-```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.6
+Our package is deployed to maven central. In order to add this package as a dependency in your application:
+
+### Maven
+
+**spark-nlp:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.4.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.4.0</version>
+</dependency>
+```
+
+### SBT
+
+**spark-nlp:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.4.0"
+```
+
+**spark-nlp-gpu:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.0"
+```
+
+Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
+
+## Python
+
+### Python without explicit Pyspark installation
+
+### Pip/Conda
+
+If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
+
+Pip:
+
+```bash
+pip install spark-nlp==2.4.0
+```
+
+Conda:
+
+```bash
+conda install -c johnsnowlabs spark-nlp
+```
+
+PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/) / Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
+
+Then you'll have to create a SparkSession either from Spark NLP:
+
+```python
+import sparknlp
+
+spark = sparknlp.start()
+```
+
+or manually:
+
+```python
+spark = SparkSession.builder \
+    .appName("ner")\
+    .master("local[4]")\
+    .config("spark.driver.memory","8G")\
+    .config("spark.driver.maxResultSize", "2G") \
+    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.4.0")\
+    .config("spark.kryoserializer.buffer.max", "500m")\
+    .getOrCreate()
+```
+
+If using local jars, you can use `spark.jars` instead for a comma delimited jar files. For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes.
+
+**Quick example:**
+
+```python
+import sparknlp
+from sparknlp.pretrained import PretrainedPipeline
+
+#create or get Spark Session
+
+spark = sparknlp.start()
+
+sparknlp.version()
+spark.version
+
+#download, load, and annotate a text by pre-trained pipeline
+
+pipeline = PretrainedPipeline('recognize_entities_dl', 'en')
+result = pipeline.annotate('Harry Potter is a great movie')
 ```
 
 ## Compiled JARs
@@ -161,116 +265,6 @@ spark-shell --jars spark-nlp.jar
 
 The preferred way to use the library when running spark programs is using the `--packages` option as specified in the `spark-packages` section.
 
-## Scala
-
-Our package is deployed to maven central. In order to add this package as a dependency in your application:
-
-### Maven
-
-**spark-nlp:**
-
-```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.3.6</version>
-</dependency>
-```
-
-**spark-nlp-gpu:**
-
-```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu -->
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>2.3.6</version>
-</dependency>
-```
-
-### SBT
-
-**spark-nlp:**
-
-```sbtshell
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.3.6"
-```
-
-**spark-nlp-gpu:**
-
-```sbtshell
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.3.6"
-```
-
-Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
-
-## Python
-
-### Python without explicit Pyspark installation
-
-### Pip/Conda
-
-If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
-
-Pip:
-
-```bash
-pip install spark-nlp==2.3.6
-```
-
-Conda:
-
-```bash
-conda install -c johnsnowlabs spark-nlp
-```
-
-PyPI [spark-nlp package](https://pypi.org/project/spark-nlp/) / Anaconda [spark-nlp package](https://anaconda.org/JohnSnowLabs/spark-nlp)
-
-Then you'll have to create a SparkSession either from Spark NLP:
-
-```python
-import sparknlp
-
-spark = sparknlp.start()
-```
-
-or manually:
-
-```python
-spark = SparkSession.builder \
-    .appName("ner")\
-    .master("local[4]")\
-    .config("spark.driver.memory","8G")\
-    .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.3.6")\
-    .config("spark.kryoserializer.buffer.max", "500m")\
-    .getOrCreate()
-```
-
-If using local jars, you can use `spark.jars` instead for a comma delimited jar files. For cluster setups, of course you'll have to put the jars in a reachable location for all driver and executor nodes.
-
-**Quick example:**
-
-```python
-import sparknlp
-from sparknlp.pretrained import PretrainedPipeline
-
-#create or get Spark Session
-
-spark = sparknlp.start()
-
-sparknlp.version()
-spark.version
-
-#download, load, and annotate a text by pre-trained pipeline
-
-pipeline = PretrainedPipeline('recognize_entities_dl', 'en')
-result = pipeline.annotate('Harry Potter is a great movie')
-```
-
 ## Apache Zeppelin
 
 Use either one of the following options
@@ -278,7 +272,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.6
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
 ```
 
 * Add path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -288,7 +282,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.3.6
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.3.6
+pip install spark-nlp==2.4.0
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -313,7 +307,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.3.6
+pyspark --packages JohnSnowLabs:spark-nlp:2.4.0
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -339,7 +333,7 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install --ignore-installed spark-nlp==2.3.6
+! pip install --ignore-installed spark-nlp==2.4.0
 
 # Quick SparkSession start
 import sparknlp
@@ -388,11 +382,8 @@ Spark NLP offers more than `25 pre-trained pipelines` in `4 languages`.
 | -------------------- | ---------------------- |
 | Explain Document ML  | `explain_document_ml`  |
 | Explain Document DL | `explain_document_dl`  |
-| Explain Document DL Win | `explain_document_dl_noncontrib`  |
 | Explain Document DL Fast | `explain_document_dl_fast`  |
-| Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  |
 | Recognize Entities DL | `recognize_entities_dl` |
-| Recognize Entities DL Win | `recognize_entities_dl_noncontrib` |
 | OntoNotes Entities Small | `onto_recognize_entities_sm` |
 | OntoNotes Entities Large | `onto_recognize_entities_lg` |
 | Match Datetime | `match_datetime` |
@@ -465,7 +456,6 @@ Spark NLP offers more than `30 pre-trained models` in `4 languages`.
 |PerceptronModel (POS)                   |   `pos_anc`     |
 |NerCRFModel (NER with GloVe)            |    `ner_crf`    |
 |NerDLModel (NER with GloVe)             |    `ner_dl`    |
-|NerDLModel (NER with GloVe)             |    `ner_dl_contrib`    |
 |NerDLModel (NER with BERT)| `ner_dl_bert_base_cased`|
 |NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|
 |NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|
