@@ -226,8 +226,8 @@ class _LightPipeline(ExtendedJavaWrapper):
 
 
 class _StorageHelper(ExtendedJavaWrapper):
-    def __init__(self, path, spark, database, storage_ref):
-        super(_StorageHelper, self).__init__("com.johnsnowlabs.storage.StorageHelper.load", path, spark._jsparkSession, database, storage_ref)
+    def __init__(self, path, spark, database, storage_ref, within_storage):
+        super(_StorageHelper, self).__init__("com.johnsnowlabs.storage.StorageHelper.load", path, spark._jsparkSession, database, storage_ref, within_storage)
 
 
 class _CoNLLGeneratorExport(ExtendedJavaWrapper):

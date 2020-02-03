@@ -68,7 +68,8 @@ public class GeneralAnnotationsTest {
                 "src/test/resources/random_embeddings_dim4.txt",
                 spark,
                 "random",
-                "random_ref"
+                "random_ref",
+                false
                 );
 
         System.out.println("\nFinished testing Spark NLP on JAVA");
