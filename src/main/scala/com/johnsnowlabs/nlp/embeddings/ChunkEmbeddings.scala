@@ -102,20 +102,23 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
           )
 
           val finalEmbeddings = if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
-
-          Some(Annotation(
-            annotatorType = outputAnnotatorType,
-            begin = chunk.begin,
-            end = chunk.end,
-            result = chunk.result,
-            metadata = Map("sentence" -> sentenceId.toString,
-              "chunk" -> chunk.metadata.getOrElse("chunk", "0"),
-              "token" -> chunk.result.toString,
-              "pieceId" -> "-1",
-              "isWordStart" -> "true"
-            ),
-            embeddings = calculateChunkEmbeddings(finalEmbeddings)
-          ))
+          if(finalEmbeddings.length > 0) {
+            Some(Annotation(
+              annotatorType = outputAnnotatorType,
+              begin = chunk.begin,
+              end = chunk.end,
+              result = chunk.result,
+              metadata = Map("sentence" -> sentenceId.toString,
+                "chunk" -> chunk.metadata.getOrElse("chunk", "0"),
+                "token" -> chunk.result.toString,
+                "pieceId" -> "-1",
+                "isWordStart" -> "true"
+              ),
+              embeddings = calculateChunkEmbeddings(finalEmbeddings)
+            ))
+          } else{
+            None
+          }
         } else {
           None
         }
