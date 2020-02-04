@@ -3,7 +3,7 @@ layout: article
 title: Spark OCR (Licensed)
 permalink: /docs/en/ocr
 key: docs-ocr
-modify_date: "2019-09-06"
+modify_date: "2020-02-04"
 ---
 Spark NLP comes with an OCR module that can read both PDF files and scanned images (requires `Tesseract 4.x+`).
 
@@ -54,7 +54,7 @@ tesseract -v
 Let's read a PDF file:
 
 ```scala
-import com.johnsnowlabs.nlp.util.io.OcrHelper
+import com.johnsnowlabs.nlp._
 val ocrHelper = new OcrHelper()
 
 //If you do this locally you can use file:/// or hdfs:/// if the files are hosted in Hadoop
