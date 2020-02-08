@@ -4,6 +4,8 @@ title: Training
 permalink: /docs/en/training
 key: docs-training
 modify_date: "2019-10-23"
+use_language_switchter: true
+
 ---
 
 ## Training Datasets
@@ -28,6 +30,8 @@ A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
 **Example:**  
 
 Refer to the [POS](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.POS) Scala docs for more details on the API.
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from sparknlp.training import POS
@@ -65,6 +69,8 @@ In order to train a Named Entity Recognition DL annotator, we need to get CoNLL 
 
 Refer to the [CoNLL](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.CoNLL) Scala docs for more details on the API.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from sparknlp.training import CoNLL
 training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
@@ -80,6 +86,8 @@ val trainingConll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/e
 In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus data as a spark dataframe. We can read a plain text file and transforms it to a spark dataset.  
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 train_corpus = spark.read.text("./sherlockholmes.txt")
