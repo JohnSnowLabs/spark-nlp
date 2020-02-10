@@ -324,9 +324,9 @@ data.select("pagenum", "text").show()
 +-------+----------------------+
 ```
 
-### PDFToImage
+### PdfToImage
 
-`PDFToImage` renders PDF to an image. To be used with scanned PDF documents.
+`PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
 
 #### Input Columns
 
@@ -357,14 +357,14 @@ data.select("pagenum", "text").show()
 **Example:**
 
 ```scala
-import com.johnsnowlabs.ocr.transformers.PDFToImage
+import com.johnsnowlabs.ocr.transformers.PdfToImage
 
 val pdfPath = "path to pdf"
 
 // Read PDF file as binary file
 val df = spark.read.format("binaryFile").load(pdfPath)
 
-val pdfToImage = new PDFToImage()
+val pdfToImage = new PdfToImage()
   .setInputCol("content")
   .setOutputCol("text")
   .setPageNumCol("pagenum")
@@ -373,6 +373,57 @@ val pdfToImage = new PDFToImage()
 val data =  pdfToImage.transform(df)
 
 data.select("pagenum", "text").show()
+```
+
+### ImageToPdf
+
+`ImageToPdf` transform image to Pdf document.
+If dataframe contains few records for same origin path, it groups image by origin
+column and create multipage PDF document.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema))  |
+| originCol | string | path | path to the original file |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | content | binary representation of the PDF document |
+
+
+**Example:**
+
+Read images and store it as single page PDF documents.
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToPdf
+import com.johnsnowlabs.ocr.transformers.BinaryToImage
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read.format("binaryFile").load(imagePath)
+
+// Define transformer for convert to Image struct
+val binaryToImage = new BinaryToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+
+// Define transformer for store to PDF
+val imageToPdf = new ImageToPdf()
+  .setInputCol("image")
+  .setOutputCol("content")
+
+// Call transformers
+val image_df = binaryToImage.transform(df)
+val pdf_df =  pdfToImage.transform(image_df)
+
+pdf_df.select("content").show()
 ```
 
 ## Image pre-processing
@@ -741,6 +792,63 @@ data.select("path", "noiselevel").show()
 
 ```
 
+### ImageRemoveObjects
+
+**python only**
+
+`ImageRemoveObjects` for remove background objects.
+It support removing:
+- objects less then minSizeObject
+- holes less then minSizeHole
+- objects more then maxSizeObject
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | None | image struct ([Image schema](#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| minSizeObject | int | 10 | Min size of object which will keep on image [*]. |
+| connectivityObject | int | 0 | The connectivity defining the neighborhood of a pixel. |
+| minSizeHole | int | None | Min size of hole which will keep on image[ *]. |
+| connectivityHole | int | 0 | The connectivity defining the neighborhood of a pixel. |
+| maxSizeObject | int | None | Max size of object which will keep on image [*]. |
+| connectivityMaxObject | int | 0 | The connectivity defining the neighborhood of a pixel. |
+
+[*] : _None_ value disables removing objects.
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | None | scaled image struct ([Image schema](#image-schema)) |
+
+
+**Example:**
+
+```python
+from com.johnsnowlabs.ocr.transformers import ImageRemoveObjects
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+  .format("binaryFile")
+  .load(imagePath)
+
+transformer = ImageRemoveObjects()
+  .setInputCol("image")
+  .setOutputCol("corrected_image")
+  .setMinSizeObject(20)
+
+data = transformer.transform(df)
+```
+
+
 ## Splitting image to regions
 
 ### ImageLayoutAnalyzer
@@ -839,7 +947,7 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
 
 val splitter = new ImageSplitRegions()
   .setInputCol("image")
-  .setRegionCol("region")
+  .setRegionCol("regions")
   .setOutputCol("region_image")
 
 // Define pipeline
@@ -854,6 +962,70 @@ val modelPipeline = pipeline.fit(spark.emptyDataFrame)
 val data = pipeline.transform(df)
 data.show()
 ```
+
+### ImageDrawRegions
+
+`ImageDrawRegions` draw regions to image.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
+| inputRegionsCol | string | region | array of [Coordinaties](#coordinate-schema)|
+
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineWidth | Int | 4 | Line width for draw rectangles |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image_with_regions | image struct ([Image schema](#image-schema)) |
+
+**Example:**
+
+```scala
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+// Define transformer for detect regions
+val layoutAnalyzer = new ImageLayoutAnalyzer()
+  .setInputCol("image")
+  .setOutputCol("regions")
+
+val splitter = new ImageDrawRegions()
+  .setInputCol("image")
+  .setRegionCol("regions")
+  .setOutputCol("image_with_regions")
+
+// Define pipeline
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  layoutAnalyzer,
+  splitter
+))
+
+val modelPipeline = pipeline.fit(spark.emptyDataFrame)
+
+val data = pipeline.transform(df)
+data.show()
+```
+
 
 ## Characters recognition
 
