@@ -222,6 +222,11 @@ class TokenizerModel(AnnotatorModel):
                   "Rules structure factory containing pre processed regex rules",
                   typeConverter=TypeConverters.identity)
 
+    splitChars = Param(Params._dummy(),
+                       "splitChars",
+                       "character list used to separate from the inside of tokens",
+                       typeConverter=TypeConverters.toListString)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TokenizerModel", java_model=None):
         super(TokenizerModel, self).__init__(
             classname=classname,
@@ -231,6 +236,17 @@ class TokenizerModel(AnnotatorModel):
             targetPattern="\\S+",
             caseSensitiveExceptions=True
         )
+
+    def setSplitChars(self, value):
+        return self._set(splitChars=value)
+
+    def addSplitChars(self, value):
+        try:
+            split_chars = self.getSplitChars()
+        except KeyError:
+            split_chars = []
+        split_chars.append(value)
+        return self._set(splitChars=split_chars)
 
     @staticmethod
     def pretrained(name="token_rules", lang="en", remote_loc=None):
@@ -567,7 +583,7 @@ class TextMatcherModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
 
 
-class BigTextMatcher(AnnotatorApproach):
+class BigTextMatcher(AnnotatorApproach, HasStorage):
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -612,8 +628,9 @@ class BigTextMatcher(AnnotatorApproach):
         return self._set(tokenizer_model._java_obj)
 
 
-class BigTextMatcherModel(AnnotatorModel):
+class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     name = "BigTextMatcherModel"
+    databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
@@ -646,6 +663,10 @@ class BigTextMatcherModel(AnnotatorModel):
     def pretrained(name, lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        HasStorageModel.loadStorages(path, spark, storage_ref, BigTextMatcherModel.databases)
 
 
 class PerceptronApproach(AnnotatorApproach):
@@ -1365,16 +1386,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
         return self._set(includeConfidence=value)
 
     @staticmethod
-    def pretrained(name="ner_dl_by_os", lang="en", remote_loc=None):
+    def pretrained(name="ner_dl", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        if name == "ner_dl_by_os":
-            if sys.platform == 'win32':
-                final_name = 'ner_dl'
-            else:
-                final_name = 'ner_dl_contrib'
-        else:
-            final_name = name
-        return ResourceDownloader.downloadModel(NerDLModel, final_name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
 
 
 class NerConverter(AnnotatorModel):
@@ -1529,11 +1543,28 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     name = "WordEmbeddings"
 
+    writeBufferSize = Param(Params._dummy(),
+                               "writeBufferSize",
+                               "buffer size limit before dumping to disk storage while writing",
+                               typeConverter=TypeConverters.toInt)
+
+    readCacheSize = Param(Params._dummy(),
+                            "readCacheSize",
+                            "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                            typeConverter=TypeConverters.toInt)
+
+    def setWriteBufferSize(self, v):
+        return self._set(writeBufferSize=v)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
+
     @keyword_only
     def __init__(self):
         super(WordEmbeddings, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddings")
         self._setDefault(
             caseSensitive=False,
+            writeBufferSize=10000,
             storageRef=self.uid
         )
 
@@ -1544,6 +1575,15 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
 
     name = "WordEmbeddingsModel"
+    databases = ['EMBEDDINGS']
+
+    readCacheSize = Param(Params._dummy(),
+                          "readCacheSize",
+                          "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                          typeConverter=TypeConverters.toInt)
+
+    def setReadCacheSize(self, v):
+        return self._set(readCacheSize=v)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", java_model=None):
@@ -1568,6 +1608,10 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     def pretrained(name="glove_100d", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        HasStorageModel.loadStorages(path, spark, storage_ref, WordEmbeddingsModel.databases)
 
 
 class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
@@ -1624,20 +1668,20 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         self._setDefault(
             dimension=768,
             batchSize=32,
-            maxSentenceLength=64,
-            caseSensitive=False,
+            maxSentenceLength=128,
+            caseSensitive=True,
             poolingLayer=0
         )
 
     @staticmethod
-    def loadFromPython(folder, spark_session):
+    def loadSavedModel(folder, spark_session):
         from sparknlp.internal import _BertLoader
         jModel = _BertLoader(folder, spark_session._jsparkSession)._java_obj
         return BertEmbeddings(java_model=jModel)
 
 
     @staticmethod
-    def pretrained(name="bert_uncased", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
@@ -1836,3 +1880,63 @@ class UniversalSentenceEncoder(AnnotatorModel):
     def pretrained(name="tfhub_use", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)
+
+
+class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "ElmoEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    poolingLayer = Param(Params._dummy(),
+                         "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo",
+                         typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setPoolingLayer(self, layer):
+        if layer == "word_emb":
+            return self._set(poolingLayer=layer)
+        elif layer == "lstm_outputs1":
+            return self._set(poolingLayer=layer)
+        elif layer == "lstm_outputs2":
+            return self._set(poolingLayer=layer)
+        elif layer == "elmo":
+            return self._set(poolingLayer=layer)
+        else:
+            return self._set(poolingLayer="word_emb")
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings", java_model=None):
+        super(ElmoEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            poolingLayer="word_emb"
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _ElmoLoader
+        jModel = _ElmoLoader(folder, spark_session._jsparkSession)._java_obj
+        return ElmoEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="elmo", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)

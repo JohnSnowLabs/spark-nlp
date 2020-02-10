@@ -1,4 +1,69 @@
-CHANGELOG:
+========
+2.4.0
+========
+---------------
+Overview
+---------------
+We are very excited to finally release Spark NLP v2.4.0! This has been one of the largest releases we have ever made since the inception of the library! 
+The new release of Spark NLP `2.4.0` has been migrated to TensorFlow `1.15.0` which takes advantage of the latest deep learning technologies and pre-trained models.
+As always, thanks to the community for the feedback and questions in our Slack channel.
+Please beware as this release breaks backwards compatibility with previously saved models, particularly on Tensorflow and Embeddings, aside from code-breaking changes in the API.
+We will be working in our documentation to enhance the learning curve.
+
+---------------
+New Features
+---------------
+* TensorFlow 1.15.0 now works behind Spark NLP. This brings implicit improvements in performance, accuracy and functionalities
+* New Annotator UniversalSentenceEncoder with 2 pre-trained models from TF Hub. Check our spark-nlp-models repo for updates
+* New Annotator MultiDateMatcher capable of matching more than one date per sentence (Extends DateMatcher algorithm)
+* New Annotator NGramGenerator with Param tweaks for customization
+* New Annotator BigTextMatcher works best with large amounts of input data
+* New Annotator ElmoEmbeddings with a pre-trained model from TF Hub. Check our spark-nlp-models repo for updates
+* BertEmbeddings improvements with 5 new models from TF Hub
+* RecursivePipelineModel as an enhanced PipelineModel allows Annotators access previous annotators in the pipeline for more ML strategies
+* LazyAnnotators: A new Param in Annotators allow them to stand idle in the Pipeline and do nothing. Can be called by other Annotators in a RecursivePipeline
+
+---------------
+Enhancements
+---------------
+* RocksDB now available as a flexible API called `Storage`. Allows any annotator to have it's own distributed local index database
+* Now our Tensorflow pre-trained models are cross-platform. Enabling multi-language models and other improvements to Windows users.
+* Improved IO performance in general for handling embeddings
+* Improved cache cleanup and GC by liberating open files utilized in RocksDB (to be improved further)
+* Tokenizer and SentenceDetector Params minLength and MaxLength to filter out annotations outside these bounds
+* Tokenizer improvements in splitChars and simplified rules
+* DateMatcher improvements
+* TextMatcher improvements preload algorithm information within the model for faster prediction
+* Annotators the utilize embeddings have now a strict validation to be using exactly the embeddings they were trained with
+* Improvements in the API allow Annotators with Storage to save and load their RocksDB database independently and let it be shared across Annotators
+
+----------------
+Bugfixes
+----------------
+* Fixes in Chunk and SentenceEmbeddings to better deal with empty cleaned-up Annotations
+* Fixed PretrainedPipeline in Python to allow accessing the inner PipelineModel in the instance
+* Probably a bunch of uncommented bugfixes along the way :)
+
+========
+2.3.6
+========
+---------------
+Overview
+---------------
+This minor release fixes a bug in ChunkEmbeddings causing an out of boundaries exception in some scenarios. We
+also switch to maven coordinates as default source for start() function since spark-packages has not been responsive
+on their package approval process. Thank you all for your consistent feedback.
+
+---------------
+Bugfixes
+---------------
+* Fixed a bug in Chunk Embeddings caused by out of bound exception in some scenarios
+
+---------------
+Other
+---------------
+* start() function switched to use maven coordinates instead
+
 ========
 2.3.5
 ========
@@ -11,13 +76,10 @@ Spark NLP `2.3.4` is a very stable and rock-solid release. However, we wanted to
 ---------------
 Bugfixes
 ---------------
-
-- https://github.com/JohnSnowLabs/spark-nlp/pull/702 Date matcher fixes flexible dates
-- https://github.com/JohnSnowLabs/spark-nlp/pull/718 Fixed a bug in a pragmatic sentence detector where a sub matched group contained a dollar sign.
-- https://github.com/JohnSnowLabs/spark-nlp/pull/719 Move import to top-level to avoid import fail in Spark NLP functions
-- https://github.com/JohnSnowLabs/spark-nlp/pull/709 https://github.com/JohnSnowLabs/spark-nlp/pull/716 Some improvements in our documentation thanks to @marcinic @howmuchcomputer
-
-
+* https://github.com/JohnSnowLabs/spark-nlp/pull/702 Date matcher fixes flexible dates
+* https://github.com/JohnSnowLabs/spark-nlp/pull/718 Fixed a bug in a pragmatic sentence detector where a sub matched group contained a dollar sign.
+* https://github.com/JohnSnowLabs/spark-nlp/pull/719 Move import to top-level to avoid import fail in Spark NLP functions
+* https://github.com/JohnSnowLabs/spark-nlp/pull/709 https://github.com/JohnSnowLabs/spark-nlp/pull/716 Some improvements in our documentation thanks to @marcinic @howmuchcomputer
 
 ========
 2.3.4

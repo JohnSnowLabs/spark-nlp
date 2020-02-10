@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TextMatcherModel - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.TextMatcherModel</title>
-          <meta name="description" content="TextMatcherModel - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.TextMatcherModel" />
-          <meta name="keywords" content="TextMatcherModel Spark NLP 2.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.TextMatcherModel" />
+          <title>TextMatcherModel - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.TextMatcherModel</title>
+          <meta name="description" content="TextMatcherModel - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.TextMatcherModel" />
+          <meta name="keywords" content="TextMatcherModel Spark NLP 2.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.TextMatcherModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -53,7 +53,7 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Extracts entities out of provided phrases</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>], <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>], <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>], <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel"><span>TextMatcherModel</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel"><span>TextMatcherModel</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -129,7 +129,28 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.AnnotatorModel.AnnotationContent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="AnnotationContent=Seq[org.apache.spark.sql.Row]"></a>
+      <a id="AnnotationContent:AnnotationContent"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">AnnotationContent</span><span class="result"> = <span class="extype" name="scala.collection.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@AnnotationContent=Seq[org.apache.spark.sql.Row]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">internal types to show Rows as a relevant StructType
+Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+</p><div class="fullcomment"><div class="comment cmt"><p>internal types to show Rows as a relevant StructType
+Should be deleted once Spark releases UserDefinedTypes to @developerAPI
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotatorType.AnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotatorType=String"></a>
       <a id="AnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -289,6 +310,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#_transform" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_transform(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):org.apache.spark.sql.DataFrame"></a>
+      <a id="_transform(Dataset[_],Option[PipelineModel]):DataFrame"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_transform</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="recursivePipeline">recursivePipeline: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.PipelineModel">PipelineModel</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@_transform(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):org.apache.spark.sql.DataFrame" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame"></a>
       <a id="afterAnnotate(DataFrame):DataFrame"></a>
@@ -357,23 +395,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#caseSensitive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="caseSensitive:org.apache.spark.ml.param.BooleanParam"></a>
-      <a id="caseSensitive:BooleanParam"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">caseSensitive</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@caseSensitive:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
@@ -780,23 +801,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getCaseSensitive:Boolean"></a>
-      <a id="getCaseSensitive:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getCaseSensitive</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@getCaseSensitive:Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -848,6 +852,23 @@
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLazyAnnotator:Boolean"></a>
+      <a id="getLazyAnnotator:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLazyAnnotator</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@getLazyAnnotator:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#getMergeOverlapping" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getMergeOverlapping:Boolean"></a>
       <a id="getMergeOverlapping:Boolean"></a>
@@ -1124,6 +1145,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="lazyAnnotator:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lazyAnnotator</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@lazyAnnotator:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#log" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="log:org.slf4j.Logger"></a>
       <a id="log:Logger"></a>
@@ -1362,6 +1400,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
+      <a id="msgHelper(StructType):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">msgHelper</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@msgHelper(schema:org.apache.spark.sql.types.StructType):String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -1498,23 +1553,6 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#parsedEntities" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="parsedEntities:com.johnsnowlabs.nlp.serialization.ArrayFeature[Array[String]]"></a>
-      <a id="parsedEntities:ArrayFeature[Array[String]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">parsedEntities</span><span class="result">: <a href="../serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@parsedEntities:com.johnsnowlabs.nlp.serialization.ArrayFeature[Array[String]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -1544,18 +1582,18 @@ AnnotatorType is used both as input and output columns if not specified
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#searchTrie" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="searchTrie:com.johnsnowlabs.collections.SearchTrie"></a>
-      <a id="searchTrie:SearchTrie"></a>
+      <a id="searchTrie:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.collections.SearchTrie]"></a>
+      <a id="searchTrie:StructFeature[SearchTrie]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">lazy val</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">searchTrie</span><span class="result">: <a href="../../collections/SearchTrie.html" class="extype" name="com.johnsnowlabs.collections.SearchTrie">SearchTrie</a></span>
+        <span class="name">searchTrie</span><span class="result">: <a href="../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<a href="../../collections/SearchTrie.html" class="extype" name="com.johnsnowlabs.collections.SearchTrie">SearchTrie</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@searchTrie:com.johnsnowlabs.collections.SearchTrie" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@searchTrie:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.collections.SearchTrie]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1679,23 +1717,6 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setCaseSensitive(v:Boolean):TextMatcherModel.this.type"></a>
-      <a id="setCaseSensitive(Boolean):TextMatcherModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setCaseSensitive</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@setCaseSensitive(v:Boolean):TextMatcherModel.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a>
       <a id="setDefault[T](StructFeature[T],()⇒T):TextMatcherModel.this.type"></a>
@@ -1798,23 +1819,6 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#setEntities" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEntities(value:Array[Array[String]]):TextMatcherModel.this.type"></a>
-      <a id="setEntities(Array[Array[String]]):TextMatcherModel.this.type"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setEntities</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>.this.type</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@setEntities(value:Array[Array[String]]):TextMatcherModel.this.type" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):TextMatcherModel.this.type"></a>
@@ -1849,6 +1853,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a>
+      <a id="setLazyAnnotator(Boolean):TextMatcherModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setLazyAnnotator</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#setMergeOverlapping" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setMergeOverlapping(v:Boolean):TextMatcherModel.this.type"></a>
       <a id="setMergeOverlapping(Boolean):TextMatcherModel.this.type"></a>
@@ -1900,6 +1921,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.TextMatcherModel#setSearchTrie" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setSearchTrie(value:com.johnsnowlabs.collections.SearchTrie):TextMatcherModel.this.type"></a>
+      <a id="setSearchTrie(SearchTrie):TextMatcherModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSearchTrie</span><span class="params">(<span name="value">value: <a href="../../collections/SearchTrie.html" class="extype" name="com.johnsnowlabs.collections.SearchTrie">SearchTrie</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.TextMatcherModel@setSearchTrie(value:com.johnsnowlabs.collections.SearchTrie):TextMatcherModel.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2190,6 +2228,8 @@ metadata is built at schema level to record annotations structural information o
         <div id="inheritedMembers">
         <div class="parent" name="com.johnsnowlabs.nlp.AnnotatorModel">
               <h3>Inherited from <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>]</h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.CanBeLazy">
+              <h3>Inherited from <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.RawAnnotator">
               <h3>Inherited from <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.TextMatcherModel">TextMatcherModel</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">

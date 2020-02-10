@@ -43,6 +43,8 @@ docs-en:
         url:    /docs/en/training
       - title:  Tensorflow Graph
         url:  /docs/en/graph
+      - title:  Developers
+        url:  /docs/en/developers  
   - title: Licensed Content
     children:
       - title:  Annotators

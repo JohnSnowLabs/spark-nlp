@@ -1,11 +1,10 @@
 import sparknlp.internal as _internal
-import sys
 import threading
 import time
-from pyspark.ml.wrapper import JavaModel
 from pyspark.sql import DataFrame
 from sparknlp.annotator import *
 from sparknlp.base import LightPipeline
+from pyspark.ml import PipelineModel
 
 
 def printProgress(stop):
@@ -59,7 +58,7 @@ class ResourceDownloader(object):
             t1.start()
             try:
                 j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
-                jmodel = JavaModel(j_obj)
+                jmodel = PipelineModel._from_java(j_obj)
             finally:
                 stop_threads = True
                 t1.join()
@@ -91,7 +90,6 @@ class PretrainedPipeline:
         if not disk_location:
             self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
         else:
-            from pyspark.ml import PipelineModel
             self.model = PipelineModel.load(disk_location)
         self.light_model = LightPipeline(self.model, parse_embeddings)
 

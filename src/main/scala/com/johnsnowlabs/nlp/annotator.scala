@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadUSETensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedUSEModel, ReadablePretrainedWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadElmoTensorflowModel, ReadUSETensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedElmoModel, ReadablePretrainedUSEModel, ReadablePretrainedWordEmbeddings}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -141,5 +141,8 @@ package object annotator {
 
   type UniversalSentenceEncoder = com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
   object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
+
+  type ElmoEmbeddings = com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings
+  object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel
 
 }

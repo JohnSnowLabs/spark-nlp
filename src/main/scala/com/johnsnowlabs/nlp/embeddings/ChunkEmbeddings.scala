@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -75,7 +76,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
     val documentsWithChunks = annotations
       .filter(token => token.annotatorType == CHUNK)
-      .groupBy(_.metadata.head._2.toInt)
+      .groupBy(_.metadata.getOrElse[String]("chunk", "0").toInt)
       .toSeq
       .sortBy(_._1)
 

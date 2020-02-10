@@ -2,17 +2,18 @@ package com.johnsnowlabs.nlp.embeddings
 
 import java.nio.{ByteBuffer, ByteOrder}
 
-import com.johnsnowlabs.storage.{RocksDBConnection, StorageReadWriter}
+import com.johnsnowlabs.storage.{RocksDBConnection, StorageBatchWriter}
 
 class WordEmbeddingsWriter(
-                            override val connection: RocksDBConnection,
-                            caseSensitiveIndex: Boolean,
-                            dimension: Int,
-                            maxCacheSize: Int
+                                override val connection: RocksDBConnection,
+                                caseSensitiveIndex: Boolean,
+                                dimension: Int,
+                                maxCacheSize: Int,
+                                writeBuffer: Int
                           )
-  extends WordEmbeddingsReader(connection, caseSensitiveIndex, dimension, maxCacheSize) with StorageReadWriter[Array[Float]] {
+  extends StorageBatchWriter[Array[Float]] with ReadsFromBytes {
 
-  override protected def writeBufferSize: Int = 5000
+  override protected def writeBufferSize: Int = writeBuffer
 
   override def toBytes(content: Array[Float]): Array[Byte] = {
     val buffer = ByteBuffer.allocate(content.length * 4)

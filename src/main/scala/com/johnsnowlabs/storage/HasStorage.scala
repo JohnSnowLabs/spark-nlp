@@ -14,7 +14,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
+trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSensitiveProperties {
 
   protected val databases: Array[Database.Name]
 
@@ -39,7 +39,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
   protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_]
 
   private def indexDatabases(
-                              databases: Array[Database.Value],
+                              databases: Array[Database.Name],
                               resource: Option[ExternalResource],
                               localFiles: Array[String],
                               fitDataset: Dataset[_],
@@ -76,7 +76,7 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
                        fitDataset: Dataset[_],
                        resource: Option[ExternalResource],
                        spark: SparkSession,
-                       databases: Array[Database.Value]
+                       databases: Array[Database.Name]
                      ): Unit = {
 
     val sparkContext = spark.sparkContext
@@ -88,14 +88,14 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
       )
     }
 
-    val fileSystem = FileSystem.get(sparkContext.hadoopConfiguration)
-
     indexDatabases(databases, resource, tmpLocalDestinations, fitDataset, sparkContext)
 
-    val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark, fileSystem))
+    val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark))
 
     tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
-      StorageHelper.sendToCluster(new Path(tmpLocalDestination), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
+      /** tmpFiles indexed must be explicitly set to be local files */
+      val uri = "file://"+(new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath)
+      StorageHelper.sendToCluster(new Path(uri), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
     }
 
     // 3. Create Spark Embeddings
@@ -157,14 +157,19 @@ trait HasStorage extends HasStorageRef with HasCaseSensitiveProperties {
     src
   }
 
+  private var preloaded = false
+
   def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
-    require(isDefined(storageRef), missingRefMsg)
-    preload(
-      fitDataset,
-      resource,
-      fitDataset.sparkSession,
-      databases
-    )
+    if (!preloaded) {
+      preloaded = true
+      require(isDefined(storageRef), missingRefMsg)
+      preload(
+        fitDataset,
+        resource,
+        fitDataset.sparkSession,
+        databases
+      )
+    }
   }
 
 }

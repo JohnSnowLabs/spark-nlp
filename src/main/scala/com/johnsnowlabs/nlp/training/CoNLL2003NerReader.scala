@@ -38,9 +38,9 @@ class CoNLL2003NerReader(wordEmbeddingsFile: String,
     if (!new File(fileDb).exists()) {
       embeddingsFormat match {
         case ReadAs.TEXT =>
-          WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsNDims, 5000), (1000000.0/wordEmbeddingsNDims).toInt)
+          WordEmbeddingsTextIndexer.index(wordEmbeddingsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsNDims, 5000, 5000))
         case ReadAs.BINARY =>
-          WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsNDims, 5000), (1000000.0/wordEmbeddingsNDims).toInt)
+          WordEmbeddingsBinaryIndexer.index(wordEmbeddingsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsNDims, 5000, 5000))
       }
     }
 

@@ -1,5 +1,6 @@
 from test.annotators import *
 from test.misc import *
+from test.base import *
 
 # Annotator tests
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
@@ -30,6 +31,8 @@ unittest.TextTestRunner().run(StopWordsCleanerTestSpec())
 unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
+
+# unittest.TextTestRunner().run(RecursiveTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -60,9 +61,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val docs = annotations.map(_.result)
     val sentences = docs.flatMap(doc => tag(doc))
-      .filter(_.content.nonEmpty)
-      .filter(t => t.content.length >= ${minLength})
-      .filter(t => t.content.length <= ${maxLength})
+      .filter(t => t.content.nonEmpty && t.content.length >= $(minLength) && get(maxLength).forall(m => t.content.length <= m))
     SentenceSplit.pack(sentences)
   }
 
