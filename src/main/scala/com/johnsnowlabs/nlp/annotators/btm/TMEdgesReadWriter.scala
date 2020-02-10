@@ -9,7 +9,7 @@ class TMEdgesReadWriter(
 
   def add(word: (Int, Int), content: Int): Unit = super.add(word.toString(), content)
 
-  override protected def writeBufferSize: Int = 5000
+  override protected def writeBufferSize: Int = 10000
 
   override def toBytes(content: Int): Array[Byte] = {
     BigInt(content).toByteArray

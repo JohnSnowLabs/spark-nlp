@@ -22,13 +22,6 @@ jobs:
       install: skip
       language: scala
       script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt -mem 8192 test
-    - stage: python
-      install: skip
-      language: python
-      python: "2.7"
-      script:
-        - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-2 -f .ci/DockerfilePy2 .
-        - docker run spark-nlp-python-2 python2 run-tests.py
     - language: python
       python: "3.6"
       script:

@@ -116,16 +116,13 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     targetPattern -> "\\S+",
     contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
     caseSensitiveExceptions -> true,
-    minLength -> 0,
-    maxLength -> 99999
+    minLength -> 0
   )
 
   def buildRuleFactory: RuleFactory = {
     val rules = ArrayBuffer.empty[String]
 
     lazy val quotedContext = Pattern.quote($(contextChars).mkString(""))
-    lazy val quotedSplit = get(splitChars).map(i => Pattern.quote(i.mkString("")))
-    lazy val quotedUniqueAll = Pattern.quote(get(splitChars).getOrElse(Array.empty[String]).union($(contextChars)).distinct.mkString(""))
 
     val processedPrefix = get(prefixPattern).getOrElse(s"\\A([$quotedContext]*)")
     require(processedPrefix.startsWith("\\A"), "prefixPattern must begin with \\A to ensure it is the beginning of the string")
@@ -133,11 +130,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     val processedSuffix = get(suffixPattern).getOrElse(s"([$quotedContext]*)\\z")
     require(processedSuffix.endsWith("\\z"), "suffixPattern must end with \\z to ensure it is the end of the string")
 
-    val processedInfixes = get(infixPatterns).getOrElse({
-      quotedSplit
-        .map(split => Array(s"([^$quotedUniqueAll]+)([$split]+)([^$quotedUniqueAll]*)"))
-        .getOrElse(Array.empty[String]) ++ Array(s"([^$quotedContext](?:.*[^$quotedContext])*)")
-    })
+    val processedInfixes = get(infixPatterns).getOrElse(Array(s"([^$quotedContext](?:.*[^$quotedContext])*)"))
 
     require(processedInfixes.forall(ip => ip.contains("(") && ip.contains(")")),
       "infix patterns must use regex group. Notice each group will result in separate token")
@@ -166,12 +159,18 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
       .setTargetPattern($(targetPattern))
       .setRules(ruleFactory)
       .setMinLength($(minLength))
-      .setMaxLength($(maxLength))
+
+    if (isDefined(maxLength))
+      raw.setMaxLength($(maxLength))
 
     if (processedExceptions.nonEmpty)
       raw.setExceptions(processedExceptions)
-    else
-      raw
+
+    if (isSet(splitChars)) {
+      raw.setSplitChars($(splitChars))
+    }
+
+    raw
 
   }
 

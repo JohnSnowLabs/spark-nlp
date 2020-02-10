@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LruMap - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.nlp.util.LruMap</title>
-          <meta name="description" content="LruMap - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.nlp.util.LruMap" />
-          <meta name="keywords" content="LruMap Spark NLP 2.3.4 ScalaDoc com.johnsnowlabs.nlp.util.LruMap" />
+          <title>LruMap - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.nlp.util.LruMap</title>
+          <meta name="description" content="LruMap - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.nlp.util.LruMap" />
+          <meta name="keywords" content="LruMap Spark NLP 2.4.0 ScalaDoc com.johnsnowlabs.nlp.util.LruMap" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,10 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@specialized</span><span class="args">()</span>
+              
+        </dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -219,19 +222,19 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.util.LruMap#cache" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="cache:scala.collection.mutable.Map[TKey,TValue]"></a>
-      <a id="cache:Map[TKey,TValue]"></a>
+    </li><li name="com.johnsnowlabs.nlp.util.LruMap#clear" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="clear():Unit"></a>
+      <a id="clear():Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">cache</span><span class="result">: <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TKey">TKey</span>, <span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TValue">TValue</span>]</span>
+        <span class="name">clear</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@cache:scala.collection.mutable.Map[TKey,TValue]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@clear():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -259,23 +262,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.util.LruMap#counter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="counter:Int"></a>
-      <a id="counter:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">counter</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@counter:Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -333,6 +319,40 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.util.LruMap#foreach" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="foreach:(((TKey,TValue))=&gt;Any)=&gt;Unit"></a>
+      <a id="foreach:(((TKey,TValue))⇒Any)⇒Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foreach</span><span class="result">: (((<span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TKey">TKey</span>, <span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TValue">TValue</span>)) ⇒ <span class="extype" name="scala.Any">Any</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@foreach:(((TKey,TValue))=&gt;Any)=&gt;Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.util.LruMap#get" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="get(key:TKey):Option[TValue]"></a>
+      <a id="get(TKey):Option[TValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="params">(<span name="key">key: <span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TKey">TKey</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TValue">TValue</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@get(key:TKey):Option[TValue]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -363,6 +383,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@getOrElseUpdate(key:TKey,valueCreator:=&gt;TValue):TValue" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.util.LruMap#getSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getSize:Int"></a>
+      <a id="getSize:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSize</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@getSize:Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -401,23 +438,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.util.LruMap#lru" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lru:scala.collection.mutable.PriorityQueue[LruMap.this.KeyPriority]"></a>
-      <a id="lru:PriorityQueue[KeyPriority]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lru</span><span class="result">: <span class="extype" name="scala.collection.mutable.PriorityQueue">PriorityQueue</span>[<a href="LruMap$KeyPriority.html" class="extype" name="com.johnsnowlabs.nlp.util.LruMap.KeyPriority">KeyPriority</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@lru:scala.collection.mutable.PriorityQueue[LruMap.this.KeyPriority]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -503,6 +523,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.util.LruMap#update" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="update(key:TKey,value:=&gt;TValue):TValue"></a>
+      <a id="update(TKey,⇒TValue):TValue"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">update</span><span class="params">(<span name="key">key: <span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TKey">TKey</span></span>, <span name="value">value: ⇒ <span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TValue">TValue</span></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.util.LruMap.TValue">TValue</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.util.LruMap@update(key:TKey,value:=&gt;TValue):TValue" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

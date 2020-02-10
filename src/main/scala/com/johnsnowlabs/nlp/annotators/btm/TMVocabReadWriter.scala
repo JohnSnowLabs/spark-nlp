@@ -8,7 +8,7 @@ class TMVocabReadWriter(
                        )
   extends TMVocabReader(connection, caseSensitiveIndex) with StorageReadWriter[Int] {
 
-  override protected def writeBufferSize: Int = 5000
+  override protected def writeBufferSize: Int = 10000
 
   override def toBytes(content: Int): Array[Byte] = {
     BigInt(content).toByteArray

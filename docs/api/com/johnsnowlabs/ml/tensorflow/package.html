@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>tensorflow - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow</title>
-          <meta name="description" content="tensorflow - Spark NLP 2.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow" />
-          <meta name="keywords" content="tensorflow Spark NLP 2.3.4 ScalaDoc com.johnsnowlabs.ml.tensorflow" />
+          <title>tensorflow - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow</title>
+          <meta name="description" content="tensorflow - Spark NLP 2.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow" />
+          <meta name="keywords" content="tensorflow Spark NLP 2.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -202,6 +202,28 @@
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowElmo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TensorflowElmoextendsSerializable"></a>
+      <a id="TensorflowElmo:TensorflowElmo"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TensorflowElmo.html"><span class="name">TensorflowElmo</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.package@TensorflowElmoextendsSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This class is used to calculate ELMO embeddings for For Sequence Batches of TokenizedSentences.</p><div class="fullcomment"><div class="comment cmt"><p>This class is used to calculate ELMO embeddings for For Sequence Batches of TokenizedSentences.</p><p>https://tfhub.dev/google/elmo/3
+* word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
+* lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
+* lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
+* elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+</p></div></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowNer" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TensorflowNerextendsSerializablewithLogging"></a>
       <a id="TensorflowNer:TensorflowNer"></a>
@@ -219,19 +241,19 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowSpell" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="TensorflowSpellextendsLoggingwithSerializable"></a>
-      <a id="TensorflowSpell:TensorflowSpell"></a>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowUSE" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TensorflowUSEextendsSerializable"></a>
+      <a id="TensorflowUSE:TensorflowUSE"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="TensorflowSpell.html"><span class="name">TensorflowSpell</span></a><span class="result"> extends <a href="Logging.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.Logging">Logging</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="TensorflowUSE.html"><span class="name">TensorflowUSE</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.package@TensorflowSpellextendsLoggingwithSerializable" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.package@TensorflowUSEextendsSerializable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -286,7 +308,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by jose on 23/03/18.</p>
+      
     </li></ol>
             </div>
 

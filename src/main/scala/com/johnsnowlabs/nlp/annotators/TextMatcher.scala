@@ -1,16 +1,15 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.collections.SearchTrie
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, DocumentAssembler, HasFeatures, ParamsAndFeaturesWritable}
-import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
-import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
-import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, _}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, ParamsAndFeaturesWritable}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.BooleanParam
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Dataset
 
 class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] with ParamsAndFeaturesWritable {
 

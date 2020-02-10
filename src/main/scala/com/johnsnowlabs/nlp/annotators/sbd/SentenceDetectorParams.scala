@@ -27,8 +27,7 @@ trait SentenceDetectorParams extends Params {
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
     customBounds -> Array.empty[String],
-    minLength -> 0,
-    maxLength -> 99999
+    minLength -> 0
   )
 
   def setCustomBounds(value: Array[String]): this.type = set(customBounds, value)

@@ -30,7 +30,7 @@ object NerDLCoNLL2003 extends App {
   lazy val connection = RocksDBConnection.getOrCreate(wordEmbeddingsCache)
 
   if (!new File(wordEmbeddingsCache).exists()) {
-    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsDim, 5000), (1000000.0/wordEmbeddingsDim).toInt)
+    WordEmbeddingsTextIndexer.index(wordEmbeddignsFile, new WordEmbeddingsWriter(connection, false, wordEmbeddingsDim, 5000, 5000))
   }
 
   val embeddings = new WordEmbeddingsReader(connection, false, wordEmbeddingsDim, 1000)

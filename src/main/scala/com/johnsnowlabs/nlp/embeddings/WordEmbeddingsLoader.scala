@@ -11,8 +11,7 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: Iterator[String],
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int
+             writer: WordEmbeddingsWriter
            ): Unit = {
     try {
       for (line <- source) {
@@ -28,12 +27,11 @@ object WordEmbeddingsTextIndexer {
 
   def index(
              source: String,
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int
+             writer: WordEmbeddingsWriter
            ): Unit = {
     val sourceFile = Source.fromFile(source)("UTF-8")
     val lines = sourceFile.getLines()
-    index(lines, writer, autoFlushAfter)
+    index(lines, writer)
     sourceFile.close()
   }
 }
@@ -45,9 +43,7 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: DataInputStream,
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int,
-             lruCacheSize: Int): Unit = {
+             writer: WordEmbeddingsWriter): Unit = {
 
     try {
       // File Header
@@ -71,14 +67,12 @@ object WordEmbeddingsBinaryIndexer {
 
   def index(
              source: String,
-             writer: WordEmbeddingsWriter,
-             autoFlushAfter: Int,
-             lruCacheSize: Int = 100000): Unit = {
+             writer: WordEmbeddingsWriter): Unit = {
 
     val ds = new DataInputStream(new BufferedInputStream(new FileInputStream(source), 1 << 15))
 
     try {
-      index(ds, writer, autoFlushAfter, lruCacheSize)
+      index(ds, writer)
     } finally {
       ds.close()
     }
@@ -108,7 +102,7 @@ object WordEmbeddingsBinaryIndexer {
   /**
     * Read a Vector - Array of Floats from the binary model:
     */
-  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsReader): Array[Float] = {
+  private def readFloatVector(ds: DataInputStream, vectorSize: Int, indexer: WordEmbeddingsWriter): Array[Float] = {
     // Read Bytes
     val vectorBuffer = Array.fill[Byte](4 * vectorSize)(0)
     ds.read(vectorBuffer)

@@ -5,8 +5,8 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
-import com.johnsnowlabs.storage.{Database, HasStorageRef}
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.Dataset

@@ -15,7 +15,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.4.0-rc1"
+version := "2.4.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -32,7 +32,7 @@ spIncludeMaven in ThisBuild:= false
 
 spAppendScalaVersion := false
 
-resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
+resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
 
@@ -102,7 +102,7 @@ lazy val testDependencies = Seq(
 
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "6.4.6",
+  "org.rocksdb" % "rocksdbjni" % "6.5.3",
   "org.apache.hadoop" % "hadoop-aws" %  "3.2.0"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
@@ -116,7 +116,6 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("commons-configuration","commons-configuration"),
   "com.amazonaws" % "aws-java-sdk-s3" % "1.11.603",
-  "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),

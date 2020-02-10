@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators
 import java.text.SimpleDateFormat
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-
 import java.util.Calendar
 
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
