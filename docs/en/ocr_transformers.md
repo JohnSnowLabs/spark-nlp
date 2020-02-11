@@ -1,12 +1,12 @@
 ---
 layout: article
-title: Spark OCR 2.0 (Licensed)
+title: Spark OCR (Licensed)
 permalink: /docs/en/ocr_transformers
 key: docs-ocr-transformers
-modify_date: "2020-02-03"
+modify_date: "2020-02-11"
 ---
 Spark OCR provides set of Spark ML transformers/estimators that help users create and use OCR pipelines. 
-It built on top of Tesseract OCR.
+It built on top of Apache Spark and Tesseract OCR.
 
 # OCR Pipelines
 
@@ -23,6 +23,120 @@ It contains set of tools for
  - Characters recognition using TesseractOCR estimator
 
 More details on transformers/estimators could be found in further section [OCR Pipeline Components](#ocr-pipeline-components)
+
+## Requirements
+
+Spark OCR is built on top of **Apache Spark 2.4.0**. This is the **only** supported release.
+
+It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.0/index.html) to get started with Spark.
+
+Spark OCR required Tesseract 4.x+.
+
+## Installation
+
+### Installing Tesseract
+
+As mentioned above, if you are dealing with scanned images instead of test-selectable PDF files you need to install `tesseract 4.x+` on all the nodes in your cluster. Here how you can install it on Ubuntu/Debian:
+
+```bash
+apt-get install tesseract-ocr
+```
+
+In `Databricks` this command may result in installing `tesseract 3.x` instead of version `4.x`.
+
+You can simply run this `init script` to install `tesseract 4.x` in your Databricks cluster:
+
+```bash
+#!/bin/bash
+sudo apt-get install -y g++ # or clang++ (presumably)
+sudo apt-get install -y autoconf automake libtool
+sudo apt-get install -y pkg-config
+sudo apt-get install -y libpng-dev
+sudo apt-get install -y libjpeg8-dev
+sudo apt-get install -y libtiff5-dev
+sudo apt-get install -y zlib1g-dev
+​
+wget http://www.leptonica.org/source/leptonica-1.74.4.tar.gz
+tar xvf leptonica-1.74.4.tar.gz
+cd leptonica-1.74.4
+./configure
+make
+sudo make install
+​
+git clone --single-branch --branch 4.1 https://github.com/tesseract-ocr/tesseract.git
+cd tesseract
+./autogen.sh
+./configure
+make
+sudo make install
+sudo ldconfig
+​
+tesseract -v
+```
+
+Mac OS:
+
+```bash
+brew install tesseract
+```
+
+### Install Python package
+
+Install python package using pip:
+
+```bash
+pip install spark-ocr==1.0.0 --extra-index-url #### --ignore-installed
+```
+
+The #### is a secret url only avaliable for users with license, if you
+have not received it please contact us at info@johnsnowlabs.com.
+
+### Spark OCR from Scala
+
+You can start a spark REPL with Scala by running in your terminal a
+spark-shell including the com.johnsnowlabs.nlp:spark-ocr_2.11:1.0.0 package:
+
+```bash
+spark-shell --jars ####
+```
+
+The #### is a secret url only avaliable for users with license, if you
+have not received it please contact us at info@johnsnowlabs.com.
+
+### Start Spark OCR Session from python
+
+The following will initialize the spark session in case you have run
+the jupyter notebook directly. If you have started the notebook using
+pyspark this cell is just ignored.
+
+Initializing the spark session takes some seconds (usually less than 1
+minute) as the jar from the server needs to be loaded.
+
+The #### in .config("spark.jars", "####") is a secret code, if you have
+not received it please contact us at info@johnsnowlabs.com.
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("Spark OCR") \
+    .master("local[*]") \
+    .config("spark.driver.memory","4G") \
+    .config("spark.driver.maxResultSize", "2G") \
+    .config("spark.jars", "####") \
+    .getOrCreate()
+```
+
+# Spark OCR Workshop
+
+If you prefer learning by example, check this repository:
+
+[Spark OCR Workshop](https://github.com/JohnSnowLabs/spark-ocr-workshop){:.button.button--primary.button--rounded.button--md}
+
+It is full of fresh examples.
+
+Below, you can follow into a more theoretical and thorough quick start guide.
+
 
 # Quickstart Examples
 
@@ -49,28 +163,15 @@ val binaryToImage = new BinaryToImage()
   .setInputCol("content")
   .setOutputCol("image")
 
-// Detect regions
-val layoutAnalyzer = new ImageLayoutAnalyzer()
-  .setInputCol("image")
-  .setOutputCol("region")
-
-// Split to regions
-val splitter = new ImageSplitRegions()
-  .setInputCol("image")
-  .setRegionCol("region")
-  .setOutputCol("region_image")
-
 // OCR
 val ocr = new TesseractOcr()
-  .setInputCol("region_image")
+  .setInputCol("image")
   .setOutputCol("text")
 
 // Define Pipeline
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
   binaryToImage,
-  layoutAnalyzer,
-  splitter,
   ocr
 ))
 
@@ -104,28 +205,15 @@ val pdfToImage = new PdfToImage()
   .setInputCol("content")
   .setOutputCol("image")
 
-// Detect regions
-val layoutAnalyzer = new ImageLayoutAnalyzer()
-  .setInputCol("image")
-  .setOutputCol("region")
-
-// Split to regions
-val splitter = new ImageSplitRegions()
-  .setInputCol("image")
-  .setRegionCol("region")
-  .setOutputCol("region_image")
-
 // OCR
 val ocr = new TesseractOcr()
-  .setInputCol("region_image")
+  .setInputCol("image")
   .setOutputCol("text")
 
 // Define pipeline
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
   pdfToImage,
-  layoutAnalyzer,
-  splitter,
   ocr
 ))
 
@@ -176,20 +264,9 @@ val pdfToImage = new PdfToImage()
   .setFallBackCol("text")
   .setMinSizeBeforeFallback(10)
 
-// Detect regions
-val layoutAnalyzer = new ImageLayoutAnalyzer()
-  .setInputCol("image")
-  .setOutputCol("region")
-
-// Split to regions
-val splitter = new ImageSplitRegions()
-  .setInputCol("image")
-  .setRegionCol("region")
-  .setOutputCol("region_image")
-
 // OCR
 val ocr = new TesseractOcr()
-  .setInputCol("region_image")
+  .setInputCol("image")
   .setOutputCol("text")
 
 // Define pipeline
@@ -223,8 +300,6 @@ val pipeline = new Pipeline()
 pipeline.setStages(Array(
   binaryToImage,
   binarizer,
-  layoutAnalyzer,
-  splitter,
   ocr
 ))
 
@@ -426,6 +501,109 @@ val pdf_df =  pdfToImage.transform(image_df)
 pdf_df.select("content").show()
 ```
 
+### PdfDrawRegions
+
+`PdfDrawRegions` transformer for drawing regions to Pdf document.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | content | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+| inputRegionsCol | string | region | input column which contain regions |
+
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineWidth | integer | 1 | line width for draw regions |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | pdf_regions | binary representation of the PDF document |
+
+
+**Example:**
+
+```scala
+import java.io.FileOutputStream
+import java.nio.file.Files
+
+import com.johnsnowlabs.ocr.transformers._
+import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.util.io.ReadAs
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToText = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+  .setSplitPage(false)
+
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = new SentenceDetector()
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+  .setInputCols(Array("sentence"))
+  .setOutputCol("token")
+
+val entityExtractor = new TextMatcher()
+  .setInputCols("sentence", "token")
+  .setEntities("test-chunks.txt", ReadAs.TEXT)
+  .setOutputCol("entity")
+
+val positionFinder = new PositionFinder()
+  .setInputCols("entity")
+  .setOutputCol("coordinates")
+  .setPageMatrixCol("positions")
+  .setMatchingWindow(10)
+  .setPadding(2)
+
+val pdfDrawRegions = new PdfDrawRegions()
+  .setInputRegionsCol("coordinates")
+
+// Create pipeline
+val pipeline = new Pipeline()
+  .setStages(Array(
+    pdfToText,
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    entityExtractor,
+    positionFinder,
+    pdfDrawRegions
+  ))
+
+val pdfWithRegions = pipeline.fit(df).transform(df)
+
+val pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byte]](0)
+
+// store to pdf to tmp file
+val tmpFile = Files.createTempFile("with_regions_", s".pdf").toAbsolutePath.toString
+val fos = new FileOutputStream(tmpFile)
+fos.write(pdfContent)
+fos.close()
+println(tmpFile)
+```
+
+Results:
+
+![Result with regions](/assets/images/ocr/with_regions.png)
+
 ## Image pre-processing
 
 Next section describes the transformers for image pre-processing: scaling, binarization, skew correction, etc.
@@ -518,6 +696,81 @@ data.storeImage("binary_image")
 **Binarized image with 100 threshold:**
 
 ![binarized](/assets/images/ocr/binarized.png)
+
+
+### ImageAdaptiveThresholding
+
+Compute a threshold mask image based on local pixel neighborhood and apply it to image.
+
+Also known as adaptive or dynamic thresholding. The threshold value is
+the weighted mean for the local neighborhood of a pixel subtracted by a constant.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| blockSize | int | 170 | Odd size of pixel neighborhood which is used to calculate the threshold value (e.g. 3, 5, 7, ..., 21, ...). |
+| method | string | | Method used to determine adaptive threshold for local neighbourhood in weighted mean image. |
+| offset | int | | Constant subtracted from weighted mean of neighborhood to calculate the local threshold value. Default offset is 0. |
+| mode | string | | The mode parameter determines how the array borders are handled, where cval is the value when mode is equal to 'constant' |
+| cval | int | | Value to fill past edges of input if mode is 'constant'. |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | binarized_image | image struct ([Image schema](#image-schema)) |
+
+**Example:**
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+from sparkocr.utils import display_image
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+adaptive_thresholding = ImageAdaptiveThresholding() \
+    .setInputCol("scaled_image") \
+    .setOutputCol("binarized_image") \
+    .setBlockSize(21) \
+    .setOffset(73)
+
+pipeline = PipelineModel(stages=[
+            binary_to_image,
+            adaptive_thresholding
+        ])
+
+result = pipeline.transform(df)
+
+for r in result.select("image", "corrected_image").collect():
+    display_image(r.image)
+    display_image(r.corrected_image)
+```
+**Original image:**
+
+![original](/assets/images/ocr/text_with_noise.png)
+
+**Binarized image:**
+
+![binarized](/assets/images/ocr/adaptive_binarized.png)
 
 ### ImageErosion
 
@@ -831,23 +1084,114 @@ It support removing:
 **Example:**
 
 ```python
-from com.johnsnowlabs.ocr.transformers import ImageRemoveObjects
+from pyspark.ml import PipelineModel
+from com.johnsnowlabs.ocr.transformers import *
 
 imagePath = "path to image"
 
 # Read image file as binary file
 df = spark.read 
-  .format("binaryFile")
-  .load(imagePath)
+    .format("binaryFile")
+    .load(imagePath)
 
-transformer = ImageRemoveObjects()
-  .setInputCol("image")
-  .setOutputCol("corrected_image")
-  .setMinSizeObject(20)
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
 
-data = transformer.transform(df)
+remove_objects = ImageRemoveObjects() \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setMinSizeObject(20)
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    remove_objects
+])
+
+data = pipeline.transform(df)
 ```
 
+### ImageMorphologyOpening
+
+**python only**
+
+`ImageMorphologyOpening` Return greyscale morphological opening of an image.
+                     
+ The morphological opening on an image is defined as an erosion followed by
+ a dilation. Opening can remove small bright spots (i.e. "salt") and connect
+ small dark cracks. This tends to "open" up (dark) gaps between (bright)
+ features.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | None | image struct ([Image schema](#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| kernelShape | [KernelShape](#kernelshape) | KernelShape.DISK | Kernel shape. |
+| kernelSize | int | 1 | Kernel size in pixels. |
+
+[*] : _None_ value disables removing objects.
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | None | scaled image struct ([Image schema](#image-schema)) |
+
+
+**Example:**
+
+```python
+from pyspark.ml import PipelineModel
+from com.johnsnowlabs.ocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+adaptive_thresholding = ImageAdaptiveThresholding() \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setBlockSize(75) \
+    .setOffset(0)
+
+opening = ImageMorphologyOpening() \
+    .setInputCol("corrected_image") \
+    .setOutputCol("opening_image") \
+    .setkernelSize(1)
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    adaptive_thresholding,
+    opening
+])
+
+result = pipeline.transform(df)
+
+for r in result.select("image", "corrected_image").collect():
+    display_image(r.image)
+    display_image(r.corrected_image)
+```
+
+**Original image:**
+
+![original](/assets/images/ocr/text_with_noise.png)
+
+**Opening image:**
+
+![opening](/assets/images/ocr/opening.png)
 
 ## Splitting image to regions
 
@@ -1094,6 +1438,93 @@ others. One could almost say they feed on and grow on ideas.
 
 ```
 
+## Other
+
+Next section describes the extra transformers
+
+### PositionFinder
+
+`PositionFinder` find position of input text entities in original document.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCols | string | image | Input annotations columns |
+| pageMatrixCol | string | | Column name for Page Matrix schema |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| matchingWindow | int | 10 | Textual range to match in context, applies in both direction |
+| windowPageTolerance | boolean | true | whether or not to increase tolerance as page number grows |
+| padding | int | 5| padding for area |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | | Name of output column for store coordinates. |
+
+**Example:**
+
+```scala
+import com.johnsnowlabs.ocr.transformers._
+import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.util.io.ReadAs
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToText = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+  .setSplitPage(false)
+
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentenceDetector = new SentenceDetector()
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+  .setInputCols(Array("sentence"))
+  .setOutputCol("token")
+
+val entityExtractor = new TextMatcher()
+  .setInputCols("sentence", "token")
+  .setEntities("test-chunks.txt", ReadAs.TEXT)
+  .setOutputCol("entity")
+
+val positionFinder = new PositionFinder()
+  .setInputCols("entity")
+  .setOutputCol("coordinates")
+  .setPageMatrixCol("positions")
+  .setMatchingWindow(10)
+  .setPadding(2)
+
+// Create pipeline
+val pipeline = new Pipeline()
+  .setStages(Array(
+    pdfToText,
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    entityExtractor,
+    positionFinder
+  ))
+
+val results = pipeline.fit(df).transform(df)
+
+results.show()
+```
+
 # Structures and helpers
 
 ## OCR Schemas
@@ -1198,6 +1629,15 @@ element: struct (containsNull = true)
 
  * ***VARIANCE***
  * ***RATIO***
+ 
+### KernelShape
+
+ * ***SQUARE***
+ * ***DIAMOND***
+ * ***DISK***
+ * ***OCTAHEDRON***
+ * ***OCTAGON***
+ * ***STAR***
  
 ## OCR implicits
 
