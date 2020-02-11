@@ -337,7 +337,7 @@ More details about Spark Structured Streaming could be found in
 Next section describes the transformers for deal with PDF files: extracting text and image data from PDF
 files.
 
-### PDFToText
+### PdfToText
 
 `PDFToText` extracts text from selectable PDF (with text layout).
 
@@ -419,7 +419,9 @@ data.select("pagenum", "text").show()
 | splitPage | bool | true | whether it needed to split document to pages |
 | minSizeBeforeFallback | int | 10 | minimal count of characters to extract to decide, that the document is the PDF with text layout |
 | imageType | [ImageType](#imagetype) | `ImageType.TYPE_BYTE_GRAY` | type of the image |
-
+| resolution | int | 300 | Output image resolution in dpi |
+| keepInput | boolean | false | Keep input column in dataframe. By default it is dropping. |
+| partitionNum | int | 0 | Number of partitions (0 value - without repartition) |
 
 #### Output Columns
 
