@@ -709,7 +709,8 @@ respect to the transformed dataset:
 
 ### Bert Embeddings
 
-Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`  
+Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`.      
+You can find the weights in the [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)       
 **Output type:** Word_Embeddings  
 **Input types:** Document  
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
@@ -721,23 +722,57 @@ How to use pretrained Bert Embeddings:
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-bert = BertEmbeddings.load("/multi_cased_L-12_H-768_A-12") \
+# How to load a new Bert model created by python/tensorlfow/bert notebook: 
+
+bert = BertEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
       .setInputCols("sentence", "token") \
       .setOutputCol("bert")
 ```
 
-How to load a new Bert model created by `python/tensorlfow/bert` notebook:
 
 ```scala
 val bert = BertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("bert")
-      .setPoolingLayer(0) // 0, -1, and -2
+      .setPoolingLayer(0) // 0, -1, or -2
 ```
+
+
+### Elmo Embeddings
+
+Elmo Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/elmo`.         
+You can find the weights in the  [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)      
+**Output type:** Word_Embeddings  
+**Input types:** Document  
+**Reference:** [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)  
+
+Refer to the [ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings) Scala docs for more
+
+How to use pretrained Elmo Embeddings:
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+# How to load a new Elmo model created by python/tensorlfow/Elmo notebook:
+
+elmo = ElmoEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("elmo")
+```
+
+
+```scala
+
+val elmo = ElmoEmbeddings.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("elmo")
+      .setPoolingLayer("elmo") //  word_emb, lstm_outputs1, lstm_outputs2 or elmo
+```
+
 
 ### SentenceEmbeddings
 
-This annotator converts the results from `WordEmbeddings` or `BertEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
+This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, or `ElmoEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
 
 **Functions:**
 
