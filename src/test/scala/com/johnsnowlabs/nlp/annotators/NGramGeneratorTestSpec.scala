@@ -10,17 +10,23 @@ import org.scalatest.FlatSpec
 
 class NGramGeneratorTestSpec extends FlatSpec {
 
-  val documentAssembler = new DocumentAssembler()
+  val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-  val sentence = new SentenceDetector()
+  val sentence: SentenceDetector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentence")
 
-  val tokenizer = new Tokenizer()
+  val tokenizer: Tokenizer = new Tokenizer()
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
+
+  val stopWordsCleaner: StopWordsCleaner = new StopWordsCleaner()
+    .setInputCols("token")
+    .setOutputCol("cleanTokens")
+    .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+    .setCaseSensitive(false)
 
   "NGramGenerator" should "correctly generate n-grams from tokenizer's results" in {
 
@@ -221,6 +227,41 @@ class NGramGeneratorTestSpec extends FlatSpec {
     val nGramGeneratorResults = Annotation.collect(pipelineDF, "ngrams").flatten.toSeq
     assert(nGrams.getDelimiter == delimiter)
     assert(nGramGeneratorResults == expectedNGrams)
+
+  }
+
+  "NGramGenerator" should "correctly works with empty tokens" in {
+
+    val testData = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "This is my first sentence. This is my second."),
+      (2, "This is my third sentence. This is my fourth.")
+    )).toDF("id", "text")
+
+    val symSpellChecker = NorvigSweetingModel.pretrained()
+      .setInputCols("cleanTokens")
+      .setOutputCol("checkedTokens")
+
+    val nGrams = new NGramGenerator()
+      .setInputCols("checkedTokens")
+      .setOutputCol("ngrams")
+      .setN(2)
+      .setEnableCumulative(false)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        tokenizer,
+        stopWordsCleaner,
+        symSpellChecker,
+        nGrams
+      ))
+
+    val pipelineDF = pipeline.fit(testData).transform(testData)
+    pipelineDF.select("token").show(false)
+    pipelineDF.select("checkedTokens").show(false)
+    pipelineDF.select("ngrams").show(false)
+
 
   }
 }
