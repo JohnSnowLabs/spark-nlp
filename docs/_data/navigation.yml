@@ -54,7 +54,7 @@ docs-en:
       - title:  Evaluation
         url:    /docs/en/evaluation
       - title:  Spark OCR
-        url:  /docs/en/ocr_transformers
+        url:  /docs/en/ocr
 
 extras:
   - title:     Extras
