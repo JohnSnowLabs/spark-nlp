@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2019-11-01"
+modify_date: "2020-02-12"
 use_language_switchter: true
 
 ---
@@ -740,8 +740,8 @@ val bert = BertEmbeddings.pretrained()
 
 ### Elmo Embeddings
 
-Elmo Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/elmo`.         
-You can find the weights in the  [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)      
+Elmo Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/elmo`.
+You can find the weights in the  [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)
 **Output type:** Word_Embeddings  
 **Input types:** Document  
 **Reference:** [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)  
@@ -753,7 +753,7 @@ How to use pretrained Elmo Embeddings:
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-# How to load a new Elmo model created by python/tensorlfow/Elmo notebook:
+# How to load a downloaded ElmoEmbeddings model offline:
 
 elmo = ElmoEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
       .setInputCols("sentence", "token") \
@@ -768,7 +768,6 @@ val elmo = ElmoEmbeddings.pretrained()
       .setOutputCol("elmo")
       .setPoolingLayer("elmo") //  word_emb, lstm_outputs1, lstm_outputs2 or elmo
 ```
-
 
 ### SentenceEmbeddings
 
