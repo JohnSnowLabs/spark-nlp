@@ -85,7 +85,7 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
 
     val documentsWithTokens = annotations
       .filter(token => token.annotatorType == TOKEN)
-      .groupBy(_.metadata("sentence").head.toInt)
+      .groupBy(_.metadata.getOrElse[String]("sentence", "0").toInt)
       .toSeq
       .sortBy(_._1)
 
