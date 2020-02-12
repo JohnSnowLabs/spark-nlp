@@ -4,6 +4,8 @@ title: Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
 modify_date: "2019-10-23"
+use_language_switchter: true
+
 ---
 
 ## Annotators Guideline
@@ -18,6 +20,8 @@ include all annotators that we currently provide. **embeddings** include
 word embedding annotators. This does not include Spark imports.
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from sparknlp.base import *
@@ -39,6 +43,8 @@ seamlessly so it is important to have this concept handy. Once a
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from pyspark.ml import Pipeline
 pipeline = Pipeline().setStages([...])
@@ -58,14 +64,12 @@ maximum). To use them, simply plug in a trained (fitted) pipeline.
 
 **Example:**
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from sparknlp.base import LightPipeline
 LightPipeline(someTrainedPipeline).annotate(someStringOrArray)
 ```
-
-***Scala code***
 
 ```scala
 import com.johnsnowlabs.nlp.LightPipeline
@@ -90,6 +94,8 @@ the same than normal Spark ML pipelines, so they can be used with the
 same intention.
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from sparknlp.annotator import *

@@ -4,6 +4,7 @@ title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
 modify_date: "2019-11-01"
+use_language_switchter: true
 ---
 
 ## Transformers Guideline
@@ -37,6 +38,19 @@ information
 
 Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler)
 Scala docs for more details on the API.
+
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```java
+import com.johnsnowlabs.nlp.*;
+import com.johnsnowlabs.nlp.annotators.*;
+import org.apache.spark.ml.Pipeline;
+DocumentAssembler documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+    .setCleanupMode("shrink")
+```
 
 ```python
 from sparknlp.annotator import *
@@ -75,6 +89,15 @@ annotators.
 
 Refer to the [TokenAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.TokenAssembler) Scala docs for more details on the API.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+```java
+TokenAssembler token_assembler = new TokenAssembler()
+    .setInputCols("normalized")
+    .setOutputCol("assembled")
+```
+
+
 ```python
 token_assembler = TokenAssembler() \
     .setInputCols(["normalized"]) \
@@ -106,6 +129,9 @@ Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkC
 
 Refer to the [Doc2Chunk](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Doc2Chunk) Scala docs for more details on the API.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+
 ```python
 chunker = Doc2Chunk()\
     .setInputCols(["document"])\
@@ -134,6 +160,9 @@ Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokeni
 **Example:**
 
 Refer to the [Chunk2Doc](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Chunk2Doc) Scala docs for more details on the API.
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 
 ```python
 chunk_doc = Chunk2Doc()\
@@ -165,6 +194,9 @@ Once we have our NLP pipeline ready to go, we might want to use our annotation r
 
 Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Finisher) Scala docs for more details on the API.
 
+{% include programmingLanguageSelect.html %}
+
+
 ```python
 finisher = Finisher() \
     .setInputCols(["token"]) \
@@ -191,6 +223,11 @@ This transformer is designed to deal with embedding annotators: `WordEmbeddings`
 **Example:**
 
 Refer to the [EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.EmbeddingsFinisher) Scala docs for more details on the API.
+
+{% include programmingLanguageSelect.html %}
+```java
+todo
+```
 
 ```python
 embeddings_finisher = EmbeddingsFinisher() \
