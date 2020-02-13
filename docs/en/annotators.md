@@ -4,7 +4,7 @@ title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2020-02-12"
-use_language_switchter: true
+use_language_switchter: "Python-Scala"
 
 ---
 
@@ -710,7 +710,7 @@ respect to the transformed dataset:
 ### Bert Embeddings
 
 Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`.      
-You can find the weights in the [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)       
+You can find the weights in the [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)           
 **Output type:** Word_Embeddings  
 **Input types:** Document  
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
@@ -741,7 +741,7 @@ val bert = BertEmbeddings.pretrained()
 ### Elmo Embeddings
 
 Elmo Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/elmo`.
-You can find the weights in the  [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)
+You can find the weights in the  [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)        
 **Output type:** Word_Embeddings  
 **Input types:** Document  
 **Reference:** [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)  
