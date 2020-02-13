@@ -106,7 +106,7 @@ conda install pyspark=2.4.4
 To install Spark NLP Opensource version you can just run:
 
 ```bash
-pip install --ignore-installed spark-nlp==2.2.2
+pip install --ignore-installed spark-nlp==2.4.0
 ```
 
 The --ignore-installed parameter is to overwrite your previous pip
@@ -116,7 +116,7 @@ package version if already installed.
 If you are using Anaconda/Conda for managing Python packages, you can install Spark NLP Opensource as follow:
 
 ```bash
-conda install -c johnsnowlabs spark-nlp=2.2.2
+conda install -c johnsnowlabs spark-nlp=2.4.0
 ```
 
 ### Install Licensed Spark NLP
@@ -125,7 +125,7 @@ You can also install the licensed package with extra functionalities and
 pretrained models by using:
 
 ```bash
-pip install spark-nlp-jsl==2.2.2 --extra-index-url #### --ignore-installed
+pip install spark-nlp-jsl==2.4.0 --extra-index-url #### --ignore-installed
 ```
 
 The #### is a secret url only avaliable for users with license, if you
@@ -220,10 +220,10 @@ as a dependency in your application:
 and
 
 ```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-ocr -->
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-ocr_2.11</artifactId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
     <version>2.4.0</version>
 </dependency>
 ```

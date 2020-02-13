@@ -53,3 +53,18 @@
     <div class="article__license">{%- include article/footer/license.html license=_license_data -%}</div>
   {%- endif -%}
 </footer>
+
+<script>
+
+{% if page.use_language_switchter %}
+
+{% include scripts/programmingLanguageSwitcherScalaPython.js %}
+
+{% endif %}
+</script>
+
+
+<style>
+  {% include scripts/code-block-styling.css %}
+
+</style>
