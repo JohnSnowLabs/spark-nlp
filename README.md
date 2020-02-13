@@ -522,7 +522,7 @@ If you get this common python error, it means that the Spark NLP was not loaded 
 3. If on Windows, download Hadoop winutils.exe and add it to your PATH: https://github.com/steveloughran/winutils
 4. HADOOP_HOME should also be set in some cases, pointing to your SPARK_HOME should work if you don't have an explicit hadoop installation
 5. If you are running `pyspark` instead of just `jupyter notebook`, make sure you setup `PYSPARK_DRIVER_PYTHON`, `PYSPARK_DRIVER_PYTHON_OPTS` and `PYSPARK_PYTHON` as pointed in the documentation
-6. `pip install spark-nlp==2.4.4` even if you are using `--packages` as a safety instruction
+6. `pip install spark-nlp==2.4.0` even if you are using `--packages` as a safety instruction
 7. Make sure all dependencies are properly written and/or paths to any jars you are manually providing. Spark does not fail upon wrong path, it will just ignore it
 8. If you get dependency failures when starting Spark, make sure to add antivirus and firewall exceptions. Windows antivirus adversely impacts performance when resolving dependencies.
 
