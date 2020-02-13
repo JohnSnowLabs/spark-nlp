@@ -126,14 +126,13 @@ class ElmoEmbeddings(override val uid: String) extends
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), get(storageRef))
-    dataset
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
 }
 
 trait ReadablePretrainedElmoModel extends ParamsAndFeaturesReadable[ElmoEmbeddings] with HasPretrained[ElmoEmbeddings] {
-  override val defaultModelName = Some("elmo")
+  override val defaultModelName: Some[String] = Some("elmo")
 
   /** Java compliant-overrides */
   override def pretrained(): ElmoEmbeddings = super.pretrained()
