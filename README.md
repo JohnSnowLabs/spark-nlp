@@ -81,19 +81,15 @@ For more examples you can visit our dedicated [repository](https://github.com/Jo
 
 Spark NLP *2.4.0* has been built on top of Apache Spark 2.4.4
 
-| Spark NLP   |   Spark 2.3.x         | Spark 2.4   |
-|-------------|-------------------------------------|--------------|
-| 2.x.x       |YES                                  |YES           |
-| 1.8.x       |Partially                            |YES           |
-| 1.7.3       |YES                                  |N/A           |
-| 1.6.3       |YES                                  |N/A           |
-| 1.5.0       |YES                                  |N/A           |
+| Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
+|-------------|-----------------------|--------------------|
+| 2.4.x       |NO                     |YES                 |
+| 1.8.x       |Partially              |YES                 |
+| 1.7.3       |YES                    |NO                  |
+| 1.6.3       |YES                    |NO                  |
+| 1.5.0       |YES                    |NO                  |
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
-
-**Note:** that pre-build Spark NLP is not retrocompatible with older Spark 2.x.x, so models and environments might not work.
-
-If you are still stuck on Spark 2.x.x, you should re-build the library yourself with the desired Apache Spark version.
 
 ## Spark Packages
 
@@ -103,21 +99,23 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0` to you spark command
+To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.4.0` to you spark command
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+spark-shell --packages JohnSnowLabs:spark-nlp:2.4.0
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+pyspark --packages JohnSnowLabs:spark-nlp:2.4.0
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+spark-submit --packages JohnSnowLabs:spark-nlp:2.4.0
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
+
+**NOTE**: If Spark Packages was not availabe you can always use Maven's coordinates instead `com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0`
 
 ## Scala
 
