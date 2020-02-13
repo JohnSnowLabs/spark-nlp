@@ -4,7 +4,7 @@ title: Training
 permalink: /docs/en/training
 key: docs-training
 modify_date: "2019-10-23"
-use_language_switchter: true
+use_language_switchter: "Python-Scala"
 
 ---
 
