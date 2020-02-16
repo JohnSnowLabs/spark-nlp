@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-02-12"
+modify_date: "2020-02-16"
 use_language_switchter: "Python-Scala"
 
 ---
@@ -75,9 +75,12 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |ViveknSentimentDetector|Scores a sentence for a sentiment|Opensource|
 |SentimentDetector|Scores a sentence for a sentiment|Opensource|
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
-|BertEmbeddings|Bert Embeddings that maps tokens to vectors in a bidirectional way|Opensource|
+|BertEmbeddings|BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture|Opensource|
+|ElmoEmbeddings|Computes contextualized word representations using character-based word representations and bidirectional LSTMs|Opensource|
+|UniversalSentenceEncoder|Encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
+|NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
 |SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
@@ -407,7 +410,7 @@ ngrams_cum = NGramGenerator() \
             .setOutputCol("ngrams") \
             .setN(2) \
             .setEnableCumulative(True)
-            .setDelimiter("_")
+            .setDelimiter("_") # Default is space
 ```
 
 ```scala
@@ -416,7 +419,7 @@ val nGrams = new NGramGenerator()
       .setOutputCol("ngrams")
       .setN(2)
       .setEnableCumulative(true)
-      .setDelimiter("_")
+      .setDelimiter("_") // Default is space
 ```
 
 ### DateMatcher
@@ -662,7 +665,7 @@ val sentimentDetector = new SentimentDetector
     .setOutputCol("sentiment")
 ```
 
-### Word Embeddings
+### WordEmbeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
 **Output type:** Word_Embeddings  
@@ -672,7 +675,7 @@ Word Embeddings lookup annotator that maps tokens to vectors
 
 - setEmbeddingsSource(path, nDims, format): sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. 
   - path: word embeddings file  
-  - nDims: number of word embeddings dimensions 
+  - nDims: number of word embeddings dimensions
   - format: format of word embeddings files:
     - text -> This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
     - binary -> This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
@@ -700,35 +703,35 @@ val wordEmbeddings = new WordEmbeddings()
         100, "text")
 ```
 
-There are also two convenient functions 
-to retrieve the embeddings coverage with 
+There are also two convenient functions
+to retrieve the embeddings coverage with
 respect to the transformed dataset:  
 
 - withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
 
-### Bert Embeddings
+### BertEmbeddings
 
-Bert Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/bert`.      
-You can find the weights in the [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)           
+BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
+
+You can find the pre-trained models for `BertEmbeddings` in the [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
+
 **Output type:** Word_Embeddings  
 **Input types:** Document  
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
 
 Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.BertEmbeddings) Scala docs for more
 
-How to use pretrained Bert Embeddings:
+How to use pretrained BertEmbeddings:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-# How to load a new Bert model created by python/tensorlfow/bert notebook: 
 
-bert = BertEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
+bert = BertEmbeddings.pretrained() \
       .setInputCols("sentence", "token") \
       .setOutputCol("bert")
 ```
-
 
 ```scala
 val bert = BertEmbeddings.pretrained()
@@ -737,29 +740,33 @@ val bert = BertEmbeddings.pretrained()
       .setPoolingLayer(0) // 0, -1, or -2
 ```
 
+### ElmoEmbeddings
 
-### Elmo Embeddings
+Computes contextualized word representations using character-based word representations and bidirectional LSTMs
 
-Elmo Embeddings. This annotator may only be created by a tensorflow process located at `python/tensorlfow/elmo`.
-You can find the weights in the  [trained models repo](https://github.com/JohnSnowLabs/spark-nlp-models#english---models)        
-**Output type:** Word_Embeddings  
+You can find the pre-trained model for `ElmoEmbeddings` in the  [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
+
+**Output type:** Word_Embeddings
 **Input types:** Document  
 **Reference:** [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)  
 
 Refer to the [ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings) Scala docs for more
 
-How to use pretrained Elmo Embeddings:
+How to use pretrained ElmoEmbeddings:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-# How to load a downloaded ElmoEmbeddings model offline:
-
-elmo = ElmoEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
+# Online - Download the pretrained model
+elmo = ElmoEmbeddings.pretrained()
       .setInputCols("sentence", "token") \
       .setOutputCol("elmo")
-```
 
+# Offline - Download the pretrained model manually and extract it
+elmo = ElmoEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
+        .setInputCols("sentence", "token") \
+        .setOutputCol("elmo")
+```
 
 ```scala
 
@@ -767,6 +774,26 @@ val elmo = ElmoEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("elmo")
       .setPoolingLayer("elmo") //  word_emb, lstm_outputs1, lstm_outputs2 or elmo
+```
+
+### UniversalSentenceEncoder
+
+The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
+
+Refer to the [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+use = UniversalSentenceEncoder.pretrained() \
+            .setInputCols("sentence") \
+            .setOutputCol("use_embeddings")
+```
+
+```scala
+val use = new UniversalSentenceEncoder()
+      .setInputCols("document")
+      .setOutputCol("use_embeddings")
 ```
 
 ### SentenceEmbeddings
