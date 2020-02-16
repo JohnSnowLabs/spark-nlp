@@ -162,7 +162,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
     pipelineDF.select("finished_embeddings").show(2)
     pipelineDF.select(size(pipelineDF("finished_embeddings")).as("chunk_embeddings_size")).show
 
-    pipelineDF.selectExpr("chunk.metadata as chunk_metadata","chunk_embeddings.metadata").show(false)
+    assert(pipelineDF.selectExpr("explode(chunk_embeddings.metadata) as meta").select("meta.chunk").distinct().count() > 1)
   }
 
   "ChunkEmbeddings" should "correctly work with empty tokens" in {
