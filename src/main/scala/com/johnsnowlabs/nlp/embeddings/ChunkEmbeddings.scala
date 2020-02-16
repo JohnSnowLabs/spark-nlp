@@ -76,14 +76,14 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
     val documentsWithChunks = annotations
       .filter(token => token.annotatorType == CHUNK)
-      .groupBy(_.metadata.getOrElse[String]("chunk", "0").toInt)
+      .groupBy(_.metadata.getOrElse[String]("sentence", "0").toInt)
       .toSeq
       .sortBy(_._1)
 
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
 
     documentsWithChunks.flatMap { sentences =>
-      sentences._2.flatMap { chunk =>
+      sentences._2.zipWithIndex.flatMap { case (chunk, chunkIdx) =>
 
         val sentenceId = chunk.metadata("sentence")
 
@@ -102,23 +102,20 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
           )
 
           val finalEmbeddings = if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
-          if(finalEmbeddings.length > 0) {
-            Some(Annotation(
-              annotatorType = outputAnnotatorType,
-              begin = chunk.begin,
-              end = chunk.end,
-              result = chunk.result,
-              metadata = Map("sentence" -> sentenceId.toString,
-                "chunk" -> chunk.metadata.getOrElse("chunk", "0"),
-                "token" -> chunk.result.toString,
-                "pieceId" -> "-1",
-                "isWordStart" -> "true"
-              ),
-              embeddings = calculateChunkEmbeddings(finalEmbeddings)
-            ))
-          } else{
-            None
-          }
+
+          Some(Annotation(
+            annotatorType = outputAnnotatorType,
+            begin = chunk.begin,
+            end = chunk.end,
+            result = chunk.result,
+            metadata = Map("sentence" -> sentenceId.toString,
+              "chunk" -> chunkIdx.toString,
+              "token" -> chunk.result.toString,
+              "pieceId" -> "-1",
+              "isWordStart" -> "true"
+            ),
+            embeddings = calculateChunkEmbeddings(finalEmbeddings)
+          ))
         } else {
           None
         }
