@@ -20,28 +20,30 @@ object ConfigHelper {
     getConfigValue(path).getOrElse(defaultValue)
   }
 
+  val configPrefix = "jsl.sparknlp"
+
   // Configures s3 bucket where pretrained models are stored
-  val pretrainedS3BucketKey = "sparknlp.settings.pretrained.s3_bucket"
+  val pretrainedS3BucketKey = configPrefix + ".settings.pretrained.s3_bucket"
 
   // Configures s3 path where pretrained models are stored
-  val pretrainedS3PathKey = "sparknlp.settings.pretrained.s3_path"
+  val pretrainedS3PathKey = configPrefix + ".settings.pretrained.s3_path"
 
   // Configures cache folder where to cache pretrained models
-  val pretrainedCacheFolder = "sparknlp.settings.pretrained.cache_folder"
+  val pretrainedCacheFolder = configPrefix + ".settings.pretrained.cache_folder"
 
   // Configures cache folder where to cache pretrained models
-  val annotatorLogFolder = "sparknlp.settings.annotator.log_folder"
+  val annotatorLogFolder = configPrefix + "settings.annotator.log_folder"
 
   // Stores credentials for AWS S3 private models
-  val awsCredentials = "sparknlp.settings.pretrained.credentials"
+  val awsCredentials = configPrefix + ".settings.pretrained.credentials"
 
 
   val accessKeyId = awsCredentials + ".access_key_id"
   val secretAccessKey = awsCredentials + ".secret_access_key"
   val awsProfileName = awsCredentials + ".aws_profile_name"
 
-  val s3SocketTimeout = "sparknlp.settings.pretrained.s3_socket_timeout"
+  val s3SocketTimeout = configPrefix + ".settings.pretrained.s3_socket_timeout"
 
-  val storageTmpDir = "sparknlp.settings.storage.cluster_tmp_dir"
+  val storageTmpDir = configPrefix + ".settings.storage.cluster_tmp_dir"
 
 }

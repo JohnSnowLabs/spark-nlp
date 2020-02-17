@@ -13,7 +13,7 @@ object ConfigLoader {
     if (System.getenv().containsKey("SPARKNLP_CONFIG_PATH"))
       System.getenv("SPARKNLP_CONFIG_PATH")
     else
-      defaultConfig.getString("sparknlp.settings.overrideConfigPath")
+      defaultConfig.getString("jsl.sparknlp.settings.overrideConfigPath")
   }
 
   def getConfigPath: String = overrideConfigPath

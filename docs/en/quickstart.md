@@ -162,11 +162,13 @@ ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
 And then we need to put in such application.conf the following content
 
 ```json
-sparknlp {
-    settings {
-        cluster_tmp_dir = "somewhere in s3n:// path to some folder"
+    jsl {
+        sparknlp {
+            settings {
+                cluster_tmp_dir = "somewhere in s3n:// path to some folder"
+            }
+        }
     }
-}
 ```
 
 For further alternatives and documentation check out our README page in [GitHub](https://github.com/JohnSnowLabs/spark-nlp).
