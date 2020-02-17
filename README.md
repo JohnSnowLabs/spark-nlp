@@ -14,6 +14,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Table of contents
 
+* [Features](#features)
 * [Quick Start](#quick-start)
 * [Using Spark NLP](#usage)  
   * [Apache Spark Support](#apache-spark-support)
@@ -36,6 +37,35 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Troubleshooting](#troubleshooting)
 * [Acknowledgments](#acknowledgments)
 * [Contributing](#contributing)
+
+## Featuress
+
+* Tokenization
+* Stop Words Removal
+* Normalizer
+* Stemmer
+* Lemmatizer
+* NGrams
+* Regex Matching
+* Text Matching
+* Chunking
+* Date Matcher
+* Sentence Detector
+* Part-of-speech tagging
+* Sentiment Detection (ML models)
+* Spell Checker (ML and DL models)
+* Word Embeddings (GloVe and Word2Vec)
+* BERT Embeddings (TF Hub models)
+* ELMO Embeddings (TF Hub models)
+* Universal Sentence Encoder (TF Hub models)
+* Sentence Embeddings
+* Chunk Embeddings
+* Named entity recognition (Deep learning)
+* Dependency parsing (Labeled/unlabled)
+* Easy TensorFlow integration
+* Full integration with Spark ML functions
+* +30 pre-trained models in 5 languages (English, French, German, Italian, and Spanish)
+* +30 pre-trained pipelines!
 
 ## Quick Start
 
@@ -376,7 +406,7 @@ sparknlp {
 
 ### Pipelines
 
-Spark NLP offers more than `25 pre-trained pipelines` in `4 languages`.
+Spark NLP offers more than `30 pre-trained pipelines` in `5 languages`.
 
 **English pipelines:**
 
@@ -448,7 +478,7 @@ annotation.select("entities.result").show(false)
 
 ### Models
 
-Spark NLP offers more than `30 pre-trained models` in `4 languages`.
+Spark NLP offers more than `30 pre-trained models` in `5 languages`.
 
 **English pipelines:**
 
