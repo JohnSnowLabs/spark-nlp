@@ -83,13 +83,17 @@ Spark NLP *2.4.1* has been built on top of Apache Spark 2.4.4
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
 |-------------|-----------------------|--------------------|
-| 2.4.x       |NO                     |YES                 |
+| 2.4.x       |YES**                  |YES                 |
 | 1.8.x       |Partially              |YES                 |
-| 1.7.3       |YES                    |NO                  |
-| 1.6.3       |YES                    |NO                  |
-| 1.5.0       |YES                    |NO                  |
+| 1.7.x       |YES                    |NO                  |
+| 1.6.x       |YES                    |NO                  |
+| 1.5.x       |YES                    |NO                  |
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
+
+** Spark NLP is built and released based on `Apache Spark 2.4.x`, in order to use it with Apache Spark `2.3.x` you need to manually compile it by changing the version in our `build.sbt` file.
+
+** We do have the Fat JAR of Spark NLP 2.4.0 release already compiled for `Apache Spark 2.3.x` and it can be downloaded from our S3 [from here](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-2.4.0_spark-2.3.0.jar).
 
 ## Spark Packages
 
