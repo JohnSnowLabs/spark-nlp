@@ -52,9 +52,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    println("In Normalizer")
-
-    val normalizedAnnotations = annotations.zipWithIndex.flatMap { case (originalToken, index) =>
+    val normalizedAnnotations = annotations.flatMap { originalToken =>
 
       /** slang dictionary keys should have been lowercased if slangMatchCase is false */
       val unslanged = $$(slangDict).get(
@@ -84,46 +82,32 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
       }}
 
     }
-    verifyIndexValues(normalizedAnnotations)
-    normalizedAnnotations
+    resetIndexAnnotations(normalizedAnnotations)
   }
 
-//  private def verifyIndexValues(annotations: Seq[Annotation]): Seq[Annotation] = {
-//    println("In verifyIndexValues")
-//    val verifiedAnnotations = annotations.zipWithIndex.map { case (normalizedToken, index) =>
-//      println("index:" + index)
-//      if (index != 0) {
-//        val begin = annotations(index-1).end + 2
-//        if (begin != normalizedToken.begin) {
-//          println("Reset from index: " + index + "until the end")
-//          Annotation(annotations(index).annotatorType, annotations(index).begin, annotations(index).end,
-//            annotations(index).result, annotations(index).metadata)
-//        } else {
-//          Annotation(annotations(index).annotatorType, annotations(index).begin, annotations(index).end,
-//            annotations(index).result, annotations(index).metadata)
-//        }
-//      } else {
-//        Annotation(annotations(index).annotatorType, annotations(index).begin, annotations(index).end,
-//                  annotations(index).result, annotations(index).metadata)
-//      }
-//    }
-//    verifiedAnnotations
+  private def resetIndexAnnotations(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val wrongBeginIndex = getFirstAnnotationIndexWithWrongTokenIndexesValues(annotations)
+    if (wrongBeginIndex == -1) {
+      annotations
+    } else {
+      val rightAnnotations = annotations.slice(0, wrongBeginIndex)
+      val wrongAnnotations = annotations.slice(wrongBeginIndex, annotations.length)
+      var priorEnd = 0
+      val resetAnnotations = wrongAnnotations.zipWithIndex.map{ case (normalizedToken, index) =>
+        val begin = if (index == 0) annotations(wrongBeginIndex - 1).end + 2 else priorEnd + 2
+        priorEnd = begin + normalizedToken.result.length - 1
+        Annotation(normalizedToken.annotatorType, begin, priorEnd, normalizedToken.result, normalizedToken.metadata)
+      }
+      rightAnnotations ++ resetAnnotations
+    }
+  }
 
-  private def verifyIndexValues(annotations: Seq[Annotation]): Seq[Annotation] = {
-    println("In verifyIndexValues")
-    val wrongBeginIndex = annotations.zipWithIndex.flatMap { case (normalizedToken, index) =>
+  private def getFirstAnnotationIndexWithWrongTokenIndexesValues(annotations: Seq[Annotation]): Int = {
+    val wrongIndex = annotations.zipWithIndex.flatMap { case (normalizedToken, index) =>
       val verifiedBegin = if (index > 0) annotations(index - 1).end + 2 else annotations(index).begin
       if (normalizedToken.begin != verifiedBegin) Some(index) else None
-    }.head
-
-    val wrongAnnotations = annotations.slice(wrongBeginIndex, annotations.length)
-    var priorEnd = 0
-    val resetIndexAnnotations = wrongAnnotations.zipWithIndex.map{ case (normalizedToken, index) =>
-      val begin = if (index == 0) annotations(wrongBeginIndex - 1).end + 2 else priorEnd + 2
-      priorEnd = begin + normalizedToken.result.length - 1
-      Annotation(normalizedToken.annotatorType, begin, priorEnd, normalizedToken.result, normalizedToken.metadata)
     }
-    resetIndexAnnotations
+    if (wrongIndex.isEmpty) -1 else wrongIndex.head
   }
 
 }
