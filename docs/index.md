@@ -54,7 +54,7 @@ data:
       # background_color: "#123"
     
     - title: Benchmark
-      excerpt: SPARK NLP 2.4.x OBTAINED THE BEST PERFORMING ACADEMIC PEER-REVIEWED RESULTS.
+      excerpt: Spark NLP 2.4.x obtained the best performing academic peer-reviewed results
       benchmark: yes
       features: false
       theme: dark
