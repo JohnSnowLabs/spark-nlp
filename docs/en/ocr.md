@@ -3,7 +3,7 @@ layout: article
 title: Spark OCR (Licensed)
 permalink: /docs/en/ocr
 key: docs-ocr
-modify_date: "2020-02-11"
+modify_date: "2020-02-20"
 ---
 Spark OCR provides set of Spark ML transformers/estimators that help users create and use OCR pipelines.
 It built on top of Apache Spark and Tesseract OCR.
@@ -26,9 +26,9 @@ More details on transformers/estimators could be found in further section [OCR P
 
 ## Requirements
 
-Spark OCR is built on top of **Apache Spark 2.4.0**. This is the **only** supported release.
+Spark OCR is built on top of **Apache Spark 2.4.4**. This is the **only** supported release.
 
-It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.0/index.html) to get started with Spark.
+It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
 Spark OCR required Tesseract 4.x+.
 
