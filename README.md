@@ -133,23 +133,23 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages JohnSnowLabs:spark-nlp:2.4.1` to you spark command
+To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1` to you spark command
 
 ```sh
-spark-shell --packages JohnSnowLabs:spark-nlp:2.4.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 ```
 
 ```sh
-pyspark --packages JohnSnowLabs:spark-nlp:2.4.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 ```
 
 ```sh
-spark-submit --packages JohnSnowLabs:spark-nlp:2.4.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: If Spark Packages was not availabe you can always use Maven's coordinates instead `com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1`
+**NOTE**: To ues SPark NLP with GPU you can ues dedicated package for GPU `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.1`
 
 ## Scala
 
