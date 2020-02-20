@@ -98,8 +98,8 @@ $ spark-shell --jar spark-nlp-assembly-2.4.1
               <li>Dependency parsing (Labeled/unlabled)</li>
               <li>Easy <strong>TensorFlow</strong> integration</li>
               <li>Full integration with <strong>Spark ML</strong> functions</li>
-              <li><strong>+30</strong> pre-trained <strong>models </strong>in 4 languages</li>
-              <li><strong>+30</strong> pre-trained <strong>pipelines!</strong></li>
+              <li><strong>+60</strong> pre-trained <strong>models </strong> and <strong>pipelines </strong> 
+              <li> Support for <strong>multiple languages</strong> (English, French, German, Italian, and Spanish</li>
             </ul>
           </div>
           <div class="cell cell--12 cell--lg-7" style="text-align: left; padding: 10px">
@@ -138,7 +138,101 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
           </div>
         </div>
         {%- endif -%}
+        {%- if _section.benchmark -%}
+        
+        <div class="grid">
+          <div class="cell cell--12 cell--lg-8" style="text-align: left; padding: 10px">
+            {% highlight bash %}
+            
+            {% endhighlight %}
+            <style type="text/css">
+              .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+              .tg td{font-family:Arial, sans-serif;font-size:14px;padding:15px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ccc;color:#333;background-color:#fff;}
+              .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:15px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ffffff;color:#ffffff;background-color:#168be8;}
+              .tg .tg-fymr{font-weight:bold;border-color:inherit;text-align:left;vertical-align:top}
+              .tg .tg-0lax{text-align:left;vertical-align:top}
+              .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+              </style>
+              <table class="tg">
+                <tr>
+                  <th class="tg-fymr">SYSTEM</th>
+                  <th class="tg-fymr">YEAR</th>
+                  <th class="tg-fymr">LANGUAGE</th>
+                  <th class="tg-fymr">ACCURACY</th>
+                </tr>
+                <tr>
+                  <td class="tg-0lax"><span style="font-weight:bold">Spark NLP v2.4</span></td>
+                  <td class="tg-0lax">2020</td>
+                  <td class="tg-0lax">Python/Scala/Java/R</td>
+                  <td class="tg-0lax"><span style="font-weight:bold">95.9</span></td>
+                </tr>
+                <tr>
+                  <td class="tg-0lax">Spark NLP v2.x</td>
+                  <td class="tg-0lax">2019</td>
+                  <td class="tg-0lax">Python/Scala/Java/R</td>
+                  <td class="tg-0lax"><span style="font-weight:bold">93</span></td>
+                </tr>
+                <tr>
+                  <td class="tg-0lax">Spark NLP v1.x</td>
+                  <td class="tg-0lax">2018</td>
+                  <td class="tg-0lax">Python/Scala/Java/R</td>
+                  <td class="tg-0lax">92</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">spaCy v2.x</td>
+                  <td class="tg-0pky">2017<br></td>
+                  <td class="tg-0pky">Python/Cython</td>
+                  <td class="tg-0pky">92.6</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">spaCy v1.x</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Python/Cython</td>
+                  <td class="tg-0pky">91.8</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">ClearNLP</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Java</td>
+                  <td class="tg-0pky">91.7</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">CoreNLP</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Java</td>
+                  <td class="tg-0pky">89.6</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">MATE</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Java</td>
+                  <td class="tg-0pky">92.5</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">Turbo</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">C++</td>
+                  <td class="tg-0pky">92.4</td>
+                </tr>
+              </table>            
+          </div>
+          <div class="cell cell--12 cell--lg-4" style="text-align: left; padding: 10px">
+            <h3 style="margin-left:-30px">Training NER</h3>
+            <ul>
+              <li>State-of-the-art Deep Learning algorithms</li>
+              <li>Achieve high accuracy within a few minutes</li>
+              <li>Achieve high accuracy with a few lines of codes</li>
+              <li>Blazing fast training</li>
+              <li>Use CPU or GPU</li>
+              <li>Easy to choose Word Embeddings</li>
+              <li>Pre-trained <strong>GloVe</strong> models</li>
+              <li>Pre-trained <strong>BERT</strong> models from TF Hub
+              <li>Pre-trained <strong>ELMO</strong> models from TF Hub
+            </ul>
+          </div>
 
+        </div>
+        {%- endif -%}
         {%- if _section.children -%}
         {%- assign _size = _section.children | size  -%}
         <div class="grid--container">
