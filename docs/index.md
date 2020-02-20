@@ -53,6 +53,13 @@ data:
       # theme: dark
       # background_color: "#123"
     
+    - title: Benchmark
+      excerpt: 
+      benchmark: yes
+      features: false
+      theme: dark
+      background_color: "#123"
+
     - title: <h2>Active Community Support</h2>
       theme: dark
       excerpt: 
