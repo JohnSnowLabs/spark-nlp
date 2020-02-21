@@ -8,7 +8,8 @@ case class PretrainedPipeline(
                                downloadName: String,
                                lang: String = "en",
                                source: String = ResourceDownloader.publicLoc,
-                               parseEmbeddingsVectors: Boolean = false
+                               parseEmbeddingsVectors: Boolean = false,
+                               diskLocation: Option[String] = None
                              ) {
 
   /** Support for java default argument interoperability */
@@ -20,8 +21,12 @@ case class PretrainedPipeline(
     this(downloadName, lang, ResourceDownloader.publicLoc)
   }
 
-  val model: PipelineModel = ResourceDownloader
-    .downloadPipeline(downloadName, Option(lang), source)
+  val model: PipelineModel = if (diskLocation.isEmpty) {
+    ResourceDownloader
+      .downloadPipeline(downloadName, Option(lang), source)
+  } else {
+    PipelineModel.load(diskLocation.get)
+  }
 
   lazy val lightModel = new LightPipeline(model, parseEmbeddingsVectors)
 
@@ -36,4 +41,13 @@ case class PretrainedPipeline(
 
   def transform(dataFrame: DataFrame): DataFrame = model.transform(dataFrame)
 
+}
+
+object PretrainedPipeline {
+  def fromDisk(path: String, parseEmbeddings: Boolean = false): PretrainedPipeline = {
+    PretrainedPipeline(null, null, null, parseEmbeddings, Some(path))
+  }
+  def fromDisk(path: String): PretrainedPipeline = {
+    fromDisk(path, false)
+  }
 }

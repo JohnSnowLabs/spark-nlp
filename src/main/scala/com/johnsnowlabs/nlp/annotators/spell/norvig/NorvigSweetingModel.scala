@@ -41,14 +41,17 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { token =>
-        val verifiedWord = checkSpellWord(token.result)
-        Annotation(
-          outputAnnotatorType,
-          token.begin,
-          token.end,
-          verifiedWord._1,
-          Map("confidence"->verifiedWord._2.toString)
+      val verifiedWord = checkSpellWord(token.result)
+      Annotation(
+        outputAnnotatorType,
+        token.begin,
+        token.end,
+        verifiedWord._1,
+        Map(
+          "confidence"->verifiedWord._2.toString,
+          "sentence"->token.metadata("sentence")
         )
+      )
     }
   }
 
@@ -199,7 +202,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
       word._2 == bestFrequencyValue && word._3 == bestHammingValue)
     if (bestRecommendations.nonEmpty) {
       val result = (Utilities.getRandomValueFromList(bestRecommendations),
-                    Utilities.computeConfidenceValue(bestRecommendations))
+        Utilities.computeConfidenceValue(bestRecommendations))
       (Some(result._1.get._1), result._2)
     } else {
       if ($(frequencyPriority)) {
@@ -239,7 +242,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 }
 
 trait ReadablePretrainedNorvig extends ParamsAndFeaturesReadable[NorvigSweetingModel] with HasPretrained[NorvigSweetingModel] {
-  override val defaultModelName: String = "spellcheck_norvig"
+  override val defaultModelName = Some("spellcheck_norvig")
   /** Java compliant-overrides */
   override def pretrained(): NorvigSweetingModel = super.pretrained()
   override def pretrained(name: String): NorvigSweetingModel = super.pretrained(name)

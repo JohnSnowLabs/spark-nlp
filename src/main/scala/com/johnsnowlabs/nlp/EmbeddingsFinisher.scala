@@ -4,7 +4,7 @@ import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.linalg.SQLDataTypes.VectorType
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.ml.param.{BooleanParam, ParamMap, StringArrayParam}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
@@ -50,7 +50,6 @@ class EmbeddingsFinisher(override val uid: String)
 
     val embeddingsAnnotators = Seq(
       AnnotatorType.WORD_EMBEDDINGS,
-      AnnotatorType.CHUNK_EMBEDDINGS,
       AnnotatorType.SENTENCE_EMBEDDINGS
     )
 
@@ -137,3 +136,4 @@ class EmbeddingsFinisher(override val uid: String)
   }
 
 }
+object EmbeddingsFinisher extends DefaultParamsReadable[EmbeddingsFinisher]

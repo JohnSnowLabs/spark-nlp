@@ -1,11 +1,10 @@
 import sparknlp.internal as _internal
-import sys
 import threading
 import time
-from pyspark.ml.wrapper import JavaModel
 from pyspark.sql import DataFrame
 from sparknlp.annotator import *
 from sparknlp.base import LightPipeline
+from pyspark.ml import PipelineModel
 
 
 def printProgress(stop):
@@ -28,7 +27,7 @@ def printProgress(stop):
 class ResourceDownloader(object):
 
     @staticmethod
-    def downloadModel(reader, name, language, remote_loc=None):
+    def downloadModel(reader, name, language, remote_loc=None, j_dwn='PythonResourceDownloader'):
         print(name + " download started this may take some time.")
         file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
         if file_size == "-1":
@@ -39,7 +38,7 @@ class ResourceDownloader(object):
             t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
             t1.start()
             try:
-                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc).apply()
+                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, j_dwn).apply()
             finally:
                 stop_threads = True
                 t1.join()
@@ -59,7 +58,7 @@ class ResourceDownloader(object):
             t1.start()
             try:
                 j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
-                jmodel = JavaModel(j_obj)
+                jmodel = PipelineModel._from_java(j_obj)
             finally:
                 stop_threads = True
                 t1.join()
@@ -87,9 +86,16 @@ class ResourceDownloader(object):
 
 class PretrainedPipeline:
 
-    def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False):
-        self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
+    def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False, disk_location=None):
+        if not disk_location:
+            self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
+        else:
+            self.model = PipelineModel.load(disk_location)
         self.light_model = LightPipeline(self.model, parse_embeddings)
+
+    @staticmethod
+    def from_disk(path, parse_embeddings=False):
+        return PretrainedPipeline(None, None, None, parse_embeddings, path)
 
     def annotate(self, target, column=None):
         if type(target) is DataFrame:

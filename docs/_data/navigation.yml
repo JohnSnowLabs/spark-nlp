@@ -33,6 +33,8 @@ docs-en:
         url:    /docs/en/transformers
       - title:  Annotators
         url:    /docs/en/annotators
+      - title:  Auxiliary functions
+        url:    /docs/en/auxiliary
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
@@ -41,6 +43,10 @@ docs-en:
         url:    /docs/en/training
       - title:  Tensorflow Graph
         url:  /docs/en/graph
+      - title: Scaladoc
+        url: /api/
+      - title:  Developers
+        url:  /docs/en/developers
   - title: Licensed Content
     children:
       - title:  Annotators

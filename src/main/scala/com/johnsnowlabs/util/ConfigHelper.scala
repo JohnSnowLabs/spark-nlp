@@ -42,6 +42,6 @@ object ConfigHelper {
 
   val s3SocketTimeout = "sparknlp.settings.pretrained.s3_socket_timeout"
 
-  val embeddingsTmpDir = "sparknlp.settings.embeddings.cluster_tmp_dir"
+  val storageTmpDir = "sparknlp.settings.storage.cluster_tmp_dir"
 
 }

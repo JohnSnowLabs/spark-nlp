@@ -5,16 +5,18 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
+import org.apache.spark.sql.Dataset
 
 
 /*
   Named Entity Recognition model
  */
 
-class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] {
+class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("NER"))
 
@@ -77,6 +79,11 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
     }
   }
 
+  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    validateStorageRef(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    dataset
+  }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sourceSentences = PosTagged.unpack(annotations)
     val withEmbeddings = WordpieceEmbeddingsSentence.unpack(annotations)
@@ -93,7 +100,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 }
 
 trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] with HasPretrained[NerCrfModel] {
-  override val defaultModelName: String = "ner_crf"
+  override val defaultModelName = Some("ner_crf")
   /** Java compliant-overrides */
   override def pretrained(): NerCrfModel = super.pretrained()
   override def pretrained(name: String): NerCrfModel = super.pretrained(name)

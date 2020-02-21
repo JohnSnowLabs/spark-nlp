@@ -65,8 +65,8 @@ object Annotation {
   }
 
   private val ANNOTATION_NAME = "__annotation"
-  val RESULT = "result"
-  val EMBEDDINGS = "embeddings"
+  private val RESULT = "result"
+  private val EMBEDDINGS = "embeddings"
 
   /** This is spark type of an annotation representing its metadata shape */
   val dataType = new StructType(Array(
@@ -75,9 +75,10 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField("embeddings", ArrayType(FloatType, false), true)
+    StructField(EMBEDDINGS, ArrayType(FloatType, false), true)
   ))
 
+  val arrayType = new ArrayType(dataType, false)
 
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
@@ -153,8 +154,7 @@ object Annotation {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
           case (AnnotatorType.WORD_EMBEDDINGS |
-               AnnotatorType.SENTENCE_EMBEDDINGS |
-               AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(vSep)
+               AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(vSep)
           case _ => r.getString(3)
         }
       ).mkString(aSep)
@@ -167,8 +167,7 @@ object Annotation {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
           case (AnnotatorType.WORD_EMBEDDINGS |
-               AnnotatorType.SENTENCE_EMBEDDINGS |
-               AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddings) =>
+               AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) =>
             (r.getMap[String, String](4) ++
               Map(RESULT -> r.getString(3)) ++
               Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
@@ -186,8 +185,7 @@ object Annotation {
       annotations: Seq[Row] => annotations.map(r =>
         r.getString(0) match {
           case (AnnotatorType.WORD_EMBEDDINGS |
-               AnnotatorType.SENTENCE_EMBEDDINGS |
-               AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(" ")
+               AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(" ")
           case _ => r.getString(3)
         }
       )

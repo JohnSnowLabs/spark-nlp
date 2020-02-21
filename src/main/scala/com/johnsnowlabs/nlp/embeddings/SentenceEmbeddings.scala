@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.Param
 
@@ -41,7 +42,7 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
         if($(poolingStrategy) == "AVERAGE")
           res(j) /= matrix.length
     }
-    res.toArray.map(_.toFloat)
+    res
   }
 
   /**
@@ -55,26 +56,30 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
 
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
 
-    sentences.zipWithIndex.map { case (sentence, idx) =>
-      val sentenceEmbeddings = embeddingsSentences.map {
+    sentences.map { sentence =>
+
+      val sentenceEmbeddings = embeddingsSentences.flatMap {
         case (tokenEmbedding) =>
           val allEmbeddings = tokenEmbedding.tokens.map { token =>
             token.embeddings
           }
           calculateSentenceEmbeddings(allEmbeddings)
-      }
+      }.toArray
 
       Annotation(
         annotatorType = outputAnnotatorType,
         begin = sentence.start,
         end = sentence.end,
         result = sentence.content,
-        metadata = Map.empty[String, String],
-        embeddings = sentenceEmbeddings(idx)
+        metadata = Map("sentence" -> sentence.index.toString,
+          "token" -> sentence.content,
+          "pieceId" -> "-1",
+          "isWordStart" -> "true"
+        ),
+        embeddings = sentenceEmbeddings
       )
     }
   }
-
 }
 
 object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]

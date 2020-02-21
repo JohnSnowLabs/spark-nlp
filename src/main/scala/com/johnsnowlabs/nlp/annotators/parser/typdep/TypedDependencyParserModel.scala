@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{ConllSentence, LabeledDependency}
 import com.johnsnowlabs.nlp.annotators.parser.typdep.util.{DependencyLabel, Dictionary, DictionarySet}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import gnu.trove.map.hash.TObjectIntHashMap
@@ -128,7 +127,7 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 }
 
 trait ReadablePretrainedTypedDependency extends ParamsAndFeaturesReadable[TypedDependencyParserModel] with HasPretrained[TypedDependencyParserModel] {
-  override val defaultModelName: String = "dependency_typed_conllu"
+  override val defaultModelName = Some("dependency_typed_conllu")
   /** Java compliant-overrides */
   override def pretrained(): TypedDependencyParserModel = super.pretrained()
   override def pretrained(name: String): TypedDependencyParserModel = super.pretrained(name)

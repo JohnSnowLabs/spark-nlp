@@ -3,7 +3,8 @@ layout: article
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
-modify_date: "2019-10-23"
+modify_date: "2019-11-01"
+use_language_switchter: "Python-Scala-Java"
 ---
 
 ## Transformers Guideline
@@ -23,20 +24,33 @@ Array\[String\]
 - setIdCol() -> OPTIONAL: Sring type column with id information
 - setMetadataCol() -> OPTIONAL: Map type column with metadata
 information
-- setCleanupMode(disabled) -> Cleaning up options, possible values: 
-  - disabled: Source kept as original. 
+- setCleanupMode(disabled) -> Cleaning up options, possible values:
+  - disabled: Source kept as original.
   - inplace: removes new lines and tabs.
   - inplace_full: removes new lines and tabs but also those which were
   converted to strings (i.e. \\n)
   - shrink: removes new lines and tabs, plus merging multiple spaces
   and blank lines to a single space.
   - shrink_full: removews new lines and tabs, including stringified
-  values, plus shrinking spaces and blank lines. 
+  values, plus shrinking spaces and blank lines.
 
 **Example:**
 
 Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler)
 Scala docs for more details on the API.
+
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```java
+import com.johnsnowlabs.nlp.*;
+import com.johnsnowlabs.nlp.annotators.*;
+import org.apache.spark.ml.Pipeline;
+DocumentAssembler documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+    .setCleanupMode("shrink")
+```
 
 ```python
 from sparknlp.annotator import *
@@ -75,6 +89,15 @@ annotators.
 
 Refer to the [TokenAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.TokenAssembler) Scala docs for more details on the API.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+```java
+TokenAssembler token_assembler = new TokenAssembler()
+    .setInputCols("normalized")
+    .setOutputCol("assembled")
+```
+
+
 ```python
 token_assembler = TokenAssembler() \
     .setInputCols(["normalized"]) \
@@ -106,6 +129,9 @@ Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkC
 
 Refer to the [Doc2Chunk](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Doc2Chunk) Scala docs for more details on the API.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+
 ```python
 chunker = Doc2Chunk()\
     .setInputCols(["document"])\
@@ -134,6 +160,9 @@ Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokeni
 **Example:**
 
 Refer to the [Chunk2Doc](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Chunk2Doc) Scala docs for more details on the API.
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 
 ```python
 chunk_doc = Chunk2Doc()\
@@ -165,6 +194,9 @@ Once we have our NLP pipeline ready to go, we might want to use our annotation r
 
 Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Finisher) Scala docs for more details on the API.
 
+{% include programmingLanguageSelect.html %}
+
+
 ```python
 finisher = Finisher() \
     .setInputCols(["token"]) \
@@ -175,4 +207,39 @@ finisher = Finisher() \
 val finisher = new Finisher()
     .setInputCols("token")
     .setIncludeMetadata(true) // set to False to remove metadata
+```
+
+### EmbeddingsFinisher
+
+This transformer is designed to deal with embedding annotators: `WordEmbeddings`, `BertEmbeddings`, `SentenceEmbeddingd`, and `ChunkEmbeddings`. By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or Vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require `featureCol`.
+
+**Settable parameters are:**
+
+- setInputCols()
+- setOutputCols()
+- setCleanAnnotations(True) -> Whether to remove and cleanup the rest of the annotators (columns)
+- setOutputAsVector(False) -> if enabled, it will output the embeddings as Vectors instead of arrays
+
+**Example:**
+
+Refer to the [EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.EmbeddingsFinisher) Scala docs for more details on the API.
+
+{% include programmingLanguageSelect.html %}
+```java
+todo
+```
+
+```python
+embeddings_finisher = EmbeddingsFinisher() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCols("sentence_embeddings_vectors") \
+            .setOutputAsVector(True)
+```
+
+```scala
+val embeddingsFinisher = new EmbeddingsFinisher()
+      .setInputCols("sentence_embeddings", "embeddings")
+      .setOutputCols("finished_sentence_embeddings", "finished_embeddings")
+      .setOutputAsVector(true)
+      .setCleanAnnotations(false)
 ```

@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.util.DefaultParamsReadable
 
-object base {
+package object base {
 
   type DocumentAssembler = com.johnsnowlabs.nlp.DocumentAssembler
   object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
@@ -18,6 +18,9 @@ object base {
 
   type Finisher = com.johnsnowlabs.nlp.Finisher
   object Finisher extends DefaultParamsReadable[Finisher]
+
+  type EmbeddingsFinisher = com.johnsnowlabs.nlp.EmbeddingsFinisher
+  object EmbeddingsFinisher extends DefaultParamsReadable[EmbeddingsFinisher]
 
   type RecursivePipeline = com.johnsnowlabs.nlp.RecursivePipeline
 

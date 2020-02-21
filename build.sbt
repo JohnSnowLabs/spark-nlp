@@ -5,7 +5,6 @@ val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
 val is_gpu = System.getProperty("is_gpu","false")
-
 /** Package attributes */
 if(is_gpu.equals("false")){
   name := "spark-nlp"
@@ -16,7 +15,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.3.1"
+version := "2.4.1"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -33,7 +32,7 @@ spIncludeMaven in ThisBuild:= false
 
 spAppendScalaVersion := false
 
-resolvers in ThisBuild += "Maven Central" at "http://central.maven.org/maven2/"
+resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
 
@@ -83,8 +82,10 @@ developers in ThisBuild:= List(
   Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl")),
   Developer(id="rohit13k", name="Rohit Kumar", email="rohit@johnsnowlabs.com", url=url("https://github.com/rohit13k")),
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
-  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy"))
+  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
+  Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan"))
 )
+
 
 scalacOptions in (Compile, doc) ++= Seq(
   "-doc-title",
@@ -103,7 +104,7 @@ lazy val testDependencies = Seq(
 
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "5.17.2",
+  "org.rocksdb" % "rocksdbjni" % "6.5.3",
   "org.apache.hadoop" % "hadoop-aws" %  "3.2.0"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
@@ -117,7 +118,6 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("commons-configuration","commons-configuration"),
   "com.amazonaws" % "aws-java-sdk-s3" % "1.11.603",
-  "org.rocksdb" % "rocksdbjni" % "5.17.2",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
@@ -134,12 +134,12 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "libtensorflow" % "1.12.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.12.0"
+      "org.tensorflow" % "libtensorflow" % "1.15.0",
+      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.15.0"
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow" % "1.12.0"
+      "org.tensorflow" % "tensorflow" % "1.15.0"
     )
 
 lazy val root = (project in file("."))

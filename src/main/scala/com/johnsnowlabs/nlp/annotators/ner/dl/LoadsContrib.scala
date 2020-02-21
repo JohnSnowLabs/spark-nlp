@@ -18,13 +18,17 @@ object LoadsContrib {
 
   private def resourcePath(os: String, lib: String) = "ner-dl/"+os+"/"+lib
 
+  /*
+  * In TensorFlow 1.15.0 we don't need to load any .so files
+  * We reserve this feature for the future releases
+  *  */
   lazy val contribPaths: Option[(String, String)] =
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
-      Some((resourcePath("mac",lib1), resourcePath("mac", lib2)))
+      None
     } else if (SystemUtils.IS_OS_WINDOWS) {
       None
     } else {
-      Some((resourcePath("linux",lib1), resourcePath("linux", lib2)))
+      None
     }
 
   private def getFileName(path: String) = {

@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedTokenizer, ReadablePretrainedLemmatizer}
+import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -9,7 +10,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadElmoTensorflowModel, ReadUSETensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedElmoModel, ReadablePretrainedUSEModel, ReadablePretrainedWordEmbeddings}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -36,7 +37,12 @@ package object annotator {
   type TextMatcher = com.johnsnowlabs.nlp.annotators.TextMatcher
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
   type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
-  object TextMatcherModel extends ParamsAndFeaturesReadable[TextMatcherModel]
+  object TextMatcherModel extends ReadablePretrainedTextMatcher
+
+  type BigTextMatcher = com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
+  object BigTextMatcher extends DefaultParamsReadable[BigTextMatcher]
+  type BigTextMatcherModel = com.johnsnowlabs.nlp.annotators.btm.BigTextMatcherModel
+  object BigTextMatcherModel extends ReadablePretrainedBigTextMatcher
 
   type RegexMatcher = com.johnsnowlabs.nlp.annotators.RegexMatcher
   object RegexMatcher extends DefaultParamsReadable[RegexMatcher]
@@ -126,5 +132,17 @@ package object annotator {
 
   type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
   object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]
+
+  type ChunkEmbeddings = com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings
+  object ChunkEmbeddings extends DefaultParamsReadable[ChunkEmbeddings]
+
+  type NerOverwriter = com.johnsnowlabs.nlp.annotators.ner.NerOverwriter
+  object NerOverwriter extends DefaultParamsReadable[NerOverwriter]
+
+  type UniversalSentenceEncoder = com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
+  object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel
+
+  type ElmoEmbeddings = com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings
+  object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel
 
 }

@@ -21,6 +21,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       transformer match {
         case documentAssembler: DocumentAssembler =>
           annotations.updated(documentAssembler.getOutputCol, documentAssembler.assemble(target, Map.empty[String, String]))
+        case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
+        case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
+          val combinedAnnotations =
+            recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+          annotations.updated(recursiveAnnotator.getOutputCol, recursiveAnnotator.annotate(combinedAnnotations, pipelineModel))
         case annotator: AnnotatorModel[_] =>
           val combinedAnnotations =
             annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
@@ -59,8 +64,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotate(target).mapValues(_.map(a => {
       a.annotatorType match {
         case (AnnotatorType.WORD_EMBEDDINGS |
-             AnnotatorType.SENTENCE_EMBEDDINGS |
-             AnnotatorType.CHUNK_EMBEDDINGS) if (parseEmbeddingsVectors) =>  a.embeddings.mkString(" ")
+             AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddingsVectors) =>  a.embeddings.mkString(" ")
         case _ => a.result
       }
     }))

@@ -1,9 +1,10 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.{FloatBuffer, IntBuffer, LongBuffer}
+import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
 
 import org.tensorflow.Tensor
 
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
 
@@ -12,12 +13,28 @@ class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
 
   def createTensor[T](obj: T): Tensor[_] = {
-    val result = if (obj.isInstanceOf[String]) {
-      Tensor.create(obj.asInstanceOf[String].getBytes("UTF-8"), classOf[String])
+    val result = obj match {
+      case str: String =>
+        Tensor.create(str.getBytes("UTF-8"), classOf[String])
+      case _ =>
+        Tensor.create(obj)
     }
-    else {
-      Tensor.create(obj)
-    }
+
+    tensors.append(result)
+    result
+  }
+
+  def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
+
+    val result = Tensor.create(shape, buf)
+
+    tensors.append(result)
+    result
+  }
+
+  def createBytesBufferTensor[T](shape: Array[Long], buf: ByteBuffer): Tensor[_] = {
+
+    val result = Tensor.create(classOf[String], shape, buf)
 
     tensors.append(result)
     result
@@ -29,6 +46,14 @@ class TensorResources {
     }
 
     tensors.clear()
+  }
+
+  def clearSession(outs: mutable.Buffer[Tensor[_]]): Unit = {
+    outs.foreach(_.close())
+  }
+
+  def createIntBuffer(dim: Int): IntBuffer = {
+    IntBuffer.allocate(dim)
   }
 }
 

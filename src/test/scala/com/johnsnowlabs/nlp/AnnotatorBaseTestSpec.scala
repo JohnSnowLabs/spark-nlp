@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.AnalysisException
 import org.scalatest._
 
 /**
