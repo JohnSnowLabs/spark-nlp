@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -11,6 +11,9 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+
+  case class TokenizerAndNormalizerMap(beginTokenizer: Int, endTokenizer: Int, token: String,
+                                       beginNormalizer: Int, endNormalizer: Int, normalizer: String)
 
   val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns",
     "normalization regex patterns which match will be removed from token")
@@ -51,7 +54,6 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
     val normalizedAnnotations = annotations.flatMap { originalToken =>
 
       /** slang dictionary keys should have been lowercased if slangMatchCase is false */
@@ -82,32 +84,51 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
       }}
 
     }
-    resetIndexAnnotations(normalizedAnnotations)
-  }
 
-  private def resetIndexAnnotations(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val wrongBeginIndex = getFirstAnnotationIndexWithWrongTokenIndexesValues(annotations)
-    if (wrongBeginIndex == -1) {
-      annotations
+    if (normalizedAnnotations.size > annotations.size) {
+      normalizedAnnotations
     } else {
-      val rightAnnotations = annotations.slice(0, wrongBeginIndex)
-      val wrongAnnotations = annotations.slice(wrongBeginIndex, annotations.length)
-      var priorEnd = 0
+      resetIndexAnnotations(annotations, normalizedAnnotations)
+    }
+
+  }
+
+  private def resetIndexAnnotations(tokenizerAnnotations: Seq[Annotation], normalizerAnnotations: Seq[Annotation]):
+  Seq[Annotation] = {
+    //TODO: Double check a scenario when there removes in between tokens
+    val wrongIndex = getFirstAnnotationIndexWithWrongIndexValues(tokenizerAnnotations, normalizerAnnotations)
+    if (wrongIndex == -1) {
+      normalizerAnnotations
+    } else {
+      val offset = getOffset(tokenizerAnnotations, normalizerAnnotations, wrongIndex)
+      val rightAnnotations = normalizerAnnotations.slice(0, wrongIndex)
+      val wrongAnnotations = normalizerAnnotations.slice(wrongIndex, normalizerAnnotations.length)
       val resetAnnotations = wrongAnnotations.zipWithIndex.map{ case (normalizedToken, index) =>
-        val begin = if (index == 0) annotations(wrongBeginIndex - 1).end + 2 else priorEnd + 2
-        priorEnd = begin + normalizedToken.result.length - 1
-        Annotation(normalizedToken.annotatorType, begin, priorEnd, normalizedToken.result, normalizedToken.metadata)
+        val begin = normalizedToken.begin - offset
+        val end = begin + normalizedToken.result.length - 1
+        Annotation(normalizedToken.annotatorType, begin, end, normalizedToken.result, normalizedToken.metadata)
       }
-      rightAnnotations ++ resetAnnotations
+      val fullResetAnnotations = rightAnnotations ++ resetAnnotations
+      fullResetAnnotations
     }
   }
 
-  private def getFirstAnnotationIndexWithWrongTokenIndexesValues(annotations: Seq[Annotation]): Int = {
-    val wrongIndex = annotations.zipWithIndex.flatMap { case (normalizedToken, index) =>
-      val verifiedBegin = if (index > 0) annotations(index - 1).end + 2 else annotations(index).begin
-      if (normalizedToken.begin != verifiedBegin) Some(index) else None
+  private def getFirstAnnotationIndexWithWrongIndexValues(tokenizerAnnotations: Seq[Annotation],
+                                                          normalizerAnnotations: Seq[Annotation]): Int = {
+   val wrongIndex = normalizerAnnotations.zipWithIndex.flatMap { case (normalizer, index) =>
+      if (normalizer.begin != tokenizerAnnotations(index).begin) Some(index) else None
     }
-    if (wrongIndex.isEmpty) -1 else wrongIndex.head
+   if (wrongIndex.isEmpty) -1 else wrongIndex.head
+  }
+
+  private def getOffset(tokenizerAnnotations: Seq[Annotation], normalizerAnnotations: Seq[Annotation], wrongIndex: Int):
+  Int = {
+    val resultOffset = tokenizerAnnotations(wrongIndex - 1).result.length - normalizerAnnotations(wrongIndex - 1).result.length
+    var removedNewLinesOffset = 0
+    if (tokenizerAnnotations(wrongIndex).result.toLowerCase != normalizerAnnotations(wrongIndex).result.toLowerCase) {
+      removedNewLinesOffset = tokenizerAnnotations.size - normalizerAnnotations.size
+    }
+    resultOffset + removedNewLinesOffset
   }
 
 }
