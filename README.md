@@ -235,7 +235,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "JohnSnowLabs:spark-nlp:2.4.1")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
