@@ -4,6 +4,8 @@ title: Auxiliary
 permalink: /docs/en/auxiliary
 key: docs-auxiliary
 modify_date: "2019-11-28"
+use_language_switchter: "Python-Scala"
+
 ---
 
 ## Auxiliary functions and utilities
@@ -31,6 +33,8 @@ In Scala, importing inner functions brings implicits that allow these functions 
 
 **Imports:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from sparknlp.functions import *
 from sparknlp.annotation import Annotation
@@ -45,6 +49,8 @@ import com.johnsnowlabs.nlp.Annotation
 
 Complete usage examples can be seen here:
 https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/jupyter/annotation/english/spark-nlp-basics/spark-nlp-basics-functions.ipynb
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 val modified = data.mapAnnotationsCol("pos", "mod_pos", (_: Seq[Annotation]) => {

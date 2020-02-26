@@ -43,8 +43,10 @@ docs-en:
         url:    /docs/en/training
       - title:  Tensorflow Graph
         url:  /docs/en/graph
+      - title: Scaladoc
+        url: /api/
       - title:  Developers
-        url:  /docs/en/developers  
+        url:  /docs/en/developers
   - title: Licensed Content
     children:
       - title:  Annotators
@@ -54,7 +56,7 @@ docs-en:
       - title:  Evaluation
         url:    /docs/en/evaluation
       - title:  Spark OCR
-        url:  /docs/en/ocr_transformers
+        url:  /docs/en/ocr
 
 extras:
   - title:     Extras

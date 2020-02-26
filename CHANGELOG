@@ -1,4 +1,29 @@
 ========
+2.4.1
+========
+---------------
+Overview
+---------------
+This minor release fixes a few bugs in some of our annotators reported by our community. 
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+----------------
+Bugfixes
+----------------
+* Improve ChunkEmbeddings annotator and fix the empty chunk result
+* Fix UniversalSentenceEncoder crashing on empty Tensor
+* Fix NorvigSweetingModel missing sentenceId that results in NGramsGenerator crashing
+* Fix missing storageRef in embeddings' column for ElmoEmbeddings annotator
+
+----------------
+Documentation
+----------------
+* Update documentation for release of Spark NLP 2.4.x
+* Add new features such as ElmoEmbeddings and UniversalSentenceEncoder
+* Add multiple programming languages for demos and examples
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+========
 2.4.0
 ========
 ---------------
