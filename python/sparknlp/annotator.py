@@ -1898,7 +1898,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     poolingLayer = Param(Params._dummy(),
                          "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo",
-                         typeConverter=TypeConverters.toInt)
+                         typeConverter=TypeConverters.toString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1939,4 +1939,4 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     @staticmethod
     def pretrained(name="elmo", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc)
