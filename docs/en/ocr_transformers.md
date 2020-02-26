@@ -30,7 +30,7 @@ Spark OCR is built on top of **Apache Spark 2.4.0**. This is the **only** suppor
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.0/index.html) to get started with Spark.
 
-Spark OCR required Tesseract 4.x+.
+Spark OCR required Tesseract 4.1.+.
 
 ## Installation
 
@@ -62,7 +62,7 @@ cd leptonica-1.74.4
 ./configure
 make
 sudo make install
-​
+​   
 git clone --single-branch --branch 4.1 https://github.com/tesseract-ocr/tesseract.git
 cd tesseract
 ./autogen.sh
@@ -274,8 +274,6 @@ val pipeline = new Pipeline()
 pipeline.setStages(Array(
   pdfToText,
   pdfToImage,
-  layoutAnalyzer,
-  splitter,
   ocr
 ))
 
@@ -1395,6 +1393,7 @@ Next section describes the estimators for OCR
 | pageIteratorLevel | [PageIteratorLevel](#pageiteratorlevel) | BLOCK | page iteration level |
 | ocrEngineMode | [EngineMode](#enginemode) | LSTM_ONLY| OCR engine mode |
 | language | string | eng | language |
+| ignoreResolution | boolean | true | Ignore resolution from metadata of image. |
 
 #### Output Columns
 
