@@ -35,12 +35,6 @@ class UniversalSentenceEncoder(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
-  private var tfHubPath: String = ""
-  def setTFhubPath(value: String): Unit = {
-    tfHubPath = value
-  }
-  def getTFhubPath: String = tfHubPath
-
   private var _model: Option[Broadcast[TensorflowUSE]] = None
 
   def getModelIfNotSet: TensorflowUSE = _model.get.value
@@ -75,7 +69,6 @@ class UniversalSentenceEncoder(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    //    writeTensorflowHub(path, tfPath = getTFhubPath, spark)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_use", UniversalSentenceEncoder.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
@@ -121,12 +114,8 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
 
     val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
-    val USE = new UniversalSentenceEncoder()
+    new UniversalSentenceEncoder()
       .setModelIfNotSet(spark, wrapper)
-
-    USE.setTFhubPath(folder)
-
-    USE
   }
 }
 
