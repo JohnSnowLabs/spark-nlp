@@ -4,7 +4,7 @@ import java.io.File
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
