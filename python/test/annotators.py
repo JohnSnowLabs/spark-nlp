@@ -964,9 +964,10 @@ class EmbeddingsFinisherTestSpec(unittest.TestCase):
         model.transform(self.data).show()
 
 
-class UniversalSentenceEncoderTestSpec(unittest.TestCase):
+class ElmoEmbeddingsTestSpec(unittest.TestCase):
+
     def setUp(self):
-        self.data = SparkSessionForTest.spark.read.option("header", "true") \
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
     def runTest(self):
@@ -979,17 +980,17 @@ class UniversalSentenceEncoderTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        sentence_embeddings = UniversalSentenceEncoder.pretrained(name="tfhub_use", lang="en") \
-            .setInputCols("sentence") \
-            .setOutputCol("sentence_embeddings")
+        elmo = ElmoEmbeddings.pretrained() \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("embeddings")\
+            .setPoolingLayer("word_emb")
 
         pipeline = Pipeline(stages=[
             document_assembler,
             sentence_detector,
             tokenizer,
-            sentence_embeddings
+            elmo
         ])
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
-
