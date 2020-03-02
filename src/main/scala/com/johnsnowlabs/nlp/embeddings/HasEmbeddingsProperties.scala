@@ -20,4 +20,12 @@ trait HasEmbeddingsProperties extends Params {
     col.as(col.toString, metadataBuilder.build)
   }
 
+  protected def wrapSentenceEmbeddingsMetadata(col: Column, embeddingsDim: Int, embeddingsRef: Option[String] = None): Column = {
+    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+    metadataBuilder.putString("annotatorType", AnnotatorType.SENTENCE_EMBEDDINGS)
+    metadataBuilder.putLong("dimension", embeddingsDim.toLong)
+    embeddingsRef.foreach(ref => metadataBuilder.putString("ref", ref))
+    col.as(col.toString, metadataBuilder.build)
+  }
+
 }
