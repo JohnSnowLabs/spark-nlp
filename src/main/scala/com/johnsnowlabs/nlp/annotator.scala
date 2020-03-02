@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadClassifierDLTensorflowModel, ReadablePretrainedClassifierDL}
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -10,7 +11,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings.{EmbeddingsCoverage, ReadBertTensorflowModel, ReadElmoTensorflowModel, ReadUSETensorflowModel, ReadablePretrainedBertModel, ReadablePretrainedElmoModel, ReadablePretrainedUSEModel, ReadablePretrainedWordEmbeddings}
+import com.johnsnowlabs.nlp.embeddings._
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -144,5 +145,10 @@ package object annotator {
 
   type ElmoEmbeddings = com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings
   object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel
+
+  type ClassifierDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach
+  object ClassifierDLApproach extends DefaultParamsReadable[ClassifierDLApproach]
+  type ClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel
+  object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel
 
 }
