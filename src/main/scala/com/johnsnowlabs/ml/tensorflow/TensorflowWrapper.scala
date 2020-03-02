@@ -11,6 +11,7 @@ import org.tensorflow._
 import java.nio.file.Paths
 
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
+import org.apache.commons.io.filefilter.WildcardFileFilter
 
 
 case class Variables(variables:Array[Byte], index:Array[Byte])
@@ -263,6 +264,67 @@ object TensorflowWrapper {
           .run()
       }
       (graph, session, varPath, idxPath)
+    }
+
+    val varBytes = Files.readAllBytes(varPath)
+
+    val idxBytes = Files.readAllBytes(idxPath)
+
+    // 4. Remove tmp folder
+    FileHelper.delete(tmpFolder)
+    t.clearTensors()
+
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    tfWrapper.msession = session
+    tfWrapper
+  }
+
+  def readChkPoints(
+                     file: String,
+                     zipped: Boolean = true,
+                     tags: Array[String] = Array.empty[String],
+                     initAllTables: Boolean = false
+                   ): TensorflowWrapper = {
+    val t = new TensorResources()
+
+    // 1. Create tmp folder
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
+      .toAbsolutePath.toString
+
+    // 2. Unpack archive
+    val folder = if (zipped)
+      ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+    else
+      file
+
+    LoadsContrib.loadContribToTensorflow()
+
+    val tfChkPointsVars = FileUtils.listFilesAndDirs(
+      new File(folder),
+      new WildcardFileFilter("part*"),
+      new WildcardFileFilter("variables*")
+    ).toArray()
+
+    val variablesDir = tfChkPointsVars(1).toString
+    val variablseData = tfChkPointsVars(2).toString
+    val variablesIndex = tfChkPointsVars(3).toString
+
+    // 3. Read file as SavedModelBundle
+    val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
+    val session = new Session(graph, tfSessionConfig)
+    val varPath = Paths.get(variablseData)
+    val idxPath = Paths.get(variablesIndex)
+    if(initAllTables) {
+      session.runner
+        .addTarget("save/restore_all")
+        .addTarget("init_all_tables")
+        .feed("save/Const", t.createTensor(Paths.get(variablesDir, "part-00000-of-00001").toString))
+        .run()
+    }else{
+      session.runner
+        .addTarget("save/restore_all")
+        .feed("save/Const", t.createTensor(Paths.get(variablesDir, "part-00000-of-00001").toString))
+        .run()
     }
 
     val varBytes = Files.readAllBytes(varPath)
