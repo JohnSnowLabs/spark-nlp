@@ -13,7 +13,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class UniversalSentenceEncoder(override val uid: String)
-  extends AnnotatorModel[UniversalSentenceEncoder]
+    extends AnnotatorModel[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
     with HasStorageRef
     with WriteTensorflowModel {
@@ -34,8 +34,8 @@ class UniversalSentenceEncoder(override val uid: String)
   )
 
   def setConfigProtoBytes(
-                           bytes: Array[Int]
-                         ): UniversalSentenceEncoder.this.type = set(this.configProtoBytes, bytes)
+    bytes: Array[Int]
+  ): UniversalSentenceEncoder.this.type = set(this.configProtoBytes, bytes)
 
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
@@ -44,8 +44,7 @@ class UniversalSentenceEncoder(override val uid: String)
 
   def getModelIfNotSet: TensorflowUSE = _model.get.value
 
-  def setModelIfNotSet(spark: SparkSession,
-                       tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
@@ -72,24 +71,34 @@ class UniversalSentenceEncoder(override val uid: String)
     val sentences = SentenceSplit.unpack(annotations)
     val nonEmptySentences = sentences.filter(_.content.nonEmpty)
 
-    if(nonEmptySentences.nonEmpty)
+    if (nonEmptySentences.nonEmpty)
       getModelIfNotSet.calculateEmbeddings(nonEmptySentences)
     else Seq.empty[Annotation]
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef)))
+    )
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_use", UniversalSentenceEncoder.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(
+      path,
+      spark,
+      getModelIfNotSet.tensorflow,
+      "_use",
+      UniversalSentenceEncoder.tfFile,
+      configProtoBytes = getConfigProtoBytes
+    )
   }
 
 }
 
 trait ReadablePretrainedUSEModel
-  extends ParamsAndFeaturesReadable[UniversalSentenceEncoder]
+    extends ParamsAndFeaturesReadable[UniversalSentenceEncoder]
     with HasPretrained[UniversalSentenceEncoder] {
   override val defaultModelName: Some[String] = Some("tfhub_use")
 
@@ -97,7 +106,8 @@ trait ReadablePretrainedUSEModel
   override def pretrained(): UniversalSentenceEncoder = super.pretrained()
   override def pretrained(name: String): UniversalSentenceEncoder = super.pretrained(name)
   override def pretrained(name: String, lang: String): UniversalSentenceEncoder = super.pretrained(name, lang)
-  override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder =
+    super.pretrained(name, lang, remoteLoc)
 }
 
 trait ReadUSETensorflowModel extends ReadTensorflowModel {
@@ -114,8 +124,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String,
-                     spark: SparkSession): UniversalSentenceEncoder = {
+  def loadSavedModel(folder: String, spark: SparkSession): UniversalSentenceEncoder = {
     val f = new File(folder)
     val savedModel = new File(folder, "saved_model.pb")
 
@@ -126,7 +135,8 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $folder"
     )
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val wrapper =
+      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
     new UniversalSentenceEncoder()
       .setModelIfNotSet(spark, wrapper)
