@@ -6,13 +6,16 @@ import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowUSE, Tenso
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.IntArrayParam
+import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class UniversalSentenceEncoder(override val uid: String)
   extends AnnotatorModel[UniversalSentenceEncoder]
+    with HasEmbeddingsProperties
+    with HasStorageRef
     with WriteTensorflowModel {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
@@ -21,6 +24,8 @@ class UniversalSentenceEncoder(override val uid: String)
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
+
+  override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
 
   val configProtoBytes = new IntArrayParam(
     this,
@@ -52,6 +57,11 @@ class UniversalSentenceEncoder(override val uid: String)
     this
   }
 
+  setDefault(
+    dimension -> 512,
+    storageRef -> "tfhub_use"
+  )
+
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
     *
@@ -65,6 +75,10 @@ class UniversalSentenceEncoder(override val uid: String)
     if(nonEmptySentences.nonEmpty)
       getModelIfNotSet.calculateEmbeddings(nonEmptySentences)
     else Seq.empty[Annotation]
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
