@@ -31,6 +31,7 @@ unittest.TextTestRunner().run(StopWordsCleanerTestSpec())
 unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
+unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 
 # unittest.TextTestRunner().run(RecursiveTestSpec())
 
