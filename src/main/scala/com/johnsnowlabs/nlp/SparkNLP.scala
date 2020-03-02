@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "2.4.1"
+  val currentVersion = "2.4.2"
 
   def start(): SparkSession = {
     val build = SparkSession.builder()
@@ -12,7 +12,7 @@ object SparkNLP {
       .master("local[*]")
       .config("spark.driver.memory", "6G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1")
+      .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2")
 
     build.getOrCreate()
   }
