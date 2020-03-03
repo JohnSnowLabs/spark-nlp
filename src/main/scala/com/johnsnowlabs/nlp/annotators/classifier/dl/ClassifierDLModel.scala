@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow.{
   ClassifierDatasetEncoder,
   ClassifierDatasetEncoderParams,
-  DatasetEncoderParams,
   ReadTensorflowModel,
   TensorflowClassifier,
   TensorflowWrapper,
@@ -27,7 +26,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 class ClassifierDLModel(override val uid: String)
-    extends AnnotatorModel[ClassifierDLModel]
+  extends AnnotatorModel[ClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -43,8 +42,8 @@ class ClassifierDLModel(override val uid: String)
   )
 
   def setConfigProtoBytes(
-    bytes: Array[Int]
-  ): ClassifierDLModel.this.type = set(this.configProtoBytes, bytes)
+                           bytes: Array[Int]
+                         ): ClassifierDLModel.this.type = set(this.configProtoBytes, bytes)
 
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
@@ -110,7 +109,7 @@ class ClassifierDLModel(override val uid: String)
 }
 
 trait ReadablePretrainedClassifierDL
-    extends ParamsAndFeaturesReadable[ClassifierDLModel]
+  extends ParamsAndFeaturesReadable[ClassifierDLModel]
     with HasPretrained[ClassifierDLModel] {
   override val defaultModelName: Some[String] = Some("classifier_sentiment")
 
