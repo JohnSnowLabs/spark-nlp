@@ -49,22 +49,22 @@ article_header:
           <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight bash %}
 # Install Spark NLP from PyPI
-$ pip install spark-nlp==2.4.0
+$ pip install spark-nlp==2.4.1
 
-# Install Spark NLP from Anacodna/Conda
+# Install Spark NLP from Anaconda/Conda
 $ conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
-$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 
 # Load Spark NLP with PySpark
-$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 
 # Load Spark NLP with Spark Submit
-$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 
 # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-$ spark-shell --jar spark-nlp-assembly-2.4.0
+$ spark-shell --jar spark-nlp-assembly-2.4.1
             {% endhighlight %}
           </div>
         </div>
@@ -89,15 +89,17 @@ $ spark-shell --jar spark-nlp-assembly-2.4.0
               <li><strong>Sentiment</strong> Detection (ML models)</li>
               <li><strong>Spell</strong> Checker (ML and DL models)</li>
               <li>Word Embeddings (<strong>GloVe</strong> and <strong>Word2Vec</strong>)</li>
-              <li><strong>Bert</strong> Embeddings
+              <li><strong>BERT</strong> Embeddings
+              <li><strong>ELMO</strong> Embeddings
+              <li><strong>Universal Sentence</strong> Encoder
               <li><strong>Sentence</strong> Embeddings
               <li><strong>Chunk</strong> Embeddings
               <li><strong>Named entity</strong> recognition</li>
               <li>Dependency parsing (Labeled/unlabled)</li>
               <li>Easy <strong>TensorFlow</strong> integration</li>
               <li>Full integration with <strong>Spark ML</strong> functions</li>
-              <li><strong>+30 pre-trained models</strong> for 4 languages</li>
-              <li><strong>+25</strong> pre-trained <strong>pipelines!</strong></li>
+              <li><strong>+60</strong> pre-trained <strong>models </strong> and <strong>pipelines </strong> 
+              <li> Support for <strong>multiple languages</strong> (English, French, German, Italian, and Spanish</li>
             </ul>
           </div>
           <div class="cell cell--12 cell--lg-7" style="text-align: left; padding: 10px">
@@ -136,7 +138,101 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
           </div>
         </div>
         {%- endif -%}
+        {%- if _section.benchmark -%}
+        
+        <div class="grid">
+          <div class="cell cell--12 cell--lg-8" style="text-align: center; padding: 10px">
+            {% highlight bash %}
+            
+            {% endhighlight %}
+            <style type="text/css">
+              .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+              .tg td{font-family:Arial, sans-serif;font-size:14px;padding:15px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ccc;color:#333;background-color:#fff;}
+              .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:15px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ffffff;color:#ffffff;background-color:#168be8;}
+              .tg .tg-fymr{font-weight:bold;border-color:inherit;text-align:left;vertical-align:top}
+              .tg .tg-0lax{text-align:left;vertical-align:top}
+              .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+              </style>
+              <table class="tg">
+                <tr>
+                  <th class="tg-fymr">SYSTEM</th>
+                  <th class="tg-fymr">YEAR</th>
+                  <th class="tg-fymr">LANGUAGE</th>
+                  <th class="tg-fymr">ACCURACY</th>
+                </tr>
+                <tr>
+                  <td class="tg-0lax"><span style="font-weight:bold">Spark NLP v2.4</span></td>
+                  <td class="tg-0lax">2020</td>
+                  <td class="tg-0lax">Python/Scala/Java/R</td>
+                  <td class="tg-0lax"><span style="font-weight:bold">93.3 (test F1) - 95.9 (dev F1)</span></td>
+                </tr>
+                <tr>
+                  <td class="tg-0lax">Spark NLP v2.x</td>
+                  <td class="tg-0lax">2019</td>
+                  <td class="tg-0lax">Python/Scala/Java/R</td>
+                  <td class="tg-0lax"><span style="font-weight:bold">93</span></td>
+                </tr>
+                <tr>
+                  <td class="tg-0lax">Spark NLP v1.x</td>
+                  <td class="tg-0lax">2018</td>
+                  <td class="tg-0lax">Python/Scala/Java/R</td>
+                  <td class="tg-0lax">92</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">spaCy v2.x</td>
+                  <td class="tg-0pky">2017<br></td>
+                  <td class="tg-0pky">Python/Cython</td>
+                  <td class="tg-0pky">92.6</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">spaCy v1.x</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Python/Cython</td>
+                  <td class="tg-0pky">91.8</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">ClearNLP</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Java</td>
+                  <td class="tg-0pky">91.7</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">CoreNLP</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Java</td>
+                  <td class="tg-0pky">89.6</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">MATE</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">Java</td>
+                  <td class="tg-0pky">92.5</td>
+                </tr>
+                <tr>
+                  <td class="tg-0pky">Turbo</td>
+                  <td class="tg-0pky">2015</td>
+                  <td class="tg-0pky">C++</td>
+                  <td class="tg-0pky">92.4</td>
+                </tr>
+              </table>            
+          </div>
+          <div class="cell cell--12 cell--lg-4" style="text-align: left; font-size: 1.2em; padding: 10px">
+            <h3 style="margin-left:-20px">Training NER</h3>
+            <ul>
+              <li>State-of-the-art Deep Learning algorithms</li>
+              <li>Achieve high accuracy within a few minutes</li>
+              <li>Achieve high accuracy with a few lines of codes</li>
+              <li>Blazing fast training</li>
+              <li>Use CPU or GPU</li>
+              <li>Easy to choose Word Embeddings</li>
+              <li>Pre-trained <strong>GloVe</strong> models</li>
+              <li>Pre-trained <strong>BERT</strong> models from TF Hub
+              <li>Pre-trained <strong>ELMO</strong> models from TF Hub
+            </ul>
+          </div>
 
+        </div>
+        {%- endif -%}
         {%- if _section.children -%}
         {%- assign _size = _section.children | size  -%}
         <div class="grid--container">

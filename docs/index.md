@@ -53,6 +53,13 @@ data:
       # theme: dark
       # background_color: "#123"
     
+    - title: Benchmark
+      excerpt: Spark NLP 2.4.x obtained the best performing academic peer-reviewed results
+      benchmark: yes
+      features: false
+      theme: dark
+      background_color: "#123"
+
     - title: <h2>Active Community Support</h2>
       theme: dark
       excerpt: 
