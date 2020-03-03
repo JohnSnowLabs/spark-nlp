@@ -4,6 +4,7 @@ title: Spark OCR (Licensed)
 permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2020-02-20"
+use_language_switchter: "Python-Scala-Java"
 ---
 Spark OCR provides set of Spark ML transformers/estimators that help users create and use OCR pipelines.
 It built on top of Apache Spark and Tesseract OCR.
@@ -85,7 +86,7 @@ brew install tesseract
 Install python package using pip:
 
 ```bash
-pip install spark-ocr==1.0.0 --extra-index-url #### --ignore-installed
+pip install spark-ocr==1.1.0 --extra-index-url #### --ignore-installed
 ```
 
 The #### is a secret url only avaliable for users with license, if you
@@ -103,7 +104,7 @@ spark-shell --jars ####
 The #### is a secret url only avaliable for users with license, if you
 have not received it please contact us at info@johnsnowlabs.com.
 
-### Start Spark OCR Session from python
+### Start Spark OCR Session from Python and Scala
 
 The following will initialize the spark session in case you have run
 the jupyter notebook directly. If you have started the notebook using
@@ -115,16 +116,40 @@ minute) as the jar from the server needs to be loaded.
 The #### in .config("spark.jars", "####") is a secret code, if you have
 not received it please contact us at info@johnsnowlabs.com.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import org.apache.spark.sql.SparkSession
+
+val spark = SparkSession
+    .builder()
+    .appName("Spark OCR")
+    .master("local[*]")
+    .config("spark.driver.memory", "4G")
+    .config("spark.driver.maxResultSize", "2G")
+    .config("spark.jars", "####")
+    .getOrCreate()
+```
+
 ```python
 from pyspark.sql import SparkSession
 
-spark = SparkSession.builder \
+spark = SparkSession \
+    .builder \
     .appName("Spark OCR") \
     .master("local[*]") \
-    .config("spark.driver.memory","4G") \
+    .config("spark.driver.memory", "4G") \
     .config("spark.driver.maxResultSize", "2G") \
     .config("spark.jars", "####") \
     .getOrCreate()
+```
+
+Another way to initialoze SparkSession with Spark OCR to use `start` function in Python:
+
+```python
+from sparkocr import start
+
+spark = start(secret=secret)
 ```
 
 # Spark OCR Workshop
@@ -145,11 +170,12 @@ Below, you can follow into a more theoretical and thorough quick start guide.
 In the following code example we will create OCR Pipeline for processing image(s). 
 The image file(s) can contain complex layout like columns, tables, images inside.
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import org.apache.spark.ml.Pipeline
 
-import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer, BinaryToImage}
-import com.johnsnowlabs.ocr.transformers.TesseractOcr
+import com.johnsnowlabs.ocr.transformers._
 
 val imagePath = "path to image files"
 
@@ -177,9 +203,45 @@ pipeline.setStages(Array(
 
 val modelPipeline = pipeline.fit(spark.emptyDataFrame)
 
-val data = pipeline.transform(df)
+val data = modelPipeline.transform(df)
 
 data.show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+imagePath = "path to image files"
+
+# Read image files as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath)
+
+# Transform binary content to image
+binaryToImage = BinaryToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image")
+
+# OCR
+ocr = TesseractOcr() \
+  .setInputCol("image") \
+  .setOutputCol("text")
+
+# Define Pipeline
+pipeline = PipelineModel(stages=[
+  binaryToImage,
+  ocr
+])
+
+data = pipeline.transform(df)
+
+data.show()
+
+
+
 ```
 
 ## Scanned PDF files
@@ -187,11 +249,13 @@ data.show()
 Next sample provides an example of OCR Pipeline for processing PDF files with image data.
 In this case it needed to use [PdfToImage](#pdftoimage) transformer to convert PDF file to the set of images.
 
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import org.apache.spark.ml.Pipeline
 
-import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
-import com.johnsnowlabs.ocr.transformers.{PdfToImage,  TesseractOcr}
+import com.johnsnowlabs.ocr.transformers._
 
 val imagePath = "path to pdf files"
 
@@ -219,9 +283,45 @@ pipeline.setStages(Array(
 
 val modelPipeline = pipeline.fit(spark.emptyDataFrame)
 
-val data = pipeline.transform(df)
+val data = modelPipeline.transform(df)
 
 data.show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+imagePath = "path to pdf files"
+
+# Read pdf files as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath)
+
+# Transform PDF file to the image
+pdfToImage = PdfToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image")
+
+# OCR
+ocr = TesseractOcr() \
+  .setInputCol("image") \
+  .setOutputCol("text")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+  pdfToImage,
+  ocr
+])
+
+data = pipeline.transform(df)
+
+data.show()
+
+
+
 ```
 
 ## PDF files (scanned or text) 
@@ -237,11 +337,13 @@ While running pipeline for each PDF file, it will:
     - detect and split image to regions
     - run OCR and save output to the `text` column
 
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import org.apache.spark.ml.Pipeline
 
-import com.johnsnowlabs.ocr.transformers.{ImageSplitRegions, ImageLayoutAnalyzer}
-import com.johnsnowlabs.ocr.transformers.{PdfToText, PdfToImage,  TesseractOcr}
+import com.johnsnowlabs.ocr.transformers._
 
 val imagePath = "path to PDF files"
 
@@ -279,15 +381,63 @@ pipeline.setStages(Array(
 
 val modelPipeline = pipeline.fit(spark.emptyDataFrame)
 
-val data = pipeline.transform(df)
+val data = modelPipeline.transform(df)
 
 data.show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+
+imagePath = "path to PDF files"
+
+# Read PDF files as binary file
+df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+
+# Extract text from PDF text layout
+pdfToText = PdfToText() \
+  .setInputCol("content") \
+  .setOutputCol("text") \
+  .setSplitPage(false)
+
+# In case of `text` column contains less then 10 characters,
+# pipeline run PdfToImage as fallback method
+pdfToImage = PdfToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image") \
+  .setFallBackCol("text") \
+  .setMinSizeBeforeFallback(10)
+
+# OCR
+ocr = TesseractOcr() \
+  .setInputCol("image") \
+  .setOutputCol("text")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+  pdfToText,
+  pdfToImage,
+  ocr,
+])
+
+data = pipeline.transform(df)
+
+data.show()
+
+
 ```
 
 ## Images (streaming mode)
 
 Next code segments provide an example of streaming OCR pipeline.
 It processes images and stores results to memory table.
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 val imagePath = "path folder with images"
@@ -318,9 +468,44 @@ val query = modelPipeline.transform(dataFrame)
   .start()
 ```
 
+```python
+imagePath = "path folder with images"
+
+batchDataFrame = spark.read.format("binaryFile").load(imagePath).limit(1)
+    
+pipeline = Pipeline()
+pipeline.setStages(Array(
+  binaryToImage,
+  binarizer,
+  ocr
+))
+
+modelPipeline = pipeline.fit(batchDataFrame)
+
+# Read files in streaming mode
+dataFrame = spark.readStream
+  .format("binaryFile")
+  .schema(batchDataFrame.schema)
+  .load(imagePath)
+
+# Call pipeline and store results to 'results' memory table
+query = modelPipeline.transform(dataFrame) \
+  .select("text", "exception") \
+  .writeStream() \
+  .format("memory") \
+  .queryName("results") \
+  .start()
+```
+
 For getting results from memory table following code could be used:
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
+spark.table("results").select("path", "text").show()
+```
+
+```python
 spark.table("results").select("path", "text").show()
 ```
 
@@ -366,6 +551,9 @@ NOTE: For setting parameters use `setParamName` method.
 
 **Example**
 
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.PdfToText
 
@@ -384,6 +572,26 @@ val data = transformer.transform(df)
 
 data.select("pagenum", "text").show()
 ```
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf with text layout"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+transformer = PdfToText() \
+  .setInputCol("content") \
+  .setOutputCol("text") \
+  .setPageNumCol("pagenum") \
+  .setSplitPage(true)
+
+data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
 
 **Output:**
 
@@ -431,6 +639,8 @@ data.select("pagenum", "text").show()
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.PdfToImage
 
@@ -440,12 +650,31 @@ val pdfPath = "path to pdf"
 val df = spark.read.format("binaryFile").load(pdfPath)
 
 val pdfToImage = new PdfToImage()
-  .setInputCol("content")
-  .setOutputCol("text")
-  .setPageNumCol("pagenum")
-  .setSplitPage(true)
+ .setInputCol("content")
+ .setOutputCol("text")
+ .setPageNumCol("pagenum")
+ .setSplitPage(true)
 
 val data =  pdfToImage.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdfToImage = PdfToImage() \
+ .setInputCol("content") \
+ .setOutputCol("text") \
+ .setPageNumCol("pagenum") \
+ .setSplitPage(true)
+
+data =  pdfToImage.transform(df)
 
 data.select("pagenum", "text").show()
 ```
@@ -475,9 +704,11 @@ column and create multipage PDF document.
 
 Read images and store it as single page PDF documents.
 
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
-import com.johnsnowlabs.ocr.transformers.ImageToPdf
-import com.johnsnowlabs.ocr.transformers.BinaryToImage
+import com.johnsnowlabs.ocr.transformers._
 
 val imagePath = "path to image"
 
@@ -499,6 +730,168 @@ val image_df = binaryToImage.transform(df)
 val pdf_df =  pdfToImage.transform(image_df)
 
 pdf_df.select("content").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+# Define transformer for convert to Image struct
+binaryToImage = BinaryToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image")
+
+# Define transformer for store to PDF
+imageToPdf = ImageToPdf() \
+  .setInputCol("image") \
+  .setOutputCol("content")
+
+# Call transformers
+image_df = binaryToImage.transform(df)
+pdf_df =  pdfToImage.transform(image_df)
+
+pdf_df.select("content").show()
+```
+
+### TextToPdf
+
+`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to same position
+with same font size as in original image or PDF.
+If dataframe contains few records for same origin path, it groups image by origin
+column and create multipage PDF document.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | positions | column with positions struct  |
+| inputImage | string | image | image struct ([Image schema](#image-schema))  |
+| inputText | string | text | column name with recognized text |
+| originCol | string | path | path to the original file |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | pdf | binary representation of the PDF document |
+
+
+**Example:**
+
+Read PDF document, run OCR and render results to PDF document.
+
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import org.apache.spark.ml.Pipeline
+import com.johnsnowlabs.ocr.transformers._
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToImage = new PdfToImage()
+  .setInputCol("content")
+  .setOutputCol("image_raw")
+  .setResolution(400)
+
+val binarizer = new ImageBinarizer()
+  .setInputCol("image_raw")
+  .setOutputCol("image")
+  .setThreshold(130)
+
+val ocr = new TesseractOcr()
+  .setInputCol("image")
+  .setOutputCol("text")
+  .setIgnoreResolution(false)
+  .setPageSegMode(PageSegmentationMode.SPARSE_TEXT)
+  .setConfidenceThreshold(60)
+
+val textToPdf = new TextToPdf()
+  .setInputCol("positions")
+  .setInputImage("image")
+  .setOutputCol("pdf")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+ pdfToImage,
+ binarizer,
+ ocr,
+ textToPdf
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val pdf = modelPipeline.transform(df)
+
+val pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+// store to file
+val tmpFile = Files.createTempFile(suffix=".pdf").toAbsolutePath.toString
+val fos = new FileOutputStream(tmpFile)
+fos.write(pdfContent)
+fos.close()
+println(tmpFile)
+```
+
+```python
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image_raw")
+
+binarizer = ImageBinarizer() \
+    .setInputCol("image_raw") \
+    .setOutputCol("image") \
+    .setThreshold(130)
+
+ocr = TesseractOcr() \
+    .setInputCol("image") \
+    .setOutputCol("text") \
+    .setIgnoreResolution(False) \
+    .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
+    .setConfidenceThreshold(60)
+
+textToPdf = TextToPdf() \
+    .setInputCol("positions") \
+    .setInputImage("image") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    binarizer,
+    ocr,
+    textToPdf
+])
+
+result = pipeline.transform(df).collect()
+
+# Store to file for debug
+with open("test.pdf", "wb") as file:
+    file.write(result[0].pdf)
+
+
+
+
+
+
+
+
+
+
 ```
 
 ### PdfDrawRegions
@@ -529,6 +922,8 @@ pdf_df.select("content").show()
 
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import java.io.FileOutputStream
@@ -600,6 +995,76 @@ fos.close()
 println(tmpFile)
 ```
 
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText() \
+    .setInputCol("content") \
+    .setOutputCol("text") \
+    .setPageNumCol("page") \
+    .setSplitPage(False)
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+entity_extractor = TextMatcher() \
+    .setInputCols("sentence", "token") \
+    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
+    .setOutputCol("entity")
+
+position_finder = PositionFinder() \
+    .setInputCols("entity") \
+    .setOutputCol("coordinates") \
+    .setPageMatrixCol("positions") \
+    .setMatchingWindow(10) \
+    .setPadding(2)
+
+draw = PdfDrawRegions() \
+    .setInputRegionsCol("coordinates") \
+    .setOutputCol("pdf_with_regions") \
+    .setInputCol("content") \
+    .setLineWidth(1)
+
+pipeline = Pipeline(stages=[
+    pdf_to_text,
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    entity_extractor,
+    position_finder,
+    draw
+])
+
+pdfWithRegions = pipeline.fit(df).transform(df)
+
+pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byte]](0)
+
+# store to pdf to tmp file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf_regions)  
+
+
+
+```
+
 Results:
 
 ![Result with regions](/assets/images/ocr/with_regions.png)
@@ -628,6 +1093,8 @@ Next section describes the transformers for image pre-processing: scaling, binar
 
 **Scala example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.BinaryToImage
 
@@ -641,6 +1108,23 @@ val binaryToImage = new BinaryToImage()
   .setOutputCol("image")
 
 val data = binaryToImage.transform(df)
+
+data.select("image").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read.format("binaryFile").load(imagePath)
+
+binaryToImage = BinaryToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image")
+
+data = binaryToImage.transform(df)
 
 data.select("image").show()
 ```
@@ -669,6 +1153,8 @@ data.select("image").show()
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageBinarizer
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -687,7 +1173,30 @@ val binirizer = new ImageBinarizer()
   .setThreshold(100)
 
 val data = binirizer.transform(df)
+
 data.storeImage("binary_image")
+```
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+binirizer = ImageBinarizer() \
+  .setInputCol("image") \
+  .setOutputCol("binary_image") \
+  .setThreshold(100)
+
+data = binirizer.transform(df)
+
+data.show()
+
 ```
 **Original image:**
 
@@ -729,6 +1238,43 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 | outputCol | string | binarized_image | image struct ([Image schema](#image-schema)) |
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+// Implemented only for Python
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
 
 ```python
 from pyspark.ml import PipelineModel
@@ -797,6 +1343,8 @@ for r in result.select("image", "corrected_image").collect():
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageErosion
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -816,6 +1364,27 @@ val transformer = new ImageErosion()
 
 val data = transformer.transform(df)
 data.storeImage("eroded_image")
+```
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+transformer = ImageErosion() \
+  .setInputCol("image") \
+  .setOutputCol("eroded_image") \
+  .setKernelSize(1)
+
+data = transformer.transform(df)
+data.show()
+
 ```
 
 ### ImageScaler
@@ -843,6 +1412,8 @@ data.storeImage("eroded_image")
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageScaler
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -862,6 +1433,27 @@ val transformer = new ImageScaler()
 
 val data = transformer.transform(df)
 data.storeImage("scaled_image")
+```
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+transformer = ImageScaler() \
+  .setInputCol("image") \
+  .setOutputCol("scaled_image") \
+  .setScaleFactor(0.5)
+
+data = transformer.transform(df)
+data.show()
+
 ```
 
 ### ImageAdaptiveScaler
@@ -888,6 +1480,8 @@ data.storeImage("scaled_image")
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -907,6 +1501,27 @@ val transformer = new ImageAdaptiveScaler()
 
 val data = transformer.transform(df)
 data.storeImage("scaled_image")
+```
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+transformer = ImageAdaptiveScaler() \
+  .setInputCol("image") \
+  .setOutputCol("scaled_image") \
+  .setDesiredSize(34)
+
+data = transformer.transform(df)
+data.show()
+
 ```
 
 ### ImageSkewCorrector
@@ -938,6 +1553,8 @@ data.storeImage("scaled_image")
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.ImageSkewCorrector
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -957,6 +1574,27 @@ val transformer = new ImageSkewCorrector()
 
 val data = transformer.transform(df)
 data.storeImage("corrected_image")
+```
+
+```python
+from sparkocr.transformers import *
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageSkewCorrector()
+  .setInputCol("image")
+  .setOutputCol("corrected_image")
+  .setAutomaticSkewCorrection(true)
+
+val data = transformer.transform(df)
+data.show()
+
 ```
 
 **Original image:**
@@ -992,6 +1630,8 @@ data.storeImage("corrected_image")
 
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -1034,6 +1674,47 @@ val data = modelPipeline.transform(df)
 data.select("path", "noiselevel").show()
 ```
 
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+from sparkocr.enums import NoiseMethod
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath) \
+  .asImage("image")
+
+# Define transformer for detect regions
+layoutAnalyzer = ImageLayoutAnalyzer() \
+  .setInputCol("image") \
+  .setOutputCol("regions")
+
+# Define transformer for compute noise level for each region
+noisescorer = ImageNoiseScorer() \
+  .setInputCol("image") \
+  .setOutputCol("noiselevel") \
+  .setInputRegionsCol("regions") \
+  .setMethod(NoiseMethod.VARIANCE)
+
+# Define pipeline
+pipeline = Pipeline()
+pipeline.setStages(Array(
+  layoutAnalyzer,
+  noisescorer
+))
+
+data = pipeline.transform(df)
+
+data.select("path", "noiselevel").show()
+
+
+
+```
+
 **Output:**
 
 ```
@@ -1051,9 +1732,10 @@ data.select("path", "noiselevel").show()
 
 `ImageRemoveObjects` for remove background objects.
 It support removing:
-- objects less then minSizeObject
-- holes less then minSizeHole
-- objects more then maxSizeObject
+- objects less then elements of font with _minSizeFont_ size
+- objects less then _minSizeObject_
+- holes less then _minSizeHole_
+- objects more then _maxSizeObject_
 
 #### Input Columns
 
@@ -1065,7 +1747,8 @@ It support removing:
 
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
-| minSizeObject | int | 10 | Min size of object which will keep on image [*]. |
+| minSizeFont | int | 10 | Min size font in pt. |
+| minSizeObject | int | None | Min size of object which will keep on image [*]. |
 | connectivityObject | int | 0 | The connectivity defining the neighborhood of a pixel. |
 | minSizeHole | int | None | Min size of hole which will keep on image[ *]. |
 | connectivityHole | int | 0 | The connectivity defining the neighborhood of a pixel. |
@@ -1083,9 +1766,39 @@ It support removing:
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+// Implemented only for Python
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
 ```python
 from pyspark.ml import PipelineModel
-from com.johnsnowlabs.ocr.transformers import *
+from sparkocr.transformers import *
 
 imagePath = "path to image"
 
@@ -1146,9 +1859,50 @@ data = pipeline.transform(df)
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+// Implemented only for Python
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
 ```python
 from pyspark.ml import PipelineModel
-from com.johnsnowlabs.ocr.transformers import *
+from sparkocr.transformers import *
 
 imagePath = "path to image"
 
@@ -1221,6 +1975,8 @@ for r in result.select("image", "corrected_image").collect():
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import org.apache.spark.ml.Pipeline
 
@@ -1241,6 +1997,41 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
   .setOutputCol("regions")
 
 val data = layoutAnalyzer.transform(df)
+
+data.show()
+
+
+
+
+
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect regions
+layout_analyzer = ImageLayoutAnalyzer() \
+  .setInputCol("image") \
+  .setOutputCol("regions")
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    layout_analyzer
+])
+
+data = pipeline.transform(df)
 data.show()
 ```
 
@@ -1269,6 +2060,8 @@ data.show()
 | outputCol | string | region_image | image struct ([Image schema](#image-schema)) |
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import org.apache.spark.ml.Pipeline
@@ -1307,6 +2100,43 @@ val data = pipeline.transform(df)
 data.show()
 ```
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect regions
+layout_analyzer = ImageLayoutAnalyzer() \
+  .setInputCol("image") \
+  .setOutputCol("regions")
+
+splitter = ImageSplitRegions()
+  .setInputCol("image")
+  .setRegionCol("regions")
+  .setOutputCol("region_image")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    layout_analyzer,
+    splitter
+])
+
+data = pipeline.transform(df)
+
+data.show()
+```
+
 ### ImageDrawRegions
 
 `ImageDrawRegions` draw regions to image.
@@ -1333,6 +2163,8 @@ data.show()
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import org.apache.spark.ml.Pipeline
 
@@ -1352,7 +2184,7 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
   .setInputCol("image")
   .setOutputCol("regions")
 
-val splitter = new ImageDrawRegions()
+val draw = new ImageDrawRegions()
   .setInputCol("image")
   .setRegionCol("regions")
   .setOutputCol("image_with_regions")
@@ -1361,7 +2193,7 @@ val splitter = new ImageDrawRegions()
 val pipeline = new Pipeline()
 pipeline.setStages(Array(
   layoutAnalyzer,
-  splitter
+  draw
 ))
 
 val modelPipeline = pipeline.fit(spark.emptyDataFrame)
@@ -1370,6 +2202,42 @@ val data = pipeline.transform(df)
 data.show()
 ```
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect regions
+layout_analyzer = ImageLayoutAnalyzer() \
+  .setInputCol("image") \
+  .setOutputCol("regions")
+
+draw = ImageDrawRegions() \
+  .setInputCol("image") \
+  .setRegionCol("regions") \
+  .setOutputCol("image_with_regions")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    layout_analyzer,
+    draw
+])
+
+data = pipeline.transform(df)
+data.show()
+
+```
 
 ## Characters recognition
 
@@ -1377,7 +2245,9 @@ Next section describes the estimators for OCR
 
 ### TesseractOCR
 
-`TesseractOCR` runs Tesseract OCR for input image.
+`TesseractOCR` runs Tesseract OCR for input image, return recognized text
+to _outputCol_ and positions with font size to 'positions' column.
+
 
 #### Input Columns
 
@@ -1393,6 +2263,9 @@ Next section describes the estimators for OCR
 | pageIteratorLevel | [PageIteratorLevel](#pageiteratorlevel) | BLOCK | page iteration level |
 | ocrEngineMode | [EngineMode](#enginemode) | LSTM_ONLY| OCR engine mode |
 | language | string | eng | language |
+| confidenceThreshold | int | 0 | Confidence threshold. |
+| ignoreResolution | bool | true | Ignore resolution from metadata of image. |
+| tesseractParams | array of strings | [] |Array of Tesseract params in key=value format. |
 
 #### Output Columns
 
@@ -1401,6 +2274,8 @@ Next section describes the estimators for OCR
 | outputCol | string | text | recognized text |
 
 **Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import com.johnsnowlabs.ocr.transformers.TesseractOCR
@@ -1417,9 +2292,49 @@ val df = spark.read
 val transformer = new TesseractOCR()
   .setInputCol("image")
   .setOutputCol("text")
+  .setTesseractParams(Array("preserve_interword_spaces=1"))
 
 val data = transformer.transform(df)
 print(data.select("text").collect()[0].text)
+
+
+
+
+
+
+
+
+
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = TesseractOCR() \
+    .setInputCol("image") \
+    .setOutputCol("text") \
+    .setTesseractParams(["preserve_interword_spaces=1", ])
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
 ```
 
 **Image:**
@@ -1468,6 +2383,9 @@ Next section describes the extra transformers
 | outputCol | string | | Name of output column for store coordinates. |
 
 **Example:**
+
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 import com.johnsnowlabs.ocr.transformers._
@@ -1525,6 +2443,62 @@ val results = pipeline.fit(df).transform(df)
 results.show()
 ```
 
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText() \
+    .setInputCol("content") \
+    .setOutputCol("text") \
+    .setPageNumCol("page") \
+    .setSplitPage(False)
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+entity_extractor = TextMatcher() \
+    .setInputCols("sentence", "token") \
+    .setEntities("./sparkocr/resources/test-chunks.txt", ReadAs.TEXT) \
+    .setOutputCol("entity")
+
+position_finder = PositionFinder() \
+    .setInputCols("entity") \
+    .setOutputCol("coordinates") \
+    .setPageMatrixCol("positions") \
+    .setMatchingWindow(10) \
+    .setPadding(2)
+
+pipeline = Pipeline(stages=[
+    pdf_to_text,
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    entity_extractor,
+    position_finder
+])
+
+results = pipeline.fit(df).transform(df)
+results.show()
+
+```
+
 # Structures and helpers
 
 ## OCR Schemas
@@ -1542,6 +2516,7 @@ image: struct (nullable = true)
  |    |-- width: integer (nullable = false)
  |    |-- nChannels: integer (nullable = false)
  |    |-- mode: integer (nullable = false)
+ |    |-- resolution: integer (nullable = true)
  |    |-- data: binary (nullable = true)
 ```
 
@@ -1554,6 +2529,7 @@ image: struct (nullable = true)
 | width | integer | image width in pixels |
 | nChannels | integer | number of color channels |
 | mode | [ImageType](#imagetype) | the data type and channel order the data is stored in |
+| resolution | integer | Resolution of image in dpi |
 | data | binary | image data in a binary format |
 
 
@@ -1656,6 +2632,8 @@ element: struct (containsNull = true)
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.OcrContext.implicits._
 
@@ -1668,6 +2646,20 @@ val df = spark.read
   .asImage("image")
 
 df.show()
+```
+
+```python
+# Implemented only for Scala
+
+
+
+
+
+
+
+
+
+
 ```
 
 ### storeImage
@@ -1685,6 +2677,8 @@ df.show()
 
 **Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 import com.johnsnowlabs.ocr.OcrContext.implicits._
 
@@ -1697,6 +2691,20 @@ val df = spark.read
   .asImage("image")
 
 df.storeImage("image")
+```
+
+```python
+# Implemented only for Scala
+
+
+
+
+
+
+
+
+
+
 ```
 
 # Advanced Topics
@@ -1716,8 +2724,14 @@ NOTE: Storing runtime errors to the _exception_ field allows to process batch of
 
 Here is an output with exception when try to process js file using OCR pipeline:
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```scala
 result.select("path", "text", "exception").show(2, false)
+```
+
+```python
+result.select("path", "text", "exception").show(2, False)
 ```
 
 ```
