@@ -146,10 +146,18 @@ spark = SparkSession \
 
 Another way to initialoze SparkSession with Spark OCR to use `start` function in Python:
 
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from sparkocr import start
-
+   
 spark = start(secret=secret)
+```
+
+```scala
+// Implemented only for Python
+
+
 ```
 
 # Spark OCR Workshop
