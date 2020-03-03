@@ -38,7 +38,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Acknowledgments](#acknowledgments)
 * [Contributing](#contributing)
 
-## Featuress
+## Features
 
 * Tokenization
 * Stop Words Removal
