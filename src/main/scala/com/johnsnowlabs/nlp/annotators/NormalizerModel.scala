@@ -95,7 +95,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   private def resetIndexAnnotations(tokenizerAnnotations: Seq[Annotation], normalizerAnnotations: Seq[Annotation]):
   Seq[Annotation] = {
-    //TODO: Double check a scenario when there removes in between tokens
+    //TODO: Double check a scenario when there are removes in between tokens
     val wrongIndex = getFirstAnnotationIndexWithWrongIndexValues(tokenizerAnnotations, normalizerAnnotations)
     if (wrongIndex == -1) {
       normalizerAnnotations
