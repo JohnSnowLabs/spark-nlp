@@ -66,7 +66,11 @@ class UniversalSentenceEncoder(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
-    getModelIfNotSet.calculateEmbeddings(sentences)
+    val nonEmptySentences = sentences.filter(_.content.nonEmpty)
+
+    if(nonEmptySentences.nonEmpty)
+      getModelIfNotSet.calculateEmbeddings(nonEmptySentences)
+    else Seq.empty[Annotation]
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

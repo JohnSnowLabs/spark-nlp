@@ -4,6 +4,8 @@ title: Evaluation
 permalink: /docs/en/evaluation
 key: docs-evaluation
 modify_date: "2019-09-04"
+use_language_switchter: "Python-Scala"
+
 ---
 
 ## Spark NLP Evaluation
@@ -14,6 +16,8 @@ The results will display on the console or to an [MLflow tracking UI](https://ml
 - See [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter) on eval folder if you want to check specific running examples.
 
 **Example:**
+
+
 {% highlight python %}
 from sparknlp.eval import *
 {% endhighlight %}

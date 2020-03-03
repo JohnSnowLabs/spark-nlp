@@ -113,4 +113,38 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
       .show()
   }
 
+  "UniversalSentenceEncoder" should "not fail on empty inputs" ignore {
+
+    val testData = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "This is my first sentence. This is my second."),
+      (2, "This is my third sentence. . . . .... ..."),
+      (3, "")
+    )).toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+      .setInputCols("document")
+      .setOutputCol("sentence_embeddings")
+
+    val pipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        useEmbeddings
+      ))
+
+    val pipelineDF = pipeline.fit(testData).transform(testData)
+    pipelineDF.select("sentence.result").show(false)
+    pipelineDF.select("sentence_embeddings.result").show(false)
+    pipelineDF.show()
+
+  }
+
 }
