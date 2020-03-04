@@ -1,12 +1,11 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.nlp.annotator.{Chunker, PerceptronModel}
-import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
 import org.scalatest._

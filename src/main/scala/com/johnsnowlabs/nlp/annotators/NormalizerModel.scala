@@ -103,7 +103,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
       val offset = getOffset(tokenizerAnnotations, normalizerAnnotations, wrongIndex)
       val rightAnnotations = normalizerAnnotations.slice(0, wrongIndex)
       val wrongAnnotations = normalizerAnnotations.slice(wrongIndex, normalizerAnnotations.length)
-      val resetAnnotations = wrongAnnotations.zipWithIndex.map{ case (normalizedToken, index) =>
+      val resetAnnotations = wrongAnnotations.map{ normalizedToken =>
         val begin = normalizedToken.begin - offset
         val end = begin + normalizedToken.result.length - 1
         Annotation(normalizedToken.annotatorType, begin, end, normalizedToken.result, normalizedToken.metadata)
@@ -123,12 +123,16 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   private def getOffset(tokenizerAnnotations: Seq[Annotation], normalizerAnnotations: Seq[Annotation], wrongIndex: Int):
   Int = {
-    val resultOffset = tokenizerAnnotations(wrongIndex - 1).result.length - normalizerAnnotations(wrongIndex - 1).result.length
-    var removedNewLinesOffset = 0
-    if (tokenizerAnnotations(wrongIndex).result.toLowerCase != normalizerAnnotations(wrongIndex).result.toLowerCase) {
-      removedNewLinesOffset = tokenizerAnnotations.size - normalizerAnnotations.size
+    if (wrongIndex > 0) {
+      val resultOffset = tokenizerAnnotations(wrongIndex - 1).result.length - normalizerAnnotations(wrongIndex - 1).result.length
+      var removedNewLinesOffset = 0
+      if (tokenizerAnnotations(wrongIndex).result.toLowerCase != normalizerAnnotations(wrongIndex).result.toLowerCase) {
+        removedNewLinesOffset = tokenizerAnnotations.size - normalizerAnnotations.size
+      }
+      resultOffset + removedNewLinesOffset
+    } else {
+      normalizerAnnotations.head.begin
     }
-    resultOffset + removedNewLinesOffset
   }
 
 }

@@ -64,7 +64,7 @@ class LightPipelineTestSpec extends FlatSpec {
     val text = "hello world, this is some sentence"
   }
 
-  "An LightPipeline" should "annotate for each annotator" in {
+  "A LightPipeline" should "annotate for each annotator" in {
     val f = fixture
     val annotations = new LightPipeline(f.model).fullAnnotate(f.textArray)
     annotations.foreach { mapAnnotations =>
