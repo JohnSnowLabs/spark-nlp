@@ -1,4 +1,35 @@
 ========
+2.4.2
+========
+---------------
+Overview
+---------------
+This minor release fixes a few bugs in some of our annotators reported by our community. 
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+----------------
+Bugfixes
+----------------
+* Fix UniversalSentenceEncoder.pretrained() that failed in Python
+* Fix ElmoEmbeddings.pretrained() that failed in Python
+* Fix ElmoEmbeddings poolingLayer param to be a string as expected
+* Fix ChunkEmbeddings to preserve chunk's index
+* Fix NGramGenerator and missing chunk metadata
+
+---------------
+New Features
+---------------
+* Add GPU support param in Spark NLP start function: sparknlp.start(gpu=true)
+* Improve create_model.py to create custom TF graph for NerDLApproach
+
+----------------
+Documentation
+----------------
+* Update documentation for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+========
 2.4.1
 ========
 ---------------
