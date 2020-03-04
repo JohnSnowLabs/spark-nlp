@@ -4,15 +4,20 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "2.4.1"
+  val currentVersion = "2.4.2"
 
-  def start(): SparkSession = {
+  def start(gpu:Boolean = false): SparkSession = {
     val build = SparkSession.builder()
       .appName("Spark NLP")
       .master("local[*]")
-      .config("spark.driver.memory", "6G")
+      .config("spark.driver.memory", "8G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1")
+    
+    if(gpu){
+      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.2")
+    }
+    else
+      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2")
 
     build.getOrCreate()
   }
