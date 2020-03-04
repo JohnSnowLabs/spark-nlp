@@ -1,7 +1,6 @@
 import sys
 from pyspark.sql import SparkSession
 from sparknlp import annotator
-from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
@@ -30,14 +29,17 @@ annotators = annotator
 embeddings = annotator
 
 
-def start():
+def start(gpu=False):
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
         .config("spark.driver.memory", "8G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")\
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4") \
-
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    if gpu:
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.4")
+    else:
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4")
+        
     return builder.getOrCreate()
 
 

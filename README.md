@@ -38,7 +38,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Acknowledgments](#acknowledgments)
 * [Contributing](#contributing)
 
-## Featuress
+## Features
 
 * Tokenization
 * Stop Words Removal
@@ -109,7 +109,7 @@ For more examples you can visit our dedicated [repository](https://github.com/Jo
 
 ## Apache Spark Support
 
-Spark NLP *2.4.1* has been built on top of Apache Spark 2.4.4
+Spark NLP *2.4.2* has been built on top of Apache Spark 2.4.4
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
 |-------------|-----------------------|--------------------|
@@ -133,23 +133,23 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 Benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1` to you spark command
+To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:` to you spark command
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To ues SPark NLP with GPU you can ues dedicated package for GPU `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.1`
+**NOTE**: To ues SPark NLP with GPU you can ues dedicated package for GPU `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.2`
 
 ## Scala
 
@@ -164,7 +164,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.4.1</version>
+    <version>2.4.2</version>
 </dependency>
 ```
 
@@ -175,7 +175,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>2.4.1</version>
+    <version>2.4.2</version>
 </dependency>
 ```
 
@@ -185,14 +185,14 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.4.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.4.2"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -208,7 +208,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.4.1
+pip install spark-nlp==2.4.2
 ```
 
 Conda:
@@ -235,7 +235,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -304,7 +304,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 ```
 
 * Add path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -314,7 +314,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.4.1
+pip install spark-nlp==2.4.2
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -339,7 +339,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.4.1
+pyspark --packages JohnSnowLabs:spark-nlp:2.4.2
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -365,7 +365,7 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install --ignore-installed spark-nlp==2.4.1
+! pip install --ignore-installed spark-nlp==2.4.2
 
 # Quick SparkSession start
 import sparknlp
@@ -554,7 +554,7 @@ If you get this common python error, it means that the Spark NLP was not loaded 
 3. If on Windows, download Hadoop winutils.exe and add it to your PATH: https://github.com/steveloughran/winutils
 4. HADOOP_HOME should also be set in some cases, pointing to your SPARK_HOME should work if you don't have an explicit hadoop installation
 5. If you are running `pyspark` instead of just `jupyter notebook`, make sure you setup `PYSPARK_DRIVER_PYTHON`, `PYSPARK_DRIVER_PYTHON_OPTS` and `PYSPARK_PYTHON` as pointed in the documentation
-6. `pip install spark-nlp==2.4.1` even if you are using `--packages` as a safety instruction
+6. `pip install spark-nlp==2.4.2` even if you are using `--packages` as a safety instruction
 7. Make sure all dependencies are properly written and/or paths to any jars you are manually providing. Spark does not fail upon wrong path, it will just ignore it
 8. If you get dependency failures when starting Spark, make sure to add antivirus and firewall exceptions. Windows antivirus adversely impacts performance when resolving dependencies.
 

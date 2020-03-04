@@ -76,49 +76,45 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
     val documentsWithChunks = annotations
       .filter(token => token.annotatorType == CHUNK)
-      .groupBy(_.metadata.getOrElse[String]("sentence", "0").toInt)
-      .toSeq
-      .sortBy(_._1)
 
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
 
-    documentsWithChunks.flatMap { sentences =>
-      sentences._2.zipWithIndex.flatMap { case (chunk, chunkIdx) =>
+    documentsWithChunks.flatMap { chunk =>
+      //TODO: Check why some chunks end up without WordEmbeddings
+      val sentenceIdx = chunk.metadata.getOrElse("sentence", "0").toInt
+      val chunkIdx = chunk.metadata.getOrElse("chunk", "0").toInt
 
-        val sentenceId = chunk.metadata("sentence")
+      if (sentenceIdx < embeddingsSentences.length) {
 
-        //TODO: Check why some chunks end up without WordEmbeddings
-        if(sentenceId.toInt < embeddingsSentences.length) {
+        val tokensWithEmbeddings = embeddingsSentences(sentenceIdx).tokens.filter(
+          token => token.begin >= chunk.begin && token.end <= chunk.end
+        )
 
-          val tokensWithEmbeddings = embeddingsSentences(sentenceId.toInt).tokens.filter(
-            token => token.begin >= chunk.begin && token.end <= chunk.end
-          )
+        val allEmbeddings = tokensWithEmbeddings.flatMap(tokenEmbedding =>
+          if (!tokenEmbedding.isOOV || !$(skipOOV))
+            Some(tokenEmbedding.embeddings)
+          else
+            None
+        )
 
-          val allEmbeddings = tokensWithEmbeddings.flatMap(tokenEmbedding =>
-            if (!tokenEmbedding.isOOV || !$(skipOOV))
-              Some(tokenEmbedding.embeddings)
-            else
-              None
-          )
+        val finalEmbeddings = if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
 
-          val finalEmbeddings = if (allEmbeddings.length > 0) allEmbeddings else tokensWithEmbeddings.map(_.embeddings)
-
-          Some(Annotation(
-            annotatorType = outputAnnotatorType,
-            begin = chunk.begin,
-            end = chunk.end,
-            result = chunk.result,
-            metadata = Map("sentence" -> sentenceId.toString,
-              "chunk" -> chunkIdx.toString,
-              "token" -> chunk.result.toString,
-              "pieceId" -> "-1",
-              "isWordStart" -> "true"
-            ),
-            embeddings = calculateChunkEmbeddings(finalEmbeddings)
-          ))
-        } else {
-          None
-        }
+        Some(Annotation(
+          annotatorType = outputAnnotatorType,
+          begin = chunk.begin,
+          end = chunk.end,
+          result = chunk.result,
+          metadata = Map(
+            "sentence" -> sentenceIdx.toString,
+            "chunk" -> chunkIdx.toString,
+            "token" -> chunk.result.toString,
+            "pieceId" -> "-1",
+            "isWordStart" -> "true"
+          ),
+          embeddings = calculateChunkEmbeddings(finalEmbeddings)
+        ))
+      } else {
+        None
       }
     }
   }
