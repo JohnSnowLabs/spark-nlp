@@ -89,7 +89,7 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
 
     val tensors = new TensorResources()
 
-    //FixMe: (.head) Document or sentence as inputCols
+    //FixMe: implement batchSize
     val inputs = docs.map(x => x._2.head.embeddings).toArray
 
     val calculated = tensorflow
