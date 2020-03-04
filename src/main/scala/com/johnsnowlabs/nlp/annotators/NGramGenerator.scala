@@ -60,22 +60,29 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
 
   private def generateNGrams(documents: Seq[(Int, Seq[Annotation])]): Seq[Annotation] = {
 
+    case class NgramChunkAnnotation(currentChunkIdx:Int, annotations: Seq[Annotation])
+
     val docAnnotation = documents.flatMap { case (idx: Int, annotation: Seq[Annotation]) =>
 
       val range = if($(enableCumulative)) 1 to $(n) else $(n) to $(n)
-      val ngramsAnnotation = range.flatMap(k =>{
-        annotation.iterator.sliding(k).withPartial(false).map { tokens =>
 
+      val ngramsAnnotation = range.foldLeft(NgramChunkAnnotation(0,Seq[Annotation]()))((currentNgChunk, k) => {
+
+        val chunksForCurrentWindow = annotation.iterator.sliding(k).withPartial(false).zipWithIndex.map { case (tokens: Seq[Annotation], localChunkIdx: Int) =>
           Annotation(
             outputAnnotatorType,
             tokens.head.begin,
             tokens.last.end,
             tokens.map(_.result).mkString($(delimiter)),
-            tokens.head.metadata
+            Map(
+              "sentence" -> tokens.head.metadata.getOrElse("sentence", "0"),
+              "chunk" -> tokens.head.metadata.getOrElse("chunk", (currentNgChunk.currentChunkIdx + localChunkIdx).toString)
+            )
           )
-        }
-      }).toArray
-      ngramsAnnotation
+        }.toArray
+        NgramChunkAnnotation(currentNgChunk.currentChunkIdx + chunksForCurrentWindow.length, currentNgChunk.annotations++chunksForCurrentWindow)
+      })
+      ngramsAnnotation.annotations
     }
 
     docAnnotation
@@ -85,7 +92,7 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
 
     val documentsWithTokens = annotations
       .filter(token => token.annotatorType == TOKEN)
-      .groupBy(_.metadata.getOrElse[String]("sentence", "0").toInt)
+      .groupBy(_.metadata.getOrElse("sentence", "0").toInt)
       .toSeq
       .sortBy(_._1)
 
