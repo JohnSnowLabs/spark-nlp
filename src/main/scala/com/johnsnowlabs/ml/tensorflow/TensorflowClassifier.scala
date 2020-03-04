@@ -36,8 +36,9 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
 
     val encodedLabels = encoder.encodeTags(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
+    val trainingDataset = Random.shuffle(zippedInputsLabels).toArray
 
-    println(s"Training started - $endEpoch max Epoch - $batchSize batch size - ${zippedInputsLabels.length} training examples")
+    println(s"Training started - total epochs: $endEpoch - batch size: $batchSize - training examples: ${zippedInputsLabels.length}")
 
     for (epoch <- startEpoch until endEpoch) {
 
@@ -45,8 +46,7 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
       var batches = 0
       var loss = 0f
       var acc = 0f
-      val learningRate = lr / (1 + 0.5 * epoch)
-      val trainingDataset = Random.shuffle(zippedInputsLabels).toArray
+      val learningRate = lr / (1 + dropout * epoch)
 
       for (batch <- trainingDataset.grouped(batchSize)) {
         val tensors = new TensorResources()
@@ -90,7 +90,8 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
     val tensors = new TensorResources()
 
     //FixMe: implement batchSize
-    val inputs = docs.map(x => x._2.head.embeddings).toArray
+
+    val inputs = encoder.extractSentenceEmbeddings(docs)
 
     val calculated = tensorflow
       .getSession(configProtoBytes = configProtoBytes)
