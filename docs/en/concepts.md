@@ -41,20 +41,20 @@ Both forms of annotators can be included in a Pipeline and will automatically go
 
 ## Quickly annotate some text
 
-You can run these examples using Python or Scala. 
+You can run these examples using Python or Scala.
 
 The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 ```
 
 ### Explain Document ML
