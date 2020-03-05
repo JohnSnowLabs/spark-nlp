@@ -88,7 +88,8 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
     if (normalizedAnnotations.size > annotations.size) {
       normalizedAnnotations
     } else {
-      resetIndexAnnotations(annotations, normalizedAnnotations)
+      val resetAnnotations = resetIndexAnnotations(annotations, normalizedAnnotations)
+      if (resetAnnotations.isEmpty) normalizedAnnotations else resetAnnotations
     }
 
   }
