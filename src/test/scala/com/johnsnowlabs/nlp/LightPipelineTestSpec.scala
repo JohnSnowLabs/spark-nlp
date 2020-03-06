@@ -66,9 +66,17 @@ class LightPipelineTestSpec extends FlatSpec {
 
   "A LightPipeline" should "annotate for each annotator" in {
     val f = fixture
-    val annotations = new LightPipeline(f.model).fullAnnotate(f.textArray)
-    annotations.foreach { mapAnnotations =>
+    val annotationsFromLightPipeline = new LightPipeline(f.model).fullAnnotate(f.textArray)
+    annotationsFromLightPipeline.zipWithIndex.foreach { case (mapAnnotations, index) =>
       mapAnnotations.values.foreach { annotations =>
+        if (annotations.isEmpty) {
+          if (index > 0) {
+            printAnnotations(annotationsFromLightPipeline(index - 1), "Prior")
+            printAnnotations(annotationsFromLightPipeline(index), "Current")
+          } else {
+            printAnnotations(annotationsFromLightPipeline(index), "Current")
+          }
+        }
         assert(annotations.nonEmpty)
         annotations.foreach { annotation =>
           assert(annotation.isInstanceOf[Annotation])
@@ -76,6 +84,21 @@ class LightPipelineTestSpec extends FlatSpec {
         }
       }
     }
+  }
+
+  def printAnnotations(annotations: Map[String, Seq[Annotation]], text: String): Unit = {
+    val viveknAnnotation = annotations.getOrElse("vivekn", List("vivekn is empty")).head
+    val documentAnnotation = annotations.getOrElse("document", List("document is empty")).head
+    val spellAnnotation = annotations.getOrElse("spell", List("spell is empty")).head
+    val normalizedAnnotation = annotations.getOrElse("normalized", List("normalized is empty")).head
+    val tokenAnnotation = annotations.getOrElse("token", List("token is empty")).head
+    val sentenceAnnotation = annotations.getOrElse("sentence", List("sentence is empty")).head
+    println(s"$text Vivekn: " + viveknAnnotation)
+    println(s"$text Document: " + documentAnnotation)
+    println(s"$text Spell: " + spellAnnotation)
+    println(s"$text Normalized: " + normalizedAnnotation)
+    println(s"$text Token: " + tokenAnnotation)
+    println(s"$text Sentence: " + sentenceAnnotation)
   }
 
   it should "annotate for each string in the text array" in {
