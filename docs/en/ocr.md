@@ -6,17 +6,17 @@ key: docs-ocr
 modify_date: "2020-02-20"
 use_language_switchter: "Python-Scala-Java"
 ---
-Spark OCR provides set of Spark ML transformers/estimators that help users create and use OCR pipelines.
-It built on top of Apache Spark and Tesseract OCR.
+Spark OCR provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
+It is built on top of Apache Spark and Tesseract OCR.
 
 # OCR Pipelines
 
-Using Spark OCR it possible to build pipelines for recognition text from:
+Using Spark OCR it is possible to build pipelines for text recognition from:
  - scanned image(s) (png, tiff, jpeg ...)
  - selectable PDF (that contains text layout)
  - not selectable PDF (that contains scanned text as an image)
  
-It contains set of tools for
+It contains a set of tools for:
 
  - PDF processing transformers which extract text and images from PDF files
  - Image pre-processing (scaling, binarization, skew correction, etc.) transformers
@@ -37,7 +37,7 @@ Spark OCR required Tesseract 4.1.+.
 
 ### Installing Tesseract
 
-As mentioned above, if you are dealing with scanned images instead of test-selectable PDF files you need to install `tesseract 4.x+` on all the nodes in your cluster. Here how you can install it on Ubuntu/Debian:
+As mentioned above, if you are dealing with scanned images instead of text-selectable PDF files you need to install `tesseract 4.x+` on all the nodes in your cluster. Here is how you can install it on Ubuntu/Debian:
 
 ```bash
 apt-get install tesseract-ocr
@@ -89,32 +89,25 @@ Install python package using pip:
 pip install spark-ocr==1.1.0 --extra-index-url #### --ignore-installed
 ```
 
-The #### is a secret url only avaliable for users with license, if you
-have not received it please contact us at info@johnsnowlabs.com.
+The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
 
 ### Spark OCR from Scala
 
-You can start a spark REPL with Scala by running in your terminal a
-spark-shell including the com.johnsnowlabs.nlp:spark-ocr_2.11:1.0.0 package:
+You can start a spark REPL with Scala by running in your terminal a spark-shell including the com.johnsnowlabs.nlp:spark-ocr_2.11:1.0.0 package:
 
 ```bash
 spark-shell --jars ####
 ```
 
-The #### is a secret url only avaliable for users with license, if you
-have not received it please contact us at info@johnsnowlabs.com.
+The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
 
 ### Start Spark OCR Session from Python and Scala
 
-The following will initialize the spark session in case you have run
-the jupyter notebook directly. If you have started the notebook using
-pyspark this cell is just ignored.
+The following code will initialize the spark session in case you have run the jupyter notebook directly. If you have started the notebook using pyspark this cell is just ignored.
 
-Initializing the spark session takes some seconds (usually less than 1
-minute) as the jar from the server needs to be loaded.
+Initializing the spark session takes some seconds (usually less than 1 minute) as the jar from the server needs to be loaded.
 
-The #### in .config("spark.jars", "####") is a secret code, if you have
-not received it please contact us at info@johnsnowlabs.com.
+The #### in .config("spark.jars", "####") is a secret code, if you have not received it please contact us at info@johnsnowlabs.com.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -168,15 +161,14 @@ If you prefer learning by example, check this repository:
 
 It is full of fresh examples.
 
-Below, you can follow into a more theoretical and thorough quick start guide.
+Below, you can follow a more theoretical and thorough quick start guide.
 
 
 # Quickstart Examples
 
 ## Images
 
-In the following code example we will create OCR Pipeline for processing image(s). 
-The image file(s) can contain complex layout like columns, tables, images inside.
+The following code example creates an OCR Pipeline for processing image(s). The image file(s) can contain complex layout like columns, tables, images inside.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -254,8 +246,7 @@ data.show()
 
 ## Scanned PDF files
 
-Next sample provides an example of OCR Pipeline for processing PDF files with image data.
-In this case it needed to use [PdfToImage](#pdftoimage) transformer to convert PDF file to the set of images.
+Next sample provides an example of OCR Pipeline for processing PDF files containing image data. In this case, the [PdfToImage](#pdftoimage) transformer is used to convert PDF file to a set of images.
 
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -334,13 +325,11 @@ data.show()
 
 ## PDF files (scanned or text) 
 
-In the following code example we will create OCR Pipeline for processing 
-PDF files containing text or image data.
+In the following code example we will create OCR Pipeline for processing PDF files that contain text or image data.
 
-While running pipeline for each PDF file, it will:
+For each PDF file, this pipeline will:
  * extract the text from document and save it to the `text` column
- * if `text` contains less than 10 characters (so the document isn't PDF with text layout), 
- process PDF file as an scanned document:
+ * if `text` contains less than 10 characters (so the document isn't PDF with text layout) it will process the PDF file as a scanned document:
     - convert PDF file to an image
     - detect and split image to regions
     - run OCR and save output to the `text` column
@@ -442,8 +431,7 @@ data.show()
 
 ## Images (streaming mode)
 
-Next code segments provide an example of streaming OCR pipeline.
-It processes images and stores results to memory table.
+Next code segments provide an example of streaming OCR pipeline. It processes images and stores results to memory table.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -517,16 +505,14 @@ spark.table("results").select("path", "text").show()
 spark.table("results").select("path", "text").show()
 ```
 
-More details about Spark Structured Streaming could be found in 
-[spark documentation](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html).
+More details about Spark Structured Streaming could be found in [spark documentation](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html).
 {:.info}
 
 # Pipeline components
 
 ## PDF processing
 
-Next section describes the transformers for deal with PDF files: extracting text and image data from PDF
-files.
+Next section describes the transformers that deal with PDF files with the purpose of extracting text and image data from PDF files.
 
 ### PdfToText
 
