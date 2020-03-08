@@ -62,10 +62,10 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       .feed(maskIdsKey, maskTensors)
       .feed(segmentIdsKey, segmentTensors)
       .fetch(embeddingsKey)
-    //
+
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
-    //
+
     tensors.clearSession(outs)
     tensors.clearTensors()
     tokenBuffers.clear()
