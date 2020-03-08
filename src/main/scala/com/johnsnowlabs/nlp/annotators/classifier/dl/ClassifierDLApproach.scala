@@ -1,7 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowClassifier, TensorflowWrapper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
@@ -9,7 +7,7 @@ import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.types.{IntegerType, StringType}
+import org.apache.spark.sql.types.{DoubleType, FloatType, IntegerType, StringType}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.util.Random
@@ -67,8 +65,9 @@ class ClassifierDLApproach(override val uid: String)
 
     val labelColType = dataset.schema($(labelColumn)).dataType
     require(
-      labelColType != StringType | labelColType != IntegerType,
-      s"The label column $labelColumn must be either a single StringType or IntegerType"
+      labelColType != StringType | labelColType != IntegerType | labelColType != DoubleType | labelColType != FloatType,
+      s"The label column $labelColumn type is $labelColType and it's not compatible. " +
+        s"Compatible types are StringType, IntegerType, DoubleType, or FloatType. "
     )
 
     val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
@@ -78,7 +77,7 @@ class ClassifierDLApproach(override val uid: String)
     val train = dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 
-    val tf = loadSavedModel("src/main/resources/classifier-dl/multi-class")
+    val tf = loadSavedModel()
 
     val settings = ClassifierDatasetEncoderParams(
       tags = labels
@@ -131,19 +130,10 @@ class ClassifierDLApproach(override val uid: String)
     model
   }
 
-  def loadSavedModel(folder: String): TensorflowWrapper = {
-
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
+  def loadSavedModel(): TensorflowWrapper = {
 
     val wrapper =
-      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+      TensorflowWrapper.readZippedSavedModel("/classifier-dl", tags = Array("serve"), initAllTables = true)
     wrapper
   }
 }
