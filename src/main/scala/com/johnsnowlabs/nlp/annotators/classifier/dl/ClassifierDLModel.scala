@@ -1,22 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{
-  ClassifierDatasetEncoder,
-  ClassifierDatasetEncoderParams,
-  ReadTensorflowModel,
-  TensorflowClassifier,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.nlp.{
-  Annotation,
-  AnnotatorModel,
-  AnnotatorType,
-  HasPretrained,
-  ParamsAndFeaturesReadable,
-  ParamsAndFeaturesWritable
-}
+import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, ReadTensorflowModel, TensorflowClassifier, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
@@ -64,7 +51,8 @@ class ClassifierDLModel(override val uid: String)
         spark.sparkContext.broadcast(
           new TensorflowClassifier(
             tf,
-            encoder
+            encoder,
+            Verbose.Silent
           )
         )
       )
