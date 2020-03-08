@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowClassifier, TensorflowWrapper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, Param}
@@ -30,6 +31,7 @@ class ClassifierDLApproach(override val uid: String)
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
   val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
@@ -42,6 +44,9 @@ class ClassifierDLApproach(override val uid: String)
   def setDropout(dropout: Float): ClassifierDLApproach.this.type = set(this.dropout, dropout)
   def setMaxEpochs(epochs: Int): ClassifierDLApproach.this.type = set(maxEpochs, epochs)
   def setConfigProtoBytes(bytes: Array[Int]): ClassifierDLApproach.this.type = set(this.configProtoBytes, bytes)
+  def setEnableOutputLogs(enableOutputLogs: Boolean): ClassifierDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
+  def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
+  def setVerbose(verbose: Verbose.Level): ClassifierDLApproach.this.type = set(this.verbose, verbose.id)
 
   def getLabelColumn: String = $(this.labelColumn)
   def getLr: Float = $(this.lr)
@@ -95,7 +100,8 @@ class ClassifierDLApproach(override val uid: String)
     val classifier = try {
       val model = new TensorflowClassifier(
         tensorflow = tf,
-        encoder
+        encoder,
+        Verbose($(verbose))
       )
       if (isDefined(randomSeed)) {
         Random.setSeed($(randomSeed))
@@ -111,6 +117,7 @@ class ClassifierDLApproach(override val uid: String)
         configProtoBytes = getConfigProtoBytes,
         validationSplit = 0.1f,
         evaluationLogExtended = true,
+        enableOutputLogs=$(enableOutputLogs),
         uuid = this.uid
       )
       model

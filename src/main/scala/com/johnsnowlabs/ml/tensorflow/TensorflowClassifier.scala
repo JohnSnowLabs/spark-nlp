@@ -2,11 +2,16 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
+import com.johnsnowlabs.nlp.annotators.ner.Verbose
 
 import scala.util.Random
 
-class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: ClassifierDatasetEncoder)
-  extends Serializable {
+class TensorflowClassifier(
+                            val tensorflow: TensorflowWrapper,
+                            val encoder: ClassifierDatasetEncoder,
+                            override val verboseLevel: Verbose.Value
+                          )
+  extends Serializable with Logging {
 
   private val inputKey = "inputs:0"
   private val labelKey = "labels:0"
@@ -31,7 +36,8 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
              configProtoBytes: Option[Array[Byte]] = None,
              validationSplit: Float = 0.0f,
              evaluationLogExtended: Boolean = false,
-             uuid: String = Identifiable.randomUID("annotator")
+             enableOutputLogs: Boolean = false,
+             uuid: String = Identifiable.randomUID("classifierdl")
            ): Unit = {
 
     val encodedLabels = encoder.encodeTags(labels)
@@ -39,6 +45,8 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
     val trainingDataset = Random.shuffle(zippedInputsLabels).toArray
 
     println(s"Training started - total epochs: $endEpoch - batch size: $batchSize - training examples: ${zippedInputsLabels.length}")
+    outputLog(s"Training started - total epochs: $endEpoch - batch size: $batchSize - training examples: ${zippedInputsLabels.length}",
+      uuid, enableOutputLogs)
 
     for (epoch <- startEpoch until endEpoch) {
 
@@ -81,7 +89,7 @@ class TensorflowClassifier(val tensorflow: TensorflowWrapper, val encoder: Class
       acc /= (inputs.length / batchSize)
 
       println(s"Epoch $epoch, done in ${(System.nanoTime() - time)/1e9} accuracy: $acc loss: $loss, batches: $batches")
-
+      outputLog(s"Epoch $epoch, done in ${(System.nanoTime() - time)/1e9} accuracy: $acc loss: $loss, batches: $batches", uuid, enableOutputLogs)
     }
   }
 
