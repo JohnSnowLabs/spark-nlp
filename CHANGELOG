@@ -1,4 +1,19 @@
 ========
+2.4.3
+========
+---------------
+Overview
+---------------
+This minor release fixes a bug on our Python side that was introduced in 2.4.2 release. 
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+----------------
+Bugfixes
+----------------
+* Fix Python imports which resulted in AttributeError: module 'sparknlp' has no attribute 
+
+
+========
 2.4.2
 ========
 ---------------
