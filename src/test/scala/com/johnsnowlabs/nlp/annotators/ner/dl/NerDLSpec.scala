@@ -34,7 +34,7 @@ class NerDLSpec extends FlatSpec {
     }
   }
 
-  "NerDLApproach" should "correctly tag sentences" in {
+  "NerDLApproach" should "correctly tag sentences" ignore {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
