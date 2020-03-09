@@ -31,7 +31,8 @@ parser = sys.modules[__name__]
 parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
 embeddings = sys.modules[__name__]
-
+classifier = sys.modules[__name__]
+classifier.dl = sys.modules[__name__]
 
 try:
     import jsl_sparknlp.annotator
@@ -601,9 +602,9 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
                              typeConverter=TypeConverters.toBoolean)
 
     tokenizer = Param(Params._dummy(),
-                          "tokenizer",
-                          "TokenizerModel to use to tokenize input file for building a Trie",
-                          typeConverter=TypeConverters.identity)
+                      "tokenizer",
+                      "TokenizerModel to use to tokenize input file for building a Trie",
+                      typeConverter=TypeConverters.identity)
 
     @keyword_only
     def __init__(self):
@@ -738,19 +739,19 @@ class SentenceDetectorParams:
                              typeConverter=TypeConverters.toBoolean)
 
     splitLength = Param(Params._dummy(),
-                      "splitLength",
-                      "length at which sentences will be forcibly split.",
-                      typeConverter=TypeConverters.toInt)
+                        "splitLength",
+                        "length at which sentences will be forcibly split.",
+                        typeConverter=TypeConverters.toInt)
 
     minLength = Param(Params._dummy(),
-                        "minLength",
-                        "Set the minimum allowed length for each sentence.",
-                        typeConverter=TypeConverters.toInt)
+                      "minLength",
+                      "Set the minimum allowed length for each sentence.",
+                      typeConverter=TypeConverters.toInt)
 
     maxLength = Param(Params._dummy(),
-                        "maxLength",
-                        "Set the maximum allowed length for each sentence",
-                        typeConverter=TypeConverters.toInt)
+                      "maxLength",
+                      "Set the maximum allowed length for each sentence",
+                      typeConverter=TypeConverters.toInt)
 
 
 class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
@@ -1544,14 +1545,14 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     name = "WordEmbeddings"
 
     writeBufferSize = Param(Params._dummy(),
-                               "writeBufferSize",
-                               "buffer size limit before dumping to disk storage while writing",
-                               typeConverter=TypeConverters.toInt)
+                            "writeBufferSize",
+                            "buffer size limit before dumping to disk storage while writing",
+                            typeConverter=TypeConverters.toInt)
 
     readCacheSize = Param(Params._dummy(),
-                            "readCacheSize",
-                            "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
-                            typeConverter=TypeConverters.toInt)
+                          "readCacheSize",
+                          "cache size for items retrieved from storage. Increase for performance but higher memory consumption",
+                          typeConverter=TypeConverters.toInt)
 
     def setWriteBufferSize(self, v):
         return self._set(writeBufferSize=v)
@@ -1686,7 +1687,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
 
-class SentenceEmbeddings(AnnotatorModel):
+class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
 
     name = "SentenceEmbeddings"
 
@@ -1850,7 +1851,7 @@ class NerOverwriter(AnnotatorModel):
         return self._set(newResult=value)
 
 
-class UniversalSentenceEncoder(AnnotatorModel):
+class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
 
     name = "UniversalSentenceEncoder"
 
@@ -1940,3 +1941,84 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     def pretrained(name="elmo", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc)
+
+
+class ClassifierDLApproach(AnnotatorApproach, ClassifierDLApproach):
+
+    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
+    dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                            TypeConverters.toFloat)
+
+    evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                                  TypeConverters.toBoolean)
+
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setLr(self, v):
+        self._set(lr=v)
+        return self
+
+    def setBatchSize(self, v):
+        self._set(batchSize=v)
+        return self
+
+    def setDropout(self, v):
+        self._set(dropout=v)
+        return self
+
+    def _create_model(self, java_model):
+        return NerDLModel(java_model=java_model)
+
+    def setValidationSplit(self, v):
+        self._set(validationSplit=v)
+        return self
+
+    def setEvaluationLogExtended(self, v):
+        self._set(evaluationLogExtended=v)
+        return self
+
+    def setEnableOutputLogs(self, value):
+        return self._set(enableOutputLogs=value)
+
+    @keyword_only
+    def __init__(self):
+        super(ClassifierDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach")
+        self._setDefault(
+            maxEpochs=30,
+            lr=float(0.005),
+            batchSize=64,
+            dropout=float(0.5),
+            enableOutputLogs=False
+        )
+
+
+class ClassifierDLModel(AnnotatorModel, HasStorageRef):
+    name = "ClassifierDLModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel", java_model=None):
+        super(ClassifierDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    @staticmethod
+    def pretrained(name="classifier_sentiment", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
