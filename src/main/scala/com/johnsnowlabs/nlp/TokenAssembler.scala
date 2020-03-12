@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler]{
@@ -9,6 +10,13 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
+
+  val preservePosition: BooleanParam = new BooleanParam(this, "preservePosition", "Whether to preserve the actual position of the tokens or reduce them to one space")
+  def setPreservePosition(value: Boolean): this.type = set(preservePosition, value)
+
+  setDefault(
+    preservePosition -> false
+  )
 
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 
@@ -25,10 +33,14 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
       sentence.map{
         token =>
-          if(token.begin > lastEnding ){
-            val spaces = Array.fill((token.begin - lastEnding) - 1)(" ").mkString(" ")
-            fullSentence = fullSentence ++ spaces ++ token.result
-          }else{
+          if(token.begin > lastEnding && token.begin - lastEnding != 1){
+            if($(preservePosition)){
+              val spaces = Array.fill((token.begin - lastEnding) - 1)(" ").mkString(" ")
+              fullSentence = fullSentence ++ spaces ++ token.result
+            }else {
+              fullSentence = fullSentence ++ " " ++ token.result
+            }
+          } else{
             fullSentence = fullSentence ++ token.result
           }
           lastEnding = token.end
