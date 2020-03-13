@@ -50,7 +50,12 @@ object NerTagsEncoding {
       }
 
       if (lastTag.isEmpty && tag != "O") {
-        lastTag = Some(tag.substring(2))
+        try {
+          lastTag = Some(tag.substring(2))
+        } catch {
+          case e: StringIndexOutOfBoundsException =>
+            require(tag.length < 2, s"This annotator only supports IOB and IOB2 tagging: https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging) \n $e")
+        }
         lastTagStart = i
       }
     }
