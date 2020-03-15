@@ -87,6 +87,11 @@ class ClassifierDLApproach(override val uid: String)
     val train = dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 
+    require(
+      labels.length < 50,
+      s"The total unique number of classes must be less than 50. Currently is ${labels.length}"
+    )
+
     val tf = loadSavedModel()
 
     val settings = ClassifierDatasetEncoderParams(
