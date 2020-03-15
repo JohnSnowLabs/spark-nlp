@@ -97,7 +97,6 @@ class ClassifierDLApproach(override val uid: String)
       settings
     )
 
-
     val trainDataset = encoder.collectTrainingInstances(train, getLabelColumn)
     val inputEmbeddings = encoder.extractSentenceEmbeddings(trainDataset)
     val inputLabels = encoder.extractLabels(trainDataset)
@@ -121,7 +120,6 @@ class ClassifierDLApproach(override val uid: String)
         endEpoch = $(maxEpochs),
         configProtoBytes = getConfigProtoBytes,
         validationSplit = $(validationSplit),
-        evaluationLogExtended = true,
         enableOutputLogs=$(enableOutputLogs),
         uuid = this.uid
       )
