@@ -5,6 +5,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
@@ -445,7 +446,8 @@ object PythonResourceDownloader {
     "DependencyParserModel" -> DependencyParserModel,
     "TypedDependencyParserModel" -> TypedDependencyParserModel,
     "UniversalSentenceEncoder" -> UniversalSentenceEncoder,
-    "ElmoEmbeddings" -> ElmoEmbeddings
+    "ElmoEmbeddings" -> ElmoEmbeddings,
+    "ClassifierDLModel" -> ClassifierDLModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
