@@ -36,7 +36,6 @@ class TensorflowClassifier(
              endEpoch: Int = 30,
              configProtoBytes: Option[Array[Byte]] = None,
              validationSplit: Float = 0.0f,
-             evaluationLogExtended: Boolean = false,
              enableOutputLogs: Boolean = false,
              uuid: String = Identifiable.randomUID("classifierdl")
            ): Unit = {
