@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 
+import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowClassifier(
@@ -42,10 +43,21 @@ class TensorflowClassifier(
 
     val encodedLabels = encoder.encodeTags(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
-    val trainingDataset = Random.shuffle(zippedInputsLabels).toArray
+    val trainingDataset = Random.shuffle(zippedInputsLabels)
 
-    println(s"Training started - total epochs: $endEpoch - batch size: $batchSize - training examples: ${zippedInputsLabels.length}")
-    outputLog(s"Training started - total epochs: $endEpoch - batch size: $batchSize - training examples: ${zippedInputsLabels.length}",
+    val sample: Int = (trainingDataset.length*validationSplit).toInt
+
+    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
+      val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
+      (trainingSet.toArray, trainingSample.toArray)
+    } else {
+      // No validationSplit has been set so just use the entire training Dataset
+      val emptyValid: Seq[(Array[Float], Array[Int])] = Seq((Array.empty, Array.empty))
+      (trainingDataset.toArray, emptyValid.toArray)
+    }
+
+    println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}")
+    outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}",
       uuid, enableOutputLogs)
 
     for (epoch <- startEpoch until endEpoch) {
@@ -56,7 +68,7 @@ class TensorflowClassifier(
       var acc = 0f
       val learningRate = lr / (1 + dropout * epoch)
 
-      for (batch <- trainingDataset.grouped(batchSize)) {
+      for (batch <- trainDatasetSeq.grouped(batchSize)) {
         val tensors = new TensorResources()
 
         val inputArrays = batch.map(x => x._1)
@@ -86,10 +98,19 @@ class TensorflowClassifier(
 
         tensors.clearTensors()
       }
-      acc /= (inputs.length / batchSize)
+      acc /= (trainDatasetSeq.length / batchSize)
 
-      println(s"Epoch $epoch, done in ${(System.nanoTime() - time)/1e9} accuracy: $acc loss: $loss, batches: $batches")
-      outputLog(s"Epoch $epoch, done in ${(System.nanoTime() - time)/1e9} accuracy: $acc loss: $loss, batches: $batches", uuid, enableOutputLogs)
+      if (validationSplit > 0.0) {
+        val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
+        val endTime = (System.nanoTime() - time)/1e9
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches")
+        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs)
+      }else{
+        val endTime = (System.nanoTime() - time)/1e9
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches")
+        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs)
+      }
+
     }
   }
 
@@ -127,6 +148,65 @@ class TensorflowClassifier(
       }
 
     }
+
+  }
+
+  def internalPredict(inputs: Array[Array[Float]], configProtoBytes: Option[Array[Byte]] = None): Array[Int] = {
+
+    val tensors = new TensorResources()
+
+    val calculated = tensorflow
+      .getSession(configProtoBytes = configProtoBytes)
+      .runner
+      .feed(inputKey, tensors.createTensor(inputs))
+      .fetch(predictionKey)
+      .run()
+
+    val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
+    val predictedLabels = tagsId.map{ case(score)=>
+      val labelId = score.zipWithIndex.maxBy(_._1)._2
+      labelId
+    }
+    tensors.clearTensors()
+    predictedLabels
+  }
+
+  def measure(labeled: Array[(Array[Float], Array[Int])],
+              log: String => Unit,
+              extended: Boolean = false,
+              batchSize: Int = 100
+             ): Float = {
+
+    //ToDo: Add batch strategy
+
+    val correctGuess = mutable.Map[Int, Int]()
+    val predicted = mutable.Map[Int, Int]()
+    val correct = mutable.Map[Int, Int]()
+
+    val originalEmbeddings = labeled.map(x => x._1)
+    val originalLabels = labeled.map(x => x._2).map{x=>x.zipWithIndex.maxBy(_._1)._2}
+
+    val predictedLabels = internalPredict(originalEmbeddings)
+    val labeledPredicted = predictedLabels.zip(originalLabels)
+
+    for (i <- labeledPredicted) {
+      val predict = i._1
+      val original = i._2
+
+      correct(original) = correct.getOrElse(original, 0) + 1
+      predicted(predict) = predicted.getOrElse(predict, 0) + 1
+
+      if (original == predict) {
+        correctGuess(original) = correctGuess.getOrElse(original, 0) + 1
+      }
+    }
+
+    val labels = (correct.keys ++ predicted.keys).toSeq.distinct
+
+    val correctlyPredicted = correctGuess.filterKeys(label => labels.contains(label)).values.sum
+    val totalOriginalLabels = correct.filterKeys(label => labels.contains(label)).values.sum
+
+    (correctlyPredicted.toFloat / totalOriginalLabels.toFloat) * 100
 
   }
 
