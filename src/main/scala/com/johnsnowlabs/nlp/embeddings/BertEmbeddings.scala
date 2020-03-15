@@ -90,12 +90,6 @@ class BertEmbeddings(override val uid: String) extends
     poolingLayer -> 0
   )
 
-  private var tfHubPath: String = ""
-  def setTFhubPath(value: String): Unit = {
-    tfHubPath = value
-  }
-  def getTFhubPath: String = tfHubPath
-
   private var _model: Option[Broadcast[TensorflowBert]] = None
   def getModelIfNotSet: TensorflowBert = _model.get.value
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
@@ -212,13 +206,9 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
     val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
-    val Bert = new BertEmbeddings()
+    new BertEmbeddings()
       .setVocabulary(words)
       .setModelIfNotSet(spark, wrapper)
-
-    Bert.setTFhubPath(folder)
-
-    Bert
   }
 }
 
