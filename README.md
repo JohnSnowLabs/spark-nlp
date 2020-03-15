@@ -459,7 +459,7 @@ annotation.show()
 /*
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
+2.4.4
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
 pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_dl,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more fields]
