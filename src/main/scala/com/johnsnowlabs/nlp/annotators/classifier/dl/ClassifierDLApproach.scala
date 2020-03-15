@@ -31,6 +31,7 @@ class ClassifierDLApproach(override val uid: String)
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
   val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+  val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val configProtoBytes = new IntArrayParam(
     this,
@@ -45,6 +46,7 @@ class ClassifierDLApproach(override val uid: String)
   def setMaxEpochs(epochs: Int): ClassifierDLApproach.this.type = set(maxEpochs, epochs)
   def setConfigProtoBytes(bytes: Array[Int]): ClassifierDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setEnableOutputLogs(enableOutputLogs: Boolean): ClassifierDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
+  def setValidationSplit(validationSplit: Float):ClassifierDLApproach.this.type = set(this.validationSplit, validationSplit)
   def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level): ClassifierDLApproach.this.type = set(this.verbose, verbose.id)
 
@@ -53,6 +55,7 @@ class ClassifierDLApproach(override val uid: String)
   def getBatchSize: Int = $(this.batchSize)
   def getDropout: Float = $(this.dropout)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
+  def getValidationSplit: Float = $(this.validationSplit)
   def getMaxEpochs: Int = $(maxEpochs)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
@@ -61,7 +64,9 @@ class ClassifierDLApproach(override val uid: String)
     lr -> 5e-3f,
     dropout -> 0.5f,
     batchSize -> 64,
-    enableOutputLogs -> false
+    enableOutputLogs -> false,
+    verbose -> Verbose.Silent.id,
+    validationSplit -> 0.0f
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -115,7 +120,7 @@ class ClassifierDLApproach(override val uid: String)
         dropout = $(dropout),
         endEpoch = $(maxEpochs),
         configProtoBytes = getConfigProtoBytes,
-        validationSplit = 0.1f,
+        validationSplit = $(validationSplit),
         evaluationLogExtended = true,
         enableOutputLogs=$(enableOutputLogs),
         uuid = this.uid
