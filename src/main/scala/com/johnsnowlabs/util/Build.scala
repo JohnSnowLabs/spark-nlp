@@ -11,6 +11,6 @@ object Build {
     if (version != null && version.nonEmpty)
       version
     else
-      "2.4.4-rc1"
+      "2.4.4"
   }
 }
