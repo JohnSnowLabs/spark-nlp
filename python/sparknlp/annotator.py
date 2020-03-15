@@ -1943,13 +1943,15 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc)
 
 
-class ClassifierDLApproach(AnnotatorApproach, ClassifierDLApproach):
+class ClassifierDLApproach(AnnotatorApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
     batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
 
     dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
+
+    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
@@ -1962,6 +1964,14 @@ class ClassifierDLApproach(AnnotatorApproach, ClassifierDLApproach):
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
+
+    labelColumn = Param(Params._dummy(),
+                        "labelColumn",
+                        "Column with label per each token",
+                        typeConverter=TypeConverters.toString)
+
+    def setLabelColumn(self, value):
+        return self._set(labelColumn=value)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1977,6 +1987,9 @@ class ClassifierDLApproach(AnnotatorApproach, ClassifierDLApproach):
     def setDropout(self, v):
         self._set(dropout=v)
         return self
+
+    def setMaxEpochs(self, epochs):
+        return self._set(maxEpochs=epochs)
 
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
