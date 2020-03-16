@@ -2,15 +2,22 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.PipelineModel
+import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{IntParam, Param}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS, WORD_EMBEDDINGS}
+import org.apache.spark.sql.DataFrame
 
-class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[SentenceEmbeddings] {
-  import com.johnsnowlabs.nlp.AnnotatorType._
+class SentenceEmbeddings(override val uid: String)
+  extends AnnotatorModel[SentenceEmbeddings]
+    with HasEmbeddingsProperties
+    with HasStorageRef {
+
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, WORD_EMBEDDINGS)
+  override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
+  override def getDimension: Int = $(dimension)
 
   val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
 
@@ -25,7 +32,8 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
   setDefault(
     inputCols -> Array(DOCUMENT, WORD_EMBEDDINGS),
     outputCol -> "sentence_embeddings",
-    poolingStrategy -> "AVERAGE"
+    poolingStrategy -> "AVERAGE",
+    dimension -> 100
   )
 
   /** Internal constructor to submit a random UID */
@@ -33,6 +41,8 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
 
   private def calculateSentenceEmbeddings(matrix : Array[Array[Float]]):Array[Float] = {
     val res = Array.ofDim[Float](matrix(0).length)
+    setDimension(matrix(0).length)
+
     matrix(0).indices.foreach {
       j =>
         matrix.indices.foreach {
@@ -79,6 +89,10 @@ class SentenceEmbeddings(override val uid: String) extends AnnotatorModel[Senten
         embeddings = sentenceEmbeddings
       )
     }
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 }
 
