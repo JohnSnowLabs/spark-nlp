@@ -103,6 +103,37 @@ trait ReadTensorflowModel {
     tf
   }
 
+  def readTensorflowChkPoints(
+                               path: String,
+                               spark: SparkSession,
+                               suffix: String,
+                               zipped:Boolean = true,
+                               tags:Array[String]=Array.empty,
+                               initAllTables: Boolean = false
+                             ): TensorflowWrapper = {
+
+    LoadsContrib.loadContribToCluster(spark)
+
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+
+    // 1. Create tmp directory
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12)+ suffix)
+      .toAbsolutePath.toString
+
+    // 2. Copy to local dir
+    fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
+
+    // 3. Read Tensorflow state
+    val tf = TensorflowWrapper.readChkPoints(new Path(tmpFolder, tfFile).toString,
+      zipped, tags = tags, initAllTables = initAllTables)
+
+    // 4. Remove tmp folder
+    FileHelper.delete(tmpFolder)
+
+    tf
+  }
+
   def readTensorflowHub(
                          path: String,
                          spark: SparkSession,
