@@ -1,4 +1,33 @@
 ========
+2.4.4
+========
+---------------
+Overview
+---------------
+* We are very excited to release the very first multi-class text classifier in Spark NLP v2.4.4! We have built a generic ClassifierDL annotator that uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes.
+* We are also happy to announce the support of yet another language: Russian! We have trained and prepared 5 pre-trained models and 6 pre-trained pipelines in Russian.
+
+**NOTE**: ClassifierDL is an experimental feature in 2.4.4 release. We have worked hard to aim for simplicity and we are looking forward to your feedback as always.
+
+---------------
+New Features
+---------------
+* Introducing an experimental multi-class text classification by using the DNNs model in TensorFlow called `ClassifierDL`. This annotator can train any dataset from 2 up to 50 classes.
+* 5 new pretrained Russian models (Lemma, POS, 3x NER)
+* 6 new pretrained Russian pipelines
+
+---------------
+Enhancements
+---------------
+* Add param to NerConverter to override modified tokens instead of original tokens
+
+----------------
+Bugfixes
+----------------
+* Fix TokenAssembler
+* Fix NerConverter exception when NerDL is trained with different tagging style than IOB/IOB2
+
+========
 2.4.3
 ========
 ---------------
