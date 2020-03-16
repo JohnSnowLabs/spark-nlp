@@ -66,7 +66,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Dependency parsing (Labeled/unlabled)
 * Easy TensorFlow integration
 * Full integration with Spark ML functions
-* +30 pre-trained models in 5 languages (English, French, German, Italian, and Spanish)
+* +30 pre-trained models in 6 languages (English, French, German, Italian, Spanish, and Russian)
 * +30 pre-trained pipelines!
 
 ## Quick Start
@@ -415,7 +415,7 @@ sparknlp {
 
 ### Pipelines
 
-Spark NLP offers more than `30 pre-trained pipelines` in `5 languages`.
+Spark NLP offers more than `30 pre-trained pipelines` in `6 languages`.
 
 **English pipelines:**
 
