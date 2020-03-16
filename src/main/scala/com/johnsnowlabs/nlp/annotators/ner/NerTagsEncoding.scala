@@ -17,7 +17,7 @@ object NerTagsEncoding {
     * @param doc Source doc text
     * @return Extracted Named Entities
     */
-  def fromIOB(sentence: NerTaggedSentence, doc: Annotation, sentenceIndex: Int = 0): Seq[NamedEntity] = {
+  def fromIOB(sentence: NerTaggedSentence, doc: Annotation, sentenceIndex: Int = 0, originalOffset: Boolean = true): Seq[NamedEntity] = {
     val result = ArrayBuffer[NamedEntity]()
 
     val words = sentence.words.length
@@ -30,11 +30,12 @@ object NerTagsEncoding {
       val end = sentence.indexedTaggedWords(endIdx).end - doc.begin
       require(start <= end && end <= doc.result.length, s"Failed to flush entities in NerConverter. " +
         s"Chunk offsets $start - $end are not within tokens:\n${sentence.words.mkString("||")}\nfor sentence:\n${doc.result}")
+      val content = if(originalOffset) doc.result.substring(start, end + 1) else sentence.indexedTaggedWords(startIdx).word
       val entity = NamedEntity(
         sentence.indexedTaggedWords(startIdx).begin,
         sentence.indexedTaggedWords(endIdx).end,
         lastTag.get,
-        doc.result.substring(start, end + 1),
+        content,
         sentenceIndex.toString
       )
 
@@ -49,7 +50,12 @@ object NerTagsEncoding {
       }
 
       if (lastTag.isEmpty && tag != "O") {
-        lastTag = Some(tag.substring(2))
+        try {
+          lastTag = Some(tag.substring(2))
+        } catch {
+          case e: StringIndexOutOfBoundsException =>
+            require(tag.length < 2, s"This annotator only supports IOB and IOB2 tagging: https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging) \n $e")
+        }
         lastTagStart = i
       }
     }
