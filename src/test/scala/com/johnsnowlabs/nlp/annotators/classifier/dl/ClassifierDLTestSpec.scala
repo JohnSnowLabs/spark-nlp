@@ -21,20 +21,8 @@ class ClassifierDLTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val token = new Tokenizer()
-      .setInputCols("document")
-      .setOutputCol("tokens")
-
-    val norm = new Normalizer()
-      .setInputCols("tokens")
-      .setOutputCol("cleaned")
-
-    val newDocs = new TokenAssembler()
-      .setInputCols("cleaned")
-      .setOutputCol("newDocs")
-
     val useEmbeddings = UniversalSentenceEncoder.pretrained()
-      .setInputCols("newDocs")
+      .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
     val docClassifier = new ClassifierDLApproach()
@@ -50,9 +38,6 @@ class ClassifierDLTestSpec extends FlatSpec {
       .setStages(
         Array(
           documentAssembler,
-          token,
-          norm,
-          newDocs,
           useEmbeddings,
           docClassifier
         )
