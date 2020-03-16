@@ -9,7 +9,7 @@ import org.scalatest._
 class ClassifierDLTestSpec extends FlatSpec {
 
 
-  "ClassifierDL" should "correctly train IMDB train dataset" in {
+  "ClassifierDL" should "correctly train IMDB train dataset" ignore {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
 
@@ -45,7 +45,6 @@ class ClassifierDLTestSpec extends FlatSpec {
       .setMaxEpochs(20)
       .setLr(5e-3f)
       .setDropout(0.5f)
-    //      .setValidationSplit(0.2f)
 
     val pipeline = new Pipeline()
       .setStages(
