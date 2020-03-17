@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-02-16"
+modify_date: "2020-03-17"
 use_language_switchter: "Python-Scala"
 
 ---
@@ -80,6 +80,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |UniversalSentenceEncoder|Encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
+|ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
@@ -628,7 +629,9 @@ val sentimentDetector = new ViveknSentimentApproach()
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
+
 **Input types:** Document, Token  
+
 **Reference:** [SentimentDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector.scala) | [SentimentDetectorModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel.scala)  
 **Functions:**
 
@@ -668,8 +671,11 @@ val sentimentDetector = new SentimentDetector
 ### WordEmbeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
+
 **Output type:** Word_Embeddings  
+
 **Input types:** Document, Token  
+
 **Reference:**  [WordEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddings.scala) | [WordEmbeddingsModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.scala)  
 **Functions:**
 
@@ -717,7 +723,9 @@ BERT (Bidirectional Encoder Representations from Transformers) provides dense ve
 You can find the pre-trained models for `BertEmbeddings` in the [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
 
 **Output type:** Word_Embeddings  
-**Input types:** Document  
+
+**Input types:** Document, Token
+
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
 
 Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.BertEmbeddings) Scala docs for more
@@ -747,7 +755,9 @@ Computes contextualized word representations using character-based word represen
 You can find the pre-trained model for `ElmoEmbeddings` in the  [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
 
 **Output type:** Word_Embeddings
-**Input types:** Document  
+
+**Input types:** Document, Token
+
 **Reference:** [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)  
 
 Refer to the [ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings) Scala docs for more
@@ -780,6 +790,10 @@ val elmo = ElmoEmbeddings.pretrained()
 
 The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
 
+**Output type:** SENTENCE_EMBEDDINGS
+
+**Input types:** Document
+
 Refer to the [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder) Scala docs for more
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -803,6 +817,10 @@ This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, or 
 **Functions:**
 
 - `setPoolingStrategy`: Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+
+**Output type:** SENTENCE_EMBEDDINGS
+
+**Input types:** Document
 
 Refer to the [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings) Scala docs for more
 
@@ -865,6 +883,10 @@ This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk e
 
 - `setPoolingStrategy`: Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
 
+**Output type:** CHUNK
+
+**Input types:** CHUNK, Word_Embeddings
+
 Refer to the [ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings) Scala docs for more
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -910,6 +932,46 @@ val convertToVectorUDF = udf((matrix : Seq[Float]) => {
 pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_exploded"))
 .withColumn("features", convertToVectorUDF($"chunk_embeddings_exploded"))
 ```
+
+### ClassifierDL
+
+#### Multi-class Text Classification
+
+ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+
+**Output type:** CATEGORY
+
+**Input types:** SENTENCE_EMBEDDINGS
+
+Refer to the [ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach) Scala docs for more
+
+Refer to the [ClassifierDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+docClassifier = ClassifierDLApproach()\
+      .setInputCols("sentence_embeddings")\
+      .setOutputCol("category")\
+      .setLabelColumn("label")\
+      .setBatchSize(64)\
+      .setMaxEpochs(20)\
+      .setLr(0.5)\
+      .setDropout(0.5)
+```
+
+```scala
+val docClassifier = new ClassifierDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(64)
+      .setMaxEpochs(20)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+```
+
+Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
 
 ### NER CRF
 
