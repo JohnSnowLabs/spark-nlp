@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ElmoEmbeddings - Spark NLP 2.4.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings</title>
-          <meta name="description" content="ElmoEmbeddings - Spark NLP 2.4.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
-          <meta name="keywords" content="ElmoEmbeddings Spark NLP 2.4.3 ScalaDoc com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
+          <title>ElmoEmbeddings - Spark NLP 2.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings</title>
+          <meta name="description" content="ElmoEmbeddings - Spark NLP 2.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
+          <meta name="keywords" content="ElmoEmbeddings Spark NLP 2.4.4 ScalaDoc com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -1090,23 +1090,6 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings#getTFhubPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getTFhubPath:String"></a>
-      <a id="getTFhubPath:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getTFhubPath</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings@getTFhubPath:String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -2165,23 +2148,6 @@ elmo: the weighted sum of the 3 layers, where the weights are trainable. This te
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings#setTFhubPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setTFhubPath(value:String):Unit"></a>
-      <a id="setTFhubPath(String):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setTFhubPath</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings@setTFhubPath(value:String):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="storageRef:org.apache.spark.ml.param.Param[String]"></a>
       <a id="storageRef:Param[String]"></a>
@@ -2491,6 +2457,23 @@ metadata is built at schema level to record annotations structural information o
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings@wrapEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#wrapSentenceEmbeddingsMetadata" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wrapSentenceEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column"></a>
+      <a id="wrapSentenceEmbeddingsMetadata(Column,Int,Option[String]):Column"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wrapSentenceEmbeddingsMetadata</span><span class="params">(<span name="col">col: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>, <span name="embeddingsDim">embeddingsDim: <span class="extype" name="scala.Int">Int</span></span>, <span name="embeddingsRef">embeddingsRef: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings@wrapSentenceEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
