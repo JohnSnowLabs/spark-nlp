@@ -10,8 +10,6 @@ use_language_switchter: "Python-Scala"
 
 ## Annotators Guideline
 
-## Annotators
-
 ### How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
@@ -46,8 +44,10 @@ The types are:
 - CHUNK = "chunk"
 - POS = "pos"
 - WORD_EMBEDDINGS = "word_embeddings"
+- SENTENCE_EMBEDDINGS = "sentence_embeddings"
 - DATE = "date"
 - ENTITY = "entity"
+- CATEGORY = "category"
 - SENTIMENT = "sentiment"
 - NAMED_ENTITY = "named_entity"
 - DEPENDENCY = "dependency"
