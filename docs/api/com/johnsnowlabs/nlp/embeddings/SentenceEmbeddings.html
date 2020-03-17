@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>SentenceEmbeddings - Spark NLP 2.4.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings</title>
-          <meta name="description" content="SentenceEmbeddings - Spark NLP 2.4.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings" />
-          <meta name="keywords" content="SentenceEmbeddings Spark NLP 2.4.3 ScalaDoc com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings" />
+          <title>SentenceEmbeddings - Spark NLP 2.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings</title>
+          <meta name="description" content="SentenceEmbeddings - Spark NLP 2.4.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings" />
+          <meta name="keywords" content="SentenceEmbeddings Spark NLP 2.4.4 ScalaDoc com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,13 +47,13 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">SentenceEmbeddings</span><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>]</span>
+        <span class="name">SentenceEmbeddings</span><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>] with <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>], <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a>, <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a>, <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>], <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings"><span>SentenceEmbeddings</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings"><span>SentenceEmbeddings</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageRef"><span>HasStorageRef</span></li><li class="in" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties"><span>HasEmbeddingsProperties</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -327,7 +327,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame"></a>
       <a id="afterAnnotate(DataFrame):DataFrame"></a>
       <h4 class="signature">
@@ -343,7 +343,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> → <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings#annotate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
       <a id="annotate(Seq[Annotation]):Seq[Annotation]"></a>
@@ -488,6 +488,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.storage.HasStorageRef#createDatabaseConnection" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="createDatabaseConnection(database:com.johnsnowlabs.storage.Database.Name):com.johnsnowlabs.storage.RocksDBConnection"></a>
+      <a id="createDatabaseConnection(Name):RocksDBConnection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createDatabaseConnection</span><span class="params">(<span name="database">database: <a href="../../storage/Database$.html#Name=com.johnsnowlabs.storage.Database" class="extmbr" name="com.johnsnowlabs.storage.Database.Name">Name</a></span>)</span><span class="result">: <a href="../../storage/RocksDBConnection.html" class="extype" name="com.johnsnowlabs.storage.RocksDBConnection">RocksDBConnection</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@createDatabaseConnection(database:com.johnsnowlabs.storage.Database.Name):com.johnsnowlabs.storage.RocksDBConnection" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a>
       <a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
@@ -522,6 +539,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <a href="../AnnotatorModel.html#inputCols:org.apache.spark.ml.param.StringArrayParam" class="extmbr" name="com.johnsnowlabs.nlp.AnnotatorModel#inputCols">inputCols</a> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings#dimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dimension:org.apache.spark.ml.param.IntParam"></a>
+      <a id="dimension:IntParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dimension</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@dimension:org.apache.spark.ml.param.IntParam" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> → <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -817,6 +851,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings#getDimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDimension:Int"></a>
+      <a id="getDimension:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDimension</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@getDimension:Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> → <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -902,6 +953,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.storage.HasStorageRef#getStorageRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getStorageRef:String"></a>
+      <a id="getStorageRef:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStorageRef</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@getStorageRef:String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1750,6 +1818,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#setDimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDimension(value:Int):HasEmbeddingsProperties.this.type"></a>
+      <a id="setDimension(Int):SentenceEmbeddings.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDimension</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@setDimension(value:Int):HasEmbeddingsProperties.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):SentenceEmbeddings.this.type"></a>
@@ -1852,6 +1937,40 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.storage.HasStorageRef#setStorageRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setStorageRef(value:String):HasStorageRef.this.type"></a>
+      <a id="setStorageRef(String):SentenceEmbeddings.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStorageRef</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@setStorageRef(value:String):HasStorageRef.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="storageRef:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="storageRef:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">storageRef</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@storageRef:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2028,6 +2147,23 @@ metadata is built at schema level to record annotations structural information o
       </a>
     </span>
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.storage.HasStorageRef#validateStorageRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="validateStorageRef(dataset:org.apache.spark.sql.Dataset[_],inputCols:Array[String],annotatorType:String):Unit"></a>
+      <a id="validateStorageRef(Dataset[_],Array[String],String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">validateStorageRef</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="inputCols">inputCols: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@validateStorageRef(dataset:org.apache.spark.sql.Dataset[_],inputCols:Array[String],annotatorType:String):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -2114,6 +2250,40 @@ metadata is built at schema level to record annotations structural information o
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#wrapEmbeddingsMetadata" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wrapEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column"></a>
+      <a id="wrapEmbeddingsMetadata(Column,Int,Option[String]):Column"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wrapEmbeddingsMetadata</span><span class="params">(<span name="col">col: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>, <span name="embeddingsDim">embeddingsDim: <span class="extype" name="scala.Int">Int</span></span>, <span name="embeddingsRef">embeddingsRef: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@wrapEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#wrapSentenceEmbeddingsMetadata" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wrapSentenceEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column"></a>
+      <a id="wrapSentenceEmbeddingsMetadata(Column,Int,Option[String]):Column"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wrapSentenceEmbeddingsMetadata</span><span class="params">(<span name="col">col: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>, <span name="embeddingsDim">embeddingsDim: <span class="extype" name="scala.Int">Int</span></span>, <span name="embeddingsRef">embeddingsRef: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Column">Column</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings@wrapSentenceEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable#write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="write:org.apache.spark.ml.util.MLWriter"></a>
       <a id="write:MLWriter"></a>
@@ -2140,7 +2310,11 @@ metadata is built at schema level to record annotations structural information o
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.johnsnowlabs.nlp.AnnotatorModel">
+        <div class="parent" name="com.johnsnowlabs.storage.HasStorageRef">
+              <h3>Inherited from <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">
+              <h3>Inherited from <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.AnnotatorModel">
               <h3>Inherited from <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.CanBeLazy">
               <h3>Inherited from <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></h3>
