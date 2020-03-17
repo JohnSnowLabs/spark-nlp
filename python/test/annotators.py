@@ -455,7 +455,7 @@ class SpellCheckerTestSpec(unittest.TestCase):
         spell_checker = NorvigSweetingApproach() \
             .setInputCols(["token"]) \
             .setOutputCol("spell") \
-            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/spell/words.txt") \
+            .setDictionary("file:///" + os.getcwd() + "/../src/test/resources/spell/words.txt")
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1048,4 +1048,8 @@ class ClassifierDLTestSpec(unittest.TestCase):
         ])
 
         model = pipeline.fit(self.data)
-        model.transform(self.data).show()
+        model.stages[-1].write().overwrite().save('./tmp_classifierDL_model')
+
+        classsifierdlModel = ClassifierDLModel.load("./tmp_classifierDL_model") \
+            .setInputCols(["sentence_embeddings"]) \
+            .setOutputCol("class")

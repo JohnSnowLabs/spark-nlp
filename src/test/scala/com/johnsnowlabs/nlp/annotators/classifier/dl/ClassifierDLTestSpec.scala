@@ -46,7 +46,6 @@ class ClassifierDLTestSpec extends FlatSpec {
     val pipelineModel = pipeline.fit(smallCorpus)
 
     pipelineModel.transform(smallCorpus).select("document").show(1, false)
-    pipelineModel.transform(smallCorpus).select("newDocs").show(1, false)
 
   }
 
