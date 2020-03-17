@@ -939,7 +939,9 @@ pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_e
 
 ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
 
-This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+**NOTE**: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+
+**NOTE**: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
 
 **Output type:** CATEGORY
 
