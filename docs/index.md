@@ -143,7 +143,7 @@ data:
             is_row: true
         - title: 
           image:
-            src: http://www.cnrs.fr/themes/custom/cnrs/logo.svg
+            src: https://www.cnrs.fr/themes/custom/cnrs/logo.svg
             url: https://iscpif.fr/
             style: "max-width: 110px; max-height: 110px;margin-bottom:10px"
             is_row: true        
