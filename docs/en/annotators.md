@@ -695,18 +695,21 @@ Refer to the [WordEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-word_embeddings = WordEmbeddings() \
-        .setInputCols(["document", "token"])\
-        .setOutputCol("word_embeddings")
-        .setEmbeddingsSource('./embeddings.100d.test.txt', 100, "text")
+embeddings = WordEmbeddings()
+      .setStoragePath("/tmp/glove.6B.100d.txt", ReadAs.TEXT)\
+      .setDimension(100)\
+      .setStorageRef("glove_100d") \
+      .setInputCols("document", "token") \
+      .setOutputCol("embeddings")
 ```
 
 ```scala
-val wordEmbeddings = new WordEmbeddings()
-        .setInputCols("document", "token")
-        .setOutputCol("word_embeddings")
-        .setEmbeddingsSource("./embeddings.100d.test.txt",
-        100, "text")
+val embeddings = new WordEmbeddings()
+      .setStoragePath("/tmp/glove.6B.100d.txt", ReadAs.TEXT)
+      .setDimension(100)
+      .setStorageRef("glove_100d") // Use or save this WordEmbeddings with storageRef
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
 ```
 
 There are also two convenient functions
