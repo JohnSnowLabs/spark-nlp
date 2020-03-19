@@ -134,6 +134,21 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ** We do have the Fat JAR of Spark NLP 2.4.0 release already compiled for `Apache Spark 2.3.x` and it can be downloaded from our S3 [from here](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-2.4.0_spark-2.3.0.jar).
 
+** In case of using Apache Spark 2.3.x, the `.pretrained()` function won't download the models/pipelines automatically. You need to download them manyall and use `.loat()` instead.
+
+## Databricks Support
+
+Spark NLP 2.4.4 has been tested and is compatible with the following runtimes:
+
+* 6.2
+* 6.2 ML
+* 6.3
+* 6.3 ML
+* 6.4
+* 6.4 ML
+* 6.5
+* 6.5 ML
+
 ## Spark Packages
 
 ### Command line (requires internet connection)
