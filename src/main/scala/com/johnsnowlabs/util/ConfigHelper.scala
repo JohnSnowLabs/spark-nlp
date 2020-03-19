@@ -44,4 +44,8 @@ object ConfigHelper {
 
   val storageTmpDir = "sparknlp.settings.storage.cluster_tmp_dir"
 
+  val serializationMode: String = getConfigValueOrElse("sparknlp.settings.annotatorSerializationFormat", "object")
+  val useBroadcast: Boolean = getConfigValueOrElse("sparknlp.settings.useBroadcastForFeatures", "true").toBoolean
+
+
 }
