@@ -36,9 +36,9 @@ object ConfigHelper {
   val awsCredentials = "sparknlp.settings.pretrained.credentials"
 
 
-  val accessKeyId = awsCredentials + ".access_key_id"
-  val secretAccessKey = awsCredentials + ".secret_access_key"
-  val awsProfileName = awsCredentials + ".aws_profile_name"
+  val accessKeyId: String = awsCredentials + ".access_key_id"
+  val secretAccessKey: String = awsCredentials + ".secret_access_key"
+  val awsProfileName: String = awsCredentials + ".aws_profile_name"
 
   val s3SocketTimeout = "sparknlp.settings.pretrained.s3_socket_timeout"
 
