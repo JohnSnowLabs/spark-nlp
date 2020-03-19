@@ -3,7 +3,7 @@ layout: article
 title: Models
 permalink: /docs/en/models
 key: docs-models
-modify_date: "2020-02-20"
+modify_date: "2020-03-19"
 ---
 
 ## Pretrained Models
@@ -135,6 +135,22 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`                                                                                                                     |
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/es_gsd/index.html)                                                             |
+| **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
+
+### Russian - Models
+
+| Model                        | Name               | Build            | Notes | Description | Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.4.4 |       |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_ru_2.4.4_2.4_1584013425855.zip) |
+| PerceptronModel (POS UD)     | `pos_ud_gsd`       | 2.4.4 |       |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_ru_2.4.4_2.4_1584013495069.zip) |
+| NerDLModel (glove_100d)  | `wikiner_6B_100` | 2.4.4 |       |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_100_ru_2.4.4_2.4_1584014001452.zip) |
+| NerDLModel (glove_6B_300)  | `wikiner_6B_300` | 2.4.4 |       |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_300_ru_2.4.4_2.4_1584014001694.zip) |
+| NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.4.4 |       |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_ru_2.4.4_2.4_1584014001695.zip) |
+
+| Feature   | Description                                                                                                                                                                                            |
+|:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Lemma** | Trained by **Lemmatizer** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/ru_gsd/index.html)|
+| **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/ru_gsd/index.html)                                                             |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 
 ### Multi-language
