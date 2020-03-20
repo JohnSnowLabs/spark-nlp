@@ -54,12 +54,12 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   def getMaxLength(value: Int): Int = $(maxLength)
 
   def setSplitChars(v: Array[String]): this.type = {
-    require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
+    require(v.forall(x=>x.length == 1 || (x.length==2 && x.substring(0,1)=="\\")), "All elements in context chars must have length == 1")
     set(splitChars, v)
   }
 
   def addSplitChars(v: String): this.type = {
-    require(v.length == 1, "Context char must have length == 1")
+    require(v.length == 1 || (v.length==2 && v.substring(0,1)=="\\"), "Context char must have length == 1")
     set(splitChars, get(splitChars).getOrElse(Array.empty[String]) :+ v)
   }
 
