@@ -30,6 +30,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   val caseSensitiveExceptions: BooleanParam = new BooleanParam(this, "caseSensitiveExceptions", "Whether to care for case sensitiveness in exceptions")
   val contextChars: StringArrayParam = new StringArrayParam(this, "contextChars", "character list used to separate from token boundaries")
   val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
+  val splitPattern: Param[String] = new Param(this, "splitPattern", "pattern to separate from the inside of tokens. takes priority over splitChars.")
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
   val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
   val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
@@ -38,6 +39,8 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each token")
 
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
+
+  def setSplitPattern(value: String): this.type = set(splitPattern, value)
 
   def setInfixPatterns(value: Array[String]): this.type = set(infixPatterns, value)
 
@@ -69,6 +72,8 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   def getSuffixPattern: String = $(suffixPattern)
 
   def getTargetPattern: String = $(targetPattern)
+
+  def getSplitPattern: String = $(splitPattern)
 
   def setContextChars(v: Array[String]): this.type = {
     require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
@@ -166,9 +171,9 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     if (processedExceptions.nonEmpty)
       raw.setExceptions(processedExceptions)
 
-    if (isSet(splitChars)) {
-      raw.setSplitChars($(splitChars))
-    }
+    if (isSet(splitPattern)) raw.setSplitPattern($(splitPattern))
+
+    if (isSet(splitChars)) raw.setSplitChars($(splitChars))
 
     raw
 

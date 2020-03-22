@@ -23,6 +23,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed legth for each token")
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each token")
   val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
+  val splitPattern: Param[String] = new Param(this, "splitPattern", "pattern to separate from the inside of tokens. takes priority over splitChars.")
 
   setDefault(
     targetPattern -> "\\S+",
@@ -38,6 +39,9 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
   def getTargetPattern: String = $(targetPattern)
+
+  def setSplitPattern(value: String): this.type = set(splitPattern, value)
+  def getSplitPattern: String = $(splitPattern)
 
   def setExceptions(value: Array[String]): this.type = set(exceptions, value)
   def getExceptions: Array[String] = $(exceptions)
@@ -108,9 +112,12 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
             (1 to m.content.groupCount)
               .flatMap (i => {
                 val target = m.content.group(i)
-                if (target.nonEmpty && isSet(splitChars) && $(splitChars).exists(target.contains)) {
+                val applyPattern = isSet(splitPattern) && (target.split($(splitPattern)).size > 1)
+                val applyChars =  isSet(splitChars) && $(splitChars).exists(target.contains)
+                if (target.nonEmpty && (applyPattern || applyChars)){
                   try {
-                    val strs = target.split($(splitChars).mkString("|"))
+                    val strs = if (applyPattern) target.split($(splitPattern))
+                    else target.split($(splitChars).mkString("|"))
                     strs.map(str =>
                       try {
                         IndexedToken(
