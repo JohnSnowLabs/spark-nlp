@@ -403,4 +403,32 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
         s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}"
     )
   }
+
+  "a Tokenizer" should "work correctly with a split pattern" in {
+    val data = DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to the ground###earth.")
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+      .setSplitPattern("-|#")
+      .fit(data)
+    val expected = Seq(
+      Annotation("token", 0, 4, "Hello", Map("sentence" -> "0")),
+      Annotation("token", 6, 8, "big", Map("sentence" -> "0")),
+      Annotation("token", 10, 13, "city", Map("sentence" -> "0")),
+      Annotation("token", 15, 16, "of", Map("sentence" -> "0")),
+      Annotation("token", 18, 23, "lights", Map("sentence" -> "0")),
+      Annotation("token", 25, 31, "welcome", Map("sentence" -> "0")),
+      Annotation("token", 33, 34, "to", Map("sentence" -> "0")),
+      Annotation("token", 36, 38, "the", Map("sentence" -> "0")),
+      Annotation("token", 40, 45, "ground", Map("sentence" -> "0")),
+      Annotation("token", 49, 53, "earth", Map("sentence" -> "0")),
+      Annotation("token", 54, 54, ".", Map("sentence" -> "0"))
+    )
+    val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
+    assert(
+      result.sameElements(expected),
+      s"because result tokens differ: " +
+        s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}"
+    )
+  }
 }
