@@ -74,6 +74,9 @@ object TensorResources {
     buffer.array()
   }
 
+  def extractInt(source: Tensor[_], size: Option[Int] = None): Int =
+    extractInts(source).head
+
   def extractLongs(source: Tensor[_], size: Option[Int] = None): Array[Long] = {
     val realSize = calculateTensorSize(source ,size)
     val buffer = LongBuffer.allocate(realSize)
