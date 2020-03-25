@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
+import java.util.regex.Pattern
+
 import com.johnsnowlabs.nlp.annotators.common.{InfixToken, PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
@@ -16,8 +18,14 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
   val suffixes = new ArrayFeature[String](this, "suffixes")
   def setSuffixes(s: Array[String]):this.type = set(suffixes, s.sortBy(_.size).reverse)
 
+  val infixes = new ArrayFeature[String](this, "infixes")
+  def setInfixes(s: Array[String]):this.type = set(infixes, s.sortBy(_.size).reverse)
+
+  // these are used with regexes, need escaping
+  setDefault(infixes, () => Array("\n", "(", ")"))
+
   setDefault(prefixes, () => Array("'", "\"", "(", "[", "\n"))
-  setDefault(suffixes, () => Array(".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n"))
+  setDefault(suffixes, () => Array(".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"))
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -33,7 +41,7 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
   }
 
   // hardcoded at this time
-  private lazy val firstPass = Seq(InfixToken(Array("\n")))
+  private lazy val firstPass = Seq(InfixToken($$(infixes)))
 
   private lazy val secondPass = Seq(SuffixedToken($$(suffixes)),
     PrefixedToken($$(prefixes)))
