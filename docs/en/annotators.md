@@ -1066,7 +1066,7 @@ Refer to the [NerDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnow
 
 ```python
 nerTagger = NerDLApproach()\
-    .setInputCols(["sentence", "token"])\
+    .setInputCols(["sentence", "token", "embeddings"])\
     .setLabelColumn("label")\
     .setOutputCol("ner")\
     .setMaxEpochs(10)\
@@ -1077,7 +1077,7 @@ nerTagger = NerDLApproach()\
 
 ```scala
 val nerTagger = new NerDLApproach()
-        .setInputCols("sentence", "token")
+        .setInputCols("sentence", "token", "embeddings")
         .setOutputCol("ner")
         .setLabelColumn("label")
         .setMaxEpochs(120)
