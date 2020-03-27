@@ -1,9 +1,10 @@
 ---
 name: Documentation improvement request
 about: Let us know how our docs could be better
-title: ""
-labels: docs
-assignees: ""
+title: ''
+labels: documentation
+assignees: C-K-Loan, maziyarpanahi
+
 ---
 
 **Link to doc page in question (if any):**
