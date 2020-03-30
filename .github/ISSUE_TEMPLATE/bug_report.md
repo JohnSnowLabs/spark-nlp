@@ -36,6 +36,7 @@ assignees: maziyarpanahi
 <!--- Include as many relevant details about the environment you experienced the bug in -->
 * Spark NLP version:
 * Apache NLP version:
+* Java version (java -version):
 * Setup and installation (Pypi, Conda, Maven, etc.):
 * Operating System and version:
 * Link to your project (if any):
