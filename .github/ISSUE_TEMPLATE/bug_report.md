@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: maziyarpanahi
+
+---
+
 <!--- Provide a general summary of the issue in the Title above -->
 
 ## Description
@@ -13,7 +22,7 @@
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
 
 ## Steps to Reproduce
-<!--- Provide a link to a live example, or an unambiguous set of steps to -->
+<!--- Provide a link to a live example or an unambiguous set of steps to -->
 <!--- reproduce this bug. Include code to reproduce, if relevant -->
 1.
 2.
@@ -27,6 +36,7 @@
 <!--- Include as many relevant details about the environment you experienced the bug in -->
 * Spark NLP version:
 * Apache NLP version:
+* Java version (java -version):
 * Setup and installation (Pypi, Conda, Maven, etc.):
 * Operating System and version:
 * Link to your project (if any):
