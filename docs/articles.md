@@ -22,6 +22,10 @@ Browse through our collection of articles and blog posts to deepen your knowledg
 
 <div>{%- include extensions/slideshare.html id='zjf39rlmmdqJEp' -%}</div>
 
+### [Named Entity Recognition (NER) with BERT in Spark NLP](https://towardsdatascience.com/named-entity-recognition-ner-with-bert-in-spark-nlp-874df20d1d77)
+
+By Veysel Kocaman | **March 04, 2020**
+
 ### [Spark NLP 101: Document Assembler](https://medium.com/spark-nlp/spark-nlp-101-document-assembler-500018f5f6b5)
 
 By Veysel Kocaman | **Oct 14, 2019**
