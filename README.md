@@ -149,6 +149,15 @@ Spark NLP 2.4.4 has been tested and is compatible with the following runtimes:
 * 6.5
 * 6.5 ML
 
+## EMR Support
+
+Spark NLP 2.4.4 has been tsted and is compatible with the following EMR releases:
+
+* 5.26.0
+* 5.27.0
+
+Full list of [EMR releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html).
+
 ## Spark Packages
 
 ### Command line (requires internet connection)
