@@ -5,7 +5,7 @@ import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.ConfigLoader
+import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
@@ -15,12 +15,11 @@ import scala.reflect.ClassTag
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model: HasFeatures, val name: String) extends Serializable {
   model.features.append(this)
 
-  private val config = ConfigLoader.retrieve
+
   private val spark = ResourceHelper.spark
 
-  val serializationMode: String = config.getString("sparknlp.settings.annotatorSerializationFormat")
-  val useBroadcast: Boolean = config.getBoolean("sparknlp.settings.useBroadcastForFeatures")
-
+  val serializationMode: String = ConfigHelper.serializationMode
+  val useBroadcast: Boolean = ConfigHelper.useBroadcast
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
 
   final protected var rawValue: Option[TComplete] = None
