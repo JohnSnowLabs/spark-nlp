@@ -34,8 +34,9 @@ def start(gpu=False):
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
-        .config("spark.driver.memory", "8G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+        .config("spark.driver.memory", "16G") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "1000M")
     if gpu:
         builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.4")
     else:
