@@ -5,6 +5,7 @@
 Overview
 ---------------
 We are very excited to extend Spark NLP support to 6 new Databricks runtimes and add support to Cloudera and EMR YARN cluster-mode.
+As always, we thank our community for their feedback and questions in our Slack channel.
 
 ---------------
 New Features
@@ -26,6 +27,7 @@ Bugfixes
 ----------------
 * Fix ClassifierDLModel save and load in Python
 * Fix ClassifierDL TensorFlow session reuse
+* Fix Normalizer positions of new tokens
 
 ----------------
 Documentation
