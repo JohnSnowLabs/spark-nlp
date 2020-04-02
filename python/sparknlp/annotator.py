@@ -85,6 +85,11 @@ class Tokenizer(AnnotatorApproach):
                          "character list used to separate from token boundaries",
                          typeConverter=TypeConverters.toListString)
 
+    splitPattern = Param(Params._dummy(),
+                         "splitPattern",
+                         "character list used to separate from the inside of tokens",
+                         typeConverter=TypeConverters.toString)
+
     splitChars = Param(Params._dummy(),
                        "splitChars",
                        "character list used to separate from the inside of tokens",
@@ -179,6 +184,9 @@ class Tokenizer(AnnotatorApproach):
         context_chars.append(value)
         return self._set(contextChars=context_chars)
 
+    def setSplitPattern(self, value):
+        return self._set(splitPattern=value)
+
     def setSplitChars(self, value):
         return self._set(splitChars=value)
 
@@ -223,6 +231,11 @@ class TokenizerModel(AnnotatorModel):
                   "Rules structure factory containing pre processed regex rules",
                   typeConverter=TypeConverters.identity)
 
+    splitPattern = Param(Params._dummy(),
+                         "splitPattern",
+                         "character list used to separate from the inside of tokens",
+                         typeConverter=TypeConverters.toString)
+
     splitChars = Param(Params._dummy(),
                        "splitChars",
                        "character list used to separate from the inside of tokens",
@@ -237,6 +250,9 @@ class TokenizerModel(AnnotatorModel):
             targetPattern="\\S+",
             caseSensitiveExceptions=True
         )
+
+    def setSplitPattern(self, value):
+        return self._set(splitPattern=value)
 
     def setSplitChars(self, value):
         return self._set(splitChars=value)
