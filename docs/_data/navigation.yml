@@ -49,6 +49,8 @@ docs-en:
         url:  /docs/en/developers
   - title: Licensed Content
     children:
+      - title:  Installation
+        url:    /docs/en/licensed_install
       - title:  Annotators
         url:    /docs/en/licensed_annotators
       - title:  Models
