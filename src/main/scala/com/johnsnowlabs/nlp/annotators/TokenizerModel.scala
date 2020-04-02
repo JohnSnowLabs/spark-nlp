@@ -84,6 +84,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
       $(exceptions).exists(e => ("(?i)"+e).r.findFirstIn(candidateMatched).isDefined)
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
+    lazy val splitCharsExists = $(splitChars).map(_.last.toString)
     sentences.map{text =>
       /** Step 1, define breaks from non breaks */
       val protectedText = {
@@ -113,7 +114,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
               .flatMap (i => {
                 val target = m.content.group(i)
                 val applyPattern = isSet(splitPattern) && (target.split($(splitPattern)).size > 1)
-                val applyChars =  isSet(splitChars) && $(splitChars).map(_.last.toString).exists(target.contains)
+                val applyChars =  isSet(splitChars) && splitCharsExists.exists(target.contains)
                 if (target.nonEmpty && (applyPattern || applyChars)){
                   try {
                     val strs = if (applyPattern) target.split($(splitPattern))
