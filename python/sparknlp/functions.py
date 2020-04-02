@@ -19,7 +19,7 @@ def map_annotations_strict(f):
 
 
 def map_annotations_col(dataframe: DataFrame, f, column, output_column, output_type):
-    dataframe.withColumn(output_column, map_annotations(f, output_type)(column))
+    return dataframe.withColumn(output_column, map_annotations(f, output_type)(column))
 
 
 def filter_by_annotations_col(dataframe, f, column):
