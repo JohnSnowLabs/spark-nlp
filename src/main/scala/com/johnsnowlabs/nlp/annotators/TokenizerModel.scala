@@ -58,12 +58,12 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   def getMaxLength(value: Int): Int = $(maxLength)
 
   def setSplitChars(v: Array[String]): this.type = {
-    require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
+    require(v.forall(x=>x.length == 1 || (x.length==2 && x.substring(0,1)=="\\")), "All elements in context chars must have length == 1")
     set(splitChars, v)
   }
 
   def addSplitChars(v: String): this.type = {
-    require(v.length == 1, "Context char must have length == 1")
+    require(v.length == 1 || (v.length==2 && v.substring(0,1)=="\\"), "Context char must have length == 1")
     set(splitChars, get(splitChars).getOrElse(Array.empty[String]) :+ v)
   }
 
@@ -84,6 +84,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
       $(exceptions).exists(e => ("(?i)"+e).r.findFirstIn(candidateMatched).isDefined)
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
+    lazy val splitCharsExists = $(splitChars).map(_.last.toString)
     sentences.map{text =>
       /** Step 1, define breaks from non breaks */
       val protectedText = {
@@ -113,7 +114,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
               .flatMap (i => {
                 val target = m.content.group(i)
                 val applyPattern = isSet(splitPattern) && (target.split($(splitPattern)).size > 1)
-                val applyChars =  isSet(splitChars) && $(splitChars).exists(target.contains)
+                val applyChars =  isSet(splitChars) && splitCharsExists.exists(target.contains)
                 if (target.nonEmpty && (applyPattern || applyChars)){
                   try {
                     val strs = if (applyPattern) target.split($(splitPattern))
