@@ -24,31 +24,31 @@ Below, you can follow into a more theoretical and thorough quick start guide.
 
 ## Requirements & Setup
 
-Spark NLP is built on top of **Apache Spark 2.4.4**. This is the **only** supported release.
+Spark NLP is built on top of **Apache Spark 2.4.5**. This is the **only** supported release.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
 To start using the library, execute any of the following lines depending on your desired use case:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 ### Straight forward Python on jupyter notebook
 
 As a first step we import the required python dependences including some sparknlp components.
 
-Be sure that you have the required python libraries (pyspark 2.4.4, spark-nlp 2.4.4) by running pip list. Check that the versions are correct.
+Be sure that you have the required python libraries (pyspark 2.4.4, spark-nlp 2.4.5) by running pip list. Check that the versions are correct.
 
 If some of them is missing you can run:
 
 ```bash
-pip install --ignore-installed pyspark==2.4.4
-pip install --ignore-installed spark-nlp==2.4.4
+pip install --ignore-installed pyspark==2.4.
+pip install --ignore-installed spark-nlp==2.4.5
 ```
 
 Of course you will need to have jupyter installed in your system:
@@ -74,7 +74,7 @@ After a few seconds you should see something like this in your notebook:
 
 ```python
 Version
-    v2.4.4
+    v2.4.5
 Master
     local[*]
 AppName
@@ -89,11 +89,10 @@ If you need more fine tuning, you will have to start SparkSession in your python
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
-    .master('local[4]') \
+    .master('local[*]') \
     .appName('Spark NLP') \
-    .config("spark.driver.memory", "6g") \
-    .config("spark.executor.memory", "6g") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4") \
+    .config("spark.driver.memory", "16g") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5") \
     .getOrCreate()
 ```
 
@@ -126,16 +125,16 @@ notebook with a Spark (including sparknlp) session directly opened by
 running in your terminal:
 
 ```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 ### Spark NLP from Scala
 
 You can start a spark REPL with Scala by running in your terminal a
-spark-shell including the com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4 package:
+spark-shell including the com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5 package:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 ### Databricks cloud cluster & Apache Zeppelin
@@ -143,13 +142,13 @@ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
 Add the following maven coordinates in the dependency configuration page:
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS**_ utilizing --packages instruction shown above like this
 
 ```bash
-export SPARK_SUBMIT_OPTIONS="--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4"
+export SPARK_SUBMIT_OPTIONS="--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5"
 ```
 
 ### S3 based standalone cluster (No Hadoop)
