@@ -60,7 +60,7 @@ class ClassifierDLApproach(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(
-    maxEpochs -> 30,
+    maxEpochs -> 10,
     lr -> 5e-3f,
     dropout -> 0.5f,
     batchSize -> 64,
@@ -83,7 +83,7 @@ class ClassifierDLApproach(override val uid: String)
     val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
 
     val embeddingsField: String = ".embeddings"
-    val inputColumns = (getInputCols(0) + embeddingsField)
+    val inputColumns = getInputCols(0) + embeddingsField
     val train = dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 

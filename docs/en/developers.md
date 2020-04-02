@@ -134,7 +134,7 @@ After you need to add Spark dependencies. Select created Python module and click
 
 ![python libs add](../assets/images/python_libs_add.png)
 
-Choose **Jars or directories...** and find the find installation path of spark (usually the folder name is ``spark-2.4.4-bin-hadoop2.7``). In the Spark folder go to the ``python/libs`` and select ``pyspark.zip`` to the project. Do the same for another file in the same folder - ``py4j-0.10.7-src.zip``.
+Choose **Jars or directories...** and find the find installation path of spark (usually the folder name is ``spark-2.4.5-bin-hadoop2.7``). In the Spark folder go to the ``python/libs`` and select ``pyspark.zip`` to the project. Do the same for another file in the same folder - ``py4j-0.10.7-src.zip``.
 
 ![python libs select](../assets/images/python_libs_select.png)
 ![python libs attached](../assets/images/python_libs_attached.png)

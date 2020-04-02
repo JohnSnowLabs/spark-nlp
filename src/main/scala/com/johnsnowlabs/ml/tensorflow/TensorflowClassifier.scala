@@ -25,6 +25,7 @@ class TensorflowClassifier(
   private val optimizer = s"optimizer_adam_$numClasses/Adam/Assign:0"
   private val cost = s"loss_$numClasses/softmax_cross_entropy_with_logits_sg:0"
   private val accuracy = s"accuracy_$numClasses/mean_accuracy:0"
+  private val initKey = "init_all_tables"
 
   def train(
              inputs: Array[Array[Float]],
@@ -33,12 +34,16 @@ class TensorflowClassifier(
              batchSize: Int = 64,
              dropout: Float = 0.5f,
              startEpoch: Int = 0,
-             endEpoch: Int = 30,
+             endEpoch: Int = 10,
              configProtoBytes: Option[Array[Byte]] = None,
              validationSplit: Float = 0.0f,
              enableOutputLogs: Boolean = false,
              uuid: String = Identifiable.randomUID("classifierdl")
            ): Unit = {
+
+    // Initialize
+    if (startEpoch == 0)
+      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
     val encodedLabels = encoder.encodeTags(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq

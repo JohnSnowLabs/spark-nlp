@@ -10,7 +10,7 @@ use_language_switchter: "Python-Scala"
 
 ## Concepts
 
-Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.4/ml-guide.html) library for more information.
+Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library for more information.
 
 ## Annotation
 
@@ -47,14 +47,14 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 ### Explain Document ML

@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
+John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that scale easily in a distributed environment.
 
 ## Project's website
 
@@ -15,10 +15,12 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 ## Table of contents
 
 * [Features](#features)
+* [Requirements](#requirements)
 * [Quick Start](#quick-start)
+* [Apache Spark Support](#apache-spark-support)
+* [Databricks Support](#databricks-support)
+* [EMR Support](#emr-support)
 * [Using Spark NLP](#usage)  
-  * [Requirements](#requirements)
-  * [Apache Spark Support](#apache-spark-support)
   * [Spark Packages](#spark-packages)
   * [Scala](#scala)
     * [Maven](#maven)
@@ -69,9 +71,26 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * +30 pre-trained models in 6 languages (English, French, German, Italian, Spanish, and Russian)
 * +30 pre-trained pipelines!
 
+## Requirements
+
+In order to use Spark NLP you need the following requirements:
+
+* Java 8
+* Apache Spark 2.4.x
+
 ## Quick Start
 
-This is a quick example of how to use Spark NLP pre-trained pipeline:
+This is a quick example of how to use Spark NLP pre-trained pipeline in Python and PySpark:
+
+```sh
+$ java -version
+# should be Java 8 (Oracle or OpenJDK)
+$ conda create -n sparknlp python=3.6 -y
+$ conda activate sparknlp
+$ pip install spark-nlp==2.4.5 pyspark==2.4.4
+```
+
+In Python console or Jupyter `Python3` kernel:
 
 ```python
 # Import Spark NLP
@@ -107,18 +126,9 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 
 For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
-## Usage
-
-## Requirements
-
-In order to use Spark NLP you need the following requirements:
-
-* Java 8
-* Apache Spark 2.4.x
-
 ## Apache Spark Support
 
-Spark NLP *2.4.4* has been built on top of Apache Spark 2.4.4
+Spark NLP *2.4.5* has been built on top of Apache Spark 2.4.x
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
 |-------------|-----------------------|--------------------|
@@ -134,6 +144,32 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ** We do have the Fat JAR of Spark NLP 2.4.0 release already compiled for `Apache Spark 2.3.x` and it can be downloaded from our S3 [from here](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-2.4.0_spark-2.3.0.jar).
 
+** In case of using Apache Spark 2.3.x, the `.pretrained()` function won't download the models/pipelines automatically. You need to download them manyall and use `.loat()` instead.
+
+## Databricks Support
+
+Spark NLP 2.4.5 has been tested and is compatible with the following runtimes:
+
+* 6.2
+* 6.2 ML
+* 6.3
+* 6.3 ML
+* 6.4
+* 6.4 ML
+* 6.5
+* 6.5 ML
+
+## EMR Support
+
+Spark NLP 2.4.5 has been tsted and is compatible with the following EMR releases:
+
+* 5.26.0
+* 5.27.0
+
+Full list of [EMR releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html).
+
+## Usage
+
 ## Spark Packages
 
 ### Command line (requires internet connection)
@@ -145,20 +181,20 @@ Benefit of spark-packages is that makes it available for both Scala-Java and Pyt
 To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:` to you spark command
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To ues SPark NLP with GPU you can ues dedicated package for GPU `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.4`
+**NOTE**: To use SPark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.5`
 
 ## Scala
 
@@ -173,7 +209,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.4.4</version>
+    <version>2.4.5</version>
 </dependency>
 ```
 
@@ -184,7 +220,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>2.4.4</version>
+    <version>2.4.5</version>
 </dependency>
 ```
 
@@ -194,14 +230,14 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.4.4"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.4.5"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.4"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.5"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -217,7 +253,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.4.4
+pip install spark-nlp==2.4.5
 ```
 
 Conda:
@@ -244,7 +280,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","8G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")\
     .config("spark.kryoserializer.buffer.max", "500m")\
     .getOrCreate()
 ```
@@ -313,7 +349,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 * Add path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -323,7 +359,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.4.4
+pip install spark-nlp==2.4.5
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -348,7 +384,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages JohnSnowLabs:spark-nlp:2.4.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -374,7 +410,7 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install --ignore-installed spark-nlp==2.4.4
+! pip install --ignore-installed spark-nlp==2.4.5
 
 # Quick SparkSession start
 import sparknlp
@@ -459,7 +495,7 @@ annotation.show()
 /*
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.SparkNLP
-2.4.4
+2.4.5
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
 pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_dl,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more fields]
