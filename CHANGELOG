@@ -1,4 +1,40 @@
 ========
+2.4.5
+========
+---------------
+Overview
+---------------
+We are very excited to extend Spark NLP support to 6 new Databricks runtimes and add support to Cloudera and EMR YARN cluster-mode.
+
+---------------
+New Features
+---------------
+* Extend Spark NLP support for Databricks runtimes:
+    * 6.2
+    * 6.2 ML
+    * 6.3
+    * 6.3 ML
+    * 6.4
+    * 6.4 ML
+    * 6.5
+    * 6.5 ML
+* Add support for cluster-mode in Cloudera and EMR YARN clusters
+* New splitPattern param in Tokenizer to split tokens by regex rules
+
+----------------
+Bugfixes
+----------------
+* Fix ClassifierDLModel save and load in Python
+* Fix ClassifierDL TensorFlow session reuse
+
+----------------
+Documentation
+----------------
+* Update documentation for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+========
 2.4.4
 ========
 ---------------
