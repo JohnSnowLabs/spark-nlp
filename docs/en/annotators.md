@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-03-17"
+modify_date: "2020-04-03"
 use_language_switchter: "Python-Scala"
 
 ---
@@ -103,11 +103,12 @@ Identifies tokens with tokenization open standards. A few rules will help custom
 **Functions:**
 
 - setExceptions(StringArray): List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
-- addException(String): Add a single exception 
+- addException(String): Add a single exception
 - setExceptionsPath(String): Path to txt file with list of token exceptions
 - caseSensitiveExceptions(bool): Whether to follow case sensitiveness for matching exceptions in text
 - contextChars(StringArray): List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
 - splitChars(StringArray): List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+- splitPattern (String): pattern to separate from the inside of tokens. takes priority over splitChars.
 - setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space
 - setSuffixPattern: Regex to identify subtokens that are in the end of the token. Regex has to end with `\\z` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
 - setPrefixPattern: Regex to identify subtokens that come in the beginning of the token. Regex has to start with `\\A` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
