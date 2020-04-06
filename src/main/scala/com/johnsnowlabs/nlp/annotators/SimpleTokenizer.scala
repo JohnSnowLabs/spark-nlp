@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import java.util.regex.Pattern
 
 import com.johnsnowlabs.nlp.annotators.common.{InfixToken, PrefixedToken, SuffixedToken}
-import com.johnsnowlabs.nlp.serialization.ArrayFeature
+import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 
@@ -21,11 +21,15 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
   val infixes = new ArrayFeature[String](this, "infixes")
   def setInfixes(s: Array[String]):this.type = set(infixes, s.sortBy(_.size).reverse)
 
+  val whitelist = new SetFeature[String](this, "whitelist")
+  def setWhitelist(wlist: Set[String]):this.type = set(whitelist, wlist)
+
   // these are used with regexes, need escaping
   setDefault(infixes, () => Array("\n", "(", ")"))
-
   setDefault(prefixes, () => Array("'", "\"", "(", "[", "\n"))
   setDefault(suffixes, () => Array(".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"))
+  setDefault(whitelist, () => Set("it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's",
+                                    "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"))
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -36,7 +40,7 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.flatMap { annotation =>
       tokenize(annotation.result).map(token => annotation.
-        copy(result = token, metadata = annotation.metadata.updated("sentence",
+        copy(annotatorType = AnnotatorType.TOKEN, result = token, metadata = annotation.metadata.updated("sentence",
           annotation.metadata.getOrElse("sentence", "0"))))
   }
 
@@ -51,13 +55,22 @@ class SimpleTokenizer(override val uid: String) extends AnnotatorModel[SimpleTok
       var tmp = Seq(token)
 
       firstPass.foreach{ parser =>
-        tmp = tmp.flatMap(t => parser.separate(t).split(" "))
+        tmp = tmp.flatMap{ t =>
+          if(whitelist.getOrDefault.contains(t))
+             Seq(t)
+          else
+            parser.separate(t).split(" ")
+        }
       }
 
       secondPass.foreach{ parser =>
-        tmp = tmp.flatMap(t => parser.separate(t).split(" "))
+        tmp = tmp.flatMap{ t =>
+          if(whitelist.getOrDefault.contains(t))
+            Seq(t)
+          else
+            parser.separate(t).split(" ")
+        }
       }
-
       tmp
   }.filter(!_.equals(""))
 
