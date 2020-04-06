@@ -3,7 +3,7 @@ layout: article
 title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
-modify_date: "2020-02-20"
+modify_date: "2020-04-06"
 ---
 
 ## First: Join our Slack channel
@@ -24,7 +24,10 @@ Below, you can follow into a more theoretical and thorough quick start guide.
 
 ## Requirements & Setup
 
-Spark NLP is built on top of **Apache Spark 2.4.5**. This is the **only** supported release.
+Spark NLP is built on top of **Apache Spark 2.4.4**. In order to use Spark NLP you need the following requirements:
+
+* Java 8
+* Apache Spark 2.4.x
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
