@@ -9,7 +9,7 @@ import scala.collection.JavaConverters._
   * This class is used to calculate ALBERT embeddings for For Sequence Batches of WordpieceTokenizedSentence.
   * Input for this model must be tokenzied with a SentencePieceModel,
   *
-  * This Tensorflow model is using the weights provided by https://tfhub.dev/google/albert_xlarge/3
+  * This Tensorflow model is using the weights provided by https://tfhub.dev/google/albert_base/1
   * * pooled_output: pooled output of the entire sequence with shape [batch_size, hidden_size].
   * * sequence_output: representations of every token in the input sequence with shape [batch_size, max_sequence_length, hidden_size].
   *
