@@ -138,7 +138,7 @@ class AlbertEmbeddings(override val uid: String) extends
 }
 
 trait ReadablePretrainedAlbertModel extends ParamsAndFeaturesReadable[AlbertEmbeddings] with HasPretrained[AlbertEmbeddings] {
-  override val defaultModelName: Some[String] = Some("bert_base_cased")
+  override val defaultModelName: Some[String] = Some("albert_base_uncased")
   /** Java compliant-overrides */
   override def pretrained(): AlbertEmbeddings = super.pretrained()
   override def pretrained(name: String): AlbertEmbeddings = super.pretrained(name)
