@@ -59,10 +59,19 @@ docs-en:
         url:    /docs/en/licensed_models
       - title:  Evaluation
         url:    /docs/en/evaluation
-      - title:  Spark OCR
-        url:  /docs/en/ocr
-      - title:  Spark OCR release notes
-        url:  /docs/en/ocr_release_notes
+  - title: Spark OCR
+    children:
+      - title:  General Concepts
+        url:    /docs/en/ocr
+      - title:  Installation
+        url:    /docs/en/ocr_install
+      - title:  Pipeline components
+        url:    /docs/en/ocr_pipeline_components
+      - title:  Structures and helpers
+        url:    /docs/en/ocr_structures
+      - title:  Release notes
+        url:    /docs/en/ocr_release_notes
+
 
 extras:
   - title:     Extras
