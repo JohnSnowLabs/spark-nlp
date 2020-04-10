@@ -47,6 +47,8 @@ docs-en:
         url: /api/
       - title:  Developers
         url:  /docs/en/developers
+      - title: Release Notes
+        url: /docs/en/release_notes
   - title: Licensed Content
     children:
       - title:  Installation
