@@ -43,15 +43,12 @@ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 
 ### Straight forward Python on jupyter notebook
 
-As a first step we import the required python dependences including some sparknlp components.
-
-Be sure that you have the required python libraries (pyspark 2.4.4, spark-nlp 2.4.5) by running pip list. Check that the versions are correct.
-
-If some of them is missing you can run:
-
 ```bash
-pip install --ignore-installed pyspark==2.4.
-pip install --ignore-installed spark-nlp==2.4.5
+$ java -version
+# should be Java 8 (Oracle or OpenJDK)
+$ conda create -n sparknlp python=3.6 -y
+$ conda activate sparknlp
+$ pip install spark-nlp==2.4.5 pyspark==2.4.4
 ```
 
 Of course you will need to have jupyter installed in your system:
@@ -92,88 +89,14 @@ If you need more fine tuning, you will have to start SparkSession in your python
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
-    .master('local[*]') \
-    .appName('Spark NLP') \
-    .config("spark.driver.memory", "16g") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5") \
+    .appName("Spark NLP")\
+    .master("local[4]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "2G") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")\
+    .config("spark.kryoserializer.buffer.max", "1000M")\
     .getOrCreate()
 ```
-
-### Python Jupyter Notebook with PySpark
-
-You can also run the Jupyter Notebook directly from Pyspark. In such
-case you don't need to open a session, it will be automatically started 
-by pyspark. Just remember to set the SPARK_HOME, PYSPARK_DRIVER_PYTHON and PYSPARK_DRIVER_PYTHON_OPTS environment variables.
-
-```python
-export SPARK_HOME=/path/to/your/spark/folder
-export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS=notebook
-```
-
-To locate your SPARK_FOLDER you can for example run the following in a
-linux system:
-
-```bash
-sudo find -wholename */jars/spark-core_*-2.4.4.jar
-```
-
-The parent folder where this ./jars/spark-core*-2.4.4.jar is your
-SPARK_HOME folder.
-
-In **Microsoft Windows** systems you can search for that file location in the explorer.
-
-Once you have setup those environmental variables you can start a jupyter
-notebook with a Spark (including sparknlp) session directly opened by
-running in your terminal:
-
-```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
-```
-
-### Spark NLP from Scala
-
-You can start a spark REPL with Scala by running in your terminal a
-spark-shell including the com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5 package:
-
-```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
-```
-
-### Databricks cloud cluster & Apache Zeppelin
-
-Add the following maven coordinates in the dependency configuration page:
-
-```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
-```
-
-For Python in **Apache Zeppelin** you may need to setup _**SPARK_SUBMIT_OPTIONS**_ utilizing --packages instruction shown above like this
-
-```bash
-export SPARK_SUBMIT_OPTIONS="--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5"
-```
-
-### S3 based standalone cluster (No Hadoop)
-
-If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS) You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files. First, decide where you want to put your **application.conf** file
-
-```bash
-import com.johnsnowlabs.util.ConfigLoader
-ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
-```
-
-And then we need to put in such application.conf the following content
-
-```json
-sparknlp {
-    settings {
-        cluster_tmp_dir = "somewhere in s3n:// path to some folder"
-    }
-}
-```
-
-For further alternatives and documentation check out our README page in [GitHub](https://github.com/JohnSnowLabs/spark-nlp).
 
 ## Where to go next
 
