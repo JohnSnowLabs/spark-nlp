@@ -1,7 +1,10 @@
 package com.johnsnowlabs.util
 
+import com.johnsnowlabs.nlp.Finisher
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -22,13 +25,47 @@ object CoNLLGenerator {
 
   def exportConllFiles(data: DataFrame, pipelineModel: PipelineModel, outputPath: String): Unit = {
     import data.sparkSession.implicits._ // for row casting
-
     val POSdataset = pipelineModel.transform(data)
 
     val newPOSDataset = POSdataset.select("finished_token", "finished_pos", "finished_token_metadata").
       as[(Array[String], Array[String], Array[(String, String)])]
 
-    val CoNLLDataset = newPOSDataset.flatMap(row => {
+   val CoNLLDataset = makeConLLFormat(newPOSDataset)
+
+    CoNLLDataset.coalesce(1).write.format("com.databricks.spark.csv").
+      option("delimiter", " ").
+      save(outputPath)
+  }
+
+  def exportConllFiles(data: DataFrame, outputPath: String): Unit = {
+    import data.sparkSession.implicits._ // for row casting
+
+    val preModel = PretrainedPipeline("explain_document_ml", lang="en").model
+    val finisher = new Finisher()
+      .setInputCols("token", "pos")
+      .setIncludeMetadata(true)
+    val pipelineModel = new Pipeline().setStages(Array(preModel, finisher)).fit(Seq(
+      "").toDF("text"))
+    val POSdataset = pipelineModel.transform(data)
+
+    val newPOSDataset = POSdataset.select("finished_token", "finished_pos", "finished_token_metadata").
+      as[(Array[String], Array[String], Array[(String, String)])]
+
+    val CoNLLDataset = makeConLLFormat(newPOSDataset)
+    CoNLLDataset.coalesce(1).write.format("com.databricks.spark.csv").
+      option("delimiter", " ").
+      save(outputPath)
+  }
+
+  def exportConllFiles(data: DataFrame, pipelinePath: String, outputPath: String): Unit = {
+    val model = PipelineModel.load(pipelinePath)
+    exportConllFiles(data, model, outputPath)
+  }
+
+  //helper function
+  def makeConLLFormat(newPOSDataset : Dataset[(Array[String], Array[String], Array[(String, String)])]) ={
+    import newPOSDataset.sparkSession.implicits._ //for row casting
+    newPOSDataset.flatMap(row => {
       val newColumns: ArrayBuffer[(String, String, String, String)] = ArrayBuffer()
       val columns = (row._1 zip row._2 zip row._3.map(_._2.toInt)).map{case (a,b) => (a._1, a._2, b)}
       var sentenceId = 1
@@ -44,14 +81,8 @@ object CoNLLGenerator {
       })
       newColumns
     })
-    CoNLLDataset.coalesce(1).write.format("com.databricks.spark.csv").
-      option("delimiter", " ").
-      save(outputPath)
   }
 
-  def exportConllFiles(data: DataFrame, pipelinePath: String, outputPath: String): Unit = {
-    val model = PipelineModel.load(pipelinePath)
-    exportConllFiles(data, model, outputPath)
-  }
+
 
 }
