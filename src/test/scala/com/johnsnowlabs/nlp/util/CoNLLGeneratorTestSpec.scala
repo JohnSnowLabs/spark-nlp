@@ -56,7 +56,7 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
       |super JJ JJ O
       |heroe NN NN O""".stripMargin.replace("\n", "" )
 
-  "The dataframe, pipelinemodel, outputpath generator" should "make the right file" in {
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" in {
     CoNLLGenerator.exportConllFiles(result, ourPipelineModel, "./testcsv")
 
     //read csv, check if it's equal
@@ -78,7 +78,7 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
     assert(fileContents==testText)
   }
 
-  "The dataframe, outputpath generator" should "make the right file" in {
+  "The (dataframe, outputpath) generator" should "make the right file" in {
     CoNLLGenerator.exportConllFiles(result, "./testcsv")
 
     //read csv, check if it's equal
