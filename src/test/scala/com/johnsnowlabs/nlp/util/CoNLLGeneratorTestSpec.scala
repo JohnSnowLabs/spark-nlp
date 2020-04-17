@@ -1,24 +1,16 @@
 package com.johnsnowlabs.nlp.util
 
-import com.johnsnowlabs.nlp.annotator.{NerDLModel, PerceptronModel, SentenceDetector}
-import org.scalatest._
-import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.nlp.annotators.common.Sentence
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-import com.johnsnowlabs.nlp.training.POS
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder, DocumentAssembler, Finisher}
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.explode
-import com.johnsnowlabs.util._
-import org.apache.spark.ml.Pipeline
-
-import scala.reflect.io.Directory
 import java.io.File
 
+import com.johnsnowlabs.nlp.Finisher
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.util._
+import org.apache.spark.ml.Pipeline
+import org.scalatest._
 
 import scala.io.Source
+import scala.reflect.io.Directory
 
 class CoNLLGeneratorTestSpec extends FlatSpec{
   ResourceHelper.spark
