@@ -24,7 +24,7 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
     .setInputCols("token", "pos")
     .setIncludeMetadata(true)
 
-  val ourPipelineModel = new Pipeline()
+  val ourPipelineModelNoNER = new Pipeline()
     .setStages(Array(preModel, finisherNoNER))
     .fit(Seq("").toDF("text"))
 
@@ -33,37 +33,35 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
     (2, "Peter Parker is a super heroe"))
     .toDS.toDF( "_id", "text")
 
-  val result = ourPipelineModel.transform(testing)
+  val resultNoNER = ourPipelineModelNoNER.transform(testing)
 
+
+  val ner = NerDLModel.pretrained("ner_dl")
+    .setInputCols(Array("document", "token", "embeddings"))
+    .setOutputCol("ner")
+
+  val finisherWithNER = new Finisher()
+    .setInputCols("token", "pos", "ner")
+    .setIncludeMetadata(true)
+
+  val ourPipelineModelWithNER = new Pipeline()
+    .setStages(Array(preModel, ner, finisherWithNER))
+    .fit(Seq("").toDF("text"))
+
+  val resultWithNER = ourPipelineModelWithNER.transform(testing)
 
   //TODO: read this from a file?
-  //this is what the output should be
-  val testText = """"" "" "" ""
-      |-DOCSTART- -X- -X- O
-      |"" "" "" ""
-      |"" "" "" ""
-      |Google NNP NNP O
-      |is VBZ VBZ O
-      |a DT DT O
-      |famous JJ JJ O
-      |company NN NN O
-      |"" "" "" ""
-      |-DOCSTART- -X- -X- O
-      |"" "" "" ""
-      |"" "" "" ""
-      |Peter NNP NNP O
-      |Parker NNP NNP O
-      |is VBZ VBZ O
-      |a DT DT O
-      |super JJ JJ O
-      |heroe NN NN O""".stripMargin.replace("\n", "" )
+  //this is what the generator output should be
+  val testText = """"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O""".replace("|", "")
+  val testNERText = """"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O""".replace("|", "")
+
 
   "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" in {
-
     //remove file if it's already there
     val directory = new Directory(new File("./testcsv"))
     directory.deleteRecursively()
-    CoNLLGenerator.exportConllFiles(testing, ourPipelineModel, "./testcsv")
+
+    CoNLLGenerator.exportConllFiles(testing, ourPipelineModelNoNER, "./testcsv")
 
     //read csv, check if it's equal
     def getPath(dir: String): String = {
@@ -72,21 +70,20 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
         .filter(_.getName.endsWith(".csv"))
         .map(_.getPath).head
     }
-
     val filePath = getPath("./testcsv/")
-
     val fileContents = Source.fromFile(filePath).getLines.mkString
-
     directory.deleteRecursively()
 
     assert(fileContents==testText)
   }
+
 
   "The (dataframe, outputpath) generator" should "make the right file" in {
     //remove file if it's already there
     val directory = new Directory(new File("./testcsv"))
     directory.deleteRecursively()
-    CoNLLGenerator.exportConllFiles(result, "./testcsv")
+
+    CoNLLGenerator.exportConllFiles(resultNoNER, "./testcsv")
 
     //read csv, check if it's equal
     def getPath(dir: String): String = {
@@ -95,39 +92,20 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
         .filter(_.getName.endsWith(".csv"))
         .map(_.getPath).head
     }
-
     val filePath = getPath("./testcsv/")
-
     val fileContents = Source.fromFile(filePath).getLines.mkString
-
     directory.deleteRecursively()
 
     assert(fileContents==testText)
   }
 
+
   "The generator" should "make the right file with ners when appropriate" in {
-
-    val ner = NerDLModel.pretrained("ner_dl")
-      .setInputCols(Array("document", "token", "embeddings"))
-      .setOutputCol("ner")
-
-    val finisherWithNER = new Finisher()
-      .setInputCols("token", "pos", "ner")
-      .setIncludeMetadata(true)
-
-    val ourNERPipelineModel = new Pipeline()
-      .setStages(Array(preModel, ner, finisherWithNER))
-      .fit(Seq("").toDF("text"))
-
-    val result = ourNERPipelineModel.transform(testing)
-
-    print(result.show(10, false))
-
     //remove file if it's already there
     val directory = new Directory(new File("./testcsv"))
     directory.deleteRecursively()
 
-    CoNLLGenerator.exportConllFiles(result, "./testcsv")
+    CoNLLGenerator.exportConllFiles(resultWithNER, "./testcsv")
 
     //read csv, check if it's equal
     def getPath(dir: String): String = {
@@ -136,32 +114,10 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
         .filter(_.getName.endsWith(".csv"))
         .map(_.getPath).head
     }
-
     val filePath = getPath("./testcsv/")
-
     val fileContents = Source.fromFile(filePath).getLines.mkString
+    directory.deleteRecursively()
 
-   directory.deleteRecursively()
-
-    val testNERText = """"" "" "" ""
-                        |-DOCSTART- -X- -X- O
-                        |"" "" "" ""
-                        |"" "" "" ""
-                        |Google NNP NNP B-ORG
-                        |is VBZ VBZ O
-                        |a DT DT O
-                        |famous JJ JJ O
-                        |company NN NN O
-                        |"" "" "" ""
-                        |-DOCSTART- -X- -X- O
-                        |"" "" "" ""
-                        |"" "" "" ""
-                        |Peter NNP NNP B-PER
-                        |Parker NNP NNP I-PER
-                        |is VBZ VBZ O
-                        |a DT DT O
-                        |super JJ JJ O
-                        |heroe NN NN O""".stripMargin.replace("\n", "" )
     assert(fileContents==testNERText)
   }
 

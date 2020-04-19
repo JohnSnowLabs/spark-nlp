@@ -32,9 +32,7 @@ object CoNLLGenerator {
 
   def exportConllFiles(data: DataFrame, outputPath: String): Unit = {
     import data.sparkSession.implicits._ //for udf
-
     var dfWithNER = data
-
     //if data does not contain ner column, add "O" as default
     if (Try(data("finished_ner")).isFailure){
       def OArray = (len : Int) => { //create array of $len "O"s
@@ -42,9 +40,7 @@ object CoNLLGenerator {
         for (i <- 0 until z.length) { z(i)="O" }
         z
       }
-
       val makeOArray = data.sparkSession.udf.register("finished_pos", OArray)
-
       dfWithNER=data.withColumn("finished_ner", makeOArray(size(col("finished_pos"))))
     }
 
@@ -55,7 +51,6 @@ object CoNLLGenerator {
       option("delimiter", " ").
       save(outputPath)
   }
-
 
 
   def makeConLLFormat(newPOSDataset : Dataset[(Array[String], Array[String], Array[(String, String)], Array[String])]) ={
