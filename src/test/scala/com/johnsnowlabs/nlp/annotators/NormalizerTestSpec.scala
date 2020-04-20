@@ -22,7 +22,6 @@ class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
   "A full Normalizer pipeline with latin content" should behave like fullNormalizerPipeline(latinBodyData)
   "A Normalizer pipeline with latin content and disabled lowercasing" should behave like lowercasingNormalizerPipeline(latinBodyData)
 
-
   private var data = Seq(
     ("lol", "laugh@out@loud"),
     ("gr8", "great"),

@@ -1,10 +1,7 @@
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-
-/**
-  * Created by saif on 06/07/17.
-  */
 
 class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler]{
 
@@ -14,20 +11,54 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
+  val preservePosition: BooleanParam = new BooleanParam(this, "preservePosition", "Whether to preserve the actual position of the tokens or reduce them to one space")
+  def setPreservePosition(value: Boolean): this.type = set(preservePosition, value)
+
+  setDefault(
+    preservePosition -> false
+  )
+
   def this() = this(Identifiable.randomUID("TOKEN_ASSEMBLER"))
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.groupBy(token => token.result)
-      .map{case (_, sentenceAnnotations) =>
-          Annotation(
-            DOCUMENT,
-            sentenceAnnotations.minBy(_.begin).begin,
-            sentenceAnnotations.maxBy(_.end).end,
-            sentenceAnnotations.map(_.result).mkString(" "),
-            Map.empty[String, String]
-          )
-      }.toSeq
+
+    val sentences = annotations
+      .groupBy(_.metadata.getOrElse("sentence", "0").toInt)
+      .toSeq
+      .sortBy(_._1)
+
+    sentences.map{case (idx, sentence) =>
+      var fullSentence: String = ""
+      var lastEnding: Int = sentence.head.end
+
+      sentence.map{
+        token =>
+          if(token.begin > lastEnding && token.begin - lastEnding != 1){
+            if($(preservePosition)){
+              val spaces = Array.fill((token.begin - lastEnding) - 1)(" ").mkString(" ")
+              fullSentence = fullSentence ++ spaces ++ token.result
+            }else {
+              fullSentence = fullSentence ++ " " ++ token.result
+            }
+          } else{
+            fullSentence = fullSentence ++ token.result
+          }
+          lastEnding = token.end
+          fullSentence
+      }
+      val beginIndex = sentence.head.begin
+      val endIndex = fullSentence.length - 1
+
+      Annotation(
+        DOCUMENT,
+        beginIndex,
+        beginIndex+endIndex,
+        fullSentence,
+        Map("sentence"-> idx.toString)
+      )
+    }
   }
 
 }
+
 object TokenAssembler extends DefaultParamsReadable[TokenAssembler]

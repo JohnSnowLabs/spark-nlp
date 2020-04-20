@@ -1,6 +1,7 @@
 import sys
 from pyspark.sql import SparkSession
 from sparknlp import annotator
+from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
@@ -24,6 +25,8 @@ sys.modules['com.johnsnowlabs.nlp.annotators.parser'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.parser.dep'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.parser.typdep'] = annotator
 sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.classifier'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.classifier.dl'] = annotator
 
 annotators = annotator
 embeddings = annotator
@@ -33,15 +36,16 @@ def start(gpu=False):
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
-        .config("spark.driver.memory", "8G") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+        .config("spark.driver.memory", "16G") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "1000M")
     if gpu:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.2")
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.5")
     else:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2")
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")
         
     return builder.getOrCreate()
 
 
 def version():
-    return '2.4.2'
+    return '2.4.5'

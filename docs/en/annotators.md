@@ -3,14 +3,12 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-02-16"
+modify_date: "2020-04-03"
 use_language_switchter: "Python-Scala"
 
 ---
 
 ## Annotators Guideline
-
-## Annotators
 
 ### How to read this section
 
@@ -46,8 +44,10 @@ The types are:
 - CHUNK = "chunk"
 - POS = "pos"
 - WORD_EMBEDDINGS = "word_embeddings"
+- SENTENCE_EMBEDDINGS = "sentence_embeddings"
 - DATE = "date"
 - ENTITY = "entity"
+- CATEGORY = "category"
 - SENTIMENT = "sentiment"
 - NAMED_ENTITY = "named_entity"
 - DEPENDENCY = "dependency"
@@ -80,6 +80,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |UniversalSentenceEncoder|Encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
+|ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
@@ -102,15 +103,18 @@ Identifies tokens with tokenization open standards. A few rules will help custom
 **Functions:**
 
 - setExceptions(StringArray): List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
-- addException(String): Add a single exception 
+- addException(String): Add a single exception
 - setExceptionsPath(String): Path to txt file with list of token exceptions
 - caseSensitiveExceptions(bool): Whether to follow case sensitiveness for matching exceptions in text
 - contextChars(StringArray): List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
 - splitChars(StringArray): List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+- splitPattern (String): pattern to separate from the inside of tokens. takes priority over splitChars.
 - setTargetPattern: Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space
 - setSuffixPattern: Regex to identify subtokens that are in the end of the token. Regex has to end with `\\z` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
 - setPrefixPattern: Regex to identify subtokens that come in the beginning of the token. Regex has to start with `\\A` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
 - addInfixPattern: Add an extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).
+- minLength: Set the minimum allowed legth for each token
+- maxLength: Set the maximum allowed legth for each token
 
 **Note:** all these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions.  
 
@@ -150,7 +154,7 @@ Removes all dirty characters from text following a regex pattern and transforms 
 **Reference:** [Normalizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Normalizer.scala) | [NormalizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/NormalizerModel.scala)  
 **Functions:**
 
-- setPatterns(patterns): Regular expressions list for normalization, defaults \[^A-Za-z\]
+- setCleanupPatterns(patterns): Regular expressions list for normalization, defaults \[^A-Za-z\]
 - setLowercase(value): lowercase tokens, default true
 - setSlangDictionary(path): txt file with delimited words to be transformed into something else
 
@@ -628,7 +632,9 @@ val sentimentDetector = new ViveknSentimentApproach()
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
+
 **Input types:** Document, Token  
+
 **Reference:** [SentimentDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector.scala) | [SentimentDetectorModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel.scala)  
 **Functions:**
 
@@ -668,18 +674,19 @@ val sentimentDetector = new SentimentDetector
 ### WordEmbeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
+
 **Output type:** Word_Embeddings  
+
 **Input types:** Document, Token  
+
 **Reference:**  [WordEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddings.scala) | [WordEmbeddingsModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.scala)  
 **Functions:**
 
-- setEmbeddingsSource(path, nDims, format): sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. 
+- setStoragePath(path, format): sets [word embeddings](https://en.wikipedia.org/wiki/Word_embedding) options. 
   - path: word embeddings file  
-  - nDims: number of word embeddings dimensions
   - format: format of word embeddings files:
-    - text -> This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
-    - binary -> This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
-    - spark-nlp -> internal format for already serialized embeddings. Use this only when resaving embeddings with Spark NLP
+    - TEXT -> This format is usually used by [Glove](https://nlp.stanford.edu/projects/glove/)
+    - BINARY -> This format is usually used by [Word2Vec](https://code.google.com/archive/p/word2vec/)
 - setCaseSensitive: whether to ignore case in tokens for embeddings matching
 
 **Example:**
@@ -689,23 +696,24 @@ Refer to the [WordEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-word_embeddings = WordEmbeddings() \
-        .setInputCols(["document", "token"])\
-        .setOutputCol("word_embeddings")
-        .setEmbeddingsSource('./embeddings.100d.test.txt', 100, "text")
+embeddings = WordEmbeddings()
+      .setStoragePath("/tmp/glove.6B.100d.txt", "TEXT")\
+      .setDimension(100)\
+      .setStorageRef("glove_100d") \
+      .setInputCols("document", "token") \
+      .setOutputCol("embeddings")
 ```
 
 ```scala
-val wordEmbeddings = new WordEmbeddings()
-        .setInputCols("document", "token")
-        .setOutputCol("word_embeddings")
-        .setEmbeddingsSource("./embeddings.100d.test.txt",
-        100, "text")
+val embeddings = new WordEmbeddings()
+      .setStoragePath("/tmp/glove.6B.100d.txt", "TEXT)
+      .setDimension(100)
+      .setStorageRef("glove_100d") // Use or save this WordEmbeddings with storageRef
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
 ```
 
-There are also two convenient functions
-to retrieve the embeddings coverage with
-respect to the transformed dataset:  
+There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:  
 
 - withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
@@ -717,7 +725,9 @@ BERT (Bidirectional Encoder Representations from Transformers) provides dense ve
 You can find the pre-trained models for `BertEmbeddings` in the [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
 
 **Output type:** Word_Embeddings  
-**Input types:** Document  
+
+**Input types:** Document, Token
+
 **Reference:** [BertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddings.scala)  
 
 Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.BertEmbeddings) Scala docs for more
@@ -747,7 +757,9 @@ Computes contextualized word representations using character-based word represen
 You can find the pre-trained model for `ElmoEmbeddings` in the  [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
 
 **Output type:** Word_Embeddings
-**Input types:** Document  
+
+**Input types:** Document, Token
+
 **Reference:** [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)  
 
 Refer to the [ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings) Scala docs for more
@@ -780,6 +792,10 @@ val elmo = ElmoEmbeddings.pretrained()
 
 The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
 
+**Output type:** SENTENCE_EMBEDDINGS
+
+**Input types:** Document
+
 Refer to the [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder) Scala docs for more
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -803,6 +819,10 @@ This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, or 
 **Functions:**
 
 - `setPoolingStrategy`: Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+
+**Output type:** SENTENCE_EMBEDDINGS
+
+**Input types:** Document
 
 Refer to the [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings) Scala docs for more
 
@@ -865,6 +885,10 @@ This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk e
 
 - `setPoolingStrategy`: Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
 
+**Output type:** CHUNK
+
+**Input types:** CHUNK, Word_Embeddings
+
 Refer to the [ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings) Scala docs for more
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -910,6 +934,50 @@ val convertToVectorUDF = udf((matrix : Seq[Float]) => {
 pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_exploded"))
 .withColumn("features", convertToVectorUDF($"chunk_embeddings_exploded"))
 ```
+
+### ClassifierDL
+
+#### Multi-class Text Classification
+
+ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+
+**NOTE**: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+
+**NOTE**: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+
+**Output type:** CATEGORY
+
+**Input types:** SENTENCE_EMBEDDINGS
+
+Refer to the [ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach) Scala docs for more
+
+Refer to the [ClassifierDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+docClassifier = ClassifierDLApproach()\
+      .setInputCols("sentence_embeddings")\
+      .setOutputCol("category")\
+      .setLabelColumn("label")\
+      .setBatchSize(64)\
+      .setMaxEpochs(20)\
+      .setLr(0.5)\
+      .setDropout(0.5)
+```
+
+```scala
+val docClassifier = new ClassifierDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(64)
+      .setMaxEpochs(20)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+```
+
+Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
 
 ### NER CRF
 
@@ -999,7 +1067,7 @@ Refer to the [NerDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnow
 
 ```python
 nerTagger = NerDLApproach()\
-    .setInputCols(["sentence", "token"])\
+    .setInputCols(["sentence", "token", "embeddings"])\
     .setLabelColumn("label")\
     .setOutputCol("ner")\
     .setMaxEpochs(10)\
@@ -1010,7 +1078,7 @@ nerTagger = NerDLApproach()\
 
 ```scala
 val nerTagger = new NerDLApproach()
-        .setInputCols("sentence", "token")
+        .setInputCols("sentence", "token", "embeddings")
         .setOutputCol("ner")
         .setLabelColumn("label")
         .setMaxEpochs(120)

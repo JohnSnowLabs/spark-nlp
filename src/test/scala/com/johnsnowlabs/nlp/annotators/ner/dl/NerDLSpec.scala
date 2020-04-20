@@ -34,7 +34,7 @@ class NerDLSpec extends FlatSpec {
     }
   }
 
-  "NerDLApproach" should "correctly tag sentences" in {
+  "NerDLApproach" should "correctly tag sentences" ignore {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -100,11 +100,11 @@ class NerDLSpec extends FlatSpec {
     assert(smallGraphFile.endsWith("blstm_10_100_128_120.pb"))
 
     val bigGraphFile = NerDLApproach.searchForSuitableGraph(25, 300, 120)
-    assert(bigGraphFile.endsWith("blstm_30_300_128_600.pb"))
+    assert(bigGraphFile.endsWith("blstm_38_300_128_200.pb"))
 
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 101, 100))
-    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(20, 768, 601))
-    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(31, 100, 101))
+    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(50, 300, 601))
+    assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(40, 512, 101))
   }
 
   "NerDL Approach" should "validate against part of the training dataset" in {

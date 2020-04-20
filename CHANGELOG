@@ -1,4 +1,117 @@
 ========
+2.4.5
+========
+---------------
+Overview
+---------------
+We are very excited to extend Spark NLP support to 6 new Databricks runtimes and add support to Cloudera and EMR YARN cluster-mode.
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+---------------
+New Features
+---------------
+* Extend Spark NLP support for Databricks runtimes:
+    * 6.2
+    * 6.2 ML
+    * 6.3
+    * 6.3 ML
+    * 6.4
+    * 6.4 ML
+    * 6.5
+    * 6.5 ML
+* Add support for cluster-mode in Cloudera and EMR YARN clusters
+* New splitPattern param in Tokenizer to split tokens by regex rules
+
+----------------
+Bugfixes
+----------------
+* Fix ClassifierDLModel save and load in Python
+* Fix ClassifierDL TensorFlow session reuse
+* Fix Normalizer positions of new tokens
+
+----------------
+Documentation
+----------------
+* Update documentation for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+========
+2.4.4
+========
+---------------
+Overview
+---------------
+* We are very excited to release the very first multi-class text classifier in Spark NLP v2.4.4! We have built a generic ClassifierDL annotator that uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes.
+* We are also happy to announce the support of yet another language: Russian! We have trained and prepared 5 pre-trained models and 6 pre-trained pipelines in Russian.
+
+**NOTE**: ClassifierDL is an experimental feature in 2.4.4 release. We have worked hard to aim for simplicity and we are looking forward to your feedback as always.
+
+---------------
+New Features
+---------------
+* Introducing an experimental multi-class text classification by using the DNNs model in TensorFlow called `ClassifierDL`. This annotator can train any dataset from 2 up to 50 classes.
+* 5 new pretrained Russian models (Lemma, POS, 3x NER)
+* 6 new pretrained Russian pipelines
+
+---------------
+Enhancements
+---------------
+* Add param to NerConverter to override modified tokens instead of original tokens
+
+----------------
+Bugfixes
+----------------
+* Fix TokenAssembler
+* Fix NerConverter exception when NerDL is trained with different tagging style than IOB/IOB2
+
+========
+2.4.3
+========
+---------------
+Overview
+---------------
+This minor release fixes a bug on our Python side that was introduced in 2.4.2 release. 
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+----------------
+Bugfixes
+----------------
+* Fix Python imports which resulted in AttributeError: module 'sparknlp' has no attribute 
+
+
+========
+2.4.2
+========
+---------------
+Overview
+---------------
+This minor release fixes a few bugs in some of our annotators reported by our community. 
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+----------------
+Bugfixes
+----------------
+* Fix UniversalSentenceEncoder.pretrained() that failed in Python
+* Fix ElmoEmbeddings.pretrained() that failed in Python
+* Fix ElmoEmbeddings poolingLayer param to be a string as expected
+* Fix ChunkEmbeddings to preserve chunk's index
+* Fix NGramGenerator and missing chunk metadata
+
+---------------
+New Features
+---------------
+* Add GPU support param in Spark NLP start function: sparknlp.start(gpu=true)
+* Improve create_model.py to create custom TF graph for NerDLApproach
+
+----------------
+Documentation
+----------------
+* Update documentation for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+========
 2.4.1
 ========
 ---------------

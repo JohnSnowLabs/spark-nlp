@@ -76,12 +76,6 @@ class ElmoEmbeddings(override val uid: String) extends
     dimension -> 512
   )
 
-  private var tfHubPath: String = ""
-  def setTFhubPath(value: String): Unit = {
-    tfHubPath = value
-  }
-  def getTFhubPath: String = tfHubPath
-
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
@@ -166,12 +160,8 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
 
     val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
-    val Elmo = new ElmoEmbeddings()
+    new ElmoEmbeddings()
       .setModelIfNotSet(spark, wrapper)
-
-    Elmo.setTFhubPath(folder)
-
-    Elmo
   }
 }
 
