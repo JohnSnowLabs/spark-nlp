@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -11,6 +11,9 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+
+  case class TokenizerAndNormalizerMap(beginTokenizer: Int, endTokenizer: Int, token: String,
+                                       beginNormalizer: Int, endNormalizer: Int, normalizer: String)
 
   val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns",
     "normalization regex patterns which match will be removed from token")
@@ -50,9 +53,8 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   protected def getSlangDict: Map[String, String] = $$(slangDict)
 
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
-
-    annotations.flatMap { originalToken =>
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val normalizedAnnotations = annotations.flatMap { originalToken =>
 
       /** slang dictionary keys should have been lowercased if slangMatchCase is false */
       val unslanged = $$(slangDict).get(
@@ -82,6 +84,10 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
       }}
 
     }
+
+    normalizedAnnotations
+
+  }
 
 }
 

@@ -1,0 +1,597 @@
+---
+layout: article
+title: Spark NLP release notes
+permalink: /docs/en/release_notes
+key: docs-release-notes
+modify_date: "2020-04-09"
+---
+
+
+### 2.4.5
+
+#### John Snow Labs Spark-NLP 2.4.5: Supporting more Databricks runtimes and YARN in cluster mode
+
+Overview
+
+We are very excited to extend Spark NLP support to 6 new Databricks runtimes and add support to Cloudera and EMR YARN cluster-mode.
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+New Features
+
+* Extend Spark NLP support for Databricks runtimes:
+  * 6.2
+  * 6.2 ML
+  * 6.3
+  * 6.3 ML
+  * 6.4
+  * 6.4 ML
+  * 6.5
+  * 6.5 ML
+* Add support for cluster-mode in Cloudera and EMR YARN clusters
+* New splitPattern param in Tokenizer to split tokens by regex rules
+
+Bugfixes
+
+* Fix ClassifierDLModel save and load in Python
+* Fix ClassifierDL TensorFlow session reuse
+* Fix Normalizer positions of new tokens
+
+Documentation
+
+* Update documentation for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.4.5
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.4.5
+```
+
+**Spark**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+```
+
+**PySpark**
+```shell
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+```
+
+**Maven**
+```shell
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.4.5</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.5.jar
+
+* GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.5.jar
+
+### 2.4.4
+
+#### John Snow Labs Spark-NLP 2.4.4: The very first native multi-class text classifier and pre-trained models and pipelines in Russian
+
+Overview
+
+* We are very excited to release the very first multi-class text classifier in Spark NLP v2.4.4! We have built a generic ClassifierDL annotator that uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes.
+* We are also happy to announce the support of yet another language: Russian! We have trained and prepared 5 pre-trained models and 6 pre-trained pipelines in Russian.
+
+**NOTE**: ClassifierDL is an experimental feature in 2.4.4 before it becomes stable in 2.4.5 release. We have worked hard to aim for simplicity and we are looking forward to your feedback as always.
+We will add more examples by the upcoming days: 
+
+Examples: [Python](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) and [Scala](https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html#training/3-%20Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.html)
+
+New Features
+
+* Introducing a generic multi-class text classifier: ClassifierDL. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes.
+* 5 new pretrained Russian models (Lemma, POS, 3x NER)
+* 6 new pretrained Russian pipelines
+
+**Models:**
+
+| Model                                  |   name     |   language     |
+|--------------------------|--------------|----------|
+| LemmatizerModel (Lemmatizer) | `lemma `|`ru`|
+| PerceptronModel (POS UD) | `pos_ud_gsd `|`ru`|
+| NerDLModel | `wikiner_6B_100 `|`ru`|
+| NerDLModel | `wikiner_6B_300 `|`ru`|
+| NerDLModel | `wikiner_840B_300 `|`ru`|
+
+**Pipelines:**
+
+| Pipeline                                  |   name     |   language     |
+|--------------------------|--------------|----------|
+| Explain Document (Small) | `explain_document_sm`|`ru`|
+| Explain Document (Medium) | `explain_document_md`|`ru`|
+| Explain Document (Large) | `explain_document_lg`|`ru`|
+| Entity Recognizer (Small) | `entity_recognizer_sm`|`ru`|
+| Entity Recognizer (Medium) | `entity_recognizer_md`|`ru`|
+| Entity Recognizer (Large) | `entity_recognizer_lg`|`ru`|
+
+**Evaluation:**
+
+wikiner_6B_100 with `conlleval.pl`
+|Accuracy         |Precision         |Recall |F1-Score   |
+|-----------------|------------------|-------|-----------|
+|97.76%|88.85%|  88.55%| 88.70
+
+wikiner_6B_300 with `conlleval.pl`
+|Accuracy         |Precision         |Recall |F1-Score   |
+|-----------------|------------------|-------|-----------|
+|97.78%| 89.09% | 88.51%|  88.80
+
+wikiner_840B_300 with `conlleval.pl`
+|Accuracy         |Precision         |Recall |F1-Score   |
+|-----------------|------------------|-------|-----------|
+|97.85%|  89.85%|  89.11%|  89.48
+
+**Example:**
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
+val pipeline = PretrainedPipeline("explain_document_sm", lang="ru")
+
+val testData = spark.createDataFrame(Seq(
+(1, "Пик распространения коронавируса и вызываемой им болезни Covid-19 в Китае прошел, заявил в четверг агентству Синьхуа официальный представитель Госкомитета по гигиене и здравоохранению КНР Ми Фэн.")
+)).toDF("id", "text")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+```
+
+Enhancements
+
+* Add param to NerConverter to override modified tokens instead of original tokens
+* UniversalSentenceEncoder and SentenceEmbeddings are now accepting storageRef
+
+Bugfixes
+
+* Fix TokenAssembler
+* Fix NerConverter exception when NerDL is trained with different tagging style than IOB/IOB2
+* Normalizer now recomputes the index of tokens when it removes characters from a text
+
+Documentation
+
+* Update documentation for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.4.4
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.4.4
+```
+
+**Spark**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+```
+
+**PySpark**
+```shell
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
+```
+
+**Maven**
+```shell
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.4.4</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.4.jar
+
+* GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.4.jar
+
+### 2.4.3
+
+#### John Snow Labs Spark-NLP 2.4.3: Minor bug fix in Python
+
+Overview
+
+This minor release fixes a bug on our Python side that was introduced in 2.4.2 release. As always, we thank our community for their feedback and questions in our Slack channel.
+
+**NOTE**: We highly recommend our Python users to update to 2.4.3 release.
+
+Bugfixes
+
+* Fix Python imports which resulted in AttributeError: module 'sparknlp' has no attribute
+
+Documentation
+
+* Update [documentation](https://nlp.johnsnowlabs.com/) for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+Installation
+
+* PyPI
+
+```
+pip install spark-nlp==2.4.3
+```
+
+* Conda
+
+```
+conda install -c johnsnowlabs spark-nlp==2.4.3
+```
+
+* spark-shell
+
+```
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.3
+```
+
+* PySpark
+
+```
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.3
+```
+
+* Maven
+
+```
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.4.3</version>
+</dependency>
+```
+
+* FAT JARs
+
+**CPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.3.jar
+**GPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.3.jar
+
+### 2.4.2
+
+#### John Snow Labs Spark-NLP 2.4.2: Minor bug fixes and improvements
+
+Overview
+
+This minor release fixes a few bugs in some of our annotators reported by our community. 
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+Bugfixes
+
+* Fix UniversalSentenceEncoder.pretrained() that failed in Python
+* Fix ElmoEmbeddings.pretrained() that failed in Python
+* Fix ElmoEmbeddings poolingLayer param to be a string as expected
+* Fix ChunkEmbeddings to preserve chunk's index
+* Fix NGramGenerator and missing chunk metadata
+
+New Features
+
+* Add GPU support param in Spark NLP start function: sparknlp.start(gpu=true)
+* Improve create_model.py to create custom TF graph for NerDLApproach
+
+Documentation
+
+* Update [documentation](https://nlp.johnsnowlabs.com/) for release of Spark NLP 2.4.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.4.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+Installation
+
+* PyPI
+
+```
+pip install spark-nlp==2.4.2
+```
+
+* Conda
+
+```
+conda install -c johnsnowlabs spark-nlp==2.4.2
+```
+
+* spark-shell
+
+```
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
+```
+
+* PySpark
+
+```
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
+```
+
+* Maven
+
+```
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.4.2</version>
+</dependency>
+```
+
+* FAT JARs
+
+**CPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.2.jar
+**GPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.2.jar
+
+### 2.4.1
+
+#### John Snow Labs Spark-NLP 2.4.1: Bug fixes and the very first Spanish models & pipelines
+
+Overview
+
+This minor release fixes a few bugs in some of the annotators reported by our community.
+As always, we thank our community for their feedback on our Slack channel.
+
+Models & Pipelines
+
+* 5 new pretrained Spanish models (Lemma, POS, 3x NER)
+* 6 new pretrained Spanish pipelines
+
+**Models:**
+
+| Model                                  |   name     |   language     |
+|--------------------------|--------------|----------|
+| LemmatizerModel (Lemmatizer) | `lemma `|`es`|
+| PerceptronModel (POS UD) | `pos_ud_gsd `|`es`|
+| NerDLModel | `wikiner_6B_100 `|`es`|
+| NerDLModel | `wikiner_6B_300 `|`es`|
+| NerDLModel | `wikiner_840B_300 `|`es`|
+
+**Pipelines:**
+
+| Pipeline                                  |   name     |   language     |
+|--------------------------|--------------|----------|
+| Explain Document (Small) | `explain_document_sm`|`es`|
+| Explain Document (Medium) | `explain_document_md`|`es`|
+| Explain Document (Large) | `explain_document_lg`|`es`|
+| Entity Recognizer (Small) | `entity_recognizer_sm`|`es`|
+| Entity Recognizer (Medium) | `entity_recognizer_md`|`es`|
+| Entity Recognizer (Large) | `entity_recognizer_lg`|`es`|
+
+**Evaluation:**
+
+wikiner_6B_100 with `conlleval.pl`
+|Accuracy         |Precision         |Recall |F1-Score   |
+|-----------------|------------------|-------|-----------|
+| 98.35% | 88.97% | 88.64% | 88.80 |
+
+wikiner_6B_300 with `conlleval.pl`
+|Accuracy         |Precision         |Recall |F1-Score   |
+|-----------------|------------------|-------|-----------|
+| 98.38% | 89.42% | 89.03% | 89.22 |
+
+wikiner_840B_300 with `conlleval.pl`
+|Accuracy         |Precision         |Recall |F1-Score   |
+|-----------------|------------------|-------|-----------|
+| 98.46% | 89.74% | 89.43% | 89.58 |
+
+#### Example
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
+val pipeline = PretrainedPipeline("explain_document_sm", lang="es")
+
+val testData = spark.createDataFrame(Seq(
+(1, "Ésta se convertiría en una amistad de por vida, y Peleo, conociendo la sabiduría de Quirón , más adelante le confiaría la educación de su hijo Aquiles."),
+(2, "Durante algo más de 200 años el territorio de la actual Bolivia constituyó la Real Audiencia de Charcas, uno de los centros más prósperos y densamente poblados de los virreinatos españoles.")
+)).toDF("id", "text")
+
+val annotation = pipeline.transform(testData)
+
+annotation.show()
+```
+
+More info on [pre-trained models and pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
+
+Bugfixes
+
+* Improve ChunkEmbeddings annotator and fix the empty chunk result
+* Fix UniversalSentenceEncoder crashing on empty Tensor
+* Fix NorvigSweetingModel missing sentenceId that results in NGramsGenerator crashing
+* Fix missing storageRef in embeddings' column for ElmoEmbeddings annotator
+
+Documentation
+
+* Update documentation for release of Spark NLP 2.4.x
+* Add new features such as ElmoEmbeddings and UniversalSentenceEncoder
+* Add multiple programming languages for demos and examples
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+### 2.4.0
+
+#### John Snow Labs Spark-NLP 2.4.0: New TensorFlow 1.15, Universal Sentence Encoder, Elmo, faster Word Embeddings & more
+
+We are very excited to finally release Spark NLP v2.4.0! This has been one of the largest releases we have ever made since the inception of the library! The new release of Spark NLP `2.4.0` has been migrated to TensorFlow `1.15.0` which takes advantage of the latest deep learning technologies and pre-trained models.
+
+Major features and improvements
+
+* **NEW:** TensorFlow 1.15.0 now works behind Spark NLP. This brings implicit improvements in performance, accuracy, and functionalities
+* **NEW:** UniversalSentenceEncoder annotator with 2 pre-trained models from TF Hub
+* **NEW:** ElmoEmbeddings with a pre-trained model from TF Hub
+* **NEW:** All our pre-trained models are now cross-platform! 
+* **NEW:** For the first time, all the multi-lingual models and pipelines are available for Windows users (French, German and Italian)
+* **NEW:** MultiDateMatcher capable of matching more than one date per sentence (Extends DateMatcher algorithm)
+* **NEW:** BigTextMatcher works best with large amounts of input data
+* BertEmbeddings improvements with 5 new models from TF Hub
+* RecursivePipelineModel as an enhanced PipelineModel allows Annotators to access previous annotators in the pipeline for more ML strategies
+* LazyAnnotators: A new Param in Annotators allows them to stand idle in the Pipeline and do nothing. Can be called by other Annotators in a RecursivePipeline
+* RocksDB is now available as a flexible API called `Storage`. Allows any annotator to have it's own distributed local index database
+* Now our Tensorflow pre-trained models are cross-platform. Enabling multi-language models and other improvements to Windows users.
+* Improved IO performance in general for handling embeddings
+* Improved cache cleanup and GC by liberating open files utilized in RocksDB (to be improved further)
+* Tokenizer and SentenceDetector Params minLength and MaxLength to filter out annotations outside these bounds
+* Tokenizer improvements in splitChars and simplified rules
+* DateMatcher improvements
+* TextMatcher improvements preload algorithm information within the model for faster prediction
+* Annotators the utilize embeddings have now a strict validation to be using exactly the embeddings they were trained with
+* Improvements in the API allow Annotators with Storage to save and load their RocksDB database independently and let it be shared across Annotators and let it be shared across Annotators
+
+Models and Pipelines
+
+Spark NLP `2.4.0` comes with new models including Universal Sentence Encoder, BERT, and Elmo models from TF Hub. In addition, our multilingual pipelines are now available for Windows as same as Linux and macOS users.
+
+| Models              |   Name        |
+|------------------------|---------------|
+|UniversalSentenceEncoder|`tf_use`
+|UniversalSentenceEncoder|`tf_use_lg`
+|BertEmbeddings|`bert_large_cased`
+|BertEmbeddings|`bert_large_uncased`
+|BertEmbeddings|`bert_base_cased`
+|BertEmbeddings|`bert_base_uncased`
+|BertEmbeddings|`bert_multi_cased`
+|ElmoEmbeddings|`elmo`
+|NerDLModel|`onto_100`
+|NerDLModel|`onto_300`
+
+| Pipelines               | Name                   | Language
+| ----------------------- | ---------------------  | ---------|
+| Explain Document Large  | `explain_document_lg`  | fr
+| Explain Document Medium | `explain_document_md`  | fr
+| Entity Recognizer Large | `entity_recognizer_lg` | fr
+| Entity Recognizer Medium| `entity_recognizer_md` | fr
+| Explain Document Large  | `explain_document_lg`  | de
+| Explain Document Medium | `explain_document_md`  | de
+| Entity Recognizer Large | `entity_recognizer_lg` | de
+| Entity Recognizer Medium| `entity_recognizer_md` | de
+| Explain Document Large  | `explain_document_lg`  | it
+| Explain Document Medium | `explain_document_md`  | it
+| Entity Recognizer Large | `entity_recognizer_lg` | it
+| Entity Recognizer Medium| `entity_recognizer_md` | it
+
+Example:
+
+```python
+# Import Spark NLP
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.pretrained import PretrainedPipeline
+import sparknlp
+
+# Start Spark Session with Spark NLP
+# If you already have a SparkSession (Zeppelin, Databricks, etc.) 
+# you can skip this
+spark = sparknlp.start()
+
+# Download a pre-trained pipeline
+pipeline = PretrainedPipeline('explain_document_md', lang='fr')
+
+# Your testing dataset
+text = """
+Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale.
+"""
+
+# Annotate your testing dataset
+result = pipeline.annotate(text)
+ 
+# What's in the pipeline
+list(result.keys())
+# result:
+# ['entities', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence']
+
+# Check the results
+result['entities']
+# entities:
+# ['Emmanuel Jean-Michel Frédéric Macron', 'Jean-Michel Macron', "CHU d'Amiens4", 'Françoise Noguès', 'Sécurité sociale']
+```
+
+Backward incompatibilities
+
+Please note that in `2.4.0` we have added `storageRef` parameter to our `WordEmbeddogs`. This means every `WordEmbeddingsModel` will now have `storageRef` which is also bound to `NerDLModel` trained by that embeddings.
+This assures users won't use a `NerDLModel` with a wrong `WordEmbeddingsModel`.
+
+Example:
+
+```scala
+val embeddings = new WordEmbeddings()
+      .setStoragePath("/tmp/glove.6B.100d.txt", ReadAs.TEXT)
+      .setDimension(100)
+      .setStorageRef("glove_100d") // Use or save this WordEmbeddings with storageRef
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+```
+
+If you save the`WordEmbeddings` model the `storageRef` will be `glove_100d`. If you ever train any `NerDLApproach` the `glove_100d` will bind to that `NerDLModel`.
+
+If you have already `WordEmbeddingsModels` saved from earlier versions, you either need to re-save them with `storageRed` or you can manually add this param in their `metadata/`. The same advice works for the `NerDLModel` from earlier versions.
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.4.0
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.4.0
+```
+
+**Spark**
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+```
+
+**PySpark**
+
+```shell
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.0
+```
+
+**Maven**
+
+```shell
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.4.0</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.0.jar
+
+* GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.0.jar
+
+Bugfixes
+
+* Fixed splitChars in Tokenizer
+* Fixed PretrainedPipeline in Python to allow accessing the inner PipelineModel in the instance
+* Fixes in Chunk and SentenceEmbeddings to better deal with empty cleaned-up Annotations
+
+Documentation and examples
+
+* We have a new Developer section for those who are interested in contributing to Spark NLP
+[Developer](https://nlp.johnsnowlabs.com/docs/en/developers)
+* We have updated our workshop repository with more notebooks
+[Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)

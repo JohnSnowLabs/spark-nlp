@@ -60,6 +60,133 @@ data:
       theme: dark
       background_color: "#123"
 
+    - title: TRUSTED BY
+      trusted: true
+      background_color: "#ffffff"
+      type: grid
+      size: sm
+      children:
+        - title:
+          image: 
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/500px-Microsoft_logo_%282012%29.svg.png
+            url: https://www.microsoft.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/500px-Google_2015_logo.svg.png
+            url: https://cloud.google.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/500px-Amazon_logo.svg.png
+            url: https://amazon.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true        
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Intel-logo.svg/500px-Intel-logo.svg.png
+            url: https://www.intel.com/
+            style: "max-width: 120px; max-height: 120px"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/500px-IBM_logo.svg.png
+            url: https://www.ibm.com/
+            style: "max-width: 150px; max-height: 150px"
+            is_row: true   
+        - title:
+          image:
+            src: https://databricks.com/wp-content/themes/databricks/assets/images/header_logo_2x.png
+            url: https://databricks.com/
+            style: "max-width: 220px; max-height: 220px"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Verizon_2015_logo_-vector.svg/500px-Verizon_2015_logo_-vector.svg.png
+            url: https://www.verizonwireless.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/f/fa/Indeed_logo.png
+            url: https://www.indeed.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true  
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Capital_One_logo.svg/500px-Capital_One_logo.svg.png
+            url: https://www.capitalone.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Viacom_logo.svg/500px-Viacom_logo.svg.png
+            url: https://www.viacbs.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Mck_logo_pos_col_rgb.svg/500px-Mck_logo_pos_col_rgb.svg.png
+            url: https://www.mckesson.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Merck_%26_Co.svg/500px-Merck_%26_Co.svg.png
+            url: https://www.merck.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true    
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Roche_Logo.svg/500px-Roche_Logo.svg.png
+            url: https://www.roche.com/
+            style: "max-width: 180px; max-height: 180px"
+            is_row: true
+        - title: 
+          image:
+            src: https://selectdata.com/wp-content/uploads/2019/12/logo.png
+            url: https://selectdata.com/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title: 
+          image:
+            src: https://www.uipath.com/hs-fs/hubfs/UiReBoot-Logo-TM.jpg?width=3091&name=UiReBoot-Logo-TM.jpg
+            url: https://www.uipath.com/
+            style: "max-width: 250px; max-height: 250px"
+            is_row: true    
+        - title:
+          image:
+            src: https://connection.asco.org/sites/asco_connection/files/styles/article_image/public/pictures/ASCO_March_CancerLinQ.jpg
+            url: https://www.cancerlinq.org/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title: 
+          image:
+            src: https://www.cnrs.fr/themes/custom/cnrs/logo.svg
+            url: https://iscpif.fr/
+            style: "max-width: 120px; max-height: 120px;margin-bottom:10px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Imperial_logo.svg/500px-Imperial_logo.svg.png
+            url: https://www.imperial.ac.uk/
+            style: "max-width: 200px; max-height: 200px;margin-bottom:10px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/6/6b/Georgia_Tech_shortened_logo.png
+            url: https://www.gatech.edu/
+            style: "max-width: 200px; max-height: 200px;margin-bottom:10px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/5/57/Stanford_logo_%282008-2012%29.png
+            url: https://www.stanford.edu/
+            style: "max-width: 200px; max-height: 200px;margin-bottom:10px"
+            is_row: true    
+          
     - title: <h2>Active Community Support</h2>
       theme: dark
       excerpt: 
@@ -73,5 +200,7 @@ data:
         - text: '<iframe src="https://ghbtns.com/github-btn.html?user=johnsnowlabs&repo=spark-nlp&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>'
           type: dark
           url: https://github.com/johnsnowlabs/spark-nlp    
-      background_color: "#0296D8"  
+      background_color: "#0296D8"
+    
+    
 ---

@@ -23,6 +23,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed legth for each token")
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed legth for each token")
   val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
+  val splitPattern: Param[String] = new Param(this, "splitPattern", "pattern to separate from the inside of tokens. takes priority over splitChars.")
 
   setDefault(
     targetPattern -> "\\S+",
@@ -39,6 +40,9 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
   def getTargetPattern: String = $(targetPattern)
 
+  def setSplitPattern(value: String): this.type = set(splitPattern, value)
+  def getSplitPattern: String = $(splitPattern)
+
   def setExceptions(value: Array[String]): this.type = set(exceptions, value)
   def getExceptions: Array[String] = $(exceptions)
 
@@ -54,12 +58,12 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
   def getMaxLength(value: Int): Int = $(maxLength)
 
   def setSplitChars(v: Array[String]): this.type = {
-    require(v.forall(_.length == 1), "All elements in context chars must have length == 1")
+    require(v.forall(x=>x.length == 1 || (x.length==2 && x.substring(0,1)=="\\")), "All elements in context chars must have length == 1")
     set(splitChars, v)
   }
 
   def addSplitChars(v: String): this.type = {
-    require(v.length == 1, "Context char must have length == 1")
+    require(v.length == 1 || (v.length==2 && v.substring(0,1)=="\\"), "Context char must have length == 1")
     set(splitChars, get(splitChars).getOrElse(Array.empty[String]) :+ v)
   }
 
@@ -80,6 +84,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
       $(exceptions).exists(e => ("(?i)"+e).r.findFirstIn(candidateMatched).isDefined)
 
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
+    lazy val splitCharsExists = $(splitChars).map(_.last.toString)
     sentences.map{text =>
       /** Step 1, define breaks from non breaks */
       val protectedText = {
@@ -108,9 +113,12 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
             (1 to m.content.groupCount)
               .flatMap (i => {
                 val target = m.content.group(i)
-                if (target.nonEmpty && isSet(splitChars) && $(splitChars).exists(target.contains)) {
+                val applyPattern = isSet(splitPattern) && (target.split($(splitPattern)).size > 1)
+                val applyChars =  isSet(splitChars) && splitCharsExists.exists(target.contains)
+                if (target.nonEmpty && (applyPattern || applyChars)){
                   try {
-                    val strs = target.split($(splitChars).mkString("|"))
+                    val strs = if (applyPattern) target.split($(splitPattern))
+                    else target.split($(splitChars).mkString("|"))
                     strs.map(str =>
                       try {
                         IndexedToken(
