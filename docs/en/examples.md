@@ -32,6 +32,6 @@ http://localhost:8888/?token=LOOK_INSIDE_YOUR_CONSOLE
 
 ## Notebooks
 
+* [Tutorials and trainings](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials)
 * [Jupyter Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter)
-* [Strata conference](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/strata)
 * [Databricks Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks)
