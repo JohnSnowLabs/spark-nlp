@@ -12,7 +12,7 @@ The following annotators are available by buying a John Snow Labs Spark NLP lice
 They are mostly meant for healthcare applications but other applications have been made with these NLP features.
 Check out www.johnsnowlabs.com for more information.
 
-### AssertionLogReg
+### AssertionLogReg [scaladocs](https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach)
 
 It will classify each clinically relevant named entity into its assertion:
 
@@ -37,7 +37,7 @@ type: "present", "absent", "hypothetical", "conditional",
 - setTargetNerLabels(v)
 ```
 
-### AssertionDL
+### AssertionDL [scaladocs](https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel)
 
 It will classify each clinically relevant named entity into its assertion
 type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.

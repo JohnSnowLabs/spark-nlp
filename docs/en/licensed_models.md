@@ -10,15 +10,12 @@ modify_date: "2020-02-16"
 
 Pretrained Models moved to its own dedicated repository.
 Please follow this link for updated list:
-[https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models#licensed-enterprise)
+[GitHub Repository for Pretrained Models](https://github.com/JohnSnowLabs/spark-nlp-models#licensed-enterprise)
 {:.success}
 
 ### English
 
-`pretrained(name, lang)` function to use
-
-
-It is required to specify 3rd argument to `pretrained(name, lang, loc)` function (location) to add the location of these
+It is required to specify 3rd argument to `pretrained(name, lang, location)` function to add the location of these
 
 | Model                         | Name                                | Build   |                                                                                                                            |                                                                                                                                                                                   |
 |-------------------------------|-------------------------------------|---------|----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
