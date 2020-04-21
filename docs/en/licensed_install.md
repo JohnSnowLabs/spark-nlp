@@ -50,7 +50,7 @@ minute) as the jar from the server needs to be loaded.
 
 The `{secret-url}` / `{secret-code}` tokens are secret 
 strings you should have received from your Customer Owner (CO). If you have
-not received it, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
+not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
 You can either use our convenience function to start your Spark Session that will use standard configuration arguments:
 
