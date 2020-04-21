@@ -1409,7 +1409,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
 
 
 class NerConverter(AnnotatorModel):
-    name = 'Tokenizer'
+    name = 'NerConverter'
 
     whiteList = Param(
         Params._dummy(),
