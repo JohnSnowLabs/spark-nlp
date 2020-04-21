@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>EnsembleEntityResolverApproach - com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach</title>
-          <meta name="description" content="EnsembleEntityResolverApproach - com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach" />
-          <meta name="keywords" content="EnsembleEntityResolverApproach com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach" />
+          <title>EnsembleEntityResolverApproach - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach</title>
+          <meta name="description" content="EnsembleEntityResolverApproach - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach" />
+          <meta name="keywords" content="EnsembleEntityResolverApproach Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -52,7 +52,7 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a model given two Input Annotators of types TOKEN and WORD_EMBEDDINGS,
 coming from ChunkTokenizer and ChunkEmbeddings Annotators</p><p>The returned EnsembleEntityResolverModel consists of two layers:
 - First a TFIDF + OvrLogRegClassifier on top of the TOKEN Annotations
-- Second a set of ChunkEntityResolversModels, one per each different class from the first layer</p><p>This architecture allows Spark NLP's Entity Resolution Architecture to scale to a few millions of rows [codes]
+- Second a set of ChunkEntityResolversModels, one per each different class from the first layer</p><p>This approach allows Spark NLP's Entity Resolution Architecture to scale to a few millions of rows [codes]
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="ensemble/util/StringFunctions.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ensemble.util.StringFunctions">StringFunctions</a>, <a href="ensemble/params/EnsembleApproachResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ensemble.params.EnsembleApproachResolverParams">EnsembleApproachResolverParams</a>, <a href="ensemble/params/EnsembleModelResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ensemble.params.EnsembleModelResolverParams">EnsembleModelResolverParams</a>, <a href="ensemble/params/EnsembleApproachClassifierParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ensemble.params.EnsembleApproachClassifierParams">EnsembleApproachClassifierParams</a>, <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="EnsembleEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">EnsembleEntityResolverModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="EnsembleEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">EnsembleEntityResolverModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -2936,7 +2936,7 @@ coming from ChunkTokenizer and ChunkEmbeddings Annotators</p><p>The returned Ens
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">threshold value for the last distance calculated</p><div class="fullcomment"><div class="comment cmt"><p>threshold value for the last distance calculated</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ensemble/params/EnsembleModelResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ensemble.params.EnsembleModelResolverParams">EnsembleModelResolverParams</a></dd></dl></div>
+      <p class="shortcomment cmt">threshold value for the aggregated distance</p><div class="fullcomment"><div class="comment cmt"><p>threshold value for the aggregated distance</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ensemble/params/EnsembleModelResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ensemble.params.EnsembleModelResolverParams">EnsembleModelResolverParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
