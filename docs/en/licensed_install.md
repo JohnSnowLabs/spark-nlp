@@ -23,7 +23,7 @@ At the moment there is no conda package for Licensed Spark NLP version.
 ### Setup AWS-CLI Credentials for licensed pretrained models
 
 Starting from Licensed version 2.4.2, you need to first setup your AWS credentials 
-to be able to access the private repository for John Snow Labs Pretreind Models. 
+to be able to access the private repository for John Snow Labs Pretrained Models. 
 You can do this setup via Amazon AWS Command Line Interface (AWSCLI).
 
 Instructions about how to install AWSCLI are available at:
