@@ -31,6 +31,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   * [Apache Zeppelin](#apache-zeppelin)
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [Google Colab Notebook](#google-colab-notebook)
+  * [Databricks Cluser](#databricks-cluster)
   * [S3 Cluster](#s3-cluster)  
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
@@ -107,7 +108,7 @@ pipeline = PretrainedPipeline('explain_document_dl', lang='en')
 
 # Your testing dataset
 text = """
-The Mona Lisa is a 16th century oil painting created by Leonardo. 
+The Mona Lisa is a 16th century oil painting created by Leonardo.
 It's held at the Louvre in Paris.
 """
 
@@ -276,12 +277,12 @@ or manually:
 
 ```python
 spark = SparkSession.builder \
-    .appName("ner")\
+    .appName("Spark NLP")\
     .master("local[4]")\
-    .config("spark.driver.memory","8G")\
+    .config("spark.driver.memory","16G")\
     .config("spark.driver.maxResultSize", "2G") \
     .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")\
-    .config("spark.kryoserializer.buffer.max", "500m")\
+    .config("spark.kryoserializer.buffer.max", "1000M")\
     .getOrCreate()
 ```
 
@@ -303,7 +304,7 @@ spark.version
 #download, load, and annotate a text by pre-trained pipeline
 
 pipeline = PretrainedPipeline('recognize_entities_dl', 'en')
-result = pipeline.annotate('Harry Potter is a great movie')
+result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created by Leonardo')
 ```
 
 ## Compiled JARs
@@ -423,6 +424,25 @@ spark.version
 ```
 
 [Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
+
+## Databricks Cluster
+
+1. Create a cluster if you don't have one already
+
+2. On a new cluster or existing one you need to add the following to the `Aadvanced Options -> Spark` tab:
+
+```bash
+spark.kryoserializer.buffer.max 1000M
+spark.serializer org.apache.spark.serializer.KryoSerializer
+```
+
+3. In `Libraries` tab inside your cluster you need to follow these steps:
+
+    3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
+
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5` -> Install
+
+4. Now you can attach your notebook to the cluster and use Spark NLP!
 
 ## S3 Cluster
 
