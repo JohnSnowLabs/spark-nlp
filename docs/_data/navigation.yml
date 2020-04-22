@@ -59,6 +59,8 @@ docs-en:
         url:    /docs/en/licensed_models
       - title:  Evaluation
         url:    /docs/en/evaluation
+      - title: Scaladoc
+        url: /licensed/api/  
   - title: Spark OCR
     children:
       - title:  General Concepts
