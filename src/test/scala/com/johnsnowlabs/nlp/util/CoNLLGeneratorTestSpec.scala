@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.util
 import java.io.File
 
 import com.johnsnowlabs.nlp.Finisher
-import com.johnsnowlabs.nlp.annotators.ner.NerConverter
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
