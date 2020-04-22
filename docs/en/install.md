@@ -3,7 +3,7 @@ layout: article
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2020-02-20"
+modify_date: "2020-02-22"
 ---
 
 ## Spark NLP Cheat Sheet
@@ -69,7 +69,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-## Scala
+## Scala and Java
 
 Our package is deployed to maven central. In order to add this package
 as a dependency in your application:
@@ -112,7 +112,7 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.5"
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
 
-## Spark NLP Databricks
+## Databricks
 
 ### Databricks Support
 
