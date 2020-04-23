@@ -86,7 +86,7 @@ case class PubTator (pubTatorTextCol: String = "text",
       assert(abstr.matches(".+[|]a[|].+")) //second line should be an abstract
       i += 1
       line=lines(i)
-      var fullText = title + abstr
+      var fullText = title.split('|')(2) + " " + abstr.split('|')(2)//.replaceAll("[)]|[(]", " ")
       var actualNERs = ArrayBuffer[Tuple6[String, Int, Int, String, String, String]]() //word, start, end, ner, entitytype, PMID
       //Assemble list of words, NERs found
       while(line != ""){ //Should it be "" or "/n" ?
@@ -101,7 +101,7 @@ case class PubTator (pubTatorTextCol: String = "text",
         else{ typeID = elements(4) }
         val entityID = elements(5)
 
-        val wordsInLine = seg.split(" ")
+        val wordsInLine = seg.split(' ')
         var j = segStart
         for (word <- wordsInLine){
           val wordStart = j
@@ -120,14 +120,14 @@ case class PubTator (pubTatorTextCol: String = "text",
         i += 1
         line=lines(i)
       }
-      print(line)
       i += 1 //do not read blank line
-      line=lines(i)
+      //line=lines(i)
 
 
       //all lines for this pubmed doc have been parsed, words in the chunks have been added.
       //time to add the words not mentioned in the chunks
-      var words = fullText.split(" ") //TODO: this ignores periods, punctuation, etc.. In the future, use a tokenizer.
+      var words = fullText.split(' ')
+      //TODO: this ignores periods, punctuation, etc.. In the future, use a tokenizer.
       var j:Int = 0 //current cursor
       var notYetAdded = ArrayBuffer[(String, Int, Int, String, String, String)]() //word, start, end, ner, entitytype, PMID
       val PMID = actualNERs(0)._6
@@ -137,16 +137,20 @@ case class PubTator (pubTatorTextCol: String = "text",
         val stringEnd = j
         j += 1 //for the space
         var wordAlreadyAdded = false
-        for (tup <- actualNERs){
-          if( (tup._1 == stringStart) && ((tup._2 - stringEnd).abs <= 2) ){
+        val strippedWord = word.replaceAll("[[(][)]?.!:,']", "")
+        for (tup <- actualNERs) {
+          if ((tup._2 - stringStart).abs <=3
+            && ((tup._3 - stringEnd).abs <= 3) &&
+            strippedWord == tup._1.replaceAll("[[(][)]?.!:,']", "")) {
             wordAlreadyAdded = true
           }
-        if (!wordAlreadyAdded){
+        }
+        if (!wordAlreadyAdded && word != ""){
           notYetAdded.append((word, stringStart, stringEnd, "O", "O", PMID))
         }
 
+
       }
-    }
 
       //all words in the pubmed document have been parsed
       //convert to PubTatorDocument
