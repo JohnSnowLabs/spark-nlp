@@ -57,7 +57,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "Bert Embeddings" should "correctly work in a pipeline" ignore {
+  "Bert Embeddings" should "correctly work in a pipeline" in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
