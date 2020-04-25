@@ -60,7 +60,9 @@ docs-en:
       - title:  Evaluation
         url:    /docs/en/evaluation
       - title: Scaladoc
-        url: /licensed/api/  
+        url: /licensed/api/
+      - title: Release Notes
+        url: /docs/en/licensed_release_notes
   - title: Spark OCR
     children:
       - title:  General Concepts
