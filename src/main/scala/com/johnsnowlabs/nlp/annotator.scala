@@ -154,4 +154,7 @@ package object annotator {
 
   type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
   object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel with ReadSentencePieceModel
+
+  type XlnteEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
+  object XlnteEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel
 }
