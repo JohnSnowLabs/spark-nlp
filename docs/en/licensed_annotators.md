@@ -4,6 +4,7 @@ title: Licensed Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
 modify_date: "2020-04-21"
+use_language_switcher: "Python-Scala"
 ---
 
 ## Spark-NLP Licensed
@@ -25,18 +26,36 @@ type: "present", "absent", "hypothetical", "conditional",
 
 **Output type:** `"assertion"`
 
-**Parameter Setters:**
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+logRegAssert = AssertionLogRegApproach()
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setOutputCol("pos") \
+    .setLabelCol("label") \
+    .setMaxIter(26) \
+    .setReg(0.00192) \
+    .setEnet(0.9) \
+    .setBefore(10) \
+    .setAfter(10) \
+    .setStartCol("start") \
+    .setEndCol("end")
 ```
-- setLabelCol(label)
-- setMaxIter(maxiter)
-- setReg(lamda)
-- setEnet(enet)
-- setBefore(before)
-- setAfter(after)
-- setStartCol(s)
-- setEndCol(e)
-- setNerCol(n):
-- setTargetNerLabels(v)
+
+```scala
+val logRegAssert = new AssertionLogRegApproach()
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+    .setOutputCol("pos")
+    .setLabelCol("label")
+    .setMaxIter(26)
+    .setReg(0.00192)
+    .setEnet(0.9)
+    .setBefore(10)
+    .setAfter(10)
+    .setStartCol("start")
+    .setEndCol("end")
 ```
 
 ### AssertionDL 
@@ -50,18 +69,40 @@ type: "present", "absent", "hypothetical", "conditional", "associated_with_other
 
 **Output type:** "assertion"
 
-**Parameter Setters:**
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+dlAssert = AssertionDLApproach() \
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setOutputCol("pos") \
+    .setGraphFolder("path/to/graphs") \
+    .setConfigProtoBytes(b) \
+    .setLabelCol("label") \
+    .setBatchSize(64) \
+    .setEpochs(5) \
+    .setLearningRate(0.001) \
+    .setDropout(0.05) \
+    .setMaxSentLen(250) \
+    .setStartCol("start") \
+    .setEndCol("end")
 ```
-- setGraphFolder(p)
-- setConfigProtoBytes(b)
-- setLabelCol(label)
-- setStartCol(s)
-- setEndCol(e)
-- setBatchSize(size)
-- setEpochs(number)
-- setLearningRate(lamda)
-- setDropout(rate)
-- setMaxSentLen(length):
+
+```scala
+val dlAssert = new AssertionDLApproach()
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+    .setOutputCol("pos")
+    .setGraphFolder("path/to/graphs")
+    .setConfigProtoBytes(b)
+    .setLabelCol("label")
+    .setBatchSize(64)
+    .setEpochs(5)
+    .setLearningRate(0.001)
+    .setDropout(0.05)
+    .setMaxSentLen(250)
+    .setStartCol("start")
+    .setEndCol("end")
 ```
 
 ### Chunk2Token
@@ -73,6 +114,21 @@ Transforms a complete chunk Annotation into a token Annotation without further t
 
 **Output type:** "token"
 
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+chunk2Token = Chunk2Token() \
+    .setInputCols(["chunk"]) \
+    .setOutputCol("token")
+```
+```scala
+val chunk2Token = new Chunk2Token()
+    .setInputCols("chunk")
+    .setOutputCol("token")
+```
+
 ### ChunkEntityResolver
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">Transformer scaladocs</a>
@@ -83,21 +139,49 @@ Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified fr
 
 **Output type:** "resolution"
 
-**Parameter Setters:**
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+resolver = ChunkEntityResolverApproach() \
+    .setInputCols(["chunk_token", "chunk_embeddings"]) \
+    .setOutputCol("token") \
+    .setLabelCol("label") \
+    .setNormalizedCol("normalized") \
+    .setNeighbours(200) \
+    .setAlternatives(25) \
+    .setThreshold(4) \
+    .setExtramassPenalty(1) \
+    .setEnableWmd(True) \
+    .setEnableTfidf(True) \
+    .setEnableJaccard(True) \
+    .setEnableSorensenDice(False) \
+    .setEnableJaroWinkler(False) \
+    .setEnableLevenshtein(False) \
+    .setDistanceWeights([1,3,3,0,0,0]) \
+    .setPoolingStrategy("AVERAGE") \
+    .setMissAsEmpty(True)
 ```
-- setNeighbours($(neighbours))
-- setAlternatives($(alternatives))
-- setThreshold($(threshold))
-- setExtramassPenalty($(extramassPenalty))
-- setEnableWmd($(enableWmd))
-- vsetEnableTfidf($(enableTfidf))
-- setEnableJaccard($(enableJaccard))
-- setEnableSorensenDice($(enableSorensenDice))
-- setEnableJaroWinkler($(enableJaroWinkler))
-- setEnableLevenshtein($(enableLevenshtein))
-- setDistanceWeights($(distanceWeights))
-- setPoolingStrategy($(poolingStrategy))
-- setMissAsEmpty($(missAsEmpty))
+```scala
+val resolver = new ChunkEntityResolverApproach()
+    .setInputCols(Array("chunk_token", "chunk_embeddings"))
+    .setOutputCol("token")
+    .setLabelCol("label")
+    .setNormalizedCol("normalized")
+    .setNeighbours(200)
+    .setAlternatives(25)
+    .setThreshold(4)
+    .setExtramassPenalty(1)
+    .setEnableWmd(true)
+    .setEnableTfidf(true)
+    .setEnableJaccard(true)
+    .setEnableSorensenDice(false)
+    .setEnableJaroWinkler(false)
+    .setEnableLevenshtein(false)
+    .setDistanceWeights(Array(1,3,3,0,0,0))
+    .setPoolingStrategy("AVERAGE")
+    .setMissAsEmpty(true)
 ```
 
 ### EnsembleEntityResolver
@@ -111,31 +195,53 @@ Designed to scale on a sub-log rate compared to the cardinality of the dataset
 
 **Output type:** "resolution"
 
-**Parameter Setters:**
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+resolver = EnsembleEntityResolverApproach() \
+    .setInputCols(["chunk_token", "chunk_embeddings"]) \
+    .setOutputCol("token") \
+    .setClassifierLabelCol("classifier_label") \
+    .setResolverLabelCol("resolver_label") \
+    .setNormalizedCol("normalized") \
+    .setNeighbours(200) \
+    .setAlternatives(25) \
+    .setThreshold(4) \
+    .setExtramassPenalty(1) \
+    .setEnableWmd(True) \
+    .vsetEnableTfidf(True) \
+    .setEnableJaccard(True) \
+    .setEnableSorensenDice(False) \
+    .setEnableJaroWinkler(False) \
+    .setEnableLevenshtein(False) \
+    .setDistanceWeights([1,3,3,0,0,0]) \
+    .setPoolingStrategy("AVERAGE") \
+    .setMissAsEmpty(True)
 ```
-- setClassifierLabelCol
-- setMaxIter
-- setTol
-- setFitIntercept
-- setIdfModelPath
-- setOvrModelPath
-- setClassifierLabels
-- setResolverLabelCol
-- setNormalizedCol
-- setNeighbours
-- setAlternatives
-- setThreshold
-- setExtramassPenalty
-- setEnableWmd
-- vsetEnableTfidf
-- setEnableJaccard
-- setEnableSorensenDice
-- setEnableJaroWinkler
-- setEnableLevenshtein
-- setDistanceWeights
-- setPoolingStrategy
-- setMissAsEmpty
+```scala
+val resolver = new EnsembleEntityResolverApproach()
+    .setInputCols(Array("chunk_token", "chunk_embeddings"))
+    .setOutputCol("token")
+    .setClassifierLabelCol("classifier_label")
+    .setResolverLabelCol("resolver_label")
+    .setNormalizedCol("normalized")
+    .setNeighbours(200)
+    .setAlternatives(25)
+    .setThreshold(4)
+    .setExtramassPenalty(1)
+    .setEnableWmd(true)
+    .vsetEnableTfidf(true)
+    .setEnableJaccard(true)
+    .setEnableSorensenDice(false)
+    .setEnableJaroWinkler(false)
+    .setEnableLevenshtein(false)
+    .setDistanceWeights(Array(1,3,3,0,0,0))
+    .setPoolingStrategy("AVERAGE")
+    .setMissAsEmpty(true)
 ```
+
 ### DocumentLogRegClassifier
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
@@ -144,17 +250,28 @@ A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs
 
 **Output type:** "category"
 
-**Parameter Setters:**
-```
-- setVectorizationModelPath(path_to_tfidfer)
-- setClassificationModelPath(path_to_ovrlrc)
-- setLabelCol(label_col)
-- setMaxIter(int_val)
-- setTol(float_val)
-- setFitIntercept(bool_val)
-- setLabels(label_list)
-```
+**Example:**
 
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+logregClassifier = DocumentLogRegClassifierApproach() \
+    .setInputCols("chunk_token") \
+    .setOutputCol("category") \
+    .setLabelCol("label_col") \
+    .setMaxIter(10) \
+    .setTol(1e-6) \
+    .setFitIntercept(True)
+```
+```scala
+val logregClassifier = new DocumentLogRegClassifierApproach()
+    .setInputCols("chunk_token")
+    .setOutputCol("category")
+    .setLabelCol("label_col")
+    .setMaxIter(10)
+    .setTol(1e-6)
+    .setFitIntercept(true)
+```
 
 ### DeIdentificator
 
