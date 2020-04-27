@@ -126,7 +126,7 @@ class XlnetEmbeddings(override val uid: String) extends
 }
 
 trait ReadablePretrainedXlnetModel extends ParamsAndFeaturesReadable[XlnetEmbeddings] with HasPretrained[XlnetEmbeddings] {
-  override val defaultModelName: Some[String] = Some("xlnet_base")
+  override val defaultModelName: Some[String] = Some("xlnet_base_cased")
   /** Java compliant-overrides */
   override def pretrained(): XlnetEmbeddings = super.pretrained()
   override def pretrained(name: String): XlnetEmbeddings = super.pretrained(name)
