@@ -77,7 +77,6 @@ class XlnetEmbeddings(override val uid: String) extends
           new TensorflowXlnet(
             tensorflow,
             spp,
-            batchSize = $(batchSize),
             configProtoBytes = getConfigProtoBytes
           )
         )
