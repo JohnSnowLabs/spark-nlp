@@ -47,6 +47,8 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
   private val maskIdsKey = "input_mask"
   private val segmentIdsKey = "segment_ids"
   private val outputSequenceKey = "module/seq_out"
+  private val sentenceStartTokenId = Array(2)
+  private val sentenceEndTokenId = Array(3)
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
@@ -122,10 +124,8 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
   }
 
   def calculateEmbeddings(sentences: Seq[TokenizedSentence],
-                          poolingLayer: String,
                           batchSize: Int,
                           maxSentenceLength: Int,
-                          dimension: Int,
                           caseSensitive: Boolean
                          ): Seq[WordpieceEmbeddingsSentence] = {
 
@@ -133,7 +133,8 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
 
       val tokensPiece = tokenize(batch, maxSentenceLength, caseSensitive)
       val tokenIds = tokensPiece.map { sentence =>
-        sentence.flatMap(x => x.tokens.map(x => x.pieceId))
+        val tokens = sentence.flatMap(x => x.tokens.map(x => x.pieceId))
+        sentenceStartTokenId ++ tokens ++ sentenceEndTokenId
       }
       val vectors = tag(tokenIds)
       val tokenIdsVectors = tokenIds.zip(vectors).map { x =>
