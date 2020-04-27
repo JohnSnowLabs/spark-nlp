@@ -178,7 +178,6 @@ class NerDLApproach(override val uid: String)
 
     val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)
-      .setBatchSize($(batchSize))
       .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setIncludeConfidence($(includeConfidence))
       .setStorageRef(embeddingsRef)
