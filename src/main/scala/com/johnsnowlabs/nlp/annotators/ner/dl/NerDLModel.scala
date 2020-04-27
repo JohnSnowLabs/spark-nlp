@@ -28,6 +28,7 @@ class NerDLModel(override val uid: String)
   override val outputAnnotatorType = NAMED_ENTITY
 
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
+  val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
