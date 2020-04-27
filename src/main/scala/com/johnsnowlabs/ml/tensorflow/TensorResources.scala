@@ -32,6 +32,14 @@ class TensorResources {
     result
   }
 
+  def createFloatBufferTensor[T](shape: Array[Long], buf: FloatBuffer): Tensor[_] = {
+
+    val result = Tensor.create(shape, buf)
+
+    tensors.append(result)
+    result
+  }
+
   def createBytesBufferTensor[T](shape: Array[Long], buf: ByteBuffer): Tensor[_] = {
 
     val result = Tensor.create(classOf[String], shape, buf)
@@ -55,6 +63,10 @@ class TensorResources {
   def createIntBuffer(dim: Int): IntBuffer = {
     IntBuffer.allocate(dim)
   }
+
+  def createFloatBuffer(dim: Int): FloatBuffer = {
+    FloatBuffer.allocate(dim)
+  }
 }
 
 object TensorResources {
@@ -63,7 +75,7 @@ object TensorResources {
     size.getOrElse{
       // Calculate real size from tensor shape
       val shape = source.shape()
-      shape.foldLeft(1l)(_*_).toInt
+      shape.foldLeft(1L)(_*_).toInt
     }
   }
 
