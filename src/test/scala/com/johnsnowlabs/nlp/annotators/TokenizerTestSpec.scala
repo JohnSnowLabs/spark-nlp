@@ -354,6 +354,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     val tokenizer = new SimpleTokenizer()
       .setInputCols("doc")
       .setOutputCol("token")
+      .fit(data)
 
     val tokenized = tokenizer.transform(assembled)
     val result = tokenized.select("token").as[Seq[Annotation]].collect.head.map(_.result)

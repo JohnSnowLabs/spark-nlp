@@ -43,6 +43,109 @@ except ImportError:
     pass
 
 
+class SimpleTokenizer(AnnotatorApproach):
+    name = 'SimpleTokenizer'
+
+    prefixes = Param(Params._dummy(),
+                          "prefixes",
+                          "strings to be considered independent tokens when found at the beginning of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    suffixes = Param(Params._dummy(),
+                          "suffixes",
+                          "strings to be considered independent tokens when found at the end of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    infixes = Param(Params._dummy(),
+                          "infixes",
+                          "strings to be considered independent tokens when found in the middle of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    whitelist = Param(Params._dummy(),
+                          "whitelist",
+                          "strings to be considered as single tokens",
+                          typeConverter=TypeConverters.toListString)
+
+    def setPrefixes(self, p):
+        return self._set(prefixes=p)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=s)
+
+    def setInfixes(self, i):
+        return self._set(infixes=i)
+
+    def setWhitelist(self, w):
+        return self._set(whitelist=w)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizer"):
+        super(SimpleTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizer")
+        self._setDefault(
+            prefixes=["'", "\"", "(", "[", "\n"],
+            infixes=["\n", "(", ")"],
+            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
+            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
+                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
+        )
+
+
+    def _create_model(self, java_model):
+        return SimpleTokenizerModel(java_model=java_model)
+
+
+class SimpleTokenizerModel(AnnotatorModel):
+    name = 'SimpleTokenizerModel'
+    '''
+    prefixes = Param(Params._dummy(),
+                          "prefixes",
+                          "strings to be considered independent tokens when found at the beginning of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    suffixes = Param(Params._dummy(),
+                          "suffixes",
+                          "strings to be considered independent tokens when found at the end of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    infixes = Param(Params._dummy(),
+                          "infixes",
+                          "strings to be considered independent tokens when found in the middle of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    whitelist = Param(Params._dummy(),
+                          "whitelist",
+                          "strings to be considered as single tokens",
+                          typeConverter=TypeConverters.toListString)
+
+    def setPrefixes(self, p):
+        return self._set(prefixes=p)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=s)
+
+    def setInfixes(self, i):
+        return self._set(infixes=i)
+
+    def setWhitelist(self, w):
+        return self._set(whitelist=w)
+    '''
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizerModel", java_model=None):
+        super(SimpleTokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        '''
+        self._setDefault(
+            prefixes=["'", "\"", "(", "[", "\n"],
+            infixes=["\n", "(", ")"],
+            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
+            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
+                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
+        )
+        '''
+
+
 class Tokenizer(AnnotatorApproach):
 
     targetPattern = Param(Params._dummy(),
