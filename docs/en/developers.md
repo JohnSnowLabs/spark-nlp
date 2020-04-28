@@ -3,7 +3,7 @@ layout: article
 title: Developers
 permalink: /docs/en/developers
 key: docs-developers
-modify_date: "2020-01-14"
+modify_date: "2020-02-03"
 ---
 
 ## Developers Guideline
@@ -16,10 +16,11 @@ modify_date: "2020-01-14"
 
 #### Import to IntelliJ IDEA
 
-Setup Spark NLP development environment. This section will cover library set up for IntelliJ IDEA. 
+Setup Spark NLP development environment. This section will cover library set up for IntelliJ IDEA.
 
-Before you begin, make sure what you have Java and Spark installed in your system. We suggest that you have installed **jdk 8** and **Apache Spark 2.4.x**. To check installation run 
-```
+Before you begin, make sure what you have Java and Spark installed in your system. We suggest that you have installed **jdk 8** and **Apache Spark 2.4.x**. To check installation run:
+
+```shel
 java -version
 ```
 
@@ -27,7 +28,7 @@ java -version
 
 and
 
-```
+```shell
 spark-submit --version
 ```
 
@@ -39,7 +40,7 @@ Next step is to open IntelliJ IDEA. On the **Welcome to IntelliJ IDEA** screen y
 
 Log in into your github account in pop up. After select from a list Spark NLP repo url:
 
-```
+```shell
 https://github.com/JohnSnowLabs/spark-nlp
 ```
 
@@ -47,7 +48,7 @@ and press *clone* button. If you don't see url in the list, clone or fork repo f
 
 ![Idea choose repo](../assets/images/idea_choose_repo.png)
 
-When the repo cloned IDE will detect SBT file with dependencies. Click **Yes** to start import from sbt. 
+When the repo cloned IDE will detect SBT file with dependencies. Click **Yes** to start import from sbt.
 
 ![Pop up build](../assets/images/pop_up_build.png)
 
@@ -57,7 +58,7 @@ In the **Import from sbt** pop up make sure you have JDK 8 detected. Click **Ok*
 
 If you already had dependences installed you may see the pop up **Not empty folder**, click **Ok** to ignore it and reload resources.
 
-IntelliJ IDEA will be open and it will start syncing SBT project. It make take some time, you will see the progress in the build output panel in the bottom of the screen. To see the project panel in the left press **Alt+1**. 
+IntelliJ IDEA will be open and it will start syncing SBT project. It make take some time, you will see the progress in the build output panel in the bottom of the screen. To see the project panel in the left press **Alt+1**.
 
 ![Idea first screen](../assets/images/idea_first_screen.png)
 
@@ -133,7 +134,7 @@ After you need to add Spark dependencies. Select created Python module and click
 
 ![python libs add](../assets/images/python_libs_add.png)
 
-Choose **Jars or directories...** and find the find installation path of spark (usually the folder name is ``spark-2.4.4-bin-hadoop2.7``). In the Spark folder go to the ``python/libs`` and select ``pyspark.zip`` to the project. Do the same for another file in the same folder - ``py4j-0.10.7-src.zip``.
+Choose **Jars or directories...** and find the find installation path of spark (usually the folder name is ``spark-2.4.5-bin-hadoop2.7``). In the Spark folder go to the ``python/libs`` and select ``pyspark.zip`` to the project. Do the same for another file in the same folder - ``py4j-0.10.7-src.zip``.
 
 ![python libs select](../assets/images/python_libs_select.png)
 ![python libs attached](../assets/images/python_libs_attached.png)
@@ -176,8 +177,20 @@ You can find created jar in the folder ``spark-nlp/python/lib/sparknlp.jar``
 
 *Note: Assembly command creates a fat jars, that includes all dependencies within* 
 
-### Basic Annotator API
 
-### Advanced Annotator API
+#### Compiling pypi, whl
 
-### Python vs Scala
+Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**. 
+
+In the **Name** field put `AssemblyAndCopyForPyPi`. In the **Tasks** field write down `assemblyAndCopyForPyPi`.
+
+Then you go to ``spark-nlp/python/`` directory and run:
+```
+python setup.py sdist bdist_wheel
+```
+
+You can find created `whl` and `tar.gz` in the folder ``spark-nlp/python/dist/``. Use this files to install spark-nlp locally: 
+
+```
+pip install spark_nlp_jsl-2.x.x-py3-none-any.whl
+```
