@@ -2158,6 +2158,58 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
 
 
+class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "AlbertEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings", java_model=None):
+        super(AlbertEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            dimension=768,
+            maxSentenceLength=128
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _AlbertLoader
+        jModel = _AlbertLoader(folder, spark_session._jsparkSession)._java_obj
+        return AlbertEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="albert_base_cased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
+
+
 class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
 
     name = "XlnetEmbeddings"

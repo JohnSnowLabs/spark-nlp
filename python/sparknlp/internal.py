@@ -262,14 +262,17 @@ class _BertLoader(ExtendedJavaWrapper):
 
 class _USELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel",
-                                         path,
-                                         jspark)
+        super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel", path, jspark)
 
 
 class _ElmoLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_ElmoLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings.loadSavedModel", path, jspark)
+
+
+class _AlbertLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AlbertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings.loadSavedModel", path, jspark)
 
 
 class _XlnetLoader(ExtendedJavaWrapper):
