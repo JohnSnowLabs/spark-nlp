@@ -100,10 +100,8 @@ class XlnetEmbeddings(override val uid: String) extends
     if(tokenizedSentences.nonEmpty) {
       val embeddings = getModelIfNotSet.calculateEmbeddings(
         tokenizedSentences,
-        "token_embeddings",
         $(batchSize),
         $(maxSentenceLength),
-        $(dimension),
         $(caseSensitive)
       )
       WordpieceEmbeddingsSentence.pack(embeddings)
