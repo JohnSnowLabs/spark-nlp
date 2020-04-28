@@ -10,7 +10,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
                       configProtoBytes: Option[Array[Byte]] = None
                      ) extends Serializable {
 
-  // keys representing the input and output tensors of the ALBERT model
+  // keys representing the input and output tensors of the XLNet model
   private val tokenIdsKey = "input_ids"
   private val maskIdsKey = "input_mask"
   private val segmentIdsKey = "segment_ids"
@@ -96,10 +96,8 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
   }
 
   def calculateEmbeddings(sentences: Seq[TokenizedSentence],
-                          poolingLayer: String,
                           batchSize: Int,
                           maxSentenceLength: Int,
-                          dimension: Int,
                           caseSensitive: Boolean
                          ): Seq[WordpieceEmbeddingsSentence] = {
 
