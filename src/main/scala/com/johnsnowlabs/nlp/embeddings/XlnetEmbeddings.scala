@@ -66,7 +66,8 @@ class XlnetEmbeddings(override val uid: String) extends
   setDefault(
     batchSize -> 32,
     dimension -> 768,
-    maxSentenceLength -> 128
+    maxSentenceLength -> 128,
+    caseSensitive -> true
   )
 
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {

@@ -17,10 +17,10 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece._
   * All offical Albert releases by google in TF-HUB are supported with this Albert Wrapper:
   *
   * TF-HUB Models :
-  * albert_base     = https://tfhub.dev/google/albert_base/1    |  768-embed-dim,   12-layer,  12-heads, 12M parameters
-  * albert_large    = https://tfhub.dev/google/albert_large/1   |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
-  * albert_xlarge   = https://tfhub.dev/google/albert_xlarge/1  |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
-  * albert_xxlarge  = https://tfhub.dev/google/albert_xxlarge/1 |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
+  * albert_base     = https://tfhub.dev/google/albert_base/2    |  768-embed-dim,   12-layer,  12-heads, 12M parameters
+  * albert_large    = https://tfhub.dev/google/albert_large/2   |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
+  * albert_xlarge   = https://tfhub.dev/google/albert_xlarge/2  |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
+  * albert_xxlarge  = https://tfhub.dev/google/albert_xxlarge/2 |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
   *
   * This model requires input tokenization with SentencePiece model, which is provided by Spark-NLP (See tokenizers package)
   *
@@ -77,7 +77,8 @@ class AlbertEmbeddings(override val uid: String) extends
   setDefault(
     batchSize -> 32,
     dimension -> 768,
-    maxSentenceLength -> 128
+    maxSentenceLength -> 128,
+    caseSensitive -> false
   )
 
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {
@@ -112,10 +113,8 @@ class AlbertEmbeddings(override val uid: String) extends
     if(tokenizedSentences.nonEmpty) {
       val embeddings = getModelIfNotSet.calculateEmbeddings(
         tokenizedSentences,
-        "token_embeddings",
         $(batchSize),
         $(maxSentenceLength),
-        $(dimension),
         $(caseSensitive)
       )
       WordpieceEmbeddingsSentence.pack(embeddings)
