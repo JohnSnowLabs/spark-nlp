@@ -331,7 +331,6 @@ Annotator to match entire phrases (by token) provided in a file against a Docume
 **Functions:**
 
 - setEntities(path, format, options): Provides a file with phrases to match. Default: Looks up path in configuration.  
-- path: a path to a file that contains the entities in the specified format.  
 - readAs: the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.  
 - options: a map of additional parameters. Defaults to {"format": "text"}.
 
