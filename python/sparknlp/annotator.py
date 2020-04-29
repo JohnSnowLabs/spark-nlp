@@ -2205,7 +2205,7 @@ class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitive
         return AlbertEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="albert_base_cased", lang="en", remote_loc=None):
+    def pretrained(name="albert_base_uncased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
 
