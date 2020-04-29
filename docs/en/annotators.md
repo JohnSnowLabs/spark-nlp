@@ -185,7 +185,7 @@ Returns hard-stems out of words with the objective of retrieving the meaningful 
 
 **Example:**
 
-Refer to the []() Scala docs for more details on the API.
+Refer to the [Stemmer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotator.package$$Stemmer$) Scala docs for more details on the API.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
