@@ -10,7 +10,9 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 /**
-  * Annotator that cleans out tokens. Requires stems, hence tokens
+  * Annotator that cleans out tokens. Requires stems, hence tokens.
+  * Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala]] for examples on how to use the API
   * @param uid required internal uid for saving annotator
   */
 class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerModel] {
@@ -34,23 +36,31 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     slangMatchCase -> false
   )
 
+  /** Regular expressions list for normalization, defaults [^A-Za-z] */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
+  /** Regular expressions list for normalization, defaults [^A-Za-z] */
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
+  /** Lowercase tokens, default true */
   def getLowercase: Boolean = $(lowercase)
 
+  /** Lowercase tokens, default true */
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
+  /** Whether to convert string to lowercase or not while checking*/
   def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
 
+  /** Whether to convert string to lowercase or not while checking*/
   def getSlangMatchCase: Boolean = $(slangMatchCase)
 
+  /** Txt file with delimited words to be transformed into something else  */
   def setSlangDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "slang dictionary is a delimited text. needs 'delimiter' in options")
     set(slangDictionary, value)
   }
 
+  /** Txt file with delimited words to be transformed into something else  */
   def setSlangDictionary(path: String,
                          delimiter: String,
                          readAs: ReadAs.Format = ReadAs.TEXT,
