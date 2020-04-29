@@ -68,6 +68,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Named entity recognition (Deep learning)
 * Dependency parsing (Labeled/unlabled)
 * Easy TensorFlow integration
+* GPU Support
 * Full integration with Spark ML functions
 * +30 pre-trained models in 6 languages (English, French, German, Italian, Spanish, and Russian)
 * +30 pre-trained pipelines!
