@@ -17,10 +17,10 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece._
   * All offical Albert releases by google in TF-HUB are supported with this Albert Wrapper:
   *
   * TF-HUB Models :
-  * albert_base     = https://tfhub.dev/google/albert_base/2    |  768-embed-dim,   12-layer,  12-heads, 12M parameters
-  * albert_large    = https://tfhub.dev/google/albert_large/2   |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
-  * albert_xlarge   = https://tfhub.dev/google/albert_xlarge/2  |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
-  * albert_xxlarge  = https://tfhub.dev/google/albert_xxlarge/2 |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
+  * albert_base     = https://tfhub.dev/google/albert_base/3    |  768-embed-dim,   12-layer,  12-heads, 12M parameters
+  * albert_large    = https://tfhub.dev/google/albert_large/3   |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
+  * albert_xlarge   = https://tfhub.dev/google/albert_xlarge/3  |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
+  * albert_xxlarge  = https://tfhub.dev/google/albert_xxlarge/3 |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
   *
   * This model requires input tokenization with SentencePiece model, which is provided by Spark-NLP (See tokenizers package)
   *
@@ -28,6 +28,12 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece._
   * https://arxiv.org/pdf/1909.11942.pdf
   * https://github.com/google-research/ALBERT
   * https://tfhub.dev/s?q=albert
+  *
+  * Tips:
+  *
+  * ALBERT uses repeating layers which results in a small memory footprint,
+  * however the computational cost remains similar to a BERT-like architecture with
+  * the same number of hidden layers as it has to iterate through the same number of (repeating) layers.
   */
 class AlbertEmbeddings(override val uid: String) extends
   AnnotatorModel[AlbertEmbeddings]

@@ -31,7 +31,6 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
     val embeddings = AlbertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
-      .setStorageRef("albert_base_uncased")
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -48,9 +47,7 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
     pipelineDF.select("token.result").show(4, false)
     pipelineDF.select("embeddings.result").show(4, false)
     pipelineDF.select("embeddings.metadata").show(4, false)
-    for(i <- 1 to 10){
-      pipelineDF.select("embeddings.embeddings").show(4, truncate = 300)
-    }
+    pipelineDF.select("embeddings.embeddings").show(4, truncate = 300)
     pipelineDF.select(size(pipelineDF("embeddings.embeddings")).as("embeddings_size")).show
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.select("embeddings").write.mode("overwrite").parquet("./tmp_albert_embeddings")
