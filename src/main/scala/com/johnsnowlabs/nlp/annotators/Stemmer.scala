@@ -11,7 +11,8 @@ import scala.language.postfixOps
   */
 
 /**
-  * Hard stemming of words for cut-of into standard word references
+  * Hard stemming of words for cut-of into standard word references.
+  * See [[ https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StemmerTestSpec.scala ]] for examples of how to use this API
   * @param uid internal uid element for storing annotator into disk
   */
 class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
@@ -25,8 +26,10 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
+  /** Language for text   */
   def setLanguage(value: String): Stemmer = set(language, value)
 
+  /** Language for text   */
   def getLanguage: String = $(language)
 
   def this() = this(Identifiable.randomUID("STEMMER"))
@@ -34,14 +37,14 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
   /** one-to-one stem annotation that returns single hard-stem per token */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.map { tokenAnnotation =>
-        val stem = EnglishStemmer.stem(tokenAnnotation.result)
-        Annotation(
-          outputAnnotatorType,
-          tokenAnnotation.begin,
-          tokenAnnotation.end,
-          stem,
-          tokenAnnotation.metadata
-        )
+      val stem = EnglishStemmer.stem(tokenAnnotation.result)
+      Annotation(
+        outputAnnotatorType,
+        tokenAnnotation.begin,
+        tokenAnnotation.end,
+        stem,
+        tokenAnnotation.metadata
+      )
     }
 
 }
