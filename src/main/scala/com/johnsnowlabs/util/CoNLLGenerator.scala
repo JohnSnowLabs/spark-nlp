@@ -1,11 +1,11 @@
 package com.johnsnowlabs.util
 
-import scala.util.Try
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Try
 
 object CoNLLGenerator {
 
@@ -48,7 +48,7 @@ object CoNLLGenerator {
       as[(Array[String], Array[String], Array[(String, String)], Array[String])]
     val CoNLLDataset = makeConLLFormat(newPOSDataset)
     CoNLLDataset.coalesce(1).write.format("com.databricks.spark.csv").
-      option("delimiter", " ").
+      options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> "")).
       save(outputPath)
   }
 
