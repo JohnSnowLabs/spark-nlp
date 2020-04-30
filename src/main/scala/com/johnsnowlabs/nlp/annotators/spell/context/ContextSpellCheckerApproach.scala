@@ -5,7 +5,6 @@ import java.util
 
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
-import com.johnsnowlabs.licence.Licensed
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
@@ -36,7 +35,7 @@ object CandidateStrategy {
 class ContextSpellCheckerApproach(override val uid: String) extends
   AnnotatorApproach[ContextSpellCheckerModel]
   with HasFeatures
-  with WeightedLevenshtein with Licensed {
+  with WeightedLevenshtein {
 
   override val description: String = "Context Spell Checker"
 
