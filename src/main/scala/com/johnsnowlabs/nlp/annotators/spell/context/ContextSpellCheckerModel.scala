@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.util
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
-import com.johnsnowlabs.licence.Licensed
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization._
@@ -19,7 +18,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   with WeightedLevenshtein
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable
-  with HasTransducerFeatures with Licensed {
+  with HasTransducerFeatures {
 
   private val logger = LoggerFactory.getLogger("ContextSpellCheckerModel")
 
