@@ -17,7 +17,7 @@ class PubTatorTestSpec extends FlatSpec{
     //remove file if it's already there
     val directory = new Directory(new File("./pubtator-conll-test"))
     directory.deleteRecursively()
-    val df = PubTator.readDataset(ResourceHelper.spark, "./spark-nlp/src/test/resources/corpus_pubtator.txt")
+    val df = PubTator.readDataset(ResourceHelper.spark, "./src/test/resources/corpus_pubtator_sample.txt")
     CoNLLGenerator.exportConllFiles(df, "pubtator-conll-test")
     directory.deleteRecursively()
 
