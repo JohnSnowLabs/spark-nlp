@@ -31,8 +31,8 @@ class NerDLApproach(override val uid: String)
 
   override def getLogName: String = "NerDL"
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
-  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  override val outputAnnotatorType:String = NAMED_ENTITY
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  override val outputAnnotatorType: String = NAMED_ENTITY
 
   val lr = new FloatParam(this, "lr", "Learning Rate")
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
@@ -44,6 +44,7 @@ class NerDLApproach(override val uid: String)
   val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
   val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. " +
     "If set used to calculate statistic on it during training.")
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
@@ -57,6 +58,7 @@ class NerDLApproach(override val uid: String)
   def getValidationSplit: Float = $(this.validationSplit)
   def getIncludeConfidence: Boolean = $(includeConfidence)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
+  def getOutputLogsPath: String = $(outputLogsPath)
 
   def setLr(lr: Float):NerDLApproach.this.type = set(this.lr, lr)
   def setPo(po: Float):NerDLApproach.this.type = set(this.po, po)
@@ -69,6 +71,8 @@ class NerDLApproach(override val uid: String)
 
   def setEvaluationLogExtended(evaluationLogExtended: Boolean):NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
   def setEnableOutputLogs(enableOutputLogs: Boolean):NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
+  def setOutputLogsPath(path: String):NerDLApproach.this.type = set(this.outputLogsPath, path)
+
   def setTestDataset(path: String,
                      readAs: ReadAs.Format = ReadAs.SPARK,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
@@ -89,7 +93,8 @@ class NerDLApproach(override val uid: String)
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
-    enableOutputLogs -> false
+    enableOutputLogs -> false,
+    outputLogsPath -> ""
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
@@ -163,6 +168,7 @@ class NerDLApproach(override val uid: String)
         evaluationLogExtended=$(evaluationLogExtended),
         includeConfidence=$(includeConfidence),
         enableOutputLogs=$(enableOutputLogs),
+        outputLogsPath=$(outputLogsPath),
         uuid=this.uid
       )
       model
