@@ -153,4 +153,4 @@ class ClassifierDLApproach(override val uid: String)
   }
 }
 
-object NerDLApproach extends DefaultParamsReadable[ClassifierDLApproach]
+object ClassifierDLApproach extends DefaultParamsReadable[ClassifierDLApproach]
