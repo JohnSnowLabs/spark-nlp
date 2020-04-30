@@ -2087,7 +2087,7 @@ class ClassifierDLApproach(AnnotatorApproach):
                              TypeConverters.toBoolean)
 
     outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
-    
+
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Column with label per each token",
