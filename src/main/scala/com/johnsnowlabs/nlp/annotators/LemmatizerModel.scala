@@ -1,14 +1,26 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 
+
+/**
+  * Class to find standarized lemmas from words. Uses a user-provided or default dictionary.
+  *
+  * Retrieves lemmas out of words with the objective of returning a base dictionary word. Retrieves the significant part of a word
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala]] for examples of how to use this API
+  *
+  * @param uid required internal uid provided by constructor
+  * @@ lemmaDict: A dictionary of predefined lemmas must be provided
+  */
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {
 
+  /** Output annotator type : TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
-
+  /** Input annotator type : TOKEN */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict")

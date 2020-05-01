@@ -331,6 +331,7 @@ Annotator to match entire phrases (by token) provided in a file against a Docume
 **Functions:**
 
 - setEntities(path, format, options): Provides a file with phrases to match. Default: Looks up path in configuration.  
+- path: a path to a file that contains the entities in the specified format.  
 - readAs: the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.  
 - options: a map of additional parameters. Defaults to {"format": "text"}.
 
@@ -601,7 +602,7 @@ Scores a sentence for a sentiment
 
 - setSentimentCol(colname): Column with sentiment analysis row's result for training. If not set, external sources need to be set instead.
 - setSentimentCol(colname): column with the sentiment result of every row. Must be 'positive' or 'negative'
-- setPruneCorpus(true): when training on small data you may want to disable this to not cut off infrequent words
+- setCorpusPrune(true): when training on small data you may want to disable this to not cut off infrequent words
 
 **Input:** File or folder of text files of positive and negative data  
 **Example:**

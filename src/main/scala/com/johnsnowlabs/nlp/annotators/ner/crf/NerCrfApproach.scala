@@ -8,48 +8,87 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.storage.HasStorageRef
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.Dataset
 
 /*
-  Algorithm for training Named Entity Recognition Model.
+
    */
+
+/**
+  * Algorithm for training Named Entity Recognition Model
+  *
+  * This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
+  * Optionally the user can provide an entity dictionary file for better accuracy
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf]] for further reference on this API.
+  */
 class NerCrfApproach(override val uid: String)
   extends AnnotatorApproach[NerCrfModel]
     with NerApproach[NerCrfApproach] {
 
   def this() = this(Identifiable.randomUID("NER"))
 
+  /** CRF based Named Entity Recognition Tagger */
   override val description = "CRF based Named Entity Recognition Tagger"
+
+  /** Input annotator types : DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS */
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
+  /** Input annotator types : NAMED_ENTITY */
   override val outputAnnotatorType = NAMED_ENTITY
 
+  /** L2 regularization coefficient */
   val l2 = new DoubleParam(this, "l2", "L2 regularization coefficient")
+  /** c0 params defining decay speed for gradient */
   val c0 = new IntParam(this, "c0", "c0 params defining decay speed for gradient")
+  /** If Epoch relative improvement less than eps then training is stopped */
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
+  /** Features with less weights then this param value will be filtered */
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
+  /** includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
+  /** Additional dictionaries to use as a features */
   val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
+  /** L2 regularization coefficient */
   def setL2(l2: Double): this.type = set(this.l2, l2)
+
+  /** c0 params defining decay speed for gradient  */
   def setC0(c0: Int): this.type = set(this.c0, c0)
+
+  /** If Epoch relative improvement less than eps then training is stopped */
   def setLossEps(eps: Double): this.type = set(this.lossEps, eps)
+
+  /** Features with less weights then this param value will be filtered */
   def setMinW(w: Double): this.type = set(this.minW, w)
+
+  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
 
+  /** L2 regularization coefficient */
   def getL2: Double = $(l2)
+
+  /** c0 params defining decay speed for gradient  */
   def getC0: Int = $(c0)
+
+  /** If Epoch relative improvement less than eps then training is stopped */
   def getLossEps: Double = $(lossEps)
+
+  /** Features with less weights then this param value will be filtered */
   def getMinW: Double = $(minW)
+
+  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
+  /** Additional dictionaries to use as a features */
   def setExternalFeatures(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "external features is a delimited text. needs 'delimiter' in options")
     set(externalFeatures, value)
   }
 
+  /** Additional dictionaries to use as a features */
   def setExternalFeatures(path: String,
                           delimiter: String,
                           readAs: ReadAs.Format = ReadAs.TEXT,

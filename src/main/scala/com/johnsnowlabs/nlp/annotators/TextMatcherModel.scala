@@ -1,13 +1,13 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.collections.SearchTrie
-import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param.BooleanParam
+import org.apache.spark.ml.util.Identifiable
 
-import annotation.{tailrec => tco}
+import scala.annotation.{tailrec => tco}
 import scala.collection.mutable.ArrayBuffer
 
 /**
@@ -25,10 +25,13 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
   val searchTrie = new StructFeature[SearchTrie](this, "searchTrie")
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
 
+  /** SearchTrie of Tokens */
   def setSearchTrie(value: SearchTrie): this.type = set(searchTrie, value)
 
+  /** Whether to merge overlapping matched chunks. Defaults false */
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
+  /** Whether to merge overlapping matched chunks. Defaults false */
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
   /** internal constructor for writabale annotator */

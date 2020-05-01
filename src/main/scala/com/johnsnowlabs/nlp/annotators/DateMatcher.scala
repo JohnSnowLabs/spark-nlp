@@ -1,14 +1,21 @@
 package com.johnsnowlabs.nlp.annotators
 
 import java.text.SimpleDateFormat
-
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import java.util.Calendar
 
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Matches standard date formats into a provided format
+  * Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.
+  *
+  * Reads the following kind of dates:
+  *
+  * 1978-01-28, 1984/04/02,1/02/1980, 2/28/79, The 31st of April in the year 2008, "Fri, 21 Nov 1997" , "Jan 21, ‘97" , Sun, Nov 21, jan 1st, next thursday, last wednesday, today, tomorrow, yesterday, next week, next month, next year, day after, the day before, 0600h, 06:00 hours, 6pm, 5:30 a.m., at 5, 12:59, 23:59, 1988/11/23 6pm, next week at 7.30, 5 am tomorrow
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala]] for further reference on how to use this API
+  *
   * @param uid internal uid required to generate writable annotators
   * @@ dateFormat: allows to define expected output format. Follows SimpleDateFormat standard.
   */
@@ -16,8 +23,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Output annotator type: DATE */
   override val outputAnnotatorType: AnnotatorType = DATE
 
+  /** Input annotator type: DOCUMENT */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Internal constructor to submit a random UID */

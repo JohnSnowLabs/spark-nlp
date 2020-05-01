@@ -11,6 +11,10 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 import org.slf4j.LoggerFactory
 
+/** Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep]] for further reference on how to use this API.
+  * */
 class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
 
   override val description: String =
@@ -20,28 +24,37 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
+  /** Dependency treebank source files */
   val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
+  /** Universal Dependencies source files */
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
+  /** Number of iterations in training, converges to better accuracy */
   val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
 
+
+  /** Dependency treebank folder with files in [[ http://www.nltk.org/nltk_data/ Penn Treebank format]] */
   def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                             options: Map[String, String] = Map.empty[String, String]): this.type =
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
 
+  /** Path to a file in [[https://universaldependencies.org/format.html CoNLL-U format]] */
   def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                 options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
+  /** Number of iterations in training, converges to better accuracy */
   def setNumberOfIterations(value: Int): this.type = set(numberOfIterations, value)
 
   setDefault(dependencyTreeBank, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
   setDefault(conllU, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
+  /** Number of iterations in training, converges to better accuracy */
   def getNumberOfIterations: Int = $(numberOfIterations)
 
+  /** Output annotation type : DEPENDENCY */
   override val outputAnnotatorType:String = DEPENDENCY
-
+  /** Input annotation type : DOCUMENT, POS, TOKEN */
   override val inputAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
   private lazy val conllUAsArray = ResourceHelper.parseLines($(conllU))
@@ -102,6 +115,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     }
   }
 
+  /** Gets a list of ConnlU training sentences */
   def getTrainingSentences: List[Sentence] = {
     if ($(dependencyTreeBank).path != ""){
       val filesContentTreeBank = getFilesContentTreeBank
@@ -111,6 +125,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
     }
   }
 
+  /** Gets a iterable TreeBank */
   def  getFilesContentTreeBank: Seq[Iterator[String]] = ResourceHelper.getFilesContentBuffer($(dependencyTreeBank))
 
   def getTrainingSentencesFromConllU(conllUAsArray: Array[String]): List[Sentence] = {

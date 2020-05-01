@@ -1,9 +1,32 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
+
 import scala.collection.JavaConverters._
 
-
+/**
+  * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
+  *
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]] for further reference on how to use this API.
+  * Sources:
+  *
+  *
+  * 0  : corresponds to first layer (embeddings)
+  *
+  * -1 :  corresponds to last layer
+  *
+  * 2  :  second-to-last layer
+  *
+  * @param tensorflow           Bert Model wrapper with TensorFlow Wrapper
+  * @param sentenceStartTokenId Id of sentence start Token
+  * @param sentenceEndTokenId   Id of sentence end Token.
+  * @param configProtoBytes     Configuration for TensorFlow session
+  *
+  *                             Paper:  [[ https://arxiv.org/abs/1810.04805]]
+  *
+  *                             Source:  [[https://github.com/google-research/bert]]
+  **/
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,

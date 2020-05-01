@@ -9,35 +9,43 @@ import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-class TypedDependencyParserApproach(override val uid: String) extends AnnotatorApproach[TypedDependencyParserModel]{
 
+/** Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep ]] for further reference on this API.
+  * */
+class TypedDependencyParserApproach(override val uid: String) extends AnnotatorApproach[TypedDependencyParserModel] {
 
-  override val description: String =
-    "Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence"
-  override val outputAnnotatorType:String = LABELED_DEPENDENCY
+  /** Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence */
+  override val description: String = "Typed Dependency Parser is a labeled parser that finds a grammatical relation between two words in a sentence"
+  /** Input annotation type : LABELED_DEPENDENCY */
+  override val outputAnnotatorType: String = LABELED_DEPENDENCY
+  /** Input annotation type : TOKEN, POS, DEPENDENCY */
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
   def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
-  val numberOfIterations = new IntParam(this, "numberOfIterations",
-    "Number of iterations in training, converges to better accuracy")
-
-  val conll2009 = new ExternalResourceParam(this, "conll2009",
-      "Path to file with CoNLL 2009 format")
-
+  /** Number of iterations in training, converges to better accuracy */
+  val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
+  /** Path to file with CoNLL 2009 format */
+  val conll2009 = new ExternalResourceParam(this, "conll2009", "Path to file with CoNLL 2009 format")
+  /** Universal Dependencies source files */
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
 
   //TODO: Enable more training parameters from Options
 
+  /** Path to a file in [[https://ufal.mff.cuni.cz/conll2009-st/trial-data.html CoNLL 2009 format]] */
   def setConll2009(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                    options: Map[String, String] = Map.empty[String, String]): this.type = {
     set(conll2009, ExternalResource(path, readAs, options))
   }
 
+  /** Path to a file in [[https://universaldependencies.org/format.html CoNLL-U format]] */
   def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                 options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
+  /** Number of iterations in training, converges to better accuracy */
   def setNumberOfIterations(value: Int): this.type  = set(numberOfIterations, value)
 
   setDefault(conll2009, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))

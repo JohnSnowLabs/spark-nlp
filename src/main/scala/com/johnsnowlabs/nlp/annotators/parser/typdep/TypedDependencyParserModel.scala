@@ -8,20 +8,26 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAn
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-
-class
-TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
+/** Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep ]] for further reference on this API.
+  * */
+class TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
 
   def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
+  /** Outputs column type LABELED_DEPENDENCY */
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
+  /** Input requires column types TOKEN, POS, DEPENDENCY */
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
+  /** Training options */
   val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "trainOptions")
   val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "trainParameters")
   val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "trainDependencyPipe")
   val conllFormat: Param[String] = new Param[String](this, "conllFormat", "CoNLL Format")
 
+  /** Training options */
   def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
   def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type = set(trainDependencyPipe, targetDependencyPipe)
   def setConllFormat(value: String): this.type = set(conllFormat, value)

@@ -8,6 +8,11 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.HashSet
 
+
+/** This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary. Inspired by Norvig model
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala]] for further reference on how to use this API
+  * */
 class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[NorvigSweetingModel] with NorvigSweetingParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
@@ -17,9 +22,12 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     */
 
   def this() = this(Identifiable.randomUID("SPELL"))
+
   private val logger = LoggerFactory.getLogger("NorvigApproach")
 
+  /** Output annotator type : TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
+  /** Input annotator type : TOKEN */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")

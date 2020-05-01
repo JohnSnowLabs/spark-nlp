@@ -8,14 +8,25 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{AnalysisException, Dataset}
 
+/** This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary. Inspired by Norvig model
+  *
+  * Inspired on [[https://github.com/wolfgarbe/SymSpell]]
+  *
+  * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+  * dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+  * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala]] for further reference on how to use this API
+  * */
 class NorvigSweetingApproach(override val uid: String)
   extends AnnotatorApproach[NorvigSweetingModel]
     with NorvigSweetingParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Spell checking algorithm inspired on Norvig model */
   override val description: String = "Spell checking algorithm inspired on Norvig model"
-
+  /** file with a list of correct words */
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(
@@ -30,19 +41,22 @@ class NorvigSweetingApproach(override val uid: String)
     vowelSwapLimit -> 6
   )
 
+  /** External path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set. dictionary needs 'tokenPattern' regex in dictionary for separating words */
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
+  /** Path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set. dictionary needs 'tokenPattern' regex in dictionary for separating words */
   def setDictionary(path: String,
                     tokenPattern: String = "\\S+",
                     readAs: ReadAs.Format = ReadAs.TEXT,
                     options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
+  /** Output annotator type : TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
-
+  /** Output annotator type : TOKEN */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("SPELL"))

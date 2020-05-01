@@ -2,33 +2,57 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.{BooleanParam, Param}
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.DataFrame
 
 import scala.collection.Map
 
 object PoolingStrategy {
+
   object AnnotatorType {
     val AVERAGE = "AVERAGE"
     val SUM = "SUM"
   }
+
 }
 
+/** This annotator utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs.
+  *
+  * TIP:
+  *
+  * How to explode and convert these embeddings into Vectors or what’s known as Feature column so it can be used in Spark ML regression or clustering functions:
+  *
+  * {{{
+  * import org.apache.spark.ml.linalg.{Vector, Vectors}
+  *
+  * // Let's create a UDF to take array of embeddings and output Vectors
+  * val convertToVectorUDF = udf((matrix : Seq[Float]) => {
+  *     Vectors.dense(matrix.toArray.map(_.toDouble))
+  * })
+  *
+  * // Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
+  * pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_exploded"))
+  * .withColumn("features", convertToVectorUDF($"chunk_embeddings_exploded"))
+  * }}}
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala]] for further reference on how to use this API.
+  * */
 class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
+
+  /** Output annotator type : WORD_EMBEDDINGS */
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
-
+  /** Input annotator type : CHUNK, WORD_EMBEDDINGS */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(CHUNK, WORD_EMBEDDINGS)
+  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM */
+  val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling */
+  val skipOOV = new BooleanParam(this, "skipOOV", "Whether to discard default vectors for OOV words from the aggregation / pooling")
 
-  val poolingStrategy = new Param[String](this, "poolingStrategy",
-    "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
 
-  val skipOOV = new BooleanParam(this, "skipOOV",
-    "Whether to discard default vectors for OOV words from the aggregation / pooling")
-
+  /** PoolingStrategy must be either AVERAGE or SUM */
   def setPoolingStrategy(strategy: String): this.type = {
     strategy.toLowerCase() match {
       case "average" => set(poolingStrategy, "AVERAGE")
@@ -37,9 +61,13 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
     }
   }
 
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling */
   def setSkipOOV(value: Boolean): this.type = set(skipOOV, value)
 
+  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM */
   def getPoolingStrategy = $(poolingStrategy)
+
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling */
   def getSkipOOV= $(skipOOV)
 
   setDefault(

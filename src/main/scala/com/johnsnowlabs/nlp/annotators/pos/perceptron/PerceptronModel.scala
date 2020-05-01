@@ -7,6 +7,9 @@ import org.apache.spark.ml.util.Identifiable
 
 /**
   * Part of speech tagger that might use different approaches
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron]] for further reference on how to use this API.
+  *
   * @param uid Internal constructor requirement for serialization of params
   * @@model: representation of a POS Tagger approach
   */

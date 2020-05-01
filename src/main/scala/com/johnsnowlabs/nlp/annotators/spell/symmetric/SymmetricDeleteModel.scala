@@ -11,11 +11,14 @@ import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
 
 /** Created by danilo 16/04/2018,
-  * inspired on https://github.com/wolfgarbe/SymSpell
+  *
+  * Inspired on https://github.com/wolfgarbe/SymSpell
   *
   * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
   * dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
   * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala]] for further reference.
   * */
 class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel]
   with SymmetricDeleteParams {
@@ -24,11 +27,11 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
-  /**
-    * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
-    */
+
+  /** Output annotator type: TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
+  /** Input annotator type: TOKEN */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   protected val derivedWords: MapFeature[String, (List[String], Long)] =

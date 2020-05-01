@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.AnnotatorApproach
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -12,22 +12,28 @@ import org.apache.spark.sql.Dataset
 /**
   * Annotator that cleans out tokens. Requires stems, hence tokens.
   * Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
+  *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala]] for examples on how to use the API
+  *
   * @param uid required internal uid for saving annotator
   */
 class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerModel] {
 
+  /** Cleans out tokens */
   override val description: String = "Cleans out tokens"
+
+  /** Output Annotator Type : TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
-  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns",
-    "normalization regex patterns which match will be removed from token")
+  /** normalization regex patterns which match will be removed from token */
+  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from token")
+  /** whether to convert strings to lowercase */
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
-  val slangDictionary = new ExternalResourceParam(this,
-    "slangDictionary", "delimited file with list of custom words to be manually corrected")
-
+  /** delimited file with list of custom words to be manually corrected */
+  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
+  /** whether or not to be case sensitive to match slangs. Defaults to false. */
   val slangMatchCase = new BooleanParam(this, "slangMatchCase", "whether or not to be case sensitive to match slangs. Defaults to false.")
 
   setDefault(
