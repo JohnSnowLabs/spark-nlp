@@ -38,7 +38,19 @@ object PubTator {
       val labelAnnotations = chunkLabels.map(Annotation(_))
       tokenAnnotations.map(ta => {
         val tokenLabel = labelAnnotations.filter(la => la.begin <= ta.begin && la.end >= ta.end).headOption
-        val tokenTag = if (tokenLabel.isEmpty) "O" else (if (ta.begin == tokenLabel.get.begin) "B-" else "I-") + tokenLabel.get.metadata.get("entity").get.slice(0, 6)
+        val tokenTag = {
+          if (tokenLabel.isEmpty) "O"
+          else {
+            val tokenCSV = tokenLabel.get.metadata.get("entity").get
+            if (tokenCSV == "UnknownType") "O"
+            else {
+              val tokenPrefix = if (ta.begin == tokenLabel.get.begin) "B-" else "I-"
+              val paddedTokenTag = "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
+              tokenPrefix + paddedTokenTag
+            }
+          }
+        }
+
         Annotation(AnnotatorType.NAMED_ENTITY,
           ta.begin, ta.end,
           tokenTag,
