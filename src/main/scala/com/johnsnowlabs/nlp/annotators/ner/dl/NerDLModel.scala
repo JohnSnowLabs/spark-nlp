@@ -40,35 +40,28 @@ class NerDLModel(override val uid: String)
   /** whether to include confidence scores in annotation metadata */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
 
-  setDefault(includeConfidence, false)
+  setDefault(
+    includeConfidence-> false
+  )
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
   def setMinProbability(minProba: Float) = set(this.minProba, minProba)
-
   /** Size of every batch. */
   def setBatchSize(size: Int) = set(this.batchSize, size)
-
   /** datasetParams */
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
-
   /** whether to include confidence scores in annotation metadata */
   def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
-
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
   def getMinProba: Float = $(this.minProba)
-
   /** Size of every batch. */
   def getBatchSize: Int = $(this.batchSize)
-
   /** datasetParams */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   def getModelIfNotSet: TensorflowNer = _model.get.value
-
   /** whether to include confidence scores in annotation metadata */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 

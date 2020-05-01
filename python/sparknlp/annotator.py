@@ -43,6 +43,109 @@ except ImportError:
     pass
 
 
+class SimpleTokenizer(AnnotatorApproach):
+    name = 'SimpleTokenizer'
+
+    prefixes = Param(Params._dummy(),
+                          "prefixes",
+                          "strings to be considered independent tokens when found at the beginning of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    suffixes = Param(Params._dummy(),
+                          "suffixes",
+                          "strings to be considered independent tokens when found at the end of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    infixes = Param(Params._dummy(),
+                          "infixes",
+                          "strings to be considered independent tokens when found in the middle of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    whitelist = Param(Params._dummy(),
+                          "whitelist",
+                          "strings to be considered as single tokens",
+                          typeConverter=TypeConverters.toListString)
+
+    def setPrefixes(self, p):
+        return self._set(prefixes=p)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=s)
+
+    def setInfixes(self, i):
+        return self._set(infixes=i)
+
+    def setWhitelist(self, w):
+        return self._set(whitelist=w)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizer"):
+        super(SimpleTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizer")
+        self._setDefault(
+            prefixes=["'", "\"", "(", "[", "\n"],
+            infixes=["\n", "(", ")"],
+            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
+            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
+                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
+        )
+
+
+    def _create_model(self, java_model):
+        return SimpleTokenizerModel(java_model=java_model)
+
+
+class SimpleTokenizerModel(AnnotatorModel):
+    name = 'SimpleTokenizerModel'
+    '''
+    prefixes = Param(Params._dummy(),
+                          "prefixes",
+                          "strings to be considered independent tokens when found at the beginning of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    suffixes = Param(Params._dummy(),
+                          "suffixes",
+                          "strings to be considered independent tokens when found at the end of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    infixes = Param(Params._dummy(),
+                          "infixes",
+                          "strings to be considered independent tokens when found in the middle of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    whitelist = Param(Params._dummy(),
+                          "whitelist",
+                          "strings to be considered as single tokens",
+                          typeConverter=TypeConverters.toListString)
+
+    def setPrefixes(self, p):
+        return self._set(prefixes=p)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=s)
+
+    def setInfixes(self, i):
+        return self._set(infixes=i)
+
+    def setWhitelist(self, w):
+        return self._set(whitelist=w)
+    '''
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizerModel", java_model=None):
+        super(SimpleTokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        '''
+        self._setDefault(
+            prefixes=["'", "\"", "(", "[", "\n"],
+            infixes=["\n", "(", ")"],
+            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
+            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
+                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
+        )
+        '''
+
+
 class Tokenizer(AnnotatorApproach):
 
     targetPattern = Param(Params._dummy(),
@@ -1409,7 +1512,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
 
 
 class NerConverter(AnnotatorModel):
-    name = 'Tokenizer'
+    name = 'NerConverter'
 
     whiteList = Param(
         Params._dummy(),
@@ -2053,3 +2156,108 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     def pretrained(name="classifier_sentiment", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
+
+
+class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "AlbertEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings", java_model=None):
+        super(AlbertEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            dimension=768,
+            maxSentenceLength=128
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _AlbertLoader
+        jModel = _AlbertLoader(folder, spark_session._jsparkSession)._java_obj
+        return AlbertEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="albert_base_cased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
+
+
+class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "XlnetEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings", java_model=None):
+        super(XlnetEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            dimension=768,
+            maxSentenceLength=128
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _XlnetLoader
+        jModel = _XlnetLoader(folder, spark_session._jsparkSession)._java_obj
+        return XlnetEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="xlnet_base_cased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
+
