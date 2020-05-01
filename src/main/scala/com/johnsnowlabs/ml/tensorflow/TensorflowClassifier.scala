@@ -38,6 +38,7 @@ class TensorflowClassifier(
              configProtoBytes: Option[Array[Byte]] = None,
              validationSplit: Float = 0.0f,
              enableOutputLogs: Boolean = false,
+             outputLogsPath: String,
              uuid: String = Identifiable.randomUID("classifierdl")
            ): Unit = {
 
@@ -62,7 +63,7 @@ class TensorflowClassifier(
 
     println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}")
     outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}",
-      uuid, enableOutputLogs)
+      uuid, enableOutputLogs, outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
 
@@ -108,11 +109,11 @@ class TensorflowClassifier(
         val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
         val endTime = (System.nanoTime() - time)/1e9
         println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches")
-        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs)
+        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }else{
         val endTime = (System.nanoTime() - time)/1e9
         println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches")
-        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs)
+        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
     }
