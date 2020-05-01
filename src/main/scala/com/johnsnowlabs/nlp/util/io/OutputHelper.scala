@@ -23,17 +23,18 @@ object OutputHelper {
       new Path(outputLogsPath, uuid+".log")
     }
 
-    if (fs.getScheme != "file") {
+    if (fs.getScheme.equals("file") || fs.getScheme.equals("dbfs")) {
+      val fo = new File(targetPath.toUri.getRawPath)
+      val writer = new FileWriter(fo, true)
+      writer.append(content + System.lineSeparator())
+      writer.close()
+    } else {
       val fo = fs.append(targetPath)
       val writer = new PrintWriter(fo, true)
       writer.append(content + System.lineSeparator())
       writer.close()
       fo.close()
-    } else {
-      val fo = new File(targetPath.toUri.getRawPath)
-      val writer = new FileWriter(fo, true)
-      writer.append(content + System.lineSeparator())
-      writer.close()
+
     }
   }
 
