@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadClassifierDLTensorflowModel, ReadablePretrainedClassifierDL}
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
@@ -20,6 +21,11 @@ package object annotator {
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
   type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
   object TokenizerModel extends ReadablePretrainedTokenizer
+
+  type SimpleTokenizer = com.johnsnowlabs.nlp.annotators.SimpleTokenizer
+  object SimpleTokenizer extends DefaultParamsReadable[SimpleTokenizer]
+  type SimpleTokenizerModel = com.johnsnowlabs.nlp.annotators.SimpleTokenizerModel
+  object SimpleTokenizerModel extends ReadablePretrainedTokenizer
 
   type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
   object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]
@@ -151,4 +157,9 @@ package object annotator {
   type ClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel
   object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel
 
+  type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
+  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel with ReadSentencePieceModel
+
+  type XlnetEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
+  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel
 }
