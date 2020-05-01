@@ -24,27 +24,52 @@ class NerDLModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
+  /** Required input Annotators coulumns, expects DOCUMENT, TOKEN, WORD_EMBEDDINGS */
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  /** Output Annnotator type : NAMED_ENTITY */
   override val outputAnnotatorType = NAMED_ENTITY
 
+  /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
+  /** Size of every batch. */
   val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
+  /** datasetParams */
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  /** whether to include confidence scores in annotation metadata */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
 
   setDefault(includeConfidence, false)
 
+  /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
   def setMinProbability(minProba: Float) = set(this.minProba, minProba)
+
+  /** Size of every batch. */
   def setBatchSize(size: Int) = set(this.batchSize, size)
+
+  /** datasetParams */
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
+
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+
+  /** whether to include confidence scores in annotation metadata */
   def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
 
+  /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
   def getMinProba: Float = $(this.minProba)
+
+  /** Size of every batch. */
   def getBatchSize: Int = $(this.batchSize)
+
+  /** datasetParams */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
+
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   def getModelIfNotSet: TensorflowNer = _model.get.value
+
+  /** whether to include confidence scores in annotation metadata */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {

@@ -5,27 +5,36 @@ import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.DataFrame
 
+/**
+  * Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/deep/DeepSentenceDetector.scala]] for further reference on how to use this API.
+  *
+  * @param uid internal uid required to generate writable annotators
+  */
 class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[DeepSentenceDetector] with SentenceDetectorParams {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("DEEP SENTENCE DETECTOR"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Input annotator types : DOCUMENT, TOKEN, CHUNK */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN, CHUNK)
+  /** Input annotator types : DOCUMENT */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  val includesPragmaticSegmenter = new BooleanParam(this, "includesPragmaticSegmenter",
-    "Whether to include rule-based sentence detector as first filter")
+  /** Whether to include rule-based sentence detector as first filter */
+  val includesPragmaticSegmenter = new BooleanParam(this, "includesPragmaticSegmenter", "Whether to include rule-based sentence detector as first filter")
+  /** An array of symbols that deep sentence detector will consider as an end of sentence punctuation */
+  val endPunctuation = new StringArrayParam(this, "endPunctuation", "An array of symbols that deep sentence detector will consider as an end of sentence punctuation")
 
-  val endPunctuation = new StringArrayParam(this, "endPunctuation",
-    "An array of symbols that deep sentence detector will consider as an end of sentence punctuation")
-
+  /** Whether to include rule-based sentence detector as first filter. Defaults to false. */
   def setIncludePragmaticSegmenter(value: Boolean): this.type = set(includesPragmaticSegmenter, value)
 
+  /** An array of symbols that deep sentence detector will consider as an end of sentence punctuation. Defaults to “.”, “!”, “?” */
   def setEndPunctuation(value: Array[String]): this.type = set(endPunctuation, value)
 
   setDefault(
@@ -65,7 +74,7 @@ class DeepSentenceDetector(override val uid: String) extends AnnotatorModel[Deep
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    import org.apache.spark.sql.functions.{col, explode, array}
+    import org.apache.spark.sql.functions.{array, col, explode}
     if ($(explodeSentences)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)

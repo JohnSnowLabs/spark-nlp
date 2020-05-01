@@ -3,13 +3,16 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
 /**
-  * Tokenizes raw text into word pieces, tokens.
+  * Tokenizes raw text into word pieces, tokens. Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
+  *
   * This class represents an already fitted Tokenizer model.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for examples examples of usage.
   *
   * @param uid required uid for storing annotator to disk
   */
@@ -17,13 +20,21 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** rules */
   val rules: StructFeature[RuleFactory] = new StructFeature[RuleFactory](this, "rules")
+  /** Words that won't be affected by tokenization rules */
   val exceptions: StringArrayParam = new StringArrayParam(this, "exceptions", "Words that won't be affected by tokenization rules")
+  /** Whether to care for case sensitiveness in exceptions */
   val caseSensitiveExceptions: BooleanParam = new BooleanParam(this, "caseSensitiveExceptions", "Whether to care for case sensitiveness in exceptions")
+  /** pattern to grab from text as token candidates. Defaults \\S+ */
   val targetPattern: Param[String] = new Param(this, "targetPattern", "pattern to grab from text as token candidates. Defaults \\S+")
+  /** Set the minimum allowed length for each token */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
+  /** Set the maximum allowed length for each token */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
+  /** character list used to separate from the inside of tokens */
   val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "character list used to separate from the inside of tokens")
+  /** pattern to separate from the inside of tokens. takes priority over splitChars. */
   val splitPattern: Param[String] = new Param(this, "splitPattern", "pattern to separate from the inside of tokens. takes priority over splitChars.")
 
   setDefault(
@@ -31,6 +42,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
     caseSensitiveExceptions -> true
   )
 
+  /** Output annotator type TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
   /** A Tokenizer could require only for now a SentenceDetector annotator */
@@ -38,46 +50,62 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
 
   def this() = this(Identifiable.randomUID("REGEX_TOKENIZER"))
 
-
+  /** pattern to grab from text as token candidates. Defaults \\S+ */
   def setTargetPattern(value: String): this.type = set(targetPattern, value)
 
+  /** pattern to grab from text as token candidates. Defaults \\S+ */
   def getTargetPattern: String = $(targetPattern)
 
+  /** List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.  */
   def setSplitPattern(value: String): this.type = set(splitPattern, value)
 
+  /** List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.  */
   def getSplitPattern: String = $(splitPattern)
 
+  /** Words that won't be affected by tokenization rules */
   def setExceptions(value: Array[String]): this.type = set(exceptions, value)
 
+  /** Words that won't be affected by tokenization rules */
   def getExceptions: Array[String] = $(exceptions)
 
+  /** Rules factory for tokenization */
   def setRules(ruleFactory: RuleFactory): this.type = set(rules, ruleFactory)
 
+  /** Whether to follow case sensitiveness for matching exceptions in text */
   def setCaseSensitiveExceptions(value: Boolean): this.type = set(caseSensitiveExceptions, value)
 
+  /** Whether to follow case sensitiveness for matching exceptions in text */
   def getCaseSensitiveExceptions(value: Boolean): Boolean = $(caseSensitiveExceptions)
 
+  /** Set the minimum allowed legth for each token  */
   def setMinLength(value: Int): this.type = set(minLength, value)
 
+  /** Set the minimum allowed legth for each token  */
   def getMinLength(value: Int): Int = $(minLength)
 
+  /** Set the maximum allowed legth for each token  */
   def setMaxLength(value: Int): this.type = set(maxLength, value)
 
+  /** Set the maximum allowed legth for each token  */
   def getMaxLength(value: Int): Int = $(maxLength)
 
+  /** List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.  */
   def setSplitChars(v: Array[String]): this.type = {
     require(v.forall(x => x.length == 1 || (x.length == 2 && x.substring(0, 1) == "\\")), "All elements in context chars must have length == 1")
     set(splitChars, v)
   }
 
+  /** One character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.  */
   def addSplitChars(v: String): this.type = {
     require(v.length == 1 || (v.length == 2 && v.substring(0, 1) == "\\"), "Context char must have length == 1")
     set(splitChars, get(splitChars).getOrElse(Array.empty[String]) :+ v)
   }
 
+  /** List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.  */
   def getSplitChars: Array[String] = {
     $(splitChars)
   }
+
 
   private val PROTECT_CHAR = "ↈ"
   private val BREAK_CHAR = "ↇ"
@@ -91,8 +119,8 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
     else
       $(exceptions).exists(e => ("(?i)" + e).r.findFirstIn(candidateMatched).isDefined)
 
-  /** This func
-    * Generate a Seq of TokenizedSentences from a Seq of Sentences.
+  /**
+    * This func generates a Seq of TokenizedSentences from a Seq of Sentences.
     *
     * @param sentences to tag
     * @return Seq of TokenizedSentence objects

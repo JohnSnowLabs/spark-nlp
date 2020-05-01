@@ -14,13 +14,16 @@ import org.apache.spark.ml.util.Identifiable
   * When the input is empty, an empty array is returned.
   * When the input array length is less than n (number of elements per n-gram), no n-grams are
   * returned.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala]] for reference on how to use this API.
   */
 class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGenerator] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Output annotator type : CHUNK */
   override val outputAnnotatorType: AnnotatorType = CHUNK
-
+  /** Input annotator type : TOKEN */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("NGRAM_GENERATOR"))
@@ -40,16 +43,25 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   val delimiter: Param[String] = new Param[String](this, "delimiter",
     "Glue character used to join the tokens")
 
+  /** Number elements per n-gram (>=1) */
   def setN(value: Int): this.type = set(n, value)
+
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n */
   def setEnableCumulative(value: Boolean): this.type = set(enableCumulative, value)
+
+  /** Glue character used to join the tokens  */
   def setDelimiter(value: String): this.type = {
     require(value.length==1, "Delimiter should have length == 1")
     set(delimiter, value)
   }
 
-  /** @group getParam */
+  /** Number elements per n-gram (>=1) */
   def getN: Int = $(n)
+
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n */
   def getEnableCumulative: Boolean = $(enableCumulative)
+
+  /** Glue character used to join the tokens  */
   def getDelimiter: String = $(delimiter)
 
   setDefault(

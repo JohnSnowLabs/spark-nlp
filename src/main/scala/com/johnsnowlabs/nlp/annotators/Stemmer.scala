@@ -19,14 +19,16 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** this is the language of the text. default is English */
   val language: Param[String] = new Param(this, "language", "this is the language of the text")
   setDefault(language, "english")
 
+  /** Output annotator type : TOKEN */
   override val outputAnnotatorType: AnnotatorType = TOKEN
-
+  /** Input annotator type : TOKEN */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  /** Language for text   */
+  /** this is the language of the text. default is English */
   def setLanguage(value: String): Stemmer = set(language, value)
 
   /** Language for text   */

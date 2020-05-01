@@ -8,12 +8,19 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 
+/** Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep]] for further reference on how to use this API.
+  * */
 class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] {
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
+  /** Output annotation type : DEPENDENCY */
   override val outputAnnotatorType: String = DEPENDENCY
 
+  /** Input annotation type : DOCUMENT, POS, TOKEN */
   override val inputAnnotatorTypes: Array[String] =  Array[String](DOCUMENT, POS, TOKEN)
+
 
   val perceptron: StructFeature[DependencyMaker] = new StructFeature[DependencyMaker](this, "perceptron")
 

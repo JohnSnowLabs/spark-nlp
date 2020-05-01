@@ -16,6 +16,21 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
   * The use of an accelerator is recommended.
   *
+  * '''word_emb''': the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
+  *
+  * '''lstm_outputs1''': the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
+  *
+  * '''lstm_outputs2''': the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
+  *
+  * '''elmo''': the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+  *
+  * See [[ https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala ]] for further reference on how to use this API.
+  *
+  * Sources :
+  *
+  * [[https://tfhub.dev/google/elmo/3]]
+  *
+  * [[https://arxiv.org/abs/1802.05365]]
   */
 class ElmoEmbeddings(override val uid: String) extends
   AnnotatorModel[ElmoEmbeddings]
@@ -24,29 +39,39 @@ class ElmoEmbeddings(override val uid: String) extends
   with HasStorageRef
   with HasCaseSensitiveProperties {
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+
+  /** Output annotator type : TOKEN */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  /** Output annotator type : WORD_EMBEDDINGS */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+  /** Batch size. Large values allows faster processing but requires more memory. */
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  /** Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo */
   val poolingLayer = new Param[String](this, "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo")
   private var _model: Option[Broadcast[TensorflowElmo]] = None
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("ELMO_EMBEDDINGS"))
 
+
+  /** Large values allows faster processing but requires more memory.  */
   def setBatchSize(size: Int): this.type = {
     if (get(batchSize).isEmpty)
       set(batchSize, size)
     this
   }
 
+  /** Set Dimension of pooling layer. This is meta for the annotation and will not affect the actual embedding calculation. */
   override def setDimension(value: Int): this.type = {
-    if(get(dimension).isEmpty)
+    if (get(dimension).isEmpty)
       set(this.dimension, value)
     this
 
   }
 
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   def setConfigProtoBytes(bytes: Array[Int]): ElmoEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
   /** Function used to set the embedding output layer of the ELMO model

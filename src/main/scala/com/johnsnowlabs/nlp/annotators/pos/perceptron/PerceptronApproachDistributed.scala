@@ -1,19 +1,28 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
-import org.apache.spark.util.LongAccumulator
 import org.apache.spark.sql.functions.rand
+import org.apache.spark.util.LongAccumulator
 
 import scala.collection.mutable.{ListBuffer, Map => MMap}
 
+/**
+  * Distributed Averaged Perceptron model to tag words part-of-speech.
+  *
+  * Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala]] for further reference on how to use this APIs.
+  *
+  * @param uid internal uid required to generate writable annotators
+  **/
 class PerceptronApproachDistributed(override val uid: String) extends AnnotatorApproach[PerceptronModel] with PerceptronUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
@@ -26,19 +35,23 @@ class PerceptronApproachDistributed(override val uid: String) extends AnnotatorA
 
   setDefault(nIterations, 5)
 
+  /** Column containing an array of POS Tags matching every token on the line. */
   def setPosColumn(value: String): this.type = set(posCol, value)
 
+  /** POS tags delimited corpus. Needs 'delimiter' in options */
   def setCorpus(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "PerceptronApproach needs 'delimiter' in options to associate words with tags")
     set(corpus, value)
   }
 
+  /** POS tags delimited corpus. Needs 'delimiter' in options */
   def setCorpus(path: String,
                 delimiter: String,
                 readAs: ReadAs.Format = ReadAs.SPARK,
                 options: Map[String, String] = Map("format" -> "text")): this.type =
     set(corpus, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
+  /** Number of iterations for training. May improve accuracy but takes longer. Default 5. */
   def setNIterations(value: Int): this.type = set(nIterations, value)
 
   def this() = this(Identifiable.randomUID("POS"))

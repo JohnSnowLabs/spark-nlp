@@ -1,28 +1,45 @@
 package com.johnsnowlabs.nlp.annotators
 
-import scala.util.matching.Regex
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
+import scala.util.matching.Regex
+
+
+/**
+  * This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala]] for reference on how to use this API.
+  *
+  * @param uid internal uid required to generate writable annotators
+  **/
 class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** an array of grammar based chunk parsers */
   val regexParsers = new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
 
+  /** Output annotator type : CHUNK */
   override val outputAnnotatorType: AnnotatorType = CHUNK
+  /** Input annotator type : DOCUMENT, POS */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, POS)
 
+  /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”) */
   def setRegexParsers(value: Array[String]): Chunker = set(regexParsers, value)
+
+  /** adds a pattern to the current list of chunk patterns, for example: “‹DT›?‹JJ›*‹NN›” */
   def addRegexParser(value: String): Chunker = {
     set(regexParsers, get(regexParsers).getOrElse(Array.empty[String]) :+ value)
   }
+
+  /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”) */
   def getRegexParsers: Array[String] = $(regexParsers)
 
   def this() = this(Identifiable.randomUID("CHUNKER"))
 
-  private lazy val replacements = Map( "<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
+  private lazy val replacements = Map("<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
 
   private lazy val POSTagPatterns: Array[Regex] = {
     getRegexParsers.map(regexParser => replaceRegexParser(regexParser))
@@ -41,9 +58,9 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
     pattern.findAllMatchIn(text).map(_.start).toList
 
   private def getIndexAnnotation(limits: (Int, Int), indexTags: List[(Int, Int)]): List[Int] = {
-      val indexAnnotation = indexTags.zipWithIndex.collect{
-        case (range, index) if limits._1-1 <= range._1 && limits._2 > range._2 => index
-      }
+    val indexAnnotation = indexTags.zipWithIndex.collect {
+      case (range, index) if limits._1 - 1 <= range._1 && limits._2 > range._2 => index
+    }
     indexAnnotation
   }
 
@@ -74,7 +91,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
       val sentencePos = annotations.filter(pos =>
         pos.annotatorType == AnnotatorType.POS &&
           pos.begin >= sentence.begin &&
-            pos.end <= sentence.end)
+          pos.end <= sentence.end)
 
       val POSFormatSentence = sentencePos.map(annotation => "<"+annotation.result+">")
         .mkString(" ").replaceAll("\\s","")
@@ -84,8 +101,8 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
       val chunkAnnotations = chunkPhrases.zipWithIndex.map{ case (phrase, idx) =>
         val result = sentence.result.substring(
-            phrase.head.begin - sentence.begin,
-            phrase.last.end - sentence.begin + 1
+          phrase.head.begin - sentence.begin,
+          phrase.last.end - sentence.begin + 1
         )
         val start = phrase.head.begin
         val end = phrase.last.end

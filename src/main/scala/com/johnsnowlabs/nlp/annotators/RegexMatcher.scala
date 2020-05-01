@@ -9,17 +9,40 @@ import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
+
+/**
+  * Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.
+  *
+  * Matches regular expressions and maps them to specified values optionally provided
+  *
+  * Rules are provided from external source file
+  *
+  * @param uid internal element required for storing annotator to disk
+  * @@ rules: Set of rules to be mattched
+  * @@ strategy:
+  *
+  *    -- MATCH_ALL brings one-to-many results
+  *
+  *    -- MATCH_FIRST catches only first match
+  *
+  *    -- MATCH_COMPLETE returns only if match is entire target.
+  *
+  *
+  *    See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala]] for example on how to use this API.
+  **/
 class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatcherModel] {
 
+  /** Matches described regex rules that come in tuples in a text file */
   override val description: String = "Matches described regex rules that come in tuples in a text file"
 
+  /** Input annotator type: CHUNK */
   override val outputAnnotatorType: AnnotatorType = CHUNK
-
+  /** Input annotator type: DOCUMENT */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
-
+  /** external resource to rules, needs 'delimiter' in options */
   val rules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
-
-  val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+/** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE */
+val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
 
   setDefault(
     inputCols -> Array(DOCUMENT),
@@ -28,22 +51,28 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
+  /** Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.  */
   def setRules(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
     set(rules, value)
   }
 
+
+  /** Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.  */
   def setRules(path: String,
                delimiter: String,
                readAs: ReadAs.Format = ReadAs.TEXT,
                options: Map[String, String] = Map("format" -> "text")): this.type =
     set(rules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
+
+  /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE  */
   def setStrategy(value: String): this.type = {
     require(Seq("MATCH_ALL", "MATCH_FIRST", "MATCH_COMPLETE").contains(value.toUpperCase), "Must be MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
     set(strategy, value.toUpperCase)
   }
 
+  /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE  */
   def getStrategy: String = $(strategy).toString
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {

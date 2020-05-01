@@ -1,17 +1,28 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, ReadTensorflowModel, TensorflowClassifier, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
+
+/**
+  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+  *
+  * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+  *
+  * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala]] for further reference on how to use this API
+  *
+  **/
 class ClassifierDLModel(override val uid: String)
   extends AnnotatorModel[ClassifierDLModel]
     with WriteTensorflowModel
@@ -19,19 +30,20 @@ class ClassifierDLModel(override val uid: String)
     with ParamsAndFeaturesWritable {
   def this() = this(Identifiable.randomUID("ClassifierDLModel"))
 
+  /** Output annotator type : SENTENCE_EMBEDDINGS */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+  /** Output annotator type : CATEGORY */
   override val outputAnnotatorType: String = CATEGORY
 
-  val configProtoBytes = new IntArrayParam(
-    this,
-    "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()"
-  )
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
+  /** Tensorflow config Protobytes passed to the TF session */
   def setConfigProtoBytes(
                            bytes: Array[Int]
                          ): ClassifierDLModel.this.type = set(this.configProtoBytes, bytes)
 
+  /** Tensorflow config Protobytes passed to the TF session */
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 

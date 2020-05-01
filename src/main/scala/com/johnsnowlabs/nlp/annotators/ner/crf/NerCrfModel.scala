@@ -2,41 +2,58 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{FbCalculator, LinearChainCrfModel}
 import com.johnsnowlabs.nlp.AnnotatorType._
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
-import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.Dataset
 
 
-/*
-  Named Entity Recognition model
- */
-
+/**
+  * Algorithm for training Named Entity Recognition Model
+  *
+  * This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
+  * Optionally the user can provide an entity dictionary file for better accuracy
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf]] for further reference on this API.
+  */
 class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("NER"))
 
+  /** List of Entities to recognize */
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
+  /** crfModel */
   val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
+  /** dictionaryFeatures */
   val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures")
+  /** whether or not to calculate prediction confidence by token, includes in metadata */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
 
+  /** A  LinearChainCrfModel */
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
+
+  /** DictionaryFeatures */
   def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type = set(dictionaryFeatures, dictFeatures.dict)
+
+  /** Entities to detect */
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
+
+  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
 
+  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
   setDefault(dictionaryFeatures, () => Map.empty[String, String])
   setDefault(includeConfidence, false)
 
   /**
-  Predicts Named Entities in input sentences
+    * Predicts Named Entities in input sentences
+    *
     * @param sentences POS tagged sentences.
     * @return sentences with recognized Named Entities
     */

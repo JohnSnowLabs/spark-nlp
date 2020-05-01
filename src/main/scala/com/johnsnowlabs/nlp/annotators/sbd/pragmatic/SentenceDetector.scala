@@ -3,12 +3,14 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 /**
   * Annotator that detects sentence boundaries using any provided approach
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic]] for further reference on how to use this API
+  *
   * @param uid internal constructor requirement for serialization of params
   * @@ model: Model to use for boundaries detection
   */
@@ -18,8 +20,9 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
+  /** Output annotator type : DOCUMENT */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
-
+  /** Input annotator type : DOCUMENT */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   lazy val model: PragmaticMethod =
@@ -66,7 +69,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    import org.apache.spark.sql.functions.{col, explode, array}
+    import org.apache.spark.sql.functions.{array, col, explode}
     if ($(explodeSentences)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)

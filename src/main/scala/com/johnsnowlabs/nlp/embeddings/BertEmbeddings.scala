@@ -14,7 +14,24 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-
+/**
+  * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
+  *
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]] for further reference on how to use this API.
+  * Sources:
+  *
+  *
+  * 0  : corresponds to first layer (embeddings)
+  *
+  * -1 :  corresponds to last layer
+  *
+  * 2  :  second-to-last layer
+  *
+  * Paper:  [[ https://arxiv.org/abs/1810.04805]]
+  *
+  * Source:  [[https://github.com/google-research/bert]]
+  **/
 class BertEmbeddings(override val uid: String) extends
   AnnotatorModel[BertEmbeddings]
   with WriteTensorflowModel
@@ -24,10 +41,15 @@ class BertEmbeddings(override val uid: String) extends
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
+  /** Batch size. Large values allows faster processing but requires more memory. */
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+  /** vocabulary */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  /** Max sentence length to process */
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+  /** Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings */
   val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings")
 
   def sentenceStartTokenId: Int = {
@@ -38,35 +60,63 @@ class BertEmbeddings(override val uid: String) extends
     $$(vocabulary)("[SEP]")
   }
 
+  /**
+    * Defines the output layer of BERT when calculating Embeddings. See extractPoolingLayer() in TensorflowBert for further reference.
+    **/
   override def setDimension(value: Int): this.type = {
-    if(get(dimension).isEmpty)
+    if (get(dimension).isEmpty)
       set(this.dimension, value)
     this
 
   }
 
+
+  /** Whether to lowercase tokens or not
+    * */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if(get(caseSensitive).isEmpty)
+    if (get(caseSensitive).isEmpty)
       set(this.caseSensitive, value)
     this
   }
 
+
+  /** Batch size. Large values allows faster processing but requires more memory.
+    * */
   def setBatchSize(size: Int): this.type = {
-    if(get(batchSize).isEmpty)
+    if (get(batchSize).isEmpty)
       set(batchSize, size)
     this
   }
 
+
+  /** Vocabulary used to encode the words to ids with WordPieceEncoder
+    * */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    * */
   def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
+  /**
+    * Max sentence length to process
+    **/
   def setMaxSentenceLength(value: Int): this.type = {
-    if(get(maxSentenceLength).isEmpty)
+    if (get(maxSentenceLength).isEmpty)
       set(maxSentenceLength, value)
     this
   }
 
+  /**
+    * PoolingLayer must be either
+    *
+    * 0  : corresponds to first layer (embeddings)
+    *
+    * -1 :  corresponds to last layer
+    *
+    * 2  :  second-to-last layer
+    *
+    * Since output shape depends on the model selected, see [[https://github.com/google-research/bert]] for further reference
+    **/
   def setPoolingLayer(layer: Int): this.type = {
     layer match {
       case 0 => set(poolingLayer, 0)
@@ -78,8 +128,12 @@ class BertEmbeddings(override val uid: String) extends
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
+  /** Max sentence length to process
+    * */
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
+  /** Get currently configured BERT output layer
+    * */
   def getPoolingLayer: Int = $(poolingLayer)
 
   setDefault(
@@ -91,7 +145,9 @@ class BertEmbeddings(override val uid: String) extends
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
+
   def getModelIfNotSet: TensorflowBert = _model.get.value
+
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 

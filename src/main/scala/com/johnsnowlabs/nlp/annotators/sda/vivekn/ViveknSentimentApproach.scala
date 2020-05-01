@@ -1,41 +1,58 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.util.spark.MapAccumulator
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-/** Inspired on vivekn sentiment analysis algorithm
-  * https://github.com/vivekn/sentiment/
+/** Inspired on vivekn sentiment analysis algorithm [[https://github.com/vivekn/sentiment/]].
+  *
+  * requires sentence boundaries to give score in context. Tokenization to make sure tokens are within bounds. Transitivity requirements are also required.
+  *
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn]] for further reference on how to use this API.
   */
 class ViveknSentimentApproach(override val uid: String)
   extends AnnotatorApproach[ViveknSentimentModel] with ViveknSentimentUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Vivekn inspired sentiment analysis model */
   override val description: String = "Vivekn inspired sentiment analysis model"
 
 
-  /** Requires sentence boundaries to give score in context
-    * Tokenization to make sure tokens are within bounds
-    * Transitivity requirements are also required
-    */
+  /** column with the sentiment result of every row. Must be 'positive' or 'negative' */
   val sentimentCol = new Param[String](this, "sentimentCol", "column with the sentiment result of every row. Must be 'positive' or 'negative'")
+  /** Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1 */
   val pruneCorpus = new IntParam(this, "pruneCorpus", "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
-
+  /** proportion of feature content to be considered relevant. Defaults to 0.5 */
   protected val importantFeatureRatio = new DoubleParam(this, "importantFeatureRatio", "proportion of feature content to be considered relevant. Defaults to 0.5")
+  /** proportion to lookahead in unimportant features. Defaults to 0.025 */
   protected val unimportantFeatureStep = new DoubleParam(this, "unimportantFeatureStep", "proportion to lookahead in unimportant features. Defaults to 0.025")
+  /** content feature limit, to boost performance in very dirt text. Default disabled with -1 */
   protected val featureLimit = new IntParam(this, "featureLimit", "content feature limit, to boost performance in very dirt text. Default disabled with -1")
 
+
+  /** Set Proportion of feature content to be considered relevant. Defaults to 0.5 */
   def setImportantFeatureRatio(v: Double): this.type = set(importantFeatureRatio, v)
+
+  /** Set Proportion to lookahead in unimportant features. Defaults to 0.025 */
   def setUnimportantFeatureStep(v: Double): this.type = set(unimportantFeatureStep, v)
+
+  /** Set content feature limit, to boost performance in very dirt text. Default disabled with -1  */
   def setFeatureLimit(v: Int): this.type = set(featureLimit, v)
 
+
+  /** Get Proportion of feature content to be considered relevant. Defaults to 0.5 */
   def getImportantFeatureRatio(v: Double): Double = $(importantFeatureRatio)
+
+  /** Get Proportion to lookahead in unimportant features. Defaults to 0.025 */
   def getUnimportantFeatureStep(v: Double): Double = $(unimportantFeatureStep)
+
+  /** Get content feature limit, to boost performance in very dirt text. Default disabled with -1  */
   def getFeatureLimit(v: Int): Int = $(featureLimit)
 
   setDefault(
@@ -47,12 +64,15 @@ class ViveknSentimentApproach(override val uid: String)
 
   def this() = this(Identifiable.randomUID("VIVEKN"))
 
+  /** Output annotator type : SENTIMENT */
   override val outputAnnotatorType: AnnotatorType = SENTIMENT
-
+  /** Input annotator type : TOKEN, DOCUMENT */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
+  /** Column with sentiment analysis row’s result for training. If not set, external sources need to be set instead. Column with the sentiment result of every row. Must be 'positive' or 'negative' */
   def setSentimentCol(value: String): this.type = set(sentimentCol, value)
 
+  /** when training on small data you may want to disable this to not cut off infrequent words */
   def setCorpusPrune(value: Int): this.type = set(pruneCorpus, value)
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ViveknSentimentModel = {

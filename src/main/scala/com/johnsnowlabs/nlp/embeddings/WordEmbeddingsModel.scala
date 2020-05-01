@@ -1,29 +1,38 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
-import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.{col, udf}
-import org.apache.spark.sql.{DataFrame, Row}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
 import org.apache.spark.ml.param.IntParam
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.functions.{col, udf}
+import org.apache.spark.sql.{DataFrame, Row}
 
+/** Word Embeddings lookup annotator that maps tokens to vectors
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverterTest.scala]] for example usage of this API.
+  */
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
     with HasEmbeddingsProperties
     with HasStorageModel
     with ParamsAndFeaturesWritable {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
 
+  /** Output annotator type : WORD_EMBEDDINGS */
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Input annotator type : DOCUMENT, TOKEN */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
+  /** cache size for items retrieved from storage. Increase for performance but higher memory consumption */
   val readCacheSize = new IntParam(this, "readCacheSize", "cache size for items retrieved from storage. Increase for performance but higher memory consumption")
+
+  /** Set cache size for items retrieved from storage. Increase for performance but higher memory consumption */
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
   /**

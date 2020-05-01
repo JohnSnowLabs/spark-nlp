@@ -1,26 +1,37 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.ml.param.{IntParam, Param}
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS, WORD_EMBEDDINGS}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.DataFrame
 
+/** This annotator converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols).
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala]] for further reference on how to use this API.
+  *
+  * */
 class SentenceEmbeddings(override val uid: String)
   extends AnnotatorModel[SentenceEmbeddings]
     with HasEmbeddingsProperties
     with HasStorageRef {
 
+  /** Output annotator type : SENTENCE_EMBEDDINGS */
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
-
+  /** Input annotator type : DOCUMENT, WORD_EMBEDDINGS */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, WORD_EMBEDDINGS)
+  /** Number of embedding dimensions */
   override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
+
+  /** Number of embedding dimensions */
   override def getDimension: Int = $(dimension)
 
+  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM */
   val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
 
+  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM  */
   def setPoolingStrategy(strategy: String): this.type = {
     strategy.toLowerCase() match {
       case "average" => set(poolingStrategy, "AVERAGE")
