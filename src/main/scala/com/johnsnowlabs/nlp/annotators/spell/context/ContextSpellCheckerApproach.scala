@@ -133,10 +133,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     setSpecialClasses(getOrDefault(specialClasses):+newClass)
   }
 
-  def addRegexClass(label:String, regex:String, userDist: Int=3) = {
+  def addRegexClass(usrLabel:String, usrRegex:String, userDist: Int=3) = {
     val newClass = new RegexParser {
-      override var regex: String = regex
-      override val label: String = label
+      override var regex: String = usrRegex
+      override val label: String = usrLabel
       override var transducer: ITransducer[Candidate] = generateTransducer
       override val maxDist: Int = userDist
     }
