@@ -2271,3 +2271,103 @@ class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
 
+
+class SentimentDLApproach(AnnotatorApproach):
+
+    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
+    dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
+
+    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                            TypeConverters.toFloat)
+
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
+
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
+    labelColumn = Param(Params._dummy(),
+                        "labelColumn",
+                        "Column with label per each token",
+                        typeConverter=TypeConverters.toString)
+
+    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
+    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
+
+    def setVerbose(self, value):
+        return self._set(verbose=value)
+
+    def setRandomSeed(self, seed):
+        return self._set(randomSeed=seed)
+
+    def setLabelColumn(self, value):
+        return self._set(labelColumn=value)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setLr(self, v):
+        self._set(lr=v)
+        return self
+
+    def setBatchSize(self, v):
+        self._set(batchSize=v)
+        return self
+
+    def setDropout(self, v):
+        self._set(dropout=v)
+        return self
+
+    def setMaxEpochs(self, epochs):
+        return self._set(maxEpochs=epochs)
+
+    def _create_model(self, java_model):
+        return SentimentDLModel(java_model=java_model)
+
+    def setValidationSplit(self, v):
+        self._set(validationSplit=v)
+        return self
+
+    def setEnableOutputLogs(self, value):
+        return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
+
+    @keyword_only
+    def __init__(self):
+        super(SentimentDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach")
+        self._setDefault(
+            maxEpochs=30,
+            lr=float(0.005),
+            batchSize=64,
+            dropout=float(0.5),
+            enableOutputLogs=False
+        )
+
+
+class SentimentDLModel(AnnotatorModel, HasStorageRef):
+    name = "SentimentDLModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel", java_model=None):
+        super(SentimentDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    @staticmethod
+    def pretrained(name="sentiment_imdb", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
