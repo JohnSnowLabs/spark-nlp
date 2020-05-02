@@ -5,7 +5,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, SentimentDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
@@ -16,7 +16,7 @@ import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
-import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -447,7 +447,10 @@ object PythonResourceDownloader {
     "TypedDependencyParserModel" -> TypedDependencyParserModel,
     "UniversalSentenceEncoder" -> UniversalSentenceEncoder,
     "ElmoEmbeddings" -> ElmoEmbeddings,
-    "ClassifierDLModel" -> ClassifierDLModel
+    "ClassifierDLModel" -> ClassifierDLModel,
+    "AlbertEmbeddings" -> AlbertEmbeddings,
+    "XlnetEmbeddings" -> XlnetEmbeddings,
+    "SentimentDLModel" -> SentimentDLModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
