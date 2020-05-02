@@ -351,7 +351,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
     val assembled = documentAssembler.transform(data)
 
-    val tokenizer = new SimpleTokenizer()
+    val tokenizer = new RecursiveTokenizer()
       .setInputCols("doc")
       .setOutputCol("token")
       .fit(data)
