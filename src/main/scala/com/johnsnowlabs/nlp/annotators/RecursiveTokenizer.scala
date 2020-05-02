@@ -4,11 +4,11 @@ import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.StringArrayParam
 
 
-class SimpleTokenizer(override val uid: String)
-  extends AnnotatorApproach[SimpleTokenizerModel] with ParamsAndFeaturesWritable {
+class RecursiveTokenizer(override val uid: String)
+  extends AnnotatorApproach[RecursiveTokenizerModel] with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("SILLY_TOKENIZER"))
 
@@ -37,8 +37,8 @@ class SimpleTokenizer(override val uid: String)
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
   override val description: String = "Simplest possible tokenizer"
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SimpleTokenizerModel = {
-    new SimpleTokenizerModel().
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RecursiveTokenizerModel = {
+    new RecursiveTokenizerModel().
       setPrefixes(getOrDefault(prefixes)).
       setSuffixes(getOrDefault(suffixes)).
       setInfixes(getOrDefault(infixes)).

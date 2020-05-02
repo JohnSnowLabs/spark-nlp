@@ -5,7 +5,7 @@ import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, Transducer}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
-import com.johnsnowlabs.nlp.annotator.SimpleTokenizer
+import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
