@@ -143,7 +143,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
         setInputCol("text").
         setOutputCol("doc")
 
-    val tokenizer: SimpleTokenizer = new SimpleTokenizer()
+    val tokenizer: RecursiveTokenizer = new RecursiveTokenizer()
       .setInputCols(Array("doc"))
       .setOutputCol("token")
 
