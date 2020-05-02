@@ -32,6 +32,7 @@ class SentimentDLApproach(override val uid: String)
   val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be neutral")
   val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
   val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
   val configProtoBytes = new IntArrayParam(
@@ -48,6 +49,7 @@ class SentimentDLApproach(override val uid: String)
   def setMaxEpochs(epochs: Int): SentimentDLApproach.this.type = set(maxEpochs, epochs)
   def setConfigProtoBytes(bytes: Array[Int]): SentimentDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setEnableOutputLogs(enableOutputLogs: Boolean): SentimentDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
+  def setOutputLogsPath(path: String):SentimentDLApproach.this.type = set(this.outputLogsPath, path)
   def setValidationSplit(validationSplit: Float):SentimentDLApproach.this.type = set(this.validationSplit, validationSplit)
   def setVerbose(verbose: Int): SentimentDLApproach.this.type = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level): SentimentDLApproach.this.type = set(this.verbose, verbose.id)
@@ -58,6 +60,7 @@ class SentimentDLApproach(override val uid: String)
   def getDropout: Float = $(this.dropout)
   def getThreshold: Float = $(this.threshold)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
+  def getOutputLogsPath: String = $(outputLogsPath)
   def getValidationSplit: Float = $(this.validationSplit)
   def getMaxEpochs: Int = $(maxEpochs)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -69,7 +72,8 @@ class SentimentDLApproach(override val uid: String)
     batchSize -> 64,
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
-    validationSplit -> 0.0f
+    validationSplit -> 0.0f,
+    outputLogsPath -> ""
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -136,6 +140,7 @@ class SentimentDLApproach(override val uid: String)
         configProtoBytes = getConfigProtoBytes,
         validationSplit = $(validationSplit),
         enableOutputLogs=$(enableOutputLogs),
+        outputLogsPath=$(outputLogsPath),
         uuid = this.uid
       )
       model
