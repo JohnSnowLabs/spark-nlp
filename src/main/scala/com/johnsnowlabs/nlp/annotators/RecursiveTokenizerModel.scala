@@ -5,8 +5,8 @@ import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesWritable}
 import org.apache.spark.ml.util.Identifiable
 
-class SimpleTokenizerModel(override val uid: String) extends
-  AnnotatorModel[SimpleTokenizerModel] with ParamsAndFeaturesWritable {
+class RecursiveTokenizerModel(override val uid: String) extends
+  AnnotatorModel[RecursiveTokenizerModel] with ParamsAndFeaturesWritable {
 
   val prefixes: ArrayFeature[String] = new ArrayFeature[String](this, "prefixes")
   def setPrefixes(p: Array[String]):this.type = set(prefixes, p.sortBy(_.size).reverse)
