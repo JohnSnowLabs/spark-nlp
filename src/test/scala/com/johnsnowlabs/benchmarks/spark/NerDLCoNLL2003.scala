@@ -84,7 +84,7 @@ object NerDLPipeline extends App {
 
     val labeled = NerTagged.collectTrainingInstances(transformed, Seq("sentence", "token", "glove"), "label")
 
-    ner.measure(labeled, (s: String) => System.out.println(s), extended, errorsToPrint)
+    ner.measure(labeled, extended, errorsToPrint, outputLogsPath = "")
   }
 
   val spark = SparkAccessor.benchmarkSpark

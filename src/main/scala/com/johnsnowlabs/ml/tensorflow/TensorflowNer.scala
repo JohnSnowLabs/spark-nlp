@@ -133,11 +133,12 @@ class TensorflowNer
             evaluationLogExtended: Boolean = false,
             includeConfidence: Boolean = false,
             enableOutputLogs: Boolean = false,
+            outputLogsPath: String,
             uuid: String  = Identifiable.randomUID("annotator")
            ): Unit = {
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
-    outputLog(s"Name of the selected graph: $graphFileName", uuid, enableOutputLogs)
+    outputLog(s"Name of the selected graph: $graphFileName", uuid, enableOutputLogs, outputLogsPath)
 
     // Initialize
     if (startEpoch == 0)
@@ -154,13 +155,12 @@ class TensorflowNer
       (trainDataset.toSeq, emptyValid)
     }
 
-    log(s"Training started, trainExamples: ${trainDatasetSeq.length}, " +
-      s"labels: ${encoder.tags.length} " +
-      s"chars: ${encoder.chars.length}, ", Verbose.TrainingStat)
+    println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
+      s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}"
+    )
 
-    outputLog(s"Training started, trainExamples: ${trainDatasetSeq.length}, " +
-      s"labels: ${encoder.tags.length} " +
-      s"chars: ${encoder.chars.length}, ", uuid, enableOutputLogs)
+    outputLog(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
+      s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}", uuid, enableOutputLogs, outputLogsPath)
 
     // Train
     for (epoch <- startEpoch until endEpoch) {
@@ -168,9 +168,9 @@ class TensorflowNer
       val epochDataset = Random.shuffle(trainDatasetSeq)
       val learningRate = lr / (1 + po * epoch)
 
-      log(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", Verbose.Epochs)
-      outputLog("\n", uuid, enableOutputLogs)
-      outputLog(s"Epoch: $epoch started, learning rate: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs)
+      println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}")
+      outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
+      outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs, outputLogsPath)
 
       val time = System.nanoTime()
       var batches = 0
@@ -204,19 +204,21 @@ class TensorflowNer
         batches += 1
       }
 
-      log(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", Verbose.Epochs)
-      outputLog(s"Done, ${(System.nanoTime() - time)/1e9} loss: $loss, batches: $batches", uuid, enableOutputLogs)
+      val endTime = (System.nanoTime() - time)/1e9
+      println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
+      outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
+      outputLog(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
 
       if (validationSplit > 0.0) {
-        log(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", Verbose.Epochs)
-        outputLog(s"Quality on validation dataset (${validationSplit*100}%), valExamples = $sample", uuid, enableOutputLogs)
-        measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
+        println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample")
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample", uuid, enableOutputLogs, outputLogsPath)
+        measure(validateDatasetSample, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
       }
 
       if (test.nonEmpty) {
-        log("Quality on test dataset: ", Verbose.Epochs)
-        outputLog("Quality on test dataset: ", uuid, enableOutputLogs)
-        measure(test, (s: String) => log(s, Verbose.Epochs), extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, uuid = uuid)
+        println("Quality on test dataset: ")
+        outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
+        measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
       }
 
     }
@@ -248,11 +250,11 @@ class TensorflowNer
   }
 
   def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
-              log: String => Unit,
               extended: Boolean = false,
               batchSize: Int = 100,
               includeConfidence: Boolean = false,
               enableOutputLogs: Boolean = false,
+              outputLogsPath: String,
               uuid: String = Identifiable.randomUID("annotator")
              ): Unit = {
 
@@ -303,8 +305,9 @@ class TensorflowNer
       }
     }
 
-    log(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}")
-    outputLog(s"time to finish evaluation: ${(System.nanoTime() - started)/1e9}", uuid, enableOutputLogs)
+    val endTime = (System.nanoTime() - started)/1e9
+    println(f"time to finish evaluation: $endTime%.2fs")
+    outputLog(f"time to finish evaluation: $endTime%.2fs", uuid, enableOutputLogs, outputLogsPath)
 
     val labels = (correct.keys ++ predicted.keys).filter(label => label != "O").toSeq.distinct
     val notEmptyLabels = labels.filter(label => label != "O" && label.nonEmpty)
@@ -316,8 +319,8 @@ class TensorflowNer
     val (prec, rec, f1) = calcStat(totalTruePositives, totalFalsePositives, totalFalseNegatives)
 
     if (extended) {
-      log("label\t tp\t fp\t fn\t prec\t rec\t f1")
-      outputLog("label\t tp\t fp\t fn\t prec\t rec\t f1", uuid, enableOutputLogs)
+      println("label\t tp\t fp\t fn\t prec\t rec\t f1")
+      outputLog("label\t tp\t fp\t fn\t prec\t rec\t f1", uuid, enableOutputLogs, outputLogsPath)
     }
 
     var totalPercByClass, totalRecByClass = 0f
@@ -327,8 +330,8 @@ class TensorflowNer
       val fn = falseNegatives.getOrElse(label, 0)
       val (prec, rec, f1) = calcStat(tp, fp, fn)
       if (extended) {
-        log(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
-        outputLog(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1", uuid, enableOutputLogs)
+        println(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1")
+        outputLog(s"$label\t $tp\t $fp\t $fn\t $prec\t $rec\t $f1", uuid, enableOutputLogs, outputLogsPath)
       }
       totalPercByClass = totalPercByClass + prec
       totalRecByClass = totalRecByClass + rec
@@ -338,14 +341,14 @@ class TensorflowNer
     val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
 
     if (extended) {
-      log(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
-      outputLog(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}", uuid, enableOutputLogs)
+      println(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}")
+      outputLog(s"tp: $totalTruePositives fp: $totalFalsePositives fn: $totalFalseNegatives labels: ${notEmptyLabels.length}", uuid, enableOutputLogs, outputLogsPath)
     }
     // ex: Precision = P1+P2/2
-    log(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
-    outputLog(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1", uuid, enableOutputLogs )
+    println(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1")
+    outputLog(s"Macro-average\t prec: $macroPercision, rec: $macroRecall, f1: $macroF1", uuid, enableOutputLogs, outputLogsPath)
     // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
-    log(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
-    outputLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", uuid, enableOutputLogs)
+    println(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
+    outputLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", uuid, enableOutputLogs, outputLogsPath)
   }
 }
