@@ -97,55 +97,12 @@ class RecursiveTokenizer(AnnotatorApproach):
 
 class RecursiveTokenizerModel(AnnotatorModel):
     name = 'RecursiveTokenizerModel'
-    '''
-    prefixes = Param(Params._dummy(),
-                          "prefixes",
-                          "strings to be considered independent tokens when found at the beginning of a word",
-                          typeConverter=TypeConverters.toListString)
-
-    suffixes = Param(Params._dummy(),
-                          "suffixes",
-                          "strings to be considered independent tokens when found at the end of a word",
-                          typeConverter=TypeConverters.toListString)
-
-    infixes = Param(Params._dummy(),
-                          "infixes",
-                          "strings to be considered independent tokens when found in the middle of a word",
-                          typeConverter=TypeConverters.toListString)
-
-    whitelist = Param(Params._dummy(),
-                          "whitelist",
-                          "strings to be considered as single tokens",
-                          typeConverter=TypeConverters.toListString)
-
-    def setPrefixes(self, p):
-        return self._set(prefixes=p)
-
-    def setSuffixes(self, s):
-        return self._set(suffixes=s)
-
-    def setInfixes(self, i):
-        return self._set(infixes=i)
-
-    def setWhitelist(self, w):
-        return self._set(whitelist=w)
-    '''
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel", java_model=None):
         super(RecursiveTokenizerModel, self).__init__(
             classname=classname,
             java_model=java_model
         )
-        '''
-        self._setDefault(
-            prefixes=["'", "\"", "(", "[", "\n"],
-            infixes=["\n", "(", ")"],
-            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
-            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
-                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
-        )
-        '''
-
 
 class Tokenizer(AnnotatorApproach):
 
@@ -2404,6 +2361,14 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
+    def addVocabClass(self, label, vocab, userdist=3):
+        self._call_java('addVocabClass', label, vocab, userdist)
+        return self
+
+    def addRegexClass(self, label, regex, userdist=3):
+        self._call_java('addRegexClass', label, regex, userdist)
+        return self
+
     @keyword_only
     def __init__(self):
         super(ContextSpellCheckerApproach, self). \
@@ -2503,9 +2468,11 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     def updateRegexClass(self, label, regex):
         self._call_java('updateRegexClass', label, regex)
+        return self
 
     def updateVocabClass(self, label, vocab, append=True):
         self._call_java('updateVocabClass', label, vocab, append)
+        return self
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
         super(ContextSpellCheckerModel, self).__init__(
@@ -2516,6 +2483,5 @@ class ContextSpellCheckerModel(AnnotatorModel):
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc, j_dwn='InternalsPythonResourceDownloader')
-
+        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 

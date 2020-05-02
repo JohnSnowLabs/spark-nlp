@@ -14,6 +14,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
+import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel}
@@ -447,7 +448,8 @@ object PythonResourceDownloader {
     "TypedDependencyParserModel" -> TypedDependencyParserModel,
     "UniversalSentenceEncoder" -> UniversalSentenceEncoder,
     "ElmoEmbeddings" -> ElmoEmbeddings,
-    "ClassifierDLModel" -> ClassifierDLModel
+    "ClassifierDLModel" -> ClassifierDLModel,
+    "ContextSpellCheckerModel" -> ContextSpellCheckerModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
