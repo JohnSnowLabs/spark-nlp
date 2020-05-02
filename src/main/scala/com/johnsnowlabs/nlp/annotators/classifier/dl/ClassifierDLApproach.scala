@@ -106,6 +106,13 @@ class ClassifierDLApproach(override val uid: String)
       settings
     )
 
+    val embeddingsDim = encoder.calculateEmbeddingsDim(train)
+    require(
+      embeddingsDim <= 1024,
+      s"The SentimentDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
+        s" with less than "
+    )
+
     val trainDataset = encoder.collectTrainingInstances(train, getLabelColumn)
     val inputEmbeddings = encoder.extractSentenceEmbeddings(trainDataset)
     val inputLabels = encoder.extractLabels(trainDataset)
