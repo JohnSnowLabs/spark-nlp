@@ -1417,6 +1417,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
 
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1463,6 +1465,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
 
     @keyword_only
     def __init__(self):
@@ -2081,6 +2086,8 @@ class ClassifierDLApproach(AnnotatorApproach):
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
 
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Column with label per each token",
@@ -2125,6 +2132,9 @@ class ClassifierDLApproach(AnnotatorApproach):
 
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
 
     @keyword_only
     def __init__(self):

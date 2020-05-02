@@ -17,9 +17,9 @@ trait Logging {
       logger.info(value)
     }
   }
-  protected def outputLog(value: => String, uuid: String, shouldLog: Boolean): Unit = {
+  protected def outputLog(value: => String, uuid: String, shouldLog: Boolean, outputLogsPath: String): Unit = {
     if (shouldLog) {
-      OutputHelper.writeAppend(uuid, value)
+      OutputHelper.writeAppend(uuid, value, outputLogsPath)
     }
   }
 }
