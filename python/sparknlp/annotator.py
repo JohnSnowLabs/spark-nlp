@@ -2163,7 +2163,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="classifier_sentiment", lang="en", remote_loc=None):
+    def pretrained(name="classifierdl_use_trec6", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
 
@@ -2300,6 +2300,7 @@ class SentimentDLApproach(AnnotatorApproach):
 
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
 
     def setVerbose(self, value):
         return self._set(verbose=value)
@@ -2341,6 +2342,10 @@ class SentimentDLApproach(AnnotatorApproach):
     def setOutputLogsPath(self, p):
         return self._set(outputLogsPath=p)
 
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
     @keyword_only
     def __init__(self):
         super(SentimentDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach")
@@ -2363,11 +2368,16 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
         )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
     @staticmethod
-    def pretrained(name="sentiment_imdb", lang="en", remote_loc=None):
+    def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
