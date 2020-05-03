@@ -28,9 +28,30 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *
   * 2  :  second-to-last layer
   *
-  * Paper:  [[ https://arxiv.org/abs/1810.04805]]
+  * '''Sources''' :
   *
-  * Source:  [[https://github.com/google-research/bert]]
+  * [[https://arxiv.org/abs/1810.04805]]
+  *
+  * [[https://github.com/google-research/bert]]
+  *
+  * ''' Paper abstract '''
+  *
+  * We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
+  * BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement).
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class BertEmbeddings(override val uid: String) extends
   AnnotatorModel[BertEmbeddings]
@@ -41,27 +62,46 @@ class BertEmbeddings(override val uid: String) extends
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
-  /** Batch size. Large values allows faster processing but requires more memory. */
+  /** Batch size. Large values allows faster processing but requires more memory.
+    *
+    * @group param
+    **/
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
-  /** vocabulary */
+  /** vocabulary
+    *
+    * @group param
+    **/
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group param
+    **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  /** Max sentence length to process */
+  /** Max sentence length to process
+    *
+    * @group param
+    **/
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-  /** Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings */
+  /** Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings
+    *
+    * @group param
+    **/
   val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings")
 
+  /** @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
   }
 
+  /** @group setParam */
   def sentenceEndTokenId: Int = {
     $$(vocabulary)("[SEP]")
   }
 
   /**
     * Defines the output layer of BERT when calculating Embeddings. See extractPoolingLayer() in TensorflowBert for further reference.
+    *
+    * @group setParam
     **/
   override def setDimension(value: Int): this.type = {
     if (get(dimension).isEmpty)
@@ -72,6 +112,8 @@ class BertEmbeddings(override val uid: String) extends
 
 
   /** Whether to lowercase tokens or not
+    *
+    * @group setParam
     * */
   override def setCaseSensitive(value: Boolean): this.type = {
     if (get(caseSensitive).isEmpty)
@@ -81,6 +123,8 @@ class BertEmbeddings(override val uid: String) extends
 
 
   /** Batch size. Large values allows faster processing but requires more memory.
+    *
+    * @group setParam
     * */
   def setBatchSize(size: Int): this.type = {
     if (get(batchSize).isEmpty)
@@ -90,15 +134,21 @@ class BertEmbeddings(override val uid: String) extends
 
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
+    *
+    * @group setParam
     * */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group setParam
     * */
   def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
   /**
     * Max sentence length to process
+    *
+    * @group setParam
     **/
   def setMaxSentenceLength(value: Int): this.type = {
     if (get(maxSentenceLength).isEmpty)
@@ -116,6 +166,8 @@ class BertEmbeddings(override val uid: String) extends
     * 2  :  second-to-last layer
     *
     * Since output shape depends on the model selected, see [[https://github.com/google-research/bert]] for further reference
+    *
+    * @group setParam
     **/
   def setPoolingLayer(layer: Int): this.type = {
     layer match {
@@ -126,13 +178,21 @@ class BertEmbeddings(override val uid: String) extends
     }
   }
 
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group getParam
+    **/
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Max sentence length to process
-    * */
+    *
+    * @group getParam
+    **/
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /** Get currently configured BERT output layer
+    *
+    * @group getParam
     * */
   def getPoolingLayer: Int = $(poolingLayer)
 
@@ -146,8 +206,9 @@ class BertEmbeddings(override val uid: String) extends
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
 
+  /** @group getParam */
   def getModelIfNotSet: TensorflowBert = _model.get.value
-
+  /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 

@@ -12,45 +12,84 @@ import scala.collection.mutable.ArrayBuffer
 
 /**
   * Extracts entities out of provided phrases
+  *
   * @param uid internally renquired UID to make it writable
   * @@ entitiesPath: Path to file with phrases to search
   * @@ insideSentences: Should Extractor search only within sentence borders?
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] {
 
+  /** Output annotator type : CHUNK
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = CHUNK
-
+  /** input annotator type : DOCUMENT, TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, TOKEN)
 
+  /** searchTrie for Searching words
+    *
+    * @group param
+    **/
   val searchTrie = new StructFeature[SearchTrie](this, "searchTrie")
+  /** whether to merge overlapping matched chunks. Defaults false
+    *
+    * @group param
+    **/
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
 
-  /** SearchTrie of Tokens */
+  /** SearchTrie of Tokens
+    *
+    * @group setParam
+    **/
   def setSearchTrie(value: SearchTrie): this.type = set(searchTrie, value)
 
-  /** Whether to merge overlapping matched chunks. Defaults false */
+  /** Whether to merge overlapping matched chunks. Defaults false
+    *
+    * @group setParam
+    **/
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
-  /** Whether to merge overlapping matched chunks. Defaults false */
+  /** Whether to merge overlapping matched chunks. Defaults false
+    *
+    * @group getParam
+    **/
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
-  @tco final protected def collapse(rs: List[(Int,Int)], sep: List[(Int,Int)] = Nil): List[(Int,Int)] = rs match {
+  @tco final protected def collapse(rs: List[(Int, Int)], sep: List[(Int, Int)] = Nil): List[(Int, Int)] = rs match {
     case x :: y :: rest =>
       if (y._1 > x._2) collapse(y :: rest, x :: sep)
-      else collapse( (x._1, x._2 max y._2) :: rest, sep)
+      else collapse((x._1, x._2 max y._2) :: rest, sep)
     case _ =>
       (rs ::: sep).reverse
   }
   protected def merge(rs: List[(Int,Int)]): List[(Int,Int)] = collapse(rs.sortBy(_._1))
 
   /**
-    * Searches entities and stores them in the annotation
+    *
+    * Searches entities and stores them in the annotation.  Defines annotator phrase matching depending on whether we are using SBD or not
+    *
     * @return Extracted Entities
     */
-  /** Defines annotator phrase matching depending on whether we are using SBD or not */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
     val result = ArrayBuffer[Annotation]()

@@ -18,15 +18,34 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   *
   * @param uid internal uid required to generate writable annotators
   * @@ dateFormat: allows to define expected output format. Follows SimpleDateFormat standard.
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with DateMatcherUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /** Output annotator type: DATE */
+  /** Output annotator type: DATE
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = DATE
 
-  /** Input annotator type: DOCUMENT */
+  /** Input annotator type: DOCUMENT
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Internal constructor to submit a random UID */
@@ -34,6 +53,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   /**
     * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
+    *
     * @param text input text coming from target document
     * @return a possible date-time match
     */

@@ -17,7 +17,21 @@ import scala.collection.mutable.ListBuffer
   * Inspired by [[https://github.com/wolfgarbe/SymSpell]]
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala]] for further reference.
-  * */
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
     with SymmetricDeleteParams {
@@ -26,7 +40,10 @@ class SymmetricDeleteApproach(override val uid: String)
 
   /** Spell checking algorithm inspired on Symmetric Delete algorith */
   override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
-  /** file with a list of correct words */
+  /** file with a list of correct words
+    *
+    * @group param
+    **/
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(
@@ -36,13 +53,19 @@ class SymmetricDeleteApproach(override val uid: String)
     dupsLimit -> 2
   )
 
-  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance */
+  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
+    *
+    * @group setParam
+    **/
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
-  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance */
+  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
+    *
+    * @group setParam
+    **/
   def setDictionary(path: String,
                     tokenPattern: String = "\\S+",
                     readAs: ReadAs.Format = ReadAs.TEXT,
@@ -50,10 +73,16 @@ class SymmetricDeleteApproach(override val uid: String)
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
 
-  /** Output annotator type : TOKEN */
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  /** Input annotator type : TOKEN */
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python

@@ -34,61 +34,121 @@ class NerCrfApproach(override val uid: String)
   /** CRF based Named Entity Recognition Tagger */
   override val description = "CRF based Named Entity Recognition Tagger"
 
-  /** Input annotator types : DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS */
+  /** Input annotator types : DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
-  /** Input annotator types : NAMED_ENTITY */
+  /** Input annotator types : NAMED_ENTITY
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType = NAMED_ENTITY
 
-  /** L2 regularization coefficient */
+  /** L2 regularization coefficient
+    *
+    * @group param
+    **/
   val l2 = new DoubleParam(this, "l2", "L2 regularization coefficient")
-  /** c0 params defining decay speed for gradient */
+  /** c0 params defining decay speed for gradient
+    *
+    * @group param
+    **/
   val c0 = new IntParam(this, "c0", "c0 params defining decay speed for gradient")
-  /** If Epoch relative improvement less than eps then training is stopped */
+  /** If Epoch relative improvement less than eps then training is stopped
+    *
+    * @group param
+    **/
   val lossEps = new DoubleParam(this, "lossEps", "If Epoch relative improvement less than eps then training is stopped")
-  /** Features with less weights then this param value will be filtered */
+  /** Features with less weights then this param value will be filtered
+    *
+    * @group param
+    **/
   val minW = new DoubleParam(this, "minW", "Features with less weights then this param value will be filtered")
-  /** includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata */
+  /** includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata
+    *
+    * @group param
+    **/
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
-  /** Additional dictionaries to use as a features */
+  /** Additional dictionaries to use as a features
+    *
+    * @group param
+    **/
   val externalFeatures = new ExternalResourceParam(this, "externalFeatures", "Additional dictionaries to use as a features")
 
-  /** L2 regularization coefficient */
+  /** L2 regularization coefficient
+    *
+    * @group setParam
+    **/
   def setL2(l2: Double): this.type = set(this.l2, l2)
 
-  /** c0 params defining decay speed for gradient  */
+  /** c0 params defining decay speed for gradient
+    *
+    * @group setParam
+    **/
   def setC0(c0: Int): this.type = set(this.c0, c0)
 
-  /** If Epoch relative improvement less than eps then training is stopped */
+  /** If Epoch relative improvement less than eps then training is stopped
+    *
+    * @group setParam
+    **/
   def setLossEps(eps: Double): this.type = set(this.lossEps, eps)
 
-  /** Features with less weights then this param value will be filtered */
+  /** Features with less weights then this param value will be filtered
+    *
+    * @group setParam
+    **/
   def setMinW(w: Double): this.type = set(this.minW, w)
 
-  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
+  /** Whether or not to calculate prediction confidence by token, includes in metadata
+    *
+    * @group setParam
+    **/
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
 
-  /** L2 regularization coefficient */
+  /** L2 regularization coefficient
+    *
+    * @group getParam
+    **/
   def getL2: Double = $(l2)
 
-  /** c0 params defining decay speed for gradient  */
+  /** c0 params defining decay speed for gradient
+    *
+    * @group getParam
+    **/
   def getC0: Int = $(c0)
 
-  /** If Epoch relative improvement less than eps then training is stopped */
+  /** If Epoch relative improvement less than eps then training is stopped
+    *
+    * @group getParam
+    **/
   def getLossEps: Double = $(lossEps)
 
-  /** Features with less weights then this param value will be filtered */
+  /** Features with less weights then this param value will be filtered
+    *
+    * @group getParam
+    **/
   def getMinW: Double = $(minW)
 
-  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
+  /** Whether or not to calculate prediction confidence by token, includes in metadata
+    *
+    * @group getParam
+    **/
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
-  /** Additional dictionaries to use as a features */
+  /** Additional dictionaries to use as a features
+    *
+    * @group setParam
+    **/
   def setExternalFeatures(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "external features is a delimited text. needs 'delimiter' in options")
     set(externalFeatures, value)
   }
 
-  /** Additional dictionaries to use as a features */
+  /** Additional dictionaries to use as a features
+    *
+    * @group setParam
+    **/
   def setExternalFeatures(path: String,
                           delimiter: String,
                           readAs: ReadAs.Format = ReadAs.TEXT,

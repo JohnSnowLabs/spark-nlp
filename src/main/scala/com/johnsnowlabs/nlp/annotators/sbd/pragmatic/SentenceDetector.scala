@@ -13,6 +13,19 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   *
   * @param uid internal constructor requirement for serialization of params
   * @@ model: Model to use for boundaries detection
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] with SentenceDetectorParams {
 
@@ -20,9 +33,15 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
-  /** Output annotator type : DOCUMENT */
+  /** Output annotator type : DOCUMENT
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
-  /** Input annotator type : DOCUMENT */
+  /** Input annotator type : DOCUMENT
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   lazy val model: PragmaticMethod =

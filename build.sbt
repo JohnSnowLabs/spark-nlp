@@ -170,7 +170,8 @@ logBuffered in Test := false
 
 scalacOptions ++= Seq(
   "-feature",
-  "-language:implicitConversions"
+  "-language:implicitConversions",
+  "-groups"
 )
 
 /** Enable for debugging */

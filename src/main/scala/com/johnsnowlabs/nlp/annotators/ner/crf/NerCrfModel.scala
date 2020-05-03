@@ -24,28 +24,55 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
   def this() = this(Identifiable.randomUID("NER"))
 
-  /** List of Entities to recognize */
+  /** List of Entities to recognize
+    *
+    * @group param
+    **/
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
-  /** crfModel */
+  /** crfModel
+    *
+    * @group param
+    **/
   val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
-  /** dictionaryFeatures */
+  /** dictionaryFeatures
+    *
+    * @group param
+    **/
   val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures")
-  /** whether or not to calculate prediction confidence by token, includes in metadata */
+  /** whether or not to calculate prediction confidence by token, includes in metadata
+    *
+    * @group param
+    **/
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
 
-  /** A  LinearChainCrfModel */
+  /** A  LinearChainCrfModel
+    *
+    * @group setParam
+    **/
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
 
-  /** DictionaryFeatures */
+  /** DictionaryFeatures
+    *
+    * @group setParam
+    **/
   def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type = set(dictionaryFeatures, dictFeatures.dict)
 
-  /** Entities to detect */
+  /** Entities to detect
+    *
+    * @group setParam
+    **/
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
-  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
+  /** Whether or not to calculate prediction confidence by token, includes in metadata
+    *
+    * @group setParam
+    **/
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
 
-  /** Whether or not to calculate prediction confidence by token, includes in metadata  */
+  /** Whether or not to calculate prediction confidence by token, includes in metadata
+    *
+    * @group getParam
+    **/
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
   setDefault(dictionaryFeatures, () => Map.empty[String, String])
