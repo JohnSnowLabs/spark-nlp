@@ -12,6 +12,19 @@ import org.apache.spark.ml.util.Identifiable
   *
   * @param uid Internal constructor requirement for serialization of params
   * @@model: representation of a POS Tagger approach
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class PerceptronModel(override val uid: String) extends AnnotatorModel[PerceptronModel] with PerceptronUtils {
 
@@ -20,11 +33,21 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
   /** Internal structure for target sentences holding their range information which is used for annotation */
   private case class SentenceToBeTagged(tokenizedSentence: TokenizedSentence, start: Int, end: Int)
 
-  val model: StructFeature[AveragedPerceptron] =
-    new StructFeature[AveragedPerceptron](this, "POS Model")
 
+  /** POS model
+    *
+    * @group param
+    **/
+  val model: StructFeature[AveragedPerceptron] = new StructFeature[AveragedPerceptron](this, "POS Model")
+  /** Output annotator types : POS
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = POS
-
+  /** Input annotator types : TOKEN, DOCUMENT
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN, DOCUMENT)
 
   /**
@@ -32,6 +55,7 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
     * The logic here is to create a sentence context, run through every word and evaluate its context
     * Based on how frequent a context appears around a word, such context is given a score which is used to predict
     * Some words are marked as non ambiguous from the beginning
+    *
     * @param tokenizedSentences Sentence in the form of single word tokens
     * @return A list of sentences which have every word tagged
     */
@@ -58,8 +82,10 @@ class PerceptronModel(override val uid: String) extends AnnotatorModel[Perceptro
 
   def this() = this(Identifiable.randomUID("POS"))
 
+  /** @group getParam */
   def getModel: AveragedPerceptron = $$(model)
 
+  /** @group setParam */
   def setModel(targetModel: AveragedPerceptron): this.type = set(model, targetModel)
 
   /** One to one annotation standing from the Tokens perspective, to give each word a corresponding Tag */

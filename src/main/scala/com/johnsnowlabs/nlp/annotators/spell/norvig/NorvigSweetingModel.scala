@@ -12,7 +12,21 @@ import scala.collection.immutable.HashSet
 /** This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary. Inspired by Norvig model
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala]] for further reference on how to use this API
-  * */
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[NorvigSweetingModel] with NorvigSweetingParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
@@ -25,22 +39,33 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
 
   private val logger = LoggerFactory.getLogger("NorvigApproach")
 
-  /** Output annotator type : TOKEN */
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
-  /** Input annotator type : TOKEN */
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
+  /** @group param */
   protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
 
+  /** @group getParam */
   protected def getWordCount: Map[String, Long] = $$(wordCount)
 
+  /** @group setParam */
   def setWordCount(value: Map[String, Long]): this.type = set(wordCount, value)
 
+  /** @group param */
   private lazy val allWords: HashSet[String] = {
     if ($(caseSensitive)) HashSet($$(wordCount).keys.toSeq:_*)
     else HashSet($$(wordCount).keys.toSeq.map(_.toLowerCase):_*)
   }
 
+  /** @group param */
   private lazy val frequencyBoundaryValues: (Long, Long) = {
     val min: Long = $$(wordCount).filter(_._1.length > $(wordSizeIgnore)).minBy(_._2)._2
     val max = $$(wordCount).filter(_._1.length > $(wordSizeIgnore)).maxBy(_._2)._2

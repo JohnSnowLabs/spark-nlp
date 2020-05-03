@@ -15,14 +15,37 @@ import org.apache.spark.ml.util.Identifiable
   *
   * @param uid required internal uid provided by constructor
   * @@ lemmaDict: A dictionary of predefined lemmas must be provided
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class LemmatizerModel(override val uid: String) extends AnnotatorModel[LemmatizerModel] {
 
-  /** Output annotator type : TOKEN */
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
-  /** Input annotator type : TOKEN */
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
+  /** lemmaDict
+    *
+    * @group param
+    **/
   val lemmaDict: MapFeature[String, String] = new MapFeature(this, "lemmaDict")
 
   def this() = this(Identifiable.randomUID("LEMMATIZER"))

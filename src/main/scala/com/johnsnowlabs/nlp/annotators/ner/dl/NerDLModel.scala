@@ -15,7 +15,12 @@ import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntPa
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-
+/**
+  * This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
+  * Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl]] for further reference on how to use this API.
+  **/
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
     with WriteTensorflowModel
@@ -24,45 +29,105 @@ class NerDLModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 
-  /** Required input Annotators coulumns, expects DOCUMENT, TOKEN, WORD_EMBEDDINGS */
+  /** Required input Annotators coulumns, expects DOCUMENT, TOKEN, WORD_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
-  /** Output Annnotator type : NAMED_ENTITY */
+  /** Output Annnotator type : NAMED_ENTITY
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType = NAMED_ENTITY
 
-  /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
+  /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
+    *
+    * @group param
+    **/
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
-  /** Size of every batch. */
+  /** Size of every batch.
+    *
+    * @group param
+    **/
   val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
-  /** datasetParams */
+  /** datasetParams
+    *
+    * @group param
+    **/
   val datasetParams = new StructFeature[DatasetEncoderParams](this, "datasetParams")
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group param
+    **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  /** whether to include confidence scores in annotation metadata */
+  /** whether to include confidence scores in annotation metadata
+    *
+    * @group param
+    **/
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
 
   setDefault(
-    includeConfidence-> false
+    includeConfidence -> false
   )
 
-  /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
+  /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
+    *
+    * @group setParam
+    **/
   def setMinProbability(minProba: Float) = set(this.minProba, minProba)
-  /** Size of every batch. */
+
+  /** Size of every batch.
+    *
+    * @group setParam
+    **/
   def setBatchSize(size: Int) = set(this.batchSize, size)
-  /** datasetParams */
+
+  /** datasetParams
+    *
+    * @group setParam
+    **/
   def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
+
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group setParam
+    **/
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
-  /** whether to include confidence scores in annotation metadata */
+
+  /** whether to include confidence scores in annotation metadata
+    *
+    * @group setParam
+    **/
   def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
-  /** Minimum probability. Used only if there is no CRF on top of LSTM layer. */
+
+  /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
+    *
+    * @group getParam
+    **/
   def getMinProba: Float = $(this.minProba)
-  /** Size of every batch. */
+
+  /** Size of every batch.
+    *
+    * @group getParam
+    **/
   def getBatchSize: Int = $(this.batchSize)
-  /** datasetParams */
+
+  /** datasetParams
+    *
+    * @group getParam
+    **/
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString() */
+
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group getParam
+    **/
   def getModelIfNotSet: TensorflowNer = _model.get.value
-  /** whether to include confidence scores in annotation metadata */
+
+  /** whether to include confidence scores in annotation metadata
+    *
+    * @group getParam
+    **/
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {

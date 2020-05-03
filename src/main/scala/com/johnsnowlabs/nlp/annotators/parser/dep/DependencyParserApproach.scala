@@ -14,47 +14,87 @@ import org.slf4j.LoggerFactory
 /** Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep]] for further reference on how to use this API.
-  * */
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class DependencyParserApproach(override val uid: String) extends AnnotatorApproach[DependencyParserModel] {
 
-  override val description: String =
-    "Dependency Parser is an unlabeled parser that finds a grammatical relation between two words in a sentence"
+  override val description: String = "Dependency Parser is an unlabeled parser that finds a grammatical relation between two words in a sentence"
 
   private val logger = LoggerFactory.getLogger("DependencyParserApproach")
 
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
-  /** Dependency treebank source files */
+  /** Dependency treebank source files
+    *
+    * @group param
+    **/
   val dependencyTreeBank = new ExternalResourceParam(this, "dependencyTreeBank", "Dependency treebank source files")
-  /** Universal Dependencies source files */
+  /** Universal Dependencies source files
+    *
+    * @group param
+    **/
   val conllU = new ExternalResourceParam(this, "conllU", "Universal Dependencies source files")
-  /** Number of iterations in training, converges to better accuracy */
+  /** Number of iterations in training, converges to better accuracy
+    *
+    * @group param
+    **/
   val numberOfIterations = new IntParam(this, "numberOfIterations", "Number of iterations in training, converges to better accuracy")
 
 
-  /** Dependency treebank folder with files in [[ http://www.nltk.org/nltk_data/ Penn Treebank format]] */
+  /** Dependency treebank folder with files in [[ http://www.nltk.org/nltk_data/ Penn Treebank format]]
+    *
+    * @group setParam
+    **/
   def setDependencyTreeBank(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                             options: Map[String, String] = Map.empty[String, String]): this.type =
     set(dependencyTreeBank, ExternalResource(path, readAs, options))
 
-  /** Path to a file in [[https://universaldependencies.org/format.html CoNLL-U format]] */
+  /** Path to a file in [[https://universaldependencies.org/format.html CoNLL-U format]]
+    *
+    * @group setParam
+    **/
   def setConllU(path: String, readAs: ReadAs.Format = ReadAs.TEXT,
                 options: Map[String, String] = Map.empty[String, String]): this.type =
     set(conllU, ExternalResource(path, readAs, options))
 
-  /** Number of iterations in training, converges to better accuracy */
+  /** Number of iterations in training, converges to better accuracy
+    *
+    * @group setParam
+    **/
   def setNumberOfIterations(value: Int): this.type = set(numberOfIterations, value)
 
-  setDefault(dependencyTreeBank, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
-  setDefault(conllU, ExternalResource("", ReadAs.TEXT,  Map.empty[String, String]))
+  setDefault(dependencyTreeBank, ExternalResource("", ReadAs.TEXT, Map.empty[String, String]))
+  setDefault(conllU, ExternalResource("", ReadAs.TEXT, Map.empty[String, String]))
   setDefault(numberOfIterations, 10)
 
-  /** Number of iterations in training, converges to better accuracy */
+  /** Number of iterations in training, converges to better accuracy
+    *
+    * @group getParam
+    **/
   def getNumberOfIterations: Int = $(numberOfIterations)
 
-  /** Output annotation type : DEPENDENCY */
-  override val outputAnnotatorType:String = DEPENDENCY
-  /** Input annotation type : DOCUMENT, POS, TOKEN */
+  /** Output annotation type : DEPENDENCY
+    *
+    * @group anno
+    **/
+  override val outputAnnotatorType: String = DEPENDENCY
+  /** Input annotation type : DOCUMENT, POS, TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes = Array(DOCUMENT, POS, TOKEN)
 
   private lazy val conllUAsArray = ResourceHelper.parseLines($(conllU))
@@ -63,8 +103,8 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
     val buffer = StringBuilder.newBuilder
 
-    filesContent.foreach{fileContent =>
-      fileContent.foreach(line => buffer.append(line+System.lineSeparator()))
+    filesContent.foreach { fileContent =>
+      fileContent.foreach(line => buffer.append(line + System.lineSeparator()))
     }
 
     val wholeText = buffer.toString()

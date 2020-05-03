@@ -13,34 +13,66 @@ import scala.util.matching.Regex
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala]] for reference on how to use this API.
   *
   * @param uid internal uid required to generate writable annotators
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /** an array of grammar based chunk parsers */
+  /** an array of grammar based chunk parsers
+    *
+    * @group param
+    **/
   val regexParsers = new StringArrayParam(this, "regexParsers", "an array of grammar based chunk parsers")
 
-  /** Output annotator type : CHUNK */
+  /** Output annotator type : CHUNK
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = CHUNK
-  /** Input annotator type : DOCUMENT, POS */
+  /** Input annotator type : DOCUMENT, POS
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, POS)
 
-  /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”) */
+  /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”)
+    *
+    * @group setParam
+    **/
   def setRegexParsers(value: Array[String]): Chunker = set(regexParsers, value)
 
-  /** adds a pattern to the current list of chunk patterns, for example: “‹DT›?‹JJ›*‹NN›” */
+  /** adds a pattern to the current list of chunk patterns, for example: “‹DT›?‹JJ›*‹NN›”
+    *
+    * @group setParam
+    **/
   def addRegexParser(value: String): Chunker = {
     set(regexParsers, get(regexParsers).getOrElse(Array.empty[String]) :+ value)
   }
 
-  /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”) */
+  /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”)
+    *
+    * @group getParam
+    **/
   def getRegexParsers: Array[String] = $(regexParsers)
 
   def this() = this(Identifiable.randomUID("CHUNKER"))
 
+  /** @group param */
   private lazy val replacements = Map("<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
-
+  /** @group param */
   private lazy val POSTagPatterns: Array[Regex] = {
     getRegexParsers.map(regexParser => replaceRegexParser(regexParser))
   }

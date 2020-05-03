@@ -14,21 +14,46 @@ import scala.language.postfixOps
   * Hard stemming of words for cut-of into standard word references.
   * See [[ https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StemmerTestSpec.scala ]] for examples of how to use this API
   * @param uid internal uid element for storing annotator into disk
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio anno  1
+  * @groupprio param  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /** this is the language of the text. default is English */
+  /** this is the language of the text. default is English
+    *
+    * @group param
+    **/
   val language: Param[String] = new Param(this, "language", "this is the language of the text")
   setDefault(language, "english")
 
-  /** Output annotator type : TOKEN */
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
-  /** Input annotator type : TOKEN */
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  /** this is the language of the text. default is English */
+  /** this is the language of the text. default is English
+    *
+    * @group param
+    **/
   def setLanguage(value: String): Stemmer = set(language, value)
 
   /** Language for text   */

@@ -14,6 +14,20 @@ import org.apache.spark.sql.{DataFrame, Row}
 /** Word Embeddings lookup annotator that maps tokens to vectors
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverterTest.scala]] for example usage of this API.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class WordEmbeddingsModel(override val uid: String)
   extends AnnotatorModel[WordEmbeddingsModel]
@@ -24,15 +38,27 @@ class WordEmbeddingsModel(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("WORD_EMBEDDINGS_MODEL"))
 
-  /** Output annotator type : WORD_EMBEDDINGS */
+  /** Output annotator type : WORD_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
-  /** Input annotator type : DOCUMENT, TOKEN */
+  /** Input annotator type : DOCUMENT, TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
-  /** cache size for items retrieved from storage. Increase for performance but higher memory consumption */
+  /** cache size for items retrieved from storage. Increase for performance but higher memory consumption
+    *
+    * @group param
+    **/
   val readCacheSize = new IntParam(this, "readCacheSize", "cache size for items retrieved from storage. Increase for performance but higher memory consumption")
 
-  /** Set cache size for items retrieved from storage. Increase for performance but higher memory consumption */
+  /** Set cache size for items retrieved from storage. Increase for performance but higher memory consumption
+    *
+    * @group setParam
+    **/
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
   /**

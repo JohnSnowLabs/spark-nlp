@@ -37,22 +37,51 @@ object PoolingStrategy {
   * }}}
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala]] for further reference on how to use this API.
-  * */
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /** Output annotator type : WORD_EMBEDDINGS */
+  /** Output annotator type : WORD_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
-  /** Input annotator type : CHUNK, WORD_EMBEDDINGS */
+  /** Input annotator type : CHUNK, WORD_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(CHUNK, WORD_EMBEDDINGS)
-  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM */
+  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM
+    *
+    * @group param
+    **/
   val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
-  /** Whether to discard default vectors for OOV words from the aggregation / pooling */
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling
+    *
+    * @group param
+    **/
   val skipOOV = new BooleanParam(this, "skipOOV", "Whether to discard default vectors for OOV words from the aggregation / pooling")
 
 
-  /** PoolingStrategy must be either AVERAGE or SUM */
+  /** PoolingStrategy must be either AVERAGE or SUM
+    *
+    * @group setParam
+    **/
   def setPoolingStrategy(strategy: String): this.type = {
     strategy.toLowerCase() match {
       case "average" => set(poolingStrategy, "AVERAGE")
@@ -61,14 +90,23 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
     }
   }
 
-  /** Whether to discard default vectors for OOV words from the aggregation / pooling */
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling
+    *
+    * @group setParam
+    **/
   def setSkipOOV(value: Boolean): this.type = set(skipOOV, value)
 
-  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM */
+  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM
+    *
+    * @group getParam
+    **/
   def getPoolingStrategy = $(poolingStrategy)
 
-  /** Whether to discard default vectors for OOV words from the aggregation / pooling */
-  def getSkipOOV= $(skipOOV)
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling
+    *
+    * @group getParam
+    **/
+  def getSkipOOV = $(skipOOV)
 
   setDefault(
     inputCols -> Array(CHUNK, WORD_EMBEDDINGS),
