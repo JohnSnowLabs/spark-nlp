@@ -73,7 +73,8 @@ class SentimentDLApproach(override val uid: String)
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
     validationSplit -> 0.0f,
-    outputLogsPath -> ""
+    outputLogsPath -> "",
+    threshold -> 0.6f
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -153,6 +154,7 @@ class SentimentDLApproach(override val uid: String)
       .setDatasetParams(classifier.encoder.params)
       .setModelIfNotSet(dataset.sparkSession, tf)
       .setStorageRef(embeddingsRef)
+      .setThreshold($(threshold))
 
     if (get(configProtoBytes).isDefined)
       model.setConfigProtoBytes($(configProtoBytes))
