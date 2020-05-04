@@ -170,10 +170,11 @@ logBuffered in Test := false
 
 scalacOptions ++= Seq(
   "-feature",
-  "-language:implicitConversions",
+  "-language:implicitConversions"
+)
+scalacOptions in(Compile, doc) ++= Seq(
   "-groups"
 )
-
 /** Enable for debugging */
 testOptions in Test += Tests.Argument("-oF")
 
