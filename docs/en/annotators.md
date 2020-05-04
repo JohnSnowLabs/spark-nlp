@@ -4,7 +4,7 @@ title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2020-04-03"
-use_language_switchter: "Python-Scala"
+use_language_switcher: "Python-Scala"
 
 ---
 

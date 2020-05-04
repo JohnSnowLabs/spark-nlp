@@ -4,7 +4,7 @@ title: Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
 modify_date: "2019-10-23"
-use_language_switchter: "Python-Scala"
+use_language_switcher: "Python-Scala"
 
 ---
 
