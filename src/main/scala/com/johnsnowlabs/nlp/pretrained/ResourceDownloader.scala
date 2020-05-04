@@ -14,6 +14,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
+import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
@@ -448,6 +449,7 @@ object PythonResourceDownloader {
     "UniversalSentenceEncoder" -> UniversalSentenceEncoder,
     "ElmoEmbeddings" -> ElmoEmbeddings,
     "ClassifierDLModel" -> ClassifierDLModel,
+    "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
     "AlbertEmbeddings" -> AlbertEmbeddings,
     "XlnetEmbeddings" -> XlnetEmbeddings,
     "SentimentDLModel" -> SentimentDLModel
