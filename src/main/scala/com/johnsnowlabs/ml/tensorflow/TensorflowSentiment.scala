@@ -8,10 +8,10 @@ import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowSentiment(
-                            val tensorflow: TensorflowWrapper,
-                            val encoder: ClassifierDatasetEncoder,
-                            override val verboseLevel: Verbose.Value
-                          )
+                           val tensorflow: TensorflowWrapper,
+                           val encoder: ClassifierDatasetEncoder,
+                           override val verboseLevel: Verbose.Value
+                         )
   extends Serializable with Logging {
 
   private val inputKey = "inputs:0"
@@ -119,7 +119,11 @@ class TensorflowSentiment(
     }
   }
 
-  def predict(docs: Seq[(Int, Seq[Annotation])], configProtoBytes: Option[Array[Byte]] = None): Seq[Annotation] = {
+  def predict(docs: Seq[(Int, Seq[Annotation])],
+              configProtoBytes: Option[Array[Byte]] = None,
+              threshold: Float = 0.6f,
+              thresholdLabel: String = "neutral"
+             ): Seq[Annotation] = {
 
     val tensors = new TensorResources()
 
@@ -142,16 +146,17 @@ class TensorflowSentiment(
       sentence._2.zip(tagsName).map {
         case (content, score) =>
           val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
+          val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
+          val finalLabel = if(confidenceScore >= threshold) label else thresholdLabel
 
           Annotation(
             annotatorType = AnnotatorType.CATEGORY,
             begin = content.begin,
             end = content.end,
-            result = label,
+            result = finalLabel,
             metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x => Map(x._1 -> x._2.toString))
           )
       }
-
     }
 
   }

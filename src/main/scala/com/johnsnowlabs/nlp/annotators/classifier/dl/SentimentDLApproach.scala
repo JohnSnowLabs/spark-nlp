@@ -29,7 +29,8 @@ class SentimentDLApproach(override val uid: String)
   val lr = new FloatParam(this, "lr", "Learning Rate")
   val batchSize = new IntParam(this, "batchSize", "Batch size")
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be neutral")
+  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.s")
+  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.")
   val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
   val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
@@ -46,6 +47,7 @@ class SentimentDLApproach(override val uid: String)
   def setBatchSize(batch: Int): SentimentDLApproach.this.type = set(this.batchSize, batch)
   def setDropout(dropout: Float): SentimentDLApproach.this.type = set(this.dropout, dropout)
   def setThreshold(threshold: Float): SentimentDLApproach.this.type = set(this.threshold, threshold)
+  def setThresholdLabel(label: String):SentimentDLApproach.this.type = set(this.thresholdLabel, label)
   def setMaxEpochs(epochs: Int): SentimentDLApproach.this.type = set(maxEpochs, epochs)
   def setConfigProtoBytes(bytes: Array[Int]): SentimentDLApproach.this.type = set(this.configProtoBytes, bytes)
   def setEnableOutputLogs(enableOutputLogs: Boolean): SentimentDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
@@ -59,6 +61,7 @@ class SentimentDLApproach(override val uid: String)
   def getBatchSize: Int = $(this.batchSize)
   def getDropout: Float = $(this.dropout)
   def getThreshold: Float = $(this.threshold)
+  def getThresholdLabel: String = $(this.thresholdLabel)
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
   def getOutputLogsPath: String = $(outputLogsPath)
   def getValidationSplit: Float = $(this.validationSplit)
@@ -73,7 +76,9 @@ class SentimentDLApproach(override val uid: String)
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
     validationSplit -> 0.0f,
-    outputLogsPath -> ""
+    outputLogsPath -> "",
+    threshold -> 0.6f,
+    thresholdLabel -> "neutral"
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -153,6 +158,8 @@ class SentimentDLApproach(override val uid: String)
       .setDatasetParams(classifier.encoder.params)
       .setModelIfNotSet(dataset.sparkSession, tf)
       .setStorageRef(embeddingsRef)
+      .setThreshold($(threshold))
+      .setThresholdLabel($(thresholdLabel))
 
     if (get(configProtoBytes).isDefined)
       model.setConfigProtoBytes($(configProtoBytes))

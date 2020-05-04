@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.IntArrayParam
+import org.apache.spark.ml.param.{FloatParam, IntArrayParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -21,6 +21,15 @@ class SentimentDLModel(override val uid: String)
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
   override val outputAnnotatorType: String = CATEGORY
+
+  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.s")
+  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.")
+
+  def setThreshold(threshold: Float): SentimentDLModel.this.type = set(this.threshold, threshold)
+  def setThresholdLabel(label: String):SentimentDLModel.this.type = set(this.thresholdLabel, label)
+
+  def getThreshold: Float = $(this.threshold)
+  def getThresholdLabel: String = $(this.thresholdLabel)
 
   val configProtoBytes = new IntArrayParam(
     this,
@@ -61,6 +70,11 @@ class SentimentDLModel(override val uid: String)
   }
   def getModelIfNotSet: TensorflowSentiment = _model.get.value
 
+  setDefault(
+    threshold -> 0.6f,
+    thresholdLabel -> "neutral"
+  )
+
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     validateStorageRef(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
     dataset
@@ -79,7 +93,7 @@ class SentimentDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    getModelIfNotSet.predict(sentences, getConfigProtoBytes)
+    getModelIfNotSet.predict(sentences, getConfigProtoBytes, $(threshold), $(thresholdLabel))
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -99,7 +113,7 @@ class SentimentDLModel(override val uid: String)
 trait ReadablePretrainedSentimentDL
   extends ParamsAndFeaturesReadable[SentimentDLModel]
     with HasPretrained[SentimentDLModel] {
-  override val defaultModelName: Some[String] = Some("sentiment_imdb")
+  override val defaultModelName: Some[String] = Some("sentimentdl_use_imdb")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): SentimentDLModel = {
     ResourceDownloader.downloadModel(SentimentDLModel, name, Option(lang), remoteLoc)
