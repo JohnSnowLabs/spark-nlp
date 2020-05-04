@@ -90,6 +90,9 @@ class ClassifierDLApproach(override val uid: String)
     * @group param
     **/
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+
+  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
+
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
     *
     * @group param
@@ -148,6 +151,7 @@ class ClassifierDLApproach(override val uid: String)
     **/
   def setEnableOutputLogs(enableOutputLogs: Boolean): ClassifierDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
 
+
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
     *
     * @group setParam
@@ -159,6 +163,8 @@ class ClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
+  
+  def setOutputLogsPath(path: String):ClassifierDLApproach.this.type = set(this.outputLogsPath, path)
 
   /** Level of verbosity during training
     *
@@ -201,7 +207,9 @@ class ClassifierDLApproach(override val uid: String)
     * @group getParam
     **/
   def getValidationSplit: Float = $(this.validationSplit)
-
+  
+  def getOutputLogsPath: String = $(outputLogsPath)
+  
   /** Maximum number of epochs to train
     *
     * @group getParam
@@ -221,7 +229,8 @@ class ClassifierDLApproach(override val uid: String)
     batchSize -> 64,
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
-    validationSplit -> 0.0f
+    validationSplit -> 0.0f,
+    outputLogsPath -> ""
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -281,6 +290,7 @@ class ClassifierDLApproach(override val uid: String)
         configProtoBytes = getConfigProtoBytes,
         validationSplit = $(validationSplit),
         enableOutputLogs=$(enableOutputLogs),
+        outputLogsPath=$(outputLogsPath),
         uuid = this.uid
       )
       model

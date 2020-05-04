@@ -51,6 +51,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
   private val outputSequenceKey = "module/seq_out"
 
   private val tokenSEPCLSIds = Array(4, 3)
+  private val sentencePieceDelimiterId = 17
 
   def getSpecialTokens(token: String): Array[Int] = {
     spp.getSppModel.encodeAsIds(token)
@@ -139,7 +140,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
 
       val tokensPiece = tokenize(batch, maxSentenceLength, caseSensitive)
       val tokenIds = tokensPiece.map { sentence =>
-        sentence.flatMap(x => x.tokens.map(x => x.pieceId)) ++ tokenSEPCLSIds
+        sentence.flatMap(x => x.tokens.find(_.pieceId != sentencePieceDelimiterId).map(x => x.pieceId)) ++ tokenSEPCLSIds
       }
       val vectors = tag(tokenIds)
       val tokenIdsVectors = tokenIds.zip(vectors).map { x =>
@@ -150,7 +151,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
 
         val tokensWithEmbeddings =  tokens._1.map{ token =>
           /* 17 is the id for '▁' token if appears alone */
-          val subWord:TokenPiece = token.tokens.find(_.pieceId != 17).getOrElse(token.tokens.head)
+          val subWord:TokenPiece = token.tokens.find(_.pieceId != sentencePieceDelimiterId).getOrElse(token.tokens.head)
           TokenPieceEmbeddings(
             subWord.wordpiece,
             subWord.token,

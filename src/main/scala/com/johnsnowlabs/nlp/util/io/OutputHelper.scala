@@ -13,9 +13,16 @@ object OutputHelper {
 
   private lazy val logsFolderExists = fs.exists(new Path(logsFolder))
 
-  def writeAppend(uuid: String, content: String): Unit = {
-    if (!logsFolderExists) fs.mkdirs(new Path(logsFolder))
-    val targetPath = new Path(logsFolder, uuid+".log")
+  def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
+
+    val targetPath = if(outputLogsPath.isEmpty){
+      if (!logsFolderExists) fs.mkdirs(new Path(logsFolder))
+       new Path(logsFolder, uuid+".log")
+    }else{
+      if (!fs.exists(new Path(outputLogsPath))) fs.mkdirs(new Path(outputLogsPath))
+      new Path(outputLogsPath, uuid+".log")
+    }
+
     if (fs.getScheme != "file") {
       val fo = fs.append(targetPath)
       val writer = new PrintWriter(fo, true)
