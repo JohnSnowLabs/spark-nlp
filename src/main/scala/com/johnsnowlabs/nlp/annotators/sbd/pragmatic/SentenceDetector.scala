@@ -3,14 +3,29 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 /**
   * Annotator that detects sentence boundaries using any provided approach
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic]] for further reference on how to use this API
+  *
   * @param uid internal constructor requirement for serialization of params
   * @@ model: Model to use for boundaries detection
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] with SentenceDetectorParams {
 
@@ -18,8 +33,15 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
   def this() = this(Identifiable.randomUID("SENTENCE"))
 
+  /** Output annotator type : DOCUMENT
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
-
+  /** Input annotator type : DOCUMENT
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   lazy val model: PragmaticMethod =
@@ -66,7 +88,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    import org.apache.spark.sql.functions.{col, explode, array}
+    import org.apache.spark.sql.functions.{array, col, explode}
     if ($(explodeSentences)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)

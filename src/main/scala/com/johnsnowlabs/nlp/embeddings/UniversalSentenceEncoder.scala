@@ -12,6 +12,34 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
+/**
+  * The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala]] for further reference on how to use this API.
+  *
+  * '''Sources :'''
+  *
+  * [[https://arxiv.org/abs/1803.11175]]
+  *
+  * [[https://tfhub.dev/google/universal-sentence-encoder/2]]
+  *
+  * ''' Paper abstract: '''
+  * We present models for encoding sentences into embedding vectors that specifically target transfer learning to other NLP tasks. The models are efficient and result in accurate performance on diverse transfer tasks. Two variants of the encoding models allow for trade-offs between accuracy and compute resources. For both variants, we investigate and report the relationship between model complexity, resource consumption, the availability of transfer task training data, and task performance. Comparisons are made with baselines that use word level transfer learning via pretrained word embeddings as well as baselines do not use any transfer learning. We find that transfer learning using sentence embeddings tends to outperform word level transfer. With transfer learning via sentence embeddings, we observe surprisingly good performance with minimal amounts of supervised training data for a transfer task. We obtain encouraging results on Word Embedding Association Tests (WEAT) targeted at detecting model bias. Our pre-trained sentence encoding models are made freely available for download and on TF Hub.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  */
 class UniversalSentenceEncoder(override val uid: String)
     extends AnnotatorModel[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
@@ -21,29 +49,48 @@ class UniversalSentenceEncoder(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("UNIVERSAL_SENTENCE_ENCODER"))
 
+  /** Output annotator type : SENTENCE_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
-
+  /** Input annotator type : DOCUMENT
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
-
+  /** Number of embedding dimensions
+    *
+    * @group param
+    **/
   override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group param
+    **/
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  val configProtoBytes = new IntArrayParam(
-    this,
-    "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()"
-  )
-
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group setParam
+    **/
   def setConfigProtoBytes(
-    bytes: Array[Int]
-  ): UniversalSentenceEncoder.this.type = set(this.configProtoBytes, bytes)
+                           bytes: Array[Int]
+                         ): UniversalSentenceEncoder.this.type = set(this.configProtoBytes, bytes)
 
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group getParam
+    **/
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
   private var _model: Option[Broadcast[TensorflowUSE]] = None
 
+  /** @group getParam */
   def getModelIfNotSet: TensorflowUSE = _model.get.value
 
+  /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
@@ -62,7 +109,7 @@ class UniversalSentenceEncoder(override val uid: String)
   )
 
   /**
-    * takes a document and annotations and produces new annotations of this annotator's annotation type
+    * Takes a document and annotations and produces new annotations of this annotator's annotation type
     *
     * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship

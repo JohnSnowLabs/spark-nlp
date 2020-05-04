@@ -5,44 +5,71 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.util.DependencyLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+
+/**
+ * Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.
+ * <p>
+ * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep ]] for further reference on this API.
+ *
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 public class TypedDependencyParser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
-
+    /** @group param **/
     private Options options;
+    /** @group param **/
     private DependencyPipe dependencyPipe;
+    /** @group param **/
     private Parameters parameters;
 
+    /** @group getParam **/
     DependencyPipe getDependencyPipe() {
         return dependencyPipe;
     }
 
+    /** @group getParam **/
     Parameters getParameters() {
         return parameters;
     }
 
+    /** @group getParam **/
     public Options getOptions() {
         return options;
     }
 
+    /** @group setParam **/
     void setDependencyPipe(DependencyPipe dependencyPipe) {
         this.dependencyPipe = dependencyPipe;
     }
 
+    /** @group setParam **/
     void setParameters(Parameters parameters) {
         this.parameters = parameters;
     }
 
+    /** @group setParam **/
     public void setOptions(Options options) {
         this.options = options;
     }
 
-    void train(DependencyInstance[] dependencyInstances)
-    {
+    void train(DependencyInstance[] dependencyInstances) {
         long start;
         long end;
 
@@ -116,8 +143,7 @@ public class TypedDependencyParser implements Serializable {
         }
     }
 
-    private void trainIterations(DependencyInstance[] dependencyInstances)
-    {
+    private void trainIterations(DependencyInstance[] dependencyInstances) {
         int printPeriod = 10000 < dependencyInstances.length ? dependencyInstances.length/10 : 1000;
 
         if(logger.isDebugEnabled()) {
@@ -173,8 +199,7 @@ public class TypedDependencyParser implements Serializable {
     }
 
     private int getNumberCorrectMatches(int[] actualHeads, int[] actualLabels, int[] predictedHeads,
-                                        int[] predictedLabels)
-    {
+                                        int[] predictedLabels) {
         int nCorrect = 0;
         for (int i = 1, N = actualHeads.length; i < N; ++i) {
             if (actualHeads[i] == predictedHeads[i] && actualLabels[i] == predictedLabels[i])

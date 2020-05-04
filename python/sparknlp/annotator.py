@@ -1375,6 +1375,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
 
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1421,6 +1423,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
 
     @keyword_only
     def __init__(self):
@@ -2039,6 +2044,8 @@ class ClassifierDLApproach(AnnotatorApproach):
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
 
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Column with label per each token",
@@ -2084,6 +2091,9 @@ class ClassifierDLApproach(AnnotatorApproach):
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
+
     @keyword_only
     def __init__(self):
         super(ClassifierDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach")
@@ -2111,7 +2121,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="classifier_sentiment", lang="en", remote_loc=None):
+    def pretrained(name="classifierdl_use_trec6", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
 
@@ -2235,74 +2245,74 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
                             typeConverter=TypeConverters.toInt)
 
     maxCandidates = Param(Params._dummy(),
-                                 "maxCandidates",
-                                 "Maximum number of candidates for every word.",
-                                 typeConverter=TypeConverters.toInt)
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
 
     caseStrategy = Param(Params._dummy(),
-                                 "caseStrategy",
-                                 "What case combinations to try when generating candidates.",
-                                 typeConverter=TypeConverters.toInt)
+                         "caseStrategy",
+                         "What case combinations to try when generating candidates.",
+                         typeConverter=TypeConverters.toInt)
 
     errorThreshold = Param(Params._dummy(),
-                                 "errorThreshold",
-                                 "Threshold perplexity for a word to be considered as an error.",
-                                 typeConverter=TypeConverters.toFloat)
+                           "errorThreshold",
+                           "Threshold perplexity for a word to be considered as an error.",
+                           typeConverter=TypeConverters.toFloat)
 
     epochs = Param(Params._dummy(),
-                                 "epochs",
-                                 "Number of epochs to train the language model.",
-                                 typeConverter=TypeConverters.toInt)
+                   "epochs",
+                   "Number of epochs to train the language model.",
+                   typeConverter=TypeConverters.toInt)
 
     batchSize = Param(Params._dummy(),
-                                 "batchSize",
-                                 "Batch size for the training in NLM.",
-                                 typeConverter=TypeConverters.toInt)
+                      "batchSize",
+                      "Batch size for the training in NLM.",
+                      typeConverter=TypeConverters.toInt)
 
     initialRate = Param(Params._dummy(),
-                                 "initialRate",
-                                 "Initial learning rate for the LM.",
-                                 typeConverter=TypeConverters.toFloat)
+                        "initialRate",
+                        "Initial learning rate for the LM.",
+                        typeConverter=TypeConverters.toFloat)
 
     finalRate = Param(Params._dummy(),
-                                 "finalRate",
-                                 "Final learning rate for the LM.",
-                                 typeConverter=TypeConverters.toFloat)
+                      "finalRate",
+                      "Final learning rate for the LM.",
+                      typeConverter=TypeConverters.toFloat)
 
     validationFraction = Param(Params._dummy(),
-                                 "validationFraction",	
-                                 "Percentage of datapoints to use for validation.",
-                                 typeConverter=TypeConverters.toFloat)
+                               "validationFraction",
+                               "Percentage of datapoints to use for validation.",
+                               typeConverter=TypeConverters.toFloat)
 
     minCount = Param(Params._dummy(),
-                                 "minCount",
-                                 "Min number of times a token should appear to be included in vocab.",
-                                 typeConverter=TypeConverters.toInt)
+                     "minCount",
+                     "Min number of times a token should appear to be included in vocab.",
+                     typeConverter=TypeConverters.toInt)
 
     compoundCount = Param(Params._dummy(),
-                                 "compoundCount",
-                                 "Min number of times a compound word should appear to be included in vocab.",
-                                 typeConverter=TypeConverters.toInt)
+                          "compoundCount",
+                          "Min number of times a compound word should appear to be included in vocab.",
+                          typeConverter=TypeConverters.toInt)
 
     classCount = Param(Params._dummy(),
-                                 "classCount",
-                                 "Min number of times the word need to appear in corpus to not be considered of a special class.",
-                                 typeConverter=TypeConverters.toInt)
+                       "classCount",
+                       "Min number of times the word need to appear in corpus to not be considered of a special class.",
+                       typeConverter=TypeConverters.toInt)
 
     tradeoff = Param(Params._dummy(),
-                                 "tradeoff",
-                                 "Tradeoff between the cost of a word error and a transition in the language model.",
-                                 typeConverter=TypeConverters.toFloat)
+                     "tradeoff",
+                     "Tradeoff between the cost of a word error and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
 
     weightedDistPath = Param(Params._dummy(),
-                                 "weightedDistPath",
-                                 "The path to the file containing the weights for the levenshtein distance.",
-                                 typeConverter=TypeConverters.toString)
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
 
     maxWindowLen = Param(Params._dummy(),
-                                 "maxWindowLen",
-                                 "Maximum size for the window used to remember history prior to every correction.",
-                                 typeConverter=TypeConverters.toInt)
+                         "maxWindowLen",
+                         "Maximum size for the window used to remember history prior to every correction.",
+                         typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
@@ -2330,7 +2340,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     def setInitialRate(self, rate):
         return self._set(initialRate=rate)
-    
+
     def setFinalRate(self, rate):
         return self._set(finalRate=rate)
 
@@ -2338,7 +2348,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(validationFraction=fraction)
 
     def setMinCount(self, count):
-        return self._set(minCount=count)    
+        return self._set(minCount=count)
 
     def setCompoundCount(self, count):
         return self._set(compoundCount=count)
@@ -2392,34 +2402,34 @@ class ContextSpellCheckerModel(AnnotatorModel):
                             typeConverter=TypeConverters.toInt)
 
     maxCandidates = Param(Params._dummy(),
-                                 "maxCandidates",
-                                 "Maximum number of candidates for every word.",
-                                 typeConverter=TypeConverters.toInt)
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
 
     caseStrategy = Param(Params._dummy(),
-                                 "caseStrategy",
-                                 "What case combinations to try when generating candidates.",
-                                 typeConverter=TypeConverters.toInt)
+                         "caseStrategy",
+                         "What case combinations to try when generating candidates.",
+                         typeConverter=TypeConverters.toInt)
 
     errorThreshold = Param(Params._dummy(),
-                                 "errorThreshold",
-                                 "Threshold perplexity for a word to be considered as an error.",
-                                 typeConverter=TypeConverters.toFloat)
+                           "errorThreshold",
+                           "Threshold perplexity for a word to be considered as an error.",
+                           typeConverter=TypeConverters.toFloat)
 
     tradeoff = Param(Params._dummy(),
-                                 "tradeoff",
-                                 "Tradeoff between the cost of a word error and a transition in the language model.",
-                                 typeConverter=TypeConverters.toFloat)
+                     "tradeoff",
+                     "Tradeoff between the cost of a word error and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
 
     weightedDistPath = Param(Params._dummy(),
-                                 "weightedDistPath",
-                                 "The path to the file containing the weights for the levenshtein distance.",
-                                 typeConverter=TypeConverters.toString)
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
 
     maxWindowLen = Param(Params._dummy(),
-                                 "maxWindowLen",
-                                 "Maximum size for the window used to remember history prior to every correction.",
-                                 typeConverter=TypeConverters.toInt)
+                         "maxWindowLen",
+                         "Maximum size for the window used to remember history prior to every correction.",
+                         typeConverter=TypeConverters.toInt)
 
     gamma = Param(Params._dummy(),
                   "gamma",
@@ -2485,3 +2495,113 @@ class ContextSpellCheckerModel(AnnotatorModel):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 
+
+class SentimentDLApproach(AnnotatorApproach):
+
+    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
+    dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
+
+    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                            TypeConverters.toFloat)
+
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
+
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
+    labelColumn = Param(Params._dummy(),
+                        "labelColumn",
+                        "Column with label per each token",
+                        typeConverter=TypeConverters.toString)
+
+    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
+    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+
+    def setVerbose(self, value):
+        return self._set(verbose=value)
+
+    def setRandomSeed(self, seed):
+        return self._set(randomSeed=seed)
+
+    def setLabelColumn(self, value):
+        return self._set(labelColumn=value)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setLr(self, v):
+        self._set(lr=v)
+        return self
+
+    def setBatchSize(self, v):
+        self._set(batchSize=v)
+        return self
+
+    def setDropout(self, v):
+        self._set(dropout=v)
+        return self
+
+    def setMaxEpochs(self, epochs):
+        return self._set(maxEpochs=epochs)
+
+    def _create_model(self, java_model):
+        return SentimentDLModel(java_model=java_model)
+
+    def setValidationSplit(self, v):
+        self._set(validationSplit=v)
+        return self
+
+    def setEnableOutputLogs(self, value):
+        return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    @keyword_only
+    def __init__(self):
+        super(SentimentDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach")
+        self._setDefault(
+            maxEpochs=30,
+            lr=float(0.005),
+            batchSize=64,
+            dropout=float(0.5),
+            enableOutputLogs=False
+        )
+
+
+class SentimentDLModel(AnnotatorModel, HasStorageRef):
+    name = "SentimentDLModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel", java_model=None):
+        super(SentimentDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    @staticmethod
+    def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
