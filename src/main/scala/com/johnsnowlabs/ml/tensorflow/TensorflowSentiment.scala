@@ -147,13 +147,13 @@ class TensorflowSentiment(
         case (content, score) =>
           val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
           val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
-          val thresholdLabel = if(confidenceScore >= threshold) label else thresholdLabel
+          val finalLabel = if(confidenceScore >= threshold) label else thresholdLabel
 
           Annotation(
             annotatorType = AnnotatorType.CATEGORY,
             begin = content.begin,
             end = content.end,
-            result = thresholdLabel,
+            result = finalLabel,
             metadata = Map("sentence" -> sentence._1.toString) ++ score.flatMap(x => Map(x._1 -> x._2.toString))
           )
       }
