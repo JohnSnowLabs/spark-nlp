@@ -27,6 +27,7 @@ sda.vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 spell.norvig = sys.modules[__name__]
 spell.symmetric = sys.modules[__name__]
+spell.context = sys.modules[__name__]
 parser = sys.modules[__name__]
 parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
@@ -43,8 +44,8 @@ except ImportError:
     pass
 
 
-class SimpleTokenizer(AnnotatorApproach):
-    name = 'SimpleTokenizer'
+class RecursiveTokenizer(AnnotatorApproach):
+    name = 'RecursiveTokenizer'
 
     prefixes = Param(Params._dummy(),
                           "prefixes",
@@ -79,8 +80,8 @@ class SimpleTokenizer(AnnotatorApproach):
         return self._set(whitelist=w)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizer"):
-        super(SimpleTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizer")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizer"):
+        super(RecursiveTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizer")
         self._setDefault(
             prefixes=["'", "\"", "(", "[", "\n"],
             infixes=["\n", "(", ")"],
@@ -91,60 +92,17 @@ class SimpleTokenizer(AnnotatorApproach):
 
 
     def _create_model(self, java_model):
-        return SimpleTokenizerModel(java_model=java_model)
+        return RecursiveTokenizerModel(java_model=java_model)
 
 
-class SimpleTokenizerModel(AnnotatorModel):
-    name = 'SimpleTokenizerModel'
-    '''
-    prefixes = Param(Params._dummy(),
-                          "prefixes",
-                          "strings to be considered independent tokens when found at the beginning of a word",
-                          typeConverter=TypeConverters.toListString)
+class RecursiveTokenizerModel(AnnotatorModel):
+    name = 'RecursiveTokenizerModel'
 
-    suffixes = Param(Params._dummy(),
-                          "suffixes",
-                          "strings to be considered independent tokens when found at the end of a word",
-                          typeConverter=TypeConverters.toListString)
-
-    infixes = Param(Params._dummy(),
-                          "infixes",
-                          "strings to be considered independent tokens when found in the middle of a word",
-                          typeConverter=TypeConverters.toListString)
-
-    whitelist = Param(Params._dummy(),
-                          "whitelist",
-                          "strings to be considered as single tokens",
-                          typeConverter=TypeConverters.toListString)
-
-    def setPrefixes(self, p):
-        return self._set(prefixes=p)
-
-    def setSuffixes(self, s):
-        return self._set(suffixes=s)
-
-    def setInfixes(self, i):
-        return self._set(infixes=i)
-
-    def setWhitelist(self, w):
-        return self._set(whitelist=w)
-    '''
-
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.SimpleTokenizerModel", java_model=None):
-        super(SimpleTokenizerModel, self).__init__(
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel", java_model=None):
+        super(RecursiveTokenizerModel, self).__init__(
             classname=classname,
             java_model=java_model
         )
-        '''
-        self._setDefault(
-            prefixes=["'", "\"", "(", "[", "\n"],
-            infixes=["\n", "(", ")"],
-            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
-            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
-                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
-        )
-        '''
-
 
 class Tokenizer(AnnotatorApproach):
 
@@ -2270,6 +2228,272 @@ class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
     def pretrained(name="xlnet_base_cased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
+
+
+class ContextSpellCheckerApproach(AnnotatorApproach):
+
+    name = "ContextSpellCheckerApproach"
+
+    languageModelClasses = Param(Params._dummy(),
+                                 "languageModelClasses",
+                                 "Number of classes to use during factorization of the softmax output in the LM.",
+                                 typeConverter=TypeConverters.toInt)
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    maxCandidates = Param(Params._dummy(),
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
+
+    caseStrategy = Param(Params._dummy(),
+                         "caseStrategy",
+                         "What case combinations to try when generating candidates.",
+                         typeConverter=TypeConverters.toInt)
+
+    errorThreshold = Param(Params._dummy(),
+                           "errorThreshold",
+                           "Threshold perplexity for a word to be considered as an error.",
+                           typeConverter=TypeConverters.toFloat)
+
+    epochs = Param(Params._dummy(),
+                   "epochs",
+                   "Number of epochs to train the language model.",
+                   typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size for the training in NLM.",
+                      typeConverter=TypeConverters.toInt)
+
+    initialRate = Param(Params._dummy(),
+                        "initialRate",
+                        "Initial learning rate for the LM.",
+                        typeConverter=TypeConverters.toFloat)
+
+    finalRate = Param(Params._dummy(),
+                      "finalRate",
+                      "Final learning rate for the LM.",
+                      typeConverter=TypeConverters.toFloat)
+
+    validationFraction = Param(Params._dummy(),
+                               "validationFraction",
+                               "Percentage of datapoints to use for validation.",
+                               typeConverter=TypeConverters.toFloat)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "Min number of times a token should appear to be included in vocab.",
+                     typeConverter=TypeConverters.toInt)
+
+    compoundCount = Param(Params._dummy(),
+                          "compoundCount",
+                          "Min number of times a compound word should appear to be included in vocab.",
+                          typeConverter=TypeConverters.toInt)
+
+    classCount = Param(Params._dummy(),
+                       "classCount",
+                       "Min number of times the word need to appear in corpus to not be considered of a special class.",
+                       typeConverter=TypeConverters.toInt)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word error and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    maxWindowLen = Param(Params._dummy(),
+                         "maxWindowLen",
+                         "Maximum size for the window used to remember history prior to every correction.",
+                         typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+
+    def setLanguageModelClasses(self, count):
+        return self._set(languageModelClasses=count)
+
+    def setWordMaxDistance(self, dist):
+        return self._set(wordMaxDistance=dist)
+
+    def setMaxCandidates(self, candidates):
+        return self._set(maxCandidates=candidates)
+
+    def setCaseStrategy(self, strategy):
+        return self._set(caseStrategy=strategy)
+
+    def setErrorThreshold(self, threshold):
+        return self._set(errorThreshold=threshold)
+
+    def setEpochs(self, count):
+        return self._set(epochs=count)
+
+    def setInitialBatchSize(self, size):
+        return self._set(batchSize=size)
+
+    def setInitialRate(self, rate):
+        return self._set(initialRate=rate)
+
+    def setFinalRate(self, rate):
+        return self._set(finalRate=rate)
+
+    def setValidationFraction(self, fraction):
+        return self._set(validationFraction=fraction)
+
+    def setMinCount(self, count):
+        return self._set(minCount=count)
+
+    def setCompoundCount(self, count):
+        return self._set(compoundCount=count)
+
+    def setClassCount(self, count):
+        return self._set(classCount=count)
+
+    def setTradeoff(self, alpha):
+        return self._set(tradeoff=alpha)
+
+    def setWeightedDistPath(self, path):
+        return self._set(weightedDistPath=path)
+
+    def setWeightedDistPath(self, path):
+        return self._set(weightedDistPath=path)
+
+    def setMaxWindowLen(self, length):
+        return self._set(maxWindowLen=length)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def addVocabClass(self, label, vocab, userdist=3):
+        self._call_java('addVocabClass', label, vocab, userdist)
+        return self
+
+    def addRegexClass(self, label, regex, userdist=3):
+        self._call_java('addRegexClass', label, regex, userdist)
+        return self
+
+    @keyword_only
+    def __init__(self):
+        super(ContextSpellCheckerApproach, self). \
+            __init__(classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach")
+
+    def _create_model(self, java_model):
+        return ContextSpellCheckerModel(java_model=java_model)
+
+
+class ContextSpellCheckerModel(AnnotatorModel):
+    name = "ContextSpellCheckerModel"
+
+    languageModelClasses = Param(Params._dummy(),
+                                 "languageModelClasses",
+                                 "Number of classes to use during factorization of the softmax output in the LM.",
+                                 typeConverter=TypeConverters.toInt)
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    maxCandidates = Param(Params._dummy(),
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
+
+    caseStrategy = Param(Params._dummy(),
+                         "caseStrategy",
+                         "What case combinations to try when generating candidates.",
+                         typeConverter=TypeConverters.toInt)
+
+    errorThreshold = Param(Params._dummy(),
+                           "errorThreshold",
+                           "Threshold perplexity for a word to be considered as an error.",
+                           typeConverter=TypeConverters.toFloat)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word error and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    maxWindowLen = Param(Params._dummy(),
+                         "maxWindowLen",
+                         "Maximum size for the window used to remember history prior to every correction.",
+                         typeConverter=TypeConverters.toInt)
+
+    gamma = Param(Params._dummy(),
+                  "gamma",
+                  "Controls the influence of individual word frequency in the decision.",
+                  typeConverter=TypeConverters.toFloat)
+
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setLanguageModelClasses(self, count):
+        return self._set(languageModelClasses=count)
+
+    def setWordMaxDistance(self, dist):
+        return self._set(wordMaxDistance=dist)
+
+    def setMaxCandidates(self, candidates):
+        return self._set(maxCandidates=candidates)
+
+    def setCaseStrategy(self, strategy):
+        return self._set(caseStrategy=strategy)
+
+    def setErrorThreshold(self, threshold):
+        return self._set(errorThreshold=threshold)
+
+    def setTradeoff(self, alpha):
+        return self._set(tradeoff=alpha)
+
+    def setWeights(self, weights):
+        self._call_java('setWeights', weights)
+
+    def setMaxWindowLen(self, length):
+        return self._set(maxWindowLen=length)
+
+    def setGamma(self, g):
+        return self._set(gamma=g)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def getWordClasses(self):
+        it = self._call_java('getWordClasses').toIterator()
+        result = []
+        while(it.hasNext()):
+            result.append(it.next().toString())
+        return result
+
+    def updateRegexClass(self, label, regex):
+        self._call_java('updateRegexClass', label, regex)
+        return self
+
+    def updateVocabClass(self, label, vocab, append=True):
+        self._call_java('updateVocabClass', label, vocab, append)
+        return self
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
+        super(ContextSpellCheckerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 
 
 class SentimentDLApproach(AnnotatorApproach):

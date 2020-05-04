@@ -5,7 +5,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
-
+import org.apache.spark.ml.param.StringArrayParam
 
 /**
   * @groupname anno Annotator types
@@ -23,9 +23,10 @@ import org.apache.spark.sql.Dataset
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   * @param uid
   */
-class SimpleTokenizer(override val uid: String)
-  extends AnnotatorApproach[SimpleTokenizerModel] with ParamsAndFeaturesWritable {
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+class RecursiveTokenizer(override val uid: String)
+  extends AnnotatorApproach[RecursiveTokenizerModel] with ParamsAndFeaturesWritable {
+
+
   def this() = this(Identifiable.randomUID("SILLY_TOKENIZER"))
 
   /** Strings that will be split when found at the beginning of token.
@@ -95,8 +96,8 @@ class SimpleTokenizer(override val uid: String)
   /** Simplest possible tokenizer */
   override val description: String = "Simplest possible tokenizer"
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SimpleTokenizerModel = {
-    new SimpleTokenizerModel().
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RecursiveTokenizerModel = {
+    new RecursiveTokenizerModel().
       setPrefixes(getOrDefault(prefixes)).
       setSuffixes(getOrDefault(suffixes)).
       setInfixes(getOrDefault(infixes)).

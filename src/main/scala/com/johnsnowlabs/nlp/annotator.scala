@@ -22,10 +22,10 @@ package object annotator {
   type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
   object TokenizerModel extends ReadablePretrainedTokenizer
 
-  type SimpleTokenizer = com.johnsnowlabs.nlp.annotators.SimpleTokenizer
-  object SimpleTokenizer extends DefaultParamsReadable[SimpleTokenizer]
-  type SimpleTokenizerModel = com.johnsnowlabs.nlp.annotators.SimpleTokenizerModel
-  object SimpleTokenizerModel extends ReadablePretrainedTokenizer
+  type RecursiveTokenizer = com.johnsnowlabs.nlp.annotators.RecursiveTokenizer
+  object RecursiveTokenizer extends DefaultParamsReadable[RecursiveTokenizer]
+  type RecursiveTokenizerModel = com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel
+  object RecursiveTokenizerModel extends ReadablePretrainedTokenizer
 
   type ChunkTokenizer = com.johnsnowlabs.nlp.annotators.ChunkTokenizer
   object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]

@@ -21,8 +21,9 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class SimpleTokenizerModel(override val uid: String) extends
-  AnnotatorModel[SimpleTokenizerModel] with ParamsAndFeaturesWritable {
+class RecursiveTokenizerModel(override val uid: String) extends
+  AnnotatorModel[RecursiveTokenizerModel] with ParamsAndFeaturesWritable {
+
 
   /** prefixes
     *
