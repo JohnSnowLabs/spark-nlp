@@ -2525,6 +2525,7 @@ class SentimentDLApproach(AnnotatorApproach):
     verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+    thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
 
     def setVerbose(self, value):
         return self._set(verbose=value)
@@ -2570,6 +2571,9 @@ class SentimentDLApproach(AnnotatorApproach):
         self._set(threshold=v)
         return self
 
+    def setThresholdLabel(self, p):
+        return self._set(thresholdLabel=p)
+
     @keyword_only
     def __init__(self):
         super(SentimentDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach")
@@ -2578,7 +2582,9 @@ class SentimentDLApproach(AnnotatorApproach):
             lr=float(0.005),
             batchSize=64,
             dropout=float(0.5),
-            enableOutputLogs=False
+            enableOutputLogs=False,
+            threshold=0.6,
+            thresholdLabel="neutral"
         )
 
 
@@ -2590,9 +2596,14 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
             classname=classname,
             java_model=java_model
         )
+        self._setDefault(
+            threshold=0.6,
+            thresholdLabel="neutral"
+        )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+    thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -2600,6 +2611,9 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     def setThreshold(self, v):
         self._set(threshold=v)
         return self
+
+    def setThresholdLabel(self, p):
+        return self._set(thresholdLabel=p)
 
     @staticmethod
     def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None):
