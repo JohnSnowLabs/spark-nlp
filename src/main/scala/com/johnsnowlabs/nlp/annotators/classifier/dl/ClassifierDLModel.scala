@@ -99,7 +99,7 @@ class ClassifierDLModel(override val uid: String)
 trait ReadablePretrainedClassifierDL
   extends ParamsAndFeaturesReadable[ClassifierDLModel]
     with HasPretrained[ClassifierDLModel] {
-  override val defaultModelName: Some[String] = Some("classifier_sentiment")
+  override val defaultModelName: Some[String] = Some("classifierdl_use_trec6")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): ClassifierDLModel = {
     ResourceDownloader.downloadModel(ClassifierDLModel, name, Option(lang), remoteLoc)
