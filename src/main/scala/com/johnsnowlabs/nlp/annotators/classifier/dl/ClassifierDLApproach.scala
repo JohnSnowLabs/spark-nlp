@@ -92,7 +92,7 @@ class ClassifierDLApproach(override val uid: String)
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 
     require(
-      labels.length < 50,
+      labels.length <= 100,
       s"The total unique number of classes must be less than 50. Currently is ${labels.length}"
     )
 
@@ -104,6 +104,13 @@ class ClassifierDLApproach(override val uid: String)
 
     val encoder = new ClassifierDatasetEncoder(
       settings
+    )
+
+    val embeddingsDim = encoder.calculateEmbeddingsDim(train)
+    require(
+      embeddingsDim <= 1024,
+      s"The SentimentDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
+        s" with less than "
     )
 
     val trainDataset = encoder.collectTrainingInstances(train, getLabelColumn)
@@ -158,4 +165,4 @@ class ClassifierDLApproach(override val uid: String)
   }
 }
 
-object NerDLApproach extends DefaultParamsReadable[ClassifierDLApproach]
+object ClassifierDLApproach extends DefaultParamsReadable[ClassifierDLApproach]
