@@ -11,12 +11,29 @@ import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
 
 /** Created by danilo 16/04/2018,
-  * inspired on https://github.com/wolfgarbe/SymSpell
+  *
+  * Inspired on https://github.com/wolfgarbe/SymSpell
   *
   * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
   * dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
   * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-  * */
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala]] for further reference.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel]
   with SymmetricDeleteParams {
 
@@ -24,19 +41,30 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
   def this() = this(Identifiable.randomUID("SYMSPELL"))
 
-  /**
-    * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
-    */
+
+  /** Output annotator type: TOKEN
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
+  /** Input annotator type: TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
+  /** @group param */
   protected val derivedWords: MapFeature[String, (List[String], Long)] =
     new MapFeature(this, "derivedWords")
 
+  /** @group param */
   protected val dictionary: MapFeature[String, Long] = new MapFeature(this, "dictionary")
 
+  /** @group setParam */
   def setDictionary(value: Map[String, Long]): this.type = set(dictionary, value)
+
+  /** @group setParam */
   def setDerivedWords(value: Map[String, (List[String], Long)]): this.type = set(derivedWords, value)
 
   private val logger = LoggerFactory.getLogger("SymmetricDeleteApproach")

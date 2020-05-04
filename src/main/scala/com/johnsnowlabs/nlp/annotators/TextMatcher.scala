@@ -11,43 +11,117 @@ import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
+
+/** Annotator to match entire phrases (by token) provided in a file against a Document
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala]] for reference on how to use this API
+  *
+  * @param uid internal uid required to generate writable annotators
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * */
 class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatcherModel] with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
 
+  /** Output annotator type : DOCUMENT, TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN)
-
+  /** Output annotator type : CHUNK
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
+  /** Extracts entities from target dataset given in a text file */
   override val description: String = "Extracts entities from target dataset given in a text file"
-
+  /** entities external resource.
+    *
+    * @group param
+    **/
   val entities = new ExternalResourceParam(this, "entities", "entities external resource.")
+  /** whether to match regardless of case. Defaults true
+    *
+    * @group param
+    **/
   val caseSensitive = new BooleanParam(this, "caseSensitive", "whether to match regardless of case. Defaults true")
+  /** whether to merge overlapping matched chunks. Defaults false
+    *
+    * @group param
+    **/
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
+  /** Tokenizer
+    *
+    * @group param
+    **/
   val tokenizer = new StructFeature[TokenizerModel](this, "tokenizer")
 
-  setDefault(inputCols,Array(TOKEN))
+  setDefault(inputCols, Array(TOKEN))
   setDefault(caseSensitive, true)
   setDefault(mergeOverlapping, false)
 
+
+  /** Provides a file with phrases to match. Default: Looks up path in configuration.
+    *
+    * @group getParam
+    **/
   def setEntities(value: ExternalResource): this.type =
     set(entities, value)
 
+  /** Provides a file with phrases to match. Default: Looks up path in configuration. */
+
+  /**
+    *
+    * @param path    a path to a file that contains the entities in the specified format.
+    * @param readAs  the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.
+    * @param options a map of additional parameters. Defaults to {“format”: “text”}.
+    * @return this
+    * @group getParam
+    */
   def setEntities(path: String, readAs: ReadAs.Format, options: Map[String, String] = Map("format" -> "text")): this.type =
     set(entities, ExternalResource(path, readAs, options))
 
+  /** @group setParam */
   def setTokenizer(tokenizer: TokenizerModel): this.type = set(this.tokenizer, tokenizer)
 
+  /** @group GetParam */
   def getTokenizer: TokenizerModel = $$(tokenizer)
 
-  def setCaseSensitive(v: Boolean): this.type =
-    set(caseSensitive, v)
+  /** whether to match regardless of case. Defaults true
+    *
+    * @group setParam
+    **/
+  def setCaseSensitive(v: Boolean): this.type = set(caseSensitive, v)
 
-  def getCaseSensitive: Boolean =
-    $(caseSensitive)
+  /** whether to match regardless of case. Defaults true
+    *
+    * @group getParam
+    **/
+  def getCaseSensitive: Boolean = $(caseSensitive)
 
+  /** whether to merge overlapping matched chunks. Defaults false
+    *
+    * @group setParam
+    **/
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
+  /** whether to merge overlapping matched chunks. Defaults false
+    *
+    * @group getParam
+    **/
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
   /**

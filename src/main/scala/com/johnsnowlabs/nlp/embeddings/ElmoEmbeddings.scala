@@ -16,6 +16,39 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
   * The use of an accelerator is recommended.
   *
+  * '''word_emb''': the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
+  *
+  * '''lstm_outputs1''': the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
+  *
+  * '''lstm_outputs2''': the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
+  *
+  * '''elmo''': the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+  *
+  * See [[ https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala ]] for further reference on how to use this API.
+  *
+  * '''Sources :'''
+  *
+  * [[https://tfhub.dev/google/elmo/3]]
+  *
+  * [[https://arxiv.org/abs/1802.05365]]
+  *
+  * ''' Paper abstract : '''
+  *
+  * We introduce a new type of deep contextualized word representation that models both (1) complex characteristics of word use (e.g., syntax and semantics), and (2) how these uses vary across linguistic contexts (i.e., to model polysemy). Our word vectors are learned functions of the internal states of a deep bidirectional language model (biLM), which is pre-trained on a large text corpus. We show that these representations can be easily added to existing models and significantly improve the state of the art across six challenging NLP problems, including question answering, textual entailment and sentiment analysis. We also present an analysis showing that exposing the deep internals of the pre-trained network is crucial, allowing downstream models to mix different types of semi-supervision signals.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class ElmoEmbeddings(override val uid: String) extends
   AnnotatorModel[ElmoEmbeddings]
@@ -24,29 +57,64 @@ class ElmoEmbeddings(override val uid: String) extends
   with HasStorageRef
   with HasCaseSensitiveProperties {
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  /** Output annotator type : WORD_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+  /** Batch size. Large values allows faster processing but requires more memory.
+    *
+    * @group param
+    **/
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group param
+    **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  /** Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo
+    *
+    * @group param
+    **/
   val poolingLayer = new Param[String](this, "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo")
+  /** @group param */
   private var _model: Option[Broadcast[TensorflowElmo]] = None
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("ELMO_EMBEDDINGS"))
 
+
+  /** Large values allows faster processing but requires more memory.
+    *
+    * @group setParam
+    **/
   def setBatchSize(size: Int): this.type = {
     if (get(batchSize).isEmpty)
       set(batchSize, size)
     this
   }
 
+  /** Set Dimension of pooling layer. This is meta for the annotation and will not affect the actual embedding calculation.
+    *
+    * @group setParam
+    **/
   override def setDimension(value: Int): this.type = {
-    if(get(dimension).isEmpty)
+    if (get(dimension).isEmpty)
       set(this.dimension, value)
     this
 
   }
 
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group setParam
+    **/
   def setConfigProtoBytes(bytes: Array[Int]): ElmoEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
   /** Function used to set the embedding output layer of the ELMO model
@@ -56,6 +124,7 @@ class ElmoEmbeddings(override val uid: String) extends
     * elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
     *
     * @param layer Layer specification
+    * @group setParam
     */
   def setPoolingLayer(layer: String): this.type = {
     layer match {
@@ -68,6 +137,15 @@ class ElmoEmbeddings(override val uid: String) extends
     }
   }
 
+
+  /** Function used to set the embedding output layer of the ELMO model
+    * word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
+    * lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
+    * lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
+    * elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+    *
+    * @group getParam
+    */
   def getPoolingLayer: String = $(poolingLayer)
 
   setDefault(
@@ -76,6 +154,7 @@ class ElmoEmbeddings(override val uid: String) extends
     dimension -> 512
   )
 
+  /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
