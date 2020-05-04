@@ -3,7 +3,6 @@ package com.johnsnowlabs.nlp.util
 import java.io.File
 
 import com.johnsnowlabs.nlp.Finisher
-import com.johnsnowlabs.nlp.annotators.ner.NerConverter
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -52,9 +51,8 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
 
   //TODO: read this from a file?
   //this is what the generator output should be
-  val testText = """"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O""".replace("|", "")
-  val testNERText = """"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O"" "" "" ""-DOCSTART- -X- -X- O"" "" "" ""|"" "" "" ""Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O""".replace("|", "")
-
+  val testText = "   -DOCSTART- -X- -X- O      Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+  val testNERText = "   -DOCSTART- -X- -X- O      Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
 
   "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" in {
     //remove file if it's already there
