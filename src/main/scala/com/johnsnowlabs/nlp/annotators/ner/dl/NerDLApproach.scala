@@ -39,11 +39,13 @@ class NerDLApproach(override val uid: String)
 
   /** Trains Tensorflow based Char-CNN-BLSTM model */
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
+
   /** Input annotator types : DOCUMENT, TOKEN, WORD_EMBEDDINGS
     *
     * @group anno
     **/
-  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  
   /** Input annotator types : NAMED_ENTITY
     *
     * @group anno
@@ -97,6 +99,7 @@ class NerDLApproach(override val uid: String)
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
   /** Whether to output to annotators log folder */
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
+
   /** val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. If set used to calculate statistic on it during training.")
     *
     * @group param
@@ -107,6 +110,8 @@ class NerDLApproach(override val uid: String)
     * @group param
     **/
   val includeConfidence = new BooleanParam(this, "includeConfidence", "Whether to include confidence scores in annotation metadata")
+  
+  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
 
   /** Learning Rate
     *
@@ -161,6 +166,7 @@ class NerDLApproach(override val uid: String)
     * @group getParam
     **/
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
+  def getOutputLogsPath: String = $(outputLogsPath)
 
   /** Learning Rate
     *
@@ -221,7 +227,9 @@ class NerDLApproach(override val uid: String)
     * @group setParam
     **/
   def setEnableOutputLogs(enableOutputLogs: Boolean): NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
-
+  
+  def setOutputLogsPath(path: String):NerDLApproach.this.type = set(this.outputLogsPath, path)
+  
   /** Path to test dataset. If set used to calculate statistic on it during training.
     *
     * @group setParam
@@ -255,7 +263,8 @@ class NerDLApproach(override val uid: String)
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
-    enableOutputLogs -> false
+    enableOutputLogs -> false,
+    outputLogsPath -> ""
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
@@ -329,6 +338,7 @@ class NerDLApproach(override val uid: String)
         evaluationLogExtended=$(evaluationLogExtended),
         includeConfidence=$(includeConfidence),
         enableOutputLogs=$(enableOutputLogs),
+        outputLogsPath=$(outputLogsPath),
         uuid=this.uid
       )
       model

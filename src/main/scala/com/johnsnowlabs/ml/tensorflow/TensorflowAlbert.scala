@@ -9,8 +9,7 @@ import scala.collection.JavaConverters._
   * This class is used to calculate ALBERT embeddings for For Sequence Batches of WordpieceTokenizedSentence.
   * Input for this model must be tokenzied with a SentencePieceModel,
   *
-  * This Tensorflow model is using the weights provided by https://tfhub.dev/google/albert_base/1
-  * * pooled_output: pooled output of the entire sequence with shape [batch_size, hidden_size].
+  * This Tensorflow model is using the weights provided by https://tfhub.dev/google/albert_base/3
   * * sequence_output: representations of every token in the input sequence with shape [batch_size, max_sequence_length, hidden_size].
   *
   * ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS - Google Research, Toyota Technological Institute at Chicago
@@ -18,17 +17,23 @@ import scala.collection.JavaConverters._
   * All offical Albert releases by google in TF-HUB are supported with this Albert Wrapper:
   *
   * TF-HUB Models :
-  * albert_base     = https://tfhub.dev/google/albert_base/1    |  768-embed-dim,   12-layer,  12-heads, 12M parameters
-  * albert_large    = https://tfhub.dev/google/albert_large/1   |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
-  * albert_xlarge   = https://tfhub.dev/google/albert_xlarge/1  |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
-  * albert_xxlarge  = https://tfhub.dev/google/albert_xxlarge/1 |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
+  * albert_base     = https://tfhub.dev/google/albert_base/3    |  768-embed-dim,   12-layer,  12-heads, 12M parameters
+  * albert_large    = https://tfhub.dev/google/albert_large/3   |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
+  * albert_xlarge   = https://tfhub.dev/google/albert_xlarge/3  |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
+  * albert_xxlarge  = https://tfhub.dev/google/albert_xxlarge/3 |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
   *
-  * This model requires input tokenization with SentencePiece model, which is provided by Spark-NLP (See tokenizers package)
+  * This model requires input tokenization with SentencePiece model, which is provided by Spark NLP
   *
   * For additional information see :
   * https://arxiv.org/pdf/1909.11942.pdf
   * https://github.com/google-research/ALBERT
   * https://tfhub.dev/s?q=albert
+  *
+  * Tips:
+  *
+  * ALBERT uses repeating layers which results in a small memory footprint,
+  * however the computational cost remains similar to a BERT-like architecture with
+  * the same number of hidden layers as it has to iterate through the same number of (repeating) layers.
   *
   * @param tensorflow       Albert Model wrapper with TensorFlowWrapper
   * @param spp              Albert SentencePiece model with SentencePieceWrapper
@@ -49,6 +54,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
   private val outputSequenceKey = "module/seq_out"
   private val sentenceStartTokenId = Array(2)
   private val sentenceEndTokenId = Array(3)
+  private val sentencePieceDelimiterId = 13
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
@@ -144,8 +150,8 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
       tokensPiece.zipWithIndex.zip(tokenIdsVectors).map { case (tokens, vectors) =>
 
         val tokensWithEmbeddings =  tokens._1.map{ token =>
-          /* 13 is the id for '▁' token if appears alone */
-          val subWord:TokenPiece = token.tokens.find(_.pieceId != 13).getOrElse(token.tokens.head)
+          /* Remove delimiter '▁' token if appears alone */
+          val subWord:TokenPiece = token.tokens.find(_.pieceId != sentencePieceDelimiterId).getOrElse(token.tokens.head)
           TokenPieceEmbeddings(
             subWord.wordpiece,
             subWord.token,
