@@ -177,8 +177,20 @@ You can find created jar in the folder ``spark-nlp/python/lib/sparknlp.jar``
 
 *Note: Assembly command creates a fat jars, that includes all dependencies within* 
 
-### Basic Annotator API
 
-### Advanced Annotator API
+#### Compiling pypi, whl
 
-### Python vs Scala
+Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**. 
+
+In the **Name** field put `AssemblyAndCopyForPyPi`. In the **Tasks** field write down `assemblyAndCopyForPyPi`.
+
+Then you go to ``spark-nlp/python/`` directory and run:
+```
+python setup.py sdist bdist_wheel
+```
+
+You can find created `whl` and `tar.gz` in the folder ``spark-nlp/python/dist/``. Use this files to install spark-nlp locally: 
+
+```
+pip install spark_nlp_jsl-2.x.x-py3-none-any.whl
+```
