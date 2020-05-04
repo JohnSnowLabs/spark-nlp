@@ -449,7 +449,7 @@ object PythonResourceDownloader {
     "UniversalSentenceEncoder" -> UniversalSentenceEncoder,
     "ElmoEmbeddings" -> ElmoEmbeddings,
     "ClassifierDLModel" -> ClassifierDLModel,
-    "ContextSpellCheckerModel" -> ContextSpellCheckerModel
+    "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
     "AlbertEmbeddings" -> AlbertEmbeddings,
     "XlnetEmbeddings" -> XlnetEmbeddings,
     "SentimentDLModel" -> SentimentDLModel
