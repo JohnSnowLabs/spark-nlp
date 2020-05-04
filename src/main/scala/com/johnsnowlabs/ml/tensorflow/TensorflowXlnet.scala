@@ -4,7 +4,41 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
-
+/** XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding
+  *
+  * Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
+  * The use of an accelerator is recommended.
+  *
+  * XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective. Additionally, XLNet employs Transformer-XL as the backbone model, exhibiting excellent performance for language tasks involving long context. Overall, XLNet achieves state-of-the-art (SOTA) results on various downstream language tasks including question answering, natural language inference, sentiment analysis, and document ranking.
+  *
+  * XLNet-Large     = [[https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip]]    | 24-layer, 1024-hidden, 16-heads
+  * XLNet-Base    = [[https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip]]   |  12-layer, 768-hidden, 12-heads. This model is trained on full data (different from the one in the paper).
+  *
+  * @param uid required internal uid for saving annotator
+  *
+  *            '''Sources :'''
+  *
+  *            [[ https://arxiv.org/abs/1906.08237]]
+  *
+  *            [[ https://github.com/zihangdai/xlnet]]
+  *
+  *            '''Paper abstract: '''
+  *
+  *            With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves better performance than pretraining approaches based on autoregressive language modeling. However, relying on corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore, XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically, under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  */
 class TensorflowXlnet(val tensorflow: TensorflowWrapper,
                       val spp: SentencePieceWrapper,
                       configProtoBytes: Option[Array[Byte]] = None
