@@ -35,14 +35,6 @@ embeddings = sys.modules[__name__]
 classifier = sys.modules[__name__]
 classifier.dl = sys.modules[__name__]
 
-try:
-    import jsl_sparknlp.annotator
-    assertion = sys.modules[jsl_sparknlp.annotator.__name__]
-    resolution = sys.modules[jsl_sparknlp.annotator.__name__]
-    deid = sys.modules[jsl_sparknlp.annotator.__name__]
-except ImportError:
-    pass
-
 
 class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
@@ -103,6 +95,7 @@ class RecursiveTokenizerModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+
 
 class Tokenizer(AnnotatorApproach):
 
