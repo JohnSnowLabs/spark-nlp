@@ -1,0 +1,100 @@
+25763772|t|DCTN4 as a modifier of chronic Pseudomonas aeruginosa infection in cystic fibrosis
+25763772|a|Pseudomonas aeruginosa (Pa) infection in cystic fibrosis (CF) patients is associated with worse long-term pulmonary disease and shorter survival, and chronic Pa infection (CPA) is associated with reduced lung function, faster rate of lung decline, increased rates of exacerbations and shorter survival. By using exome sequencing and extreme phenotype design, it was recently shown that isoforms of dynactin 4 (DCTN4) may influence Pa infection in CF, leading to worse respiratory disease. The purpose of this study was to investigate the role of DCTN4 missense variants on Pa infection incidence, age at first Pa infection and chronic Pa infection incidence in a cohort of adult CF patients from a single centre. Polymerase chain reaction and direct sequencing were used to screen DNA samples for DCTN4 variants. A total of 121 adult CF patients from the Cochin Hospital CF centre have been included, all of them carrying two CFTR defects: 103 developed at least 1 pulmonary infection with Pa, and 68 patients of them had CPA. DCTN4 variants were identified in 24% (29/121) CF patients with Pa infection and in only 17% (3/18) CF patients with no Pa infection. Of the patients with CPA, 29% (20/68) had DCTN4 missense variants vs 23% (8/35) in patients without CPA. Interestingly, p.Tyr263Cys tend to be more frequently observed in CF patients with CPA than in patients without CPA (4/68 vs 0/35), and DCTN4 missense variants tend to be more frequent in male CF patients with CPA bearing two class II mutations than in male CF patients without CPA bearing two class II mutations (P = 0.06). Our observations reinforce that DCTN4 missense variants, especially p.Tyr263Cys, may be involved in the pathogenesis of CPA in male CF.
+25763772	0	5	DCTN4	T116,T123	C4308010
+25763772	23	63	chronic Pseudomonas aeruginosa infection	T047	C0854135
+25763772	67	82	cystic fibrosis	T047	C0010674
+25763772	83	120	Pseudomonas aeruginosa (Pa) infection	T047	C0854135
+25763772	124	139	cystic fibrosis	T047	C0010674
+25763772	141	143	CF	T047	C0010674
+25763772	145	153	patients	T101	C0030705
+25763772	179	188	long-term	T079	C0443252
+25763772	189	206	pulmonary disease	T047	C0024115
+25763772	211	227	shorter survival	T169	C0220921
+25763772	233	253	chronic Pa infection	T047	C0854135
+25763772	255	258	CPA	T047	C0854135
+25763772	279	300	reduced lung function	T033	C0847557
+25763772	302	329	faster rate of lung decline	T033	C3160731
+25763772	341	346	rates	T081	C1521828
+25763772	350	363	exacerbations	T033	C4086268
+25763772	368	384	shorter survival	T169	C0220921
+25763772	395	411	exome sequencing	T063	C3640077
+25763772	416	440	extreme phenotype design	T052	C1707689
+25763772	469	477	isoforms	T116	C0597298
+25763772	481	491	dynactin 4	T116,T123	C4308010
+25763772	493	498	DCTN4	T116,T123	C4308010
+25763772	514	526	Pa infection	T047	C0854135
+25763772	530	532	CF	T047	C0010674
+25763772	551	570	respiratory disease	T047	C0035204
+25763772	592	597	study	T062	C2603343
+25763772	605	616	investigate	T169	C1292732
+25763772	629	634	DCTN4	T116,T123	C4308010
+25763772	635	643	missense	T033	C3845273
+25763772	644	652	variants	T116	C0597298
+25763772	656	668	Pa infection	T047	C0854135
+25763772	669	678	incidence	T081	C0021149
+25763772	680	683	age	T032	C0001779
+25763772	693	705	Pa infection	T047	C0854135
+25763772	710	730	chronic Pa infection	T047	C0854135
+25763772	731	740	incidence	T081	C0021149
+25763772	746	752	cohort	T098	C0599755
+25763772	756	761	adult	T100	C0001675
+25763772	762	764	CF	T047	C0010674
+25763772	765	773	patients	T101	C0030705
+25763772	788	794	centre	T073,T093	C0475309
+25763772	796	821	Polymerase chain reaction	T063	C0032520
+25763772	826	843	direct sequencing	T063	C3899368
+25763772	864	875	DNA samples	T026	C0444245
+25763772	880	885	DCTN4	T116,T123	C4308010
+25763772	886	894	variants	T116	C0597298
+25763772	911	916	adult	T100	C0001675
+25763772	917	919	CF	T047	C0010674
+25763772	920	928	patients	T101	C0030705
+25763772	938	963	Cochin Hospital CF centre	T073,T093	C0019994
+25763772	1009	1013	CFTR	T028	C1413365
+25763772	1014	1021	defects	T169	C0243067
+25763772	1048	1067	pulmonary infection	T047	C0876973
+25763772	1073	1075	Pa	T007	C0033809
+25763772	1084	1092	patients	T101	C0030705
+25763772	1105	1108	CPA	T047	C0854135
+25763772	1110	1115	DCTN4	T116,T123	C4308010
+25763772	1116	1124	variants	T116	C0597298
+25763772	1157	1159	CF	T047	C0010674
+25763772	1160	1168	patients	T101	C0030705
+25763772	1174	1186	Pa infection	T047	C0854135
+25763772	1210	1212	CF	T047	C0010674
+25763772	1213	1221	patients	T101	C0030705
+25763772	1230	1242	Pa infection	T047	C0854135
+25763772	1251	1259	patients	T101	C0030705
+25763772	1265	1268	CPA	T047	C0854135
+25763772	1286	1291	DCTN4	T116,T123	C4308010
+25763772	1292	1300	missense	T033	C3845273
+25763772	1301	1309	variants	T116	C0597298
+25763772	1327	1335	patients	T101	C0030705
+25763772	1344	1347	CPA	T047	C0854135
+25763772	1364	1375	p.Tyr263Cys	T116	C0597298
+25763772	1415	1417	CF	T047	C0010674
+25763772	1418	1426	patients	T101	C0030705
+25763772	1432	1435	CPA	T047	C0854135
+25763772	1444	1452	patients	T101	C0030705
+25763772	1461	1464	CPA	T047	C0854135
+25763772	1485	1490	DCTN4	T116,T123	C4308010
+25763772	1491	1499	missense	T033	C3845273
+25763772	1500	1508	variants	T116	C0597298
+25763772	1537	1541	male	T032	C0086582
+25763772	1542	1544	CF	T047	C0010674
+25763772	1545	1553	patients	T101	C0030705
+25763772	1559	1562	CPA	T047	C0854135
+25763772	1575	1593	class II mutations	T045	C0026882
+25763772	1602	1606	male	T032	C0086582
+25763772	1607	1609	CF	T047	C0010674
+25763772	1610	1618	patients	T101	C0030705
+25763772	1627	1630	CPA	T047	C0854135
+25763772	1643	1661	class II mutations	T045	C0026882
+25763772	1706	1711	DCTN4	T116,T123	C4308010
+25763772	1712	1720	missense	T033	C3845273
+25763772	1721	1729	variants	T116	C0597298
+25763772	1742	1753	p.Tyr263Cys	T116	C0597298
+25763772	1778	1790	pathogenesis	T046	C0699748
+25763772	1794	1797	CPA	T047	C0854135
+25763772	1801	1805	male	T032	C0086582
+25763772	1806	1808	CF	T047	C0010674
