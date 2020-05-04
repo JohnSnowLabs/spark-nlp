@@ -5,20 +5,72 @@ import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesWritable}
 import org.apache.spark.ml.util.Identifiable
 
+/**
+  * @param uid required internal uid for saving annotator
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class SimpleTokenizerModel(override val uid: String) extends
   AnnotatorModel[SimpleTokenizerModel] with ParamsAndFeaturesWritable {
 
+  /** prefixes
+    *
+    * @group param
+    **/
   val prefixes: ArrayFeature[String] = new ArrayFeature[String](this, "prefixes")
-  def setPrefixes(p: Array[String]):this.type = set(prefixes, p.sortBy(_.size).reverse)
 
+  /** prefixes
+    *
+    * @group setParam
+    **/
+  def setPrefixes(p: Array[String]): this.type = set(prefixes, p.sortBy(_.size).reverse)
+
+  /** suffixes
+    *
+    * @group param
+    **/
   val suffixes: ArrayFeature[String] = new ArrayFeature[String](this, "suffixes")
-  def setSuffixes(s: Array[String]):this.type = set(suffixes, s.sortBy(_.size).reverse)
 
+  /** suffixes
+    *
+    * @group setParam
+    **/
+  def setSuffixes(s: Array[String]): this.type = set(suffixes, s.sortBy(_.size).reverse)
+
+  /** infixes
+    *
+    * @group param
+    **/
   val infixes: ArrayFeature[String] = new ArrayFeature[String](this, "infixes")
-  def setInfixes(s: Array[String]):this.type = set(infixes, s.sortBy(_.size).reverse)
 
+  /** infixes
+    *
+    * @group setParam
+    **/
+  def setInfixes(s: Array[String]): this.type = set(infixes, s.sortBy(_.size).reverse)
+
+  /** whitelist
+    *
+    * @group param
+    **/
   val whitelist: SetFeature[String] = new SetFeature[String](this, "whitelist")
-  def setWhitelist(wlist: Set[String]):this.type = set(whitelist, wlist)
+
+  /** whitelist
+    *
+    * @group setParam
+    **/
+  def setWhitelist(wlist: Set[String]): this.type = set(whitelist, wlist)
 
 
   /**

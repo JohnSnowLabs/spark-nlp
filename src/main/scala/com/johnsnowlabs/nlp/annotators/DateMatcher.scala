@@ -1,23 +1,51 @@
 package com.johnsnowlabs.nlp.annotators
 
 import java.text.SimpleDateFormat
-
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import java.util.Calendar
 
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
   * Matches standard date formats into a provided format
+  * Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.
+  *
+  * Reads the following kind of dates:
+  *
+  * 1978-01-28, 1984/04/02,1/02/1980, 2/28/79, The 31st of April in the year 2008, "Fri, 21 Nov 1997" , "Jan 21, ‘97" , Sun, Nov 21, jan 1st, next thursday, last wednesday, today, tomorrow, yesterday, next week, next month, next year, day after, the day before, 0600h, 06:00 hours, 6pm, 5:30 a.m., at 5, 12:59, 23:59, 1988/11/23 6pm, next week at 7.30, 5 am tomorrow
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala]] for further reference on how to use this API
+  *
   * @param uid internal uid required to generate writable annotators
   * @@ dateFormat: allows to define expected output format. Follows SimpleDateFormat standard.
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with DateMatcherUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Output annotator type: DATE
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = DATE
 
+  /** Input annotator type: DOCUMENT
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Internal constructor to submit a random UID */
@@ -25,6 +53,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   /**
     * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
+    *
     * @param text input text coming from target document
     * @return a possible date-time match
     */

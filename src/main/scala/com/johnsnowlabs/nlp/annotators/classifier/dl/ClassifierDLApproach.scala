@@ -1,65 +1,225 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowClassifier, TensorflowWrapper}
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.types.{DoubleType, FloatType, IntegerType, StringType}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.util.Random
 
+/**
+  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+  *
+  * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+  *
+  * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala]] for further reference on how to use this API
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class ClassifierDLApproach(override val uid: String)
   extends AnnotatorApproach[ClassifierDLModel]
     with ParamsAndFeaturesWritable {
 
   def this() = this(Identifiable.randomUID("ClassifierDL"))
 
+  /** Trains TensorFlow model for multi-class text classification */
   override val description = "Trains TensorFlow model for multi-class text classification"
+  /** Input annotator type : SENTENCE_EMBEDDINGS
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+  /** Output annotator type : CATEGORY
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: String = CATEGORY
 
+  /** Random seed
+    *
+    * @group param
+    **/
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
-
+  /** Column with label per each document
+    *
+    * @group param
+    **/
   val labelColumn = new Param[String](this, "labelColumn", "Column with label per each document")
+  /** Learning Rate
+    *
+    * @group param
+    **/
   val lr = new FloatParam(this, "lr", "Learning Rate")
+  /** Batch size
+    *
+    * @group param
+    **/
   val batchSize = new IntParam(this, "batchSize", "Batch size")
+  /** Dropout coefficient
+    *
+    * @group param
+    **/
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
+  /** Maximum number of epochs to train
+    *
+    * @group param
+    **/
   val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
+  /** Whether to output to annotators log folder
+    *
+    * @group param
+    **/
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
-  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
-  val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
-  val configProtoBytes = new IntArrayParam(
-    this,
-    "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()"
-  )
 
+  val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
+
+  /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    *
+    * @group param
+    **/
+  val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+  /** Level of verbosity during training
+    *
+    * @group param
+    **/
+  val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    *
+    * @group param
+    **/
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
+  /** Column with label per each document
+    *
+    * @group setParam
+    **/
   def setLabelColumn(column: String): ClassifierDLApproach.this.type = set(labelColumn, column)
+
+  /** Learning Rate
+    *
+    * @group setParam
+    **/
   def setLr(lr: Float): ClassifierDLApproach.this.type = set(this.lr, lr)
+
+  /** Batch size
+    *
+    * @group setParam
+    **/
   def setBatchSize(batch: Int): ClassifierDLApproach.this.type = set(this.batchSize, batch)
+
+  /** Dropout coefficient
+    *
+    * @group setParam
+    **/
   def setDropout(dropout: Float): ClassifierDLApproach.this.type = set(this.dropout, dropout)
+
+  /** Maximum number of epochs to train
+    *
+    * @group setParam
+    **/
   def setMaxEpochs(epochs: Int): ClassifierDLApproach.this.type = set(maxEpochs, epochs)
+
+  /** Tensorflow config Protobytes passed to the TF session
+    *
+    * @group setParam
+    **/
   def setConfigProtoBytes(bytes: Array[Int]): ClassifierDLApproach.this.type = set(this.configProtoBytes, bytes)
+
+  /** Whether to output to annotators log folder
+    *
+    * @group setParam
+    **/
   def setEnableOutputLogs(enableOutputLogs: Boolean): ClassifierDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
-  def setOutputLogsPath(path: String):ClassifierDLApproach.this.type = set(this.outputLogsPath, path)
-  def setValidationSplit(validationSplit: Float):ClassifierDLApproach.this.type = set(this.validationSplit, validationSplit)
+
+
+  /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    *
+    * @group setParam
+    **/
+  def setValidationSplit(validationSplit: Float): ClassifierDLApproach.this.type = set(this.validationSplit, validationSplit)
+
+  /** Level of verbosity during training
+    *
+    * @group setParam
+    **/
   def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
+  
+  def setOutputLogsPath(path: String):ClassifierDLApproach.this.type = set(this.outputLogsPath, path)
+
+  /** Level of verbosity during training
+    *
+    * @group setParam
+    **/
   def setVerbose(verbose: Verbose.Level): ClassifierDLApproach.this.type = set(this.verbose, verbose.id)
 
+  /** Column with label per each document
+    *
+    * @group getParam
+    **/
   def getLabelColumn: String = $(this.labelColumn)
+
+  /** Learning Rate
+    *
+    * @group getParam
+    **/
   def getLr: Float = $(this.lr)
+
+  /** Batch size
+    *
+    * @group getParam
+    **/
   def getBatchSize: Int = $(this.batchSize)
+
+  /** Dropout coefficient
+    *
+    * @group getParam
+    **/
   def getDropout: Float = $(this.dropout)
+
+  /** Whether to output to annotators log folder
+    *
+    * @group getParam
+    **/
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
-  def getOutputLogsPath: String = $(outputLogsPath)
+
+  /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    *
+    * @group getParam
+    **/
   def getValidationSplit: Float = $(this.validationSplit)
+  
+  def getOutputLogsPath: String = $(outputLogsPath)
+  
+  /** Maximum number of epochs to train
+    *
+    * @group getParam
+    **/
   def getMaxEpochs: Int = $(maxEpochs)
+
+  /** Tensorflow config Protobytes passed to the TF session
+    *
+    * @group getParam
+    **/
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(
