@@ -90,7 +90,7 @@ object ResourceHelper {
     if (new File(path).exists())
       new FileInputStream(new File(path))
     else {
-     Option(getClass.getResourceAsStream(path))
+      Option(getClass.getResourceAsStream(path))
         .getOrElse {
           Option(getClass.getClassLoader.getResourceAsStream(path))
             .getOrElse(throw new IllegalArgumentException(f"Wrong resource path ${path}"))
@@ -223,8 +223,8 @@ object ResourceHelper {
     * @return
     */
   def parseLinesIterator(
-                  er: ExternalResource
-                ): Seq[Iterator[String]] = {
+                          er: ExternalResource
+                        ): Seq[Iterator[String]] = {
     er.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(er.path)
@@ -339,9 +339,11 @@ object ResourceHelper {
         val sourceStream = SourceStream(er.path)
         sourceStream.content.foreach(c => c.foreach(line => {
           val kv = line.split(er.options("keyDelimiter")).map(_.trim)
-          val key = kv(0)
-          val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
-          values.foreach(m(_) = key)
+          if(kv.length > 1){
+            val key = kv(0)
+            val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
+            values.foreach(m(_) = key)
+          }
         }))
         sourceStream.close()
         m.toMap
@@ -351,9 +353,11 @@ object ResourceHelper {
         val valueAsKeys = MMap.empty[String, String]
         dataset.as[String].foreach(line => {
           val kv = line.split(er.options("keyDelimiter")).map(_.trim)
-          val key = kv(0)
-          val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
-          values.foreach(v => valueAsKeys(v) = key)
+          if(kv.length > 1) {
+            val key = kv(0)
+            val values = kv(1).split(er.options("valueDelimiter")).map(_.trim)
+            values.foreach(v => valueAsKeys(v) = key)
+          }
         })
         valueAsKeys.toMap
       case _ =>
@@ -367,8 +371,8 @@ object ResourceHelper {
     * @return
     */
   def readParquetSparkDatFrame(
-                           er: ExternalResource
-                         ): DataFrame = {
+                                er: ExternalResource
+                              ): DataFrame = {
     er.readAs match {
       case SPARK =>
         val dataset = spark.read.options(er.options).format(er.options("format")).load(er.path)
@@ -381,7 +385,7 @@ object ResourceHelper {
   def getWordCount(externalResource: ExternalResource,
                    wordCount: MMap[String, Long] = MMap.empty[String, Long].withDefaultValue(0),
                    pipeline: Option[PipelineModel] = None
-               ): MMap[String, Long] = {
+                  ): MMap[String, Long] = {
     externalResource.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
@@ -435,7 +439,7 @@ object ResourceHelper {
   def getFilesContentBuffer(externalResource: ExternalResource): Seq[Iterator[String]] = {
     externalResource.readAs match {
       case TEXT =>
-          SourceStream(externalResource.path).content
+        SourceStream(externalResource.path).content
       case _ =>
         throw new Exception("Unsupported readAs")
     }
