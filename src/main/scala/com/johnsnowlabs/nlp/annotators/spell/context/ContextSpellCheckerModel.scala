@@ -416,7 +416,7 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
 }
 
 trait ReadablePretrainedContextSpell extends ReadsLanguageModelGraph with HasPretrained[ContextSpellCheckerModel] {
-  override val defaultModelName = None
+  override val defaultModelName: Some[String] = Some("spellcheck_dl")
   /** Java compliant-overrides */
   override def pretrained(): ContextSpellCheckerModel = super.pretrained()
   override def pretrained(name: String): ContextSpellCheckerModel = super.pretrained(name)
