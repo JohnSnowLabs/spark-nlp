@@ -41,12 +41,12 @@ def start(gpu=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "1000M")
     if gpu:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.0-rc2")
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.0")
     else:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0-rc2")
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0")
         
     return builder.getOrCreate()
 
 
 def version():
-    return '2.5.0-rc2'
+    return '2.5.0'

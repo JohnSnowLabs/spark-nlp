@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "2.5.0-rc2"
+  val currentVersion = "2.5.0"
 
   def start(gpu:Boolean = false): SparkSession = {
     val build = SparkSession.builder()
@@ -15,10 +15,10 @@ object SparkNLP {
       .config("spark.kryoserializer.buffer.max", "1000M")
     
     if(gpu){
-      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.0-rc2")
+      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.0")
     }
     else
-      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0-rc2")
+      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0")
 
     build.getOrCreate()
   }
