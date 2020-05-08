@@ -61,16 +61,20 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Word Embeddings (GloVe and Word2Vec)
 * BERT Embeddings (TF Hub models)
 * ELMO Embeddings (TF Hub models)
+* ALBERT Embeddings (TF Hub models)
+* XLNet Embeddings
 * Universal Sentence Encoder (TF Hub models)
 * Sentence Embeddings
 * Chunk Embeddings
+* Multi-class Sentiment analysis (Deep learning)
 * Multi-class Text Classification (Deep learning)
 * Named entity recognition (Deep learning)
 * Dependency parsing (Labeled/unlabled)
 * Easy TensorFlow integration
 * Full integration with Spark ML functions
-* +30 pre-trained models in 6 languages (English, French, German, Italian, Spanish, and Russian)
-* +30 pre-trained pipelines!
+* +90 pre-trained models in 21 languages!
+* +67 pre-trained pipelines in 10 languages!
+* Multi-lingual NER models: Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish
 
 ## Requirements
 
