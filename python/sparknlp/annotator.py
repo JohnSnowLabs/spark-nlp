@@ -2484,7 +2484,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name, lang="en", remote_loc=None):
+    def pretrained(name="spellcheck_dl", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
 
