@@ -480,7 +480,7 @@ Spark NLP offers more than `30 pre-trained pipelines` in `6 languages`.
 
 **English pipelines:**
 | Pipeline                     | Name                                  | Build            | lang |
-|:-------------------------|:-------------------|:------|:-------|:------------|:-----------------
+|:-----------------------------------------|:--------------------------|:-----------------|:------
 | Explain Document ML          | `explain_document_ml`                 | 2.4.0 |   `en`    |
 | Explain Document DL          | `explain_document_dl`                 | 2.4.3 |   `en`    |
 | Recognize Entities DL        | `recognize_entities_dl`               | 2.4.3 |   `en`    |
