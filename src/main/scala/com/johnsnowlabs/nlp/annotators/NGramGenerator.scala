@@ -14,13 +14,36 @@ import org.apache.spark.ml.util.Identifiable
   * When the input is empty, an empty array is returned.
   * When the input array length is less than n (number of elements per n-gram), no n-grams are
   * returned.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala]] for reference on how to use this API.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGenerator] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Output annotator type : CHUNK
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = CHUNK
-
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("NGRAM_GENERATOR"))
@@ -34,22 +57,54 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   val n: IntParam = new IntParam(this, "n", "number elements per n-gram (>=1)",
     ParamValidators.gtEq(1))
 
-  val enableCumulative: BooleanParam = new BooleanParam(this, "enableCumulative",
-    "whether to calculate just the actual n-grams or all n-grams from 1 through n")
+  /** whether to calculate just the actual n-grams or all n-grams from 1 through n
+    *
+    * @group param
+    **/
+  val enableCumulative: BooleanParam = new BooleanParam(this, "enableCumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n")
+  /** Glue character used to join the tokens
+    *
+    * @group param
+    **/
+  val delimiter: Param[String] = new Param[String](this, "delimiter", "Glue character used to join the tokens")
 
-  val delimiter: Param[String] = new Param[String](this, "delimiter",
-    "Glue character used to join the tokens")
-
+  /** Number elements per n-gram (>=1)
+    *
+    * @group setParam
+    **/
   def setN(value: Int): this.type = set(n, value)
+
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n
+    *
+    * @group setParam
+    **/
   def setEnableCumulative(value: Boolean): this.type = set(enableCumulative, value)
+
+  /** Glue character used to join the tokens
+    *
+    * @group setParam
+    **/
   def setDelimiter(value: String): this.type = {
-    require(value.length==1, "Delimiter should have length == 1")
+    require(value.length == 1, "Delimiter should have length == 1")
     set(delimiter, value)
   }
 
-  /** @group getParam */
+  /** Number elements per n-gram (>=1)
+    *
+    * @group getParam
+    **/
   def getN: Int = $(n)
+
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n
+    *
+    * @group getParam
+    **/
   def getEnableCumulative: Boolean = $(enableCumulative)
+
+  /** Glue character used to join the tokens
+    *
+    * @group getParam
+    **/
   def getDelimiter: String = $(delimiter)
 
   setDefault(

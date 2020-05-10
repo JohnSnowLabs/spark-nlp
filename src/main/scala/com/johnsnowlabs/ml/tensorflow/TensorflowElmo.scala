@@ -4,18 +4,32 @@ import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
 
-/**
-  * This class is used to calculate ELMO embeddings for For Sequence Batches of TokenizedSentences.
+/** Embeddings from a language model trained on the 1 Billion Word Benchmark.
   *
-  * https://tfhub.dev/google/elmo/3
-  * * word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
-  * * lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
-  * * lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
-  * * elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+  * Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
+  * The use of an accelerator is recommended.
   *
-  * @param tensorflow           Elmo Model wrapper with TensorFlow Wrapper
-  * @param batchSize            size of batch
-  * @param configProtoBytes     Configuration for TensorFlow session
+  * '''word_emb''': the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
+  *
+  * '''lstm_outputs1''': the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
+  *
+  * '''lstm_outputs2''': the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
+  *
+  * '''elmo''': the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+  *
+  * See [[ https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala ]] for further reference on how to use this API.
+  *
+  * @param tensorflow       Elmo Model wrapper with TensorFlow Wrapper
+  * @param batchSize        size of batch
+  * @param configProtoBytes Configuration for TensorFlow session
+  *
+  *
+  *                         Sources  :
+  *
+  *                         [[https://tfhub.dev/google/elmo/3]]
+  *
+  *                         [[https://arxiv.org/abs/1802.05365]]
+  *
   */
 
 class TensorflowElmo(val tensorflow: TensorflowWrapper,
@@ -131,8 +145,11 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
 
   /**
     * word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == 512
+    *
     * lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024
+    *
     * lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024
+    *
     * elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == 1024
     *
     * @param layer Layer specification

@@ -177,6 +177,7 @@ class DocumentAssembler(AnnotatorTransformer):
 class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
 
     name = "TokenAssembler"
+    preservePosition = Param(Params._dummy(), "preservePosition", "whether to preserve the actual position of the tokens or reduce them to one space", typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
@@ -186,6 +187,9 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
+
+    def setPreservePosition(self, value):
+        return self._set(preservePosition=value)
 
 
 class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):

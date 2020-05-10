@@ -5,28 +5,42 @@ import java.io.{File, FileWriter, PrintWriter}
 import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 
+
 object OutputHelper {
 
   lazy private val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
 
-  private def logsFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.annotatorLogFolder, fs.getHomeDirectory + "/annotator_logs")
+  lazy private val homeDirectory = if (fs.getScheme.equals("dbfs")) System.getProperty("user.home") else fs.getHomeDirectory
 
-  private lazy val logsFolderExists = fs.exists(new Path(logsFolder))
+  private def logsFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs")
 
-  def writeAppend(uuid: String, content: String): Unit = {
-    if (!logsFolderExists) fs.mkdirs(new Path(logsFolder))
-    val targetPath = new Path(logsFolder, uuid+".log")
-    if (fs.getScheme != "file") {
+
+  lazy private val isDBFS = fs.getScheme.equals("dbfs")
+
+  def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
+
+    val targetFolder = if (outputLogsPath.isEmpty) logsFolder else outputLogsPath
+
+    if (isDBFS) {
+      if (!new File(targetFolder).exists()) new File(targetFolder).mkdirs()
+    }else{
+      if (!fs.exists(new Path(targetFolder))) fs.mkdirs(new Path(targetFolder))
+    }
+
+    val targetPath = new Path(targetFolder, uuid + ".log")
+
+    if (fs.getScheme.equals("file") || fs.getScheme.equals("dbfs")) {
+      val fo = new File(targetPath.toUri.getRawPath)
+      val writer = new FileWriter(fo, true)
+      writer.append(content + System.lineSeparator())
+      writer.close()
+    } else {
       val fo = fs.append(targetPath)
       val writer = new PrintWriter(fo, true)
       writer.append(content + System.lineSeparator())
       writer.close()
       fo.close()
-    } else {
-      val fo = new File(targetPath.toUri.getRawPath)
-      val writer = new FileWriter(fo, true)
-      writer.append(content + System.lineSeparator())
-      writer.close()
+
     }
   }
 

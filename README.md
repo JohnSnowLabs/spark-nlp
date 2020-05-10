@@ -1,8 +1,8 @@
-# Spark NLP
+# Spark NLP: State of the Art Natural Language Processing
 
 [![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that scale easily in a distributed environment.
+Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **160+** pretrained **pipelines** and **models** in more than **20+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class text classification, Multi-class sentiment analysis, and many more [NLP tasks](#features).
 
 ## Project's website
 
@@ -61,17 +61,21 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Word Embeddings (GloVe and Word2Vec)
 * BERT Embeddings (TF Hub models)
 * ELMO Embeddings (TF Hub models)
+* ALBERT Embeddings (TF Hub models)
+* XLNet Embeddings
 * Universal Sentence Encoder (TF Hub models)
 * Sentence Embeddings
 * Chunk Embeddings
+* Multi-class Sentiment analysis (Deep learning)
 * Multi-class Text Classification (Deep learning)
 * Named entity recognition (Deep learning)
 * Dependency parsing (Labeled/unlabled)
 * Easy TensorFlow integration
 * GPU Support
 * Full integration with Spark ML functions
-* +30 pre-trained models in 6 languages (English, French, German, Italian, Spanish, and Russian)
-* +30 pre-trained pipelines!
+* +90 pre-trained models in 21 languages!
+* +67 pre-trained pipelines in 10 languages!
+* Multi-lingual NER models: Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish
 
 ## Requirements
 
@@ -89,7 +93,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.6 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==2.4.5 pyspark==2.4.4
+$ pip install spark-nlp==2.5.0 pyspark==2.4.4
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -130,10 +134,11 @@ For more examples you can visit our dedicated [repository](https://github.com/Jo
 
 ## Apache Spark Support
 
-Spark NLP *2.4.5* has been built on top of Apache Spark 2.4.x
+Spark NLP *2.5.0* has been built on top of Apache Spark 2.4.x
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
 |-------------|-----------------------|--------------------|
+| 2.5.x       |YES**                  |YES                 |
 | 2.4.x       |YES**                  |YES                 |
 | 1.8.x       |Partially              |YES                 |
 | 1.7.x       |YES                    |NO                  |
@@ -150,7 +155,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ## Databricks Support
 
-Spark NLP 2.4.5 has been tested and is compatible with the following runtimes:
+Spark NLP 2.5.0 has been tested and is compatible with the following runtimes:
 
 * 6.2
 * 6.2 ML
@@ -163,7 +168,7 @@ Spark NLP 2.4.5 has been tested and is compatible with the following runtimes:
 
 ## EMR Support
 
-Spark NLP 2.4.5 has been tsted and is compatible with the following EMR releases:
+Spark NLP 2.5.0 has been tsted and is compatible with the following EMR releases:
 
 * 5.26.0
 * 5.27.0
@@ -183,20 +188,20 @@ Benefit of spark-packages is that makes it available for both Scala-Java and Pyt
 To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:` to you spark command
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use SPark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.5`
+**NOTE**: To use SPark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.0`
 
 ## Scala
 
@@ -211,7 +216,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.4.5</version>
+    <version>2.5.0</version>
 </dependency>
 ```
 
@@ -222,7 +227,7 @@ Our package is deployed to maven central. In order to add this package as a depe
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>2.4.5</version>
+    <version>2.5.0</version>
 </dependency>
 ```
 
@@ -232,14 +237,14 @@ Our package is deployed to maven central. In order to add this package as a depe
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.4.5"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.5.0"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.4.5"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.5.0"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -255,7 +260,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.4.5
+pip install spark-nlp==2.5.0
 ```
 
 Conda:
@@ -282,7 +287,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","16G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0")\
     .config("spark.kryoserializer.buffer.max", "1000M")\
     .getOrCreate()
 ```
@@ -351,7 +356,7 @@ Use either one of the following options
 * Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 * Add path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -361,7 +366,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.4.5
+pip install spark-nlp==2.5.0
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -386,7 +391,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -412,7 +417,7 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install --ignore-installed spark-nlp==2.4.5
+! pip install --ignore-installed spark-nlp==2.5.0
 
 # Quick SparkSession start
 import sparknlp
@@ -441,7 +446,7 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
 
     3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -475,25 +480,27 @@ sparknlp {
 Spark NLP offers more than `30 pre-trained pipelines` in `6 languages`.
 
 **English pipelines:**
-
-| Pipelines            | Name                   |
-| -------------------- | ---------------------- |
-| Explain Document ML  | `explain_document_ml`  |
-| Explain Document DL | `explain_document_dl`  |
-| Explain Document DL Fast | `explain_document_dl_fast`  |
-| Recognize Entities DL | `recognize_entities_dl` |
-| OntoNotes Entities Small | `onto_recognize_entities_sm` |
-| OntoNotes Entities Large | `onto_recognize_entities_lg` |
-| Match Datetime | `match_datetime` |
-| Match Pattern | `match_pattern` |
-| Match Chunk | `match_chunks` |
-| Match Phrases | `match_phrases`|
-| Clean Stop | `clean_stop`|
-| Clean Pattern | `clean_pattern`|
-| Clean Slang | `clean_slang`|
-| Check Spelling | `check_spelling`|
-| Analyze Sentiment | `analyze_sentiment` |
-| Dependency Parse | `dependency_parse` |
+| Pipeline                     | Name                                  | Build            | lang |
+|:-----------------------------------------|:--------------------------|:-----------------|:------
+| Explain Document ML          | `explain_document_ml`                 | 2.4.0 |   `en`    |
+| Explain Document DL          | `explain_document_dl`                 | 2.4.3 |   `en`    |
+| Recognize Entities DL        | `recognize_entities_dl`               | 2.4.3 |   `en`    |
+| Recognize Entities DL        | `recognize_entities_bert`             | 2.4.3 |   `en`    |
+| OntoNotes Entities Small     | `onto_recognize_entities_sm`          | 2.4.0 |   `en`    |
+| OntoNotes Entities Large     | `onto_recognize_entities_lg`          | 2.4.0 |   `en`    |
+| Match Datetime               | `match_datetime`                      | 2.4.0 |   `en`    |
+| Match Pattern                | `match_pattern`                       | 2.4.0 |   `en`    |
+| Match Chunk                  | `match_chunks`                        | 2.4.0 |   `en`    |
+| Match Phrases                | `match_phrases`                       | 2.4.0 |   `en`    |
+| Clean Stop                   | `clean_stop`                          | 2.4.0 |   `en`    |
+| Clean Pattern                | `clean_pattern`                       | 2.4.0 |   `en`    |
+| Clean Slang                  | `clean_slang`                         | 2.4.0 |   `en`    |
+| Check Spelling               | `check_spelling`                      | 2.4.0 |   `en`    |
+| Check Spelling DL            | `check_spelling_dl`                   | 2.5.0 |   `en`    |
+| Analyze Sentiment            | `analyze_sentiment`                   | 2.4.0 |   `en`    |
+| Analyze Sentiment DL         | `analyze_sentimentdl_use_imdb`        | 2.5.0 |   `en`    |
+| Analyze Sentiment DL         | `analyze_sentimentdl_use_twitter`     | 2.5.0 |   `en`    |
+| Dependency Parse             | `dependency_parse`                    | 2.4.0 |   `en`    |
 
 **Quick example:**
 
@@ -516,7 +523,7 @@ annotation.show()
 /*
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.SparkNLP
-2.4.5
+2.5.0
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
 pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_dl,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more fields]
@@ -540,35 +547,59 @@ annotation.select("entities.result").show(false)
 */
 ```
 
-#### Please check our dedicated repo for a full list of [pre-trained pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
+#### Please check our dedicated repository for the full list of [pre-trained pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
 
 ### Models
 
-Spark NLP offers more than `30 pre-trained models` in `5 languages`.
+Spark NLP offers more than `90 pre-trained models` in `21 languages`.
 
-**English pipelines:**
+**English Models:**
 
-| Model                                  |   Name     |
-|----------------------------------------|------------|
-|LemmatizerModel (Lemmatizer)            |  `lemma_antbnc`      |
-|PerceptronModel (POS)                   |   `pos_anc`     |
-|NerCRFModel (NER with GloVe)            |    `ner_crf`    |
-|NerDLModel (NER with GloVe)             |    `ner_dl`    |
-|NerDLModel (NER with BERT)| `ner_dl_bert_base_cased`|
-|NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|
-|NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|
-|WordEmbeddings (GloVe) | `glove_100d` |
-|BertEmbeddings (base_uncased) | `bert_base_uncased` |
-|BertEmbeddings (base_cased) | `bert_base_cased` |
-|BertEmbeddings (large_uncased) | `bert_large_uncased` |
-|BertEmbeddings (large_cased) | `bert_large_cased` |
-|DeepSentenceDetector| `ner_dl_sentence`|
-|ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     |
-|SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     |
-|NorvigSweetingModel (Spell Checker)     |  `spellcheck_norvig`   |
-|ViveknSentimentModel (Sentiment)        |    `sentiment_vivekn`    |
-|DependencyParser (Dependency)        |    `dependency_conllu`    |
-|TypedDependencyParser (Dependency)        |    `dependency_typed_conllu`    |
+| Model                                    | Name                      | Build            | Lang |
+|:-----------------------------------------|:--------------------------|:-----------------|:------
+| LemmatizerModel (Lemmatizer)             | `lemma_antbnc`            | 2.0.2 |      `en`
+| PerceptronModel (POS)                    | `pos_anc`                 | 2.0.2 |      `en`
+| PerceptronModel (POS UD)                    | `pos_ud_ewt`          | 2.2.2 |       `en`
+| NerCrfModel (NER with GloVe)             | `ner_crf`                 | 2.4.0 |      `en`
+| NerDLModel (NER with GloVe)              | `ner_dl`                  | 2.4.3 |      `en` 
+| NerDLModel (NER with BERT)               | `ner_dl_bert`              | 2.4.3 |      `en` 
+| NerDLModel (OntoNotes with GloVe 100d)   | `onto_100`                | 2.4.0 |      `en` 
+| NerDLModel (OntoNotes with GloVe 300d)   | `onto_300`                | 2.4.0 |      `en` 
+| DeepSentenceDetector                     | `ner_dl_sentence`         | 2.4.0 |      `en` 
+| SymmetricDeleteModel (Spell Checker)     | `spellcheck_sd`           | 2.0.2 |      `en` 
+| NorvigSweetingModel (Spell Checker)      | `spellcheck_norvig`       | 2.0.2 |      `en` 
+| ViveknSentimentModel (Sentiment)         | `sentiment_vivekn`        | 2.0.2 |      `en` 
+| DependencyParser (Dependency)            | `dependency_conllu`       | 2.0.8 |      `en` 
+| TypedDependencyParser (Dependency)       | `dependency_typed_conllu` | 2.0.8 |      `en` 
+
+**Embeddings:**
+
+| Model    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| WordEmbeddings (GloVe)            | `glove_100d`              | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_base_uncased`       | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_base_cased`         | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_large_uncased`      | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_large_cased`        | 2.4.0 |      `en`  
+| ElmoEmbeddings                    | `elmo`                    | 2.4.0 |      `en`  
+| UniversalSentenceEncoder  (USE)   | `tfhub_use`              | 2.4.0 |       `en`  
+| UniversalSentenceEncoder  (USE)   | `tfhub_use_lg`           | 2.4.0 |       `en`  
+| AlbertEmbeddings                  | `albert_base_uncased`    | 2.5.0 |       `en`
+| AlbertEmbeddings                  | `albert_large_uncased`    | 2.5.0 |      `en`  
+| AlbertEmbeddings                  | `albert_xlarge_uncased`    | 2.5.0 |     `en`
+| AlbertEmbeddings                  | `albert_xxlarge_uncased`    | 2.5.0 |    `en`
+| XlnetEmbeddings                  | `xlnet_base_cased`    | 2.5.0 |           `en`
+| XlnetEmbeddings                  | `xlnet_large_cased`    | 2.5.0 |          `en`
+
+**Classification:**
+
+| Model    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| ClassifierDL (with tfhub_use)          | `classifierdl_use_trec6`        | 2.5.0 |      `en`
+| ClassifierDL (with tfhub_use)          | `classifierdl_use_trec50`       | 2.5.0 |      `en`
+| SentimentDL (with tfhub_use)           | `sentimentdl_use_imdb`          | 2.5.0 |      `en`
+| SentimentDL (with tfhub_use)           | `sentimentdl_use_twitter`       | 2.5.0 |      `en`
+| SentimentDL (with glove_100d)          | `sentimentdl_glove_imdb`         | 2.5.0 |     `en`
 
 **Quick online example:**
 
@@ -596,7 +627,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
-#### Please check our dedicated repo for a full list of [pre-trained models](https://github.com/JohnSnowLabs/spark-nlp-models)
+#### Please check our dedicated repository for the full list of [pre-trained models](https://github.com/JohnSnowLabs/spark-nlp-models)
 
 ## Examples
 

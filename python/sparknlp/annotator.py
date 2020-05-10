@@ -27,6 +27,7 @@ sda.vivekn = sys.modules[__name__]
 spell = sys.modules[__name__]
 spell.norvig = sys.modules[__name__]
 spell.symmetric = sys.modules[__name__]
+spell.context = sys.modules[__name__]
 parser = sys.modules[__name__]
 parser.dep = sys.modules[__name__]
 parser.typdep = sys.modules[__name__]
@@ -34,13 +35,66 @@ embeddings = sys.modules[__name__]
 classifier = sys.modules[__name__]
 classifier.dl = sys.modules[__name__]
 
-try:
-    import jsl_sparknlp.annotator
-    assertion = sys.modules[jsl_sparknlp.annotator.__name__]
-    resolution = sys.modules[jsl_sparknlp.annotator.__name__]
-    deid = sys.modules[jsl_sparknlp.annotator.__name__]
-except ImportError:
-    pass
+
+class RecursiveTokenizer(AnnotatorApproach):
+    name = 'RecursiveTokenizer'
+
+    prefixes = Param(Params._dummy(),
+                          "prefixes",
+                          "strings to be considered independent tokens when found at the beginning of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    suffixes = Param(Params._dummy(),
+                          "suffixes",
+                          "strings to be considered independent tokens when found at the end of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    infixes = Param(Params._dummy(),
+                          "infixes",
+                          "strings to be considered independent tokens when found in the middle of a word",
+                          typeConverter=TypeConverters.toListString)
+
+    whitelist = Param(Params._dummy(),
+                          "whitelist",
+                          "strings to be considered as single tokens",
+                          typeConverter=TypeConverters.toListString)
+
+    def setPrefixes(self, p):
+        return self._set(prefixes=p)
+
+    def setSuffixes(self, s):
+        return self._set(suffixes=s)
+
+    def setInfixes(self, i):
+        return self._set(infixes=i)
+
+    def setWhitelist(self, w):
+        return self._set(whitelist=w)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizer"):
+        super(RecursiveTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizer")
+        self._setDefault(
+            prefixes=["'", "\"", "(", "[", "\n"],
+            infixes=["\n", "(", ")"],
+            suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
+            whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
+                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
+        )
+
+
+    def _create_model(self, java_model):
+        return RecursiveTokenizerModel(java_model=java_model)
+
+
+class RecursiveTokenizerModel(AnnotatorModel):
+    name = 'RecursiveTokenizerModel'
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel", java_model=None):
+        super(RecursiveTokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
 
 
 class Tokenizer(AnnotatorApproach):
@@ -1314,6 +1368,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
 
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1360,6 +1416,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
 
     @keyword_only
     def __init__(self):
@@ -1409,7 +1468,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
 
 
 class NerConverter(AnnotatorModel):
-    name = 'Tokenizer'
+    name = 'NerConverter'
 
     whiteList = Param(
         Params._dummy(),
@@ -1978,6 +2037,8 @@ class ClassifierDLApproach(AnnotatorApproach):
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
 
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Column with label per each token",
@@ -2023,6 +2084,9 @@ class ClassifierDLApproach(AnnotatorApproach):
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
+
     @keyword_only
     def __init__(self):
         super(ClassifierDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach")
@@ -2050,6 +2114,501 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="classifier_sentiment", lang="en", remote_loc=None):
+    def pretrained(name="classifierdl_use_trec6", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
+
+
+class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "AlbertEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings", java_model=None):
+        super(AlbertEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            dimension=768,
+            maxSentenceLength=128
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _AlbertLoader
+        jModel = _AlbertLoader(folder, spark_session._jsparkSession)._java_obj
+        return AlbertEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="albert_base_uncased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
+
+
+class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "XlnetEmbeddings"
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings", java_model=None):
+        super(XlnetEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=32,
+            dimension=768,
+            maxSentenceLength=128
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _XlnetLoader
+        jModel = _XlnetLoader(folder, spark_session._jsparkSession)._java_obj
+        return XlnetEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="xlnet_base_cased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
+
+
+class ContextSpellCheckerApproach(AnnotatorApproach):
+
+    name = "ContextSpellCheckerApproach"
+
+    languageModelClasses = Param(Params._dummy(),
+                                 "languageModelClasses",
+                                 "Number of classes to use during factorization of the softmax output in the LM.",
+                                 typeConverter=TypeConverters.toInt)
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    maxCandidates = Param(Params._dummy(),
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
+
+    caseStrategy = Param(Params._dummy(),
+                         "caseStrategy",
+                         "What case combinations to try when generating candidates.",
+                         typeConverter=TypeConverters.toInt)
+
+    errorThreshold = Param(Params._dummy(),
+                           "errorThreshold",
+                           "Threshold perplexity for a word to be considered as an error.",
+                           typeConverter=TypeConverters.toFloat)
+
+    epochs = Param(Params._dummy(),
+                   "epochs",
+                   "Number of epochs to train the language model.",
+                   typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size for the training in NLM.",
+                      typeConverter=TypeConverters.toInt)
+
+    initialRate = Param(Params._dummy(),
+                        "initialRate",
+                        "Initial learning rate for the LM.",
+                        typeConverter=TypeConverters.toFloat)
+
+    finalRate = Param(Params._dummy(),
+                      "finalRate",
+                      "Final learning rate for the LM.",
+                      typeConverter=TypeConverters.toFloat)
+
+    validationFraction = Param(Params._dummy(),
+                               "validationFraction",
+                               "Percentage of datapoints to use for validation.",
+                               typeConverter=TypeConverters.toFloat)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "Min number of times a token should appear to be included in vocab.",
+                     typeConverter=TypeConverters.toInt)
+
+    compoundCount = Param(Params._dummy(),
+                          "compoundCount",
+                          "Min number of times a compound word should appear to be included in vocab.",
+                          typeConverter=TypeConverters.toInt)
+
+    classCount = Param(Params._dummy(),
+                       "classCount",
+                       "Min number of times the word need to appear in corpus to not be considered of a special class.",
+                       typeConverter=TypeConverters.toInt)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word error and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    maxWindowLen = Param(Params._dummy(),
+                         "maxWindowLen",
+                         "Maximum size for the window used to remember history prior to every correction.",
+                         typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+
+    def setLanguageModelClasses(self, count):
+        return self._set(languageModelClasses=count)
+
+    def setWordMaxDistance(self, dist):
+        return self._set(wordMaxDistance=dist)
+
+    def setMaxCandidates(self, candidates):
+        return self._set(maxCandidates=candidates)
+
+    def setCaseStrategy(self, strategy):
+        return self._set(caseStrategy=strategy)
+
+    def setErrorThreshold(self, threshold):
+        return self._set(errorThreshold=threshold)
+
+    def setEpochs(self, count):
+        return self._set(epochs=count)
+
+    def setInitialBatchSize(self, size):
+        return self._set(batchSize=size)
+
+    def setInitialRate(self, rate):
+        return self._set(initialRate=rate)
+
+    def setFinalRate(self, rate):
+        return self._set(finalRate=rate)
+
+    def setValidationFraction(self, fraction):
+        return self._set(validationFraction=fraction)
+
+    def setMinCount(self, count):
+        return self._set(minCount=count)
+
+    def setCompoundCount(self, count):
+        return self._set(compoundCount=count)
+
+    def setClassCount(self, count):
+        return self._set(classCount=count)
+
+    def setTradeoff(self, alpha):
+        return self._set(tradeoff=alpha)
+
+    def setWeightedDistPath(self, path):
+        return self._set(weightedDistPath=path)
+
+    def setWeightedDistPath(self, path):
+        return self._set(weightedDistPath=path)
+
+    def setMaxWindowLen(self, length):
+        return self._set(maxWindowLen=length)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def addVocabClass(self, label, vocab, userdist=3):
+        self._call_java('addVocabClass', label, vocab, userdist)
+        return self
+
+    def addRegexClass(self, label, regex, userdist=3):
+        self._call_java('addRegexClass', label, regex, userdist)
+        return self
+
+    @keyword_only
+    def __init__(self):
+        super(ContextSpellCheckerApproach, self). \
+            __init__(classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach")
+
+    def _create_model(self, java_model):
+        return ContextSpellCheckerModel(java_model=java_model)
+
+
+class ContextSpellCheckerModel(AnnotatorModel):
+    name = "ContextSpellCheckerModel"
+
+    languageModelClasses = Param(Params._dummy(),
+                                 "languageModelClasses",
+                                 "Number of classes to use during factorization of the softmax output in the LM.",
+                                 typeConverter=TypeConverters.toInt)
+
+    wordMaxDistance = Param(Params._dummy(),
+                            "wordMaxDistance",
+                            "Maximum distance for the generated candidates for every word.",
+                            typeConverter=TypeConverters.toInt)
+
+    maxCandidates = Param(Params._dummy(),
+                          "maxCandidates",
+                          "Maximum number of candidates for every word.",
+                          typeConverter=TypeConverters.toInt)
+
+    caseStrategy = Param(Params._dummy(),
+                         "caseStrategy",
+                         "What case combinations to try when generating candidates.",
+                         typeConverter=TypeConverters.toInt)
+
+    errorThreshold = Param(Params._dummy(),
+                           "errorThreshold",
+                           "Threshold perplexity for a word to be considered as an error.",
+                           typeConverter=TypeConverters.toFloat)
+
+    tradeoff = Param(Params._dummy(),
+                     "tradeoff",
+                     "Tradeoff between the cost of a word error and a transition in the language model.",
+                     typeConverter=TypeConverters.toFloat)
+
+    weightedDistPath = Param(Params._dummy(),
+                             "weightedDistPath",
+                             "The path to the file containing the weights for the levenshtein distance.",
+                             typeConverter=TypeConverters.toString)
+
+    maxWindowLen = Param(Params._dummy(),
+                         "maxWindowLen",
+                         "Maximum size for the window used to remember history prior to every correction.",
+                         typeConverter=TypeConverters.toInt)
+
+    gamma = Param(Params._dummy(),
+                  "gamma",
+                  "Controls the influence of individual word frequency in the decision.",
+                  typeConverter=TypeConverters.toFloat)
+
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    def setLanguageModelClasses(self, count):
+        return self._set(languageModelClasses=count)
+
+    def setWordMaxDistance(self, dist):
+        return self._set(wordMaxDistance=dist)
+
+    def setMaxCandidates(self, candidates):
+        return self._set(maxCandidates=candidates)
+
+    def setCaseStrategy(self, strategy):
+        return self._set(caseStrategy=strategy)
+
+    def setErrorThreshold(self, threshold):
+        return self._set(errorThreshold=threshold)
+
+    def setTradeoff(self, alpha):
+        return self._set(tradeoff=alpha)
+
+    def setWeights(self, weights):
+        self._call_java('setWeights', weights)
+
+    def setMaxWindowLen(self, length):
+        return self._set(maxWindowLen=length)
+
+    def setGamma(self, g):
+        return self._set(gamma=g)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def getWordClasses(self):
+        it = self._call_java('getWordClasses').toIterator()
+        result = []
+        while(it.hasNext()):
+            result.append(it.next().toString())
+        return result
+
+    def updateRegexClass(self, label, regex):
+        self._call_java('updateRegexClass', label, regex)
+        return self
+
+    def updateVocabClass(self, label, vocab, append=True):
+        self._call_java('updateVocabClass', label, vocab, append)
+        return self
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
+        super(ContextSpellCheckerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name="spellcheck_dl", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(ContextSpellCheckerModel, name, lang, remote_loc)
+
+
+class SentimentDLApproach(AnnotatorApproach):
+
+    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
+    dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
+
+    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                            TypeConverters.toFloat)
+
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
+
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
+    labelColumn = Param(Params._dummy(),
+                        "labelColumn",
+                        "Column with label per each token",
+                        typeConverter=TypeConverters.toString)
+
+    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
+    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+    thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
+
+    def setVerbose(self, value):
+        return self._set(verbose=value)
+
+    def setRandomSeed(self, seed):
+        return self._set(randomSeed=seed)
+
+    def setLabelColumn(self, value):
+        return self._set(labelColumn=value)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setLr(self, v):
+        self._set(lr=v)
+        return self
+
+    def setBatchSize(self, v):
+        self._set(batchSize=v)
+        return self
+
+    def setDropout(self, v):
+        self._set(dropout=v)
+        return self
+
+    def setMaxEpochs(self, epochs):
+        return self._set(maxEpochs=epochs)
+
+    def _create_model(self, java_model):
+        return SentimentDLModel(java_model=java_model)
+
+    def setValidationSplit(self, v):
+        self._set(validationSplit=v)
+        return self
+
+    def setEnableOutputLogs(self, value):
+        return self._set(enableOutputLogs=value)
+
+    def setOutputLogsPath(self, p):
+        return self._set(outputLogsPath=p)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    def setThresholdLabel(self, p):
+        return self._set(thresholdLabel=p)
+
+    @keyword_only
+    def __init__(self):
+        super(SentimentDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach")
+        self._setDefault(
+            maxEpochs=30,
+            lr=float(0.005),
+            batchSize=64,
+            dropout=float(0.5),
+            enableOutputLogs=False,
+            threshold=0.6,
+            thresholdLabel="neutral"
+        )
+
+
+class SentimentDLModel(AnnotatorModel, HasStorageRef):
+    name = "SentimentDLModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel", java_model=None):
+        super(SentimentDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            threshold=0.6,
+            thresholdLabel="neutral"
+        )
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+    thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    def setThresholdLabel(self, p):
+        return self._set(thresholdLabel=p)
+
+    @staticmethod
+    def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
