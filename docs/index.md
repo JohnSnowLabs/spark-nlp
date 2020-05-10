@@ -54,7 +54,7 @@ data:
       # background_color: "#123"
     
     - title: Benchmark
-      excerpt: Spark NLP 2.4.x obtained the best performing academic peer-reviewed results
+      excerpt: Spark NLP 2.5.x obtained the best performing academic peer-reviewed results
       benchmark: yes
       features: false
       theme: dark
@@ -162,6 +162,32 @@ data:
             url: https://www.cancerlinq.org/
             style: "max-width: 200px; max-height: 200px"
             is_row: true
+
+        - title:
+          image: 
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/1_Heart_Aetna_logo_sm_rgb_violet.png/800px-1_Heart_Aetna_logo_sm_rgb_violet.png
+            url: https://www.aetna.com/
+            style: "max-width: 180px; max-height: 180px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/DocuSign_logo.png/800px-DocuSign_logo.png
+            url: https://www.docusign.fr/
+            style: "max-width: 200px; max-height: 200px"
+            is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/UCLA-HealthSystem-Logo-RGB.png/800px-UCLA-HealthSystem-Logo-RGB.png
+            url: https://www.uclahealth.org/
+            style: "max-width: 250px; max-height: 250px"
+            is_row: true    
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rand_Corporation_logo.svg/600px-Rand_Corporation_logo.svg.png
+            url: https://www.rand.org/
+            style: "max-width: 120px; max-height: 120px"
+            is_row: true
+
         - title: 
           image:
             src: https://www.cnrs.fr/themes/custom/cnrs/logo.svg

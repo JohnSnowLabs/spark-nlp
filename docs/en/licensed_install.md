@@ -59,7 +59,7 @@ import sparknlp_jsl
 spark = sparknlp_jsl.start("{secret.code}")
 ```
 
-Or start use the SparkSession module for more flexibility:
+Or use the SparkSession module for more flexibility:
 ```python
 from pyspark.sql import SparkSession
 

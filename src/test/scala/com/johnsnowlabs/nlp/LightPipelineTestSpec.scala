@@ -175,8 +175,8 @@ class LightPipelineTestSpec extends FlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a tranditional pipelineWithNormalizer" in {
-    val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithNormalizer results") {
+  it should "run faster than a tranditional pipelineWithoutNormalizer" in {
+    val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithoutNormalizer results") {
       fixtureWithoutNormalizer.model.transform(fixtureWithoutNormalizer.textDF).collect
     }
 

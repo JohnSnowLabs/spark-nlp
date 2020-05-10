@@ -49,22 +49,22 @@ article_header:
           <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight bash %}
 # Install Spark NLP from PyPI
-$ pip install spark-nlp==2.4.5
+$ pip install spark-nlp==2.5.0
 
 # Install Spark NLP from Anaconda/Conda
 $ conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
-$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 
 # Load Spark NLP with PySpark
-$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 
 # Load Spark NLP with Spark Submit
-$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 
 # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-$ spark-shell --jar spark-nlp-assembly-2.4.5
+$ spark-shell --jar spark-nlp-assembly-2.5.0
             {% endhighlight %}
           </div>
         </div>
@@ -95,12 +95,13 @@ $ spark-shell --jar spark-nlp-assembly-2.4.5
               <li><strong>Universal Sentence</strong> Encoder
               <li><strong>Sentence</strong> Embeddings
               <li><strong>Chunk</strong> Embeddings
-              <li>Multi-class Text <strong>Classification</strong> (DL model)</li>  
+              <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
+              <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>  
               <li><strong>Named entity</strong> recognition (DL model)</li>
               <li>Easy <strong>TensorFlow</strong> integration</li>
               <li>Full integration with <strong>Spark ML</strong> functions</li>
-              <li><strong>+60</strong> pre-trained <strong>models </strong> and <strong>pipelines </strong> 
-              <li> Support for <strong>multiple languages</strong> (English, French, German, Italian, Spanish, and Russian</li>
+              <li><strong>+90</strong> pre-trained <strong>models </strong> in <strong>21 languages! </strong>
+              <li><strong>+70</strong> pre-trained <strong>pipelines </strong> in <strong>10 languages! </strong>
             </ul>
           </div>
           <div class="cell cell--12 cell--lg-7" style="text-align: left; padding: 10px">
@@ -142,7 +143,24 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
         {%- if _section.benchmark -%}
         
         <div class="grid">
-          <div class="cell cell--12 cell--lg-8" style="text-align: center; padding: 10px">
+          <div class="cell cell--12 cell--lg-5" style="text-align: left; font-size: 1.2em; padding: 10px">
+            <h3 style="margin-left:-10px">Training NER</h3>
+            <ul>
+              <li>State-of-the-art <strong>Deep Learning</strong> algorithms</li>
+              <li>Achieve <strong>high accuracy</strong> within a few minutes</li>
+              <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
+              <li>Blazing fast training</li>
+              <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
+              <li>Easy to choose Word Embeddings</li>
+              <li>Pre-trained <strong>GloVe</strong> models</li>
+              <li>Pre-trained <strong>BERT</strong> models (TF Hub)
+              <li>Pre-trained <strong>ELMO</strong> models (TF Hub)
+              <li>Pre-trained <strong>ALBERT</strong> models (TF Hub)
+              <li>Pre-trained <strong>XLNet</strong> models
+              <li>Multi-lingual NER models in <strong>Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish</strong></li>
+            </ul>
+          </div>
+          <div class="cell cell--12 cell--lg-7" style="text-align: center; padding: 10px">
             {% highlight bash %}
             
             {% endhighlight %}
@@ -216,22 +234,7 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
                   <td class="tg-0pky">92.4</td>
                 </tr>
               </table>            
-          </div>
-          <div class="cell cell--12 cell--lg-4" style="text-align: left; font-size: 1.2em; padding: 10px">
-            <h3 style="margin-left:-20px">Training NER</h3>
-            <ul>
-              <li>State-of-the-art Deep Learning algorithms</li>
-              <li>Achieve high accuracy within a few minutes</li>
-              <li>Achieve high accuracy with a few lines of codes</li>
-              <li>Blazing fast training</li>
-              <li>Use CPU or GPU</li>
-              <li>Easy to choose Word Embeddings</li>
-              <li>Pre-trained <strong>GloVe</strong> models</li>
-              <li>Pre-trained <strong>BERT</strong> models from TF Hub
-              <li>Pre-trained <strong>ELMO</strong> models from TF Hub
-            </ul>
-          </div>
-
+          </div>          
         </div>
         {%- endif -%}
         {%- if _section.children -%}

@@ -27,6 +27,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.parser.typdep'] = annotator
 sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier.dl'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 
 annotators = annotator
 embeddings = annotator
@@ -40,12 +41,12 @@ def start(gpu=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "1000M")
     if gpu:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.4.5")
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.0")
     else:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")
+        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0")
         
     return builder.getOrCreate()
 
 
 def version():
-    return '2.4.5'
+    return '2.5.0'

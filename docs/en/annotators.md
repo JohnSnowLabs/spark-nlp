@@ -4,7 +4,7 @@ title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2020-04-03"
-use_language_switchter: "Python-Scala"
+use_language_switcher: "Python-Scala"
 
 ---
 
@@ -185,7 +185,7 @@ Returns hard-stems out of words with the objective of retrieving the meaningful 
 
 **Example:**
 
-Refer to the []() Scala docs for more details on the API.
+Refer to the [Stemmer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotator.package$$Stemmer$) Scala docs for more details on the API.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -602,7 +602,7 @@ Scores a sentence for a sentiment
 
 - setSentimentCol(colname): Column with sentiment analysis row's result for training. If not set, external sources need to be set instead.
 - setSentimentCol(colname): column with the sentiment result of every row. Must be 'positive' or 'negative'
-- setPruneCorpus(true): when training on small data you may want to disable this to not cut off infrequent words
+- setCorpusPrune(true): when training on small data you may want to disable this to not cut off infrequent words
 
 **Input:** File or folder of text files of positive and negative data  
 **Example:**

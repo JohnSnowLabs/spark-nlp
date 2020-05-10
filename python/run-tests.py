@@ -34,7 +34,7 @@ unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 
 # Should be locally tested
-
+# unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(UniversalSentenceEncoderTestSpec())
 # unittest.TextTestRunner().run(ClassifierDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())

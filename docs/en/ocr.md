@@ -4,7 +4,7 @@ title: Spark OCR (Licensed)
 permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2020-04-08"
-use_language_switchter: "Python-Scala-Java"
+use_language_switcher: "Python-Scala-Java"
 ---
 Spark OCR provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
 It is built on top of Apache Spark and Tesseract OCR.
