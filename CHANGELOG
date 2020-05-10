@@ -1,4 +1,34 @@
 ========
+2.5.0
+========
+---------------
+New Features
+---------------
+* A new AlbertEmbeddings annotator with 4 available pre-trained models
+* A new XlnetEmbeddings annotator with 2 available pre-trained models
+* A new ContextSpellChecker annotator, the state-of-the-art annotator for spell checking 
+* A new SentimentDL annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets
+* Add new PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame
+* Introducing a new outputLogsPath param for NerDLApproach, ClassifierDLApproach and SentimentDLApproach annotators
+* Refactored CoNLLGenerator to actually use NER labels from the DataFrame
+* Unified params in NerDLModel in both Scala and Python
+* Extend and complete Scaladoc APIs for all the annotators
+
+----------------
+Bugfixes
+----------------
+* Fix position of tokens in Normalizer
+* Fix Lemmatizer exception on a bad input
+* Fix annotator logs failing on object storage file systems like DBFS
+
+----------------
+Documentation
+----------------
+* Update documentation for release of Spark NLP 2.5.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-models) notebooks for Spark NLP 2.5.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository with new pre-trained models and pipelines
+
+========
 2.4.5
 ========
 ---------------
