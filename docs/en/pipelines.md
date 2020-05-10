@@ -36,6 +36,8 @@ Please follow this link for updated list:
 | Clean Slang | `clean_slang`|
 | Check Spelling | `check_spelling`|
 | Analyze Sentiment | `analyze_sentiment` |
+| Analyze Sentiment DL | `analyze_sentimentdl_use_imdb` |
+| Analyze Sentiment DL | `analyze_sentimentdl_use_twitter` |
 | Dependency Parse | `dependency_parse` |
 
 ### explain_document_ml
