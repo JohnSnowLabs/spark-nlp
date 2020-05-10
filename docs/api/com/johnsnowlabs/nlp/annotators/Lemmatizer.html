@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Lemmatizer - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.Lemmatizer</title>
-          <meta name="description" content="Lemmatizer - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.Lemmatizer" />
-          <meta name="keywords" content="Lemmatizer Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.Lemmatizer" />
+          <title>Lemmatizer - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Lemmatizer</title>
+          <meta name="description" content="Lemmatizer - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Lemmatizer" />
+          <meta name="keywords" content="Lemmatizer Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.Lemmatizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Class to find standarized lemmas from words. Uses a user-provided or default dictionary.</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Class to find standarized lemmas from words. Uses a user-provided or default dictionary.</p><p>Retrieves lemmas out of words with the objective of returning a base dictionary word. Retrieves the significant part of a word.</p><p>lemmaDict: A dictionary of predefined lemmas must be provided</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala</a> for examples of how to use this API
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="LemmatizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.LemmatizerModel">LemmatizerModel</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="LemmatizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.LemmatizerModel">LemmatizerModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -62,7 +63,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -396,8 +397,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Lemmatizer">Lemmatizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#dictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Retrieves the significant part of a word</p><div class="fullcomment"><div class="comment cmt"><p>Retrieves the significant part of a word</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Lemmatizer">Lemmatizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#dictionary" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="dictionary:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="dictionary:ExternalResourceParam"></a>
       <h4 class="signature">
@@ -413,7 +414,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">lemmatizer external dictionary, needs 'keyDelimiter' and 'valueDelimiter' in options for parsing target text
+</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -678,7 +680,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#getDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#getDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDictionary:com.johnsnowlabs.nlp.util.io.ExternalResource"></a>
       <a id="getDictionary:ExternalResource"></a>
       <h4 class="signature">
@@ -694,7 +696,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Path and options to lemma dictionary, in lemma vs possible words format.</p><div class="fullcomment"><div class="comment cmt"><p>Path and options to lemma dictionary, in lemma vs possible words format. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET. lemmatizer external dictionary
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -865,7 +868,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[Lemmatizer.this.AnnotatorType]"></a>
       <a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <h4 class="signature">
@@ -881,7 +884,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Lemmatizer">Lemmatizer</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Lemmatizer">Lemmatizer</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1277,7 +1282,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:Lemmatizer.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1293,7 +1298,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Lemmatizer">Lemmatizer</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Lemmatizer">Lemmatizer</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1441,7 +1448,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#setDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDictionary(path:String,keyDelimiter:String,valueDelimiter:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):Lemmatizer.this.type"></a>
       <a id="setDictionary(String,String,String,Format,Map[String,String]):Lemmatizer.this.type"></a>
       <h4 class="signature">
@@ -1457,8 +1464,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format.</p><div class="fullcomment"><div class="comment cmt"><p>setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.  lemmatizer external dictionary
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer#setDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDictionary(value:com.johnsnowlabs.nlp.util.io.ExternalResource):Lemmatizer.this.type"></a>
       <a id="setDictionary(ExternalResource):Lemmatizer.this.type"></a>
       <h4 class="signature">
@@ -1474,7 +1482,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format.</p><div class="fullcomment"><div class="comment cmt"><p>setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.  lemmatizer external dictionary
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):Lemmatizer.this.type"></a>
@@ -1797,8 +1806,20 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

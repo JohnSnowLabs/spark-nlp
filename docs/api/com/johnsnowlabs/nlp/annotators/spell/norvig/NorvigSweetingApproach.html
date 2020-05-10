@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>NorvigSweetingApproach - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach</title>
-          <meta name="description" content="NorvigSweetingApproach - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach" />
-          <meta name="keywords" content="NorvigSweetingApproach Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach" />
+          <title>NorvigSweetingApproach - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach</title>
+          <meta name="description" content="NorvigSweetingApproach - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach" />
+          <meta name="keywords" content="NorvigSweetingApproach Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,10 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary. Inspired by Norvig model</p><p>Inspired on <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">https://github.com/wolfgarbe/SymSpell</a></p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+(than the standard approach with deletes + transposes + replaces + inserts) and language independent.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala</a> for further reference on how to use this API
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a>, <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="NorvigSweetingModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel">NorvigSweetingModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -62,7 +65,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -272,7 +275,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#caseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#caseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="caseSensitive:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="caseSensitive:BooleanParam"></a>
       <h4 class="signature">
@@ -288,7 +291,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Sensitivity on spell checking.</p><div class="fullcomment"><div class="comment cmt"><p>Sensitivity on spell checking. Defaults to false. Might affect accuracy
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
@@ -413,8 +417,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#dictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Spell checking algorithm inspired on Norvig model</p><div class="fullcomment"><div class="comment cmt"><p>Spell checking algorithm inspired on Norvig model</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#dictionary" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="dictionary:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="dictionary:ExternalResourceParam"></a>
       <h4 class="signature">
@@ -430,8 +434,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#doubleVariants" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">file with a list of correct words
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#doubleVariants" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="doubleVariants:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="doubleVariants:BooleanParam"></a>
       <h4 class="signature">
@@ -447,8 +452,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#dupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Increase search at cost of performance.</p><div class="fullcomment"><div class="comment cmt"><p>Increase search at cost of performance. Enables extra check for word combinations, More accuracy at performance
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#dupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="dupsLimit:org.apache.spark.ml.param.IntParam"></a>
       <a id="dupsLimit:IntParam"></a>
       <h4 class="signature">
@@ -464,7 +470,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>Maximum duplicate of characters in a word to consider. Defaults to 2 .Maximum duplicate of characters to account for. Defaults to 2.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -678,7 +685,7 @@
                 <span class="name">@varargs</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#frequencyPriority" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#frequencyPriority" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="frequencyPriority:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="frequencyPriority:BooleanParam"></a>
       <h4 class="signature">
@@ -694,7 +701,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Applies frequency over hamming in intersections.</p><div class="fullcomment"><div class="comment cmt"><p>Applies frequency over hamming in intersections. When false hamming takes priority
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="get[T](Param[T]):Option[T]"></a>
@@ -712,7 +720,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getCaseSensitive:Boolean"></a>
       <a id="getCaseSensitive:Boolean"></a>
       <h4 class="signature">
@@ -728,7 +736,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Sensitivity on spell checking.</p><div class="fullcomment"><div class="comment cmt"><p>Sensitivity on spell checking. Defaults to false. Might affect accuracy
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -763,7 +772,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getDoubleVariants" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getDoubleVariants" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDoubleVariants:Boolean"></a>
       <a id="getDoubleVariants:Boolean"></a>
       <h4 class="signature">
@@ -779,8 +788,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getDupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Increase search at cost of performance.</p><div class="fullcomment"><div class="comment cmt"><p>Increase search at cost of performance. Enables extra check for word combinations
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getDupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDupsLimit:Int"></a>
       <a id="getDupsLimit:Int"></a>
       <h4 class="signature">
@@ -796,8 +806,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getFrequencyPriority" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>Maximum duplicate of characters in a word to consider. Defaults to 2 .Maximum duplicate of characters to account for. Defaults to 2.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getFrequencyPriority" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getFrequencyPriority:Boolean"></a>
       <a id="getFrequencyPriority:Boolean"></a>
       <h4 class="signature">
@@ -813,7 +824,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Applies frequency over hamming in intersections.</p><div class="fullcomment"><div class="comment cmt"><p>Applies frequency over hamming in intersections. When false hamming takes priority
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -831,7 +843,7 @@
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getIntersections" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getIntersections" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getIntersections:Int"></a>
       <a id="getIntersections:Int"></a>
       <h4 class="signature">
@@ -847,7 +859,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Hamming intersections to attempt.</p><div class="fullcomment"><div class="comment cmt"><p>Hamming intersections to attempt. Defaults to 10
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <a id="getLazyAnnotator:Boolean"></a>
@@ -916,7 +929,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getReductLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getReductLimit" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getReductLimit:Int"></a>
       <a id="getReductLimit:Int"></a>
       <h4 class="signature">
@@ -932,8 +945,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getShortCircuit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Word reduction limit.</p><div class="fullcomment"><div class="comment cmt"><p>Word reduction limit. Defaults to 3
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getShortCircuit" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getShortCircuit:Boolean"></a>
       <a id="getShortCircuit:Boolean"></a>
       <h4 class="signature">
@@ -949,8 +963,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getVowelSwapLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Increase performance at cost of accuracy.</p><div class="fullcomment"><div class="comment cmt"><p>Increase performance at cost of accuracy. Faster but less accurate mode
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getVowelSwapLimit" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getVowelSwapLimit:Int"></a>
       <a id="getVowelSwapLimit:Int"></a>
       <h4 class="signature">
@@ -966,8 +981,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getWordSizeIgnore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Vowel swap attempts.</p><div class="fullcomment"><div class="comment cmt"><p>Vowel swap attempts. Defaults to 6
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#getWordSizeIgnore" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getWordSizeIgnore:Int"></a>
       <a id="getWordSizeIgnore:Int"></a>
       <h4 class="signature">
@@ -983,7 +999,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Minimum size of word before ignoring.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum size of word before ignoring. Defaults to 3 ,Minimum size of word before moving on. Defaults to 3.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1069,7 +1086,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[NorvigSweetingApproach.this.AnnotatorType]"></a>
       <a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <h4 class="signature">
@@ -1085,7 +1102,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1107,7 +1126,7 @@ AnnotatorType is used both as input and output columns if not specified
 </p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
 AnnotatorType is used both as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#intersections" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#intersections" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="intersections:org.apache.spark.ml.param.IntParam"></a>
       <a id="intersections:IntParam"></a>
       <h4 class="signature">
@@ -1123,7 +1142,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Hamming intersections to attempt.</p><div class="fullcomment"><div class="comment cmt"><p>Hamming intersections to attempt. Defaults to 10
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a>
       <a id="isDefined(Param[_]):Boolean"></a>
@@ -1498,7 +1518,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:NorvigSweetingApproach.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1514,7 +1534,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1549,7 +1571,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#reductLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#reductLimit" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="reductLimit:org.apache.spark.ml.param.IntParam"></a>
       <a id="reductLimit:IntParam"></a>
       <h4 class="signature">
@@ -1565,7 +1587,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Word reduction limit.</p><div class="fullcomment"><div class="comment cmt"><p>Word reduction limit. Defaults to 3
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -1645,7 +1668,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setCaseSensitive(value:Boolean):NorvigSweetingParams.this.type"></a>
       <a id="setCaseSensitive(Boolean):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1661,7 +1684,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Sensitivity on spell checking.</p><div class="fullcomment"><div class="comment cmt"><p>Sensitivity on spell checking. Defaults to false. Might affect accuracy
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):NorvigSweetingApproach.this.type"></a>
@@ -1696,7 +1720,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#setDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDictionary(path:String,tokenPattern:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):NorvigSweetingApproach.this.type"></a>
       <a id="setDictionary(String,String,Format,Map[String,String]):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1712,8 +1736,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set.</p><div class="fullcomment"><div class="comment cmt"><p>Path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set. dictionary needs 'tokenPattern' regex in dictionary for separating words
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach#setDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDictionary(value:com.johnsnowlabs.nlp.util.io.ExternalResource):NorvigSweetingApproach.this.type"></a>
       <a id="setDictionary(ExternalResource):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1729,8 +1754,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setDoubleVariants" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">External path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set.</p><div class="fullcomment"><div class="comment cmt"><p>External path to file with properly spelled words, tokenPattern is the regex pattern to identify them in text, readAs LINE_BY_LINE or SPARK_DATASET, with options passed to Spark reader if the latter is set. dictionary needs 'tokenPattern' regex in dictionary for separating words
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setDoubleVariants" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDoubleVariants(value:Boolean):NorvigSweetingParams.this.type"></a>
       <a id="setDoubleVariants(Boolean):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1746,7 +1772,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Increase search at cost of performance.</p><div class="fullcomment"><div class="comment cmt"><p>Increase search at cost of performance. Enables extra check for word combinations
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setDupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDupsLimit(value:Int):NorvigSweetingParams.this.type"></a>
       <a id="setDupsLimit(Int):NorvigSweetingApproach.this.type"></a>
@@ -1763,8 +1790,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setFrequencyPriority" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>Maximum duplicate of characters in a word to consider. Defaults to 2 .Maximum duplicate of characters to account for. Defaults to 2.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setFrequencyPriority" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setFrequencyPriority(value:Boolean):NorvigSweetingParams.this.type"></a>
       <a id="setFrequencyPriority(Boolean):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1780,7 +1807,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Applies frequency over hamming in intersections.</p><div class="fullcomment"><div class="comment cmt"><p>Applies frequency over hamming in intersections. When false hamming takes priority
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):NorvigSweetingApproach.this.type"></a>
@@ -1815,7 +1843,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setIntersections" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setIntersections" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setIntersections(value:Int):NorvigSweetingParams.this.type"></a>
       <a id="setIntersections(Int):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1831,7 +1859,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Hamming intersections to attempt.</p><div class="fullcomment"><div class="comment cmt"><p>Hamming intersections to attempt. Defaults to 10
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a>
       <a id="setLazyAnnotator(Boolean):NorvigSweetingApproach.this.type"></a>
@@ -1866,7 +1895,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setReductLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setReductLimit" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReductLimit(value:Int):NorvigSweetingParams.this.type"></a>
       <a id="setReductLimit(Int):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1882,8 +1911,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setShortCircuit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Word reduction limit.</p><div class="fullcomment"><div class="comment cmt"><p>Word reduction limit. Defaults to 3
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setShortCircuit" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setShortCircuit(value:Boolean):NorvigSweetingParams.this.type"></a>
       <a id="setShortCircuit(Boolean):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1899,8 +1929,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setVowelSwapLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Increase performance at cost of accuracy.</p><div class="fullcomment"><div class="comment cmt"><p>Increase performance at cost of accuracy. Faster but less accurate mode
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setVowelSwapLimit" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setVowelSwapLimit(value:Int):NorvigSweetingParams.this.type"></a>
       <a id="setVowelSwapLimit(Int):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1916,8 +1947,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setWordSizeIgnore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Vowel swap attempts.</p><div class="fullcomment"><div class="comment cmt"><p>Vowel swap attempts. Defaults to 6
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#setWordSizeIgnore" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setWordSizeIgnore(value:Int):NorvigSweetingParams.this.type"></a>
       <a id="setWordSizeIgnore(Int):NorvigSweetingApproach.this.type"></a>
       <h4 class="signature">
@@ -1933,8 +1965,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#shortCircuit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Minimum size of word before ignoring.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum size of word before ignoring. Defaults to 3 ,Minimum size of word before moving on. Defaults to 3.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#shortCircuit" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="shortCircuit:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="shortCircuit:BooleanParam"></a>
       <h4 class="signature">
@@ -1950,7 +1983,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Increase performance at cost of accuracy.</p><div class="fullcomment"><div class="comment cmt"><p>Increase performance at cost of accuracy. Faster but less accurate mode
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2073,7 +2107,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#vowelSwapLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#vowelSwapLimit" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="vowelSwapLimit:org.apache.spark.ml.param.IntParam"></a>
       <a id="vowelSwapLimit:IntParam"></a>
       <h4 class="signature">
@@ -2089,7 +2123,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Vowel swap attempts.</p><div class="fullcomment"><div class="comment cmt"><p>Vowel swap attempts. Defaults to 6
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -2159,7 +2194,7 @@ AnnotatorType is used both as input and output columns if not specified
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#wordSizeIgnore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams#wordSizeIgnore" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="wordSizeIgnore:org.apache.spark.ml.param.IntParam"></a>
       <a id="wordSizeIgnore:IntParam"></a>
       <h4 class="signature">
@@ -2175,7 +2210,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Minimum size of word before ignoring.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum size of word before ignoring. Defaults to 3 ,Minimum size of word before moving on. Defaults to 3.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorvigSweetingParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams">NorvigSweetingParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.DefaultParamsWritable#write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="write:org.apache.spark.ml.util.MLWriter"></a>
       <a id="write:MLWriter"></a>
@@ -2241,8 +2277,20 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

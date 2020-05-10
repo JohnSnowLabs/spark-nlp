@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>SentimentDetector - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector</title>
-          <meta name="description" content="SentimentDetector - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector" />
-          <meta name="keywords" content="SentimentDetector Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector" />
+          <title>SentimentDetector - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector</title>
+          <meta name="description" content="SentimentDetector - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector" />
+          <meta name="keywords" content="SentimentDetector Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Gives a good or bad score to a sentence based on the approach used
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="SentimentDetectorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel">SentimentDetectorModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="SentimentDetectorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel">SentimentDetectorModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -62,7 +63,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -107,7 +108,7 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector"></a>
       <a id="&lt;init&gt;:SentimentDetector"></a>
       <h4 class="signature">
@@ -123,7 +124,7 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>internal uid needed for saving annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -363,7 +364,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#decrementMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#decrementMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="decrementMultiplier:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="decrementMultiplier:DoubleParam"></a>
       <h4 class="signature">
@@ -379,7 +380,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">multiplier for decrement sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>multiplier for decrement sentiments. Defaults -2.0
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a>
       <a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
@@ -413,8 +415,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#dictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Rule based sentiment detector</p><div class="fullcomment"><div class="comment cmt"><p>Rule based sentiment detector</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#dictionary" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="dictionary:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="dictionary:ExternalResourceParam"></a>
       <h4 class="signature">
@@ -430,8 +432,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#enableScore" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">delimited file with a list sentiment tags per word.</p><div class="fullcomment"><div class="comment cmt"><p>delimited file with a list sentiment tags per word. Requires 'delimiter' in options
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#enableScore" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="enableScore:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableScore:BooleanParam"></a>
       <h4 class="signature">
@@ -447,7 +450,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">if true, score will show as the double value, else will output string \&quot;positive\&quot; or \&quot;negative\&quot;.</p><div class="fullcomment"><div class="comment cmt"><p>if true, score will show as the double value, else will output string \&quot;positive\&quot; or \&quot;negative\&quot;. Defaults false
+</p></div></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -848,7 +852,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#incrementMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#incrementMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="incrementMultiplier:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="incrementMultiplier:DoubleParam"></a>
       <h4 class="signature">
@@ -864,7 +868,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">multiplier for increment sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>multiplier for increment sentiments. Defaults 2.0
+</p></div></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a>
       <a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
@@ -899,7 +904,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[SentimentDetector.this.AnnotatorType]"></a>
       <a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <h4 class="signature">
@@ -915,7 +920,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input annotation type : TOKEN, DOCUMENT
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotation type : TOKEN, DOCUMENT
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1260,7 +1267,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#negativeMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#negativeMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="negativeMultiplier:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="negativeMultiplier:DoubleParam"></a>
       <h4 class="signature">
@@ -1276,7 +1283,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">&quot;multiplier for negative sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>&quot;multiplier for negative sentiments. Defaults -1.0
+</p></div></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -1328,7 +1336,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:SentimentDetector.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1344,7 +1352,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotation type : SENTIMENT
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotation type : SENTIMENT
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1379,7 +1389,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#positiveMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#positiveMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="positiveMultiplier:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="positiveMultiplier:DoubleParam"></a>
       <h4 class="signature">
@@ -1395,8 +1405,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#reverseMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">multiplier for positive sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>multiplier for positive sentiments. Defaults 1.0
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#reverseMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="reverseMultiplier:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="reverseMultiplier:DoubleParam"></a>
       <h4 class="signature">
@@ -1412,7 +1423,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">multiplier for revert sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>multiplier for revert sentiments. Defaults -1.0
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -1492,7 +1504,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setDecrementMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setDecrementMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setDecrementMultiplier(v:Double):SentimentDetector.this.type"></a>
       <a id="setDecrementMultiplier(Double):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1508,7 +1520,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Multiplier for decrement sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>Multiplier for decrement sentiments. Defaults -2.0
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):SentimentDetector.this.type"></a>
@@ -1543,7 +1556,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setDictionary(path:String,delimiter:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):SentimentDetector.this.type"></a>
       <a id="setDictionary(String,String,Format,Map[String,String]):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1559,8 +1572,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">delimited file with a list sentiment tags per word.</p><div class="fullcomment"><div class="comment cmt"><p>delimited file with a list sentiment tags per word. Requires 'delimiter' in options. Dictionary needs 'delimiter' in order to separate words from sentiment tags
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setDictionary" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setDictionary(value:com.johnsnowlabs.nlp.util.io.ExternalResource):SentimentDetector.this.type"></a>
       <a id="setDictionary(ExternalResource):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1576,8 +1590,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setEnableScore" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">delimited file with a list sentiment tags per word.</p><div class="fullcomment"><div class="comment cmt"><p>delimited file with a list sentiment tags per word. Requires 'delimiter' in options. Dictionary needs 'delimiter' in order to separate words from sentiment tags
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setEnableScore" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setEnableScore(v:Boolean):SentimentDetector.this.type"></a>
       <a id="setEnableScore(Boolean):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1593,8 +1608,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setIncrementMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">if true, score will show as the double value, else will output string \&quot;positive\&quot; or \&quot;negative\&quot;.</p><div class="fullcomment"><div class="comment cmt"><p>if true, score will show as the double value, else will output string \&quot;positive\&quot; or \&quot;negative\&quot;. Defaults false
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setIncrementMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setIncrementMultiplier(v:Double):SentimentDetector.this.type"></a>
       <a id="setIncrementMultiplier(Double):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1610,7 +1626,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Multiplier for increment sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>Multiplier for increment sentiments. Defaults 2.0
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):SentimentDetector.this.type"></a>
@@ -1662,7 +1679,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setNegativeMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setNegativeMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setNegativeMultiplier(v:Double):SentimentDetector.this.type"></a>
       <a id="setNegativeMultiplier(Double):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1678,7 +1695,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Multiplier for negative sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>Multiplier for negative sentiments. Defaults -1.0
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):SentimentDetector.this.type"></a>
@@ -1696,7 +1714,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setPositiveMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setPositiveMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setPositiveMultiplier(v:Double):SentimentDetector.this.type"></a>
       <a id="setPositiveMultiplier(Double):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1712,8 +1730,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setReverseMultiplier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Multiplier for positive sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>Multiplier for positive sentiments. Defaults 1.0
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector#setReverseMultiplier" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="setReverseMultiplier(v:Double):SentimentDetector.this.type"></a>
       <a id="setReverseMultiplier(Double):SentimentDetector.this.type"></a>
       <h4 class="signature">
@@ -1729,7 +1748,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Multiplier for revert sentiments.</p><div class="fullcomment"><div class="comment cmt"><p>Multiplier for revert sentiments. Defaults -1.0
+</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -1834,7 +1854,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → Identifiable</dd></dl></div>
+      <p class="shortcomment cmt">internal uid needed for saving annotator to disk</p><div class="fullcomment"><div class="comment cmt"><p>internal uid needed for saving annotator to disk</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> → Identifiable</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="validate(StructType):Boolean"></a>
@@ -1984,8 +2004,14 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div>
         </div>
