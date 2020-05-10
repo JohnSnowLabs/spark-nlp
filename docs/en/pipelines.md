@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2020-03-19"
+modify_date: "2020-05-09"
 ---
 
 Pretrained Pipelines moved to its own dedicated repository.
