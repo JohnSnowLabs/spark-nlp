@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Normalizer - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.Normalizer</title>
-          <meta name="description" content="Normalizer - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.Normalizer" />
-          <meta name="keywords" content="Normalizer Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.Normalizer" />
+          <title>Normalizer - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Normalizer</title>
+          <meta name="description" content="Normalizer - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Normalizer" />
+          <meta name="keywords" content="Normalizer Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.Normalizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Annotator that cleans out tokens. Requires stems, hence tokens</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Annotator that cleans out tokens. Requires stems, hence tokens.
+Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala</a> for examples on how to use the API
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="NormalizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.NormalizerModel">NormalizerModel</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="NormalizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.NormalizerModel">NormalizerModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -62,7 +64,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -289,7 +291,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#cleanupPatterns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#cleanupPatterns" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="cleanupPatterns:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="cleanupPatterns:StringArrayParam"></a>
       <h4 class="signature">
@@ -305,7 +307,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">normalization regex patterns which match will be removed from token
+</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a>
       <a id="clear(Param[_]):Normalizer.this.type"></a>
@@ -413,7 +416,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Cleans out tokens</p><div class="fullcomment"><div class="comment cmt"><p>Cleans out tokens</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -661,7 +664,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#getCleanupPatterns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#getCleanupPatterns" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getCleanupPatterns:Array[String]"></a>
       <a id="getCleanupPatterns:Array[String]"></a>
       <h4 class="signature">
@@ -677,7 +680,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Regular expressions list for normalization, defaults [^A-Za-z]</p>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="getDefault[T](Param[T]):Option[T]"></a>
@@ -729,7 +732,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#getLowercase" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#getLowercase" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getLowercase:Boolean"></a>
       <a id="getLowercase:Boolean"></a>
       <h4 class="signature">
@@ -745,7 +748,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Lowercase tokens, default true
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
       <a id="getOrDefault[T](Param[T]):T"></a>
@@ -797,7 +801,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#getSlangMatchCase" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#getSlangMatchCase" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getSlangMatchCase:Boolean"></a>
       <a id="getSlangMatchCase:Boolean"></a>
       <h4 class="signature">
@@ -813,7 +817,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Whether to convert string to lowercase or not while checking
+</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -899,7 +904,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <h4 class="signature">
@@ -915,7 +920,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input Annotator Type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Input Annotator Type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1226,7 +1233,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#lowercase" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#lowercase" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="lowercase:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="lowercase:BooleanParam"></a>
       <h4 class="signature">
@@ -1242,7 +1249,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">whether to convert strings to lowercase
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
       <a id="msgHelper(StructType):String"></a>
@@ -1328,7 +1336,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:Normalizer.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1344,7 +1352,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output Annotator Type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output Annotator Type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1458,7 +1468,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setCleanupPatterns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setCleanupPatterns" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setCleanupPatterns(value:Array[String]):Normalizer.this.type"></a>
       <a id="setCleanupPatterns(Array[String]):Normalizer.this.type"></a>
       <h4 class="signature">
@@ -1474,7 +1484,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Regular expressions list for normalization, defaults [^A-Za-z]</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):Normalizer.this.type"></a>
@@ -1560,7 +1570,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setLowercase" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setLowercase" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setLowercase(value:Boolean):Normalizer.this.type"></a>
       <a id="setLowercase(Boolean):Normalizer.this.type"></a>
       <h4 class="signature">
@@ -1576,7 +1586,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Lowercase tokens, default true
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):Normalizer.this.type"></a>
@@ -1594,7 +1605,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setSlangDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setSlangDictionary" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setSlangDictionary(path:String,delimiter:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):Normalizer.this.type"></a>
       <a id="setSlangDictionary(String,String,Format,Map[String,String]):Normalizer.this.type"></a>
       <h4 class="signature">
@@ -1610,8 +1621,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setSlangDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Txt file with delimited words to be transformed into something else
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setSlangDictionary" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setSlangDictionary(value:com.johnsnowlabs.nlp.util.io.ExternalResource):Normalizer.this.type"></a>
       <a id="setSlangDictionary(ExternalResource):Normalizer.this.type"></a>
       <h4 class="signature">
@@ -1627,8 +1639,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setSlangMatchCase" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Txt file with delimited words to be transformed into something else
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#setSlangMatchCase" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setSlangMatchCase(value:Boolean):Normalizer.this.type"></a>
       <a id="setSlangMatchCase(Boolean):Normalizer.this.type"></a>
       <h4 class="signature">
@@ -1644,8 +1657,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#slangDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to convert string to lowercase or not while checking
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#slangDictionary" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="slangDictionary:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="slangDictionary:ExternalResourceParam"></a>
       <h4 class="signature">
@@ -1661,8 +1675,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#slangMatchCase" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">delimited file with list of custom words to be manually corrected
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Normalizer#slangMatchCase" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="slangMatchCase:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="slangMatchCase:BooleanParam"></a>
       <h4 class="signature">
@@ -1678,7 +1693,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">whether or not to be case sensitive to match slangs.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to be case sensitive to match slangs. Defaults to false.
+</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -1933,8 +1949,20 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

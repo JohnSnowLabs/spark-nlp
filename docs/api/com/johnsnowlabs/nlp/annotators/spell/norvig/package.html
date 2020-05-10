@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>norvig - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig</title>
-          <meta name="description" content="norvig - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig" />
-          <meta name="keywords" content="norvig Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.norvig" />
+          <title>norvig - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig</title>
+          <meta name="description" content="norvig - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.norvig" />
+          <meta name="keywords" content="norvig Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.norvig" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -66,7 +66,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NorvigSweetingApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]withNorvigSweetingParams"></a>
       <a id="NorvigSweetingApproach:NorvigSweetingApproach"></a>
       <h4 class="signature">
@@ -82,8 +82,11 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.</p><div class="fullcomment"><div class="comment cmt"><p>This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary. Inspired by Norvig model</p><p>Inspired on <a href="https://github.com/wolfgarbe/SymSpell" target="_blank">https://github.com/wolfgarbe/SymSpell</a></p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+(than the standard approach with deletes + transposes + replaces + inserts) and language independent.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala</a> for further reference on how to use this API
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NorvigSweetingModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]withNorvigSweetingParams"></a>
       <a id="NorvigSweetingModel:NorvigSweetingModel"></a>
       <h4 class="signature">
@@ -99,8 +102,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.</p><div class="fullcomment"><div class="comment cmt"><p>This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary. Inspired by Norvig model</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala</a> for further reference on how to use this API
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingParams" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="NorvigSweetingParamsextendsParams"></a>
       <a id="NorvigSweetingParams:NorvigSweetingParams"></a>
       <h4 class="signature">
@@ -116,7 +120,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">These are the configs for the NorvigSweeting model</p><div class="fullcomment"><div class="comment cmt"><p>These are the configs for the NorvigSweeting model</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala</a> for further reference on how to use this API
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedNorvigextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel]"></a>
       <a id="ReadablePretrainedNorvig:ReadablePretrainedNorvig"></a>

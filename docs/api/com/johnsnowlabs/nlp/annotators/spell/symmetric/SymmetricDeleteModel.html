@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>SymmetricDeleteModel - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel</title>
-          <meta name="description" content="SymmetricDeleteModel - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel" />
-          <meta name="keywords" content="SymmetricDeleteModel Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel" />
+          <title>SymmetricDeleteModel - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel</title>
+          <meta name="description" content="SymmetricDeleteModel - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel" />
+          <meta name="keywords" content="SymmetricDeleteModel Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,10 +51,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by danilo 16/04/2018,
-inspired on https://github.com/wolfgarbe/SymSpell</p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by danilo 16/04/2018,</p><p>Inspired on https://github.com/wolfgarbe/SymSpell</p><p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
 dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-(than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+(than the standard approach with deletes + transposes + replaces + inserts) and language independent.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala</a> for further reference.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>, <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a>], <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -66,7 +65,7 @@ dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of 
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -541,7 +540,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#deletesThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#deletesThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="deletesThreshold:org.apache.spark.ml.param.IntParam"></a>
       <a id="deletesThreshold:IntParam"></a>
       <h4 class="signature">
@@ -557,8 +556,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#derivedWords" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#derivedWords" visbl="prt" data-isabs="false" fullComment="yes" group="param">
       <a id="derivedWords:com.johnsnowlabs.nlp.serialization.MapFeature[String,(List[String],Long)]"></a>
       <a id="derivedWords:MapFeature[String,(List[String],Long)]"></a>
       <h4 class="signature">
@@ -574,7 +574,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#dfAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dfAnnotate:org.apache.spark.sql.expressions.UserDefinedFunction"></a>
       <a id="dfAnnotate:UserDefinedFunction"></a>
@@ -592,7 +592,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <a href="../../../AnnotatorModel.html#inputCols:org.apache.spark.ml.param.StringArrayParam" class="extmbr" name="com.johnsnowlabs.nlp.AnnotatorModel#inputCols">inputCols</a> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#dictionary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#dictionary" visbl="prt" data-isabs="false" fullComment="yes" group="param">
       <a id="dictionary:com.johnsnowlabs.nlp.serialization.MapFeature[String,Long]"></a>
       <a id="dictionary:MapFeature[String,Long]"></a>
       <h4 class="signature">
@@ -608,8 +608,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#dupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#dupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="dupsLimit:org.apache.spark.ml.param.IntParam"></a>
       <a id="dupsLimit:IntParam"></a>
       <h4 class="signature">
@@ -625,7 +625,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>maximum duplicate of characters in a word to consider. Defaults to 2
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -802,7 +803,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#frequencyThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#frequencyThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="frequencyThreshold:org.apache.spark.ml.param.IntParam"></a>
       <a id="frequencyThreshold:IntParam"></a>
       <h4 class="signature">
@@ -818,7 +819,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]"></a>
       <a id="get[T](StructFeature[T]):Option[T]"></a>
@@ -955,7 +957,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDeletesThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDeletesThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDeletesThreshold:Int"></a>
       <a id="getDeletesThreshold:Int"></a>
       <h4 class="signature">
@@ -971,7 +973,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#getDictionarySuggestions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getDictionarySuggestions(word:String):Option[SymmetricDeleteModel.this.SuggestedWord]"></a>
       <a id="getDictionarySuggestions(String):Option[SuggestedWord]"></a>
@@ -989,7 +992,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getDupsLimit:Int"></a>
       <a id="getDupsLimit:Int"></a>
       <h4 class="signature">
@@ -1005,8 +1008,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getFrequencyThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>maximum duplicate of characters in a word to consider. Defaults to 2
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getFrequencyThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getFrequencyThreshold:Int"></a>
       <a id="getFrequencyThreshold:Int"></a>
       <h4 class="signature">
@@ -1022,7 +1026,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -1057,7 +1062,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getMaxEditDistance" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getMaxEditDistance" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getMaxEditDistance:Int"></a>
       <a id="getMaxEditDistance:Int"></a>
       <h4 class="signature">
@@ -1073,7 +1078,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">max edit distance characters to derive strings from a word
+</p><div class="fullcomment"><div class="comment cmt"><p>max edit distance characters to derive strings from a word
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
       <a id="getOrDefault[T](Param[T]):T"></a>
@@ -1280,7 +1287,7 @@ spelled word
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[SymmetricDeleteModel.this.AnnotatorType]"></a>
       <a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <h4 class="signature">
@@ -1296,7 +1303,9 @@ spelled word
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type: TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type: TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1624,7 +1633,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#longestWordLength" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#longestWordLength" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="longestWordLength:org.apache.spark.ml.param.IntParam"></a>
       <a id="longestWordLength:IntParam"></a>
       <h4 class="signature">
@@ -1640,8 +1649,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#maxEditDistance" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">length of longest word in corpus
+</p><div class="fullcomment"><div class="comment cmt"><p>length of longest word in corpus
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#maxEditDistance" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="maxEditDistance:org.apache.spark.ml.param.IntParam"></a>
       <a id="maxEditDistance:IntParam"></a>
       <h4 class="signature">
@@ -1657,8 +1668,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#maxFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">max edit distance characters to derive strings from a word
+</p><div class="fullcomment"><div class="comment cmt"><p>max edit distance characters to derive strings from a word
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#maxFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="maxFrequency:org.apache.spark.ml.param.LongParam"></a>
       <a id="maxFrequency:LongParam"></a>
       <h4 class="signature">
@@ -1674,8 +1687,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#minFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">maximum frequency of a word in the corpus
+</p><div class="fullcomment"><div class="comment cmt"><p>maximum frequency of a word in the corpus
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#minFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="minFrequency:org.apache.spark.ml.param.LongParam"></a>
       <a id="minFrequency:LongParam"></a>
       <h4 class="signature">
@@ -1691,7 +1706,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">minimum frequency of a word in the corpus
+</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of a word in the corpus
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
       <a id="msgHelper(StructType):String"></a>
@@ -1794,7 +1811,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:SymmetricDeleteModel.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1810,7 +1827,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
+      <p class="shortcomment cmt">Output annotator type: TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type: TOKEN
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel">SymmetricDeleteModel</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
@@ -2112,7 +2130,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setDeletesThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setDeletesThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDeletesThreshold(value:Int):SymmetricDeleteParams.this.type"></a>
       <a id="setDeletesThreshold(Int):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2128,8 +2146,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#setDerivedWords" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#setDerivedWords" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setDerivedWords(value:Map[String,(List[String],Long)]):SymmetricDeleteModel.this.type"></a>
       <a id="setDerivedWords(Map[String,(List[String],Long)]):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2145,8 +2164,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel#setDictionary" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setDictionary(value:Map[String,Long]):SymmetricDeleteModel.this.type"></a>
       <a id="setDictionary(Map[String,Long]):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2162,7 +2181,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setDupsLimit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDupsLimit(value:Int):SymmetricDeleteParams.this.type"></a>
       <a id="setDupsLimit(Int):SymmetricDeleteModel.this.type"></a>
@@ -2179,8 +2198,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setFrequencyThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>maximum duplicate of characters in a word to consider. Defaults to 2</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setFrequencyThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setFrequencyThreshold(value:Int):SymmetricDeleteParams.this.type"></a>
       <a id="setFrequencyThreshold(Int):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2196,7 +2215,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):SymmetricDeleteModel.this.type"></a>
@@ -2248,7 +2268,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setLongestWordLength" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setLongestWordLength" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setLongestWordLength(value:Int):SymmetricDeleteParams.this.type"></a>
       <a id="setLongestWordLength(Int):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2264,8 +2284,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMaxEditDistance" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">length of longest word in corpus
+</p><div class="fullcomment"><div class="comment cmt"><p>length of longest word in corpus
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMaxEditDistance" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setMaxEditDistance(value:Int):SymmetricDeleteParams.this.type"></a>
       <a id="setMaxEditDistance(Int):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2281,8 +2303,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMaxFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">max edit distance characters to derive strings from a word
+</p><div class="fullcomment"><div class="comment cmt"><p>max edit distance characters to derive strings from a word
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMaxFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setMaxFrequency(value:Long):SymmetricDeleteParams.this.type"></a>
       <a id="setMaxFrequency(Long):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2298,8 +2322,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMinFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">maximum frequency of a word in the corpus
+</p><div class="fullcomment"><div class="comment cmt"><p>maximum frequency of a word in the corpus
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMinFrequency" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setMinFrequency(value:Long):SymmetricDeleteParams.this.type"></a>
       <a id="setMinFrequency(Long):SymmetricDeleteModel.this.type"></a>
       <h4 class="signature">
@@ -2315,7 +2341,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
+      <p class="shortcomment cmt">minimum frequency of a word in the corpus
+</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of a word in the corpus
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SymmetricDeleteParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):SymmetricDeleteModel.this.type"></a>
@@ -2702,8 +2730,20 @@ metadata is built at schema level to record annotations structural information o
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

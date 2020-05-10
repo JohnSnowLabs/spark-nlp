@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Tokenizer - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.Tokenizer</title>
-          <meta name="description" content="Tokenizer - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.Tokenizer" />
-          <meta name="keywords" content="Tokenizer Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.Tokenizer" />
+          <title>Tokenizer - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Tokenizer</title>
+          <meta name="description" content="Tokenizer - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.Tokenizer" />
+          <meta name="keywords" content="Tokenizer Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.Tokenizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Tokenizes raw text in document type columns into TokenizedSentence .</p><p>This class represents a non fitted tokenizer. Fitting it will cause the internal RuleFactory to construct the rules for tokenizing from the input configuration.</p><p>Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala" target="_blank">Tokenizer test class</a> for examples examples of usage.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="TokenizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.TokenizerModel">TokenizerModel</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="TokenizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.TokenizerModel">TokenizerModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
@@ -65,7 +66,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -110,7 +111,7 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.Tokenizer"></a>
       <a id="&lt;init&gt;:Tokenizer"></a>
       <h4 class="signature">
@@ -126,7 +127,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -241,7 +242,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addContextChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addContextChars" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="addContextChars(v:String):Tokenizer.this.type"></a>
       <a id="addContextChars(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -257,8 +258,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addException" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add one character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>Add one character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addException" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="addException(value:String):Tokenizer.this.type"></a>
       <a id="addException(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -274,8 +276,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addInfixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add a single exception
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addInfixPattern" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="addInfixPattern(value:String):Tokenizer.this.type"></a>
       <a id="addInfixPattern(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -291,8 +294,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addSplitChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add an extension pattern regex with groups to the top of thsetExceptionse rules (will target first, from more specific to the more general).</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#addSplitChars" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="addSplitChars(v:String):Tokenizer.this.type"></a>
       <a id="addSplitChars(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -308,7 +311,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">One character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>One character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+</p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -359,8 +363,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#caseSensitiveExceptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Build rule factory which combines all defined parameters to build regex that is applied to tokens</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#caseSensitiveExceptions" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="caseSensitiveExceptions:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="caseSensitiveExceptions:BooleanParam"></a>
       <h4 class="signature">
@@ -376,7 +380,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Whether to care for case sensitiveness in exceptions
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
@@ -434,7 +439,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#contextChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#contextChars" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="contextChars:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="contextChars:StringArrayParam"></a>
       <h4 class="signature">
@@ -450,7 +455,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Character list used to separate from token boundaries
+</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a>
       <a id="copy(ParamMap):Estimator[TokenizerModel]"></a>
@@ -518,7 +524,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Annotator that identifies points of analysis in a useful manner</p><div class="fullcomment"><div class="comment cmt"><p>Annotator that identifies points of analysis in a useful manner</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -553,7 +559,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#exceptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#exceptions" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="exceptions:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="exceptions:StringArrayParam"></a>
       <h4 class="signature">
@@ -569,8 +575,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#exceptionsPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Words that won't be affected by tokenization rules
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#exceptionsPath" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="exceptionsPath:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="exceptionsPath:ExternalResourceParam"></a>
       <h4 class="signature">
@@ -586,7 +593,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Path to file containing list of exceptions
+</p>
     </li><li name="org.apache.spark.ml.param.Params#explainParam" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="explainParam(param:org.apache.spark.ml.param.Param[_]):String"></a>
       <a id="explainParam(Param[_]):String"></a>
@@ -783,7 +791,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getCaseSensitiveExceptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getCaseSensitiveExceptions" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getCaseSensitiveExceptions(value:Boolean):Boolean"></a>
       <a id="getCaseSensitiveExceptions(Boolean):Boolean"></a>
       <h4 class="signature">
@@ -799,7 +807,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Whether to follow case sensitiveness for matching exceptions in text
+</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -817,7 +826,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getContextChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getContextChars" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getContextChars:Array[String]"></a>
       <a id="getContextChars:Array[String]"></a>
       <h4 class="signature">
@@ -833,7 +842,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">List of 1 character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="getDefault[T](Param[T]):Option[T]"></a>
@@ -851,7 +861,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getExceptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getExceptions" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="getExceptions:Array[String]"></a>
       <a id="getExceptions:Array[String]"></a>
       <h4 class="signature">
@@ -867,8 +877,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getInfixPatterns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getInfixPatterns" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getInfixPatterns:Array[String]"></a>
       <a id="getInfixPatterns:Array[String]"></a>
       <h4 class="signature">
@@ -884,7 +894,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Add an extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -919,7 +929,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getMaxLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getMaxLength" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getMaxLength(value:Int):Int"></a>
       <a id="getMaxLength(Int):Int"></a>
       <h4 class="signature">
@@ -935,8 +945,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getMinLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Get the maximum allowed legth for each token
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getMinLength" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getMinLength(value:Int):Int"></a>
       <a id="getMinLength(Int):Int"></a>
       <h4 class="signature">
@@ -952,7 +963,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Get the minimum allowed legth for each token
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
       <a id="getOrDefault[T](Param[T]):T"></a>
@@ -1004,7 +1016,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getPrefixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getPrefixPattern" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getPrefixPattern:String"></a>
       <a id="getPrefixPattern:String"></a>
       <h4 class="signature">
@@ -1020,8 +1032,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSplitChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Regex to identify subtokens that come in the beginning of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that come in the beginning of the token. Regex has to start with \\A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSplitChars" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getSplitChars:Array[String]"></a>
       <a id="getSplitChars:Array[String]"></a>
       <h4 class="signature">
@@ -1037,8 +1050,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSplitPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSplitPattern" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getSplitPattern:String"></a>
       <a id="getSplitPattern:String"></a>
       <h4 class="signature">
@@ -1054,8 +1068,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSuffixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getSuffixPattern" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getSuffixPattern:String"></a>
       <a id="getSuffixPattern:String"></a>
       <h4 class="signature">
@@ -1071,8 +1086,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getTargetPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Regex to identify subtokens that are in the end of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that are in the end of the token. Regex has to end with \\z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#getTargetPattern" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getTargetPattern:String"></a>
       <a id="getTargetPattern:String"></a>
       <h4 class="signature">
@@ -1088,7 +1104,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Basic regex rule to identify a candidate for tokenization.</p><div class="fullcomment"><div class="comment cmt"><p>Basic regex rule to identify a candidate for tokenization. Defaults to \\S+ which means anything not a space
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1140,7 +1157,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#infixPatterns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#infixPatterns" visbl="pub" data-isabs="false" fullComment="yes" group="Parameters">
       <a id="infixPatterns:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="infixPatterns:StringArrayParam"></a>
       <h4 class="signature">
@@ -1156,7 +1173,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Regex patterns that match tokens within a single target.</p><div class="fullcomment"><div class="comment cmt"><p>Regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults
+</p></div></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a>
       <a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
@@ -1191,7 +1209,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[Tokenizer.this.AnnotatorType]"></a>
       <a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <h4 class="signature">
@@ -1207,7 +1225,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">A Tokenizer could require only for now a SentenceDetector annotator</p><div class="fullcomment"><div class="comment cmt"><p>A Tokenizer could require only for now a SentenceDetector annotator</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type : DOCUMENT
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : DOCUMENT
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1518,7 +1538,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#maxLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#maxLength" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="maxLength:org.apache.spark.ml.param.IntParam"></a>
       <a id="maxLength:IntParam"></a>
       <h4 class="signature">
@@ -1534,8 +1554,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#minLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Set the maximum allowed length for each token
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#minLength" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="minLength:org.apache.spark.ml.param.IntParam"></a>
       <a id="minLength:IntParam"></a>
       <h4 class="signature">
@@ -1551,7 +1572,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Set the minimum allowed length for each token
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
       <a id="msgHelper(StructType):String"></a>
@@ -1637,7 +1659,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:Tokenizer.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1653,7 +1675,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type : TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1688,7 +1712,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#prefixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#prefixPattern" visbl="pub" data-isabs="false" fullComment="yes" group="Parameters">
       <a id="prefixPattern:org.apache.spark.ml.param.Param[String]"></a>
       <a id="prefixPattern:Param[String]"></a>
       <h4 class="signature">
@@ -1704,7 +1728,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Regex with groups and begins with \\A to match target prefix.</p><div class="fullcomment"><div class="comment cmt"><p>Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -1784,7 +1809,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setCaseSensitiveExceptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setCaseSensitiveExceptions" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="setCaseSensitiveExceptions(value:Boolean):Tokenizer.this.type"></a>
       <a id="setCaseSensitiveExceptions(Boolean):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1800,8 +1825,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setContextChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to follow case sensitiveness for matching exceptions in text
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setContextChars" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setContextChars(v:Array[String]):Tokenizer.this.type"></a>
       <a id="setContextChars(Array[String]):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1817,7 +1843,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">List of 1 character string to rip off from tokens, such as parenthesis or question marks.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):Tokenizer.this.type"></a>
@@ -1852,7 +1879,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setExceptions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setExceptions" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setExceptions(value:Array[String]):Tokenizer.this.type"></a>
       <a id="setExceptions(Array[String]):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1868,8 +1895,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setExceptionsPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">List of tokens to not alter at all.</p><div class="fullcomment"><div class="comment cmt"><p>List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setExceptionsPath" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="setExceptionsPath(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):Tokenizer.this.type"></a>
       <a id="setExceptionsPath(String,Format,Map[String,String]):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1885,8 +1913,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setInfixPatterns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Path to txt file with list of token exceptions
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setInfixPatterns" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setInfixPatterns(value:Array[String]):Tokenizer.this.type"></a>
       <a id="setInfixPatterns(Array[String]):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1902,7 +1931,15 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Set a list of Regex patterns that match tokens within a single target.</p><div class="fullcomment"><div class="comment cmt"><p>Set a list of Regex patterns that match tokens within a single target. Groups identify different sub-tokens. multiple defaults</p><p>Infix patterns must use regex group. Notice each group will result in separate token</p><p><b>Example:</b></p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
+
+<span class="kw">val</span> textDf = sqlContext.sparkContext.parallelize(<span class="std">Array</span>(<span class="lit">"l'une d'un l'un, des l'extrême des l'extreme"</span>)).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"sentences"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentences"</span>).setOutputCol(<span class="lit">"tokens"</span>).setInfixPatterns(<span class="std">Array</span>(<span class="lit">"([\\p{L}\\w]+'{1})([\\p{L}\\w]+)"</span>))
+<span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select(<span class="lit">"tokens.result"</span>).show(<span class="kw">false</span>)</pre><p>This will yield [l', une, d', un, l', un, , , des, l', extrême, des, l', extreme]
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):Tokenizer.this.type"></a>
@@ -1954,7 +1991,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setMaxLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setMaxLength" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxLength(value:Int):Tokenizer.this.type"></a>
       <a id="setMaxLength(Int):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1970,8 +2007,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setMinLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Set the maximum allowed legth for each token
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setMinLength" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setMinLength(value:Int):Tokenizer.this.type"></a>
       <a id="setMinLength(Int):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -1987,7 +2025,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Set the minimum allowed legth for each token
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):Tokenizer.this.type"></a>
@@ -2005,7 +2044,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setPrefixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setPrefixPattern" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setPrefixPattern(value:String):Tokenizer.this.type"></a>
       <a id="setPrefixPattern(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -2021,8 +2060,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSplitChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Regex to identify subtokens that come in the beginning of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that come in the beginning of the token. Regex has to start with \\A and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSplitChars" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setSplitChars(v:Array[String]):Tokenizer.this.type"></a>
       <a id="setSplitChars(Array[String]):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -2038,8 +2078,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSplitPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">List of 1 character string to split tokens inside, such as hyphens.</p><div class="fullcomment"><div class="comment cmt"><p>List of 1 character string to split tokens inside, such as hyphens. Ignored if using infix, prefix or suffix patterns.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSplitPattern" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setSplitPattern(value:String):Tokenizer.this.type"></a>
       <a id="setSplitPattern(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -2055,8 +2096,21 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSuffixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Regex pattern to separate from the inside of tokens.</p><div class="fullcomment"><div class="comment cmt"><p>Regex pattern to separate from the inside of tokens. Takes priority over splitChars.</p><p>This pattern will be applied to the tokens which where extracted with the target pattern previously</p><p><b> Example:</b></p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+
+<span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
+
+<span class="kw">val</span> textDf = sqlContext.sparkContext.parallelize(<span class="std">Array</span>(<span class="lit">"Tokens in this-text will#be#split on hashtags-and#dashes"</span>)).toDF(<span class="lit">"text"</span>)
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"sentences"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentences"</span>).setOutputCol(<span class="lit">"tokens"</span>).setSplitPattern(<span class="lit">"-|#"</span>)
+
+<span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select(<span class="lit">"tokens.result"</span>).show(<span class="kw">false</span>)</pre><p>This will yield : [Tokens, in, this, text, will, be, split, on, hashtags, and, dashes]
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setSuffixPattern" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setSuffixPattern(value:String):Tokenizer.this.type"></a>
       <a id="setSuffixPattern(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -2072,8 +2126,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setTargetPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Regex to identify subtokens that are in the end of the token.</p><div class="fullcomment"><div class="comment cmt"><p>Regex to identify subtokens that are in the end of the token. Regex has to end with \\z and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#setTargetPattern" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setTargetPattern(value:String):Tokenizer.this.type"></a>
       <a id="setTargetPattern(String):Tokenizer.this.type"></a>
       <h4 class="signature">
@@ -2089,8 +2144,16 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#splitChars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Set a basic regex rule to identify token candidates in text.</p><div class="fullcomment"><div class="comment cmt"><p>Set a basic regex rule to identify token candidates in text.</p><p>Defaults to: &quot;\\S+&quot; which means anything not a space will be matched and considered as a token candidate, This will cause text to be split on on white spaces  to yield token candidates.</p><p>This rule will be added to the BREAK_PATTERN varaible, which is used to yield token candidates.</p><pre><span class="kw">import</span> org.apache.spark.ml.Pipeline
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
+
+<span class="kw">val</span> textDf = sqlContext.sparkContext.parallelize(<span class="std">Array</span>(<span class="lit">"I only consider lowercase characters and NOT UPPERCASED and only the numbers 0,1, to 7 as tokens but not 8 or 9"</span>)).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"sentences"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentences"</span>).setOutputCol(<span class="lit">"tokens"</span>).setTargetPattern(<span class="lit">"a-z-0-7"</span>)
+<span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select(<span class="lit">"tokens.result"</span>).show(<span class="kw">false</span>)</pre><p>This will yield : [only, consider, lowercase, characters, and, and, only, the, numbers, 0, 1, to, 7, as, tokens, but, not, or]
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#splitChars" visbl="pub" data-isabs="false" fullComment="no" group="Parameters">
       <a id="splitChars:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="splitChars:StringArrayParam"></a>
       <h4 class="signature">
@@ -2106,8 +2169,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#splitPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Character list used to separate from the inside of tokens
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#splitPattern" visbl="pub" data-isabs="false" fullComment="yes" group="Parameters">
       <a id="splitPattern:org.apache.spark.ml.param.Param[String]"></a>
       <a id="splitPattern:Param[String]"></a>
       <h4 class="signature">
@@ -2123,8 +2187,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#suffixPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Pattern to separate from the inside of tokens.</p><div class="fullcomment"><div class="comment cmt"><p>Pattern to separate from the inside of tokens. takes priority over splitChars.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#suffixPattern" visbl="pub" data-isabs="false" fullComment="yes" group="Parameters">
       <a id="suffixPattern:org.apache.spark.ml.param.Param[String]"></a>
       <a id="suffixPattern:Param[String]"></a>
       <h4 class="signature">
@@ -2140,7 +2205,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Regex with groups and ends with \\z to match target suffix.</p><div class="fullcomment"><div class="comment cmt"><p>Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param
+</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2158,7 +2224,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#targetPattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Tokenizer#targetPattern" visbl="pub" data-isabs="false" fullComment="yes" group="Parameters">
       <a id="targetPattern:org.apache.spark.ml.param.Param[String]"></a>
       <a id="targetPattern:Param[String]"></a>
       <h4 class="signature">
@@ -2174,7 +2240,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Pattern to grab from text as token candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Pattern to grab from text as token candidates. Defaults \\S+
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -2208,7 +2275,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Clears out rules and constructs a new rule for every combination of rules provided .</p><div class="fullcomment"><div class="comment cmt"><p>Clears out rules and constructs a new rule for every combination of rules provided . The strategy is to catch one token per regex group. User may add its own groups if needs targets to be tokenized separately from the rest</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#transformSchema" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a>
       <a id="transformSchema(StructType):StructType"></a>
@@ -2262,7 +2329,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → Identifiable</dd></dl></div>
+      <p class="shortcomment cmt">required uid for storing annotator to disk</p><div class="fullcomment"><div class="comment cmt"><p>required uid for storing annotator to disk</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> → Identifiable</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="validate(StructType):Boolean"></a>
@@ -2412,8 +2479,20 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="Parameters">
+              <h3>Parameters</h3>
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

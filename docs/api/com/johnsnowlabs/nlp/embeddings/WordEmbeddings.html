@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>WordEmbeddings - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddings</title>
-          <meta name="description" content="WordEmbeddings - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddings" />
-          <meta name="keywords" content="WordEmbeddings Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.embeddings.WordEmbeddings" />
+          <title>WordEmbeddings - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddings</title>
+          <meta name="description" content="WordEmbeddings - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddings" />
+          <meta name="keywords" content="WordEmbeddings Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.WordEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Word Embeddings lookup annotator that maps tokens to vectors.
+See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala</a> for further reference on how to use this API.</p><p>There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:</p><p>withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with word coverage stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.</p><p>overallCoverage(dataset, embeddingsCol): Calculates overall word coverage for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a>, <a href="../../storage/HasStorage.html" class="extype" name="com.johnsnowlabs.storage.HasStorage">HasStorage</a>, <a href="../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a>, <a href="../../storage/HasExcludableStorage.html" class="extype" name="com.johnsnowlabs.storage.HasExcludableStorage">HasExcludableStorage</a>, <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a>, <a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="WordEmbeddingsModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>], <a href="../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="WordEmbeddingsModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -62,7 +64,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -90,7 +92,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;():com.johnsnowlabs.nlp.embeddings.WordEmbeddings"></a>
       <a id="&lt;init&gt;:WordEmbeddings"></a>
       <h4 class="signature">
@@ -106,7 +108,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.embeddings.WordEmbeddings"></a>
       <a id="&lt;init&gt;:WordEmbeddings"></a>
@@ -532,7 +534,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Word Embeddings lookup annotator that maps tokens to vectors</p><div class="fullcomment"><div class="comment cmt"><p>Word Embeddings lookup annotator that maps tokens to vectors</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#dimension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dimension:org.apache.spark.ml.param.IntParam"></a>
       <a id="dimension:IntParam"></a>
@@ -1205,7 +1207,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <h4 class="signature">
@@ -1221,7 +1223,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotation type : DOCUMENT, TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotation type : DOCUMENT, TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1548,7 +1552,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../../storage/HasStorage.html" class="extype" name="com.johnsnowlabs.storage.HasStorage">HasStorage</a></dd></dl></div>
+      <p class="shortcomment cmt">Error message</p><div class="fullcomment"><div class="comment cmt"><p>Error message</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../../storage/HasStorage.html" class="extype" name="com.johnsnowlabs.storage.HasStorage">HasStorage</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
       <a id="msgHelper(StructType):String"></a>
@@ -1651,7 +1655,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:WordEmbeddings.this.AnnotatorType"></a>
       <a id="outputAnnotatorType:AnnotatorType"></a>
       <h4 class="signature">
@@ -1667,7 +1671,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output annotation type : WORD_EMBEDDINGS
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotation type : WORD_EMBEDDINGS
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a> → <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1702,7 +1708,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#readCacheSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#readCacheSize" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="readCacheSize:org.apache.spark.ml.param.IntParam"></a>
       <a id="readCacheSize:IntParam"></a>
       <h4 class="signature">
@@ -1718,7 +1724,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">cache size for items retrieved from storage.</p><div class="fullcomment"><div class="comment cmt"><p>cache size for items retrieved from storage. Increase for performance but higher memory consumption
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -2087,7 +2094,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#setReadCacheSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#setReadCacheSize" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReadCacheSize(value:Int):WordEmbeddings.this.type"></a>
       <a id="setReadCacheSize(Int):WordEmbeddings.this.type"></a>
       <h4 class="signature">
@@ -2103,7 +2110,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Cache size for items retrieved from storage.</p><div class="fullcomment"><div class="comment cmt"><p>Cache size for items retrieved from storage. Increase for performance but higher memory consumption.
+</p></div></div>
     </li><li name="com.johnsnowlabs.storage.HasStorage#setStoragePath" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setStoragePath(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Value):HasStorage.this.type"></a>
       <a id="setStoragePath(String,util.io.ReadAs.Value):WordEmbeddings.this.type"></a>
@@ -2155,7 +2163,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#setWriteBufferSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#setWriteBufferSize" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setWriteBufferSize(value:Int):WordEmbeddings.this.type"></a>
       <a id="setWriteBufferSize(Int):WordEmbeddings.this.type"></a>
       <h4 class="signature">
@@ -2171,7 +2179,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Buffer size limit before dumping to disk storage while writing.</p>
     </li><li name="com.johnsnowlabs.storage.HasStorage#storagePath" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="storagePath:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="storagePath:ExternalResourceParam"></a>
@@ -2465,7 +2473,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a> → DefaultParamsWritable → MLWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#writeBufferSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings#writeBufferSize" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="writeBufferSize:org.apache.spark.ml.param.IntParam"></a>
       <a id="writeBufferSize:IntParam"></a>
       <h4 class="signature">
@@ -2481,7 +2489,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">buffer size limit before dumping to disk storage while writing
+</p>
     </li></ol>
             </div>
 
@@ -2542,8 +2551,17 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
               
             </div>
         </div>
