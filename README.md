@@ -479,25 +479,27 @@ sparknlp {
 Spark NLP offers more than `30 pre-trained pipelines` in `6 languages`.
 
 **English pipelines:**
-
-| Pipelines            | Name                   |
-| -------------------- | ---------------------- |
-| Explain Document ML  | `explain_document_ml`  |
-| Explain Document DL | `explain_document_dl`  |
-| Explain Document DL Fast | `explain_document_dl_fast`  |
-| Recognize Entities DL | `recognize_entities_dl` |
-| OntoNotes Entities Small | `onto_recognize_entities_sm` |
-| OntoNotes Entities Large | `onto_recognize_entities_lg` |
-| Match Datetime | `match_datetime` |
-| Match Pattern | `match_pattern` |
-| Match Chunk | `match_chunks` |
-| Match Phrases | `match_phrases`|
-| Clean Stop | `clean_stop`|
-| Clean Pattern | `clean_pattern`|
-| Clean Slang | `clean_slang`|
-| Check Spelling | `check_spelling`|
-| Analyze Sentiment | `analyze_sentiment` |
-| Dependency Parse | `dependency_parse` |
+| Pipeline                     | Name                                  | Build            | lang |
+|:-------------------------|:-------------------|:------|:-------|:------------|:-----------------
+| Explain Document ML          | `explain_document_ml`                 | 2.4.0 |   `en`    |
+| Explain Document DL          | `explain_document_dl`                 | 2.4.3 |   `en`    |
+| Recognize Entities DL        | `recognize_entities_dl`               | 2.4.3 |   `en`    |
+| Recognize Entities DL        | `recognize_entities_bert`             | 2.4.3 |   `en`    |
+| OntoNotes Entities Small     | `onto_recognize_entities_sm`          | 2.4.0 |   `en`    |
+| OntoNotes Entities Large     | `onto_recognize_entities_lg`          | 2.4.0 |   `en`    |
+| Match Datetime               | `match_datetime`                      | 2.4.0 |   `en`    |
+| Match Pattern                | `match_pattern`                       | 2.4.0 |   `en`    |
+| Match Chunk                  | `match_chunks`                        | 2.4.0 |   `en`    |
+| Match Phrases                | `match_phrases`                       | 2.4.0 |   `en`    |
+| Clean Stop                   | `clean_stop`                          | 2.4.0 |   `en`    |
+| Clean Pattern                | `clean_pattern`                       | 2.4.0 |   `en`    |
+| Clean Slang                  | `clean_slang`                         | 2.4.0 |   `en`    |
+| Check Spelling               | `check_spelling`                      | 2.4.0 |   `en`    |
+| Check Spelling DL            | `check_spelling_dl`                   | 2.5.0 |   `en`    |
+| Analyze Sentiment            | `analyze_sentiment`                   | 2.4.0 |   `en`    |
+| Analyze Sentiment DL         | `analyze_sentimentdl_use_imdb`        | 2.5.0 |   `en`    |
+| Analyze Sentiment DL         | `analyze_sentimentdl_use_twitter`     | 2.5.0 |   `en`    |
+| Dependency Parse             | `dependency_parse`                    | 2.4.0 |   `en`    |
 
 **Quick example:**
 
@@ -544,35 +546,59 @@ annotation.select("entities.result").show(false)
 */
 ```
 
-#### Please check our dedicated repo for a full list of [pre-trained pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
+#### Please check our dedicated repository for the full list of [pre-trained pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
 
 ### Models
 
-Spark NLP offers more than `30 pre-trained models` in `5 languages`.
+Spark NLP offers more than `90 pre-trained models` in `21 languages`.
 
-**English pipelines:**
+**English Models:**
 
-| Model                                  |   Name     |
-|----------------------------------------|------------|
-|LemmatizerModel (Lemmatizer)            |  `lemma_antbnc`      |
-|PerceptronModel (POS)                   |   `pos_anc`     |
-|NerCRFModel (NER with GloVe)            |    `ner_crf`    |
-|NerDLModel (NER with GloVe)             |    `ner_dl`    |
-|NerDLModel (NER with BERT)| `ner_dl_bert_base_cased`|
-|NerDLModel (OntoNotes with GloVe 100d)| `onto_100`|
-|NerDLModel (OntoNotes with GloVe 300d)| `onto_300`|
-|WordEmbeddings (GloVe) | `glove_100d` |
-|BertEmbeddings (base_uncased) | `bert_base_uncased` |
-|BertEmbeddings (base_cased) | `bert_base_cased` |
-|BertEmbeddings (large_uncased) | `bert_large_uncased` |
-|BertEmbeddings (large_cased) | `bert_large_cased` |
-|DeepSentenceDetector| `ner_dl_sentence`|
-|ContextSpellCheckerModel (Spell Checker)|   `spellcheck_dl`     |
-|SymmetricDeleteModel (Spell Checker)    |   `spellcheck_sd`     |
-|NorvigSweetingModel (Spell Checker)     |  `spellcheck_norvig`   |
-|ViveknSentimentModel (Sentiment)        |    `sentiment_vivekn`    |
-|DependencyParser (Dependency)        |    `dependency_conllu`    |
-|TypedDependencyParser (Dependency)        |    `dependency_typed_conllu`    |
+| Model                                    | Name                      | Build            | Lang |
+|:-----------------------------------------|:--------------------------|:-----------------|:------
+| LemmatizerModel (Lemmatizer)             | `lemma_antbnc`            | 2.0.2 |      `en`
+| PerceptronModel (POS)                    | `pos_anc`                 | 2.0.2 |      `en`
+| PerceptronModel (POS UD)                    | `pos_ud_ewt`          | 2.2.2 |       `en`
+| NerCrfModel (NER with GloVe)             | `ner_crf`                 | 2.4.0 |      `en`
+| NerDLModel (NER with GloVe)              | `ner_dl`                  | 2.4.3 |      `en` 
+| NerDLModel (NER with BERT)               | `ner_dl_bert`              | 2.4.3 |      `en` 
+| NerDLModel (OntoNotes with GloVe 100d)   | `onto_100`                | 2.4.0 |      `en` 
+| NerDLModel (OntoNotes with GloVe 300d)   | `onto_300`                | 2.4.0 |      `en` 
+| DeepSentenceDetector                     | `ner_dl_sentence`         | 2.4.0 |      `en` 
+| SymmetricDeleteModel (Spell Checker)     | `spellcheck_sd`           | 2.0.2 |      `en` 
+| NorvigSweetingModel (Spell Checker)      | `spellcheck_norvig`       | 2.0.2 |      `en` 
+| ViveknSentimentModel (Sentiment)         | `sentiment_vivekn`        | 2.0.2 |      `en` 
+| DependencyParser (Dependency)            | `dependency_conllu`       | 2.0.8 |      `en` 
+| TypedDependencyParser (Dependency)       | `dependency_typed_conllu` | 2.0.8 |      `en` 
+
+**Embeddings:**
+
+| Model    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| WordEmbeddings (GloVe)            | `glove_100d`              | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_base_uncased`       | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_base_cased`         | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_large_uncased`      | 2.4.0 |      `en`  
+| BertEmbeddings                    | `bert_large_cased`        | 2.4.0 |      `en`  
+| ElmoEmbeddings                    | `elmo`                    | 2.4.0 |      `en`  
+| UniversalSentenceEncoder  (USE)   | `tfhub_use`              | 2.4.0 |       `en`  
+| UniversalSentenceEncoder  (USE)   | `tfhub_use_lg`           | 2.4.0 |       `en`  
+| AlbertEmbeddings                  | `albert_base_uncased`    | 2.5.0 |       `en`
+| AlbertEmbeddings                  | `albert_large_uncased`    | 2.5.0 |      `en`  
+| AlbertEmbeddings                  | `albert_xlarge_uncased`    | 2.5.0 |     `en`
+| AlbertEmbeddings                  | `albert_xxlarge_uncased`    | 2.5.0 |    `en`
+| XlnetEmbeddings                  | `xlnet_base_cased`    | 2.5.0 |           `en`
+| XlnetEmbeddings                  | `xlnet_large_cased`    | 2.5.0 |          `en`
+
+**Classification:**
+
+| Model    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| ClassifierDL (with tfhub_use)          | `classifierdl_use_trec6`        | 2.5.0 |      `en`
+| ClassifierDL (with tfhub_use)          | `classifierdl_use_trec50`       | 2.5.0 |      `en`
+| SentimentDL (with tfhub_use)           | `sentimentdl_use_imdb`          | 2.5.0 |      `en`
+| SentimentDL (with tfhub_use)           | `sentimentdl_use_twitter`       | 2.5.0 |      `en`
+| SentimentDL (with glove_100d)          | `sentimentdl_glove_imdb`         | 2.5.0 |     `en`
 
 **Quick online example:**
 
@@ -600,7 +626,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
-#### Please check our dedicated repo for a full list of [pre-trained models](https://github.com/JohnSnowLabs/spark-nlp-models)
+#### Please check our dedicated repository for the full list of [pre-trained models](https://github.com/JohnSnowLabs/spark-nlp-models)
 
 ## Examples
 
