@@ -37,6 +37,7 @@ unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(UniversalSentenceEncoderTestSpec())
 # unittest.TextTestRunner().run(ClassifierDLTestSpec())
+# unittest.TextTestRunner().run(SentimentDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())
 
 # Misc tests
