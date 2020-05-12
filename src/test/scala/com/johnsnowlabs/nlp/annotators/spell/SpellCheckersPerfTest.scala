@@ -27,7 +27,8 @@ class SpellCheckersPerfTest extends FlatSpec {
     setInputCols("token", "spell")
 
   val emptyDataSet = PipelineModels.dummyDataset
-  val corpusDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt").as[String].collect()
+  val corpusDataSetInit = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
+  val corpusDataSet = corpusDataSetInit.as[String].collect()
 
   System.gc()
   "Norvig pipeline" should "be fast" in {
@@ -52,11 +53,11 @@ class SpellCheckersPerfTest extends FlatSpec {
       spellplight.annotate(corpusDataSet)
     }
 
-    val t1 = Benchmark.measure("Light annotate norvig spell results") {
-      spellplight.annotate(corpusDataSet)
-    }
-
-    print(t1)
+//    val t1 = Benchmark.measure("Light annotate norvig spell results") {
+//      spellplight.annotate(corpusDataSet)
+//    }
+//
+//    print(t1)
   }
 
   "Symm pipeline" should "be fast" in {
@@ -73,18 +74,18 @@ class SpellCheckersPerfTest extends FlatSpec {
         finisher
       ))
 
-    val spellmodel = recursivePipeline.fit(Seq.empty[String].toDF("text"))
+    val spellmodel = recursivePipeline.fit(corpusDataSetInit)
     val spellplight = new LightPipeline(spellmodel)
 
     Benchmark.time("Light annotate symmetric spell") {
       spellplight.annotate(corpusDataSet)
     }
 
-    val t1: Double = Benchmark.measure("Light annotate symmetric spell results") {
-      spellplight.annotate(corpusDataSet)
-    }
-
-    print(t1)
+//    val t1: Double = Benchmark.measure("Light annotate symmetric spell results") {
+//      spellplight.annotate(corpusDataSet)
+//    }
+//
+//    print(t1)
 
   }
 
@@ -93,6 +94,7 @@ class SpellCheckersPerfTest extends FlatSpec {
     val spell = ContextSpellCheckerModel
       .pretrained()
       .setTradeOff(12.0f)
+      .setErrorThreshold(14f)
       .setInputCols("token")
       .setOutputCol("spell")
 
@@ -111,11 +113,11 @@ class SpellCheckersPerfTest extends FlatSpec {
       spellplight.annotate(corpusDataSet)
     }
 
-    val t1: Double = Benchmark.measure("Light annotate context spell results") {
-      spellplight.annotate(corpusDataSet)
-    }
-
-    print(t1)
+//    val t1: Double = Benchmark.measure("Light annotate context spell results") {
+//      spellplight.annotate(corpusDataSet)
+//    }
+//
+//    print(t1)
 
   }
 
