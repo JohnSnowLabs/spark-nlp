@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-04-03"
+modify_date: "2020-05-12"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -77,16 +77,21 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
 |BertEmbeddings|BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture|Opensource|
 |ElmoEmbeddings|Computes contextualized word representations using character-based word representations and bidirectional LSTMs|Opensource|
+|AlbertEmbeddings|Computes contextualized word representations using "A Lite" implementation of BERT algorithm by applying parameter-reduction techniques|Opensource|
+|XlnetEmbeddings|Computes contextualized word representations using combination of Autoregressive Language Model and Permutation Language Model|Opensource|
 |UniversalSentenceEncoder|Encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
 |ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes|Opensource|
+|SentimentDL|Multi-class Sentiment Analysis Annotator. SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
-|NorvigSweeting|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
-|SymmetricDelete|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
+|NorvigSweeting SpellChecker|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
+|SymmetricDelete SpellChecker|This spell checker is inspired on Symmetric Delete algorithm|Opensource|
+|Context SpellChecker|Implements Noisy Channel Model Spell Algorithm. Correction candidates are extracted combining context information and word information|Opensource|
 |DependencyParser|Unlabeled parser that finds a grammatical relation between two words in a sentence|Opensource|
 |TypedDependencyParser|Labeled parser that finds a grammatical relation between two words in a sentence|Opensource|
+|PubTator reader|Converts automatic annotations of the biomedical datasets into Spark DataFrame|Opensource|
 |AssertionLogReg|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
 |AssertionDL|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
 |EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
@@ -788,6 +793,90 @@ val elmo = ElmoEmbeddings.pretrained()
       .setPoolingLayer("elmo") //  word_emb, lstm_outputs1, lstm_outputs2 or elmo
 ```
 
+### AlbertEmbeddings
+
+Computes contextualized word representations using "A Lite" implementation of BERT algorithm by applying parameter-reduction techniques
+
+You can find the pre-trained model for `AlbertEmbeddings` in the  [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
+
+**Functions:**
+
+- `setBatchSize(int)`: Batch size. Large values allows faster processing but requires more memory.
+- `setMaxSentenceLength(int)`: Max sentence length to process
+
+**Output type:** Word_Embeddings
+
+**Input types:** Document, Token
+
+**Reference:** [AlbertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddings.scala)  
+
+Refer to the [AlbertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings) Scala docs for more
+
+How to use pretrained AlbertEmbeddings:
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+# Online - Download the pretrained model
+albert = AlbertEmbeddings.pretrained()
+      .setInputCols("sentence", "token") \
+      .setOutputCol("albert")
+
+# Offline - Download the pretrained model manually and extract it
+albert = AlbertEmbeddings.load("/albert_base_uncased_en_2.5.0_2.4_1588073363475") \
+        .setInputCols("sentence", "token") \
+        .setOutputCol("albert")
+```
+
+```scala
+
+val albert = AlbertEmbeddings.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("albert")
+```
+
+### XlnetEmbeddings
+
+Computes contextualized word representations using combination of Autoregressive Language Model and Permutation Language Model
+
+You can find the pre-trained model for `XlnetEmbeddings` in the  [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
+
+**Functions:**
+
+- `setBatchSize(int)`: Batch size. Large values allows faster processing but requires more memory.
+- `setMaxSentenceLength(int)`: Max sentence length to process.
+
+**Output type:** Word_Embeddings
+
+**Input types:** Document, Token
+
+**Reference:** [XlnetEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings.scala)  
+
+Refer to the [XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings) Scala docs for more
+
+How to use pretrained XlnetEmbeddings:
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+# Online - Download the pretrained model
+xlnet = XlnetEmbeddings.pretrained()
+      .setInputCols("sentence", "token") \
+      .setOutputCol("xlnet")
+
+# Offline - Download the pretrained model manually and extract it
+xlnet = XlnetEmbeddings.load("/xlnet_large_cased_en_2.5.0_2.4_1588074397954") \
+        .setInputCols("sentence", "token") \
+        .setOutputCol("xlnet")
+```
+
+```scala
+
+val xlnet = XlnetEmbeddings.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("xlnet")
+```
+
 ### UniversalSentenceEncoder
 
 The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
@@ -814,7 +903,7 @@ val use = new UniversalSentenceEncoder()
 
 ### SentenceEmbeddings
 
-This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, or `ElmoEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
+This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, `ElmoEmbeddings`, `AlbertEmbeddings`, or `XlnetEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
 
 **Functions:**
 
@@ -949,6 +1038,18 @@ ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the
 
 **Input types:** SENTENCE_EMBEDDINGS
 
+**Functions:**
+
+- setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token.
+- setLr: Initial learning rate.
+- setBatchSize: Batch size for training.
+- setDropout: Dropout coefficient.
+- setMaxEpochs: Maximum number of epochs to train.
+- setEnableOutputLogs: Whether to output to annotators log folder.
+- setValidationSplit: Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+- setVerbose: Level of verbosity during training.
+- setOutputLogsPath: Folder path to save training logs.
+
 Refer to the [ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach) Scala docs for more
 
 Refer to the [ClassifierDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel) Scala docs for more
@@ -978,6 +1079,62 @@ val docClassifier = new ClassifierDLApproach()
 ```
 
 Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
+
+### SentimentDL
+
+#### Multi-class Sentiment Analysis annotator
+
+SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets
+
+**NOTE**: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+
+**NOTE**: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+
+**Output type:** CATEGORY
+
+**Input types:** SENTENCE_EMBEDDINGS
+
+**Functions:**
+
+- setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token.
+- setLr: Initial learning rate.
+- setBatchSize: Batch size for training.
+- setDropout: Dropout coefficient.
+- setThreshold: The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.
+- setThresholdLabel: In case the score is less than threshold, what should be the label. Default is neutral.
+- setMaxEpochs: Maximum number of epochs to train.
+- setEnableOutputLogs: Whether to output to annotators log folder.
+- setOutputLogsPath: Folder path to save training logs.
+- setValidationSplit: Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+- setVerbose: Level of verbosity during training.
+
+Refer to the [SentimentDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach) Scala docs for more
+
+Refer to the [SentimentDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+sentimentClassifier = SentimentDLApproach()\
+      .setInputCols("sentence_embeddings")\
+      .setOutputCol("category")\
+      .setLabelColumn("label")\
+      .setBatchSize(64)\
+      .setMaxEpochs(20)\
+      .setLr(0.5)\
+      .setDropout(0.5)
+```
+
+```scala
+val sentimentClassifier = new SentimentDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(64)
+      .setMaxEpochs(20)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+```
 
 ### NER CRF
 
@@ -1047,14 +1204,15 @@ Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-t
 **Reference:** [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)  
 **Functions:**
 
-- setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token
-- setMaxEpochs: Maximum number of epochs to train
-- setLr: Initial learning rate
-- setPo: Learning rate decay coefficient. Real Learning Rate: lr / (1 + po \* epoch)
-- setBatchSize: Batch size for training
-- setDropout: Dropout coefficient
-- setVerbose: Verbosity level
-- setRandomSeed: Random seed
+- setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token.
+- setMaxEpochs: Maximum number of epochs to train.
+- setLr: Initial learning rate.
+- setPo: Learning rate decay coefficient. Real Learning Rate: lr / (1 + po \* epoch).
+- setBatchSize: Batch size for training.
+- setDropout: Dropout coefficient.
+- setVerbose: Verbosity level.
+- setRandomSeed: Random seed.
+- setOutputLogsPath: Folder path to save training logs.
 
 **Note:** Please check [here](graph.md) in case you get an **IllegalArgumentException** error with a description such as:
 *Graph [parameter] should be [value]: Could not find a suitable tensorflow graph for embeddings dim: [value] tags: [value] nChars: [value]. Generate graph by python code in python/tensorflow/ner/create_models before usage and use setGraphFolder Param to point to output.*
@@ -1160,6 +1318,58 @@ spell_checker = SymmetricDeleteApproach() \
 ```scala
 val spellChecker = new SymmetricDeleteApproach()
     .setInputCols(Array("normalized"))
+    .setOutputCol("spell")
+    .fit(trainCorpus)
+```  
+
+### Context SpellChecker
+
+Implements Noisy Channel Model Spell Algorithm. Correction candidates are extracted combining context information and word information  
+**Output type:** Token  
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
+**Input types:** Tokenizer  
+**Train Data:** train_corpus is a spark dataset of text content  
+**Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
+**Functions:**
+
+- setLanguageModelClasses(languageModelClasses:Int): Number of classes to use during factorization of the softmax output in the LM. Defaults to 2000.
+- setWordMaxDistance(dist:Int): Maximum distance for the generated candidates for every word. Defaults to 3.
+- setMaxCandidates(candidates:Int): Maximum number of candidates for every word. Defaults to 6.
+- setCaseStrategy(strategy:Int): What case combinations to try when generating candidates. ALL_UPPER_CASE = 0, FIRST_LETTER_CAPITALIZED = 1, ALL = 2. Defaults to 2.
+- setErrorThreshold(threshold:Float): Threshold perplexity for a word to be considered as an error. Defaults to 10f.
+- setTradeoff(alpha:Float): Tradeoff between the cost of a word error and a transition in the language model. Defaults to 18.0f.
+- setMaxWindowLen(length:Integer): Maximum size for the window used to remember history prior to every correction. Defaults to 5.
+- setGamma(g:Float): Controls the influence of individual word frequency in the decision.
+- updateVocabClass(label:String, vocab:Array(String), append:boolean): Update existing vocabulary classes so they can cover new words. If append set to `false` overwrite vocabulary class in the model by new words, if `true` extends existing vocabulary class. Defaults to `true`.  
+- updateRegexClass(label:String, regex:String): Update existing regex rule for the class defined by regex.
+
+Train:
+- setWeightedDistPath(weightedDistPath:String): The path to the file containing the weights for the levenshtein distance.
+- setEpochs(epochs:Int): Number of epochs to train the language model. Defaults to 2.
+- setInitialBatchSize(batchSize:Int): Batch size for the training in NLM. Defaults to 24.
+- setInitialRate(initialRate:Float): Initial learning rate for the LM. Defaults to .7f.
+- setFinalRate(finalRate:Float): Final learning rate for the LM. Defaults to 0.0005f.
+- setValidationFraction(validationFraction:Float): Percentage of datapoints to use for validation. Defaults to .1f.
+- setMinCount(minCount:Float): Min number of times a token should appear to be included in vocab. Defaults to 3.0f.
+- setCompoundCount(compoundCount:Int): Min number of times a compound word should appear to be included in vocab. Defaults to 5.
+- setClassCount(classCount:Int): Min number of times the word need to appear in corpus to not be considered of a special class. Defaults to 15.
+
+**Example:**
+
+Refer to the [ContextSpellCheckerApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach) Scala docs for more details on the API.
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+spell_checker = ContextSpellCheckerApproach() \
+    .setInputCols(["token"]) \
+    .setOutputCol("spell") \
+    .fit(train_corpus)
+```
+
+```scala
+val spellChecker = new ContextSpellCheckerApproach()
+    .setInputCols(Array("token"))
     .setOutputCol("spell")
     .fit(trainCorpus)
 ```  
