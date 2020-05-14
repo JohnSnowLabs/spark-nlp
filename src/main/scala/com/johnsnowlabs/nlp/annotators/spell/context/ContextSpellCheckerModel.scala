@@ -338,7 +338,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
     // first pass - perplexities
     val encodedSent = Array($$(vocabIds)("_BOS_"))  ++ annotations.map{ ann =>
-      $$(vocabIds).get(ann.result).getOrElse(unkCode)
+      $$(vocabIds).get(ann.result.toLowerCase).getOrElse(unkCode)
     } ++ Array($$(vocabIds)("_EOS_"))
 
     val cids = encodedSent.map{id => $$(classes).apply(id)._1}
