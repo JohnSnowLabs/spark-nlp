@@ -85,6 +85,18 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
+  val correctSymbols: BooleanParam = new BooleanParam(this, "correctSymbols", "Whether to correct special symbols or skip spell checking for them")
+  def setCorrectSymbols(value: Boolean): this.type = set(correctSymbols, value)
+  setDefault(
+    correctSymbols -> false
+  )
+
+  val compareLowcase: BooleanParam = new BooleanParam(this, "compareLowcase", "If true will compare tokens in low case with vocabulary")
+  def setCompareLowcase(value: Boolean): this.type = set(compareLowcase, value)
+  setDefault(
+    compareLowcase -> false
+  )
+
   def getWordClasses() = $$(specialTransducers).map {
     case transducer:RegexParser =>
      (transducer.label, "RegexParser")
@@ -335,10 +347,12 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     val unkCode = $$(vocabIds).get("_UNK_").get
 
     /* try to decide whether words need correction or not */
-
     // first pass - perplexities
     val encodedSent = Array($$(vocabIds)("_BOS_"))  ++ annotations.map{ ann =>
-      $$(vocabIds).get(ann.result.toLowerCase).getOrElse(unkCode)
+      if ($(compareLowcase))
+        $$(vocabIds).get(ann.result).getOrElse($$(vocabIds).get(ann.result.toLowerCase).getOrElse(unkCode))
+      else
+        $$(vocabIds).get(ann.result).getOrElse(unkCode)
     } ++ Array($$(vocabIds)("_EOS_"))
 
     val cids = encodedSent.map{id => $$(classes).apply(id)._1}
@@ -356,8 +370,11 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   def computeTrellis(annotations:Seq[Annotation], mask: Seq[Boolean]) = {
     annotations.zip(mask).map { case (annotation, needCorrection) =>
       val token = annotation.result
-      if(needCorrection) {
-          if (token.replaceAll("[^A-Za-z0-9]+", "").length > 0) {
+      var correctionCondition = needCorrection
+      if (! $(correctSymbols))
+        correctionCondition = needCorrection & token.replaceAll("[^A-Za-z0-9]+", "").length > 0
+
+      if(correctionCondition) {
             // ask each token class for candidates, keep the one with lower cost
             var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
               if (specialParser.transducer == null)
@@ -383,8 +400,6 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
             }.sortBy(_._2).take(getOrDefault(maxCandidates))
             logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
             labelWeightCand.toArray //[(String, Double, String)]
-          }
-         else {Array((token, .2, token))}
 		  } else {Array((token, .2, token))}
  	}.toArray
   }
