@@ -63,16 +63,16 @@ object NerDLCoNLL2003 extends App {
   val ner = try {
     val model = new TensorflowNer(tf, encoder, 32, Verbose.All)
     for (epoch <- 0 until 150) {
-      model.train(trainDataset, 1e-3f, 0.005f, 32, 0.5f, epoch, epoch + 1)
+      model.train(trainDataset, 1e-3f, 0.005f, 32, 0.5f, epoch, epoch + 1, outputLogsPath = "")
 
       System.out.println("\n\nQuality on train data")
-      model.measure(trainDataset, (s: String) => System.out.println(s), extended = true)
+      model.measure(trainDataset, extended = true, outputLogsPath = "")
 
       System.out.println("\n\nQuality on test A data")
-      model.measure(testDatasetA, (s: String) => System.out.println(s), extended = true)
+      model.measure(testDatasetA, extended = true, outputLogsPath = "")
 
       System.out.println("\n\nQuality on test B data")
-      model.measure(testDatasetB, (s: String) => System.out.println(s), extended = true)
+      model.measure(testDatasetB, extended = true, outputLogsPath = "")
     }
     model
   }

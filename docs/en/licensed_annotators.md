@@ -3,7 +3,8 @@ layout: article
 title: Licensed Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
-modify_date: "2020-02-13"
+modify_date: "2020-04-21"
+use_language_switcher: "Python-Scala"
 ---
 
 ## Spark-NLP Licensed
@@ -12,31 +13,54 @@ The following annotators are available by buying a John Snow Labs Spark NLP lice
 They are mostly meant for healthcare applications but other applications have been made with these NLP features.
 Check out www.johnsnowlabs.com for more information.
 
-### AssertionLogReg
+### AssertionLogReg 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">Transformer scaladocs</a>
 
 It will classify each clinically relevant named entity into its assertion:
 
 type: "present", "absent", "hypothetical", "conditional",
 "associated_with_other_person", etc.
 
-**Input types:** "sentence", "ner_chunk", "embeddings"
+**Input types:** `"sentence", "ner_chunk", "embeddings"`
 
-**Output type:** "assertion"
+**Output type:** `"assertion"`
 
-**Functions:**
+**Example:**
 
-- setLabelCol(label)
-- setMaxIter(maxiter)
-- setReg(lamda)
-- setEnet(enet)
-- setBefore(before)
-- setAfter(after)
-- setStartCol(s)
-- setEndCol(e)
-- setNerCol(n):
-- setTargetNerLabels(v)
+{% include programmingLanguageSelectScalaPython.html %}
 
-### AssertionDL
+```python
+logRegAssert = AssertionLogRegApproach()
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setOutputCol("pos") \
+    .setLabelCol("label") \
+    .setMaxIter(26) \
+    .setReg(0.00192) \
+    .setEnet(0.9) \
+    .setBefore(10) \
+    .setAfter(10) \
+    .setStartCol("start") \
+    .setEndCol("end")
+```
+
+```scala
+val logRegAssert = new AssertionLogRegApproach()
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+    .setOutputCol("pos")
+    .setLabelCol("label")
+    .setMaxIter(26)
+    .setReg(0.00192)
+    .setEnet(0.9)
+    .setBefore(10)
+    .setAfter(10)
+    .setStartCol("start")
+    .setEndCol("end")
+```
+
+### AssertionDL 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">Transformer scaladocs</a>
 
 It will classify each clinically relevant named entity into its assertion
 type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
@@ -45,36 +69,44 @@ type: "present", "absent", "hypothetical", "conditional", "associated_with_other
 
 **Output type:** "assertion"
 
-**Functions:**
+**Example:**
 
-- setGraphFolder(p)
-- setConfigProtoBytes(b)
-- setLabelCol(label)
-- setStartCol(s)
-- setEndCol(e)
-- setBatchSize(size)
-- setEpochs(number)
-- setLearningRate(lamda)
-- setDropout(rate)
-- setMaxSentLen(length):
+{% include programmingLanguageSelectScalaPython.html %}
 
-### EntityResolver
+```python
+dlAssert = AssertionDLApproach() \
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setOutputCol("pos") \
+    .setGraphFolder("path/to/graphs") \
+    .setConfigProtoBytes(b) \
+    .setLabelCol("label") \
+    .setBatchSize(64) \
+    .setEpochs(5) \
+    .setLearningRate(0.001) \
+    .setDropout(0.05) \
+    .setMaxSentLen(250) \
+    .setStartCol("start") \
+    .setEndCol("end")
+```
 
-Assigns a standard code (ICD10 CM, PCS; ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Clinical Models.
-
-**Input types:** "ner_chunk_tokenized", "embeddings"
-
-**Output type:** "entity"
-
-**Functions:**
-
-- setLabelCol(k)
-- setNeighbours(k)
-- setThreshold(dist)
-- setMergeChunks(merge)
-- setMissAsEmpty(value)
+```scala
+val dlAssert = new AssertionDLApproach()
+    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
+    .setOutputCol("pos")
+    .setGraphFolder("path/to/graphs")
+    .setConfigProtoBytes(b)
+    .setLabelCol("label")
+    .setBatchSize(64)
+    .setEpochs(5)
+    .setLearningRate(0.001)
+    .setDropout(0.05)
+    .setMaxSentLen(250)
+    .setStartCol("start")
+    .setEndCol("end")
+```
 
 ### Chunk2Token
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.Chunk2Token">Transformer scaladocs</a>
 
 Transforms a complete chunk Annotation into a token Annotation without further tokenization, as opposed to ChunkTokenizer.
 
@@ -82,7 +114,24 @@ Transforms a complete chunk Annotation into a token Annotation without further t
 
 **Output type:** "token"
 
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+chunk2Token = Chunk2Token() \
+    .setInputCols(["chunk"]) \
+    .setOutputCol("token")
+```
+```scala
+val chunk2Token = new Chunk2Token()
+    .setInputCols("chunk")
+    .setOutputCol("token")
+```
+
 ### ChunkEntityResolver
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">Transformer scaladocs</a>
 
 Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings
 
@@ -90,12 +139,108 @@ Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified fr
 
 **Output type:** "resolution"
 
-**Functions:**
+**Example:**
 
-- setSearchTree(s)
-- setNeighbours(k)
-- setThreshold(dist)
-- setMissAsEmpty(value)
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+resolver = ChunkEntityResolverApproach() \
+    .setInputCols(["chunk_token", "chunk_embeddings"]) \
+    .setOutputCol("token") \
+    .setLabelCol("label") \
+    .setNormalizedCol("normalized") \
+    .setNeighbours(200) \
+    .setAlternatives(25) \
+    .setThreshold(4) \
+    .setExtramassPenalty(1) \
+    .setEnableWmd(True) \
+    .setEnableTfidf(True) \
+    .setEnableJaccard(True) \
+    .setEnableSorensenDice(False) \
+    .setEnableJaroWinkler(False) \
+    .setEnableLevenshtein(False) \
+    .setDistanceWeights([1,3,3,0,0,0]) \
+    .setPoolingStrategy("AVERAGE") \
+    .setMissAsEmpty(True)
+```
+```scala
+val resolver = new ChunkEntityResolverApproach()
+    .setInputCols(Array("chunk_token", "chunk_embeddings"))
+    .setOutputCol("token")
+    .setLabelCol("label")
+    .setNormalizedCol("normalized")
+    .setNeighbours(200)
+    .setAlternatives(25)
+    .setThreshold(4)
+    .setExtramassPenalty(1)
+    .setEnableWmd(true)
+    .setEnableTfidf(true)
+    .setEnableJaccard(true)
+    .setEnableSorensenDice(false)
+    .setEnableJaroWinkler(false)
+    .setEnableLevenshtein(false)
+    .setDistanceWeights(Array(1,3,3,0,0,0))
+    .setPoolingStrategy("AVERAGE")
+    .setMissAsEmpty(true)
+```
+
+### EnsembleEntityResolver
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">Transformer scaladocs</a>
+
+Assigns a standard code (RxNorm, SNOMED, UMLS) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings.
+Designed to scale on a sub-log rate compared to the cardinality of the dataset
+
+**Input types:** "chunk_token", "embeddings"
+
+**Output type:** "resolution"
+
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+resolver = EnsembleEntityResolverApproach() \
+    .setInputCols(["chunk_token", "chunk_embeddings"]) \
+    .setOutputCol("token") \
+    .setClassifierLabelCol("classifier_label") \
+    .setResolverLabelCol("resolver_label") \
+    .setNormalizedCol("normalized") \
+    .setNeighbours(200) \
+    .setAlternatives(25) \
+    .setThreshold(4) \
+    .setExtramassPenalty(1) \
+    .setEnableWmd(True) \
+    .vsetEnableTfidf(True) \
+    .setEnableJaccard(True) \
+    .setEnableSorensenDice(False) \
+    .setEnableJaroWinkler(False) \
+    .setEnableLevenshtein(False) \
+    .setDistanceWeights([1,3,3,0,0,0]) \
+    .setPoolingStrategy("AVERAGE") \
+    .setMissAsEmpty(True)
+```
+```scala
+val resolver = new EnsembleEntityResolverApproach()
+    .setInputCols(Array("chunk_token", "chunk_embeddings"))
+    .setOutputCol("token")
+    .setClassifierLabelCol("classifier_label")
+    .setResolverLabelCol("resolver_label")
+    .setNormalizedCol("normalized")
+    .setNeighbours(200)
+    .setAlternatives(25)
+    .setThreshold(4)
+    .setExtramassPenalty(1)
+    .setEnableWmd(true)
+    .vsetEnableTfidf(true)
+    .setEnableJaccard(true)
+    .setEnableSorensenDice(false)
+    .setEnableJaroWinkler(false)
+    .setEnableLevenshtein(false)
+    .setDistanceWeights(Array(1,3,3,0,0,0))
+    .setPoolingStrategy("AVERAGE")
+    .setMissAsEmpty(true)
+```
 
 ### DocumentLogRegClassifier
 
@@ -103,29 +248,30 @@ A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs
 
 **Input types:** "token"
 
-**Output type:** "selector"
+**Output type:** "category"
 
-**Functions:**
+**Example:**
 
-- setVectorizationModelPath(path_to_tfidfer)
-- setClassificationModelPath(path_to_ovrlrc)
-- setLabelCol(label_col)
-- setMaxIter(int_val)
-- setTol(float_val)
-- setFitIntercept(bool_val)
-- setLabels(label_list)
+{% include programmingLanguageSelectScalaPython.html %}
 
-### ChunkEntityResolverSelector
-
-An annotator to be used as the final stage of a RecursivePipelineModel in order to "select" a model from the previous stages based on a "selector" column 
-
-**Input types:** "selector", "token", "embeddings"
-
-**Output type:** "resolution*"
-
-**Functions:**
-
-- setSelectorArray(label_list)
+```python
+logregClassifier = DocumentLogRegClassifierApproach() \
+    .setInputCols("chunk_token") \
+    .setOutputCol("category") \
+    .setLabelCol("label_col") \
+    .setMaxIter(10) \
+    .setTol(1e-6) \
+    .setFitIntercept(True)
+```
+```scala
+val logregClassifier = new DocumentLogRegClassifierApproach()
+    .setInputCols("chunk_token")
+    .setOutputCol("category")
+    .setLabelCol("label_col")
+    .setMaxIter(10)
+    .setTol(1e-6)
+    .setFitIntercept(true)
+```
 
 ### DeIdentificator
 
@@ -142,7 +288,7 @@ patients and remove them by replacing with semantic tags.
 
 ### ContextSpellChecker
 
-This spell checker utilizes tensorflow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
+This spell checker utilizes TensorFlow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
 **Output type:** Token  
 **Input types:** Tokenizer  
 

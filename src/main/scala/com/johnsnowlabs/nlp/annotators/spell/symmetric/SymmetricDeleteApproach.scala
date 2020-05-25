@@ -1,29 +1,49 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.IntParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{AnalysisException, Dataset}
-import ResourceHelper.spark.implicits._
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{AnalysisException, Dataset}
 
 import scala.collection.mutable.ListBuffer
 
 /** Created by danilo 16/04/2018,
-  * Symmetric Delete spelling correction algorithm
-  * inspired on https://github.com/wolfgarbe/SymSpell
-  * */
+  * Symmetric Delete spelling correction algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words.
+  *
+  * Inspired by [[https://github.com/wolfgarbe/SymSpell]]
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala]] for further reference.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
     with SymmetricDeleteParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /** Spell checking algorithm inspired on Symmetric Delete algorith */
   override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
-
+  /** file with a list of correct words
+    *
+    * @group param
+    **/
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(
@@ -33,11 +53,19 @@ class SymmetricDeleteApproach(override val uid: String)
     dupsLimit -> 2
   )
 
+  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
+    *
+    * @group setParam
+    **/
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
+  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
+    *
+    * @group setParam
+    **/
   def setDictionary(path: String,
                     tokenPattern: String = "\\S+",
                     readAs: ReadAs.Format = ReadAs.TEXT,
@@ -45,10 +73,17 @@ class SymmetricDeleteApproach(override val uid: String)
     set(dictionary, ExternalResource(path, readAs, options ++ Map("tokenPattern" -> tokenPattern)))
 
 
-  // AnnotatorType shows the structure of the result, we can have annotators with the same result
+  /** Output annotator type : TOKEN
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN) //The approach required to work
+  /** Input annotator type : TOKEN
+    *
+    * @group anno
+    **/
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
 
@@ -56,7 +91,7 @@ class SymmetricDeleteApproach(override val uid: String)
     * Given a word, derive strings with up to maxEditDistance characters
     * deleted
     * */
-  def getDeletes(word: String, med: Int): List[String] ={
+  def getDeletes(word: String, med: Int): List[String] = {
 
     var deletes = new ListBuffer[String]()
     var queueList = List(word)

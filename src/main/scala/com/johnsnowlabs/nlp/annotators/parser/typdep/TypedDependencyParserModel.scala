@@ -8,26 +8,64 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAn
 import gnu.trove.map.hash.TObjectIntHashMap
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-
-class
-TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
+/** Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.
+  *
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep ]] for further reference on this API.
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  **/
+class TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[TypedDependencyParserModel] {
 
   def this() = this(Identifiable.randomUID("TYPED_DEPENDENCY"))
 
+  /** Outputs column type LABELED_DEPENDENCY
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: String = LABELED_DEPENDENCY
+  /** Input requires column types TOKEN, POS, DEPENDENCY
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes = Array(TOKEN, POS, DEPENDENCY)
 
+  /** Training options */
+  /** @group param */
   val trainOptions: StructFeature[Options] = new StructFeature[Options](this, "trainOptions")
+  /** @group param */
   val trainParameters: StructFeature[Parameters] = new StructFeature[Parameters](this, "trainParameters")
+  /** @group param */
   val trainDependencyPipe: StructFeature[DependencyPipe] = new StructFeature[DependencyPipe](this, "trainDependencyPipe")
+  /** @group param */
   val conllFormat: Param[String] = new Param[String](this, "conllFormat", "CoNLL Format")
 
+  /** Training options */
+  /** @group setParam */
   def setOptions(targetOptions: Options): this.type = set(trainOptions, targetOptions)
+
+  /** @group setParam */
   def setDependencyPipe(targetDependencyPipe: DependencyPipe): this.type = set(trainDependencyPipe, targetDependencyPipe)
+
+  /** @group setParam */
   def setConllFormat(value: String): this.type = set(conllFormat, value)
 
+  /** @group param */
   private lazy val options = $$(trainOptions)
+  /** @group param */
   private lazy val dependencyPipe = $$(trainDependencyPipe)
+  /** @group param */
   private lazy val parameters = new Parameters(dependencyPipe, options)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
@@ -72,6 +110,7 @@ TypedDependencyParserModel(override val uid: String) extends AnnotatorModel[Type
 
     labeledDependenciesDocument
   }
+
 
   private def getPredictionParametersInstance: PredictionParameters = {
     new PredictionParameters()

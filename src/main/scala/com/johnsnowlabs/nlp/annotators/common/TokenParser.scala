@@ -1,5 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.common
 
+import java.util.regex.Pattern
+
 trait PreprocessingParser {
   def separate(token:String): String
 }
@@ -66,7 +68,8 @@ class InfixToken(tokens:Array[String]) extends PreprocessingParser {
     var result = token
     if (belongs(token)) {
       tokens.foreach{ t =>
-        result = token.replaceAll(t, s" $t ")
+        val quotedInfix = Pattern.quote(t)
+        result = result.replaceAll(quotedInfix, s" $t ")
       }
     }
     result
@@ -74,5 +77,5 @@ class InfixToken(tokens:Array[String]) extends PreprocessingParser {
 }
 
 object InfixToken {
-  def apply(prefixes:Array[String]) = new InfixToken(prefixes)
+  def apply(infixes:Array[String]) = new InfixToken(infixes)
 }

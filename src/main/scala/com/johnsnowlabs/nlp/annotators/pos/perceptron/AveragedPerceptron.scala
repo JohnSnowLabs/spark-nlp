@@ -7,9 +7,22 @@ import scala.collection.mutable.{Map => MMap}
   */
 
 /**
-  * @param tags Holds all unique tags based on training
+  * @param tags           Holds all unique tags based on training
   * @param taggedWordBook Contains non ambiguous words and their tags
   * @param featuresWeight Contains prediction information based on context frequencies
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 
 case class AveragedPerceptron(
@@ -44,8 +57,11 @@ case class AveragedPerceptron(
     tags.maxBy{ tag => (scoresByTag.withDefaultValue(0.0)(tag), tag)}
   }
 
+  /** @group getParam */
   private[nlp] def getTags: Array[String] = tags
+  /** @group getParam */
   def getWeights: Map[String, Map[String, Double]] = featuresWeight
+  /** @group getParam */
   def getTaggedBook: Map[String, String] = taggedWordBook
 }
 
@@ -56,11 +72,20 @@ class TrainingPerceptronLegacy(
                                 lastIteration: Int = 0
                               ) extends Serializable {
 
-  /**How many training iterations ran*/
+  /** How many training iterations ran
+    *
+    * @group param
+    **/
   private var updateIteration: Int = lastIteration
-  /**totals contains scores for words and their possible tags*/
+  /** totals contains scores for words and their possible tags
+    *
+    * @group param
+    **/
   private val totals: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
-  /**weighting parameter for words and their tags based on how many times passed through*/
+  /** weighting parameter for words and their tags based on how many times passed through
+    *
+    * @group param
+    **/
   private val timestamps: MMap[(String, String), Double] = MMap().withDefaultValue(0.0)
 
   def predict(features: Map[String, Int]): String = {
@@ -105,9 +130,17 @@ class TrainingPerceptronLegacy(
     }
     AveragedPerceptron(tags, taggedWordBook, featuresWeight.mapValues(_.toMap).toMap)
   }
+
+  /** @group getParam */
   private[nlp] def getUpdateIterations: Int = updateIteration
+
+  /** @group getParam */
   private[nlp] def getTagBook: Map[String, String] = taggedWordBook
+
+  /** @group getParam */
   private[nlp] def getTags: Array[String] = tags
+
+  /** @group getParam */
   def getWeights: Map[String, Map[String, Double]] = featuresWeight.mapValues(_.toMap).toMap
   /**
     * This is model learning tweaking during training, in-place

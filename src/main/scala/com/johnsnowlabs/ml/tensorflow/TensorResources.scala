@@ -8,7 +8,9 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
 
-
+/**
+  * This class is beeing used to initialize Tensors of different types and shapes for Tensorflow operations
+  */
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
 
@@ -25,6 +27,14 @@ class TensorResources {
   }
 
   def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
+
+    val result = Tensor.create(shape, buf)
+
+    tensors.append(result)
+    result
+  }
+
+  def createFloatBufferTensor[T](shape: Array[Long], buf: FloatBuffer): Tensor[_] = {
 
     val result = Tensor.create(shape, buf)
 
@@ -55,6 +65,10 @@ class TensorResources {
   def createIntBuffer(dim: Int): IntBuffer = {
     IntBuffer.allocate(dim)
   }
+
+  def createFloatBuffer(dim: Int): FloatBuffer = {
+    FloatBuffer.allocate(dim)
+  }
 }
 
 object TensorResources {
@@ -63,7 +77,7 @@ object TensorResources {
     size.getOrElse{
       // Calculate real size from tensor shape
       val shape = source.shape()
-      shape.foldLeft(1l)(_*_).toInt
+      shape.foldLeft(1L)(_*_).toInt
     }
   }
 
@@ -73,6 +87,9 @@ object TensorResources {
     source.writeTo(buffer)
     buffer.array()
   }
+
+  def extractInt(source: Tensor[_], size: Option[Int] = None): Int =
+    extractInts(source).head
 
   def extractLongs(source: Tensor[_], size: Option[Int] = None): Array[Long] = {
     val realSize = calculateTensorSize(source ,size)

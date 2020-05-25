@@ -15,7 +15,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.4.5"
+version := "2.5.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -172,7 +172,9 @@ scalacOptions ++= Seq(
   "-feature",
   "-language:implicitConversions"
 )
-
+scalacOptions in(Compile, doc) ++= Seq(
+  "-groups"
+)
 /** Enable for debugging */
 testOptions in Test += Tests.Argument("-oF")
 

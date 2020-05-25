@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TensorflowElmo - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowElmo</title>
-          <meta name="description" content="TensorflowElmo - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
-          <meta name="keywords" content="TensorflowElmo Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
+          <title>TensorflowElmo - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowElmo</title>
+          <meta name="description" content="TensorflowElmo - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
+          <meta name="keywords" content="TensorflowElmo Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowElmo" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,11 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class is used to calculate ELMO embeddings for For Sequence Batches of TokenizedSentences.</p><p>https://tfhub.dev/google/elmo/3
-* word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb
-* lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1
-* lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2
-* elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Embeddings from a language model trained on the 1 Billion Word Benchmark.</p><p>Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
+The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb</p><p><b>lstm_outputs1</b>: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1</p><p><b>lstm_outputs2</b>: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2</p><p><b>elmo</b>: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo</p><p>See <span class="extype" name="">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala </span> for further reference on how to use this API.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -109,7 +106,10 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>Elmo Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>size of batch</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>Elmo Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>size of batch</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session
+                        Sources  :
+                        <a href="https://tfhub.dev/google/elmo/3" target="_blank">https://tfhub.dev/google/elmo/3</a>
+                        <a href="https://arxiv.org/abs/1802.05365" target="_blank">https://arxiv.org/abs/1802.05365</a></p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -319,10 +319,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">word_emb: the character-based word representations with shape [batch_size, max_length, 512].</p><div class="fullcomment"><div class="comment cmt"><p>word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == 512
-lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024
-lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024
-elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == 1024
+      <p class="shortcomment cmt">word_emb: the character-based word representations with shape [batch_size, max_length, 512].</p><div class="fullcomment"><div class="comment cmt"><p>word_emb: the character-based word representations with shape [batch_size, max_length, 512].  == 512</p><p>lstm_outputs1: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024</p><p>lstm_outputs2: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === 1024</p><p>elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == 1024
 </p></div><dl class="paramcmts block"><dt class="param">layer</dt><dd class="cmt"><p>Layer specification</p></dd><dt>returns</dt><dd class="cmt"><p>The dimension of chosen layer</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>

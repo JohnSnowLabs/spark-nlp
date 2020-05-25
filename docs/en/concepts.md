@@ -3,8 +3,8 @@ layout: article
 title: Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2019-10-23"
-use_language_switchter: "Python-Scala"
+modify_date: "2020-05-08"
+use_language_switcher: "Python-Scala"
 
 ---
 
@@ -47,14 +47,14 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 ```
 
 ### Explain Document ML

@@ -2,6 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.Annotation
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.{size, explode, col}
 
 import scala.collection.mutable
 
@@ -84,7 +85,14 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     dataset.flatMap{x => x.map(x=>x._1)}
   }
 
-
+  def calculateEmbeddingsDim(dataset: DataFrame): Int = {
+    val embedSize = dataset.select(explode(col("embeddings")).as("embedding"))
+      .select(size(col("embedding")).as("embeddings_size")).rdd.take(1)
+      .map(
+        r => r.getInt(0)
+      )
+    embedSize(0)
+  }
   /**
     * Converts Tag Identifiers to Tag Names
     *

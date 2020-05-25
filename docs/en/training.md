@@ -4,7 +4,7 @@ title: Training
 permalink: /docs/en/training
 key: docs-training
 modify_date: "2019-10-23"
-use_language_switchter: "Python-Scala"
+use_language_switcher: "Python-Scala"
 
 ---
 
@@ -102,3 +102,20 @@ val trainCorpus = spark.read.text("./sherlockholmes.txt")
 ### Vivekn Sentiment Analysis Dataset
 
 To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
+
+
+### PubTator Dataset
+
+The PubTator format includes medical papers' titles, abstracts, and tagged chunks (see [PubTator Docs](http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783) and [MedMentions Docs](http://github.com/chanzuckerberg/MedMentions) for more information). We can create a Spark DataFrame from a PubTator text file.
+
+**Available parameters are:**
+
+- spark: Spark session
+- path(string): Path to a PubTator File
+
+**Example:**
+
+```scala
+import com.johnsnowlabs.nlp.training.PubTator
+val trainingPubTatorDF = PubTator.readDataset(spark, "./src/test/resources/corpus_pubtator.txt")
+```

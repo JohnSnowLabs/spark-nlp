@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>NerCrfApproach - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach</title>
-          <meta name="description" content="NerCrfApproach - Spark NLP 2.4.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach" />
-          <meta name="keywords" content="NerCrfApproach Spark NLP 2.4.5 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach" />
+          <title>NerCrfApproach - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach</title>
+          <meta name="description" content="NerCrfApproach - Spark NLP 2.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach" />
+          <meta name="keywords" content="NerCrfApproach Spark NLP 2.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Algorithm for training Named Entity Recognition Model</p><p>This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
+Optionally the user can provide an entity dictionary file for better accuracy</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf</a> for further reference on this API.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a>], <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="NerCrfModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel">NerCrfModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="NerCrfModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel">NerCrfModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -62,7 +64,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -272,7 +274,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#c0" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#c0" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="c0:org.apache.spark.ml.param.IntParam"></a>
       <a id="c0:IntParam"></a>
       <h4 class="signature">
@@ -288,7 +290,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">c0 params defining decay speed for gradient
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
@@ -413,8 +416,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#entities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">CRF based Named Entity Recognition Tagger</p><div class="fullcomment"><div class="comment cmt"><p>CRF based Named Entity Recognition Tagger</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#entities" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="entities:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="entities:StringArrayParam"></a>
       <h4 class="signature">
@@ -430,7 +433,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Entities to recognize
+</p><div class="fullcomment"><div class="comment cmt"><p>Entities to recognize
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -499,7 +504,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#externalFeatures" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#externalFeatures" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="externalFeatures:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a>
       <a id="externalFeatures:ExternalResourceParam"></a>
       <h4 class="signature">
@@ -515,7 +520,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Additional dictionaries to use as a features
+</p>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a>
       <a id="extractParamMap():ParamMap"></a>
@@ -678,7 +684,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getC0" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getC0" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getC0:Int"></a>
       <a id="getC0:Int"></a>
       <h4 class="signature">
@@ -694,7 +700,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">c0 params defining decay speed for gradient
+</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -729,7 +736,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getIncludeConfidence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getIncludeConfidence" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getIncludeConfidence:Boolean"></a>
       <a id="getIncludeConfidence:Boolean"></a>
       <h4 class="signature">
@@ -745,7 +752,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Whether or not to calculate prediction confidence by token, includes in metadata
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -763,7 +771,7 @@
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getL2" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getL2" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getL2:Double"></a>
       <a id="getL2:Double"></a>
       <h4 class="signature">
@@ -779,7 +787,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">L2 regularization coefficient
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <a id="getLazyAnnotator:Boolean"></a>
@@ -797,7 +806,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getLossEps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getLossEps" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getLossEps:Double"></a>
       <a id="getLossEps:Double"></a>
       <h4 class="signature">
@@ -813,8 +822,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getMaxEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">If Epoch relative improvement less than eps then training is stopped
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getMaxEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getMaxEpochs:Int"></a>
       <a id="getMaxEpochs:Int"></a>
       <h4 class="signature">
@@ -830,8 +840,10 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getMinEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum number of epochs to train
+</p><div class="fullcomment"><div class="comment cmt"><p>Maximum number of epochs to train
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getMinEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getMinEpochs:Int"></a>
       <a id="getMinEpochs:Int"></a>
       <h4 class="signature">
@@ -847,8 +859,10 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getMinW" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Minimum number of epochs to train
+</p><div class="fullcomment"><div class="comment cmt"><p>Minimum number of epochs to train
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#getMinW" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getMinW:Double"></a>
       <a id="getMinW:Double"></a>
       <h4 class="signature">
@@ -864,7 +878,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Features with less weights then this param value will be filtered
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
       <a id="getOrDefault[T](Param[T]):T"></a>
@@ -916,7 +931,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getRandomSeed" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getRandomSeed" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getRandomSeed:Int"></a>
       <a id="getRandomSeed:Int"></a>
       <h4 class="signature">
@@ -932,8 +947,10 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getVerbose" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Random seed
+</p><div class="fullcomment"><div class="comment cmt"><p>Random seed
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#getVerbose" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
       <a id="getVerbose:Int"></a>
       <a id="getVerbose:Int"></a>
       <h4 class="signature">
@@ -949,7 +966,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Level of verbosity during training
+</p><div class="fullcomment"><div class="comment cmt"><p>Level of verbosity during training
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1001,7 +1020,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#includeConfidence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#includeConfidence" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="includeConfidence:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="includeConfidence:BooleanParam"></a>
       <h4 class="signature">
@@ -1017,7 +1036,8 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">includeConfidence&quot;, &quot;whether or not to calculate prediction confidence by token, includes in metadata
+</p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a>
       <a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
@@ -1052,7 +1072,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#inputAnnotatorTypes" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <h4 class="signature">
@@ -1068,7 +1088,9 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types : DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types : DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a>
       <a id="inputCols:StringArrayParam"></a>
@@ -1158,7 +1180,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#l2" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#l2" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="l2:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="l2:DoubleParam"></a>
       <h4 class="signature">
@@ -1174,8 +1196,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#labelColumn" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">L2 regularization coefficient
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#labelColumn" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="labelColumn:org.apache.spark.ml.param.Param[String]"></a>
       <a id="labelColumn:Param[String]"></a>
       <h4 class="signature">
@@ -1191,7 +1214,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Column with label per each token
+</p><div class="fullcomment"><div class="comment cmt"><p>Column with label per each token
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="lazyAnnotator:BooleanParam"></a>
@@ -1413,7 +1438,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#lossEps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#lossEps" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="lossEps:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="lossEps:DoubleParam"></a>
       <h4 class="signature">
@@ -1429,8 +1454,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#maxEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">If Epoch relative improvement less than eps then training is stopped
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#maxEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="maxEpochs:org.apache.spark.ml.param.IntParam"></a>
       <a id="maxEpochs:IntParam"></a>
       <h4 class="signature">
@@ -1446,8 +1472,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#minEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum number of epochs to train
+</p><div class="fullcomment"><div class="comment cmt"><p>Maximum number of epochs to train
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#minEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="minEpochs:org.apache.spark.ml.param.IntParam"></a>
       <a id="minEpochs:IntParam"></a>
       <h4 class="signature">
@@ -1463,8 +1491,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#minW" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Minimum number of epochs to train
+</p><div class="fullcomment"><div class="comment cmt"><p>Minimum number of epochs to train
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#minW" visbl="pub" data-isabs="false" fullComment="no" group="param">
       <a id="minW:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="minW:DoubleParam"></a>
       <h4 class="signature">
@@ -1480,7 +1510,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Features with less weights then this param value will be filtered
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
       <a id="msgHelper(StructType):String"></a>
@@ -1566,7 +1597,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#outputAnnotatorType" visbl="pub" data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:String"></a>
       <a id="outputAnnotatorType:String"></a>
       <h4 class="signature">
@@ -1582,7 +1613,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types : NAMED_ENTITY
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types : NAMED_ENTITY
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach">NerCrfApproach</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a>
       <a id="outputCol:Param[String]"></a>
@@ -1617,7 +1650,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#randomSeed" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#randomSeed" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="randomSeed:org.apache.spark.ml.param.IntParam"></a>
       <a id="randomSeed:IntParam"></a>
       <h4 class="signature">
@@ -1633,7 +1666,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Random seed
+</p><div class="fullcomment"><div class="comment cmt"><p>Random seed
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -1713,7 +1748,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setC0" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setC0" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setC0(c0:Int):NerCrfApproach.this.type"></a>
       <a id="setC0(Int):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1729,7 +1764,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">c0 params defining decay speed for gradient
+</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):NerCrfApproach.this.type"></a>
@@ -1764,7 +1800,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setEntities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setEntities" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setEntities(tags:Array[String]):T"></a>
       <a id="setEntities(Array[String]):NerCrfApproach"></a>
       <h4 class="signature">
@@ -1780,8 +1816,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setExternalFeatures" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Entities to recognize
+</p><div class="fullcomment"><div class="comment cmt"><p>Entities to recognize
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setExternalFeatures" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setExternalFeatures(path:String,delimiter:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):NerCrfApproach.this.type"></a>
       <a id="setExternalFeatures(String,String,Format,Map[String,String]):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1797,8 +1835,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setExternalFeatures" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Additional dictionaries to use as a features
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setExternalFeatures" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setExternalFeatures(value:com.johnsnowlabs.nlp.util.io.ExternalResource):NerCrfApproach.this.type"></a>
       <a id="setExternalFeatures(ExternalResource):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1814,8 +1853,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setIncludeConfidence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Additional dictionaries to use as a features
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setIncludeConfidence" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setIncludeConfidence(c:Boolean):NerCrfApproach.this.type"></a>
       <a id="setIncludeConfidence(Boolean):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1831,7 +1871,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Whether or not to calculate prediction confidence by token, includes in metadata
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):NerCrfApproach.this.type"></a>
@@ -1866,7 +1907,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setL2" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setL2" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setL2(l2:Double):NerCrfApproach.this.type"></a>
       <a id="setL2(Double):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1882,8 +1923,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setLabelColumn" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">L2 regularization coefficient
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setLabelColumn" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setLabelColumn(column:String):T"></a>
       <a id="setLabelColumn(String):NerCrfApproach"></a>
       <h4 class="signature">
@@ -1899,7 +1941,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Column with label per each token
+</p><div class="fullcomment"><div class="comment cmt"><p>Column with label per each token
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a>
       <a id="setLazyAnnotator(Boolean):NerCrfApproach.this.type"></a>
@@ -1917,7 +1961,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setLossEps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setLossEps" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setLossEps(eps:Double):NerCrfApproach.this.type"></a>
       <a id="setLossEps(Double):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1933,8 +1977,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setMaxEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">If Epoch relative improvement less than eps then training is stopped
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setMaxEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setMaxEpochs(epochs:Int):T"></a>
       <a id="setMaxEpochs(Int):NerCrfApproach"></a>
       <h4 class="signature">
@@ -1950,8 +1995,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setMinEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum number of epochs to train
+</p><div class="fullcomment"><div class="comment cmt"><p>Maximum number of epochs to train
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setMinEpochs" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setMinEpochs(epochs:Int):T"></a>
       <a id="setMinEpochs(Int):NerCrfApproach"></a>
       <h4 class="signature">
@@ -1967,8 +2014,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setMinW" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Minimum number of epochs to train
+</p><div class="fullcomment"><div class="comment cmt"><p>Minimum number of epochs to train
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach#setMinW" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setMinW(w:Double):NerCrfApproach.this.type"></a>
       <a id="setMinW(Double):NerCrfApproach.this.type"></a>
       <h4 class="signature">
@@ -1984,7 +2033,8 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Features with less weights then this param value will be filtered
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):NerCrfApproach.this.type"></a>
@@ -2002,7 +2052,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setRandomSeed" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setRandomSeed" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setRandomSeed(seed:Int):T"></a>
       <a id="setRandomSeed(Int):NerCrfApproach"></a>
       <h4 class="signature">
@@ -2018,8 +2068,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setVerbose" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Random seed
+</p><div class="fullcomment"><div class="comment cmt"><p>Random seed
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setVerbose" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setVerbose(verbose:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):T"></a>
       <a id="setVerbose(Level):NerCrfApproach"></a>
       <h4 class="signature">
@@ -2035,8 +2087,10 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setVerbose" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Level of verbosity during training
+</p><div class="fullcomment"><div class="comment cmt"><p>Level of verbosity during training
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#setVerbose" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setVerbose(verbose:Int):T"></a>
       <a id="setVerbose(Int):NerCrfApproach"></a>
       <h4 class="signature">
@@ -2052,7 +2106,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Level of verbosity during training
+</p><div class="fullcomment"><div class="comment cmt"><p>Level of verbosity during training
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2175,7 +2231,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#verbose" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#verbose" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="verbose:org.apache.spark.ml.param.IntParam"></a>
       <a id="verbose:IntParam"></a>
       <h4 class="signature">
@@ -2191,7 +2247,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Level of verbosity during training
+</p><div class="fullcomment"><div class="comment cmt"><p>Level of verbosity during training
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../NerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerApproach">NerApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -2326,8 +2384,20 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

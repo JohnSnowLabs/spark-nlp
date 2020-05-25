@@ -3,7 +3,7 @@ layout: article
 title: Developers
 permalink: /docs/en/developers
 key: docs-developers
-modify_date: "2020-02-03"
+modify_date: "2020-05-08"
 ---
 
 ## Developers Guideline
@@ -120,17 +120,17 @@ To run tests in debug mode click **Debug** button (next to **play** button). In 
 
 #### Run tests in Python
 
-To run Python test, first you need to configure project structure. Go to `File -> Project Settings -> Modules`, click on the **+** button and select **New Module**. 
+To run Python test, first you need to configure project structure. Go to `File -> Project Settings -> Modules`, click on the **+** button and select **New Module**.
 
 ![python module add](../assets/images/python_module_add.png)
 
-In the pop up choose Python on left menu, select Python SDK from created virtual environment and click **Next**. 
+In the pop up choose Python on left menu, select Python SDK from created virtual environment and click **Next**.
 
 ![python module pop up](../assets/images/python_module_pop_up.png)
 
 Enter `python` in the Module name and click **Finish**.
 
-After you need to add Spark dependencies. Select created Python module and click on the **+** button in the Dependencies part. 
+After you need to add Spark dependencies. Select created Python module and click on the **+** button in the Dependencies part.
 
 ![python libs add](../assets/images/python_libs_add.png)
 
@@ -142,8 +142,8 @@ Choose **Jars or directories...** and find the find installation path of spark (
 All available tests are in ``spark-nlp/python/run-tests.py``. Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and look for **Python**.
 
 ![python test add](../assets/images/python_test_add.png)
- 
-In the **Script path** locate file ``spark-nlp/python/run-tests.py``. Also you need to add **SPARK_HOME** environment variable to the project. Choose **Environment variables** and add new variable **SPARK_HOME**. Insert installation path of spark to the Value field. 
+
+In the **Script path** locate file ``spark-nlp/python/run-tests.py``. Also you need to add **SPARK_HOME** environment variable to the project. Choose **Environment variables** and add new variable **SPARK_HOME**. Insert installation path of spark to the Value field.
 
 ![python spark home](../assets/images/python_spark_home.png)
 
@@ -167,7 +167,7 @@ pip install pyspark numpy
 
 #### Compiling jar
 
-Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**. 
+Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**.
 
 In the **Name** field put `AssemblyCopy`. In the **Tasks** field write down `assemblyAndCopy`. After you can disable checkbox in **Use sbt shell** to have more custom configurations.  In the **VM parameters** increase the memory by changing `-Xmx1024M` to `-Xmx6G` and click **Ok**.
 
@@ -177,8 +177,21 @@ You can find created jar in the folder ``spark-nlp/python/lib/sparknlp.jar``
 
 *Note: Assembly command creates a fat jars, that includes all dependencies within* 
 
-### Basic Annotator API
 
-### Advanced Annotator API
+#### Compiling pypi, whl
 
-### Python vs Scala
+Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**.
+
+In the **Name** field put `AssemblyAndCopyForPyPi`. In the **Tasks** field write down `assemblyAndCopyForPyPi`.
+
+Then you go to ``spark-nlp/python/`` directory and run:
+
+```
+python setup.py sdist bdist_wheel
+```
+
+You can find created `whl` and `tar.gz` in the folder ``spark-nlp/python/dist/``. Use this files to install spark-nlp locally:
+
+```
+pip install spark_nlp-2.x.x-py3-none-any.whl
+```
