@@ -286,12 +286,6 @@ patients and remove them by replacing with semantic tags.
 
 - setRegexPatternsDictionary(path, read_as, options)
 
-### ContextSpellChecker
-
-This spell checker utilizes TensorFlow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
-**Output type:** Token  
-**Input types:** Tokenizer  
-
 ### References
 
 [1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
