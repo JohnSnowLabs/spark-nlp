@@ -299,7 +299,7 @@ val binarizer = new ImageBinarizer()
   .setOutputCol("image")
   .setThreshold(130)
 
-val ocr = new TesseractOcr()
+val ocr = new ImageToText()
   .setInputCol("image")
   .setOutputCol("text")
   .setIgnoreResolution(false)
@@ -350,7 +350,7 @@ binarizer = ImageBinarizer() \
     .setOutputCol("image") \
     .setThreshold(130)
 
-ocr = TesseractOcr() \
+ocr = ImageToText() \
     .setInputCol("image") \
     .setOutputCol("text") \
     .setIgnoreResolution(False) \
@@ -1735,9 +1735,9 @@ data.show()
 
 Next section describes the estimators for OCR
 
-## TesseractOCR
+## ImageToText
 
-`TesseractOCR` runs Tesseract OCR for input image, return recognized text
+`ImageToText` runs OCR for input image, return recognized text
 to _outputCol_ and positions with font size to 'positionsCol' column.
 
 
@@ -1757,7 +1757,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | language | string | eng | language |
 | confidenceThreshold | int | 0 | Confidence threshold. |
 | ignoreResolution | bool | true | Ignore resolution from metadata of image. |
-| tesseractParams | array of strings | [] |Array of Tesseract params in key=value format. |
+| ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 
 #### Output Columns
 
@@ -1771,7 +1771,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
-import com.johnsnowlabs.ocr.transformers.TesseractOCR
+import com.johnsnowlabs.ocr.transformers.ImageToText
 import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
@@ -1782,10 +1782,10 @@ val df = spark.read
   .load(imagePath)
   .asImage("image")
 
-val transformer = new TesseractOCR()
+val transformer = new ImageToText()
   .setInputCol("image")
   .setOutputCol("text")
-  .setTesseractParams(Array("preserve_interword_spaces=1"))
+  .setOcrParams(Array("preserve_interword_spaces=1"))
 
 val data = transformer.transform(df)
 print(data.select("text").collect()[0].text)
@@ -1815,10 +1815,10 @@ binary_to_image = BinaryToImage() \
     .setInputCol("content") \
     .setOutputCol("image")
 
-ocr = TesseractOCR() \
+ocr = ImageToText() \
     .setInputCol("image") \
     .setOutputCol("text") \
-    .setTesseractParams(["preserve_interword_spaces=1", ])
+    .setOcrParams(["preserve_interword_spaces=1", ])
 
 # Define pipeline
 pipeline = PipelineModel(stages=[
@@ -1990,4 +1990,139 @@ pipeline = Pipeline(stages=[
 results = pipeline.fit(df).transform(df)
 results.show()
 
+```
+## UpdateTextPosition
+
+`UpdateTextPosition` update output text and keep old coordinates of original document.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | positions | Сolumn name with original positions struct |
+| InputText | string | replace_text | Column name for  New Text to replace Old one |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | output_positions | Name of output column for updated positions struct. |
+
+**Example:**
+
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
+import com.johnsnowlabs.nlp.{DocumentAssembler, TokenAssembler}
+import com.johnsnowlabs.ocr.transformers._
+import org.apache.spark.ml.Pipeline
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToText = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentence = new SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+   
+val token = new Tokenizer()
+  .setInputCols("document")
+  .setOutputCol("tokens")
+   
+val spell = NorvigSweetingModel.pretrained("spellcheck_norvig", "en")
+  .setInputCols("tokens")
+  .setOutputCol("spell")
+    
+val tokenAssem = new TokenAssembler()
+  .setInputCols("spell")
+  .setOutputCol("newDocs")
+    
+val updatedText = new UpdateTextPosition()
+  .setInputCol("positions")
+  .setOutputCol("output_positions")
+  .setInputText("newDocs.result")
+    
+val pipeline = new Pipeline()
+  .setStages(Array(
+    pdfToText,
+    documentAssembler,
+    sentence,
+    token,
+    spell,
+    tokenAssem,
+    updatedText
+  ))
+
+val results = pipeline.fit(df).transform(df)
+
+results.show()
+```
+
+```python
+from pyspark.ml import Pipeline
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText() \
+    .setInputCol("content") \
+    .setOutputCol("text") \
+    .setPageNumCol("page") \
+    .setSplitPage(False)
+
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("tokens")
+
+spell = NorvigSweetingModel().pretrained("spellcheck_norvig", "en") \
+    .setInputCols("tokens") \
+    .setOutputCol("spell")
+
+tokenAssem = TokenAssembler() \
+    .setInputCols("spell") \
+    .setOutputCol("newDocs")
+
+updatedText = UpdateTextPosition() \
+    .setInputCol("positions") \
+    .setOutputCol("output_positions") \
+    .setInputText("newDocs.result")
+
+pipeline = Pipeline(stages=[
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    spell,
+    tokenAssem,
+    updatedText
+])
+
+results = pipeline.fit(df).transform(df)
+results.show()
 ```
