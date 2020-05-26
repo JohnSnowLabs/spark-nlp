@@ -10,7 +10,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'skip travis')"
+    if: "!contains(github.event.head_commit.message, '[skip travis]')"
 
     steps:
     - uses: actions/checkout@v2
