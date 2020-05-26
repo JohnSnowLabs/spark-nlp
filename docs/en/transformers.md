@@ -82,8 +82,9 @@ annotators.
 
 **Settable parameters are:**
 
-- setInputCol()
-- setOutputCol()
+- setInputCol(inputs:Array(String))
+- setOutputCol(output:String)
+- setPreservePosition(preservePosition:bool): Whether to preserve the actual position of the tokens or reduce them to one space
 
 **Example:**
 
@@ -93,20 +94,20 @@ Refer to the [TokenAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 
 ```java
 TokenAssembler token_assembler = new TokenAssembler()
-    .setInputCols("normalized")
+    .setInputCols(["sentence", "token"])
     .setOutputCol("assembled")
 ```
 
 
 ```python
 token_assembler = TokenAssembler() \
-    .setInputCols(["normalized"]) \
+    .setInputCols(["sentence", "token"]) \
     .setOutputCol("assembled")
 ```
 
 ```scala
 val token_assembler = new TokenAssembler()
-    .setInputCols("normalized")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("assembled")
 ```
 

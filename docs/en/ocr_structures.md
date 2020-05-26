@@ -197,19 +197,6 @@ Show images on Databrics notebook.
 
 # Databricks Python helpers
 
-## create_init_script_for_tesseract
-
-Function for create init script which will install tesseract on master and worker nodes.
-Need to restart cluster for apply changes.
-
-Example:
-
-```python
-from sparkocr.databricks import create_init_script_for_tesseract
-
-create_init_script_for_tesseract()
-```
-
 ## display_images
 
 Show images.

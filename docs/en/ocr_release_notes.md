@@ -6,6 +6,26 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+# 1.3.0
+
+Release date: 22-05-2020
+
+#### Overview
+
+New functionality for de-identification problem.
+
+#### Enhancements
+
+* Renamed TesseractOCR to ImageToText. 
+* Simplified installation.
+* Added check license from `SPARK_NLP_LICENSE` env varibale.
+
+#### New Features
+
+* Support storing for binaryFormat. Added support storing Image and PDF files.
+* Support selectable pdf for [TextToPdf](ocr_pipeline_components#texttopdf) transformer.
+* Added [UpdateTextPosition](ocr_pipeline_components#updatetextposition) transformer.
+
 
 # 1.2.0
 
@@ -19,15 +39,14 @@ Improved support Databricks and processing selectable pdfs.
 #### Enhancements
 
 * Adapted Spark OCR for run on Databricks.
-* Added rewriting positions in [TesseractOCR](ocr_pipeline_components#tesseractocr) when run together with PdfToText.
-* Added 'positionsCol' param to [TesseractOCR](ocr_pipeline_components#tesseractocr).
+* Added rewriting positions in [ImageToText](ocr_pipeline_components#imagetotext) when run together with PdfToText.
+* Added 'positionsCol' param to [ImageToText](ocr_pipeline_components#imagetotext).
 * Improved support Spark NLP. Changed [start](/ocr_install#using-start-function) function.
 
 #### New Features
 
 * Added [showImage](ocr_structures#showimages) implicit to Dataframe for display images in Scala Databricks notebooks.
 * Added [display_images](ocr_structures#display_images) function for display images in Python Databricks notebooks.
-* Added [create_init_script_for_tesseract](ocr_structures#create_init_script_for_tesseract) for install Tesseract to Databricks cluster.
 * Added propagation selectable pdf file in [TextToPdf](ocr_pipeline_components#texttopdf). Added 'inputContent' param to 'TextToPdf'.
 
 
@@ -81,16 +100,16 @@ added possibility to store results to PDF for keep original formatting.
   This improvement avoids to remove `.` and affect symbols with dots (`i`, `!`, `?`).
   Added `minSizeFont` param to `ImageRemoveObjects` transformer for
   activate this functional.
-* Added `tesseractParams` parameter to `TesseractOcr` transformer for set any
-  tesseract params.
-* Added extraction font size in `TesseractOcr`
+* Added `ocrParams` parameter to `ImageToText` transformer for set any
+  ocr params.
+* Added extraction font size in `ImageToText`
 * Added `TextToPdf` transformer for render text with positions to pdf file.
 
 
 #### Enhancements
 
-* Added setting resolution in `TesseractOcr`. And added `ignoreResolution` param with
-  default `true` value to `TesseractOcr` transformer for back compatibility.
+* Added setting resolution in `ImageToText`. And added `ignoreResolution` param with
+  default `true` value to `ImageToText` transformer for back compatibility.
 * Added parsing resolution from image metadata in `BinaryToImage` transformer.
 * Added storing resolution in `PrfToImage` transformer.
 * Added resolution field to Image schema.
@@ -114,7 +133,7 @@ moved to separate Spark OCR library.
 
 #### New Features
 
-* Added extraction coordinates of each symbol in TesseractOCR
+* Added extraction coordinates of each symbol in ImageToText
 * Added ImageDrawRegions transformer
 * Added ImageToPdf transformer
 * Added ImageMorphologyOpening transformer

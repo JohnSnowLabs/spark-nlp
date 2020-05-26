@@ -7,7 +7,7 @@ modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
 Spark OCR provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
-It is built on top of Apache Spark and Tesseract OCR.
+It is built on top of Apache Spark.
 
 # OCR Pipelines
 
@@ -21,7 +21,7 @@ It contains a set of tools for:
  - PDF processing transformers which extract text and images from PDF files
  - Image pre-processing (scaling, binarization, skew correction, etc.) transformers
  - Splitting image to regions analyzers and transformers
- - Characters recognition using TesseractOCR estimator
+ - Characters recognition using ImageToText estimator
 
 More details on transformers/estimators could be found in further section [OCR Pipeline Components](ocr_pipeline_components)
 
@@ -61,7 +61,7 @@ val binaryToImage = new BinaryToImage()
   .setOutputCol("image")
 
 // OCR
-val ocr = new TesseractOcr()
+val ocr = new ImageToText()
   .setInputCol("image")
   .setOutputCol("text")
 
@@ -97,7 +97,7 @@ binaryToImage = BinaryToImage() \
   .setOutputCol("image")
 
 # OCR
-ocr = TesseractOcr() \
+ocr = ImageToText() \
   .setInputCol("image") \
   .setOutputCol("text")
 
@@ -140,7 +140,7 @@ val pdfToImage = new PdfToImage()
   .setOutputCol("image")
 
 // OCR
-val ocr = new TesseractOcr()
+val ocr = new ImageToText()
   .setInputCol("image")
   .setOutputCol("text")
 
@@ -176,7 +176,7 @@ pdfToImage = PdfToImage() \
   .setOutputCol("image")
 
 # OCR
-ocr = TesseractOcr() \
+ocr = ImageToText() \
   .setInputCol("image") \
   .setOutputCol("text")
 
@@ -235,7 +235,7 @@ val pdfToImage = new PdfToImage()
   .setMinSizeBeforeFallback(10)
 
 // OCR
-val ocr = new TesseractOcr()
+val ocr = new ImageToText()
   .setInputCol("image")
   .setOutputCol("text")
 
@@ -282,7 +282,7 @@ pdfToImage = PdfToImage() \
   .setMinSizeBeforeFallback(10)
 
 # OCR
-ocr = TesseractOcr() \
+ocr = ImageToText() \
   .setInputCol("image") \
   .setOutputCol("text")
 

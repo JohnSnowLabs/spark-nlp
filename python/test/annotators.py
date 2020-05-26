@@ -1,3 +1,4 @@
+import re
 import unittest
 import os
 from sparknlp.annotator import *
@@ -30,7 +31,7 @@ class BasicAnnotatorsTestSpec(unittest.TestCase):
             .setInputCols(["stem"]) \
             .setOutputCol("normalize")
         token_assembler = TokenAssembler() \
-            .setInputCols(["normalize"]) \
+            .setInputCols(["document", "normalize"]) \
             .setOutputCol("assembled")
         finisher = Finisher() \
             .setInputCols(["assembled"]) \
@@ -226,7 +227,7 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setIterations(3) \
+            .setIterations(1) \
             .fit(self.train)
 
         assembled = document_assembler.transform(self.data)
@@ -488,6 +489,39 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
         spell_checker = SymmetricDeleteApproach() \
             .setInputCols(["token"]) \
             .setOutputCol("symmspell")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            spell_checker
+        ])
+
+        model = pipeline.fit(self.train_data)
+        checked = model.transform(self.prediction_data)
+        checked.show()
+
+
+class ContextSpellCheckerTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.prediction_data = SparkContextForTest.data
+        text_file = "file:///" + os.getcwd() + "/../src/test/resources/spell/sherlockholmes.txt"
+        self.train_data = SparkContextForTest.spark.read.text(text_file)
+        self.train_data = self.train_data.withColumnRenamed("value", "text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+
+        spell_checker = ContextSpellCheckerModel \
+            .pretrained('spellcheck_dl', 'en') \
+            .setInputCols("token") \
+            .setOutputCol("checked")
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1074,13 +1108,73 @@ class AlbertEmbeddingsTestSpec(unittest.TestCase):
             .setOutputCol("token")
         albert = AlbertEmbeddings.pretrained() \
             .setInputCols(["sentence", "token"]) \
-            .setOutputCol("embeddings") \
+            .setOutputCol("embeddings")
 
         pipeline = Pipeline(stages=[
             document_assembler,
             sentence_detector,
             tokenizer,
             albert
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class SentimentDLTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkSessionForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/classifier/sentiment.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_embeddings = UniversalSentenceEncoder.pretrained() \
+            .setInputCols("document") \
+            .setOutputCol("sentence_embeddings")
+
+        classifier = SentimentDLApproach() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCol("category") \
+            .setLabelColumn("label")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings,
+            classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.stages[-1].write().overwrite().save('./tmp_sentimentDL_model')
+
+        sentimentdlModel = SentimentDLModel.load("./tmp_sentimentDL_model") \
+            .setInputCols(["sentence_embeddings"]) \
+            .setOutputCol("class")
+
+
+class XlnetEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        xlnet = XlnetEmbeddings.pretrained() \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("embeddings")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            xlnet
         ])
 
         model = pipeline.fit(self.data)

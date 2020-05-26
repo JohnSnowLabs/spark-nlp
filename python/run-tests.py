@@ -20,6 +20,7 @@ unittest.TextTestRunner().run(PragmaticScorerTestSpec())
 unittest.TextTestRunner().run(PipelineTestSpec())
 unittest.TextTestRunner().run(SpellCheckerTestSpec())
 unittest.TextTestRunner().run(SymmetricDeleteTestSpec())
+unittest.TextTestRunner().run(ContextSpellCheckerTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
 unittest.TextTestRunner().run(DependencyParserTreeBankTestSpec())
 unittest.TextTestRunner().run(DependencyParserConllUTestSpec())
@@ -35,8 +36,10 @@ unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 
 # Should be locally tested
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
+# unittest.TextTestRunner().run(XlnetEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(UniversalSentenceEncoderTestSpec())
 # unittest.TextTestRunner().run(ClassifierDLTestSpec())
+# unittest.TextTestRunner().run(SentimentDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())
 
 # Misc tests

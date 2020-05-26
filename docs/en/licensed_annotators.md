@@ -286,11 +286,42 @@ patients and remove them by replacing with semantic tags.
 
 - setRegexPatternsDictionary(path, read_as, options)
 
-### ContextSpellChecker
+### Contextual Parser
 
-This spell checker utilizes TensorFlow to do context based spell checking. At this moment, this annotator cannot be trained from Spark NLP. We are providing pretrained models only, for now.  
-**Output type:** Token  
-**Input types:** Tokenizer  
+This annotator provides RegexMatchering, based on a JSON file.
+**Output type:** "sentence", "token"  
+**Input types:** "chunk"  
+**JSON format:**
+```
+{
+  "entity": "Stage",
+  "ruleScope": "sentence",
+  "regex": "[cpyrau]?[T][0-9X?][a-z^cpyrau]*",
+  "matchScope": "token"
+}
+```
+
+- setJsonPath() -> Path to json file with rules
+- setCaseSensitive() -> optional: Whether to use case sensitive when matching values, default is false
+- setPrefixAndSuffixMatch() -> optional: Whether to match both prefix and suffix to annotate the hit
+- setContextMatch() -> optional: Whether to include context to annotate the hit
+- setUpdateTokenizer() -> optional: Whether to update tokenizer from pipeline when detecting multiple words on dictionary values
+- setDictionary() -> optional: Path to dictionary file in tsv or csv format
+
+**Example:**
+
+```python
+contextual_parser = ContextualParserApproach() \
+        .setInputCols(["sentence", "token"]) \
+        .setOutputCol("entity_stage") \
+        .setJsonPath("data/Stage.json")
+```
+```scala
+val contextualParser = new ContextualParserApproach()
+        .setInputCols(Array("sentence", "token"))
+        .setOutputCol("entity_stage")
+        .setJsonPath("data/Stage.json")
+```
 
 ### References
 
