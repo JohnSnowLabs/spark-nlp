@@ -30,8 +30,7 @@ class SpellCheckersPerfTest extends FlatSpec {
   val corpusDataSetInit = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   val corpusDataSet = corpusDataSetInit.as[String].collect()
 
-  System.gc()
-  "Norvig pipeline" should "be fast" in {
+  "Norvig pipeline" should "be fast" ignore {
 
     val spell = NorvigSweetingModel.pretrained().
       setInputCols("token").
@@ -53,14 +52,9 @@ class SpellCheckersPerfTest extends FlatSpec {
       spellplight.annotate(corpusDataSet)
     }
 
-//    val t1 = Benchmark.measure("Light annotate norvig spell results") {
-//      spellplight.annotate(corpusDataSet)
-//    }
-//
-//    print(t1)
   }
 
-  "Symm pipeline" should "be fast" in {
+  "Symm pipeline" should "be fast" ignore {
 
     val spell = new SymmetricDeleteApproach()
       .setInputCols("token")
@@ -81,15 +75,9 @@ class SpellCheckersPerfTest extends FlatSpec {
       spellplight.annotate(corpusDataSet)
     }
 
-//    val t1: Double = Benchmark.measure("Light annotate symmetric spell results") {
-//      spellplight.annotate(corpusDataSet)
-//    }
-//
-//    print(t1)
-
   }
 
-  "Context pipeline" should "be fast" in {
+  "Context pipeline" should "be fast" ignore {
 
     val spell = ContextSpellCheckerModel
       .pretrained()
@@ -112,12 +100,6 @@ class SpellCheckersPerfTest extends FlatSpec {
     Benchmark.time("Light annotate context spell") {
       spellplight.annotate(corpusDataSet)
     }
-
-//    val t1: Double = Benchmark.measure("Light annotate context spell results") {
-//      spellplight.annotate(corpusDataSet)
-//    }
-//
-//    print(t1)
 
   }
 
