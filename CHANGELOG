@@ -1,4 +1,21 @@
 ========
+2.5.1
+========
+---------------
+New Features
+---------------
+* Add Python support for PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame
+* Add 6 new pre-trained BERT models from BioBERT and ClinicalBERT
+
+---------------------
+Enhancements
+---------------------
+* Add unit tests for XlnetEmbeddings
+* Add unit tests for AlbertEmbeddings
+* Add unit tests for ContextSpellChecker
+
+
+========
 2.5.0
 ========
 ---------------
