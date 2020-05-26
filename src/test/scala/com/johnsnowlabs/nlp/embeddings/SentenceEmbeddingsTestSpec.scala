@@ -66,7 +66,8 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" in {
+  // too large for Travis
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" ignore {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
