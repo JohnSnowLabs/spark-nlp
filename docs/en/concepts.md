@@ -47,14 +47,14 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
 ```
 
 ### Explain Document ML
