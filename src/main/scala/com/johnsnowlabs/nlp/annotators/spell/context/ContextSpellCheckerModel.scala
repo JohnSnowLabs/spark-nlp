@@ -85,6 +85,18 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
+  val correctSymbols: BooleanParam = new BooleanParam(this, "correctSymbols", "Whether to correct special symbols or skip spell checking for them")
+  def setCorrectSymbols(value: Boolean): this.type = set(correctSymbols, value)
+  setDefault(
+    correctSymbols -> false
+  )
+
+  val compareLowcase: BooleanParam = new BooleanParam(this, "compareLowcase", "If true will compare tokens in low case with vocabulary")
+  def setCompareLowcase(value: Boolean): this.type = set(compareLowcase, value)
+  setDefault(
+    compareLowcase -> false
+  )
+
   def getWordClasses() = $$(specialTransducers).map {
     case transducer:RegexParser =>
      (transducer.label, "RegexParser")
@@ -335,10 +347,12 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     val unkCode = $$(vocabIds).get("_UNK_").get
 
     /* try to decide whether words need correction or not */
-
     // first pass - perplexities
     val encodedSent = Array($$(vocabIds)("_BOS_"))  ++ annotations.map{ ann =>
-      $$(vocabIds).get(ann.result).getOrElse(unkCode)
+      if ($(compareLowcase))
+        $$(vocabIds).get(ann.result).getOrElse($$(vocabIds).get(ann.result.toLowerCase).getOrElse(unkCode))
+      else
+        $$(vocabIds).get(ann.result).getOrElse(unkCode)
     } ++ Array($$(vocabIds)("_EOS_"))
 
     val cids = encodedSent.map{id => $$(classes).apply(id)._1}
@@ -346,46 +360,46 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
     val perplexities = getModelIfNotSet.pplEachWord(Array(encodedSent), Array(cids), Array(cwids)).map(_ > threshold)
 
-    val filtPpls = perplexities.zip(perplexities.tail).
-      // if the word to the right needs correction, this word needs it too
-      map {case (needCorrection, nextNeedCorrection) =>
-        if(nextNeedCorrection) true else needCorrection
+    perplexities.zip(perplexities.tail).zip(encodedSent.tail).
+      // if the word to the right needs correction, this word needs it too and is word in vocabulary ?
+      map {case ((needCorrection, nextNeedCorrection), code) =>
+          if(nextNeedCorrection) true else needCorrection || code == unkCode
     }
-
-    // second pass - is word in vocabulary ?
-    filtPpls.zip(encodedSent.tail).
-      map{ case (firstPass, code) => firstPass || code == unkCode}
   }
 
   def computeTrellis(annotations:Seq[Annotation], mask: Seq[Boolean]) = {
     annotations.zip(mask).map { case (annotation, needCorrection) =>
       val token = annotation.result
-      if(needCorrection) {
-		      // ask each token class for candidates, keep the one with lower cost
-		      var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
-			      if(specialParser.transducer == null)
-			        throw new RuntimeException(s"${specialParser.label}")
-			        getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
-		      } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance) -1)
+      var correctionCondition = needCorrection
+      if (! $(correctSymbols))
+        correctionCondition = needCorrection & token.replaceAll("[^A-Za-z0-9]+", "").length > 0
 
-		      // now try to relax distance requirements for candidates
-		      if (token.length > 4 && candLabelWeight.isEmpty)
-			        candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
-			        getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
-			        } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance))
+      if(correctionCondition) {
+            // ask each token class for candidates, keep the one with lower cost
+            var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
+              if (specialParser.transducer == null)
+                throw new RuntimeException(s"${specialParser.label}")
+              getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
+            } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance) - 1)
 
-		      if (candLabelWeight.isEmpty)
-			        candLabelWeight = Array((token, "_UNK_", 3.0f))
+            // now try to relax distance requirements for candidates
+            if (token.length > 4 && candLabelWeight.isEmpty)
+              candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
+                getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
+              } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance))
 
-		      // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
-		      val labelWeightCand = candLabelWeight.map{ case (term, label, dist) =>
-			    // optional re-ranking of candidates according to special distance
-			    val d = get(weights).map{w => wLevenshteinDist(term, token, w)}.getOrElse(dist)
-			    val weight =  d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
-			    (label, weight, term)
-		      }.sortBy(_._2).take(getOrDefault(maxCandidates))
-		      logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
-		      labelWeightCand.toArray //[(String, Double, String)]
+            if (candLabelWeight.isEmpty)
+              candLabelWeight = Array((token, "_UNK_", 3.0f))
+
+            // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
+            val labelWeightCand = candLabelWeight.map { case (term, label, dist) =>
+              // optional re-ranking of candidates according to special distance
+              val d = get(weights).map { w => wLevenshteinDist(term, token, w) }.getOrElse(dist)
+              val weight = d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
+              (label, weight, term)
+            }.sortBy(_._2).take(getOrDefault(maxCandidates))
+            logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
+            labelWeightCand.toArray //[(String, Double, String)]
 		  } else {Array((token, .2, token))}
  	}.toArray
   }
