@@ -227,7 +227,7 @@ class PerceptronApproachTestSpec(unittest.TestCase):
         pos_tagger = PerceptronApproach() \
             .setInputCols(["token", "sentence"]) \
             .setOutputCol("pos") \
-            .setIterations(3) \
+            .setIterations(1) \
             .fit(self.train)
 
         assembled = document_assembler.transform(self.data)
@@ -519,7 +519,7 @@ class ContextSpellCheckerTestSpec(unittest.TestCase):
             .setOutputCol("token")
 
         spell_checker = ContextSpellCheckerModel \
-            .pretrained('spellcheck_dl', 'en', 'clinical/models') \
+            .pretrained('spellcheck_dl', 'en') \
             .setInputCols("token") \
             .setOutputCol("checked")
 
