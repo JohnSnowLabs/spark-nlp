@@ -46,3 +46,17 @@ class POS(ExtendedJavaWrapper):
 
         jdf = self._java_obj.readDataset(jSession, path, delimiter, outputPosCol, outputDocumentCol, outputTextCol)
         return DataFrame(jdf, spark._wrapped)
+
+
+class PubTator(ExtendedJavaWrapper):
+    def __init__(self):
+        super(PubTator, self).__init__("com.johnsnowlabs.nlp.training.PubTator")
+
+    def readDataset(self, spark, path):
+
+        # ToDo Replace with std pyspark
+        jSession = spark._jsparkSession
+
+        jdf = self._java_obj.readDataset(jSession, path)
+        return DataFrame(jdf, spark._wrapped)
+
