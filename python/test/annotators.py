@@ -1121,16 +1121,45 @@ class AlbertEmbeddingsTestSpec(unittest.TestCase):
         model.transform(self.data).show()
 
 
-class XlnetEmbeddingsTestSpec(unittest.TestCase):
-
+class SentimentDLTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkContextForTest.spark.read.option("header", "true") \
-            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+        self.data = SparkSessionForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/classifier/sentiment.csv")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
+
+        sentence_embeddings = UniversalSentenceEncoder.pretrained() \
+            .setInputCols("document") \
+            .setOutputCol("sentence_embeddings")
+
+        classifier = SentimentDLApproach() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCol("category") \
+            .setLabelColumn("label")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings,
+            classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.stages[-1].write().overwrite().save('./tmp_sentimentDL_model')
+
+        sentimentdlModel = SentimentDLModel.load("./tmp_sentimentDL_model") \
+            .setInputCols(["sentence_embeddings"]) \
+            .setOutputCol("class")
+
+
+class XlnetEmbeddingsTestSpec(unittest.TestCase):
+
+def setUp(self):
+    self.data = SparkContextForTest.spark.read.option("header", "true") \
+        .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
@@ -1150,3 +1179,4 @@ class XlnetEmbeddingsTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
