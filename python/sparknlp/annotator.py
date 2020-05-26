@@ -2429,6 +2429,9 @@ class ContextSpellCheckerModel(AnnotatorModel):
                   "Controls the influence of individual word frequency in the decision.",
                   typeConverter=TypeConverters.toFloat)
 
+    correctSymbols = Param(Params._dummy(), "correctSymbols", "Whether to correct special symbols or skip spell checking for them", typeConverter=TypeConverters.toBoolean)
+
+    compareLowcase = Param(Params._dummy(), "compareLowcase", "If true will compare tokens in low case with vocabulary", typeConverter=TypeConverters.toBoolean)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
@@ -2476,6 +2479,12 @@ class ContextSpellCheckerModel(AnnotatorModel):
     def updateVocabClass(self, label, vocab, append=True):
         self._call_java('updateVocabClass', label, vocab, append)
         return self
+
+    def setCorrectSymbols(self, value):
+        return self._set(correctSymbols=value)
+
+    def setCompareLowcase(self, value):
+        return self._set(compareLowcase=value)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel", java_model=None):
         super(ContextSpellCheckerModel, self).__init__(
