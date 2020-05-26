@@ -1108,7 +1108,7 @@ class AlbertEmbeddingsTestSpec(unittest.TestCase):
             .setOutputCol("token")
         albert = AlbertEmbeddings.pretrained() \
             .setInputCols(["sentence", "token"]) \
-            .setOutputCol("embeddings") \
+            .setOutputCol("embeddings")
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1155,11 +1155,11 @@ class SentimentDLTestSpec(unittest.TestCase):
 
 
 class XlnetEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
-def setUp(self):
-    self.data = SparkContextForTest.spark.read.option("header", "true") \
-        .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
-
+    def runTest(self):
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
