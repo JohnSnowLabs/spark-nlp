@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, ParamsAndFeaturesWritable}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.BooleanParam
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
@@ -63,6 +63,11 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     * @group param
     **/
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
+  /** Value for the entity metadata field
+    *
+    * @group param
+    **/
+  val entityValue = new Param[String](this, "entityValue", "Value for the entity metadata field")
   /** Tokenizer
     *
     * @group param
@@ -72,6 +77,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   setDefault(inputCols, Array(TOKEN))
   setDefault(caseSensitive, true)
   setDefault(mergeOverlapping, false)
+  setDefault(entityValue, "entity")
 
 
   /** Provides a file with phrases to match. Default: Looks up path in configuration.
@@ -123,6 +129,18 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     * @group getParam
     **/
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
+
+  /** Setter for Value for the entity metadata field
+    *
+    * @group setParam
+    **/
+  def setEntityValue(v: String): this.type = set(entityValue, v)
+
+  /** Getter for Value for the entity metadata field
+    *
+    * @group getParam
+    **/
+  def getEntityValue: String = $(entityValue)
 
   /**
     * Loads entities from a provided source.
