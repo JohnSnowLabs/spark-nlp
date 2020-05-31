@@ -607,6 +607,11 @@ class TextMatcher(AnnotatorApproach):
                              "whether to merge overlapping matched chunks. Defaults false",
                              typeConverter=TypeConverters.toBoolean)
 
+    entityValue = Param(Params._dummy(),
+                             "entityValue",
+                             "value for the entity metadata field",
+                             typeConverter=TypeConverters.toString)
+
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
@@ -625,6 +630,9 @@ class TextMatcher(AnnotatorApproach):
     def setMergeOverlapping(self, b):
         return self._set(mergeOverlapping=b)
 
+    def setEntityValue(self, b):
+        return self._set(entityValue=b)
+
 
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
@@ -639,6 +647,11 @@ class TextMatcherModel(AnnotatorModel):
                        "searchTrie",
                        typeConverter=TypeConverters.identity)
 
+    entityValue = Param(Params._dummy(),
+                        "entityValue",
+                        "value for the entity metadata field",
+                        typeConverter=TypeConverters.toString)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
         super(TextMatcherModel, self).__init__(
             classname=classname,
@@ -647,6 +660,9 @@ class TextMatcherModel(AnnotatorModel):
 
     def setMergeOverlapping(self, b):
         return self._set(mergeOverlapping=b)
+
+    def setEntityValue(self, b):
+        return self._set(entityValue=b)
 
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
