@@ -10,14 +10,9 @@ import scala.collection.mutable
   *
   *
   *
-  *
-  *
   * @param tensorflow           LanguageDetectorDL Model wrapper with TensorFlow Wrapper
   * @param configProtoBytes     Configuration for TensorFlow session
   *
-  *                             Paper:  [[ https://arxiv.org/abs/1810.04805]]
-  *
-  *                             Source:  [[https://github.com/google-research/bert]]
   **/
 class TensorflowLD(val tensorflow: TensorflowWrapper,
                    configProtoBytes: Option[Array[Byte]] = None
@@ -57,24 +52,32 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
   }
 
+  def cleanText(docs: List[String]): List[String] = {
+    val rmChars = "@#,.0123456789()-:;\"$%^&*<>+-_=～۱۲۳۴۵۶۷۸۹()З４５＄０：；＜＝＞ＡＢＣＤＥＦＧＨＩＪＬＯＰＱ｀ａｂｃｄｅｆｇｈｉｊｌｏｐｑ｜｝｡｢･ｧｨｩｫｭｮｰｱｲｳｷｺｻｿﾃﾄﾅﾉﾊﾋﾌﾎﾏﾐﾑﾒﾓﾘﾙﾚﾛ￥\\t\\n\\|\\/\\{"
+    docs.map(_.replaceAll(rmChars, " "))
+  }
+
   def calculateLanguageIdentification(
                                        documents: Seq[Sentence],
                                        alphabets: Map[String, Int],
-                                       languages: Map[String, Int]
+                                       languages: Map[String, Int],
+                                       threshold: Float = 0.6f,
+                                       thresholdLabel: String = "Unknown",
+                                       coalesceSentences: Boolean = false
                                      ): Array[Annotation] = {
 
-    val maxSentenceLength = 512
+    val maxSentenceLength = 240
 
     val sentences = documents.map{ x=>
-      val chars = x.content.map(_.toString).toList.take(maxSentenceLength)
-      val trueCounts = mutable.LinkedHashMap[String, Int]()
-      alphabets.map(x=>trueCounts.put(x._1, 0))
+      val chars = cleanText(x.content.map(_.toString).toList).take(maxSentenceLength)
+      val trueCounts = mutable.LinkedHashMap[String, Float]()
+      alphabets.map(x=>trueCounts.put(x._1, 0f))
       chars.foreach{char =>
         if(alphabets.contains(char)) {
-          trueCounts(char) = trueCounts.getOrElse(char, 0) + 1
+          trueCounts(char) = trueCounts.getOrElse(char, 0f) + 1f
         }
       }
-      trueCounts.map(x=>x._2.toFloat).toArray
+      trueCounts.values.toArray
     }.toArray
 
     val inputDimension = alphabets.toArray.length
@@ -84,16 +87,35 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val langLabels = languages.map(x=>x._1.mkString).toArray
     val outputs = scores.map(x=>x.zip(langLabels))
 
-    outputs.zip(documents).map{case(score, sentence)=>
-      val maxResult = score.maxBy(_._1)
+    if (coalesceSentences){
 
-      Annotation(
-        annotatorType = AnnotatorType.LANGUAGE,
-        begin = sentence.start,
-        end = sentence.end,
-        result = maxResult._2,
-        metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x => Map(x._2 -> x._1.toString))
+      val avgScores = outputs.flatMap(x=>x.toList).groupBy(_._2).mapValues(_.map(_._1).sum/outputs.length)
+      val maxResult = avgScores.maxBy(_._2)
+      val finalLabel = if(maxResult._2 >= threshold) maxResult._1 else thresholdLabel
+
+      Array(
+        Annotation(
+          annotatorType = AnnotatorType.LANGUAGE,
+          begin = documents.head.start,
+          end = documents.last.end,
+          result = finalLabel,
+          metadata = Map("sentence" -> documents.head.index.toString) ++ avgScores.flatMap(x => Map(x._1 -> x._2.toString))
+        )
       )
+
+    } else {
+      outputs.zip(documents).map{ case(score, sentence)=>
+        val maxResult = score.maxBy(_._1)
+        val finalLabel = if(maxResult._1 >= threshold) maxResult._2 else thresholdLabel
+
+        Annotation(
+          annotatorType = AnnotatorType.LANGUAGE,
+          begin = sentence.start,
+          end = sentence.end,
+          result = finalLabel,
+          metadata = Map("sentence" -> sentence.index.toString) ++ score.flatMap(x => Map(x._2 -> x._1.toString))
+        )
+      }
     }
   }
 }
