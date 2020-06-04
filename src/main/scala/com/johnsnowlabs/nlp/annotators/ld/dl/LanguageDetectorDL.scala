@@ -8,20 +8,14 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{FloatParam, IntArrayParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import scala.collection.immutable.ListMap
 
 /**
-  *
-  *
-  *
-  *
-  *
-  *
-  *
+  * LanguageDetectorDL is an annotator that detect the language of documents or sentenccecs depending on the inputCols
   *
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -67,6 +61,12 @@ class LanguageDetectorDL(override val uid: String) extends
     **/
   val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.")
 
+  /** coalesceSentences
+    *
+    * @group param
+    **/
+  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group param
@@ -85,17 +85,23 @@ class LanguageDetectorDL(override val uid: String) extends
     * */
   def setAlphabet(value: Map[String, Int]): this.type = set(alphabet, value)
 
-  /** The minimum threshold for the final result otheriwse it will be either NA or the value set in thresholdLabel.
+  /** The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.
     *
     * @group setParam
     * */
   def setThreshold(threshold: Float): this.type = set(this.threshold, threshold)
 
-  /** In case the score of prediction is less than threshold, what should be the label. Default is NA.
+  /** In case the score of prediction is less than threshold, what should be the label. Default is Unknown.
     *
     * @group setParam
     * */
   def setThresholdLabel(label: String):this.type = set(this.thresholdLabel, label)
+
+  /** If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.
+    *
+    * @group setParam
+    * */
+  def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
@@ -115,6 +121,12 @@ class LanguageDetectorDL(override val uid: String) extends
     **/
   def getThresholdLabel: String = $(this.thresholdLabel)
 
+  /**
+    *
+    * @group thresholdLabel
+    **/
+  def getCoalesceSentences: Boolean = $(coalesceSentences)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group getParam
@@ -124,8 +136,9 @@ class LanguageDetectorDL(override val uid: String) extends
   setDefault(
     inputCols-> Array("document"),
     outputCol-> "language",
-    threshold -> 0.7f,
-    thresholdLabel -> "NA"
+    threshold -> 0.5f,
+    thresholdLabel -> "Unknown",
+    coalesceSentences -> false
   )
 
   private var _model: Option[Broadcast[TensorflowLD]] = None
@@ -162,7 +175,10 @@ class LanguageDetectorDL(override val uid: String) extends
       getModelIfNotSet.calculateLanguageIdentification(
         nonEmptySentences,
         $$(alphabet),
-        $$(language)
+        $$(language),
+        $(threshold),
+        $(thresholdLabel),
+        $(coalesceSentences)
       )
     } else {
       Seq.empty[Annotation]
