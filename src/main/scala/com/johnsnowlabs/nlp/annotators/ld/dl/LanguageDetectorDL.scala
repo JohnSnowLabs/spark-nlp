@@ -15,7 +15,9 @@ import org.apache.spark.sql.SparkSession
 import scala.collection.immutable.ListMap
 
 /**
-  * LanguageDetectorDL is an annotator that detect the language of documents or sentenccecs depending on the inputCols
+  * Language Identification by using Deep Neural Network in TensowrFlow and Keras
+  * LanguageDetectorDL is an annotator that detects the language of documents or sentenccecs depending on the inputCols
+  *
   *
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -197,7 +199,7 @@ class LanguageDetectorDL(override val uid: String) extends
 }
 
 trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadable[LanguageDetectorDL] with HasPretrained[LanguageDetectorDL] {
-  override val defaultModelName: Some[String] = Some("ld_wiki_10")
+  override val defaultModelName: Some[String] = Some("ld_wiki_20")
 
   /** Java compliant-overrides */
   override def pretrained(): LanguageDetectorDL = super.pretrained()
