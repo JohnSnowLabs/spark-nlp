@@ -7,8 +7,9 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 
 /**
-  *
-  *
+  * Language Identification by using Deep Neural Network
+  * Total params: 247,607
+  * Trainable params: 247,607
   *
   * @param tensorflow           LanguageDetectorDL Model wrapper with TensorFlow Wrapper
   * @param configProtoBytes     Configuration for TensorFlow session
