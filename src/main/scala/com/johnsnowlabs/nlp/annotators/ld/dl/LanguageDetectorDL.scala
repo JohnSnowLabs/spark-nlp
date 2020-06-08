@@ -18,6 +18,9 @@ import scala.collection.immutable.ListMap
   * Language Identification by using Deep Neural Network in TensowrFlow and Keras
   * LanguageDetectorDL is an annotator that detects the language of documents or sentenccecs depending on the inputCols
   *
+  * The models are trained on large datasets from Wikipedia
+  * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+  *
   *
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -140,7 +143,7 @@ class LanguageDetectorDL(override val uid: String) extends
     outputCol-> "language",
     threshold -> 0.5f,
     thresholdLabel -> "Unknown",
-    coalesceSentences -> false
+    coalesceSentences -> true
   )
 
   private var _model: Option[Broadcast[TensorflowLD]] = None
