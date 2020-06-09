@@ -7,7 +7,10 @@ import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
-
+import java.io._
+import java.net.{URL, URLDecoder}
+import java.nio.file.{Files, Paths}
+import java.util.jar.JarFile
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 
@@ -397,7 +400,7 @@ object ResourceHelper {
           throw new FileNotFoundException("Word count dictionary for spell checker does not exist or is empty")
         wordCount
       case SPARK =>
-
+        import spark.implicits._
         val dataset = spark.read.options(externalResource.options).format(externalResource.options("format"))
           .load(externalResource.path)
         val transformation = {
