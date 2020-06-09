@@ -29,8 +29,18 @@ private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
       (cp >= 91 && cp <= 96) || (cp >= 123 && cp <= 126))
       return true
 
-    val charCategory = Character.getName(char.toInt)
-    charCategory.contains("PUNCTUATION")
+    try{
+      val charCategory: String = Character.getName(char.toInt)
+      val charCategoryString = charCategory match {
+        case x: String => x
+        case _ => ""
+      }
+      charCategoryString.contains("PUNCTUATION")
+    }
+    catch { case _: Exception =>
+      false
+    }
+
   }
 
   def stripAccents(text: String): String = {
