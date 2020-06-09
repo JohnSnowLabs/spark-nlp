@@ -82,14 +82,18 @@ class TensorflowNer
         val tagIds = TensorResources.extractInts(calculated.get(0))
 
         val confidence: Option[Seq[Double]] = {
-          if (includeConfidence) {
-            val scores = TensorResources.extractFloats(calculated.get(1))
-            require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
-            val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
-            val probs = exp.map(g => BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble)
-            Some(probs)
-          } else {
-            None
+          try {
+            if (includeConfidence) {
+              val scores = TensorResources.extractFloats(calculated.get(1))
+              require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
+              val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
+              val probs = exp.map(g => BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble)
+              Some(probs)
+            } else {
+              None
+            }
+          } catch { case _: Exception =>
+            Option(Array.fill(tagIds.length)(0.0d))
           }
         }
 
