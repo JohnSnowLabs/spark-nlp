@@ -12,8 +12,6 @@ import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-import scala.collection.immutable.ListMap
-
 /**
   * Language Identification by using Deep Neural Network in TensowrFlow and Keras
   * LanguageDetectorDL is an annotator that detects the language of documents or sentenccecs depending on the inputCols
@@ -218,7 +216,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: LanguageDetectorDL, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_ld_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_ld_tf")
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -249,11 +247,11 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     val languageResource = new ExternalResource(languagePath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val languages = ResourceHelper.parseLines(languageResource).zipWithIndex.toMap
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
 
     new LanguageDetectorDL()
-      .setAlphabet(ListMap(alphabets.toSeq.sortBy(_._2):_*))
-      .setLanguage(ListMap(languages.toSeq.sortBy(_._2):_*))
+      .setAlphabet(alphabets)
+      .setLanguage(languages)
       .setModelIfNotSet(spark, wrapper)
   }
 }
