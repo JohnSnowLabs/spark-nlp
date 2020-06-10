@@ -47,8 +47,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * multi-sentence inputs. As a result, our best model establishes new state-of-the-art
   * results on the GLUE, RACE, and SQuAD benchmarks while having fewer parameters compared to BERT-large.
   *
-  * '''Tips :''''
-  *
+  * ''Tips :''
   * ALBERT uses repeating layers which results in a small memory footprint,
   * however the computational cost remains similar to a BERT-like architecture with
   * the same number of hidden layers as it has to iterate through the same number of (repeating) layers.
