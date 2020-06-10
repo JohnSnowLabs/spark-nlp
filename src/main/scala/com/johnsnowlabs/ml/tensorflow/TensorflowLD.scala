@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
+import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
 /**
@@ -68,24 +69,26 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
                                      ): Array[Annotation] = {
 
     val maxSentenceLength = 240
+    val orderedAlphabets = ListMap(alphabets.toSeq.sortBy(_._2):_*)
+    val orderedLanguages = ListMap(languages.toSeq.sortBy(_._2):_*)
 
     val sentences = documents.map{ x=>
       val chars = cleanText(x.content.map(_.toString).toList).take(maxSentenceLength)
       val trueCounts = mutable.LinkedHashMap[String, Float]()
-      alphabets.map(x=>trueCounts.put(x._1, 0f))
+      orderedAlphabets.map(x=>trueCounts.put(x._1, 0f))
       chars.foreach{char =>
-        if(alphabets.contains(char)) {
+        if(orderedAlphabets.contains(char)) {
           trueCounts(char) = trueCounts.getOrElse(char, 0f) + 1f
         }
       }
       trueCounts.values.toArray
     }.toArray
 
-    val inputDimension = alphabets.toArray.length
-    val outputDimension = languages.toArray.length
+    val inputDimension = orderedAlphabets.toArray.length
+    val outputDimension = orderedLanguages.toArray.length
 
     val scores = tag(sentences, inputDimension, outputDimension)
-    val langLabels = languages.map(x=>x._1.mkString).toArray
+    val langLabels = orderedLanguages.map(x=>x._1.mkString).toArray
     val outputs = scores.map(x=>x.zip(langLabels))
 
     if (coalesceSentences){
