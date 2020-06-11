@@ -35,7 +35,7 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
     tokenBuffers.flip()
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
 
     val tokenTensors = tensors.createFloatBufferTensor(shape, tokenBuffers)
 
