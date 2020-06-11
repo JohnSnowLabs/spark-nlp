@@ -28,6 +28,7 @@ sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL'] = annotator
 
 annotators = annotator
 embeddings = annotator
