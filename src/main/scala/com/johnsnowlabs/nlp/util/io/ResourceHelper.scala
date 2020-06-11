@@ -1,10 +1,5 @@
 package com.johnsnowlabs.nlp.util.io
 
-import java.io._
-import java.net.{URL, URLDecoder}
-import java.nio.file.{Files, Paths}
-import java.util.jar.JarFile
-
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
@@ -12,7 +7,10 @@ import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
-
+import java.io._
+import java.net.{URL, URLDecoder}
+import java.nio.file.{Files, Paths}
+import java.util.jar.JarFile
 import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 
@@ -446,6 +444,13 @@ object ResourceHelper {
   }
 
   def listLocalFiles(path: String): List[File] = {
+    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    if (fs.getScheme == "dbfs") {
+      //return fs.listStatus(new Path(path)).map(_.getPath().toString).map(new File(_)).toList
+      val filesPath = Option(new File(path.replace("file:", "")).listFiles())
+      val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
+      return files.toList
+    }
     val filesPath = Option(new File(path).listFiles())
     val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
     files.toList
