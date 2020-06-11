@@ -15,7 +15,7 @@ if(is_gpu.equals("false")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.5.1"
+version := "2.5.2"
 
 scalaVersion in ThisBuild := scalaVer
 
