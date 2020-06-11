@@ -13,6 +13,7 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.embeddings._
+import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -167,4 +168,8 @@ package object annotator {
   object SentimentDLApproach extends DefaultParamsReadable[SentimentDLApproach]
   type SentimentDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel
   object SentimentDLModel extends ReadablePretrainedSentimentDL with ReadSentimentDLTensorflowModel
+
+  type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
+  object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
+
 }

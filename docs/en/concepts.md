@@ -47,14 +47,14 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2
 ```
 
 The easiest way of running these scala examples is by starting a
 spark-shell session including the spark-nlp package:
 
 ```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2
 ```
 
 ### Explain Document ML
@@ -222,7 +222,7 @@ annotations_df.show()
 ### Manipulating pipelines
 
 The output of the previous DataFrame was in terms of Annotation objects.
- This output is not really confortable to deal with, as you can see by
+ This output is not really comfortable to deal with, as you can see by
 running the code:
 
 ***Python code***
