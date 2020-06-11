@@ -201,6 +201,7 @@ class LanguageDetectorDL(override val uid: String) extends
 
 trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadable[LanguageDetectorDL] with HasPretrained[LanguageDetectorDL] {
   override val defaultModelName: Some[String] = Some("ld_wiki_20")
+  override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
   override def pretrained(): LanguageDetectorDL = super.pretrained()
