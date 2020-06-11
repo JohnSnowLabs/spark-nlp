@@ -34,6 +34,8 @@ parser.typdep = sys.modules[__name__]
 embeddings = sys.modules[__name__]
 classifier = sys.modules[__name__]
 classifier.dl = sys.modules[__name__]
+ld = sys.modules[__name__]
+ld.dl = sys.modules[__name__]
 
 
 class RecursiveTokenizer(AnnotatorApproach):
@@ -2637,3 +2639,42 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)
+
+
+class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
+    name = "LanguageDetectorDL"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL", java_model=None):
+        super(LanguageDetectorDL, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            threshold=0.5,
+            thresholdLabel="Unknown",
+            coalesceSentences=True
+        )
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.", TypeConverters.toFloat)
+    thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
+    coalesceSentences = Param(Params._dummy(), "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.", TypeConverters.toBoolean)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    def setThresholdLabel(self, p):
+        return self._set(thresholdLabel=p)
+
+    def setCoalesceSentences(self, value):
+        return self._set(coalesceSentences=value)
+
+    @staticmethod
+    def pretrained(name="ld_wiki_20", lang="xx", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
+
