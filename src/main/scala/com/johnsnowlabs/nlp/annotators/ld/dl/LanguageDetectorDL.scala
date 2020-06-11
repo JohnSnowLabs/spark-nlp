@@ -56,7 +56,7 @@ class LanguageDetectorDL(override val uid: String) extends
     *
     * @group param
     **/
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.s")
+  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.")
 
   /** thresholdLabel
     *
