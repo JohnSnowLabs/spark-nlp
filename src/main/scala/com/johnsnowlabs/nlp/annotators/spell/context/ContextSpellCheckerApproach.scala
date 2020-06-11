@@ -59,7 +59,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val caseStrategy = new IntParam(this, "caseStrategy", "What case combinations to try when generating candidates.")
   def setCaseStrategy(k: Int):this.type = set(caseStrategy, k)
 
-  val errorThreshold = new FloatParam(this, "errorTreshold", "Threshold perplexity for a word to be considered as an error.")
+  val errorThreshold = new FloatParam(this, "errorThreshold", "Threshold perplexity for a word to be considered as an error.")
   def setErrorThreshold(t: Float):this.type = set(errorThreshold, t)
 
   val epochs = new IntParam(this, "epochs", "Number of epochs to train the language model.")
@@ -87,7 +87,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   def setTradeoff(alpha: Float):this.type = set(tradeoff, alpha)
 
   val classCount = new Param[Double](this, "classCount", "Min number of times the word need to appear in corpus to not be considered of a special class.")
-  def setClassTreshold(t: Double):this.type = set(classCount, t)
+  def setClassThreshold(t: Double):this.type = set(classCount, t)
 
   val weightedDistPath = new Param[String](this, "weightedDistPath", "The path to the file containing the weights for the levenshtein distance.")
   def setWeights(filePath:String):this.type = set(weightedDistPath, filePath)
