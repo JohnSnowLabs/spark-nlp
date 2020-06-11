@@ -6,6 +6,7 @@ import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, SentimentDLModel}
+import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
@@ -452,7 +453,8 @@ object PythonResourceDownloader {
     "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
     "AlbertEmbeddings" -> AlbertEmbeddings,
     "XlnetEmbeddings" -> XlnetEmbeddings,
-    "SentimentDLModel" -> SentimentDLModel
+    "SentimentDLModel" -> SentimentDLModel,
+    "LanguageDetectorDL" -> LanguageDetectorDL
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
