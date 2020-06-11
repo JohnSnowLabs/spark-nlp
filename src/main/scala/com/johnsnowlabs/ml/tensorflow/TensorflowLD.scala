@@ -55,7 +55,7 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
   }
 
   def cleanText(docs: List[String]): List[String] = {
-    val rmChars = "@#,.0123456789()-:;\"$%^&*<>+-_=～۱۲۳۴۵۶۷۸۹()З４５＄０：；＜＝＞ＡＢＣＤＥＦＧＨＩＪＬＯＰＱ｀ａｂｃｄｅｆｇｈｉｊｌｏｐｑ｜｝｡｢･ｧｨｩｫｭｮｰｱｲｳｷｺｻｿﾃﾄﾅﾉﾊﾋﾌﾎﾏﾐﾑﾒﾓﾘﾙﾚﾛ￥\\t\\n\\|\\/\\{"
+    val rmChars = "@#,.0123456789()-:;\"$%^&*<>+-_=～۰۱۲۳۴۵۶۷۸۹()＄:;\\}\\{｡｢･\\[\\]\\t\\n\\|\\/\\{"
     docs.map(_.replaceAll(rmChars, " "))
   }
 
