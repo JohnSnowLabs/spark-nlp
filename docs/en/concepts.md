@@ -222,7 +222,7 @@ annotations_df.show()
 ### Manipulating pipelines
 
 The output of the previous DataFrame was in terms of Annotation objects.
- This output is not really confortable to deal with, as you can see by
+ This output is not really comfortable to deal with, as you can see by
 running the code:
 
 ***Python code***
