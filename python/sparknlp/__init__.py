@@ -28,6 +28,7 @@ sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL'] = annotator
 
 annotators = annotator
 embeddings = annotator
@@ -39,7 +40,8 @@ def start(gpu=False):
         .master("local[*]") \
         .config("spark.driver.memory", "16G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.kryoserializer.buffer.max", "1000M")
+        .config("spark.kryoserializer.buffer.max", "1000M") \
+        .config("spark.driver.maxResultSize", "4096G")
     if gpu:
         builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.1")
     else:
