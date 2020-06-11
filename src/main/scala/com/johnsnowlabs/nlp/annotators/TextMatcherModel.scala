@@ -4,7 +4,7 @@ import com.johnsnowlabs.collections.SearchTrie
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import org.apache.spark.ml.param.BooleanParam
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 
 import scala.annotation.{tailrec => tco}
@@ -53,6 +53,11 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
     * @group param
     **/
   val mergeOverlapping = new BooleanParam(this, "mergeOverlapping", "whether to merge overlapping matched chunks. Defaults false")
+  /** Value for the entity metadata field
+    *
+    * @group param
+    **/
+  val entityValue = new Param[String](this, "entityValue", "Value for the entity metadata field")
 
   /** SearchTrie of Tokens
     *
@@ -72,8 +77,24 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
     **/
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
 
+  /** Setter for Value for the entity metadata field
+    *
+    * @group setParam
+    **/
+  def setEntityValue(v: String): this.type = set(entityValue, v)
+
+  /** Getter for Value for the entity metadata field
+    *
+    * @group getParam
+    **/
+  def getEntityValue: String = $(entityValue)
+
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
+
+  setDefault(inputCols, Array(TOKEN))
+  setDefault(mergeOverlapping, false)
+  setDefault(entityValue, "entity")
 
   @tco final protected def collapse(rs: List[(Int, Int)], sep: List[(Int, Int)] = Nil): List[(Int, Int)] = rs match {
     case x :: y :: rest =>
@@ -120,7 +141,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
           firstTokenBegin,
           lastTokenEnd,
           normalizedText,
-          Map("sentence" -> sentenceIndex.toString, "chunk" -> result.length.toString)
+          Map("entity"->$(entityValue), "sentence" -> sentenceIndex.toString, "chunk" -> result.length.toString)
         )
 
         result.append(annotation)

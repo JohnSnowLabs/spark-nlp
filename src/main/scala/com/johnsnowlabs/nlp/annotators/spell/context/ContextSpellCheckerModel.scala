@@ -62,7 +62,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   def setTradeOff(lambda: Float):this.type = set(tradeoff, lambda)
 
   val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
-  def setGamma(g: Float):this.type = set(tradeoff, g)
+  def setGamma(g: Float):this.type = set(gamma, g)
 
   val weights: MapFeature[String, Map[String, Float]] = new MapFeature[String, Map[String, Float]](this, "levenshteinWeights")
   def setWeights(w:Map[String, Map[String, Float]]): this.type = set(weights, w)
@@ -185,13 +185,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       var newWords: Array[Array[String]] = Array()
       var newCosts = Array[Double]()
 
-      /* compute all the costs for all transitions in current step - use a batch */
-      val expPaths = encTrellis(i).flatMap{ case (state, _, _) =>
-        pathsIds.map { path =>
-          path :+ state
-        }
-      }.map(_.takeRight($(maxWindowLen)))
-
+      /* compute all the costs for all transitions in current step */
+      val expPaths = pathsIds.
+        map{p => p :+ p.head}. // we need a placeholder, put the head.
+        map(_.takeRight($(maxWindowLen)))
       val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
       val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
 
