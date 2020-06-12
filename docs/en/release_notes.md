@@ -16,19 +16,18 @@ We are very happy to release Spark NLP 2.5.2 with a new state-of-the-art Languag
 
 As always, we thank our community for their feedback, questions, and feature requests.
 
-
 New Features
 
 * Introducing a new LanguageDetectorDL state-of-the-art annotator to detect and identify languages in documents and sentences
-* Add a new param entityValue to TextMatcher to add custom value inside metadata. Useful in post-processing when there are multiple TextMatcher annotators with multiple dictionaries https://github.com/JohnSnowLabs/spark-nlp/issues/920
+* Add a new param entityValue to TextMatcher to add custom value inside metadata. Useful in post-processing when there are multiple TextMatcher annotators with multiple dictionaries [https://github.com/JohnSnowLabs/spark-nlp/issues/920](https://github.com/JohnSnowLabs/spark-nlp/issues/920)
 
 Bugfixes
 
-* Add missing TensorFlow graphs to train ContextSpellChecker annotator https://github.com/JohnSnowLabs/spark-nlp/issues/912
-* Fix misspelled param in classThreshold param in  ContextSpellChecker annotator https://github.com/JohnSnowLabs/spark-nlp/issues/911
-* Fix a bug where setGraphFolder in NerDLApproach annotator couldn't find a graph on Databricks (DBFS) https://github.com/JohnSnowLabs/spark-nlp/issues/739
-* Fix a bug in NerDLApproach when includeConfidence was set to true https://github.com/JohnSnowLabs/spark-nlp/issues/917
-* Fix a bug in BertEmbeddings https://github.com/JohnSnowLabs/spark-nlp/issues/906 https://github.com/JohnSnowLabs/spark-nlp/issues/918
+* Add missing TensorFlow graphs to train ContextSpellChecker annotator [https://github.com/JohnSnowLabs/spark-nlp/issues/912](https://github.com/JohnSnowLabs/spark-nlp/issues/912)
+* Fix misspelled param in classThreshold param in  ContextSpellChecker annotator [https://github.com/JohnSnowLabs/spark-nlp/issues/911](https://github.com/JohnSnowLabs/spark-nlp/issues/911)
+* Fix a bug where setGraphFolder in NerDLApproach annotator couldn't find a graph on Databricks (DBFS) [https://github.com/JohnSnowLabs/spark-nlp/issues/739](https://github.com/JohnSnowLabs/spark-nlp/issues/739)
+* Fix a bug in NerDLApproach when includeConfidence was set to true [https://github.com/JohnSnowLabs/spark-nlp/issues/917](https://github.com/JohnSnowLabs/spark-nlp/issues/917)
+* Fix a bug in BertEmbeddings [https://github.com/JohnSnowLabs/spark-nlp/issues/906](https://github.com/JohnSnowLabs/spark-nlp/issues/906) [https://github.com/JohnSnowLabs/spark-nlp/issues/918](https://github.com/JohnSnowLabs/spark-nlp/issues/918)
 
 Enhancements
 
