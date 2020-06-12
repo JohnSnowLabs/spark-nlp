@@ -56,19 +56,19 @@ class LanguageDetectorDL(override val uid: String) extends
     *
     * @group param
     **/
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.")
+  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.")
 
   /** thresholdLabel
     *
     * @group param
     **/
-  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.")
+  val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is Unknown.")
 
   /** coalesceSentences
     *
     * @group param
     **/
-  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.")
+  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
