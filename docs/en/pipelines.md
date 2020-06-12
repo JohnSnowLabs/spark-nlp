@@ -3,7 +3,7 @@ layout: article
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2020-05-09"
+modify_date: "2020-06-12"
 ---
 
 Pretrained Pipelines moved to its own dedicated repository.
@@ -895,6 +895,16 @@ annotation.select("entities.result").show(false)
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pt_2.5.0_2.4_1588502815900.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pt_2.5.0_2.4_1588502606198.zip)  |
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pt_2.5.0_2.4_1588501526324.zip)  |  
+
+## Multi-language
+
+| Pipeline                 | Name                   | Build  | lang | Description | Offline   |
+|:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
+| LanguageDetectorDL    | `detect_language_7`        | 2.5.2 |      `xx` |        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_7_xx_2.5.0_2.4_1591875676774.zip) |
+| LanguageDetectorDL    | `detect_language_20`        | 2.5.2 |      `xx` |        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_20_xx_2.5.0_2.4_1591875683182.zip) |
+
+* The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
+* The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
 
 ## How to use
 
