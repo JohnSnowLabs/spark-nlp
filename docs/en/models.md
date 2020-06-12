@@ -3,7 +3,7 @@ layout: article
 title: Models
 permalink: /docs/en/models
 key: docs-models
-modify_date: "2020-05-09"
+modify_date: "2020-06-12"
 ---
 
 ## Pretrained Models
@@ -301,7 +301,12 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 ### Multi-language
 
 | Model                        | Name               | Build            | Lang | Offline |
-|:-----------------------------|:-------------------|:-----------------|:------|:------|
-| WordEmbeddings (GloVe)       | `glove_840B_300`   | 2.4.0 |  `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_840B_300_xx_2.4.0_2.4_1579698926752.zip)   |         |
-| WordEmbeddings (GloVe)       | `glove_6B_300`     | 2.4.0 |   `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_6B_300_xx_2.4.0_2.4_1579698630432.zip)     |         |
-| BertEmbeddings (multi_cased) | `bert_multi_cased` | 2.4.0 |   `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multi_cased_xx_2.4.0_2.4_1580582335793.zip) |         |
+|:-----------------------------|:-------------------|:-----------------|:------|
+| WordEmbeddings (GloVe)       | `glove_840B_300`   | 2.4.0 |  `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_840B_300_xx_2.4.0_2.4_1579698926752.zip)   |
+| WordEmbeddings (GloVe)       | `glove_6B_300`     | 2.4.0 |   `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_6B_300_xx_2.4.0_2.4_1579698630432.zip)     |
+| BertEmbeddings (multi_cased) | `bert_multi_cased` | 2.4.0 |   `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multi_cased_xx_2.4.0_2.4_1580582335793.zip) |
+| LanguageDetectorDL    | `ld_wiki_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_7_xx_2.5.0_2.4_1591875673486.zip) |
+| LanguageDetectorDL    | `ld_wiki_20`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_20_xx_2.5.0_2.4_1591875680011.zip) |
+
+* The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
+* The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
