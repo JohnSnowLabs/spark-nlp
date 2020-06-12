@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-05-12"
+modify_date: "2020-06-12"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -84,6 +84,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
 |ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes|Opensource|
 |SentimentDL|Multi-class Sentiment Analysis Annotator. SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets|Opensource|
+|LanguageDetectorDL|State-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting SpellChecker|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
@@ -1134,6 +1135,44 @@ val sentimentClassifier = new SentimentDLApproach()
       .setMaxEpochs(20)
       .setLr(5e-3f)
       .setDropout(0.5f)
+```
+
+Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/) for more examples.
+
+### LanguageDetectorDL
+
+#### Language Detection and Identiffication
+
+LanguageDetectorDL is a state-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks.
+
+**Output type:** LANGUAGE
+
+**Input types:** DOCUMENT or SENTENCE
+
+**Functions:**
+
+- setThreshold: The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.
+- setThresholdLabel: In case the score is less than threshold, what should be the label. Default is Unknown.
+- setCoalesceSentences: If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.
+
+Refer to the [LanguageDetectorDL](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
+      .setInputCols("document")\
+      .setOutputCol("language")\
+      .setThreshold(0.3)\
+      .setCoalesceSentences(True)
+```
+
+```scala
+ val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
+      .setInputCols("document")
+      .setOutputCol("language")
+      .setThreshold(0.3f)
+      .setCoalesceSentences(true)
 ```
 
 ### NER CRF
