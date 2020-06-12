@@ -3,8 +3,175 @@ layout: article
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2020-05-26"
+modify_date: "2020-06-12"
 ---
+
+### 2.5.2
+
+#### John Snow Labs Spark-NLP 2.5.2: New Language Detection annotator, enhancements, and bug fixes
+
+Overview
+
+We are very happy to release Spark NLP 2.5.2 with a new state-of-the-art LanguageDetectorDL annotator to detect and identify up to 20 languages. There are also bug-fixes and other enhancements introduced in this release which were reported and requested by Spark NLP users.
+
+As always, we thank our community for their feedback, questions, and feature requests.
+
+
+New Features
+
+* Introducing a new LanguageDetectorDL state-of-the-art annotator to detect and identify languages in documents and sentences
+* Add a new param entityValue to TextMatcher to add custom value inside metadata. Useful in post-processing when there are multiple TextMatcher annotators with multiple dictionaries https://github.com/JohnSnowLabs/spark-nlp/issues/920
+
+Bugfixes
+
+* Add missing TensorFlow graphs to train ContextSpellChecker annotator https://github.com/JohnSnowLabs/spark-nlp/issues/912
+* Fix misspelled param in classThreshold param in  ContextSpellChecker annotator https://github.com/JohnSnowLabs/spark-nlp/issues/911
+* Fix a bug where setGraphFolder in NerDLApproach annotator couldn't find a graph on Databricks (DBFS) https://github.com/JohnSnowLabs/spark-nlp/issues/739
+* Fix a bug in NerDLApproach when includeConfidence was set to true https://github.com/JohnSnowLabs/spark-nlp/issues/917
+* Fix a bug in BertEmbeddings https://github.com/JohnSnowLabs/spark-nlp/issues/906 https://github.com/JohnSnowLabs/spark-nlp/issues/918
+
+Enhancements
+
+* Improve TF backend in ContextSpellChecker annotator
+
+Pipelines and Models
+
+We have added 4 new LanguageDetectorDL models and pipelines to detect and identify up to 20 languages:
+
+* The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
+* The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
+
+| Model    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| LanguageDetectorDL    | `ld_wiki_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_7_xx_2.5.0_2.4_1591875673486.zip) |
+| LanguageDetectorDL    | `ld_wiki_20`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_20_xx_2.5.0_2.4_1591875680011.zip) |
+
+| Pipeline    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| LanguageDetectorDL    | `detect_language_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_7_xx_2.5.0_2.4_1591875676774.zip) |
+| LanguageDetectorDL    | `detect_language_20`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_20_xx_2.5.0_2.4_1591875683182.zip) |
+
+Documentation
+
+* Update documentation for release of Spark NLP 2.5.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.5.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.5.2
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.5.2
+```
+
+**Spark**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2
+```
+
+**PySpark**
+```shell
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2
+```
+
+**Maven**
+```shell
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.5.2</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.2.jar
+
+* GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.2.jar
+
+### 2.5.1
+
+#### John Snow Labs Spark-NLP 2.5.1: Adding support for 6 new BioBERT and ClinicalBERT models
+
+Overview
+
+We are very excited to extend Spark NLP support to 6 new BERT models for medical and clinical documents. We have also updated our documentation for 2.5.x releases, notebooks in our workshop, and made some enhancements in this release.
+
+As always, we thank our community for their feedback and questions in our Slack channel.
+
+New Features
+
+* Add Python support for PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame 
+* Add 6 new pre-trained BERT models from BioBERT and ClinicalBERT
+
+Models
+
+We have added 6 new BERT models for medical and clinical purposes. The 4 BERT pre-trained models are from BioBERT and the other 2 are coming from ClinicalBERT models:
+
+| Model    | Name                      | Build            | Lang | Offline
+|:--------------|:--------------------------|:-----------------|:------------|:------|
+| BertEmbeddings                    | `biobert_pubmed_base_cased`        | 2.5.0 |      `en`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_base_cased_en_2.5.0_2.4_1590487367971.zip) |
+| BertEmbeddings                    | `biobert_pubmed_large_cased`        | 2.5.0 |      `en`        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_large_cased_en_2.5.0_2.4_1590487739645.zip) |
+| BertEmbeddings                    | `biobert_pmc_base_cased`        | 2.5.0 |      `en`            | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pmc_base_cased_en_2.5.0_2.4_1590489029151.zip) |
+| BertEmbeddings                    | `biobert_pubmed_pmc_base_cased`        | 2.5.0 |      `en`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_pmc_base_cased_en_2.5.0_2.4_1590489367180.zip) |
+| BertEmbeddings                    | `biobert_clinical_base_cased`        | 2.5.0 |      `en`       | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_clinical_base_cased_en_2.5.0_2.4_1590489819943.zip) |
+| BertEmbeddings                    | `biobert_discharge_base_cased`        | 2.5.0 |      `en`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_discharge_base_cased_en_2.5.0_2.4_1590490193605.zip) |
+
+Enhancements
+
+* Add unit tests for XlnetEmbeddings
+* Add unit tests for AlbertEmbeddings
+* Add unit tests for ContextSpellChecker
+
+Documentation
+
+* Update documentation for release of Spark NLP 2.5.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.5.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.5.1
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.5.1
+```
+
+**Spark**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
+```
+
+**PySpark**
+```shell
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
+```
+
+**Maven**
+```shell
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.5.1</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.1.jar
+
+* GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.1.jar
 
 ### 2.5.0
 
