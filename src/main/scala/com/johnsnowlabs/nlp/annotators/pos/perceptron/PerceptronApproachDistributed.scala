@@ -251,7 +251,7 @@ class PerceptronApproachDistributed(override val uid: String) extends AnnotatorA
 
       /** Cache of iteration datasets does not show any improvements, try sample? */
 
-      sortedSentences.foreachPartition(partition => {
+      sortedSentences.rdd.foreachPartition(partition => {
 
         val _temp1 = ListBuffer.empty[((String, String), Long)]
         iterationTimestamps.value.copyToBuffer(_temp1)

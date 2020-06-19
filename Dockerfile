@@ -2,7 +2,7 @@ FROM openjdk:8-alpine
 
 RUN apk add --no-cache --virtual=.dependencies tar wget bash rsync
 
-ARG SBT_VERSION=0.13.16
+ARG SBT_VERSION=1.3.12
 
 RUN wget -qO- "https://cocl.us/sbt-$SBT_VERSION.tgz" \
     | tar xzf - -C /usr/local --strip-components=1 \

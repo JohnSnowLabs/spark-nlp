@@ -1,6 +1,6 @@
 import sbtassembly.MergeStrategy
 
-val sparkVer = "2.4.4"
+val sparkVer = "3.0.0"
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
@@ -19,22 +19,24 @@ version := "2.5.2"
 
 scalaVersion in ThisBuild := scalaVer
 
-sparkVersion in ThisBuild := sparkVer
+crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.11")
+
+//sparkVersion in ThisBuild := sparkVer
 
 /** Spark-Package attributes */
-spName in ThisBuild := "JohnSnowLabs/spark-nlp"
+//spName in ThisBuild := "JohnSnowLabs/spark-nlp"
 
-sparkComponents in ThisBuild ++= Seq("mllib")
+//sparkComponents in ThisBuild ++= Seq("mllib")
 
-licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+//licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
-spIncludeMaven in ThisBuild:= false
+//spIncludeMaven in ThisBuild:= false
 
-spAppendScalaVersion := false
+//spAppendScalaVersion := true
 
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
-resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
+resolvers in ThisBuild += "Spring Plugins" at "https://repo.spring.io/plugins-release/"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -42,9 +44,9 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
-ivyScala := ivyScala.value map {
-  _.copy(overrideScalaVersion = true)
-}
+//ivyScala := ivyScala.value map {
+//  _.copy(overrideScalaVersion = true)
+//}
 
 /** Bintray settings */
 bintrayPackageLabels := Seq("nlp", "nlu",
@@ -159,9 +161,8 @@ assemblyMergeStrategy in assembly := {
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
+  case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+  case _                                   => MergeStrategy.first
 }
 
 parallelExecution in Test := false
