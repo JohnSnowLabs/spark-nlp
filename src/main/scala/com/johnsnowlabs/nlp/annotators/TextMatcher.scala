@@ -68,6 +68,11 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     * @group param
     **/
   val entityValue = new Param[String](this, "entityValue", "Value for the entity metadata field")
+  /** Whether the TextMatcher should take the CHUNK from TOKEN or not
+    *
+    * @group param
+    **/
+  val buildFromTokens = new BooleanParam(this, "buildFromTokens", "Whether the TextMatcher should take the CHUNK from TOKEN or not")
   /** Tokenizer
     *
     * @group param
@@ -78,6 +83,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
   setDefault(caseSensitive, true)
   setDefault(mergeOverlapping, false)
   setDefault(entityValue, "entity")
+  setDefault(buildFromTokens, false)
 
 
   /** Provides a file with phrases to match. Default: Looks up path in configuration.
@@ -142,6 +148,18 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     **/
   def getEntityValue: String = $(entityValue)
 
+  /** Setter for buildFromTokens param
+    *
+    * @group setParam
+    **/
+  def setBuildFromTokens(v: Boolean): this.type = set(buildFromTokens, v)
+
+  /** Getter for buildFromTokens param
+    *
+    * @group getParam
+    **/
+  def getBuildFromTokens: Boolean = $(buildFromTokens)
+
   /**
     * Loads entities from a provided source.
     */
@@ -170,6 +188,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
     new TextMatcherModel()
       .setSearchTrie(SearchTrie.apply(loadEntities(dataset), $(caseSensitive)))
       .setMergeOverlapping($(mergeOverlapping))
+      .setBuildFromTokens($(buildFromTokens))
   }
 
 }
