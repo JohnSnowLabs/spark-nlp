@@ -106,6 +106,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
+      .setContextChars(Array(".", ",", ";", ":", "!", "?", "*", "-", "\"", "'","(",")","+","-"))
       .setSplitChars(Array("'","\"",",", "/"," ",".","|","@","#","%","&","\\$","\\[","\\]","\\(","\\)","-",";"))
 
     val entityExtractor = new TextMatcher()
@@ -113,7 +114,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
       .setEntities("src/test/resources/entity-extractor/test-phrases-par.txt", ReadAs.TEXT)
       .setOutputCol("entity")
       .setCaseSensitive(false)
-      .setBuildFromTokens(true)
+      .setBuildFromTokens(true) // Remove this line if you want to reproduce the bug
 
     val finisher = new Finisher()
       .setInputCols("entity")
