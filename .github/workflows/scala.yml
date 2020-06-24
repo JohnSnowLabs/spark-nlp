@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest]
         scala: [2.12.10, 2.11.12]
         java: [1.8]
 
@@ -24,9 +24,9 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Run coverage
-      run: sbt ++${{ matrix.scala }} coverage
+      run: sbt coverage
     - name: Run test
       run: sbt ++${{ matrix.scala }} test
     - name: Run coverageReport
-      run: sbt ++${{ matrix.scala }} coverageReport
+      run: sbt coverageReport
     - uses: codecov/codecov-action@v1
