@@ -1,8 +1,11 @@
 import sbtassembly.MergeStrategy
 
 val sparkVer = "2.4.4"
-val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
+
+lazy val scala212 = "2.12.10"
+lazy val scala211 = "2.11.12"
+lazy val supportedScalaVersions = List(scala212, scala211)
 
 val is_gpu = System.getProperty("is_gpu","false")
 /** Package attributes */
@@ -17,7 +20,7 @@ organization:= "com.johnsnowlabs.nlp"
 
 version := "2.5.2"
 
-scalaVersion in ThisBuild := scalaVer
+scalaVersion in ThisBuild := scala212
 
 sparkVersion in ThisBuild := sparkVer
 
@@ -144,6 +147,7 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
 
 lazy val root = (project in file("."))
   .settings(
+    crossScalaVersions := supportedScalaVersions,
     libraryDependencies ++=
       analyticsDependencies ++
         testDependencies ++
