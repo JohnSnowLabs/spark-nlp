@@ -30,3 +30,8 @@ jobs:
     - name: Run coverageReport
       run: sbt coverageReport
     - uses: codecov/codecov-action@v1
+      name: Upload coverage to Codecov
+        uses: ./
+        with:
+          flags: unittest
+          name: codecov-1
