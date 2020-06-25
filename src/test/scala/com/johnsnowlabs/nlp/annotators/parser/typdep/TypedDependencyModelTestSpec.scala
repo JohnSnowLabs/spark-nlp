@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, SparkAccessor}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -13,13 +14,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
 
   System.gc()
 
-  private val spark = SparkSession.builder()
-    .appName("benchmark")
-    .master("local[*]")
-    .config("spark.driver.memory", "3G")
-    .config("spark.kryoserializer.buffer.max", "200M")
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .getOrCreate()
+  private val spark = ResourceHelper.getActiveSparkSession
 
   import spark.implicits._
 
