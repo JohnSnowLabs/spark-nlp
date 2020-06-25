@@ -30,10 +30,4 @@ jobs:
     - name: Run coverageReport
       run: sbt coverageReport
     - uses: codecov/codecov-action@v1
-    - name: Upload coverage to Codecov
-        uses: ./
-        with:
-          #commenting out token because tokenless uploads are now supported
-          #token: ${{secrets.CODECOV_TOKEN}}
-          flags: unittest
-          name: codecov-1
+      run: bash <(curl -s https://codecov.io/bash)
