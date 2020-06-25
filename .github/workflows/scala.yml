@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.10, 2.11.12]
+        scala: [2.11.12, 2.12.10]
         java: [1.8]
 
     steps:
@@ -23,6 +23,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: Clean
+      run: sbt clean
     - name: Run coverage
       run: sbt coverage
     - name: Run test
