@@ -33,7 +33,7 @@ licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 spIncludeMaven in ThisBuild:= false
 
-spAppendScalaVersion := false
+spAppendScalaVersion := true
 
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
@@ -97,12 +97,12 @@ scalacOptions in (Compile, doc) ++= Seq(
 target in Compile in doc := baseDirectory.value / "docs/api"
 
 lazy val analyticsDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
+  "org.apache.spark" %% "spark-core" % sparkVer % Provided,
+  "org.apache.spark" %% "spark-mllib" % sparkVer % Provided
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
+  "org.scalatest" %% "scalatest" % scalaTestVersion % Test
 )
 
 lazy val utilDependencies = Seq(
@@ -174,7 +174,9 @@ logBuffered in Test := false
 
 scalacOptions ++= Seq(
   "-feature",
-  "-language:implicitConversions"
+  "-language:implicitConversions",
+  "-unchecked",
+  "-deprecation"
 )
 scalacOptions in(Compile, doc) ++= Seq(
   "-groups"
