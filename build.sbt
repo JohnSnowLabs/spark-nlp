@@ -20,7 +20,7 @@ organization:= "com.johnsnowlabs.nlp"
 
 version := "2.5.2"
 
-scalaVersion in ThisBuild := scala212
+scalaVersion in ThisBuild := scala211
 
 sparkVersion in ThisBuild := sparkVer
 
