@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        scala: [2.11.12, 2.12.10]
+        scala: [2.11.12]
         java: [1.8]
 
     steps:
