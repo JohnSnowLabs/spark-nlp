@@ -239,7 +239,7 @@ class ClassifierDLApproach(override val uid: String)
 
     val labelColType = dataset.schema($(labelColumn)).dataType
     require(
-      labelColType != StringType | labelColType != IntegerType | labelColType != DoubleType | labelColType != FloatType,
+      labelColType == StringType | labelColType == IntegerType | labelColType == DoubleType | labelColType == FloatType,
       s"The label column $labelColumn type is $labelColType and it's not compatible. " +
         s"Compatible types are StringType, IntegerType, DoubleType, or FloatType. "
     )
@@ -253,7 +253,7 @@ class ClassifierDLApproach(override val uid: String)
 
     require(
       labels.length <= 100,
-      s"The total unique number of classes must be less than 50. Currently is ${labels.length}"
+      s"The total unique number of classes must be less than 100. Currently is ${labels.length}"
     )
 
     val tf = loadSavedModel()
@@ -269,7 +269,7 @@ class ClassifierDLApproach(override val uid: String)
     val embeddingsDim = encoder.calculateEmbeddingsDim(train)
     require(
       embeddingsDim <= 1024,
-      s"The SentimentDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
+      s"The ClassifierDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
         s" with less than "
     )
 
