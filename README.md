@@ -134,7 +134,7 @@ result['entities']
 Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 ```
 
-For more examples you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
+For more examples, you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
 
 ## Apache Spark Support
 
@@ -151,11 +151,11 @@ Spark NLP *2.5.2* has been built on top of Apache Spark 2.4.x
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
-** Spark NLP is built and released based on `Apache Spark 2.4.x`, in order to use it with Apache Spark `2.3.x` you need to manually compile it by changing the version in our `build.sbt` file.
+** Spark NLP is built and released based on `Apache Spark 2.4.x`, to use it with Apache Spark `2.3.x` you need to manually compile it by changing the version in our `build.sbt` file.
 
-** We do have the Fat JAR of Spark NLP 2.4.0 release already compiled for `Apache Spark 2.3.x` and it can be downloaded from our S3 [from here](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp_2.11-2.4.0_spark-2.3.0.jar).
+** We do have the Fat JAR of Spark NLP 2.5.2 release already compiled for `Apache Spark 2.3.4` and it can be downloaded from our S3 [from here](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-spark23-2.5.2.jar).
 
-** In case of using Apache Spark 2.3.x, the `.pretrained()` function won't download the models/pipelines automatically. You need to download them manyall and use `.loat()` instead.
+** In case of using Apache Spark 2.3.x, the `.pretrained()` function won't download the models/pipelines automatically. You need to download them manually and use `.loat()` instead.
 
 ## Databricks Support
 
@@ -172,7 +172,7 @@ Spark NLP 2.5.2 has been tested and is compatible with the following runtimes:
 
 ## EMR Support
 
-Spark NLP 2.5.2 has been tsted and is compatible with the following EMR releases:
+Spark NLP 2.5.2 has been tested and is compatible with the following EMR releases:
 
 * 5.26.0
 * 5.27.0
@@ -187,7 +187,7 @@ Full list of [EMR releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/
 
 This library has been uploaded to the [spark-packages repository](https://spark-packages.org/package/JohnSnowLabs/spark-nlp).
 
-Benefit of spark-packages is that makes it available for both Scala-Java and Python
+The benefit of spark-packages is that makes it available for both Scala-Java and Python
 
 To use the most recent version just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:` to you spark command
 
@@ -209,7 +209,7 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 
 ## Scala
 
-Our package is deployed to maven central. In order to add this package as a dependency in your application:
+Our package is deployed to maven central. To add this package as a dependency in your application:
 
 ### Maven
 
@@ -381,13 +381,13 @@ python.conda install -c johnsnowlabs spark-nlp
 
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
 
-Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and installed the pip library with (e.g. `python3`).
+Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and install   the pip library with (e.g. `python3`).
 
 An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as shown earlier, since it includes both scala and python side installation.
 
 ## Jupyter Notebook (Python)
 
-Easiest way to get this done is by making Jupyter Notebook run using pyspark as follows:
+The easiest way to get this done is by making Jupyter Notebook run using pyspark as follows:
 
 ```bash
 export SPARK_HOME=/path/to/your/spark/folder
@@ -439,7 +439,7 @@ spark.version
 
 1. Create a cluster if you don't have one already
 
-2. On a new cluster or existing one you need to add the following to the `Aadvanced Options -> Spark` tab:
+2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
 
 ```bash
 spark.kryoserializer.buffer.max 1000M
@@ -456,9 +456,9 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
 
 ## S3 Cluster
 
-### With no hadoop configuration
+### With no Hadoop configuration
 
-If your distributed storage is S3 and you don't have a standard hadoop configuration (i.e. fs.defaultFS)
+If your distributed storage is S3 and you don't have a standard Hadoop configuration (i.e. fs.defaultFS)
 You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files.
 First, decide where you want to put your *application.conf* file
 
@@ -645,10 +645,10 @@ Need more **examples**? Check out our dedicated [repository](https://github.com/
 
 ## Acknowledgments
 
-### Special community acknowledgments
+### Special community acknowledgements
 
 Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
-Community has been key in the last releases with feedback in various Spark based environments.
+The community has been key in the last releases with feedback in various Spark-based environments.
 
 Here a few specific mentions for recurring feedback and slack participation
 
@@ -663,7 +663,7 @@ We appreciate any sort of contributions:
 * feedback
 * documentation
 * bug reports
-* nlp training and testing corpora
+* NLP training and testing corpora
 * development and testing
 
 Clone the repo and submit your pull-requests! Or directly create issues in this repo.
