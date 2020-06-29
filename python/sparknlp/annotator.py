@@ -1513,8 +1513,18 @@ class NerConverter(AnnotatorModel):
         typeConverter=TypeConverters.toListString
     )
 
+    preservePosition = Param(
+        Params._dummy(),
+        "preservePosition",
+        "Whether to preserve the original position of the tokens in the original document or use the modified tokens",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     def setWhiteList(self, entities):
         return self._set(whiteList=entities)
+
+    def setPreservePosition(self, p):
+        return self._set(preservePosition=p)
 
     @keyword_only
     def __init__(self):
