@@ -123,10 +123,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     errorThreshold -> 10f
   )
 
-  def addVocabClass(label:String, vocabList:util.ArrayList[String], userDist: Int=3) = {
+  def addVocabClass(usrLabel:String, vocabList:util.ArrayList[String], userDist: Int=3) = {
     val newClass = new VocabParser {
       override var vocab: mutable.Set[String] = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
-      override val label: String = label
+      override val label: String = usrLabel
       override var transducer: ITransducer[Candidate] = generateTransducer
       override val maxDist: Int = userDist
     }
