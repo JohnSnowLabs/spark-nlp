@@ -100,7 +100,8 @@ Start function has following params:
 | jar_path | string | None | Path to jar file in case you need to run spark session offline |
 | extra_conf | SparkConf | None | Extra spark configuration |
 | nlp_version | string | None | Spark NLP version for add it Jar to session |
-
+| nlp_internal | boolean/string | None | Run Spark session with Spark NLP Internal if set to 'True' or specify version |
+| nlp_secret| string | None| Secret for get Spark NLP Internal jar |
 
 For start Spark session with Spark NLP please specify version of it in `nlp_version` param.
 
