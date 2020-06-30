@@ -70,7 +70,7 @@ pipeline that does a little bit of everything NLP related. Let's try it
 out in scala. Note that the first time might take longer since it
 downloads the model from our servers!
 
-#### Python
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 import sparknlp
@@ -95,7 +95,6 @@ print(annotations)
 }
 ```
 
-#### Scala
 
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
@@ -143,7 +142,7 @@ Remember than when starting jupyter notebook from pyspark or when running
 the spark-shell for scala a Spark Session is started in the background
 by default within the namespace 'scala'.
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 import sparknlp
@@ -184,7 +183,6 @@ annotations_df.show()
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 ```
 
-***Scala code***
 
 ```scala
 val data = Seq(
@@ -225,7 +223,7 @@ The output of the previous DataFrame was in terms of Annotation objects.
  This output is not really comfortable to deal with, as you can see by
 running the code:
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 annotations_df.select("token").show(truncate=False)
@@ -239,7 +237,6 @@ annotations_df.select("token").show(truncate=False)
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-***Scala code***
 
 ```scala
 annotations_df.select("token").show(truncate=false)
@@ -260,7 +257,6 @@ Explain Document ML pipeline, and add them together in a Spark ML
 Pipeline. Remember that pretrained pipelines expect the input column to be
 named "text".
 
-***Python code***
 
 ```python
 from sparknlp import Finisher
@@ -298,7 +294,6 @@ annotations_finished_df.select('finished_token').show(truncate=False)
 +-------------------------------------------+
 ```
 
-***Scala code***
 
 ```scala
 scala> import com.johnsnowlabs.nlp.Finisher
@@ -351,15 +346,13 @@ Since version 1.5.0 we are making necessary imports easy to reach,
 while **annotator.\_** will include all annotators that we currently
 provide. We also need Spark ML pipelines.
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 ```
-
-***Scala code***
 
 ```scala
 import com.johnsnowlabs.nlp.base._
@@ -374,7 +367,7 @@ annotated. There is a special **transformer** that does this for us:
 the **DocumentAssembler**, it creates the first annotation of type
 **Document** which may be used by annotators down the road
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 documentAssembler = DocumentAssembler() \
@@ -382,7 +375,6 @@ documentAssembler = DocumentAssembler() \
     .setOutputCol("document")
 ```
 
-***Scala code***
 
 ```scala
 val documentAssembler = new DocumentAssembler().
@@ -399,7 +391,7 @@ Document type token. The Tokenizer requires a Document annotation type,
 meaning it works both with DocumentAssembler or SentenceDetector output,
 in here, we use the sentence output.
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 sentenceDetector = SentenceDetector() \
@@ -411,7 +403,6 @@ regexTokenizer = Tokenizer() \
     .setOutputCol("token")
 ```
 
-***Scala code***
 
 ```scala
 val sentenceDetector = new SentenceDetector().
@@ -426,7 +417,7 @@ val regexTokenizer = new Tokenizer().
 We also include another special transformer, called **Finisher** to show
 tokens in a human language.
 
-***Python code***
+
 
 ```python
 finisher = Finisher() \
@@ -434,7 +425,6 @@ finisher = Finisher() \
     .setCleanAnnotations(False)
 ```
 
-***Scala code***
 
 ```scala
 val finisher = new Finisher().
@@ -445,6 +435,8 @@ val finisher = new Finisher().
 ### Finisher: Getting data out
 
 At the end of each pipeline or any stage that was done by Spark NLP, you may want to get results out whether onto another pipeline or simply write them on disk. The `Finisher` annotator helps you to clean the metadata (if it's set to true) and output the results into an array:
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 finisher = Finisher() \
@@ -484,9 +476,7 @@ Now we want to put all this together and retrieve the results, we use a
 Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.
 
-### Python code
-
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 pipeline = Pipeline() \
@@ -506,7 +496,6 @@ pipeline = Pipeline() \
 +-------------------------------------------+
 ```
 
-***Scala code***
 
 ```scala
 
@@ -545,7 +534,7 @@ string or an Array of strings instead, to be annotated. To create Light
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It's transform() stage is converted into annotate() instead.
 
-***Python code***
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from pyspark.sql.types import StructType
@@ -573,7 +562,6 @@ lightPipeline.annotate("Hello world, please annotate my text")
  'sentence': ['Hello world, please annotate my text']}
 ```
 
-***Scala code***
 
 ```scala
 import com.johnsnowlabs.nlp.base._
