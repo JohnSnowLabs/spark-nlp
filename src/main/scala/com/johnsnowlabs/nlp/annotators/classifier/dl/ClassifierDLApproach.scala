@@ -14,7 +14,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import scala.util.Random
 
 /**
-  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+  * The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes
   *
   * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
   *
