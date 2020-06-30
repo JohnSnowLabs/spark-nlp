@@ -2402,11 +2402,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 class ContextSpellCheckerModel(AnnotatorModel):
     name = "ContextSpellCheckerModel"
 
-    languageModelClasses = Param(Params._dummy(),
-                                 "languageModelClasses",
-                                 "Number of classes to use during factorization of the softmax output in the LM.",
-                                 typeConverter=TypeConverters.toInt)
-
     wordMaxDistance = Param(Params._dummy(),
                             "wordMaxDistance",
                             "Maximum distance for the generated candidates for every word.",
@@ -2453,8 +2448,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
-    def setLanguageModelClasses(self, count):
-        return self._set(languageModelClasses=count)
 
     def setWordMaxDistance(self, dist):
         return self._set(wordMaxDistance=dist)
