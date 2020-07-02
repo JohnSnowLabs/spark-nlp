@@ -271,10 +271,11 @@ class MultiClassifierDLApproach(override val uid: String)
     val labelColumnString = $(labelColumn)
     val train = dataset.select(dataset.col(labelColumnString), dataset.col(inputColumns))
     val labelsArray = train.select(explode(dataset.col(labelColumnString))).distinct.collect.map(x => x(0).toString)
+    val labelsCount = labelsArray.length
 
     require(
-      labelsArray.length >= 2 && labelsArray.length <= 100,
-      s"The total unique number of classes must be more than 2 and less than 100. Currently is ${labelsArray.length}"
+      labelsCount >= 2 && labelsCount <= 100,
+      s"The total unique number of classes must be more than 2 and less than 100. Currently is $labelsCount"
     )
 
     val settings = ClassifierDatasetEncoderParams(
@@ -311,6 +312,7 @@ class MultiClassifierDLApproach(override val uid: String)
       model.train(
         inputEmbeddings,
         inputLabels,
+        labelsCount,
         lr = $(lr),
         batchSize = $(batchSize),
         dropout = $(dropout),
