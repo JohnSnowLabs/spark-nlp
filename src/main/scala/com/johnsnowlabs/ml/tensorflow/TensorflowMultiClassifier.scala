@@ -214,22 +214,26 @@ class TensorflowMultiClassifier(
              ): Float = {
 
     var correct = 0
+    var totalLabels = 0
 
-    val originalEmbeddings = labeled.map(x => x._1)
-    val originalLabels = labeled.map(x => x._2)
+    for (batch <- labeled.grouped(batchSize)) {
 
-    val predictedLabels = internalPredict(originalEmbeddings, threshold = 0.5f)
-    val labeledPredicted = predictedLabels.zip(originalLabels)
+      val originalEmbeddings = batch.map(x => x._1)
+      val originalLabels = batch.map(x => x._2)
 
-    for (i <- labeledPredicted) {
-      val predict = i._1
-      val original = i._2
+      val predictedLabels = internalPredict(originalEmbeddings, threshold = 0.5f)
+      val labeledPredicted = predictedLabels.zip(originalLabels)
+      totalLabels += originalLabels.map(x=>x.count(x => x != 0)).sum
 
-      predict.zip(original).map {case (pred, orig)=>
-        if(orig != 0.0 && pred == orig) correct+=1
+      for (i <- labeledPredicted) {
+        val predict = i._1
+        val original = i._2
+
+        predict.zip(original).map {case (pred, orig)=>
+          if(orig != 0.0f && pred == orig) correct+=1
+        }
       }
     }
-    val totalLabels = originalLabels.map(x=>x.count(x => x != 0)).sum
 
     (correct.toFloat / totalLabels.toFloat) * 100
   }
