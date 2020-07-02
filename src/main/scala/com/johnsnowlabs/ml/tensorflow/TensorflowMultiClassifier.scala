@@ -47,6 +47,7 @@ class TensorflowMultiClassifier(
   def train(
              inputs: Array[Array[Array[Float]]],
              labels: Array[Array[String]],
+             classNum: Int,
              lr: Float = 5e-3f,
              batchSize: Int = 64,
              dropout: Float = 0.5f,
@@ -79,8 +80,8 @@ class TensorflowMultiClassifier(
       (trainingDataset.toArray, emptyValid.toArray)
     }
 
-    println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}, classes: ${}")
-    outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}",
+    println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length} - classes: $classNum")
+    outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length} - classes: $classNum",
       uuid, enableOutputLogs, outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
@@ -95,23 +96,9 @@ class TensorflowMultiClassifier(
       for (batch <- trainDatasetSeq.grouped(batchSize)) {
         val tensors = new TensorResources()
 
-        //        val sequenceBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
-
         val sequenceLengthArrays = batch.map(x => x._1.length)
         val inputArrays = reshapeInputFeatures(batch.map(x => x._1))
         val labelsArray = batch.map(x => x._2)
-
-        val batchSize = inputArrays.length
-        val tokensSize = inputArrays.head.length
-        val dim = inputArrays.head.head.length
-
-        //        val inputsBuffers = tensors.createFloatBuffer(batchSize * tokensSize * dim)
-        //        val shape = Array(batchSize.toLong, tokensSize.toLong, dim.toLong)
-        //        inputArrays.map(x=>x.map(y=>{
-        //          inputsBuffers.put(y)
-        //        }))
-        //        inputsBuffers.flip()
-        //        val inputTensor = tensors.createFloatBufferTensor(shape, inputsBuffers)
 
         val inputTensor = tensors.createTensor(inputArrays)
         val labelTensor = tensors.createTensor(labelsArray)
@@ -139,7 +126,6 @@ class TensorflowMultiClassifier(
         batches += 1
 
         tensors.clearTensors()
-        //        inputsBuffers.clear()
 
       }
       acc /= (trainDatasetSeq.length / batchSize)
