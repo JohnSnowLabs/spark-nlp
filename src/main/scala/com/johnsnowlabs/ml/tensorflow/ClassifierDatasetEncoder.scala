@@ -26,6 +26,17 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     }
   }
 
+  def encodeTagsMultiLabel(labels: Array[Array[String]]): Array[Array[Float]] = {
+    labels.map { t =>
+      val labelIDsArray = Array.fill(tags.length)(0.0f)
+      if(t.length > 0)
+        t.foreach(x=>
+          labelIDsArray(tags2Id(x)) = 1.0f
+        )
+      labelIDsArray
+    }
+  }
+
   /**
     * Converts DataFrame to Array of Arrays of Labels (string)
     *
@@ -33,19 +44,37 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     * @return Array of Array of Map(String, Array(Float))
     */
   def collectTrainingInstances(dataset: DataFrame, labelCol: String): Array[Array[(String, Array[Float])]] = {
-    dataset
+    val results = dataset
       .select("embeddings", labelCol)
-      .rdd
+      .collect()
       .map { row =>
         val newRow = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[Float]]].map(x => x.toArray)
         val label = Array(row.getString(1))
-
-        val labelEmbed = newRow.flatMap{e=>
-          Map(label.mkString -> e)
-        }.toArray
+        val labelEmbed = newRow.flatMap{e=> Map(label.mkString -> e)}.toArray
         labelEmbed
       }
+    results
+  }
+
+  /**
+    * Converts DataFrame to labels and embeddings
+    *
+    * @param dataset Input DataFrame with embeddings and labels
+    * @return Array of Array of Map(Array(String), Array(Float))
+    */
+  def collectTrainingInstancesMultiLabel(dataset: DataFrame, labelCol: String): Array[Array[(Array[String], Array[Float])]] = {
+    val results = dataset
+      .select("embeddings", labelCol)
       .collect()
+      .map { row =>
+        val newRow = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[Float]]].map(x => x.toArray)
+        val label = row.get(1).asInstanceOf[mutable.WrappedArray[String]].toArray
+        val labelEmbed = newRow.flatMap{e=> Map(label -> e)}.toArray
+        labelEmbed
+      }
+    System.gc()
+
+    results
   }
 
   /**
@@ -76,6 +105,41 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
   }
 
   /**
+    * Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
+    * The difference in this function is to create a sequence in case of multiple sentences in a document
+    * Used in MultiClassifierDL
+    *
+    * @param dataset Input DataFrame with sentence_embeddings
+    * @return Array of Arrays of Arrays of Floats
+    */
+  def extractSentenceEmbeddingsMultiLabel(dataset: Array[Array[(Array[String], Array[Float])]]): Array[Array[Array[Float]]] = {
+    dataset.flatMap{x => x.groupBy(x=>x._1).map{ x =>
+      x._2.map(y=>y._2)
+    }}
+  }
+
+  /**
+    * Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
+    * The difference in this function is to create a sequence in case of multiple sentences in a document
+    * Used in MultiClassifierDL
+    *
+    * @param docs Input DataFrame with sentence_embeddings
+    * @return Array of Arrays of Arrays of Floats
+    */
+  def extractSentenceEmbeddingsMultiLabel(docs: Seq[(Int, Seq[Annotation])]): Array[Array[Array[Float]]] = {
+    docs.groupBy(x=>x._1).map{ x =>
+      x._2.map(x=>x._2.head.embeddings).toArray
+    }.toArray
+  }
+
+  def extractSentenceEmbeddingsMultiLabelPredict(docs: Seq[(Int, Seq[Annotation])]): Array[Array[Array[Float]]] = {
+    //    docs.map(x=>x._2.map(x=>x.embeddings).toArray).toArray
+    //    docs.map(x=>x._2.map(x=>x.embeddings)).toArray.grouped(docs.length).toArray
+    //        docs.flatMap(x=>x._2.map(x=>x.embeddings)).toArray.grouped(docs.length).toArray
+    Array(docs.flatMap(x=>x._2.map(x=>x.embeddings)).toArray)
+  }
+
+  /**
     * Converts DataFrame to Array of Arrays of Labels (string)
     *
     * @param dataset Input DataFrame with labels
@@ -83,6 +147,19 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     */
   def extractLabels(dataset: Array[Array[(String, Array[Float])]]): Array[String] = {
     dataset.flatMap{x => x.map(x=>x._1)}
+  }
+
+  /**
+    * Converts DataFrame to Array of Arrays of Labels (string)
+    *
+    * @param dataset Input DataFrame with labels
+    * @return Array of Array of String
+    */
+  def extractLabelsMultiLabel(dataset: Array[Array[(Array[String], Array[Float])]]): Array[Array[String]] = {
+    //    dataset.map(x=>x.head._1)
+    dataset.flatMap { x =>
+      x.groupBy(x => x._1).keys
+    }
   }
 
   def calculateEmbeddingsDim(dataset: DataFrame): Int = {
