@@ -4,7 +4,6 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 
-import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowMultiClassifier(
@@ -32,7 +31,6 @@ class TensorflowMultiClassifier(
   def reshapeInputFeatures(batch: Array[Array[Array[Float]]]): Array[Array[Array[Float]]] = {
     val sequencesLength = batch.map(x => x.length)
     val maxSentenceLength = sequencesLength.max
-    //    val maxSentenceLength = 300
     val dimension = batch(0).head.length
     batch.map { sentence =>
       if (sentence.length >= maxSentenceLength) {
@@ -166,7 +164,7 @@ class TensorflowMultiClassifier(
     val tagsName = encoder.decodeOutputData(tagIds = tagsId)
     tensors.clearTensors()
 
-    tagsName.map { case (score) =>
+    tagsName.map { score =>
       val labels = score.filter(x=>x._2 >= threshold).map(x=>x._1).mkString(" ")
       val documentBegin = docs.head._2.head.begin
       val documentEnd = docs.last._2.last.end
@@ -221,7 +219,7 @@ class TensorflowMultiClassifier(
       val originalEmbeddings = batch.map(x => x._1)
       val originalLabels = batch.map(x => x._2)
 
-      val predictedLabels = internalPredict(originalEmbeddings, threshold = 0.5f)
+      val predictedLabels = internalPredict(originalEmbeddings, threshold = threshold)
       val labeledPredicted = predictedLabels.zip(originalLabels)
       totalLabels += originalLabels.map(x=>x.count(x => x != 0)).sum
 

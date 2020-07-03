@@ -62,16 +62,17 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     * @param dataset Input DataFrame with embeddings and labels
     * @return Array of Array of Map(Array(String), Array(Float))
     */
-  def collectTrainingInstancesMultiLabel(dataset: DataFrame, labelCol: String): Array[Array[(Array[String], Array[Float])]] = {
+  def collectTrainingInstancesMultiLabel(dataset: DataFrame, labelCol: String, maxSequenceLength: Int): Array[Array[(Array[String], Array[Float])]] = {
     val results = dataset
       .select("embeddings", labelCol)
-      .collect()
+      .rdd
       .map { row =>
-        val newRow = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[Float]]].map(x => x.toArray)
+        val newRow = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[Float]]].map(x => x.toArray).take(maxSequenceLength)
         val label = row.get(1).asInstanceOf[mutable.WrappedArray[String]].toArray
         val labelEmbed = newRow.flatMap{e=> Map(label -> e)}.toArray
         labelEmbed
       }
+      .collect()
     System.gc()
 
     results
