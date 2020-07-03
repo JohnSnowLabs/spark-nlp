@@ -169,10 +169,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
     // encode words with ids
     val encTrellis = Array(Array(($$(vocabIds)("_BOS_"), bosScore, "_BOS_"))) ++
-          trellis.map(_.map{case (label, weight, cand) =>
-            // at this point we keep only those candidates that are in the vocabulary (make an exception for symbols)
-            ($$(vocabIds).getOrElse(label, 0), weight, cand)}.map{case (x,y,z) => (x, y, z)}) ++
-          Array(Array(($$(vocabIds)("_EOS_"), eosScore, "_EOS_")))
+      trellis.map(_.map{case (label, weight, cand) =>
+        // at this point we keep only those candidates that are in the vocabulary
+        ($$(vocabIds).get(label), weight, cand)}.filter(_._1.isDefined).map{case (x,y,z) => (x.get, y, z)}) ++
+      Array(Array(($$(vocabIds)("_EOS_"), eosScore, "_EOS_")))
 
     // init
     var pathsIds = Array(Array($$(vocabIds)("_BOS_")))
@@ -397,7 +397,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
             }.sortBy(_._2).take(getOrDefault(maxCandidates))
             logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
             labelWeightCand.toArray //[(String, Double, String)]
-		  } else {Array((token, .2, token))}
+      } else {Array(("_UNK_", .2, token))}
  	}.toArray
   }
 
