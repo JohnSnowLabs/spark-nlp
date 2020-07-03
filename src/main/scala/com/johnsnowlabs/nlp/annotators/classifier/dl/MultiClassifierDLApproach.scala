@@ -117,6 +117,12 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   val threshold = new FloatParam(this, "threshold", "The minimum threshold for each label to be accepted. Default is 0.5")
 
+  /** Max sequence length to feed into TensorFlow
+    *
+    * @group param
+    **/
+  val maxSequenceLength = new IntParam(this, "maxSequenceLength", "Max sequence length to feed into TensorFlow")
+
   /** Column with label per each document
     *
     * @group setParam
@@ -186,6 +192,17 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   def setThreshold(threshold: Float): MultiClassifierDLApproach.this.type = set(this.threshold, threshold)
 
+  /**
+    * Max sequence length to feed into TensorFlow
+    *
+    * @group setParam
+    **/
+  def setMaxSequenceLength(value: Int): this.type = {
+    if (get(maxSequenceLength).isEmpty)
+      set(maxSequenceLength, value)
+    this
+  }
+
   /** Column with label per each document
     *
     * @group getParam
@@ -242,6 +259,12 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   def getThreshold: Float = $(this.threshold)
 
+  /** Max sequence length to feed into TensorFlow
+    *
+    * @group getParam
+    **/
+  def getMaxSequenceLength: Int = $(maxSequenceLength)
+
   setDefault(
     maxEpochs -> 10,
     lr -> 5e-3f,
@@ -251,7 +274,8 @@ class MultiClassifierDLApproach(override val uid: String)
     verbose -> Verbose.Silent.id,
     validationSplit -> 0.0f,
     outputLogsPath -> "",
-    threshold -> 0.5f
+    threshold -> 0.5f,
+    maxSequenceLength -> 256
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -293,7 +317,7 @@ class MultiClassifierDLApproach(override val uid: String)
         s" with at max 1024 dimensions"
     )
 
-    val trainDataset = encoder.collectTrainingInstancesMultiLabel(train, getLabelColumn)
+    val trainDataset = encoder.collectTrainingInstancesMultiLabel(train, getLabelColumn, $(maxSequenceLength))
     val inputEmbeddings = encoder.extractSentenceEmbeddingsMultiLabel(trainDataset)
     val inputLabels = encoder.extractLabelsMultiLabel(trainDataset)
 
