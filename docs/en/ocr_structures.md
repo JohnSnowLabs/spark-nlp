@@ -119,6 +119,13 @@ element: struct (containsNull = true)
  * ***OCTAHEDRON***
  * ***OCTAGON***
  * ***STAR***
+
+## MorphologyOperationType
+    
+ * ***OPENING***
+ * ***CLOSING***
+ * ***EROSION***
+ * ***DILATION***
  
 # OCR implicits
 

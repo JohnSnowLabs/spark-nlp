@@ -92,6 +92,49 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
+  "A Recursive Pipeline TextMatcher" should "extract entities from dataset without context chars" in {
+    val data = SparkAccessor.spark.createDataFrame(Seq(("LEFT PROSTATE (CORE blah BIOPSIES) jeje",""))).toDF("text","none")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+      .setContextChars(Array(".", ",", ";", ":", "!", "?", "*", "-", "\"", "'","(",")","+","-"))
+      .setSplitChars(Array("'","\"",",", "/"," ",".","|","@","#","%","&","\\$","\\[","\\]","\\(","\\)","-",";"))
+
+    val entityExtractor = new TextMatcher()
+      .setInputCols("sentence", "token")
+      .setEntities("src/test/resources/entity-extractor/test-phrases-par.txt", ReadAs.TEXT)
+      .setOutputCol("entity")
+      .setCaseSensitive(false)
+      .setBuildFromTokens(true) // Remove this line if you want to reproduce the bug
+
+    val finisher = new Finisher()
+      .setInputCols("entity")
+      .setOutputAsArray(false)
+      .setAnnotationSplitSymbol("@")
+      .setValueSplitSymbol("#")
+
+    val recursivePipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        entityExtractor,
+        finisher
+      ))
+
+    recursivePipeline.fit(data).transform(data).show(false)
+    assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == 'CORE blah BIOPSIES'").count > 0)
+  }
+
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
 
   "A full Normalizer pipeline with latin content" should behave like fullTextMatcher(latinBodyData)
