@@ -17,9 +17,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name Setup
-        run: |
-          rm -rf ~/.ivy2/
+      - name: Setup
+        run: rm -rf ~/.ivy2/
       - name: Clean
         run: sbt clean
       - name: Compile
