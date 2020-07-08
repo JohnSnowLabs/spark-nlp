@@ -106,43 +106,43 @@ lazy val testDependencies = Seq(
 )
 
 lazy val utilDependencies = Seq(
-  "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "6.5.3",
-  "org.apache.hadoop" % "hadoop-aws" %  "3.2.0"
+  "com.typesafe" %% "config" % "1.3.0",
+  "org.rocksdb" %% "rocksdbjni" % "6.5.3",
+  "org.apache.hadoop" %% "hadoop-aws" %  "3.2.0"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("commons-configuration","commons-configuration")
     exclude("com.amazonaws","aws-java-sdk-bundle")
     exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk-core" % "1.11.603"
+  "com.amazonaws" %% "aws-java-sdk-core" % "1.11.603"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("commons-configuration","commons-configuration"),
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.603",
+  "com.amazonaws" %% "aws-java-sdk-s3" % "1.11.603",
   "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
-  "com.navigamez" % "greex" % "1.0",
+  "com.navigamez" %% "greex" % "1.0",
   "org.json4s" %% "json4s-ext" % "3.5.3"
 
 )
 
 
 lazy val typedDependencyParserDependencies = Seq(
-  "net.sf.trove4j" % "trove4j" % "3.0.3",
-  "junit" % "junit" % "4.10" % Test
+  "net.sf.trove4j" %% "trove4j" % "3.0.3",
+  "junit" %% "junit" % "4.10" % Test
 )
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "libtensorflow" % "1.15.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.15.0"
+      "org.tensorflow" %% "libtensorflow" % "1.15.0",
+      "org.tensorflow" %% "libtensorflow_jni_gpu" % "1.15.0"
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow" % "1.15.0"
+      "org.tensorflow" %% "tensorflow" % "1.15.0"
     )
 
 lazy val root = (project in file("."))
