@@ -1,4 +1,4 @@
-name: Scala 2.11 CI
+name: Scala CI
 
 on:
   push:
@@ -18,8 +18,8 @@ jobs:
         with:
           java-version: 1.8
       - name: Clean
-        run: sbt clean
+        run: sbt +clean
       - name: Compile
-        run: sbt compile
+        run: sbt +compile
       - name: Run tests
-        run: sbt test
+        run: sbt +test
