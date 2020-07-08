@@ -8,9 +8,9 @@ import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.types.{ArrayType, DoubleType, FloatType, IntegerType, StringType}
+import org.apache.spark.sql.types.{ArrayType, StringType}
 import org.apache.spark.sql.{Dataset, SparkSession}
-import org.apache.spark.sql.functions.{explode, col}
+import org.apache.spark.sql.functions.explode
 
 import scala.util.Random
 

@@ -2,7 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.Annotation
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.{size, explode, col}
+import org.apache.spark.sql.functions.{col, explode, size}
 
 import scala.collection.mutable
 
@@ -134,9 +134,6 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
   }
 
   def extractSentenceEmbeddingsMultiLabelPredict(docs: Seq[(Int, Seq[Annotation])]): Array[Array[Array[Float]]] = {
-    //    docs.map(x=>x._2.map(x=>x.embeddings).toArray).toArray
-    //    docs.map(x=>x._2.map(x=>x.embeddings)).toArray.grouped(docs.length).toArray
-    //        docs.flatMap(x=>x._2.map(x=>x.embeddings)).toArray.grouped(docs.length).toArray
     Array(docs.flatMap(x=>x._2.map(x=>x.embeddings)).toArray)
   }
 
@@ -157,7 +154,6 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     * @return Array of Array of String
     */
   def extractLabelsMultiLabel(dataset: Array[Array[(Array[String], Array[Float])]]): Array[Array[String]] = {
-    //    dataset.map(x=>x.head._1)
     dataset.flatMap { x =>
       x.groupBy(x => x._1).keys
     }

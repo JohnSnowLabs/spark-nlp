@@ -164,18 +164,19 @@ class TensorflowMultiClassifier(
     val tagsName = encoder.decodeOutputData(tagIds = tagsId)
     tensors.clearTensors()
 
-    tagsName.map { score =>
-      val labels = score.filter(x=>x._2 >= threshold).map(x=>x._1).mkString(" ")
+    tagsName.flatMap { score =>
+      val labels = score.filter(x=>x._2 >= threshold).map(x=>x._1)
       val documentBegin = docs.head._2.head.begin
       val documentEnd = docs.last._2.last.end
-
-      Annotation(
-        annotatorType = AnnotatorType.CATEGORY,
-        begin = documentBegin,
-        end = documentEnd,
-        result = labels,
-        metadata = Map("sentence" -> "0") ++ score.flatMap(x => Map(x._1 -> x._2.toString))
-      )
+      labels.map { label =>
+        Annotation(
+          annotatorType = AnnotatorType.CATEGORY,
+          begin = documentBegin,
+          end = documentEnd,
+          result = label,
+          metadata = Map("sentence" -> "0") ++ score.flatMap(x => Map(x._1 -> x._2.toString))
+        )
+      }
     }
   }
 
