@@ -7,9 +7,7 @@ import org.apache.spark.sql.types.ArrayType
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-/**
-  * Created by saif on 02/05/17.
-  */
+
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
   require(Some(SparkAccessor).isDefined)
@@ -78,20 +76,20 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
       ))
 
     val model = pipeline.fit(data)
-    model.transform(data).show()
+    model.transform(data).show(1)
 
     val PIPE_PATH = "./tmp_pipeline"
 
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
-    loadedPipeline.transform(data).show
+    loadedPipeline.transform(data).show(1)
 
     val recursiveModel = recursivePipeline.fit(data)
-    recursiveModel.transform(data).show()
+    recursiveModel.transform(data).show(1)
 
     recursiveModel.write.overwrite().save(PIPE_PATH)
     val loadedRecPipeline = PipelineModel.read.load(PIPE_PATH)
-    loadedRecPipeline.transform(data).show
+    loadedRecPipeline.transform(data).show(1)
 
     succeed
   }

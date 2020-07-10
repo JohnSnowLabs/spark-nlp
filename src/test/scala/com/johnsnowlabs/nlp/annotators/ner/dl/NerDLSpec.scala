@@ -11,11 +11,11 @@ class NerDLSpec extends FlatSpec {
 
   "NerDLApproach" should "correctly annotate" in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
-    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
+    //    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
     // Dataset ready for NER tagger
     val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
-    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+    //    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
 
     val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
 
@@ -153,7 +153,6 @@ class NerDLSpec extends FlatSpec {
       .setOutputCol("ner")
       .transform(testData)
 
-    nerModel.show()
   }
 
 }
