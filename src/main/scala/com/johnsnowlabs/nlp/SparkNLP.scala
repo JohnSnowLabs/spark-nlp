@@ -4,22 +4,30 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "2.5.2"
+  val currentVersion = "2.5.3"
+  val MavenSpark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3"
+  val MavenGpuSpark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.3"
+  val MavenSpark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.3"
+  val MavenGpuSpark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.5.3"
 
-  def start(gpu:Boolean = false): SparkSession = {
+  def start(gpu:Boolean = false, spark23:Boolean = false): SparkSession = {
     val build = SparkSession.builder()
       .appName("Spark NLP")
       .master("local[*]")
       .config("spark.driver.memory", "16G")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.kryoserializer.buffer.max", "1000M")
-      .config("spark.driver.maxResultSize", "4096G")
-    
-    if(gpu){
-      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.2")
+      .config("spark.driver.maxResultSize", "0")
+
+    if(gpu & spark23){
+      build.config("spark.jars.packages", MavenGpuSpark23)
+    } else if(spark23){
+      build.config("spark.jars.packages", MavenSpark23)
+    } else if(gpu){
+      build.config("spark.jars.packages", MavenGpuSpark24)
+    } else {
+      build.config("spark.jars.packages", MavenSpark24)
     }
-    else
-      build.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2")
 
     build.getOrCreate()
   }
