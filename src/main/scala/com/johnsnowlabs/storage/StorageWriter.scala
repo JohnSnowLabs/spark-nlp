@@ -14,6 +14,10 @@ trait StorageWriter[A] extends HasConnection {
     batch.put(word.trim.getBytes, toBytes(content))
   }
 
+  protected def merge(batch: WriteBatch, word: String, content: A): Unit = {
+    batch.merge(word.trim.getBytes, toBytes(content))
+  }
+
   def flush(batch: WriteBatch): Unit = {
     val writeOptions = new WriteOptions()
     /** Might have disconnected already */
