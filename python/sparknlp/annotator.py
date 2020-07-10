@@ -614,6 +614,12 @@ class TextMatcher(AnnotatorApproach):
                              "value for the entity metadata field",
                              typeConverter=TypeConverters.toString)
 
+
+    buildFromTokens = Param(Params._dummy(),
+                            "buildFromTokens",
+                            "whether the TextMatcher should take the CHUNK from TOKEN or not",
+                            typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         super(TextMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.TextMatcher")
@@ -635,6 +641,9 @@ class TextMatcher(AnnotatorApproach):
     def setEntityValue(self, b):
         return self._set(entityValue=b)
 
+    def setBuildFromTokens(self, b):
+        return self._set(buildFromTokens=b)
+
 
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
@@ -654,6 +663,12 @@ class TextMatcherModel(AnnotatorModel):
                         "value for the entity metadata field",
                         typeConverter=TypeConverters.toString)
 
+
+    buildFromTokens = Param(Params._dummy(),
+                            "buildFromTokens",
+                            "whether the TextMatcher should take the CHUNK from TOKEN or not",
+                            typeConverter=TypeConverters.toBoolean)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
         super(TextMatcherModel, self).__init__(
             classname=classname,
@@ -665,6 +680,9 @@ class TextMatcherModel(AnnotatorModel):
 
     def setEntityValue(self, b):
         return self._set(entityValue=b)
+
+    def setBuildFromTokens(self, b):
+        return self._set(buildFromTokens=b)
 
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
@@ -2402,11 +2420,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 class ContextSpellCheckerModel(AnnotatorModel):
     name = "ContextSpellCheckerModel"
 
-    languageModelClasses = Param(Params._dummy(),
-                                 "languageModelClasses",
-                                 "Number of classes to use during factorization of the softmax output in the LM.",
-                                 typeConverter=TypeConverters.toInt)
-
     wordMaxDistance = Param(Params._dummy(),
                             "wordMaxDistance",
                             "Maximum distance for the generated candidates for every word.",
@@ -2453,8 +2466,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
-    def setLanguageModelClasses(self, count):
-        return self._set(languageModelClasses=count)
 
     def setWordMaxDistance(self, dist):
         return self._set(wordMaxDistance=dist)

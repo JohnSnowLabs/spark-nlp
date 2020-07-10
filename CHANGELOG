@@ -1,4 +1,33 @@
 ========
+2.5.3
+========
+---------------
+New Features
+---------------
+* TextMatcher now can construct the chunks from tokens instead of the original documents via buildFromTokens param
+* CoNLLGenerator now is accessible in Python
+
+
+----------------
+Bugfixes
+----------------
+* Fix a bug in ContextSpellChecker resulting in IllegalArgumentException
+*
+
+---------------------
+Enhancements
+---------------------
+* Improve RocksDB connection to support different storage capabilities
+* Improve parameters naming convention in ContextSpellChecker
+
+---------------------
+Enhancements
+---------------------
+* Add NerConverter to documentation
+* Fix multi-language tabs in documentation
+
+
+========
 2.5.2
 ========
 ---------------

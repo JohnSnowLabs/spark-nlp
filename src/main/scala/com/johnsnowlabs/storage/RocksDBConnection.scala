@@ -20,6 +20,7 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
     options.setWriteBufferSize(20 * 1 << 20)
     options.setKeepLogFileNum(1)
     options.setDbLogDir(System.getProperty("java.io.tmpdir"))
+    options.setMergeOperatorName("stringappend")
 
     options
   }

@@ -58,6 +58,11 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
     * @group param
     **/
   val entityValue = new Param[String](this, "entityValue", "Value for the entity metadata field")
+  /** Whether the TextMatcher should take the CHUNK from TOKEN or not
+    *
+    * @group param
+    **/
+  val buildFromTokens = new BooleanParam(this, "buildFromTokens", "Whether the TextMatcher should take the CHUNK from TOKEN or not")
 
   /** SearchTrie of Tokens
     *
@@ -91,6 +96,18 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
 
   /** internal constructor for writabale annotator */
   def this() = this(Identifiable.randomUID("ENTITY_EXTRACTOR"))
+
+  /** Setter for buildFromTokens param
+    *
+    * @group setParam
+    **/
+  def setBuildFromTokens(v: Boolean): this.type = set(buildFromTokens, v)
+
+  /** Getter for buildFromTokens param
+    *
+    * @group getParam
+    **/
+  def getBuildFromTokens: Boolean = $(buildFromTokens)
 
   setDefault(inputCols, Array(TOKEN))
   setDefault(mergeOverlapping, false)
@@ -134,7 +151,9 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
         val lastTokenEnd = tokens(end).end
 
         /** token indices are not relative to sentence but to document, adjust offset accordingly */
-        val normalizedText = sentence.result.substring(firstTokenBegin  - sentence.begin, lastTokenEnd - sentence.begin + 1)
+        val normalizedText = if(!$(buildFromTokens)) sentence.result.substring(firstTokenBegin  - sentence.begin, lastTokenEnd - sentence.begin + 1)
+        else tokens.filter(t => t.begin >= firstTokenBegin && t.end <= lastTokenEnd).map(_.result).mkString(" ")
+
 
         val annotation = Annotation(
           outputAnnotatorType,
