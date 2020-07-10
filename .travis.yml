@@ -22,8 +22,8 @@ jobs:
       install: skip
       script:
         - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/Dockerfile .
-        - docker push "$DOCKER_SPARK_NLP_SCALA"
+        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/DockerfileSpark23 .
+        - docker push "$DOCKER_SPARK_NLP_SCALA_SPARK23"
     - stage: Test 2.4
       install: skip
       language: scala
@@ -36,4 +36,4 @@ jobs:
     - stage: Test 2.3
       install: skip
       language: scala
-      script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt -mem 8192 -Dis_spark23=true test
+      script: docker run "$DOCKER_SPARK_NLP_SCALA_SPARK23" sbt -mem 8192 -Dis_spark23=true test
