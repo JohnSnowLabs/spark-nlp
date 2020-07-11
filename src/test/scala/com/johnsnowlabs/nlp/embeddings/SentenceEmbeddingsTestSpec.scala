@@ -52,7 +52,6 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    pipelineDF.printSchema()
     pipelineDF.select("embeddings.metadata").show(2)
     pipelineDF.select("embeddings.embeddings").show(2)
     pipelineDF.select("embeddings.result").show(2)
@@ -108,12 +107,11 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    pipelineDF.printSchema()
-    pipelineDF.select("embeddings.metadata").show(2)
-    pipelineDF.select("embeddings.embeddings").show(2)
-    pipelineDF.select("embeddings.result").show(2)
+    pipelineDF.select("embeddings.metadata").show(1)
+    pipelineDF.select("embeddings.embeddings").show(1)
+    pipelineDF.select("embeddings.result").show(1)
 
-    pipelineDF.select("sentence_embeddings").show(2)
+    pipelineDF.select("sentence_embeddings").show(1)
     pipelineDF.select("sentence_embeddings.embeddings").show(1)
     pipelineDF.select(size(pipelineDF("sentence_embeddings.embeddings")).as("sentence_embeddings_size")).show
 

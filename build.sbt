@@ -24,7 +24,7 @@ if (is_gpu.equals("true") && is_spark23.equals("true")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.5.2"
+version := "2.5.3"
 
 scalaVersion in ThisBuild := scalaVer
 

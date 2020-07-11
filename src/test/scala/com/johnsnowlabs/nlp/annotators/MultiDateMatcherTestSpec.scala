@@ -6,9 +6,7 @@ import com.johnsnowlabs.nlp.{AnnotatorType, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-/**
-  * Created by Saif Addin on 5/10/2017.
-  */
+
 class MultiDateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new MultiDateMatcher

@@ -1,8 +1,6 @@
 package com.johnsnowlabs.nlp
 
-/**
-  * Created by saif on 02/05/17.
-  */
+
 object ContentProvider {
 
   lazy val parquetData = SparkAccessor.spark.read.parquet("./src/test/resources/sentiment.parquet")

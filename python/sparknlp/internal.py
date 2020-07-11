@@ -239,6 +239,9 @@ class _CoNLLGeneratorExport(ExtendedJavaWrapper):
         else:
             super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", spark._jsparkSession, target, pipeline, output_path)
 
+    def __init__(self, dataframe, output_path):
+        super(_CoNLLGeneratorExport, self).__init__("com.johnsnowlabs.util.CoNLLGenerator.exportConllFiles", dataframe, output_path)
+
 
 class _EmbeddingsOverallCoverage(ExtendedJavaWrapper):
     def __init__(self, dataset, embeddings_col):
