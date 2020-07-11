@@ -45,10 +45,10 @@ class SentimentDLTestSpec extends FlatSpec {
     pipelineModel.stages.last.asInstanceOf[SentimentDLModel].write.overwrite().save("./tmp_sentimentDL_model")
 
     val pipelineDF = pipelineModel.transform(smallCorpus)
-    pipelineDF.select("document").show(10)
-    pipelineDF.select("sentiment").show(10)
-    pipelineDF.select("sentiment.result").show(10, false)
-    pipelineDF.select("sentiment.metadata").show(10, false)
+    pipelineDF.select("document").show(1)
+    pipelineDF.select("sentiment").show(1)
+    pipelineDF.select("sentiment.result").show(1, false)
+    pipelineDF.select("sentiment.metadata").show(1, false)
 
   }
 

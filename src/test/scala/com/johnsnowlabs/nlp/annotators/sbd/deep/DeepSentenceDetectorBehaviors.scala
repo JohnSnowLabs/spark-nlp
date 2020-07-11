@@ -19,7 +19,7 @@ trait DeepSentenceDetectorBehaviors { this: FlatSpec =>
       assert(resultDataSet.isInstanceOf[DataFrame])
     }
 
-    it should "transform to a dataset with segmented sentences" in {
+    it should "transform to a dataset with segmented sentences" ignore {
       info(s"DeepSentenceDetectorBehavior from testSpec id: $testId")
       val resultDataSet = sentenceDetectorModel.transform(dataSet)
       val result = getDataFrameAsArray(resultDataSet)
