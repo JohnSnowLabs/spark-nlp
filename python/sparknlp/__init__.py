@@ -35,10 +35,11 @@ embeddings = annotator
 
 
 def start(gpu=False, spark23=False):
-    maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3"
-    maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.3"
-    maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.3"
-    maven_gpu_spark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.5.3"
+    current_version="2.5.3"
+    maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
+    maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
+    maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
+    maven_gpu_spark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:{}".format(current_version)
 
     builder = SparkSession.builder \
         .appName("Spark NLP") \

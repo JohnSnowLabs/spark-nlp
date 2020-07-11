@@ -5,10 +5,10 @@ import org.apache.spark.sql.SparkSession
 object SparkNLP {
 
   val currentVersion = "2.5.3"
-  val MavenSpark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3"
-  val MavenGpuSpark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.3"
-  val MavenSpark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.3"
-  val MavenGpuSpark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.5.3"
+  val MavenSpark24 = s"com.johnsnowlabs.nlp:spark-nlp_2.11:$currentVersion"
+  val MavenGpuSpark24 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:$currentVersion"
+  val MavenSpark23 = s"com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:$currentVersion"
+  val MavenGpuSpark23 = s"com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:$currentVersion"
 
   def start(gpu:Boolean = false, spark23:Boolean = false): SparkSession = {
     val build = SparkSession.builder()
