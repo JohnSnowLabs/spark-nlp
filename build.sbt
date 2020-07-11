@@ -13,12 +13,10 @@ val scalaTestVersion = "3.0.0"
 
 if (is_gpu.equals("true") && is_spark23.equals("true")){
   name:="spark-nlp-gpu-spark23"
-}else if (is_gpu.equals("false") && is_spark23.equals("true")){
-  name:="spark-nlp-spark23"
 }else if (is_gpu.equals("true") && is_spark23.equals("false")){
   name:="spark-nlp-gpu"
-}else if (is_gpu.equals("false") && is_spark23.equals("false")){
-  name:="spark-nlp"
+}else if (is_gpu.equals("false") && is_spark23.equals("true")){
+  name:="spark-nlp-spark23"
 }else{
   name:="spark-nlp"
 }
