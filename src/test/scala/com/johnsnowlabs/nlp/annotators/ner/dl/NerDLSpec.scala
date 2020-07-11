@@ -51,7 +51,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLModel" should "correctly train using dataset from file" in {
+  "NerDLModel" should "correctly train using dataset from file" ignore {
     val spark = SparkAccessor.spark
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
