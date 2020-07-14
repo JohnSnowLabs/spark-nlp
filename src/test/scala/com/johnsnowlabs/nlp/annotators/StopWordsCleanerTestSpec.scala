@@ -72,4 +72,42 @@ class StopWordsCleanerTestSpec extends FlatSpec {
     assert(tokensWithoutStopWords == expectedWithoutStopWords)
 
   }
+
+  "StopWordsCleaner" should "successfully downloads pretrained models" in {
+
+    val testData = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "This is my first sentence. This is my second."),
+      (2, "This is my third sentence. This is my forth.")
+    )).toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val stopWords = StopWordsCleaner.pretrained("stopwords_en")
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setCaseSensitive(false)
+
+    stopWords.getStopWords.foreach(println)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        tokenizer,
+        stopWords
+      ))
+
+    pipeline.fit(testData).transform(testData)
+
+  }
 }

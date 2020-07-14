@@ -454,7 +454,8 @@ object PythonResourceDownloader {
     "AlbertEmbeddings" -> AlbertEmbeddings,
     "XlnetEmbeddings" -> XlnetEmbeddings,
     "SentimentDLModel" -> SentimentDLModel,
-    "LanguageDetectorDL" -> LanguageDetectorDL
+    "LanguageDetectorDL" -> LanguageDetectorDL,
+    "StopWordsCleaner" -> StopWordsCleaner
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
