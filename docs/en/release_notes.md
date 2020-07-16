@@ -3,8 +3,90 @@ layout: article
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2020-06-12"
+modify_date: "2020-07-16"
 ---
+
+### 2.5.3
+
+#### John Snow Labs Spark-NLP 2.5.3: Detect Fake news, emotions, spams, and more classification models, enhancements, and bug fixes
+
+Overview
+
+We are very happy to release Spark NLP 2.5.3 with 5 new pre-trained ClassifierDL models for multi-class text classification. There are also bug-fixes and other enhancements introduced in this release which were reported and requested by Spark NLP users.
+
+As always, we thank our community for their feedback, questions, and feature requests.
+
+New Features
+
+* TextMatcher now can construct the chunks from tokens instead of the original documents via buildFromTokens param
+* CoNLLGenerator now is accessible in Python
+
+Bugfixes
+
+* Fix a bug in ContextSpellChecker resulting in IllegalArgumentException
+
+Enhancements
+
+* Improve RocksDB connection to support different storage capabilities
+* Improve parameters naming convention in ContextSpellChecker
+* Add NerConverter to documentation
+* Fix multi-language tabs in documentation
+
+Models
+
+We have added 5 new pre-trained ClassifierDL models for multi-class text classification.
+
+| Model    | Name                      | Build            | Lang | Description | Offline
+|:--------------|:--------------------------|:-----------------|:-----|:----------|:------|
+| ClassifierDLModel    | `classifierdl_use_spam`        | 2.5.3 |      `en` |  Detect if a message is spam or not    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_spam_en_2.5.3_2.4_1593783318934.zip) |
+| ClassifierDLModel    | `classifierdl_use_fakenews`        | 2.5.3 |      `en` | Classify if a news is fake or real        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_fakenews_en_2.5.3_2.4_1593783319296.zip) |
+| ClassifierDLModel    | `classifierdl_use_emotion`        | 2.5.3 |      `en`  | Detect Emotions in TweetsDetect Emotions in Tweets       | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_emotion_en_2.5.3_2.4_1593783319297.zip) |
+| ClassifierDLModel    | `classifierdl_use_cyberbullying`        | 2.5.3 |      `en`  | Classify if a tweet is bullying      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_cyberbullying_en_2.5.3_2.4_1593783319298.zip) |
+| ClassifierDLModel    | `classifierdl_use_sarcasm`        | 2.5.3 |      `en` | Identify sarcastic tweets        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sarcasm_en_2.5.3_2.4_1593783319298.zip) |
+
+Documentation
+
+* Update documentation for release of Spark NLP 2.5.x
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.5.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.5.3
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.5.3
+```
+
+**Spark**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3
+```
+
+**PySpark**
+```shell
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3
+```
+
+**Maven**
+```shell
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.5.3</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.3.jar
+
+* GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.3.jar
 
 ### 2.5.2
 
