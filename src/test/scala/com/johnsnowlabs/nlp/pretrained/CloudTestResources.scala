@@ -49,6 +49,13 @@ object CloudTestResources {
     true,
     new Timestamp(1)
   )
-
+  val name_en_251_23 = new ResourceMetadata(
+    "name",
+    Some("en"),
+    Some(Version(2, 5, 1)),
+    Some(Version(2, 3)),
+    true,
+    new Timestamp(1)
+  )
   val all = List(name_en_123_345_new, name_en_12_34_old, name_en_old, name_en_new_disabled, name_de)
 }
