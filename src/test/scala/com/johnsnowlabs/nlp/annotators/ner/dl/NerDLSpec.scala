@@ -67,7 +67,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLApproach" should "be serializable and deserializable correctly" in {
+  "NerDLApproach" should "be serializable and deserializable correctly" ignore {
 
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
