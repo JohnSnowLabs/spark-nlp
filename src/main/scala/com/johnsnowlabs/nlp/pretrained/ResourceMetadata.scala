@@ -24,7 +24,7 @@ case class ResourceMetadata
   time: Timestamp,
   isZipped: Boolean = false,
   category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
-  checksum: String = "",
+  checksum: Option[String] = Some(""),
   filekey:Option[String]=Some("")
 ) {
 
