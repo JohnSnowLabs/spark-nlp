@@ -109,8 +109,8 @@ class S3ResourceDownloader(bucket: => String,
             val req = new GetObjectRequest(bucket, s3FilePath)
             client.getObject(req, tmpFile)
             // 3. validate checksum
-            if (!resource.checksum.equals(""))
-              require(FileHelper.generateChecksum(tmpFileName).equals(resource.checksum), "Checksum validation failed!")
+            if (!resource.checksum.getOrElse("").equals(""))
+              require(FileHelper.generateChecksum(tmpFileName).equals(resource.checksum.get), "Checksum validation failed!")
 
             // 4. Move tmp file to destination
             fs.moveFromLocalFile(new Path(tmpFile.toString), dstFile)

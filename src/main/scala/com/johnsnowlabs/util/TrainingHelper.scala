@@ -39,7 +39,7 @@ object TrainingHelper {
 
 
     // 5. Create resource metadata
-    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, checksum)
+    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, Some(checksum))
 
     val zipfile = Paths.get(meta.fileName)
 
@@ -54,7 +54,7 @@ object TrainingHelper {
     }
 
     // 8. update metadata with key
-    val updated_meta=new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, checksum,Some(meta.key))
+    val updated_meta=new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, Some(checksum),Some(meta.key))
 
     // 9. Add to metadata.json info about resource
       val metadataFile = Paths.get(folder, "metadata.json").toString
