@@ -9,7 +9,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 class NerDLSpec extends FlatSpec {
 
 
-  "NerDLApproach" should "correctly annotate" in {
+  "NerDLApproach" should "correctly annotate" ignore {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     //    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
