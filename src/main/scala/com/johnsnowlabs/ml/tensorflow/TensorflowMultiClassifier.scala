@@ -21,11 +21,14 @@ class TensorflowMultiClassifier(
 
   private val numClasses: Int = encoder.params.tags.length
 
-  private val predictionKey = s"sigmoid_output_$numClasses/Sigmoid:0"
-  private val optimizer = s"optimizer_adam_$numClasses/Adam/Assign:0"
-  private val cost = s"loss_$numClasses/mean_cost:0"
-  private val accuracy = s"accuracy_$numClasses/mean_accuracy:0"
-  private val accuracyPerEntity = s"accuracy_$numClasses/mean_accuracy_per_entity:0"
+  private val predictionKey = s"sigmoid_output_6/Sigmoid:0"
+  private val optimizer = s"optimizer_adam_6/Adam/Assign:0"
+  private val cost = s"loss_6/mean_cost:0"
+  private val accuracy = s"accuracy_6/mean_accuracy:0"
+  private val accuracyPerEntity = s"accuracy_6/mean_accuracy_per_entity:0"
+  private val f1ScoreLayer = s"accuracy_6/f1_score:0"
+  private val f1ScoreMeanLayer = s"accuracy_6/f1_score_mean:0"
+
   private val initKey = "init_all_tables"
 
   def reshapeInputFeatures(batch: Array[Array[Array[Float]]]): Array[Array[Array[Float]]] = {
@@ -89,6 +92,8 @@ class TensorflowMultiClassifier(
       var loss = 0f
       var acc = 0f
       var accEntity = 0f
+      var f1Score = 0f
+      var f1ScoreMean = 0f
       val learningRate = lr / (1 + dropout * epoch)
 
       for (batch <- trainDatasetSeq.grouped(batchSize)) {
@@ -115,11 +120,15 @@ class TensorflowMultiClassifier(
           .fetch(cost)
           .fetch(accuracy)
           .fetch(accuracyPerEntity)
+          .fetch(f1ScoreLayer)
+          .fetch(f1ScoreMeanLayer)
           .run()
 
         loss += TensorResources.extractFloats(calculated.get(2))(0)
         acc += TensorResources.extractFloats(calculated.get(3))(0)
         accEntity += TensorResources.extractFloats(calculated.get(4))(0)
+        f1Score += TensorResources.extractFloats(calculated.get(5))(0)
+        f1ScoreMean += TensorResources.extractFloats(calculated.get(6))(0)
 
         batches += 1
 
@@ -128,16 +137,18 @@ class TensorflowMultiClassifier(
       }
       acc /= (trainDatasetSeq.length / batchSize)
       accEntity /= (trainDatasetSeq.length / batchSize)
+      f1Score /= (trainDatasetSeq.length / batchSize)
+      f1ScoreMean /= (trainDatasetSeq.length / batchSize)
 
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), threshold=threshold)
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - validation: $validationAccuracy - batches: $batches")
-        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - validation: $validationAccuracy - f1: $f1Score - f1-mean: $f1ScoreMean - batches: $batches")
+        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - validation: $validationAccuracy - f1: $f1Score - f1-mean: $f1ScoreMean - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }else{
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - batches: $batches")
-        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - f1: $f1Score - f1-mean: $f1ScoreMean - batches: $batches")
+        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - accuracy_entity: $accEntity - f1: $f1Score - f1-mean: $f1ScoreMean - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
     }
