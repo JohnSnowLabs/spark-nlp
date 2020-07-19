@@ -78,7 +78,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
       "horrible watchout bloody thing"
     ).toDF("text")
 
-    model.transform(testDataDF).select("text", "vivekn").show(truncate=false)
+    model.transform(testDataDF).select("text", "vivekn").show(1, truncate=false)
     succeed
   }
 
@@ -135,12 +135,12 @@ class ViveknSentimentTestSpec extends FlatSpec {
 
     val model = pipeline.fit(trainingDataDF)
 
-    model.transform(testDataDF).select("vivekn").show(truncate=false)
+    model.transform(testDataDF).select("vivekn").show(1, truncate=false)
 
     val PIPE_PATH = "./tmp_pipeline"
     model.write.overwrite().save(PIPE_PATH)
     val loadedPipeline = PipelineModel.read.load(PIPE_PATH)
-    loadedPipeline.transform(testDataDF).show(20)
+    loadedPipeline.transform(testDataDF).show(1)
 
     succeed
   }

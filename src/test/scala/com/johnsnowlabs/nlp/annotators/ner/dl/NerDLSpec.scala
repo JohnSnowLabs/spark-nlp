@@ -9,13 +9,13 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 class NerDLSpec extends FlatSpec {
 
 
-  "NerDLApproach" should "correctly annotate" in {
+  "NerDLApproach" should "correctly annotate" ignore {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
-    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
+    //    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
     // Dataset ready for NER tagger
     val nerInputDataset = AnnotatorBuilder.withGlove(nerSentence)
-    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
+    //    System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
 
     val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
 
@@ -51,7 +51,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLModel" should "correctly train using dataset from file" in {
+  "NerDLModel" should "correctly train using dataset from file" ignore {
     val spark = SparkAccessor.spark
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
@@ -67,7 +67,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLApproach" should "be serializable and deserializable correctly" in {
+  "NerDLApproach" should "be serializable and deserializable correctly" ignore {
 
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
@@ -153,7 +153,6 @@ class NerDLSpec extends FlatSpec {
       .setOutputCol("ner")
       .transform(testData)
 
-    nerModel.show()
   }
 
 }

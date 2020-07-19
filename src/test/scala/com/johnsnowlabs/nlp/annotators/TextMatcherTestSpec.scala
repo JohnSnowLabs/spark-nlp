@@ -88,7 +88,6 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
         finisher
       ))
 
-    recursivePipeline.fit(data).transform(data).show(false)
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
@@ -131,7 +130,6 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
         finisher
       ))
 
-    recursivePipeline.fit(data).transform(data).show(false)
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == 'CORE blah BIOPSIES'").count > 0)
   }
 
