@@ -97,7 +97,7 @@ class StopWordsCleanerTestSpec extends FlatSpec {
       .setOutputCol("cleanTokens")
       .setCaseSensitive(false)
 
-    stopWords.getStopWords.foreach(println)
+    //    stopWords.getStopWords.foreach(println)
 
     val pipeline = new Pipeline()
       .setStages(Array(
