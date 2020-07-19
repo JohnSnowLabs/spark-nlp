@@ -15,7 +15,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
   //  System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
-  "NerCrfApproach" should "be serializable and deserializable correctly" in {
+  "NerCrfApproach" should "be serializable and deserializable correctly" ignore {
     nerModel.write.overwrite.save("./test_crf_pipeline")
     val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
 
