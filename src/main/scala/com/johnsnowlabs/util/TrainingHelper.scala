@@ -37,9 +37,8 @@ object TrainingHelper {
     // 4. Set checksum
     val checksum = FileHelper.generateChecksum(tempzipFile.toString)
 
-
     // 5. Create resource metadata
-    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, Some(checksum))
+    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, checksum)
 
     val zipfile = Paths.get(meta.fileName)
 
@@ -53,11 +52,8 @@ object TrainingHelper {
       case _: java.io.IOException => //file lock may prevent deletion, ignore and continue
     }
 
-    // 8. update metadata with key
-    val updated_meta=new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, Some(checksum),Some(meta.key))
-
-    // 9. Add to metadata.json info about resource
+      // 6. Add to metadata.json info about resource
       val metadataFile = Paths.get(folder, "metadata.json").toString
-      ResourceMetadata.addMetadataToFile(metadataFile, updated_meta)
+      ResourceMetadata.addMetadataToFile(metadataFile, meta)
     }
 }
