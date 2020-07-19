@@ -35,7 +35,13 @@ annotators = annotator
 embeddings = annotator
 
 
-def start(gpu=False):
+def start(gpu=False, spark23=False):
+    current_version="2.5.3"
+    maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
+    maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
+    maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
+    maven_gpu_spark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:{}".format(current_version)
+
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
@@ -43,10 +49,14 @@ def start(gpu=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "1000M") \
         .config("spark.driver.maxResultSize", "0")
-    if gpu:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.3")
+    if gpu and spark23:
+        builder.config("spark.jars.packages", maven_gpu_spark23)
+    elif spark23:
+        builder.config("spark.jars.packages", maven_spark23)
+    elif gpu:
+        builder.config("spark.jars.packages", maven_gpu_spark24)
     else:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3")
+        builder.config("spark.jars.packages", maven_spark24)
         
     return builder.getOrCreate()
 

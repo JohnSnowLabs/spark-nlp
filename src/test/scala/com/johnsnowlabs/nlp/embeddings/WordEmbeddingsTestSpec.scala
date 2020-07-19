@@ -39,8 +39,8 @@ class WordEmbeddingsTestSpec extends FlatSpec {
     val wordsCoverage = WordEmbeddingsModel.withCoverageColumn(wordsP, "embeddings", "cov_embeddings")
     val notWordsCoverage = WordEmbeddingsModel.withCoverageColumn(notWordsP, "embeddings", "cov_embeddings")
 
-    wordsCoverage.select("word","cov_embeddings").show()
-    notWordsCoverage.select("word","cov_embeddings").show()
+    wordsCoverage.select("word","cov_embeddings").show(1)
+    notWordsCoverage.select("word","cov_embeddings").show(1)
 
     val wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,"embeddings").percentage
     val notWordsOverallCoverage = WordEmbeddingsModel.overallCoverage(notWordsCoverage,"embeddings").percentage
@@ -49,7 +49,7 @@ class WordEmbeddingsTestSpec extends FlatSpec {
       Seq(
         ("Words", wordsOverallCoverage),("Not Words", notWordsOverallCoverage)
       )
-    ).toDF("Dataset", "OverallCoverage").show()
+    ).toDF("Dataset", "OverallCoverage").show(1)
 
     assert(wordsOverallCoverage == 1)
     assert(notWordsOverallCoverage == 0)
@@ -86,15 +86,15 @@ class WordEmbeddingsTestSpec extends FlatSpec {
 
     model.write.overwrite().save("./tmp_embeddings_pipeline")
 
-    model.transform(data).show(5)
+    model.transform(data).show(1)
 
     val loadedPipeline1 = PipelineModel.load("./tmp_embeddings_pipeline")
 
-    loadedPipeline1.transform(data).show(5)
+    loadedPipeline1.transform(data).show(1)
 
     val loadedPipeline2 = PipelineModel.load("./tmp_embeddings_pipeline")
 
-    loadedPipeline2.transform(data).show(5)
+    loadedPipeline2.transform(data).show(1)
   }
 
 }

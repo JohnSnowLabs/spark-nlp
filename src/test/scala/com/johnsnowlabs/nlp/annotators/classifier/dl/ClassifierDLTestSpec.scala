@@ -14,8 +14,6 @@ class ClassifierDLTestSpec extends FlatSpec {
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
 
     println("count of training dataset: ", smallCorpus.count)
-    smallCorpus.show()
-    smallCorpus.printSchema()
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")

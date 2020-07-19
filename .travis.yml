@@ -16,13 +16,7 @@ jobs:
       install: skip
       script: 
         - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/Dockerfile .
-        - docker push "$DOCKER_SPARK_NLP_SCALA"
-    - stage: Build 2.3
-      install: skip
-      script:
-        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/Dockerfile .
+        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/DockerfileSpark24 .
         - docker push "$DOCKER_SPARK_NLP_SCALA"
     - stage: Test 2.4
       install: skip
@@ -33,7 +27,18 @@ jobs:
       script:
        - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
        - docker run spark-nlp-python-3 python3 run-tests.py
+    - stage: Build 2.3
+      install: skip
+      script:
+        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/DockerfileSpark23 .
+        - docker push "$DOCKER_SPARK_NLP_SCALA"
     - stage: Test 2.3
       install: skip
       language: scala
       script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt -mem 8192 -Dis_spark23=true test
+    - language: python
+      python: "3.6"
+      script:
+        - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
+        - docker run spark-nlp-python-3 python3 run-tests.py
