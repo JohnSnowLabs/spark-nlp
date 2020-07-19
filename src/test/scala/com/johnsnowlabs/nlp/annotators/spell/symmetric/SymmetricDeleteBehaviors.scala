@@ -277,7 +277,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
     val predictionDataSet = words.toDF("text")
     val model = pipeline.fit(trainDataSet)
-    model.transform(predictionDataSet).select("spell").show(false)
+    model.transform(predictionDataSet).select("spell").show(1,false)
   }
 
   def trainSpellCheckerModelFromFit(): Unit = {

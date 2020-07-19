@@ -9,9 +9,7 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.explode
 import org.scalatest._
 
-/**
-  * Created by Saif Addin on 5/18/2017.
-  */
+
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(

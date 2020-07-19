@@ -18,7 +18,6 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 /**
-  * Created by saif on 02/05/17.
   * Generates different Annotator pipeline paths
   * Place to add different annotator constructions
   */
@@ -280,7 +279,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new NerDLApproach()
       .setInputCols("sentence", "token", "embeddings")
       .setLabelColumn("label")
-      .setMaxEpochs(100)
+      .setMaxEpochs(10)
       .setRandomSeed(0)
       .setPo(0.01f)
       .setLr(0.1f)
