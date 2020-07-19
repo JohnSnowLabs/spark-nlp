@@ -102,7 +102,7 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
   def getMaxLength: Int = $(maxLength)
 
   setDefault(
-    inputCols -> Array(TOKEN),
+    inputCols -> Array(DOCUMENT),
     outputCol -> "regexToken",
     toLowercase -> false,
     minLength -> 1,
