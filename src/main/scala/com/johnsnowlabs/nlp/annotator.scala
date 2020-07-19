@@ -23,6 +23,9 @@ package object annotator {
   type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
   object TokenizerModel extends ReadablePretrainedTokenizer
 
+  type RegexTokenizer = com.johnsnowlabs.nlp.annotators.RegexTokenizer
+  object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]
+
   type RecursiveTokenizer = com.johnsnowlabs.nlp.annotators.RecursiveTokenizer
   object RecursiveTokenizer extends DefaultParamsReadable[RecursiveTokenizer]
   type RecursiveTokenizerModel = com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel
