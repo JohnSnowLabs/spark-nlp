@@ -17,5 +17,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: clean
+      run: sbt clean
+    - name: reload
+      run: sbt reload
+    - name: compile
+      run: sbt compile
     - name: Run tests
       run: sbt test
