@@ -17,44 +17,44 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
   ResourceHelper.spark
   import ResourceHelper.spark.implicits._ //for toDS and toDF
 
-  val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" ignore {
+    val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
 
-  val finisherNoNER = new Finisher()
-    .setInputCols("token", "pos")
-    .setIncludeMetadata(true)
+    val finisherNoNER = new Finisher()
+      .setInputCols("token", "pos")
+      .setIncludeMetadata(true)
 
-  val ourPipelineModelNoNER = new Pipeline()
-    .setStages(Array(preModel, finisherNoNER))
-    .fit(Seq("").toDF("text"))
+    val ourPipelineModelNoNER = new Pipeline()
+      .setStages(Array(preModel, finisherNoNER))
+      .fit(Seq("").toDF("text"))
 
-  val testing = Seq(
-    (1, "Google is a famous company"),
-    (2, "Peter Parker is a super heroe"))
-    .toDS.toDF( "_id", "text")
+    val testing = Seq(
+      (1, "Google is a famous company"),
+      (2, "Peter Parker is a super heroe"))
+      .toDS.toDF( "_id", "text")
 
-  val resultNoNER = ourPipelineModelNoNER.transform(testing)
+    val resultNoNER = ourPipelineModelNoNER.transform(testing)
 
 
-  val ner = NerDLModel.pretrained("ner_dl")
-    .setInputCols(Array("document", "token", "embeddings"))
-    .setOutputCol("ner")
+    val ner = NerDLModel.pretrained("ner_dl")
+      .setInputCols(Array("document", "token", "embeddings"))
+      .setOutputCol("ner")
 
-  val finisherWithNER = new Finisher()
-    .setInputCols("token", "pos", "ner")
-    .setIncludeMetadata(true)
+    val finisherWithNER = new Finisher()
+      .setInputCols("token", "pos", "ner")
+      .setIncludeMetadata(true)
 
-  val ourPipelineModelWithNER = new Pipeline()
-    .setStages(Array(preModel, ner, finisherWithNER))
-    .fit(Seq("").toDF("text"))
+    val ourPipelineModelWithNER = new Pipeline()
+      .setStages(Array(preModel, ner, finisherWithNER))
+      .fit(Seq("").toDF("text"))
 
-  val resultWithNER = ourPipelineModelWithNER.transform(testing)
+    val resultWithNER = ourPipelineModelWithNER.transform(testing)
 
-  //TODO: read this from a file?
-  //this is what the generator output should be
-  val testText = "   -DOCSTART- -X- -X- O      Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
-  val testNERText = "   -DOCSTART- -X- -X- O      Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+    //TODO: read this from a file?
+    //this is what the generator output should be
+    val testText = "   -DOCSTART- -X- -X- O      Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+    val testNERText = "   -DOCSTART- -X- -X- O      Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
 
-  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" in {
     //remove file if it's already there
     val directory = new Directory(new File("./testcsv"))
     directory.deleteRecursively()
@@ -76,7 +76,44 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
   }
 
 
-  "The (dataframe, outputpath) generator" should "make the right file" in {
+  "The (dataframe, outputpath) generator" should "make the right file" ignore {
+    val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
+
+    val finisherNoNER = new Finisher()
+      .setInputCols("token", "pos")
+      .setIncludeMetadata(true)
+
+    val ourPipelineModelNoNER = new Pipeline()
+      .setStages(Array(preModel, finisherNoNER))
+      .fit(Seq("").toDF("text"))
+
+    val testing = Seq(
+      (1, "Google is a famous company"),
+      (2, "Peter Parker is a super heroe"))
+      .toDS.toDF( "_id", "text")
+
+    val resultNoNER = ourPipelineModelNoNER.transform(testing)
+
+
+    val ner = NerDLModel.pretrained("ner_dl")
+      .setInputCols(Array("document", "token", "embeddings"))
+      .setOutputCol("ner")
+
+    val finisherWithNER = new Finisher()
+      .setInputCols("token", "pos", "ner")
+      .setIncludeMetadata(true)
+
+    val ourPipelineModelWithNER = new Pipeline()
+      .setStages(Array(preModel, ner, finisherWithNER))
+      .fit(Seq("").toDF("text"))
+
+    val resultWithNER = ourPipelineModelWithNER.transform(testing)
+
+    //TODO: read this from a file?
+    //this is what the generator output should be
+    val testText = "   -DOCSTART- -X- -X- O      Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+    val testNERText = "   -DOCSTART- -X- -X- O      Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+
     //remove file if it's already there
     val directory = new Directory(new File("./testcsv"))
     directory.deleteRecursively()
@@ -98,7 +135,44 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
   }
 
 
-  "The generator" should "make the right file with ners when appropriate" in {
+  "The generator" should "make the right file with ners when appropriate" ignore {
+    val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
+
+    val finisherNoNER = new Finisher()
+      .setInputCols("token", "pos")
+      .setIncludeMetadata(true)
+
+    val ourPipelineModelNoNER = new Pipeline()
+      .setStages(Array(preModel, finisherNoNER))
+      .fit(Seq("").toDF("text"))
+
+    val testing = Seq(
+      (1, "Google is a famous company"),
+      (2, "Peter Parker is a super heroe"))
+      .toDS.toDF( "_id", "text")
+
+    val resultNoNER = ourPipelineModelNoNER.transform(testing)
+
+
+    val ner = NerDLModel.pretrained("ner_dl")
+      .setInputCols(Array("document", "token", "embeddings"))
+      .setOutputCol("ner")
+
+    val finisherWithNER = new Finisher()
+      .setInputCols("token", "pos", "ner")
+      .setIncludeMetadata(true)
+
+    val ourPipelineModelWithNER = new Pipeline()
+      .setStages(Array(preModel, ner, finisherWithNER))
+      .fit(Seq("").toDF("text"))
+
+    val resultWithNER = ourPipelineModelWithNER.transform(testing)
+
+    //TODO: read this from a file?
+    //this is what the generator output should be
+    val testText = "   -DOCSTART- -X- -X- O      Google NNP NNP Ois VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP OParker NNP NNP Ois VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+    val testNERText = "   -DOCSTART- -X- -X- O      Google NNP NNP B-ORGis VBZ VBZ Oa DT DT Ofamous JJ JJ Ocompany NN NN O   -DOCSTART- -X- -X- O      Peter NNP NNP B-PERParker NNP NNP I-PERis VBZ VBZ Oa DT DT Osuper JJ JJ Oheroe NN NN O"
+
     //remove file if it's already there
     val directory = new Directory(new File("./testcsv"))
     directory.deleteRecursively()
