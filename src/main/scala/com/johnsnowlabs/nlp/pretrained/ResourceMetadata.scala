@@ -24,17 +24,12 @@ case class ResourceMetadata
   time: Timestamp,
   isZipped: Boolean = false,
   category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
-  checksum: Option[String] = Some(""),
-  filekey:Option[String]=Some("")
+  checksum: String = ""
 ) {
 
 
   lazy val key = {
-    if(filekey.isDefined){
-      if(filekey.get.trim.equals("")) s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}" else filekey.get
-    }else{
-      s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}"
-    }
+    s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}"
   }
 
   lazy val fileName = {
