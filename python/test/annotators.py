@@ -314,7 +314,7 @@ class DeepSentenceDetectorTestSpec(unittest.TestCase):
             .setInputCols(["document", "token", "glove"]) \
             .setLabelColumn("label") \
             .setOutputCol("ner") \
-            .setMaxEpochs(100) \
+            .setMaxEpochs(10) \
             .setPo(0.01) \
             .setLr(0.1) \
             .setBatchSize(9) \

@@ -1,15 +1,24 @@
 import sbtassembly.MergeStrategy
 
-val sparkVer = "2.4.4"
+val is_gpu = System.getProperty("is_gpu","false")
+val is_spark23 = System.getProperty("is_spark23","false")
+
+val spark23Ver = "2.3.4"
+val spark24Ver = "2.4.4"
+val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
-val is_gpu = System.getProperty("is_gpu","false")
 /** Package attributes */
-if(is_gpu.equals("false")){
-  name := "spark-nlp"
-}else{
+
+if (is_gpu.equals("true") && is_spark23.equals("true")){
+  name:="spark-nlp-gpu-spark23"
+}else if (is_gpu.equals("true") && is_spark23.equals("false")){
   name:="spark-nlp-gpu"
+}else if (is_gpu.equals("false") && is_spark23.equals("true")){
+  name:="spark-nlp-spark23"
+}else{
+  name:="spark-nlp"
 }
 
 
@@ -93,10 +102,18 @@ scalacOptions in (Compile, doc) ++= Seq(
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-lazy val analyticsDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-  "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
-)
+lazy val analyticsDependencies =
+  if(is_spark23=="false"){
+    Seq(
+      "org.apache.spark" %% "spark-core" % sparkVer % "provided",
+      "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
+    )
+  }else{
+    Seq(
+      "org.apache.spark" %% "spark-core" % spark23Ver % "provided",
+      "org.apache.spark" %% "spark-mllib" % spark23Ver % "provided"
+    )
+  }
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"

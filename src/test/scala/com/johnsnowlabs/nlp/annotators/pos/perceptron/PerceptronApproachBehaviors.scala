@@ -1,18 +1,15 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord, TokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder, SparkAccessor}
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, SparkAccessor}
 import org.apache.spark.sql.functions.explode
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 import scala.collection.mutable.{Set => MSet}
 
-/**
-  * Created by Saif Addin on 5/18/2017.
-  */
 trait PerceptronApproachBehaviors { this: FlatSpec =>
 
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
@@ -66,7 +63,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   def sparkBasedPOSTagger(dataset: => Dataset[Row]): Unit = {
     "a Perceptron POS tagger Annotator" should s"successfully tag sentences " in {
       val df = AnnotatorBuilder.withFullPOSTagger(dataset)
-      df.show(5)
+      df.show(1)
       val posCol = df.select("pos")
       assert(posCol.first.getSeq[Row](0).head.getAs[String](0)  == "pos", "Annotation type should be equal to `pos`")
     }
@@ -118,7 +115,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       val tokenized = AnnotatorBuilder.withTokenizer(data, sbd = false)
 
       println("result of Perceptron trained by DataFrame")
-      trainedPos.transform(tokenized).show
+      trainedPos.transform(tokenized).show(1)
     }
   }
 
@@ -134,8 +131,8 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       val extractedLabelsDF = trainingPerceptronDF.select(explode($"tags.result").as("tag")).groupBy("tag").count.orderBy($"tag".asc)
       val realLabelsDF = trueLabels.toDF("tag", "count").orderBy($"tag".asc)
 
-      extractedLabelsDF.show
-      realLabelsDF.show
+      extractedLabelsDF.show(1)
+      realLabelsDF.show(1)
 
       assert ( extractedLabelsDF.collect() sameElements realLabelsDF.collect() )
 

@@ -1863,6 +1863,11 @@ class StopWordsCleaner(AnnotatorModel):
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
 
+    @staticmethod
+    def pretrained(name="stopwords_en", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(StopWordsCleaner, name, lang, remote_loc)
+
 
 class NGramGenerator(AnnotatorModel):
 

@@ -70,8 +70,6 @@ class NGramGeneratorTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-    pipelineDF.select("token").show(false)
-    pipelineDF.select("ngrams").show(false)
 
     val nGramGeneratorResults = Annotation.collect(pipelineDF, "ngrams").flatten.toSeq
 
@@ -144,12 +142,10 @@ class NGramGeneratorTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-    pipelineDF.select("token").show(false)
-    pipelineDF.select("ngrams").show(false)
 
     val nGramGeneratorResults = Annotation.collect(pipelineDF, "ngrams").flatten.toSeq
 
-    assert(nGrams.getEnableCumulative == true)
+    assert(nGrams.getEnableCumulative)
     assert(nGramGeneratorResults == expectedNGrams)
 
   }
@@ -221,8 +217,6 @@ class NGramGeneratorTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-    pipelineDF.select("token").show(false)
-    pipelineDF.select("ngrams").show(false)
 
     val nGramGeneratorResults = Annotation.collect(pipelineDF, "ngrams").flatten.toSeq
     assert(nGrams.getDelimiter == delimiter)
@@ -258,9 +252,9 @@ class NGramGeneratorTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-    pipelineDF.select("token").show(false)
-    pipelineDF.select("checkedTokens").show(false)
-    pipelineDF.select("ngrams").show(false)
+    pipelineDF.select("token").show(1)
+    pipelineDF.select("checkedTokens").show(1)
+    pipelineDF.select("ngrams").show(1)
 
 
   }
