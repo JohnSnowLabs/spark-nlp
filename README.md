@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **160+** pretrained **pipelines** and **models** in more than **20+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class text classification, Multi-class sentiment analysis, and many more [NLP tasks](#features).
+Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **200+** pretrained **pipelines** and **models** in more than **45+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class text classification, Multi-class sentiment analysis, and many more [NLP tasks](#features).
 
 ## Project's website
 
@@ -521,7 +521,7 @@ sparknlp {
 
 ### Pipelines
 
-Spark NLP offers more than `30 pre-trained pipelines` in `6 languages`.
+Spark NLP offers more than `70 pre-trained pipelines` in `10 languages`.
 
 **English pipelines:**
 | Pipeline                     | Name                                  | Build            | lang |
@@ -595,7 +595,9 @@ annotation.select("entities.result").show(false)
 
 ### Models
 
-Spark NLP offers more than `90 pre-trained models` in `21 languages`.
+Spark NLP offers more than `130 pre-trained models` in `45 languages`.
+
+**List of languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
 **English Models:**
 
@@ -605,16 +607,16 @@ Spark NLP offers more than `90 pre-trained models` in `21 languages`.
 | PerceptronModel (POS)                    | `pos_anc`                 | 2.0.2 |      `en`
 | PerceptronModel (POS UD)                    | `pos_ud_ewt`          | 2.2.2 |       `en`
 | NerCrfModel (NER with GloVe)             | `ner_crf`                 | 2.4.0 |      `en`
-| NerDLModel (NER with GloVe)              | `ner_dl`                  | 2.4.3 |      `en` 
-| NerDLModel (NER with BERT)               | `ner_dl_bert`              | 2.4.3 |      `en` 
-| NerDLModel (OntoNotes with GloVe 100d)   | `onto_100`                | 2.4.0 |      `en` 
-| NerDLModel (OntoNotes with GloVe 300d)   | `onto_300`                | 2.4.0 |      `en` 
-| DeepSentenceDetector                     | `ner_dl_sentence`         | 2.4.0 |      `en` 
-| SymmetricDeleteModel (Spell Checker)     | `spellcheck_sd`           | 2.0.2 |      `en` 
-| NorvigSweetingModel (Spell Checker)      | `spellcheck_norvig`       | 2.0.2 |      `en` 
-| ViveknSentimentModel (Sentiment)         | `sentiment_vivekn`        | 2.0.2 |      `en` 
-| DependencyParser (Dependency)            | `dependency_conllu`       | 2.0.8 |      `en` 
-| TypedDependencyParser (Dependency)       | `dependency_typed_conllu` | 2.0.8 |      `en` 
+| NerDLModel (NER with GloVe)              | `ner_dl`                  | 2.4.3 |      `en`
+| NerDLModel (NER with BERT)               | `ner_dl_bert`              | 2.4.3 |      `en`
+| NerDLModel (OntoNotes with GloVe 100d)   | `onto_100`                | 2.4.0 |      `en`
+| NerDLModel (OntoNotes with GloVe 300d)   | `onto_300`                | 2.4.0 |      `en`
+| DeepSentenceDetector                     | `ner_dl_sentence`         | 2.4.0 |      `en`
+| SymmetricDeleteModel (Spell Checker)     | `spellcheck_sd`           | 2.0.2 |      `en`
+| NorvigSweetingModel (Spell Checker)      | `spellcheck_norvig`       | 2.0.2 |      `en`
+| ViveknSentimentModel (Sentiment)         | `sentiment_vivekn`        | 2.0.2 |      `en`
+| DependencyParser (Dependency)            | `dependency_conllu`       | 2.0.8 |      `en`
+| TypedDependencyParser (Dependency)       | `dependency_typed_conllu` | 2.0.8 |      `en`
 
 **Embeddings:**
 
