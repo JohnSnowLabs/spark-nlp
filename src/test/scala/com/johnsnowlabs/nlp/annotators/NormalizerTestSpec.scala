@@ -7,9 +7,7 @@ import org.scalatest._
 
 import SparkAccessor.spark.implicits._
 
-/**
-  * Created by saif on 02/05/17.
-  */
+
 class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
   "A normalizer" should s"be of type ${AnnotatorType.TOKEN}" in {

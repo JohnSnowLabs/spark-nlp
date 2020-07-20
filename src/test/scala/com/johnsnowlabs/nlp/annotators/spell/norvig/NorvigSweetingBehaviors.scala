@@ -94,7 +94,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
 
       /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
       val model = pipeline.fit(trainDataSet)
-      model.transform(predictionDataSet).show()
+      model.transform(predictionDataSet).show(1)
     }
   }
 
@@ -103,7 +103,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
 
       /**Not cool to do this. Fit calls transform early, and will look for text column. Spark limitation...*/
       val model = pipeline.fit(trainDataSet)
-      model.transform(predictionDataSet).show()
+      model.transform(predictionDataSet).show(1)
     }
   }
 
@@ -112,7 +112,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
     val predictionDataSet = words.toDF("text")
 
     val model = pipeline.fit(trainBigDataSet)
-    model.transform(predictionDataSet).show()
+    model.transform(predictionDataSet).show(1)
   }
 
   def trainSpellCheckerModelFromFit(): Unit = {
@@ -158,7 +158,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
           spell
         ))
       val model = pipeline.fit(trainDataSet)
-      model.transform(predictionDataSet).select("spell").show(false)
+      model.transform(predictionDataSet).select("spell").show(1,false)
     }
   }
 

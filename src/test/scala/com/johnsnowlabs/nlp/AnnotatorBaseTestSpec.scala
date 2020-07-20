@@ -1,12 +1,9 @@
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.scalatest._
 
-/**
-  * Created by Saif Addin on 6/1/2017.
-  */
+
 
 class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DummyAnnotatorModel] {
   import AnnotatorType._

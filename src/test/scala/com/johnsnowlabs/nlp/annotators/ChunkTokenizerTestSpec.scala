@@ -49,8 +49,6 @@ class ChunkTokenizerTestSpec extends FlatSpec {
 
     val result = pipeline.fit(data).transform(data)
 
-    result.show(truncate=true)
-
     result.select("entity", "chunk_token").as[(Array[Annotation], Array[Annotation])].foreach(column => {
       val chunks = column._1
       val chunkTokens = column._2

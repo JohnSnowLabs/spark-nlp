@@ -73,23 +73,23 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
-    pipelineDF.select("chunk.metadata").show(2)
-    pipelineDF.select("chunk.result").show(2)
-
-    pipelineDF.select("embeddings.metadata").show(2)
-    pipelineDF.select("embeddings.embeddings").show(2)
-    pipelineDF.select("embeddings.result").show(2)
-
-    pipelineDF.select("chunk_embeddings").show(2)
-    println("Chunk Embeddings")
-    pipelineDF.select("chunk_embeddings.embeddings").show(2)
-    pipelineDF.select(size(pipelineDF("chunk_embeddings.embeddings")).as("chunk_embeddings_size")).show
-
-    pipelineDF.select("sentence_embeddings_chunks.embeddings").show(2)
-    pipelineDF.select(size(pipelineDF("sentence_embeddings_chunks.embeddings")).as("chunk_embeddings_size")).show
-
-    pipelineDF.select("finished_embeddings").show(2)
-    pipelineDF.select(size(pipelineDF("finished_embeddings")).as("chunk_embeddings_size")).show
+//    pipelineDF.select("chunk.metadata").show(2)
+//    pipelineDF.select("chunk.result").show(2)
+//
+//    pipelineDF.select("embeddings.metadata").show(2)
+//    pipelineDF.select("embeddings.embeddings").show(2)
+//    pipelineDF.select("embeddings.result").show(2)
+//
+//    pipelineDF.select("chunk_embeddings").show(2)
+//    println("Chunk Embeddings")
+//    pipelineDF.select("chunk_embeddings.embeddings").show(2)
+//    pipelineDF.select(size(pipelineDF("chunk_embeddings.embeddings")).as("chunk_embeddings_size")).show
+//
+//    pipelineDF.select("sentence_embeddings_chunks.embeddings").show(2)
+//    pipelineDF.select(size(pipelineDF("sentence_embeddings_chunks.embeddings")).as("chunk_embeddings_size")).show
+//
+//    pipelineDF.select("finished_embeddings").show(2)
+//    pipelineDF.select(size(pipelineDF("finished_embeddings")).as("chunk_embeddings_size")).show
 
   }
 
@@ -143,23 +143,23 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
-    pipelineDF.select("token.metadata").show(2)
-    pipelineDF.select("token.result").show(2)
-
-    pipelineDF.select("chunk.metadata").show(2)
-    pipelineDF.select("chunk.result").show(2)
-
-    pipelineDF.select("embeddings.metadata").show(2)
-    pipelineDF.select("embeddings.embeddings").show(2)
-    pipelineDF.select("embeddings.result").show(2)
-
-    pipelineDF.select("chunk_embeddings").show(2)
-
-    pipelineDF.select("chunk_embeddings.embeddings").show(2)
-    pipelineDF.select(size(pipelineDF("chunk_embeddings.embeddings")).as("chunk_embeddings_size")).show
-
-    pipelineDF.select("finished_embeddings").show(2)
-    pipelineDF.select(size(pipelineDF("finished_embeddings")).as("chunk_embeddings_size")).show
+//    pipelineDF.select("token.metadata").show(2)
+//    pipelineDF.select("token.result").show(2)
+//
+//    pipelineDF.select("chunk.metadata").show(2)
+//    pipelineDF.select("chunk.result").show(2)
+//
+//    pipelineDF.select("embeddings.metadata").show(2)
+//    pipelineDF.select("embeddings.embeddings").show(2)
+//    pipelineDF.select("embeddings.result").show(2)
+//
+//    pipelineDF.select("chunk_embeddings").show(2)
+//
+//    pipelineDF.select("chunk_embeddings.embeddings").show(2)
+//    pipelineDF.select(size(pipelineDF("chunk_embeddings.embeddings")).as("chunk_embeddings_size")).show
+//
+//    pipelineDF.select("finished_embeddings").show(2)
+//    pipelineDF.select(size(pipelineDF("finished_embeddings")).as("chunk_embeddings_size")).show
 
     assert(pipelineDF.selectExpr("explode(chunk_embeddings.metadata) as meta").select("meta.chunk").distinct().count() > 1)
   }
@@ -227,7 +227,6 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
     println(pipelineDF.count())
     pipelineDF.show()
-    pipelineDF.printSchema()
     pipelineDF.select("chunk").show(1)
     pipelineDF.select("embeddings").show(1)
     pipelineDF.select("sentence_embeddings").show(1)

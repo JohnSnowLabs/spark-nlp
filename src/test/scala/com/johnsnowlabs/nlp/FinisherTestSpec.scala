@@ -44,7 +44,6 @@ class FinisherTestSpec extends FlatSpec {
 
     val result = pipeline.fit(data).transform(data)
 
-    result.show()
     assert(result.columns.length == 5, "because finisher did not clean annotations or did not return proper columns")
     result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
   }
@@ -70,7 +69,6 @@ class FinisherTestSpec extends FlatSpec {
 
     val result = pipeline.fit(data).transform(data)
 
-    result.show()
     assert(result.columns.length == 8, "because finisher removed annotations or did not return proper columns")
     assert(result.columns.contains("token_out"))
     result.select("token_out").as[String].collect.foreach(s => assert(s.contains("%"), "because % separator string was not found"))
@@ -100,7 +98,6 @@ class FinisherTestSpec extends FlatSpec {
 
     val result = pipeline.fit(data).transform(data)
 
-    result.show()
     assert(result.columns.length == 6, "because finisher removed annotations or did not return proper columns")
     assert(result.columns.contains("stopped"))
 
