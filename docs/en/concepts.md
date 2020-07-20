@@ -3,7 +3,7 @@ layout: article
 title: Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2020-05-08"
+modify_date: "2020-07-20"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -46,16 +46,26 @@ You can run these examples using Python or Scala.
 The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
-```bash
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3
+```sh
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.4
 ```
 
-The easiest way of running these scala examples is by starting a
-spark-shell session including the spark-nlp package:
-
-```bash
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3
+```sh
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.4
 ```
+
+```sh
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.4
+```
+
+This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
+
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.4`
+
+**NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
+
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.4`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.5.4`
 
 ### Explain Document ML
 
