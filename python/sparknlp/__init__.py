@@ -28,13 +28,20 @@ sys.modules['com.johnsnowlabs.nlp.embeddings'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.classifier.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
-sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ld'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 
 annotators = annotator
 embeddings = annotator
 
 
-def start(gpu=False):
+def start(gpu=False, spark23=False):
+    current_version="2.5.4"
+    maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
+    maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
+    maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
+    maven_gpu_spark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:{}".format(current_version)
+
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
@@ -42,13 +49,17 @@ def start(gpu=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "1000M") \
         .config("spark.driver.maxResultSize", "0")
-    if gpu:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.3")
+    if gpu and spark23:
+        builder.config("spark.jars.packages", maven_gpu_spark23)
+    elif spark23:
+        builder.config("spark.jars.packages", maven_spark23)
+    elif gpu:
+        builder.config("spark.jars.packages", maven_gpu_spark24)
     else:
-        builder.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3")
+        builder.config("spark.jars.packages", maven_spark24)
         
     return builder.getOrCreate()
 
 
 def version():
-    return '2.5.3'
+    return '2.5.4'

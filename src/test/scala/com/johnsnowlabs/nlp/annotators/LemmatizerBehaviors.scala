@@ -4,9 +4,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-/**
-  * Created by saif on 01/05/17.
-  */
+
 trait LemmatizerBehaviors { this: FlatSpec =>
 
   def fullLemmatizerPipeline(dataset: => Dataset[Row]) {

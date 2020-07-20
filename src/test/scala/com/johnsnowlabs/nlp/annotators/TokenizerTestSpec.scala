@@ -7,17 +7,15 @@ import java.util.Date
 
 import org.apache.spark.ml.Pipeline
 
-/**
-  * Created by saif on 02/05/17.
-  */
+
 class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
 
   import SparkAccessor.spark.implicits._
 
-  val regexTokenizer = new Tokenizer()
+  val tokenizer = new Tokenizer()
 
   "a Tokenizer" should s"be of type ${AnnotatorType.TOKEN}" in {
-    assert(regexTokenizer.outputAnnotatorType == AnnotatorType.TOKEN)
+    assert(tokenizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
   val ls = System.lineSeparator
