@@ -363,22 +363,28 @@ result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created
 
 #### spark-nlp
 
-* FAT-JAR for CPU
+* FAT-JAR for CPU on Apache Spark 2.4.x
 
 ```bash
 sbt assembly
 ```
 
-* FAT-JAR for GPU
+* FAT-JAR for GPU on Apache Spark 2.4.x
 
 ```bash
 sbt -Dis_gpu=true assembly
 ```
 
-* Packaging the project
+* FAT-JAR for CPU on Apache Spark 2.3.x
 
 ```bash
-sbt package
+sbt -Dis_spark23=true assembly
+```
+
+* FAT-JAR for GPU on Apache Spark 2.3.x
+
+```bash
+sbt -Dis_gpu=true -Dis_spark23=true assembly
 ```
 
 ### Using the jar manually
