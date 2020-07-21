@@ -2192,4 +2192,133 @@ pipeline = Pipeline(stages=[
 
 results = pipeline.fit(df).transform(df)
 results.show()
+
+
 ```
+
+## FoundationOneReportParser
+
+`FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
+Current implementation support parsing patient info, genomic and biomarker findings.
+Output format is json.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | Сolumn name with text of report |
+| originCol | string | path | path to the original file |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | report | Name of output column with report in json format. |
+
+**Example:**
+
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers._
+import org.apache.spark.ml.Pipeline
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToText = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+  .setSplitPage(false)
+  .setTextStripper(TextStripperType.PDF_LAYOUT_TEXT_STRIPPER)
+
+val genomicsParser = new FoundationOneReportParser()
+      .setInputCol("text")
+      .setOutputCol("report")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  pdfToText,
+  genomicsParser
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val report =  modelPipeline.transform(df)
+
+```
+
+```python
+from pyspark.ml import Pipeline
+from sparkocr.transformers import *
+from sparkocr.enums import TextStripperType
+
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText()
+pdf_to_text.setInputCol("content")
+pdf_to_text.setOutputCol("text")
+pdf_to_text.setSplitPage(False)
+pdf_to_text.setTextStripper(TextStripperType.PDF_LAYOUT_TEXT_STRIPPER)
+
+genomic_parser = FoundationOneReportParser()
+genomic_parser.setInputCol("text")
+genomic_parser.setOutputCol("report")
+
+report = genomic_parser.transform(pdf_to_text.transform(df)).collect()
+
+
+
+
+
+
+
+```
+
+Output:
+
+```json
+{
+  "Patient" : {
+    "disease" : "Unknown primary melanoma",
+    "name" : "Lekavich Gloria",
+    "date_of_birth" : "11 November 1926",
+    "sex" : "Female",
+    "medical_record" : "11111"
+  },
+  "Physician" : {
+    "ordering_physician" : "Genes Pinley",
+    "medical_facility" : "Health Network Cancer Institute",
+    "additional_recipient" : "Nath",
+    "medical_facility_id" : "202051",
+    "pathologist" : "Manqju Nwath"
+  },
+  "Specimen" : {
+    "specimen_site" : "Rectum",
+    "specimen_id" : "AVS 1A",
+    "specimen_type" : "Slide",
+    "date_of_collection" : "20 March 2015",
+    "specimen_received" : "30 March 2015 "
+  },
+  "Biomarker_findings" : [ {
+    "name" : "Tumor Mutation Burden",
+    "state" : "TMB-Low (3Muts/Mb)",
+    "actionability" : "No therapies or clinical trials. "
+  } ],
+  "Genomic_findings" : [ {
+    "name" : "FLT3",
+    "state" : "amplification",
+    "therapies_with_clinical_benefit_in_patient_tumor_type" : [ "none" ],
+    "therapies_with_clinical_benefit_in_other_tumor_type" : [ "Sorafenib", "Sunitinib", "Ponatinib" ]
+  } ]
+}
+```
+
+
