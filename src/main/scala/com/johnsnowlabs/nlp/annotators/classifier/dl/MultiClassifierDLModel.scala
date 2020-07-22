@@ -156,7 +156,9 @@ class MultiClassifierDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    if(sentences.nonEmpty) {
+    val embeddingsSize = sentences.flatMap(x=>x._2.flatten(x=>x.embeddings)).nonEmpty
+
+    if(embeddingsSize) {
       getModelIfNotSet.predict(sentences, $(threshold), getConfigProtoBytes)
     }else {
       Seq.empty[Annotation]
