@@ -312,8 +312,8 @@ class MultiClassifierDLApproach(override val uid: String)
 
     val embeddingsDim = encoder.calculateEmbeddingsDim(train)
     require(
-      embeddingsDim <= 1024,
-      s"The MultiClassifierDL only accepts embeddings less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
+      embeddingsDim > 1 && embeddingsDim <= 1024,
+      s"The MultiClassifierDL only accepts embeddings larger than 1 and less than 1024 dimensions. Current dimension is ${embeddingsDim}. Please use embeddings" +
         s" with at max 1024 dimensions"
     )
 
@@ -369,7 +369,7 @@ class MultiClassifierDLApproach(override val uid: String)
   def loadSavedModel(dim: Int): TensorflowWrapper = {
 
     val wrapper =
-      TensorflowWrapper.readZippedSavedModel("/multi-classifier-dl", fileName = s"multi-label-bilstm-${dim}", tags = Array("serve"), initAllTables = false)
+      TensorflowWrapper.readZippedSavedModel("/multi-classifier-dl", fileName = s"multi-label-bilstm-${dim}", tags = Array("serve"), initAllTables = true)
     wrapper
   }
 }
