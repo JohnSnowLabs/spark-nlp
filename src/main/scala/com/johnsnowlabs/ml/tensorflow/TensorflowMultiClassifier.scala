@@ -21,13 +21,13 @@ class TensorflowMultiClassifier(
 
   private val numClasses: Int = encoder.params.tags.length
 
-  private val predictionKey = s"sigmoid_output_6/Sigmoid:0"
-  private val optimizer = s"optimizer_adam_6/Adam/Assign:0"
-  private val cost = s"loss_6/mean_cost:0"
-  private val accuracy = s"accuracy_6/mean_accuracy:0"
-  private val accuracyPerEntity = s"accuracy_6/mean_accuracy_per_entity:0"
-  private val f1ScoreLayer = s"accuracy_6/f1_score:0"
-  private val f1ScoreMeanLayer = s"accuracy_6/f1_score_mean:0"
+  private val predictionKey = s"sigmoid_output_$numClasses/Sigmoid:0"
+  private val optimizer = s"optimizer_adam_$numClasses/Adam/mul:0"
+  private val cost = s"loss_$numClasses/loss:0"
+  private val accuracy = s"accuracy_$numClasses/mean_accuracy:0"
+  private val accuracyPerEntity = s"accuracy_$numClasses/mean_accuracy_per_entity:0"
+  private val f1ScoreLayer = s"accuracy_$numClasses/f1_score:0"
+  private val f1ScoreMeanLayer = s"accuracy_$numClasses/f1_score_mean:0"
 
   private val initKey = "init_all_tables"
 
@@ -208,7 +208,7 @@ class TensorflowMultiClassifier(
 
     val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
     val scores = tagsId.map{score=>
-      score.zipWithIndex.map(x => x._1 >= threshold).map { y =>
+      score.zipWithIndex.map(x => x._1 > threshold).map { y =>
         if(y) 1.0f else 0.0f
       }
     }
