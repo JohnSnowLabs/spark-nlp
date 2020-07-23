@@ -6,6 +6,25 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+# 1.5.0
+
+Release date: 22-07-2020
+
+#### Overview
+
+FoundationOne report parsing support.
+
+#### Enhancements
+
+* Optimized memory usage during image processing
+
+
+#### New Features
+
+* Added [FoundationOneReportParser](ocr_pipeline_components#foundationonereportparser) which support parsing patient info,
+genomic and biomarker findings.
+
+
 # 1.4.0
 
 Release date: 23-06-2020
