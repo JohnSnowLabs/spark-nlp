@@ -77,8 +77,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Easy TensorFlow integration
 * GPU Support
 * Full integration with Spark ML functions
-* +90 pre-trained models in 21 languages!
-* +67 pre-trained pipelines in 10 languages!
+* +130 pre-trained models in 45 languages!
+* +70 pre-trained pipelines in 10 languages!
 * Multi-lingual NER models: Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish
 
 ## Requirements
@@ -683,7 +683,9 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 ## Examples
 
-Need more **examples**? Check out our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to showcase all Spark NLP use cases!
+Need more **examples**? Check out our dedicated [Spark NLP Showcase](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository to showcase all Spark NLP use cases!
+
+In addition, don't forget to check [Spark NLP in Action](https://demo.johnsnowlabs.com/) built by Streamlit.
 
 ### All examples: [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
