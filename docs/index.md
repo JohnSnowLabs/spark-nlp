@@ -7,15 +7,18 @@ permalink: /
 header: true
 article_header:
   actions:
-    - text: Getting Started
+    - text: Get Started
       type: error
-      url: /docs/en/quickstart    
+      url: /docs/en/quickstart
+    - text: View Demo
+      type: outline-theme-dark
+      url: https://demo.johnsnowlabs.com
     - text: '<i class="fab fa-github"></i> GitHub'
       type: outline-theme-dark
       url: https://github.com/johnsnowlabs/spark-nlp  
-    - text: '<i class="fab fa-slack-hash"></i> Slack' 
-      type: outline-theme-dark
-      url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I    
+    # - text: '<i class="fab fa-slack-hash"></i> Slack' 
+    #   type: outline-theme-dark
+    #   url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I    
   height: 50vh
   theme: dark
   background_color: "#0296D8"
@@ -217,6 +220,9 @@ data:
       theme: dark
       excerpt: 
       actions:        
+        - text: '<i class="fas fa-terminal"></i> View Demo'
+          type: outline-theme-dark
+          url: https://demo.johnsnowlabs.com
         - text: '<i class="fas fa-terminal"></i> Examples'
           type: outline-theme-dark
           url: https://github.com/JohnSnowLabs/spark-nlp-workshop
