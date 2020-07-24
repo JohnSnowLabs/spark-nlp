@@ -95,6 +95,10 @@ class MultiClassifierDLModel(override val uid: String)
   def setDatasetParams(params: ClassifierDatasetEncoderParams): MultiClassifierDLModel.this.type =
     set(this.datasetParams, params)
 
+  def getLabels: Array[String] = {
+    val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
+    encoder.tags
+  }
   /** The minimum threshold for each label to be accepted. Default is 0.5
     *
     * @group setParam
