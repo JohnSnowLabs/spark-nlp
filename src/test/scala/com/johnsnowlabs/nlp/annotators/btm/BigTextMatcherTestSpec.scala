@@ -92,14 +92,14 @@ class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
 
     val m = recursivePipeline.fit(data)
     m.write.overwrite().save("./tmp_bigtm")
-    m.transform(data).show(false)
+    m.transform(data).show(1,false)
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
   "A big text matcher pipeline" should "work fine" in {
     val m = PipelineModel.load("./tmp_bigtm")
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
-    m.transform(dataset).show(false)
+    m.transform(dataset).show(1,false)
   }
 
   val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)

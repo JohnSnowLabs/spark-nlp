@@ -41,4 +41,14 @@ class ResourceDownloaderSpec extends FlatSpec {
     assert(found.isDefined)
     assert(found.get == b.name_en_old)
   }
+
+  "CloudResourceDownloader" should "allow download of model for 2.4  for 2.3 found resource" in{
+    val found = ResourceMetadata.resolveResource(List(b.name_en_251_23), ResourceRequest("name", Some("en"), "", Version(2, 5, 1), Version(2, 4, 4)))
+    assert(found.isDefined)
+  }
+
+  "CloudResourceDownloader" should "not allow download of model for 3  for 2.3 found resource" in{
+    val found = ResourceMetadata.resolveResource(List(b.name_en_251_23), ResourceRequest("name", Some("en"), "", Version(2, 5, 1), Version(3)))
+    assert(!found.isDefined)
+  }
 }

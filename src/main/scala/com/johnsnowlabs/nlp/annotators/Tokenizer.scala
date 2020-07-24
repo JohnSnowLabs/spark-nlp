@@ -371,6 +371,8 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   def getMaxLength(value: Int): Int = $(maxLength)
 
   setDefault(
+    inputCols -> Array(DOCUMENT),
+    outputCol -> "token",
     targetPattern -> "\\S+",
     contextChars -> Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'"),
     caseSensitiveExceptions -> true,

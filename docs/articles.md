@@ -22,6 +22,18 @@ Browse through our collection of articles and blog posts to deepen your knowledg
 
 <div>{%- include extensions/slideshare.html id='zjf39rlmmdqJEp' -%}</div>
 
+### [Contextual Parser in Spark NLP: Extracting Medical Entities Contextually](https://medium.com/spark-nlp/contextual-parser-in-spark-nlp-extracting-medical-entities-contextually-cdbf0e2cb693)
+
+Alina Petukhova | **July 20, 2020**
+
+### [Setup Spark NLP on Databricks in 2 Minutes and get the taste of scalable NLP](https://medium.com/spark-nlp/spark-nlp-quickstart-tutorial-with-databricks-5df54853cf0a)
+
+Christian Kasim Loan | **May 25, 2020**
+
+### [Applying Context Aware Spell Checking in Spark NLP](https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc)
+
+Alberto Andreotti | **May 21, 2020**
+
 ### [Named Entity Recognition (NER) with BERT in Spark NLP](https://towardsdatascience.com/named-entity-recognition-ner-with-bert-in-spark-nlp-874df20d1d77)
 
 By Veysel Kocaman | **March 04, 2020**

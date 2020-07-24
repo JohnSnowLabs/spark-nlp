@@ -561,6 +561,138 @@ Results:
 
 ![Result with regions](/assets/images/ocr/with_regions.png)
 
+# Dicom processing
+
+## DicomToImage
+
+`DicomToImage` transforms dicom object (loaded as binary file) to image struct.
+
+##### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | content | binary dicom object |
+| originCol | string | path | path to the original file |
+
+
+##### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image | extracted image struct ([Image schema](ocr_structures#image-schema)) |
+| pageNumCol | integer | pagenum | page (image) number begin from 0 |
+| metadataCol | string | metadata | Output column name for dicom metatdata ( json formatted )  |
+
+**Scala example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DicomToImage
+
+val dicomPath = "path to dicom files"
+
+// Read dicom file as binary file
+val df = spark.read.format("binaryFile").load(dicomPath)
+
+val dicomToImage = new DicomToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+  .setMetadataCol("meta")
+
+val data = dicomToImage.transform(df)
+
+data.select("image", "pagenum", "meta").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+dicomPath = "path to dicom files"
+
+# Read dicom file as binary file
+df = spark.read.format("binaryFile").load(dicomPath)
+
+dicomToImage = DicomToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image") \
+  .setMetadataCol("meta")
+
+data = dicomToImage.transform(df)
+
+data.select("image", "pagenum", "meta").show()
+```
+
+## ImageToDicom
+
+`ImageToDicom` transforms image to Dicom document.
+
+##### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| originCol | string | path | path to the original file |
+| metadataCol | string | metadata | dicom metatdata ( json formatted )  |
+
+
+
+##### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | dicom | binary dicom object  |
+
+**Scala example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToDicom
+
+val imagePath = "path to image file"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToDicom = new ImageToDicom()
+  .setInputCol("image")
+  .setOutputCol("dicom")
+
+val data = imageToDicom.transform(df)
+
+data.select("dicom").show()
+
+
+
+```
+
+```python
+from sparkocr.transformers import *
+
+imagePath = "path to image file"
+
+# Read image file as binary file
+df = spark.read.format("binaryFile").load(imagePath)
+
+binaryToImage = BinaryToImage() \
+  .setInputCol("content") \
+  .setOutputCol("image")
+
+image_df = binaryToImage.transform(df)
+
+imageToDicom = ImageToDicom() \
+  .setInputCol("image") \
+  .setOutputCol("dicom")
+
+data = imageToDicom.transform(image_df)
+
+data.select("dicom").show()
+```
+
 # Image pre-processing
 
 Next section describes the transformers for image pre-processing: scaling, binarization, skew correction, etc.
@@ -620,6 +752,7 @@ data = binaryToImage.transform(df)
 
 data.select("image").show()
 ```
+
 
 ## ImageBinarizer
 
@@ -810,74 +943,6 @@ for r in result.select("image", "corrected_image").collect():
 
 ![binarized](/assets/images/ocr/adaptive_binarized.png)
 
-## ImageErosion
-
-`ImageErosion` erodes image.
-
-#### Input Columns
-
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
-
-#### Parameters
-
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| kernelSize | int | 2 |
-
-#### Output Columns
-
-| Param name | Type | Default | Column Data Description |
-| --- | --- | --- | --- |
-| outputCol | string | eroded_image | image struct ([Image schema](ocr_structures#image-schema)) |
-
-
-**Example:**
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```scala
-import com.johnsnowlabs.ocr.transformers.ImageErosion
-import com.johnsnowlabs.ocr.OcrContext.implicits._
-
-val imagePath = "path to image"
-
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
-
-val transformer = new ImageErosion()
-  .setInputCol("image")
-  .setOutputCol("eroded_image")
-  .setKernelSize(1)
-
-val data = transformer.transform(df)
-data.storeImage("eroded_image")
-```
-
-```python
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read \
-  .format("binaryFile") \
-  .load(imagePath) \
-  .asImage("image")
-
-transformer = ImageErosion() \
-  .setInputCol("image") \
-  .setOutputCol("eroded_image") \
-  .setKernelSize(1)
-
-data = transformer.transform(df)
-data.show()
-
-```
 
 ## ImageScaler
 
@@ -1316,16 +1381,17 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 ```
 
-## ImageMorphologyOpening
+## ImageMorphologyOperation
 
 **python only**
 
-`ImageMorphologyOpening` Return greyscale morphological opening of an image.
-                     
- The morphological opening on an image is defined as an erosion followed by
- a dilation. Opening can remove small bright spots (i.e. "salt") and connect
- small dark cracks. This tends to "open" up (dark) gaps between (bright)
- features.
+`ImageMorphologyOperation`is a transformer for applying morphological operations to image.
+
+It supports following operation:
+* Erosion
+* Dilation
+* Opening
+* Closing
 
 #### Input Columns
 
@@ -1337,10 +1403,10 @@ data = pipeline.transform(df)
 
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
+| operation | [MorphologyOperationType](ocr_structures#morphologyoperationtype) | MorphologyOperationType.OPENING | Operation type |
 | kernelShape | [KernelShape](ocr_structures#kernelshape) | KernelShape.DISK | Kernel shape. |
 | kernelSize | int | 1 | Kernel size in pixels. |
 
-[*] : _None_ value disables removing objects.
 
 #### Output Columns
 
@@ -1405,7 +1471,8 @@ df = spark.read
 
 binary_to_image = BinaryToImage() \
     .setInputCol("content") \
-    .setOutputCol("image")
+    .setOutputCol("image") \
+    .setOperation(MorphologyOperationType.OPENING)
 
 adaptive_thresholding = ImageAdaptiveThresholding() \
     .setInputCol("image") \
@@ -1413,7 +1480,7 @@ adaptive_thresholding = ImageAdaptiveThresholding() \
     .setBlockSize(75) \
     .setOffset(0)
 
-opening = ImageMorphologyOpening() \
+opening = ImageMorphologyOperation() \
     .setInputCol("corrected_image") \
     .setOutputCol("opening_image") \
     .setkernelSize(1)
@@ -2125,4 +2192,133 @@ pipeline = Pipeline(stages=[
 
 results = pipeline.fit(df).transform(df)
 results.show()
+
+
 ```
+
+## FoundationOneReportParser
+
+`FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
+Current implementation support parsing patient info, genomic and biomarker findings.
+Output format is json.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | Сolumn name with text of report |
+| originCol | string | path | path to the original file |
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | report | Name of output column with report in json format. |
+
+**Example:**
+
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers._
+import org.apache.spark.ml.Pipeline
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToText = new PdfToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+  .setSplitPage(false)
+  .setTextStripper(TextStripperType.PDF_LAYOUT_TEXT_STRIPPER)
+
+val genomicsParser = new FoundationOneReportParser()
+      .setInputCol("text")
+      .setOutputCol("report")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  pdfToText,
+  genomicsParser
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val report =  modelPipeline.transform(df)
+
+```
+
+```python
+from pyspark.ml import Pipeline
+from sparkocr.transformers import *
+from sparkocr.enums import TextStripperType
+
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text = PdfToText()
+pdf_to_text.setInputCol("content")
+pdf_to_text.setOutputCol("text")
+pdf_to_text.setSplitPage(False)
+pdf_to_text.setTextStripper(TextStripperType.PDF_LAYOUT_TEXT_STRIPPER)
+
+genomic_parser = FoundationOneReportParser()
+genomic_parser.setInputCol("text")
+genomic_parser.setOutputCol("report")
+
+report = genomic_parser.transform(pdf_to_text.transform(df)).collect()
+
+
+
+
+
+
+
+```
+
+Output:
+
+```json
+{
+  "Patient" : {
+    "disease" : "Unknown primary melanoma",
+    "name" : "Lekavich Gloria",
+    "date_of_birth" : "11 November 1926",
+    "sex" : "Female",
+    "medical_record" : "11111"
+  },
+  "Physician" : {
+    "ordering_physician" : "Genes Pinley",
+    "medical_facility" : "Health Network Cancer Institute",
+    "additional_recipient" : "Nath",
+    "medical_facility_id" : "202051",
+    "pathologist" : "Manqju Nwath"
+  },
+  "Specimen" : {
+    "specimen_site" : "Rectum",
+    "specimen_id" : "AVS 1A",
+    "specimen_type" : "Slide",
+    "date_of_collection" : "20 March 2015",
+    "specimen_received" : "30 March 2015 "
+  },
+  "Biomarker_findings" : [ {
+    "name" : "Tumor Mutation Burden",
+    "state" : "TMB-Low (3Muts/Mb)",
+    "actionability" : "No therapies or clinical trials. "
+  } ],
+  "Genomic_findings" : [ {
+    "name" : "FLT3",
+    "state" : "amplification",
+    "therapies_with_clinical_benefit_in_patient_tumor_type" : [ "none" ],
+    "therapies_with_clinical_benefit_in_other_tumor_type" : [ "Sorafenib", "Sunitinib", "Ponatinib" ]
+  } ]
+}
+```
+
+

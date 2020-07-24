@@ -1288,6 +1288,38 @@ val nerTagger = new NerDLApproach()
         .fit(trainNer)
 ```
 
+### NER Converter
+
+#### Converts IOB or IOB2 representation of NER to user-friendly
+
+NER Converter used to finalize work of NER annotators. Combines entites with types `B-`, `I-` and etc. to the Chunks with Named entity in the metadata field (if LightPipeline is used can be extracted after `fullAnnotate()`)  
+ 
+**Output type:** Chunk 
+**Input types:** Document, Token, Named_Entity  
+**Reference:** [NerConverter](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverter.scala)  
+**Functions:**
+
+- setWhiteList(Array(String)): If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels.
+- setPreservePosition(Boolean): Whether to preserve the original position of the tokens in the original document or use the modified tokens.
+
+**Example:**
+
+Refer to the [NerConverter](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.NerConverter) Scala docs for more details on the API.
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+nerConverter = NerConverter()\
+    .setInputCols(["sentence", "token", "ner_src"])\
+    .setOutputCol("ner_chunk")
+```
+
+```scala
+val nerConverter = new NerConverter()
+        .setInputCols("sentence", "token", "ner_src")
+        .setOutputCol("ner_chunk")
+```
+
 ### Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  

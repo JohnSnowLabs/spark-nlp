@@ -2,10 +2,11 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.util.Locale
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamValidators, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
+import com.johnsnowlabs.nlp.AnnotatorType._
 
 /** This annotator excludes from a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences.
   *
@@ -26,9 +27,6 @@ import org.apache.spark.ml.util.Identifiable
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class StopWordsCleaner(override val uid: String) extends AnnotatorModel[StopWordsCleaner] {
-
-  import com.johnsnowlabs.nlp.AnnotatorType._
-
 
   /** Output annotator type: TOKEN
     *
@@ -151,4 +149,17 @@ class StopWordsCleaner(override val uid: String) extends AnnotatorModel[StopWord
 
 }
 
-object StopWordsCleaner extends ParamsAndFeaturesReadable[StopWordsCleaner]
+trait ReadablePretrainedStopWordsCleanerModel
+  extends ParamsAndFeaturesReadable[StopWordsCleaner]
+    with HasPretrained[StopWordsCleaner] {
+  override val defaultModelName: Some[String] = Some("stopwords_en")
+
+  /** Java compliant-overrides */
+  override def pretrained(): StopWordsCleaner = super.pretrained()
+  override def pretrained(name: String): StopWordsCleaner = super.pretrained(name)
+  override def pretrained(name: String, lang: String): StopWordsCleaner = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): StopWordsCleaner =
+    super.pretrained(name, lang, remoteLoc)
+}
+
+object StopWordsCleaner extends ParamsAndFeaturesReadable[StopWordsCleaner] with ReadablePretrainedStopWordsCleanerModel

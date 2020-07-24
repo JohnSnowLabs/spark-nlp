@@ -23,6 +23,12 @@ class VersionSpec extends FlatSpec {
     assert(Version.isCompatible(Version(1,2,3), Version(1,2,2)))
     assert(Version.isCompatible(Version(1,2,3,1), Version(1,2,2,8)))
     assert(!Version.isCompatible(Version(1,2,1,5), Version(1,2,2,2)))
+    assert(Version.isCompatible(Version(2,3,4), Version(2,3)))
+    assert(Version.isCompatible(Version(2,4,4), Version(2,3)))
+    assert(Version.isCompatible(Version(2,3,4), Version(2)))
+    assert(Version.isCompatible(Version(2,4,4), Version(2)))
+    assert(Version.isCompatible(Version(2,4,4), Version(2,3,3)))
+    assert(!Version.isCompatible(Version(3), Version(2,3)))
   }
 
 }
