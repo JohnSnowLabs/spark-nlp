@@ -22,7 +22,7 @@ class TensorflowMultiClassifier(
   private val numClasses: Int = encoder.params.tags.length
 
   private val predictionKey = s"sigmoid_output_$numClasses/Sigmoid:0"
-  private val optimizer = s"optimizer_adam_$numClasses/Adam/mul:0"
+  private val optimizer = s"optimizer_adam_$numClasses/Adam"
   private val cost = s"loss_$numClasses/loss:0"
   private val accuracy = s"accuracy_$numClasses/mean_accuracy:0"
   private val accuracyPerEntity = s"accuracy_$numClasses/mean_accuracy_per_entity:0"
@@ -110,13 +110,13 @@ class TensorflowMultiClassifier(
         val dpTensor = tensors.createTensor(dropout.toFloat)
 
         val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+          .addTarget(optimizer)
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
           .feed(sequenceLengthKey, sequenceLengthTensor)
           .feed(learningRateKey, lrTensor)
           .feed(dropouttKey, dpTensor)
           .fetch(predictionKey)
-          .fetch(optimizer)
           .fetch(cost)
           .fetch(accuracy)
           .fetch(accuracyPerEntity)
@@ -124,11 +124,11 @@ class TensorflowMultiClassifier(
           .fetch(f1ScoreMeanLayer)
           .run()
 
-        loss += TensorResources.extractFloats(calculated.get(2))(0)
-        acc += TensorResources.extractFloats(calculated.get(3))(0)
-        accEntity += TensorResources.extractFloats(calculated.get(4))(0)
-        f1Score += TensorResources.extractFloats(calculated.get(5))(0)
-        f1ScoreMean += TensorResources.extractFloats(calculated.get(6))(0)
+        loss += TensorResources.extractFloats(calculated.get(1))(0)
+        acc += TensorResources.extractFloats(calculated.get(2))(0)
+        accEntity += TensorResources.extractFloats(calculated.get(3))(0)
+        f1Score += TensorResources.extractFloats(calculated.get(4))(0)
+        f1ScoreMean += TensorResources.extractFloats(calculated.get(5))(0)
 
         batches += 1
 
