@@ -42,24 +42,24 @@ class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
 
     prefixes = Param(Params._dummy(),
-                          "prefixes",
-                          "strings to be considered independent tokens when found at the beginning of a word",
-                          typeConverter=TypeConverters.toListString)
+                     "prefixes",
+                     "strings to be considered independent tokens when found at the beginning of a word",
+                     typeConverter=TypeConverters.toListString)
 
     suffixes = Param(Params._dummy(),
-                          "suffixes",
-                          "strings to be considered independent tokens when found at the end of a word",
-                          typeConverter=TypeConverters.toListString)
+                     "suffixes",
+                     "strings to be considered independent tokens when found at the end of a word",
+                     typeConverter=TypeConverters.toListString)
 
     infixes = Param(Params._dummy(),
-                          "infixes",
-                          "strings to be considered independent tokens when found in the middle of a word",
-                          typeConverter=TypeConverters.toListString)
+                    "infixes",
+                    "strings to be considered independent tokens when found in the middle of a word",
+                    typeConverter=TypeConverters.toListString)
 
     whitelist = Param(Params._dummy(),
-                          "whitelist",
-                          "strings to be considered as single tokens",
-                          typeConverter=TypeConverters.toListString)
+                      "whitelist",
+                      "strings to be considered as single tokens",
+                      typeConverter=TypeConverters.toListString)
 
     def setPrefixes(self, p):
         return self._set(prefixes=p)
@@ -81,7 +81,7 @@ class RecursiveTokenizer(AnnotatorApproach):
             infixes=["\n", "(", ")"],
             suffixes=[".", ":", "%", ",", ";", "?", "'", "\"", ")", "]", "\n", "!", "'s"],
             whitelist=["it's", "that's", "there's", "he's", "she's", "what's", "let's", "who's", \
-                "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
+                       "It's", "That's", "There's", "He's", "She's", "What's", "Let's", "Who's"]
         )
 
 
@@ -325,6 +325,54 @@ class TokenizerModel(AnnotatorModel):
     def pretrained(name="token_rules", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TokenizerModel, name, lang, remote_loc)
+
+
+class RegexTokenizer(AnnotatorModel):
+
+    name = "RegexTokenizer"
+
+    @keyword_only
+    def __init__(self):
+        super(RegexTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexTokenizer")
+        self._setDefault(
+            inputCols="document",
+            outputCol="regexToken",
+            toLowercase=False,
+            minLength=1,
+            pattern="\\s+"
+        )
+
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    toLowercase = Param(Params._dummy(),
+                                    "toLowercase",
+                                    "Indicates whether to convert all characters to lowercase before tokenizing.",
+                                    typeConverter=TypeConverters.toBoolean)
+
+    pattern = Param(Params._dummy(),
+                          "pattern",
+                          "regex pattern used for tokenizing. Defaults \S+",
+                          typeConverter=TypeConverters.toString)
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
+
+    def setToLowercase(self, value):
+        return self._set(toLowercase=value)
+
+    def setPattern(self, value):
+        return self._set(pattern=value)
 
 
 class ChunkTokenizer(Tokenizer):
@@ -610,9 +658,15 @@ class TextMatcher(AnnotatorApproach):
                              typeConverter=TypeConverters.toBoolean)
 
     entityValue = Param(Params._dummy(),
-                             "entityValue",
-                             "value for the entity metadata field",
-                             typeConverter=TypeConverters.toString)
+                        "entityValue",
+                        "value for the entity metadata field",
+                        typeConverter=TypeConverters.toString)
+
+
+    buildFromTokens = Param(Params._dummy(),
+                            "buildFromTokens",
+                            "whether the TextMatcher should take the CHUNK from TOKEN or not",
+                            typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
@@ -635,6 +689,9 @@ class TextMatcher(AnnotatorApproach):
     def setEntityValue(self, b):
         return self._set(entityValue=b)
 
+    def setBuildFromTokens(self, b):
+        return self._set(buildFromTokens=b)
+
 
 class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
@@ -654,6 +711,12 @@ class TextMatcherModel(AnnotatorModel):
                         "value for the entity metadata field",
                         typeConverter=TypeConverters.toString)
 
+
+    buildFromTokens = Param(Params._dummy(),
+                            "buildFromTokens",
+                            "whether the TextMatcher should take the CHUNK from TOKEN or not",
+                            typeConverter=TypeConverters.toBoolean)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.TextMatcherModel", java_model=None):
         super(TextMatcherModel, self).__init__(
             classname=classname,
@@ -665,6 +728,9 @@ class TextMatcherModel(AnnotatorModel):
 
     def setEntityValue(self, b):
         return self._set(entityValue=b)
+
+    def setBuildFromTokens(self, b):
+        return self._set(buildFromTokens=b)
 
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
@@ -1845,6 +1911,11 @@ class StopWordsCleaner(AnnotatorModel):
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
 
+    @staticmethod
+    def pretrained(name="stopwords_en", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(StopWordsCleaner, name, lang, remote_loc)
+
 
 class NGramGenerator(AnnotatorModel):
 
@@ -2402,11 +2473,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 class ContextSpellCheckerModel(AnnotatorModel):
     name = "ContextSpellCheckerModel"
 
-    languageModelClasses = Param(Params._dummy(),
-                                 "languageModelClasses",
-                                 "Number of classes to use during factorization of the softmax output in the LM.",
-                                 typeConverter=TypeConverters.toInt)
-
     wordMaxDistance = Param(Params._dummy(),
                             "wordMaxDistance",
                             "Maximum distance for the generated candidates for every word.",
@@ -2453,8 +2519,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
-    def setLanguageModelClasses(self, count):
-        return self._set(languageModelClasses=count)
 
     def setWordMaxDistance(self, dist):
         return self._set(wordMaxDistance=dist)

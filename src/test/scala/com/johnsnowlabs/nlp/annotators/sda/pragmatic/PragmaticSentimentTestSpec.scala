@@ -47,7 +47,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
     val resultFromMemory = sentimentDetector.fit(dataFromMemory).transform(dataFromMemory)
 
     val date3 = new Date().getTime
-    resultFromMemory.show
+    resultFromMemory.show(2)
     info(s"20 show sample of memory based sentiment analysis took: ${(new Date().getTime - date3)/1000} seconds")
 
     val date4 = new Date().getTime

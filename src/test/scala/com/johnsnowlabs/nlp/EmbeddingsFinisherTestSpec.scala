@@ -58,7 +58,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-
+    /*
     pipelineDF.select(size(pipelineDF("finished_embeddings")).as("sentence_embeddings_size")).show
     pipelineDF.select("finished_embeddings").show(2)
 
@@ -72,7 +72,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
 
     pipelineDF.printSchema()
     explodedVectors.printSchema()
-
+    */
   }
 
   "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" in {
@@ -132,12 +132,12 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     val pipelineModel = pipeline.fit(smallCorpus)
     val pielineDF = pipelineModel.transform(smallCorpus)
 
+    /*
     pielineDF.show()
     pielineDF.printSchema()
 
     pielineDF.select(size(pielineDF("embeddings_vectors")).as("sentence_embeddings_size")).show
     pielineDF.select("embeddings_vectors").show(2)
-
 
     pielineDF.select(size(pielineDF("sentence_embeddings_vectors")).as("sentence_embeddings_size")).show
     pielineDF.select("sentence_embeddings_vectors").show(2)
@@ -145,7 +145,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     pielineDF.select("features").show(2)
 
     pielineDF.select("normFeatures").show(2)
-
+    */
   }
 
 }

@@ -15,6 +15,10 @@ trait StorageBatchWriter[A] extends StorageWriter[A] {
       flush(localBatch)
   }
 
+  def merge(word: String, content: A): Unit = {
+    merge(localBatch, word, content)
+  }
+
   override def flush(batch: WriteBatch): Unit = {
     super.flush(batch)
     localBatch = new WriteBatch()

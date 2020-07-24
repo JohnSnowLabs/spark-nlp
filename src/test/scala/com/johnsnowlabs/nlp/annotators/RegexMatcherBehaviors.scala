@@ -14,7 +14,6 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
       .flatMap { _.getSeq[Row](0) }
       .map { Annotation(_) }
 
-    annotationDataset.show()
   }
 
   def customizedRulesRegexMatcher(dataset: => Dataset[Row], rules: Array[(String, String)], strategy: String): Unit = {

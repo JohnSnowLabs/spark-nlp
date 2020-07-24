@@ -1,4 +1,55 @@
 ========
+2.5.4
+========
+---------------
+New Features
+---------------
+* Add support for Apache Spark 2.3.x including new Maven artifacts and full support of all pre-trained models/pipelines
+* Add 43 new pre-trained models in 43 languages to StopWordsCleaner annotator
+* Introduce a new RegexTokenizer to split text by regex pattern
+
+---------------------
+Enhancements
+---------------------
+* Retrained 6 new BioBERT and ClinicalBERT models 
+* Add a new param to `start()` function to start the session for Apache Spark 2.3.x
+
+----------------
+Bugfixes
+----------------
+* Add missing library for SentencePiece used by AlbertEmbeddings and XlnetEmbeddings on Windows
+* Fix ModuleNotFoundError in LanguageDetectorDL pipelines in Python
+
+
+========
+2.5.3
+========
+---------------
+New Features
+---------------
+* TextMatcher now can construct the chunks from tokens instead of the original documents via buildFromTokens param
+* CoNLLGenerator now is accessible in Python
+
+
+----------------
+Bugfixes
+----------------
+* Fix a bug in ContextSpellChecker resulting in IllegalArgumentException
+
+---------------------
+Enhancements
+---------------------
+* Improve RocksDB connection to support different storage capabilities
+* Improve parameters naming convention in ContextSpellChecker
+
+---------------------
+Enhancements
+---------------------
+* Add NerConverter to documentation
+* Fix multi-language tabs in documentation
+
+
+========
 2.5.2
 ========
 ---------------

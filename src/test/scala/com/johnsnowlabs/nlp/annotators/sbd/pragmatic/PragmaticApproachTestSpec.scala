@@ -6,9 +6,6 @@ import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
 
-/**
-  * Created by Saif Addin on 5/7/2017.
-  */
 
 class PragmaticApproachBigTestSpec extends FlatSpec {
 
@@ -48,7 +45,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     /** Process from disk */
 
     val date1 = new Date().getTime
-    tokenizedFromDisk.transform(sentenced).show
+    //    tokenizedFromDisk.transform(sentenced).show
     info(s"20 Show sample of disk based SBD took: ${(new Date().getTime - date1)/1000} seconds")
 
     val date2 = new Date().getTime
@@ -63,7 +60,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     info(s"loading tokenized data into memory. Amount of rows: ${sentencedFromMemory.count}")
 
     val date3 = new Date().getTime
-    tokenizedFromDisk.transform(sentencedFromMemory).show
+    //    tokenizedFromDisk.transform(sentencedFromMemory).show
     info(s"20 Show sample of SBD from Memory took: ${(new Date().getTime - date3)/1000} seconds")
 
     val date4 = new Date().getTime
@@ -74,7 +71,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
     tokenizedFromDisk
       .transform(sentencedFromMemory)
       .withColumn("flattened", Annotation.flatten("#", "@", false)($"my_sbd_sentences"))
-      .show
+      .show(1)
 
     succeed
 

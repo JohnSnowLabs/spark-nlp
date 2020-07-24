@@ -63,11 +63,11 @@ class FunctionsTestSpec extends FlatSpec {
       annotations.filter(_.result == "JJ")
     })(col("pos")))
 
-    mapped.show(truncate = false)
-    modified.show(truncate = false)
-    filtered.show(truncate = false)
-    udfed.show(truncate = false)
-    udfed2.show(truncate = false)
+    mapped.show(1)
+    modified.show(1)
+    filtered.show(1)
+    udfed.show(1)
+    udfed2.show(1)
   }
 
 }
