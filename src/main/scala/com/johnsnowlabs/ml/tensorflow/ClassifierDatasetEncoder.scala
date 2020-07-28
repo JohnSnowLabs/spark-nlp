@@ -62,13 +62,13 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     * @param dataset Input DataFrame with embeddings and labels
     * @return Array of Array of Map(Array(String), Array(Float))
     */
-  def collectTrainingInstancesMultiLabel(dataset: DataFrame, labelCol: String, maxSequenceLength: Int): Array[Array[(Array[String], Array[Float])]] = {
+  def collectTrainingInstancesMultiLabel(dataset: DataFrame, labelCol: String): Array[Array[(Array[String], Array[Float])]] = {
     val results = dataset
       .select("embeddings", labelCol)
       .filter(size(col("embeddings")(0)) > 0)
       .rdd
       .map { row =>
-        val newRow = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[Float]]].map(x => x.toArray).take(maxSequenceLength)
+        val newRow = row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[Float]]].map(x => x.toArray)
         val label = row.get(1).asInstanceOf[mutable.WrappedArray[String]].toArray
         val labelEmbed = newRow.flatMap{e=> Map(label -> e)}.toArray
         labelEmbed
@@ -115,14 +115,11 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
     */
   def extractSentenceEmbeddingsMultiLabel(dataset: Array[Array[(Array[String], Array[Float])]]): Array[Array[Array[Float]]] = {
     dataset.flatMap{x => x.groupBy(x=>x._1).map{ x =>
-      x._2.map(y=>y._2)
+      x._2.map{y=>
+        val padding = Array.fill[Float](1024 - y._2.length)(0f)
+        y._2 ++ padding
+      }
     }}
-//    dataset.flatMap{x => x.groupBy(x=>x._1).map{ x =>
-//      x._2.map{y=>
-//        val padding = Array.fill[Float](1024 - y._2.length)(0f)
-//        y._2 ++ padding
-//      }
-//    }}
   }
 
   /**
@@ -140,12 +137,10 @@ class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) exten
   }
 
   def extractSentenceEmbeddingsMultiLabelPredict(docs: Seq[(Int, Seq[Annotation])]): Array[Array[Array[Float]]] = {
-    Array(docs.flatMap(x=>x._2.map(x=>x.embeddings)).toArray)
-
-//    Array(docs.flatMap(x=>x._2.map{x=>
-//      val padding = Array.fill[Float](1024 - x.embeddings.length)(0f)
-//      x.embeddings ++ padding
-//    }).toArray)
+    Array(docs.flatMap(x=>x._2.map{x=>
+      val padding = Array.fill[Float](1024 - x.embeddings.length)(0f)
+      x.embeddings ++ padding
+    }).toArray)
   }
 
   /**
