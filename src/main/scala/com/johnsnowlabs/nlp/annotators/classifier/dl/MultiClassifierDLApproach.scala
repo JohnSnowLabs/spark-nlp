@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowMultiClassifier, TensorflowWrapper}
-import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, WORD_EMBEDDINGS}
+import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
@@ -16,7 +16,7 @@ import scala.util.Random
 
 /**
   * MultiClassifierDL is a Multi-label Text Classification. MultiClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
-  * The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes
+  * The MultiClassifierDL annotator uses a Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes
   *
   * NOTE: This annotator accepts an array of labels in type of String.
   *
@@ -50,7 +50,8 @@ class MultiClassifierDLApproach(override val uid: String)
     *
     * @group anno
     **/
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
   /** Output annotator type : CATEGORY
     *
     * @group anno
@@ -62,31 +63,43 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group param
     **/
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
+
   /** Column with label per each document
     *
     * @group param
     **/
   val labelColumn = new Param[String](this, "labelColumn", "Column with label per each document")
+
   /** Learning Rate
     *
     * @group param
     **/
   val lr = new FloatParam(this, "lr", "Learning Rate")
+
   /** Batch size
     *
     * @group param
     **/
   val batchSize = new IntParam(this, "batchSize", "Batch size")
+
   /** Dropout coefficient
     *
     * @group param
     **/
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
+
+  /** posWeight coefficient
+    *
+    * @group param
+    **/
+  val posWeight = new FloatParam(this, "posWeight", "A coefficient to use on the positive examples.")
+
   /** Maximum number of epochs to train
     *
     * @group param
     **/
   val maxEpochs = new IntParam(this, "maxEpochs", "Maximum number of epochs to train")
+
   /** Whether to output to annotators log folder
     *
     * @group param
@@ -100,15 +113,18 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group param
     **/
   val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
+
   /** Level of verbosity during training
     *
     * @group param
     **/
   val verbose = new IntParam(this, "verbose", "Level of verbosity during training")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group param
     **/
+
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** The minimum threshold for each label to be accepted. Default is 0.5
@@ -117,11 +133,11 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   val threshold = new FloatParam(this, "threshold", "The minimum threshold for each label to be accepted. Default is 0.5")
 
-  /** Max sequence length to feed into TensorFlow
+  /** Whether to shuffle the training data on each Epoch
     *
     * @group param
     **/
-  val maxSequenceLength = new IntParam(this, "maxSequenceLength", "Max sequence length to feed into TensorFlow")
+  val shufflePerEpoch = new BooleanParam(this, "shufflePerEpoch", "hether to shuffle the training data on each Epoch")
 
   /** Column with label per each document
     *
@@ -146,6 +162,12 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setDropout(dropout: Float): MultiClassifierDLApproach.this.type = set(this.dropout, dropout)
+
+  /** posWeight coefficient
+    *
+    * @group setParam
+    **/
+  def setPosWeight(posWeight: Float): MultiClassifierDLApproach.this.type = set(this.posWeight, posWeight)
 
   /** Maximum number of epochs to train
     *
@@ -178,6 +200,10 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   def setVerbose(verbose: Int): MultiClassifierDLApproach.this.type = set(this.verbose, verbose)
 
+  /** outputLogsPath
+    *
+    * @group setParam
+    **/
   def setOutputLogsPath(path: String):MultiClassifierDLApproach.this.type = set(this.outputLogsPath, path)
 
   /** Level of verbosity during training
@@ -192,16 +218,14 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   def setThreshold(threshold: Float): MultiClassifierDLApproach.this.type = set(this.threshold, threshold)
 
-  /**
-    * Max sequence length to feed into TensorFlow
+  /** shufflePerEpoch
+    *
     *
     * @group setParam
     **/
-  def setMaxSequenceLength(value: Int): this.type = {
-    if (get(maxSequenceLength).isEmpty)
-      set(maxSequenceLength, value)
-    this
-  }
+  def setShufflePerEpoch(value: Boolean): MultiClassifierDLApproach.this.type = set(this.shufflePerEpoch, value)
+
+
 
   /** Column with label per each document
     *
@@ -226,6 +250,12 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group getParam
     **/
   def getDropout: Float = $(this.dropout)
+
+  /** posWeight coefficient
+    *
+    * @group getParam
+    **/
+  def getPosWeight: Float = $(this.posWeight)
 
   /** Whether to output to annotators log folder
     *
@@ -263,19 +293,21 @@ class MultiClassifierDLApproach(override val uid: String)
     *
     * @group getParam
     **/
-  def getMaxSequenceLength: Int = $(maxSequenceLength)
+  def getShufflePerEpochPerEpoch: Boolean = $(shufflePerEpoch)
 
   setDefault(
     maxEpochs -> 10,
     lr -> 5e-3f,
-    dropout -> 0.5f,
+    dropout -> 0.2f,
     batchSize -> 64,
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
     validationSplit -> 0.0f,
     outputLogsPath -> "",
     threshold -> 0.5f,
-    maxSequenceLength -> 256
+    posWeight -> 10.0f,
+    randomSeed -> 44,
+    shufflePerEpoch -> false
   )
 
   override def beforeTraining(spark: SparkSession): Unit = {}
@@ -288,7 +320,7 @@ class MultiClassifierDLApproach(override val uid: String)
       s"The label column $labelColumn type is $labelColType and it's not compatible. Compatible types are ArrayType(StringType)."
     )
 
-    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), SENTENCE_EMBEDDINGS)
 
     val embeddingsField: String = ".embeddings"
     val inputColumns = getInputCols(0) + embeddingsField
@@ -317,11 +349,11 @@ class MultiClassifierDLApproach(override val uid: String)
         s" with at max 1024 dimensions"
     )
 
-    val trainDataset = encoder.collectTrainingInstancesMultiLabel(train, getLabelColumn, $(maxSequenceLength))
+    val trainDataset = encoder.collectTrainingInstancesMultiLabel(train, getLabelColumn)
     val inputEmbeddings = encoder.extractSentenceEmbeddingsMultiLabel(trainDataset)
     val inputLabels = encoder.extractLabelsMultiLabel(trainDataset)
 
-    val tf = loadSavedModel(embeddingsDim)
+    val tf = loadSavedModel()
 
     val classifier = try {
       val model = new TensorflowMultiClassifier(
@@ -346,6 +378,8 @@ class MultiClassifierDLApproach(override val uid: String)
         enableOutputLogs=$(enableOutputLogs),
         outputLogsPath=$(outputLogsPath),
         threshold=$(threshold),
+        weight=$(posWeight),
+        shuffleEpoch=$(shufflePerEpoch),
         uuid = this.uid
       )
       model
@@ -366,10 +400,10 @@ class MultiClassifierDLApproach(override val uid: String)
     model
   }
 
-  def loadSavedModel(dim: Int): TensorflowWrapper = {
+  def loadSavedModel(): TensorflowWrapper = {
 
     val wrapper =
-      TensorflowWrapper.readZippedSavedModel("/multi-classifier-dl", fileName = s"multi-label-bilstm-${dim}", tags = Array("serve"), initAllTables = true)
+      TensorflowWrapper.readZippedSavedModel("/multi-classifier-dl", fileName = s"multi-label-bilstm-1024", tags = Array("serve"), initAllTables = true)
     wrapper
   }
 }

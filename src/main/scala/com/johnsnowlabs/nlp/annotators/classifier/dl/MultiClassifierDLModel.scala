@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, ReadTensorflowModel, TensorflowMultiClassifier, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, WORD_EMBEDDINGS}
+import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -14,13 +14,14 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 /**
-  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+  * MultiClassifierDL is a Multi-label Text Classification. MultiClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+  * The MultiClassifierDL annotator uses a Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes
   *
-  * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+  * NOTE: This annotator accepts an array of labels in type of String.
   *
   * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala]] for further reference on how to use this API
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala]] for further reference on how to use this API
   *
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -48,7 +49,7 @@ class MultiClassifierDLModel(override val uid: String)
     *
     * @group anno
     **/
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
   /** Output annotator type : CATEGORY
     *
     * @group anno
@@ -143,7 +144,7 @@ class MultiClassifierDLModel(override val uid: String)
   )
 
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-    validateStorageRef(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    validateStorageRef(dataset, $(inputCols), SENTENCE_EMBEDDINGS)
     dataset
   }
 
@@ -155,14 +156,14 @@ class MultiClassifierDLModel(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = annotations
-      .filter(_.annotatorType == WORD_EMBEDDINGS)
+      .filter(_.annotatorType == SENTENCE_EMBEDDINGS)
       .groupBy(_.metadata.getOrElse[String]("sentence", "0").toInt)
       .toSeq
       .sortBy(_._1)
 
-    val embeddingsSize = sentences.flatMap(x=>x._2.flatten(x=>x.embeddings)).nonEmpty
+    val embeddingsLength = sentences.flatMap(x=>x._2.flatten(x=>x.embeddings)).nonEmpty
 
-    if(embeddingsSize) {
+    if(embeddingsLength) {
       getModelIfNotSet.predict(sentences, $(threshold), getConfigProtoBytes)
     }else {
       Seq.empty[Annotation]
