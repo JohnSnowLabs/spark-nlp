@@ -187,7 +187,7 @@ class MultiClassifierDLModel(override val uid: String)
 trait ReadablePretrainedMultiClassifierDL
   extends ParamsAndFeaturesReadable[MultiClassifierDLModel]
     with HasPretrained[MultiClassifierDLModel] {
-  override val defaultModelName: Some[String] = Some("classifierdl_use_trec6")
+  override val defaultModelName: Some[String] = Some("multiclassifierdl_use_toxic")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): MultiClassifierDLModel = {
     ResourceDownloader.downloadModel(MultiClassifierDLModel, name, Option(lang), remoteLoc)
