@@ -34,6 +34,10 @@ Christian Kasim Loan | **May 25, 2020**
 
 Alberto Andreotti | **May 21, 2020**
 
+### [Text Classification in Spark NLP with Bert and Universal Sentence Encoders](https://towardsdatascience.com/text-classification-in-spark-nlp-with-bert-and-universal-sentence-encoders-e644d618ca32)
+
+By Veysel Kocaman | **April 12, 2020**
+
 ### [Named Entity Recognition (NER) with BERT in Spark NLP](https://towardsdatascience.com/named-entity-recognition-ner-with-bert-in-spark-nlp-874df20d1d77)
 
 By Veysel Kocaman | **March 04, 2020**
