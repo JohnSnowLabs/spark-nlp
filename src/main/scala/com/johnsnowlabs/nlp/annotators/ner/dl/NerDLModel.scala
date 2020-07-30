@@ -11,7 +11,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -33,12 +33,12 @@ class NerDLModel(override val uid: String)
     *
     * @group anno
     **/
-  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
   /** Output Annnotator type : NAMED_ENTITY
     *
     * @group anno
     **/
-  override val outputAnnotatorType = NAMED_ENTITY
+  override val outputAnnotatorType: String = NAMED_ENTITY
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
     *
@@ -66,6 +66,8 @@ class NerDLModel(override val uid: String)
     **/
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether to include confidence scores in annotation metadata")
 
+  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+
   setDefault(
     includeConfidence -> false
   )
@@ -74,31 +76,31 @@ class NerDLModel(override val uid: String)
     *
     * @group setParam
     **/
-  def setMinProbability(minProba: Float) = set(this.minProba, minProba)
+  def setMinProbability(minProba: Float): this.type = set(this.minProba, minProba)
 
   /** Size of every batch.
     *
     * @group setParam
     **/
-  def setBatchSize(size: Int) = set(this.batchSize, size)
+  def setBatchSize(size: Int): this.type = set(this.batchSize, size)
 
   /** datasetParams
     *
     * @group setParam
     **/
-  def setDatasetParams(params: DatasetEncoderParams) = set(this.datasetParams, params)
+  def setDatasetParams(params: DatasetEncoderParams): this.type = set(this.datasetParams, params)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group setParam
     **/
-  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): this.type = set(this.configProtoBytes, bytes)
 
   /** whether to include confidence scores in annotation metadata
     *
     * @group setParam
     **/
-  def setIncludeConfidence(value: Boolean) = set(this.includeConfidence, value)
+  def setIncludeConfidence(value: Boolean): this.type = set(this.includeConfidence, value)
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
     *
@@ -129,6 +131,16 @@ class NerDLModel(override val uid: String)
     * @group getParam
     **/
   def getIncludeConfidence: Boolean = $(includeConfidence)
+
+  /** get the tags used to trained this NerDLModel
+    *
+    * @group getParam
+    **/
+  def getClasses: Array[String] = {
+    val encoder = new NerDatasetEncoder(datasetParams.get.get)
+    set(classes, encoder.tags)
+    encoder.tags
+  }
 
   def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
     // Predict
@@ -206,6 +218,9 @@ trait ReadsNERGraph extends ParamsAndFeaturesReadable[NerDLModel] with ReadTenso
   def readNerGraph(instance: NerDLModel, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_nerdl")
     instance.setModelIfNotSet(spark: SparkSession, tf)
+    // This allows for Python to access getClasses function
+    val encoder = new NerDatasetEncoder(instance.datasetParams.get.get)
+    instance.set(instance.classes, encoder.tags)
   }
 
   addReader(readNerGraph)
