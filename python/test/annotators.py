@@ -1120,6 +1120,8 @@ class ClassifierDLTestSpec(unittest.TestCase):
             .setInputCols(["sentence_embeddings"]) \
             .setOutputCol("class")
 
+        print(classsifierdlModel.getClasses())
+
 
 class AlbertEmbeddingsTestSpec(unittest.TestCase):
 
@@ -1192,6 +1194,9 @@ class XlnetEmbeddingsTestSpec(unittest.TestCase):
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
     def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
@@ -1211,4 +1216,10 @@ class XlnetEmbeddingsTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
+class NerDLModelTestSpec(unittest.TestCase):
+    def runTest(self):
+        ner_model = NerDLModel.pretrained()
+        print(ner_model.getClasses())
 
