@@ -2205,6 +2205,10 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
+    classes = Param(Params._dummy(), "classes",
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
