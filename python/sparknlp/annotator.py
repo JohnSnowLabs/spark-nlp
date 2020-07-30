@@ -1538,6 +1538,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    classes = Param(Params._dummy(), "classes",
+                              "get the tags used to trained this NerDLModel",
+                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -2202,6 +2205,10 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
+    classes = Param(Params._dummy(), "classes",
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -2691,7 +2698,10 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
-
+    classes = Param(Params._dummy(), "classes",
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
+    
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
