@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{FloatParam, IntArrayParam}
+import org.apache.spark.ml.param.{FloatParam, IntArrayParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -89,6 +89,8 @@ class MultiClassifierDLModel(override val uid: String)
     * @group param */
   val datasetParams = new StructFeature[ClassifierDatasetEncoderParams](this, "datasetParams")
 
+  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+
   /**
     * datasetParams
     *
@@ -96,8 +98,9 @@ class MultiClassifierDLModel(override val uid: String)
   def setDatasetParams(params: ClassifierDatasetEncoderParams): MultiClassifierDLModel.this.type =
     set(this.datasetParams, params)
 
-  def getLabels: Array[String] = {
+  def getClasses: Array[String] = {
     val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
+    set(classes, encoder.tags)
     encoder.tags
   }
   /** The minimum threshold for each label to be accepted. Default is 0.5
