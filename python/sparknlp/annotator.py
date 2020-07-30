@@ -1538,6 +1538,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    classes = Param(Params._dummy(), "classes",
+                              "get the tags used to trained this NerDLModel",
+                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
