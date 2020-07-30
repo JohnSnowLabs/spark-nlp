@@ -335,7 +335,7 @@ class RegexTokenizer(AnnotatorModel):
     def __init__(self):
         super(RegexTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexTokenizer")
         self._setDefault(
-            inputCols="document",
+            inputCols=["document"],
             outputCol="regexToken",
             toLowercase=False,
             minLength=1,
