@@ -1876,8 +1876,11 @@ class StopWordsCleaner(AnnotatorModel):
     name = "StopWordsCleaner"
 
     @keyword_only
-    def __init__(self):
-        super(StopWordsCleaner, self).__init__(classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner", java_model=None):
+        super(StopWordsCleaner, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
         self._setDefault(
             stopWords=StopWordsCleaner.loadDefaultStopWords("english"),
             caseSensitive=False,
