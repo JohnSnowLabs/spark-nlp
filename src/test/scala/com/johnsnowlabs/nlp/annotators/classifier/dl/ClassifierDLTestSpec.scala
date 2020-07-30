@@ -47,4 +47,9 @@ class ClassifierDLTestSpec extends FlatSpec {
 
   }
 
+  "ClassifierDL" should "correctly download and load pre-trained model" in {
+    val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
+    classifierDL.getClasses.foreach(x=>print(x+", "))
+  }
+
 }

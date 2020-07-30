@@ -29,11 +29,12 @@ unittest.TextTestRunner().run(TypedDependencyParserConllUTestSpec())
 unittest.TextTestRunner().run(DeepSentenceDetectorTestSpec())
 unittest.TextTestRunner().run(SentenceEmbeddingsTestSpec())
 unittest.TextTestRunner().run(StopWordsCleanerTestSpec())
+unittest.TextTestRunner().run(StopWordsCleanerModelTestSpec())
 unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
-
+unittest.TextTestRunner().run(NerDLModelTestSpec())
 # Should be locally tested
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(XlnetEmbeddingsTestSpec())
