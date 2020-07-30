@@ -1120,6 +1120,8 @@ class ClassifierDLTestSpec(unittest.TestCase):
             .setInputCols(["sentence_embeddings"]) \
             .setOutputCol("class")
 
+        print(classsifierdlModel.getClasses())
+
 
 class AlbertEmbeddingsTestSpec(unittest.TestCase):
 
