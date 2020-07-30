@@ -1160,6 +1160,9 @@ class XlnetEmbeddingsTestSpec(unittest.TestCase):
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
     def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
