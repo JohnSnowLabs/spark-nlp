@@ -179,7 +179,7 @@ class MultiClassifierDLModel(override val uid: String)
       path,
       spark,
       getModelIfNotSet.tensorflow,
-      "_classifierdl",
+      "_multiclassifierdl",
       MultiClassifierDLModel.tfFile,
       configProtoBytes = getConfigProtoBytes
     )
@@ -205,12 +205,15 @@ trait ReadablePretrainedMultiClassifierDL
 trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[MultiClassifierDLModel] =>
 
-  override val tfFile: String = "classifierdl_tensorflow"
+  override val tfFile: String = "multiclassifierdl_tensorflow"
 
   def readTensorflow(instance: MultiClassifierDLModel, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowChkPoints(path, spark, "_classifierdl_tf", initAllTables = true)
+    val tf = readTensorflowChkPoints(path, spark, "_multiclassifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
+    // This allows for Python to access getClasses function
+    val encoder = new ClassifierDatasetEncoder(instance.datasetParams.get.get)
+    instance.set(instance.classes, encoder.tags)
   }
 
   addReader(readTensorflow)
