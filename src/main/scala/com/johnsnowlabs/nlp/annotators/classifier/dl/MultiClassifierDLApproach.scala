@@ -137,7 +137,7 @@ class MultiClassifierDLApproach(override val uid: String)
     *
     * @group param
     **/
-  val shufflePerEpoch = new BooleanParam(this, "shufflePerEpoch", "hether to shuffle the training data on each Epoch")
+  val shufflePerEpoch = new BooleanParam(this, "shufflePerEpoch", "whether to shuffle the training data on each Epoch")
 
   /** Column with label per each document
     *
@@ -187,7 +187,6 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   def setEnableOutputLogs(enableOutputLogs: Boolean): MultiClassifierDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
 
-
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
     *
     * @group setParam
@@ -224,8 +223,6 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setShufflePerEpoch(value: Boolean): MultiClassifierDLApproach.this.type = set(this.shufflePerEpoch, value)
-
-
 
   /** Column with label per each document
     *
@@ -293,7 +290,7 @@ class MultiClassifierDLApproach(override val uid: String)
     *
     * @group getParam
     **/
-  def getShufflePerEpochPerEpoch: Boolean = $(shufflePerEpoch)
+  def getShufflePerEpoch: Boolean = $(shufflePerEpoch)
 
   setDefault(
     maxEpochs -> 10,
