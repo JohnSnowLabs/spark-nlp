@@ -7,7 +7,7 @@ from test.util import SparkContextForTest
 from test.util import SparkSessionForTest
 from pyspark.ml.feature import SQLTransformer
 from pyspark.ml.clustering import KMeans
-
+from pyspark.sql.functions import split
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
 
@@ -880,7 +880,7 @@ class StopWordsCleanerModelTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        stop_words_cleaner = StopWordsCleaner.pretrained()\
+        stop_words_cleaner = StopWordsCleaner.pretrained() \
             .setInputCols(["token"]) \
             .setOutputCol("cleanTokens") \
             .setCaseSensitive(False)
@@ -1223,3 +1223,45 @@ class NerDLModelTestSpec(unittest.TestCase):
         ner_model = NerDLModel.pretrained()
         print(ner_model.getClasses())
 
+
+class MultiClassifierDLTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkSessionForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/classifier/e2e.csv") \
+            .withColumn("labels", split("mr", ", ")) \
+            .drop("mr")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("ref") \
+            .setOutputCol("document")
+
+        sentence_embeddings = UniversalSentenceEncoder.pretrained() \
+            .setInputCols("document") \
+            .setOutputCol("sentence_embeddings")
+
+        multi_classifier = MultiClassifierDLApproach() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCol("category") \
+            .setLabelColumn("labels") \
+            .setBatchSize(64) \
+            .setMaxEpochs(20) \
+            .setLr(0.001) \
+            .setDropout(0.5) \
+            .setPosWeight(20.0) \
+            .setThreshold(0.5)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings,
+            multi_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.stages[-1].write().overwrite().save('./tmp_multiClassifierDL_model')
+
+        multi_classsifierdl_model = MultiClassifierDLModel.load("./tmp_multiClassifierDL_model") \
+            .setInputCols(["sentence_embeddings"]) \
+            .setOutputCol("class")
+
+        print(multi_classsifierdl_model.getClasses())
