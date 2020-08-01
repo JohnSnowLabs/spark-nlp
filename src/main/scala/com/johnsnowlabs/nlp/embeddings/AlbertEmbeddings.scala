@@ -86,6 +86,8 @@ class AlbertEmbeddings(override val uid: String) extends
   }
 
   def setMaxSentenceLength(value: Int): this.type = {
+    require(value <= 512, "ALBERT models do not support sequences longer than 512 because of trainable positional embeddings")
+
     if(get(maxSentenceLength).isEmpty)
       set(maxSentenceLength, value)
     this
