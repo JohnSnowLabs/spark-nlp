@@ -55,11 +55,20 @@ object ResourceHelper {
     def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
       if (fs.getScheme == "file")
         return resource
+
       val files = fs.listFiles(path, false)
       val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
-      while (files.hasNext) {
-        fs.copyFromLocalFile(files.next.getPath, dst)
+
+      if (fs.getScheme == "hdfs"){
+        while (files.hasNext) {
+          fs.copyToLocalFile(files.next.getPath, dst)
+        }
+      }else{
+        while (files.hasNext) {
+          fs.copyFromLocalFile(files.next.getPath, dst)
+        }
       }
+
       dst.toString
     }
     def close(): Unit = {
@@ -445,7 +454,7 @@ object ResourceHelper {
 
   def listLocalFiles(path: String): List[File] = {
     val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    if (fs.getScheme == "dbfs") {
+    if (fs.getScheme == "dbfs" || fs.getScheme == "hdfs") {
       //return fs.listStatus(new Path(path)).map(_.getPath().toString).map(new File(_)).toList
       val filesPath = Option(new File(path.replace("file:", "")).listFiles())
       val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
