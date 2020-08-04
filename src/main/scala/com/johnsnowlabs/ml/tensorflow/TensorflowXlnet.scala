@@ -174,7 +174,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
 
     val sentecneTokenPieces = sentences.map { s =>
       // Account for one [SEP] & one [CLS]
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 3)
+      val shrinkedSentence = s.indexedTokens.take(maxSeqLength)
       shrinkedSentence.map{
         case(token) =>
           val tokenContent = if (caseSensitive) token.token else token.token.toLowerCase()

@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{FloatParam, IntArrayParam, Param}
+import org.apache.spark.ml.param.{FloatParam, IntArrayParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -48,6 +48,8 @@ class SentimentDLModel(override val uid: String)
   def setDatasetParams(params: ClassifierDatasetEncoderParams): SentimentDLModel.this.type =
     set(this.datasetParams, params)
 
+  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+
   private var _model: Option[Broadcast[TensorflowSentiment]] = None
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
@@ -69,6 +71,16 @@ class SentimentDLModel(override val uid: String)
     this
   }
   def getModelIfNotSet: TensorflowSentiment = _model.get.value
+
+  /** get the tags used to trained this NerDLModel
+    *
+    * @group getParam
+    **/
+  def getClasses: Array[String] = {
+    val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
+    set(classes, encoder.tags)
+    encoder.tags
+  }
 
   setDefault(
     threshold -> 0.6f,
@@ -134,6 +146,9 @@ trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {
 
     val tf = readTensorflowChkPoints(path, spark, "_sentimentdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
+    // This allows for Python to access getClasses function
+    val encoder = new ClassifierDatasetEncoder(instance.datasetParams.get.get)
+    instance.set(instance.classes, encoder.tags)
   }
 
   addReader(readTensorflow)
