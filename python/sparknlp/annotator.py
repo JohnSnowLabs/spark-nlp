@@ -335,7 +335,7 @@ class RegexTokenizer(AnnotatorModel):
     def __init__(self):
         super(RegexTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.RegexTokenizer")
         self._setDefault(
-            inputCols="document",
+            inputCols=["document"],
             outputCol="regexToken",
             toLowercase=False,
             minLength=1,
@@ -1538,6 +1538,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    classes = Param(Params._dummy(), "classes",
+                              "get the tags used to trained this NerDLModel",
+                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1876,8 +1879,11 @@ class StopWordsCleaner(AnnotatorModel):
     name = "StopWordsCleaner"
 
     @keyword_only
-    def __init__(self):
-        super(StopWordsCleaner, self).__init__(classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.StopWordsCleaner", java_model=None):
+        super(StopWordsCleaner, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
         self._setDefault(
             stopWords=StopWordsCleaner.loadDefaultStopWords("english"),
             caseSensitive=False,
@@ -2198,6 +2204,10 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    classes = Param(Params._dummy(), "classes",
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -2688,7 +2698,10 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
-
+    classes = Param(Params._dummy(), "classes",
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
+    
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
