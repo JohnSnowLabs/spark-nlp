@@ -4,6 +4,29 @@
 ---------------
 New Features
 ---------------
+- Add getClasses() function to NerDLModel
+- Add getClasses() function to ClassifierDLModel
+- Add getClasses() function to SentimentDLModel
+
+---------------------
+Enhancements
+---------------------
+- Improve max sequence length calculation in BertEmbeddings and XlnetEmbeddings
+
+----------------
+Bugfixes
+----------------
+- Fix a bug in RegexTokenizer in Python
+- Fix StopWordsCleaner exception in Python when pretrained() is used
+- Fix max sequence length issue in AlbertEmbeddings and SentencePiece generation
+- Fix HDFS support for setGaphFolder param in NerDLApproach
+
+========
+2.5.4
+========
+---------------
+New Features
+---------------
 * Add support for Apache Spark 2.3.x including new Maven artifacts and full support of all pre-trained models/pipelines
 * Add 43 new pre-trained models in 43 languages to StopWordsCleaner annotator
 * Introduce a new RegexTokenizer to split text by regex pattern
