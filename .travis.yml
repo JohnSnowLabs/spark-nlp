@@ -1,22 +1,22 @@
 sudo: required
 
+os:
+  - linux
+  - osx
+
 jobs:
   include:
     - stage: test-2.4
       name: "Test Apache Spark 2.4.x"
       language: scala
-      os:
-        - linux
-        - osx
       scala:
         - 2.11.12
       jdk:
-        - oraclejdk8
+        - openjdk8
       addons:
         apt:
           packages:
-            - oracle-java8-installer
-            - maven
+            - pip
       env:
         global:
           JAVA_OPTS=-Xmx4g
