@@ -3,7 +3,6 @@ sudo: required
 matrix:
   include:
     - stage: "Spark 2.4"
-      name: "Spark 2.4"
     - language: scala
       scala:
         - 2.11.12
