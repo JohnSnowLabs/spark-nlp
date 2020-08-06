@@ -1,9 +1,5 @@
 sudo: required
 
-cache:
-  directories:
-    - $HOME/.spark_nlp.dep.cache
-
 jobs:
   include:
     - stage: test-2.4
@@ -13,7 +9,7 @@ jobs:
         - linux
         - osx
       scala:
-        - '2.11.12'
+        - 2.11.12
       jdk:
         - oraclejdk8
       addons:
@@ -26,37 +22,10 @@ jobs:
           JAVA_OPTS=-Xmx4g
       cache:
         directories:
-          - "$HOME/.m2"
+          - $HOME/.spark_nlp.dep.cache
+          - $HOME/.m2
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
-
-    - stage: test-2.3
-        name: "Test Apache Spark 2.3.x"
-        language: scala
-        os:
-          - linux
-          - osx
-        scala:
-          - '2.11.12'
-        jdk:
-          - oraclejdk8
-        addons:
-          apt:
-            packages:
-              - oracle-java8-installer
-              - maven
-        env:
-          global:
-            JAVA_OPTS=-Xmx4g
-        cache:
-          directories:
-            - "$HOME/.m2"
-        before_install:
-          - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-          - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
-        script:
-          - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION test
-
