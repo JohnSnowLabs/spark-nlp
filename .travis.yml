@@ -6,7 +6,7 @@ cache:
 
 jobs:
   include:
-    - stage: test
+    - stage: test-2.4
       name: "Test Apache Spark 2.4.x"
       language: scala
       os:
@@ -33,7 +33,7 @@ jobs:
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
 
-    - stage: test
+    - stage: test-2.3
         name: "Test Apache Spark 2.3.x"
         language: scala
         os:
