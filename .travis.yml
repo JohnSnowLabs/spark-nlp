@@ -1,6 +1,6 @@
 sudo: required
 
-jobs:
+matrix:
   include:
     - language: scala
       scala:
@@ -27,14 +27,11 @@ jobs:
       os:
         - linux
         - osx
-      addons:
-        apt:
-          packages:
-            - pip
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
-        - pip install pyspark==2.4.4 numpy
+        - apt-get install pip3
+        - pip3 install pyspark==2.4.4 numpy
         - export PYSPARK_PYTHON=python3.6
         - export PYSPARK_DRIVER_PYTHON=python3.6
         - sbt assemblyAndCopy
