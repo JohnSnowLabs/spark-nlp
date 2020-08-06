@@ -3,6 +3,7 @@ sudo: required
 jobs:
   include:
     - stage: "Spark 2.4"
+      install: skip
     - language: scala
       scala:
         - 2.11.12
