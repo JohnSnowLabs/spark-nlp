@@ -1,6 +1,6 @@
 sudo: required
 
-matrix:
+jobs:
   include:
     - stage: "Spark 2.4"
     - language: scala
