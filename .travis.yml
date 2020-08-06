@@ -32,5 +32,6 @@ jobs:
         - pip3 install pyspark==2.4.4 numpy
         - export PYSPARK_PYTHON=python3.6
         - export PYSPARK_DRIVER_PYTHON=python3.6
+      script:
         - sbt assemblyAndCopy
         - cd python; python3 run-tests.py;
