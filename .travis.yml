@@ -72,8 +72,8 @@ jobs:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
-        - sbt ++$TRAVIS_SCALA_VERSION test
-    - name: "Python Tests - Apache Spark 2.4"
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION test
+    - name: "Python Tests - Apache Spark 2.3"
       workspaces:
         use: sparknlp23
       language: python
