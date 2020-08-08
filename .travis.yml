@@ -73,24 +73,24 @@ jobs:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
-      - name: "Python Tests - Apache Spark 2.4"
-        workspaces:
-          use: sparknlp23
-        language: python
-        python:
-          - "3.6"
-          - "3.7"
-          - "pypy3"
-        env:
-          - export PYSPARK_PYTHON=python3.6
-          - export PYSPARK_DRIVER_PYTHON=python3.6
-          - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
-        install:
-          - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-          - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
-          - pip install pyspark==2.3.4 numpy
-        script:
-          - cd python; python3 run-tests.py || python run-tests.py;
+    - name: "Python Tests - Apache Spark 2.4"
+      workspaces:
+        use: sparknlp23
+      language: python
+      python:
+        - "3.6"
+        - "3.7"
+        - "pypy3"
+      env:
+        - export PYSPARK_PYTHON=python3.6
+        - export PYSPARK_DRIVER_PYTHON=python3.6
+        - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+      install:
+        - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+        - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
+        - pip install pyspark==2.3.4 numpy
+      script:
+        - cd python; python3 run-tests.py || python run-tests.py;
 
 cache:
   directories:
