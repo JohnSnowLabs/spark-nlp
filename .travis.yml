@@ -1,46 +1,48 @@
 sudo: required
 
-matrix:
+language: scala
+scala:
+  - 2.11.12
+os:
+  - linux
+jdk:
+  - oraclejdk8
+env:
+  global:
+    JAVA_OPTS=-Xmx4g
+
+jobs:
   include:
-    - language: scala
-      scala:
-        - 2.11.12
-      os:
-        - linux
-      jdk:
-        - openjdk8
-      env:
-        global:
-          JAVA_OPTS=-Xmx4g
-      cache:
-        directories:
-          - $HOME/.spark_nlp.dep.cache
-          - $HOME/.m2
+    - stage: "Spark NLP Test"
+      name: "Scala Tests"
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
         - sbt ++$TRAVIS_SCALA_VERSION test
-    - language: python
+    - name: "Python 3.6 tests"
+      language: python
       python:
          - "3.6"
          - "3.7"
          - "pypy3"
-      os:
-        - linux
-      jdk:
-        - openjdk8
       env:
-        global:
-          JAVA_OPTS=-Xmx4g
-      scala:
-        - 2.11.12
-      before_install:
+        - export PYSPARK_PYTHON=python3.6
+        - export PYSPARK_DRIVER_PYTHON=python3.6
+        - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+      install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
         - pip install pyspark==2.4.4 numpy
-        - export PYSPARK_PYTHON=python3.6
-        - export PYSPARK_DRIVER_PYTHON=python3.6
       script:
         - cd python; python3 run-tests.py || python run-tests.py;
+
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
+    - $HOME/.spark_nlp.dep.cache
+before_cache:
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+  - find $HOME/.sbt -name "*.lock" -delete
