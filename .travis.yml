@@ -22,16 +22,18 @@ jobs:
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
     - language: python
-      python: 3.6
+      python:
+         - "3.6"
+         - "3.7"
+         - "pypy3"
       os:
         - linux
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
-        - apt-get install pip3
-        - pip3 install pyspark==2.4.4 numpy
+        - pip install pyspark==2.4.4 numpy
         - export PYSPARK_PYTHON=python3.6
         - export PYSPARK_DRIVER_PYTHON=python3.6
       script:
         - sbt assemblyAndCopy
-        - cd python; python3 run-tests.py;
+        - cd python; python3 run-tests.py || python run-tests.py;
