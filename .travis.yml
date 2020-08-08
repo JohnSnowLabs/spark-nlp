@@ -14,7 +14,7 @@ env:
 jobs:
   include:
     - stage: "Spark NLP Build"
-      name: "build spark-nlp"
+      name: "Apache Spark 2.4"
       language: scala
       script:
         - sbt ++$TRAVIS_SCALA_VERSION clean
@@ -22,22 +22,33 @@ jobs:
         - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
       workspaces:
         create:
-          name: sparknlp
+          name: sparknlp24
+          paths:
+            - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
+    - name: "Apache Spark 2.3"
+      language: scala
+      script:
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION clean
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION compile
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION assemblyAndCopy
+      workspaces:
+        create:
+          name: sparknlp23
           paths:
             - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
 
     - stage: "Spark NLP Test"
-      name: "Scala Tests"
+      name: "Scala Tests - Apache Spark 2.4"
       workspaces:
-        use: sparknlp
+        use: sparknlp24
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
-    - name: "Python 3.6 tests"
+    - name: "Python Tsts - Apache Spark 2.4"
       workspaces:
-        use: sparknlp
+        use: sparknlp24
       language: python
       python:
          - "3.6"
@@ -53,6 +64,33 @@ jobs:
         - pip install pyspark==2.4.4 numpy
       script:
         - cd python; python3 run-tests.py || python run-tests.py;
+
+    - name: "Scala Tests - Apache Spark 2.3"
+      workspaces:
+        use: sparknlp23
+      before_install:
+        - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+        - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION test
+      - name: "Python Tests - Apache Spark 2.4"
+        workspaces:
+          use: sparknlp23
+        language: python
+        python:
+          - "3.6"
+          - "3.7"
+          - "pypy3"
+        env:
+          - export PYSPARK_PYTHON=python3.6
+          - export PYSPARK_DRIVER_PYTHON=python3.6
+          - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+        install:
+          - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+          - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
+          - pip install pyspark==2.3.4 numpy
+        script:
+          - cd python; python3 run-tests.py || python run-tests.py;
 
 cache:
   directories:
