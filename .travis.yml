@@ -13,14 +13,31 @@ env:
 
 jobs:
   include:
+    - stage: "Spark NLP Build"
+      name: "build spark-nlp"
+      language: scala
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION clean
+        - sbt ++$TRAVIS_SCALA_VERSION compile
+        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
+      workspaces:
+        create:
+          name: sparknlp
+          paths:
+            - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
+
     - stage: "Spark NLP Test"
       name: "Scala Tests"
+      workspaces:
+        use: sparknlp
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
     - name: "Python 3.6 tests"
+      workspaces:
+        use: sparknlp
       language: python
       python:
          - "3.6"
@@ -30,9 +47,6 @@ jobs:
         - export PYSPARK_PYTHON=python3.6
         - export PYSPARK_DRIVER_PYTHON=python3.6
         - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
-      before_install:
-        - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.7/scripts/travis_setup.sh | bash -x
-        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
       install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
