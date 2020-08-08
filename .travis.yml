@@ -6,7 +6,7 @@ scala:
 os:
   - linux
 jdk:
-  - oraclejdk8
+  - openjdk8
 env:
   global:
     JAVA_OPTS=-Xmx4g
