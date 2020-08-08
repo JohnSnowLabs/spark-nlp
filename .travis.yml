@@ -46,7 +46,7 @@ jobs:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
-    - name: "Python Tsts - Apache Spark 2.4"
+    - name: "Python Tests - Apache Spark 2.4"
       workspaces:
         use: sparknlp24
       language: python
