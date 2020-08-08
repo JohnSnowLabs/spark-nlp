@@ -35,9 +35,9 @@ jobs:
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
+        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
         - pip install pyspark==2.4.4 numpy
         - export PYSPARK_PYTHON=python3.6
         - export PYSPARK_DRIVER_PYTHON=python3.6
       script:
-        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
         - cd python; python3 run-tests.py || python run-tests.py;
