@@ -28,6 +28,10 @@ jobs:
          - "pypy3"
       os:
         - linux
+      jdk:
+        - openjdk8
+      scala:
+        - 2.11.12
       before_install:
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
         - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install sbt; fi
@@ -35,5 +39,5 @@ jobs:
         - export PYSPARK_PYTHON=python3.6
         - export PYSPARK_DRIVER_PYTHON=python3.6
       script:
-        - sbt assemblyAndCopy
+        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
         - cd python; python3 run-tests.py || python run-tests.py;
