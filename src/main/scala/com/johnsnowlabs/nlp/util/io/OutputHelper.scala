@@ -35,9 +35,7 @@ object OutputHelper {
       writer.append(content + System.lineSeparator())
       writer.close()
     } else {
-      if (!fs.exists(targetPath)) {
-        fs.createNewFile(targetPath)
-      }
+      fs.createNewFile(targetPath)
       val fo = fs.append(targetPath)
       val writer = new PrintWriter(fo, true)
       writer.append(content + System.lineSeparator())
