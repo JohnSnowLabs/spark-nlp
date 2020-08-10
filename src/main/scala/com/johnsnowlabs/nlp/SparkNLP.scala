@@ -19,7 +19,7 @@ object SparkNLP {
       .config("spark.kryoserializer.buffer.max", "1000M")
       .config("spark.driver.maxResultSize", "0")
 
-    if(gpu & spark23){
+    if(spark23){
       build.config("spark.jars.packages", MavenGpuSpark23)
     } else if(spark23){
       build.config("spark.jars.packages", MavenSpark23)
