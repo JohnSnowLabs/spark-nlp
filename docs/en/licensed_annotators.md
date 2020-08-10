@@ -3,7 +3,7 @@ layout: article
 title: Licensed Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
-modify_date: "2020-04-21"
+modify_date: "2020-08-10"
 use_language_switcher: "Python-Scala"
 ---
 
@@ -184,64 +184,6 @@ val resolver = new ChunkEntityResolverApproach()
     .setMissAsEmpty(true)
 ```
 
-### EnsembleEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">Transformer scaladocs</a>
-
-Assigns a standard code (RxNorm, SNOMED, UMLS) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings.
-Designed to scale on a sub-log rate compared to the cardinality of the dataset
-
-**Input types:** "chunk_token", "embeddings"
-
-**Output type:** "resolution"
-
-**Example:**
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-resolver = EnsembleEntityResolverApproach() \
-    .setInputCols(["chunk_token", "chunk_embeddings"]) \
-    .setOutputCol("token") \
-    .setClassifierLabelCol("classifier_label") \
-    .setResolverLabelCol("resolver_label") \
-    .setNormalizedCol("normalized") \
-    .setNeighbours(200) \
-    .setAlternatives(25) \
-    .setThreshold(4) \
-    .setExtramassPenalty(1) \
-    .setEnableWmd(True) \
-    .vsetEnableTfidf(True) \
-    .setEnableJaccard(True) \
-    .setEnableSorensenDice(False) \
-    .setEnableJaroWinkler(False) \
-    .setEnableLevenshtein(False) \
-    .setDistanceWeights([1,3,3,0,0,0]) \
-    .setPoolingStrategy("AVERAGE") \
-    .setMissAsEmpty(True)
-```
-```scala
-val resolver = new EnsembleEntityResolverApproach()
-    .setInputCols(Array("chunk_token", "chunk_embeddings"))
-    .setOutputCol("token")
-    .setClassifierLabelCol("classifier_label")
-    .setResolverLabelCol("resolver_label")
-    .setNormalizedCol("normalized")
-    .setNeighbours(200)
-    .setAlternatives(25)
-    .setThreshold(4)
-    .setExtramassPenalty(1)
-    .setEnableWmd(true)
-    .vsetEnableTfidf(true)
-    .setEnableJaccard(true)
-    .setEnableSorensenDice(false)
-    .setEnableJaroWinkler(false)
-    .setEnableLevenshtein(false)
-    .setDistanceWeights(Array(1,3,3,0,0,0))
-    .setPoolingStrategy("AVERAGE")
-    .setMissAsEmpty(true)
-```
-
 ### DocumentLogRegClassifier
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
@@ -288,7 +230,7 @@ patients and remove them by replacing with semantic tags.
 
 ### Contextual Parser
 
-This annotator provides RegexMatchering, based on a JSON file.
+This annotator provides Regex + Contextual Matching, based on a JSON file.
 **Output type:** "sentence", "token"  
 **Input types:** "chunk"  
 **JSON format:**
@@ -303,8 +245,8 @@ This annotator provides RegexMatchering, based on a JSON file.
 
 - setJsonPath() -> Path to json file with rules
 - setCaseSensitive() -> optional: Whether to use case sensitive when matching values, default is false
-- setPrefixAndSuffixMatch() -> optional: Whether to match both prefix and suffix to annotate the hit
-- setContextMatch() -> optional: Whether to include context to annotate the hit
+- setPrefixAndSuffixMatch() -> optional: Whether to force both before AND after the regex match to annotate the hit
+- setContextMatch() -> optional: Whether to include prior and next context to annotate the hit
 - setUpdateTokenizer() -> optional: Whether to update tokenizer from pipeline when detecting multiple words on dictionary values
 - setDictionary() -> optional: Path to dictionary file in tsv or csv format
 
