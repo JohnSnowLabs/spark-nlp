@@ -319,7 +319,6 @@ python/tensorflow/bert/models/**
 **/tmp_*
 docs/_site/**
 docs/.sass-cache/**
-docs/Gemfile.lock
 tst_shortcut_sd/
 src/*/resources/*.classes
 
