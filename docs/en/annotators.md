@@ -8,7 +8,7 @@ use_language_switcher: "Python-Scala"
 
 ---
 
-## Annotators Guideline
+## Annotators Guidelines
 
 ### How to read this section
 
