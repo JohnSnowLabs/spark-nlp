@@ -5,18 +5,11 @@ scala:
   - 2.11.12
 os:
   - linux
-  - osx
 jdk:
   - openjdk8
 env:
   global:
     JAVA_OPTS=-Xmx4g
-
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-    brew update;
-    brew install sbt;
-    fi
 
 jobs:
   include:
@@ -48,11 +41,27 @@ jobs:
       name: "Scala Tests - Apache Spark 2.4"
       workspaces:
         use: sparknlp24
+      os:
+        - linux
+        - osx
+      before_install:
+        - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+          brew update;
+          brew install sbt;
+          fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
     - name: "Python Tests - Apache Spark 2.4"
       workspaces:
         use: sparknlp24
+      os:
+        - linux
+        - osx
+      before_install:
+        - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+          brew update;
+          brew install sbt;
+          fi
       language: python
       python:
          - "3.6"
