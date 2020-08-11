@@ -10,29 +10,17 @@ jdk:
 env:
   global:
     JAVA_OPTS=-Xmx4g
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+    brew update;
+    brew install sbt;
+    fi
 
 jobs:
   include:
     - stage: "Spark NLP Build"
       name: "Apache Spark 2.4"
       language: scala
-      script:
-        - sbt ++$TRAVIS_SCALA_VERSION clean
-        - sbt ++$TRAVIS_SCALA_VERSION compile
-        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
-      workspaces:
-        create:
-          name: sparknlp24
-          paths:
-            - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
-    - name: "Apache Spark 2.4"
-      language: scala
-      os: osx
-      before_install:
-        - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-          brew update;
-          brew install sbt;
-          fi
       script:
         - sbt ++$TRAVIS_SCALA_VERSION clean
         - sbt ++$TRAVIS_SCALA_VERSION compile
@@ -56,17 +44,6 @@ jobs:
 
     - stage: "Spark NLP Test"
       name: "Scala Tests - Apache Spark 2.4"
-      workspaces:
-        use: sparknlp24
-      script:
-        - sbt ++$TRAVIS_SCALA_VERSION test
-    - name: "Scala Tests - Apache Spark 2.4"
-      os: osx
-      before_install:
-        - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-        brew update;
-        brew install sbt;
-        fi
       workspaces:
         use: sparknlp24
       script:
