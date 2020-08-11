@@ -222,11 +222,38 @@ patients and remove them by replacing with semantic tags.
 
 **Input types:** "sentence", "token", "ner_chunk"
 
-**Output type:** "deidentified"
+**Output type:** "sentence"
 
-**Functions:**
-
-- setRegexPatternsDictionary(path, read_as, options)
+```python
+deid = DeIdentificationApproach() \
+      .setInputCols("sentence", "token", "ner_chunk") \
+      .setOutputCol("deid_sentence") \
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
+      .setMode("mask") \
+      .setDateTag("DATE") \
+      .setObfuscateDate(False) \
+      .setDays(5) \
+      .setDateToYear(False) \
+      .setMinYear(1900) \
+      .setDateFormats(["MM-dd-yyyy","MM-dd-yy"]) \
+      .setConsistentObfuscation(True) \
+      .setSameEntityThreshold(0.9)
+```
+```scala
+val deid = new DeIdentificationApproach()
+      .setInputCols("sentence", "token", "ner_chunk")
+      .setOutputCol("deid_sentence")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
+      .setMode("mask")
+      .setDateTag("DATE")
+      .setObfuscateDate(false)
+      .setDays(5)
+      .setDateToYear(false)
+      .setMinYear(1900)
+      .setDateFormats(Seq("MM-dd-yyyy","MM-dd-yy"))
+      .setConsistentObfuscation(true)
+      .setSameEntityThreshold(0.9)
+```
 
 ### Contextual Parser
 
