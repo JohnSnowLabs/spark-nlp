@@ -268,3 +268,49 @@ val contextualParser = new ContextualParserApproach()
 ### References
 
 [1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
+
+
+### RelationExtraction 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">Transformer scaladocs</a>
+
+Extracts and classifier instances of relations between named entities.
+
+**Input types:** "pos", "ner_chunk", "embeddings", "dependency"
+
+**Output type:** "category"
+
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+reApproach = sparknlp_jsl.annotator.RelationExtractionApproach()\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setLabelColumn("target_rel")\
+    .setEpochsNumber(300)\
+    .setBatchSize(200)\
+    .setLearningRate(0.001)\
+    .setModelFile("RE.in1200D.out20.pb")\
+    .setFixImbalance(True)\
+    .setValidationSplit(0.05)\
+    .setFromEntity("from_begin", "from_end", "from_label")\
+    .setToEntity("to_begin", "to_end", "to_label")
+```
+
+```scala
+val reApproach = new RelationExtractionApproach()
+  .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+  .setOutputCol("relations")
+  .setLabelColumn("target_rel")
+  .setEpochsNumber(300)
+  .setBatchSize(200)
+  .setlearningRate(0.001f)
+  .setModelFile("RE.in1200D.out20.pb")
+  .setFixImbalance(true)
+  .setValidationSplit(0.05f)
+  .setFromEntity("from_begin", "from_end", "from_label")
+  .setToEntity("to_begin", "to_end", "to_label")
+
+```
