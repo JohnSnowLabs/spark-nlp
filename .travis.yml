@@ -25,6 +25,23 @@ jobs:
           name: sparknlp24
           paths:
             - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
+    - name: "Apache Spark 2.4"
+      language: scala
+      os: osx
+      before_install:
+        - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+          brew update;
+          brew install sbt;
+          fi
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION clean
+        - sbt ++$TRAVIS_SCALA_VERSION compile
+        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
+      workspaces:
+        create:
+          name: sparknlp24
+          paths:
+            - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
     - name: "Apache Spark 2.3"
       language: scala
       script:
@@ -41,27 +58,22 @@ jobs:
       name: "Scala Tests - Apache Spark 2.4"
       workspaces:
         use: sparknlp24
-      os:
-        - linux
-        - osx
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION test
+    - name: "Scala Tests - Apache Spark 2.4"
+      os: osx
       before_install:
         - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-          brew update;
-          brew install sbt;
-          fi
+        brew update;
+        brew install sbt;
+        fi
+      workspaces:
+        use: sparknlp24
       script:
         - sbt ++$TRAVIS_SCALA_VERSION test
     - name: "Python Tests - Apache Spark 2.4"
       workspaces:
         use: sparknlp24
-      os:
-        - linux
-        - osx
-      before_install:
-        - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
-          brew update;
-          brew install sbt;
-          fi
       language: python
       python:
          - "3.6"
