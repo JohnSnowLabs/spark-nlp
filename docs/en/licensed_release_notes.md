@@ -6,6 +6,145 @@ key: docs-licensed-release-notes
 modify_date: "2020-04-22"
 ---
 
+#### 2.5.5
+
+#### Overview
+
+We are very happy to release Spark NLP Enterprise 2.5.5 with a new state-of-the-art RelationExtraction annotator to identify relationships between entities coming from our pretrained NER models.
+This is also the first release to support Relation Extraction with the following two (2) models: `re_clinical` and `re_posology` in the `clinical/models` repository.
+We also include multiple bug fixes as usual.
+
+#### New Features
+
+* RelationExtraction annotator that receives `WORD_EMBEDDINGS`, `POS`, `CHUNK`, `DEPENDENCY` and returns the CATEGORY of the relationship and a confidence score.
+
+#### Enhancements
+
+* AssertionDL Annotator now keeps logs of the metrics while training
+* DeIdentification now has a default behavior of merging entities close in Levenshtein distance with `setConsistentObfuscation` and `setSameEntityThreshold` params.
+* DeIdentification now has a specific parameter `setObfuscateDate` to obfuscate dates (which will be otherwise just masked). The only formats obfuscated when the param is true will be the ones present in `dateFormats` param.
+* NerConverterInternal now has a `greedyMode` param that will merge all contiguous tags of the same type regardless of boundary tags like "B","E","S".
+* AnnotationToolJsonReader includes `mergeOverlapping` parameter to merge (or not) overlapping entities from the Annotator jsons i.e. not included in the assertion list.
+
+#### Bugfixes
+
+* DeIdentification documentation bug fix (typo)
+* DeIdentification training bug fix in obfuscation dictionary
+* IOBTagger now has the correct output type `NAMED_ENTITY`
+
+#### Deprecations
+
+* EnsembleEntityResolver has been deprecated
+
+Models
+
+* We have 2 new `english` Relationship Extraction model for Clinical and Posology NERs:
+   - `re_clinical`: with `ner_clinical` and `embeddings_clinical`
+   - `re_posology`: with `ner_posology` and `embeddings_clinical`
+
+#### 2.5.3
+
+#### Overview
+
+We are pleased to announce the release of Spark NLP Enterprise 2.5.3.
+This time we include four (4) new Annotators: FeatureAssembler, GenericClassifier, Yake Keyword Extractor and NerConverterInternal.
+We also include helper classes to read datasets from CodiEsp and Cantemist Spanish NER Challenges.
+This is also the first release to support the following models: `ner_diag_proc` (spanish), `ner_neoplasms` (spanish), `ner_deid_enriched` (english).
+We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and ChunkMergeModel .
+
+#### New Features
+
+* FeatureAssembler Transformer: Receives a list of column names containing numerical arrays and concatenates them to form one single `feature_vector` annotation
+* GenericClassifier Annotator: Receives a `feature_vector` annotation and outputs a `category` annotation
+* Yake Keyword Extraction Annotator: Receives a `token` annotation and outputs multi-token `keyword` annotations
+* NerConverterInternal Annotator: Similar to it's open source counterpart in functionality, performs smarter extraction for complex tokenizations and confidence calculation
+* Readers for CodiEsp and Cantemist Challenges
+
+#### Enhancements
+
+* AnnotationToolJsonReader includes parameter for preprocessing pipeline (from Document Assembling to Tokenization)
+* AnnotationToolJsonReader includes parameter to discard specific entity types
+
+#### Bugfixes
+
+* ChunkMergeModel now prioritizes highest number of different entities when coverage is the same
+
+#### Models
+
+* We have 2 new `spanish` models for Clinical Entity Recognition: `ner_diag_proc` and `ner_neoplasms`
+* We have a new `english` Named Entity Recognition model for deidentification: `ner_deid_enriched`
+
+#### 2.5.2
+
+#### Overview
+
+We are really happy to bring you Spark NLP Enterprise 2.5.2, with a couple new features and several enhancements in our existing annotators.
+This release was mainly dedicated to generate adoption in our AnnotationToolJsonReader, a connector that provide out-of-the-box support for out Annotation Tool and our practices.
+Also the ChunkMerge annotator has ben provided with extra functionality to remove entire entity types and to modify some chunk's entity type
+We also dedicated some time in finalizing some refactorization in DeIdentification annotator, mainly improving type consistency and case insensitive entity dictionary for obfuscation.
+Thanks to the community for all the feedback and suggestions, it's really comfortable to navigate together towards common functional goals that keep us agile in the SotA.
+
+#### New Features
+
+* Brand new IOBTagger Annotator
+* NerDL Metrics provides an intuitive DataFrame API to calculate NER metrics at tag (token) and entity (chunk) level
+
+#### Enhancements
+
+* AnnotationToolJsonReader includes parameters for document cleanup, sentence boundaries and tokenizer split chars
+* AnnotationToolJsonReader uses the task title if present and uses IOBTagger annotator
+* AnnotationToolJsonReader has improved alignment in assertion train set generation by using an `alignTol` parameter as tollerance in chunk char alignment
+* DeIdentification refactorization: Improved typing and replacement logic, case insensitive entities for obfuscation
+* ChunkMerge Annotator now handles:
+ - Drop all chunks for an entity
+ - Replace entity name
+ - Change entity type for a specific (chunk, entity) pair
+ - Drop specific (chunk, entity) pairs
+* `caseSensitive` param to EnsembleEntityResolver
+* Output logs for AssertionDLApproach loss
+* Disambiguator is back with improved dependency management
+
+#### Bugfixes
+
+* Bugfix in python when Annotators shared domain parts across public and internal
+* Bugfix in python when ChunkMerge annotator was loaded from disk
+* ChunkMerge now weights the token coverage correctly when multiple multi-token entities overlap
+
+
+#### 2.5.0
+
+#### Overview
+
+We are happy to bring you Spark NLP Enterprise 2.5.0 with new Annotators, Models and Data Readers.
+Model composition and iteration is now faster with readers and annotators designed for real world tasks.
+We introduce ChunkMerge annotator to combine all CHUNKS extracted by different Entity Extraction Annotators.
+We also introduce an Annotation Reader for JSL AI Platform's Annotation Tool.
+This release is also the first one to support the models: `ner_large_clinical`, `ner_events_clinical`, `assertion_dl_large`, `chunkresolve_loinc_clinical`, `deidentify_large`
+And of course we have fixed some bugs.
+
+#### New Features
+
+* AnnotationToolJsonReader is a new class that imports a JSON from AI Platform's Annotation Tool an generates NER and Assertion training datasets
+* ChunkMerge Annotator is a new functionality that merges two columns of CHUNKs handling overlaps with a very straightforward logic: max coverage, max # entities
+* ChunkMerge Annotator handles inputs from NerDLModel, RegexMatcher, ContextualParser, TextMatcher
+* A DeIdentification pretrained model can now work in 'mask' or 'obfuscate' mode
+
+#### Enhancements
+
+* DeIdentification Annotator has a more consistent API:
+ - `mode` param with values ('mask'|'obfuscate') to drive its behavior
+ - `dateFormats` param a list of string values to to select which `dateFormats` to obfuscate (and which to just mask)
+* DeIdentification Annotator no longer automatically obfuscates dates. Obfuscation is now driven by `mode` and `dateFormats` params
+* A DeIdentification pretrained model can now work in 'mask' or 'obfuscate' mode
+
+#### Bugfixes
+
+* DeIdentification Annotator now correctly deduplicates protected entities coming from NER / Regex
+* DeIdentification Annotator now indexes chunks correctly after merging them
+* AssertionDLApproach Annotator can now be trained with the graph in any folder specified by setting `graphFolder` param
+* AssertionDLApproach now has the `setClasses` param setter in Python wrapper
+* JVM Memory and Kryo Max Buffer size increased to 32G and 2000M respectively in `sparknlp_jsl.start(secret)` function
+
 ### 2.4.6
 
 #### Overview
