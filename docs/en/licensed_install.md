@@ -3,7 +3,7 @@ layout: article
 title: Licensed Installation
 permalink: /docs/en/licensed_install
 key: docs-licensed-install
-modify_date: "2020-04-21"
+modify_date: "2020-10-11"
 ---
 
 ### Install Licensed Spark NLP
@@ -12,7 +12,7 @@ You can also install the licensed package with extra functionalities and
 pretrained models by using:
 
 ```bash
-pip install spark-nlp-jsl==2.4.6 --extra-index-url {secret-url} --upgrade
+pip install spark-nlp-jsl==2.5.5 --extra-index-url {secret-url} --upgrade
 ```
 
 The `{secret-url}` is a secret URL only available for users with valid license. If you
@@ -64,11 +64,11 @@ Or use the SparkSession module for more flexibility:
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
-    .appName("Spark NLP Enterprise 2.4.6 Session") \
+    .appName("Spark NLP Enterprise") \
     .master("local[*]") \
     .config("spark.driver.memory","16") \
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5") \
     .config("spark.jars", "{secret-url}") \
     .getOrCreate()
 ```
