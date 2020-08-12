@@ -1796,10 +1796,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
-    poolingLayer = Param(Params._dummy(),
-                         "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings",
-                         typeConverter=TypeConverters.toInt)
-
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1808,19 +1804,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
-
-    def setPoolingLayer(self, layer):
-        if layer == 0:
-            return self._set(poolingLayer=layer)
-        elif layer == -1:
-            return self._set(poolingLayer=layer)
-        elif layer == -2:
-            return self._set(poolingLayer=layer)
-        else:
-            return self._set(poolingLayer=0)
-
-    def getPoolingLayer(self):
-        return self.getOrDefault(self.poolingLayer)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
@@ -1832,8 +1815,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
             dimension=768,
             batchSize=32,
             maxSentenceLength=128,
-            caseSensitive=True,
-            poolingLayer=0
+            caseSensitive=True
         )
 
     @staticmethod
