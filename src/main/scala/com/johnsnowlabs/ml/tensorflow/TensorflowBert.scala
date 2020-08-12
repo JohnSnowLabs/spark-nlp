@@ -33,9 +33,10 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  private val tokenIdsKey = "module/input_ids"
-  private val maskIdsKey = "module/input_mask"
-  private val segmentIdsKey = "module/segment_ids"
+  private val tokenIdsKey = "input_ids:0"
+  private val maskIdsKey = "input_mask:0"
+  private val segmentIdsKey = "segment_ids:0"
+  private val embeddingsKey = "output:0"
 
   def encode(sentence: WordpieceTokenizedSentence, maxSentenceLength: Int): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
@@ -46,7 +47,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       Array.fill(maxSentenceLength - tokens.length - 2)(0)
   }
 
-  def tag(batch: Seq[Array[Int]], embeddingsKey: String, maxSentenceLength: Int): Seq[Array[Array[Float]]] = {
+  def tag(batch: Seq[Array[Int]], maxSentenceLength: Int): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
     val tensorsSegments = new TensorResources()
@@ -135,10 +136,8 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
                           originalTokenSentences: Seq[TokenizedSentence],
-                          poolingLayer: Int,
                           batchSize: Int,
                           maxSentenceLength: Int,
-                          dimension: Int,
                           caseSensitive: Boolean
                          ): Seq[WordpieceEmbeddingsSentence] = {
 
@@ -146,7 +145,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     sentences.zipWithIndex.grouped(batchSize).flatMap{batch =>
       val encoded = batch.map(s => encode(s._1, maxSentenceLength))
 
-      val vectors = tag(encoded, extractPoolingLayer(poolingLayer, dimension), maxSentenceLength)
+      val vectors = tag(encoded, maxSentenceLength)
 
       /*Combine tokens and calculated embeddings*/
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
