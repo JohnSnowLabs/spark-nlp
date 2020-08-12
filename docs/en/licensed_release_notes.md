@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Licensed Release Notes
+title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
 modify_date: "2020-04-22"
@@ -10,7 +10,7 @@ modify_date: "2020-04-22"
 
 #### Overview
 
-We are very happy to release Spark NLP Enterprise 2.5.5 with a new state-of-the-art RelationExtraction annotator to identify relationships between entities coming from our pretrained NER models.
+We are very happy to release Spark NLP for Healthcare 2.5.5 with a new state-of-the-art RelationExtraction annotator to identify relationships between entities coming from our pretrained NER models.
 This is also the first release to support Relation Extraction with the following two (2) models: `re_clinical` and `re_posology` in the `clinical/models` repository.
 We also include multiple bug fixes as usual.
 
@@ -46,7 +46,7 @@ Models
 
 #### Overview
 
-We are pleased to announce the release of Spark NLP Enterprise 2.5.3.
+We are pleased to announce the release of Spark NLP for Healthcare 2.5.3.
 This time we include four (4) new Annotators: FeatureAssembler, GenericClassifier, Yake Keyword Extractor and NerConverterInternal.
 We also include helper classes to read datasets from CodiEsp and Cantemist Spanish NER Challenges.
 This is also the first release to support the following models: `ner_diag_proc` (spanish), `ner_neoplasms` (spanish), `ner_deid_enriched` (english).
@@ -78,7 +78,7 @@ We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and
 
 #### Overview
 
-We are really happy to bring you Spark NLP Enterprise 2.5.2, with a couple new features and several enhancements in our existing annotators.
+We are really happy to bring you Spark NLP for Healthcare 2.5.2, with a couple new features and several enhancements in our existing annotators.
 This release was mainly dedicated to generate adoption in our AnnotationToolJsonReader, a connector that provide out-of-the-box support for out Annotation Tool and our practices.
 Also the ChunkMerge annotator has ben provided with extra functionality to remove entire entity types and to modify some chunk's entity type
 We also dedicated some time in finalizing some refactorization in DeIdentification annotator, mainly improving type consistency and case insensitive entity dictionary for obfuscation.
@@ -115,7 +115,7 @@ Thanks to the community for all the feedback and suggestions, it's really comfor
 
 #### Overview
 
-We are happy to bring you Spark NLP Enterprise 2.5.0 with new Annotators, Models and Data Readers.
+We are happy to bring you Spark NLP for Healthcare 2.5.0 with new Annotators, Models and Data Readers.
 Model composition and iteration is now faster with readers and annotators designed for real world tasks.
 We introduce ChunkMerge annotator to combine all CHUNKS extracted by different Entity Extraction Annotators.
 We also introduce an Annotation Reader for JSL AI Platform's Annotation Tool.
@@ -149,7 +149,7 @@ And of course we have fixed some bugs.
 
 #### Overview
 
-We release Spark NLP Enterprise 2.4.6 to fix some minor bugs.
+We release Spark NLP for Healthcare 2.4.6 to fix some minor bugs.
 
 
 #### Bugfixes
@@ -166,7 +166,7 @@ We release Spark NLP Enterprise 2.4.6 to fix some minor bugs.
 #### Overview
 
 
-We are glad to announce Spark NLP Enterprise 2.4.5. As a new feature we are happy to introduce our new EnsembleEntityResolver which allows our Entity Resolution architecture to scale up in multiple orders of magnitude and handle datasets of millions of records on a sub-log computation increase
+We are glad to announce Spark NLP for Healthcare 2.4.5. As a new feature we are happy to introduce our new EnsembleEntityResolver which allows our Entity Resolution architecture to scale up in multiple orders of magnitude and handle datasets of millions of records on a sub-log computation increase
 We also enhanced our ChunkEntityResolverModel with 5 new distance calculations with weighting-array and aggregation-strategy params that results in more levers to finetune its performance against a given dataset.
 
 
@@ -206,7 +206,7 @@ before it would calculate them over the neighbours and return them all in the me
 
 #### Overview
 
-We are glad to announce Spark NLP Enterprise 2.4.2. As a new feature we are happy to introduce our new Disambiguation Annotator,
+We are glad to announce Spark NLP for Healthcare 2.4.2. As a new feature we are happy to introduce our new Disambiguation Annotator,
 which will let the users resolve different kind of entities based on Knowledge bases provided in the form of Records in a RocksDB database.
 We also enhanced / fixed DocumentLogRegClassifier, ChunkEntityResolverModel and ChunkEntityResolverSelector Annotators.
 
@@ -233,7 +233,7 @@ returns DISAMBIGUATION annotator type. This output annotation type includes all 
 
 #### Overview
 
-Introducing Spark NLP Enterprise 2.4.1 after all the feedback we received in the form of issues and suggestions on our different communication channels.
+Introducing Spark NLP for Healthcare 2.4.1 after all the feedback we received in the form of issues and suggestions on our different communication channels.
 Even though 2.4.0 was very stable, version 2.4.1 is here to address minor bug fixes that we summarize in the following lines.
 
 
@@ -246,7 +246,7 @@ Even though 2.4.0 was very stable, version 2.4.1 is here to address minor bug fi
 
 #### Overview
 
-We are glad to announce Spark NLP Enterprise 2.4.0. This is an important release because of several refactorizations achieved in the core library, plus the introduction of several state of the art algorithms, new features and enhancements.
+We are glad to announce Spark NLP for Healthcare 2.4.0. This is an important release because of several refactorizations achieved in the core library, plus the introduction of several state of the art algorithms, new features and enhancements.
 We have included several architecture and performance improvements, that aim towards making the library more robust in terms of storage handling for Big Data.
 In the NLP aspect, we have introduced a ContextualParser, DocumentLogRegClassifier and a ChunkEntityResolverSelector.
 These last two Annotators also target performance time and memory consumption by lowering the order of computation and data loaded to memory in each step when designed following a hierarchical pattern.
