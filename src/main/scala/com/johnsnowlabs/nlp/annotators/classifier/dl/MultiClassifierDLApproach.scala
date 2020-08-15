@@ -15,11 +15,14 @@ import org.apache.spark.sql.functions.explode
 import scala.util.Random
 
 /**
-  * MultiClassifierDL is a Multi-label Text Classification. MultiClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
-  * The MultiClassifierDL annotator uses a Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes
+  * MultiClassifierDL is a Multi-label Text Classification. MultiClassifierDL Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes.
+  * The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art UniversalSentenceEncoder or SentenceEmbeddings
   *
+  * In machine learning, multi-label classification and the strongly related problem of multi-output classification are variants of the classification problem where multiple labels may be assigned to each instance. Multi-label classification is a generalization of multiclass classification, which is the single-label problem of categorizing instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many of the classes the instance can be assigned to.
+  * Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y (assigning a value of 0 or 1 for each element (label) in y).
+  * https://en.wikipedia.org/wiki/Multi-label_classification
+  * 
   * NOTE: This annotator accepts an array of labels in type of String.
-  *
   * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala]] for further reference on how to use this API
