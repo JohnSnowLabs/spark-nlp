@@ -13,7 +13,6 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
   private val labelKey = "labels:0"
   private val sequenceLengthKey = "sequence_length:0"
   private val learningRateKey = "lr:0"
-  private val weightKey = "pos_weight:0"
 
   private val numClasses: Int = encoder.params.tags.length
 
@@ -48,7 +47,6 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
              classNum: Int,
              lr: Float = 5e-3f,
              batchSize: Int = 64,
-             dropout: Float = 0.2f,
              startEpoch: Int = 0,
              endEpoch: Int = 10,
              configProtoBytes: Option[Array[Byte]] = None,
@@ -56,8 +54,6 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
              shuffleEpoch: Boolean = false,
              enableOutputLogs: Boolean = false,
              outputLogsPath: String,
-             threshold: Float = 0.5f,
-             weight: Float = 10.0f,
              uuid: String = Identifiable.randomUID("multiclassifierdl")
            ): Unit = {
 
@@ -90,7 +86,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       var batches = 0
       var loss = 0f
       var acc = 0f
-      val learningRate = lr / (1 + dropout * epoch)
+      val learningRate = lr / (1 + 0.2 * epoch)
 
       val shuffledBatch = if(shuffleEpoch){ Random.shuffle(trainDatasetSeq.toSeq).toArray } else trainDatasetSeq
 
@@ -105,14 +101,12 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
         val labelTensor = tensors.createTensor(labelsArray)
         val sequenceLengthTensor = tensors.createTensor(sequenceLengthArrays)
         val lrTensor = tensors.createTensor(learningRate.toFloat)
-        val weightTensor = tensors.createTensor(weight)
 
         val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
           .feed(sequenceLengthKey, sequenceLengthTensor)
           .feed(learningRateKey, lrTensor)
-          .feed(weightKey, weightTensor)
           .fetch(predictionKey)
           .fetch(lossKey)
           .fetch(accuracyKey)

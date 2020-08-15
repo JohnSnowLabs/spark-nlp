@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowMultiClassifier, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
@@ -21,7 +21,7 @@ import scala.util.Random
   * In machine learning, multi-label classification and the strongly related problem of multi-output classification are variants of the classification problem where multiple labels may be assigned to each instance. Multi-label classification is a generalization of multiclass classification, which is the single-label problem of categorizing instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many of the classes the instance can be assigned to.
   * Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y (assigning a value of 0 or 1 for each element (label) in y).
   * https://en.wikipedia.org/wiki/Multi-label_classification
-  * 
+  *
   * NOTE: This annotator accepts an array of labels in type of String.
   * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
   *
@@ -85,18 +85,6 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   val batchSize = new IntParam(this, "batchSize", "Batch size")
 
-  /** Dropout coefficient
-    *
-    * @group param
-    **/
-  val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
-
-  /** posWeight coefficient
-    *
-    * @group param
-    **/
-  val posWeight = new FloatParam(this, "posWeight", "A coefficient to use on the positive examples.")
-
   /** Maximum number of epochs to train
     *
     * @group param
@@ -159,18 +147,6 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setBatchSize(batch: Int): MultiClassifierDLApproach.this.type = set(this.batchSize, batch)
-
-  /** Dropout coefficient
-    *
-    * @group setParam
-    **/
-  def setDropout(dropout: Float): MultiClassifierDLApproach.this.type = set(this.dropout, dropout)
-
-  /** posWeight coefficient
-    *
-    * @group setParam
-    **/
-  def setPosWeight(posWeight: Float): MultiClassifierDLApproach.this.type = set(this.posWeight, posWeight)
 
   /** Maximum number of epochs to train
     *
@@ -245,18 +221,6 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   def getBatchSize: Int = $(this.batchSize)
 
-  /** Dropout coefficient
-    *
-    * @group getParam
-    **/
-  def getDropout: Float = $(this.dropout)
-
-  /** posWeight coefficient
-    *
-    * @group getParam
-    **/
-  def getPosWeight: Float = $(this.posWeight)
-
   /** Whether to output to annotators log folder
     *
     * @group getParam
@@ -298,14 +262,12 @@ class MultiClassifierDLApproach(override val uid: String)
   setDefault(
     maxEpochs -> 10,
     lr -> 5e-3f,
-    dropout -> 0.2f,
     batchSize -> 64,
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
     validationSplit -> 0.0f,
     outputLogsPath -> "",
     threshold -> 0.5f,
-    posWeight -> 10.0f,
     randomSeed -> 44,
     shufflePerEpoch -> false
   )
@@ -371,14 +333,11 @@ class MultiClassifierDLApproach(override val uid: String)
         labelsCount,
         lr = $(lr),
         batchSize = $(batchSize),
-        dropout = $(dropout),
         endEpoch = $(maxEpochs),
         configProtoBytes = getConfigProtoBytes,
         validationSplit = $(validationSplit),
         enableOutputLogs=$(enableOutputLogs),
         outputLogsPath=$(outputLogsPath),
-        threshold=$(threshold),
-        weight=$(posWeight),
         shuffleEpoch=$(shufflePerEpoch),
         uuid = this.uid
       )
