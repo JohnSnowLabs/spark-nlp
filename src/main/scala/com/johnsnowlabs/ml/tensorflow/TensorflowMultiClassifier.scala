@@ -19,12 +19,12 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
 
   private val predictionKey = s"sigmoid_output_$numClasses/Sigmoid:0"
   private val optimizerKey = s"optimizer_adam_$numClasses/Adam"
-  private val meanLossKey = s"loss_$numClasses/mean_loss:0"
-  private val sumLossKey = s"loss_$numClasses/sum_loss:0"
+  private val lossKey = s"loss_$numClasses/bce_loss/weighted_loss/value:0"
   private val accuracyKey = s"accuracy_$numClasses/mean_accuracy:0"
-  private val accuracyPerEntity = s"accuracy_$numClasses/mean_accuracy_per_entity:0"
-  private val f1ScoreKey = s"accuracy_$numClasses/f1_score:0"
-  private val f1ScoreMeanKey = s"accuracy_$numClasses/f1_score_mean:0"
+  private val metricsF1 = s"metrics_$numClasses/f1/f1_score:0"
+  private val metricsAccKey = s"metrics_$numClasses/accuracy/mean_accuracy:0"
+  private val metricsLossKey = s"metrics_$numClasses/loss/bce_loss/weighted_loss/value:0"
+  private val metricsTPRKey = s"metrics_$numClasses/f1/truediv_4:0"
 
   private val initKey = "init_all_tables"
 
@@ -80,8 +80,8 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       (trainingDataset.toArray, emptyValid.toArray)
     }
 
-    println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length} - classes: $classNum")
-    outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length} - classes: $classNum",
+    println(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
+    outputLog(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
       uuid, enableOutputLogs, outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
@@ -89,11 +89,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       val time = System.nanoTime()
       var batches = 0
       var loss = 0f
-      var sumLoss = 0f
       var acc = 0f
-      var accEntity = 0f
-      var f1Score = 0f
-      var f1ScoreMean = 0f
       val learningRate = lr / (1 + dropout * epoch)
 
       val shuffledBatch = if(shuffleEpoch){ Random.shuffle(trainDatasetSeq.toSeq).toArray } else trainDatasetSeq
@@ -109,7 +105,6 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
         val labelTensor = tensors.createTensor(labelsArray)
         val sequenceLengthTensor = tensors.createTensor(sequenceLengthArrays)
         val lrTensor = tensors.createTensor(learningRate.toFloat)
-        val dpTensor = tensors.createTensor(dropout.toFloat)
         val weightTensor = tensors.createTensor(weight)
 
         val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
@@ -117,26 +112,15 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
           .feed(labelKey, labelTensor)
           .feed(sequenceLengthKey, sequenceLengthTensor)
           .feed(learningRateKey, lrTensor)
-          //          .feed(dropoutGRUKey, dpTensor)
           .feed(weightKey, weightTensor)
           .fetch(predictionKey)
-          .fetch(meanLossKey)
-          .fetch(sumLossKey)
+          .fetch(lossKey)
           .fetch(accuracyKey)
-          .fetch(accuracyPerEntity)
-          .fetch(f1ScoreKey)
-          .fetch(f1ScoreMeanKey)
           .addTarget(optimizerKey)
           .run()
 
-
         loss += TensorResources.extractFloats(calculated.get(1))(0)
-        sumLoss += TensorResources.extractFloats(calculated.get(2))(0)
-        acc += TensorResources.extractFloats(calculated.get(3))(0)
-        accEntity += TensorResources.extractFloats(calculated.get(4))(0)
-        f1Score += TensorResources.extractFloats(calculated.get(5))(0)
-        f1ScoreMean += TensorResources.extractFloats(calculated.get(6))(0)
-
+        acc += TensorResources.extractFloats(calculated.get(2))(0)
         batches += 1
 
         tensors.clearTensors()
@@ -144,20 +128,16 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       }
       acc /= (trainDatasetSeq.length / batchSize)
       loss /= (trainDatasetSeq.length / batchSize)
-      sumLoss /= (trainDatasetSeq.length / batchSize)
-      accEntity /= (trainDatasetSeq.length / batchSize)
-      f1Score /= (trainDatasetSeq.length / batchSize)
-      f1ScoreMean /= (trainDatasetSeq.length / batchSize)
 
       if (validationSplit > 0.0) {
-        val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs), threshold=threshold)
+        val validationAccuracy = measure(validateDatasetSample)
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - loss_sum: $sumLoss - acc: $acc - acc_entity: $accEntity - val_acc: $validationAccuracy - f1: $f1Score - f1_mean: $f1ScoreMean - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - loss_sum: $sumLoss - acc: $acc - acc_entity: $accEntity - val_acc: $validationAccuracy - f1: $f1Score - f1_mean: $f1ScoreMean - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches")
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }else{
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - loss_sum: $sumLoss - acc: $acc - acc_entity: $accEntity - f1: $f1Score - f1_mean: $f1ScoreMean - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - loss_sum: $sumLoss - acc: $acc - acc_entity: $accEntity - f1: $f1Score - f1_mean: $f1ScoreMean - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
     }
@@ -200,7 +180,9 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     }
   }
 
-  def internalPredict(inputs: Array[Array[Array[Float]]], threshold: Float = 0.5f, configProtoBytes: Option[Array[Byte]] = None): Array[Array[Float]] = {
+  def internalPredict(inputs: Array[Array[Array[Float]]],
+                      labels: Array[Array[Float]],
+                      configProtoBytes: Option[Array[Byte]] = None): Array[Float] = {
 
     val tensors = new TensorResources()
 
@@ -211,50 +193,52 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       .getSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputsReshaped))
+      .feed(labelKey, tensors.createTensor(labels))
       .feed(sequenceLengthKey, tensors.createTensor(sequenceLengthArrays))
-      .fetch(predictionKey)
+      .fetch(metricsLossKey)
+      .fetch(metricsAccKey)
+      .fetch(metricsF1)
+      .fetch(metricsTPRKey)
       .run()
 
-    val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
-    val scores = tagsId.map{score=>
-      score.zipWithIndex.map(x => x._1 > threshold).map { y =>
-        if(y) 1.0f else 0.0f
-      }
-    }
+    val valLoss = TensorResources.extractFloats(calculated.get(0))(0)
+    val valAcc = TensorResources.extractFloats(calculated.get(1))(0)
+    val valF1 = TensorResources.extractFloats(calculated.get(2))(0)
+    val valTPR = TensorResources.extractFloats(calculated.get(3))(0)
+
     tensors.clearTensors()
-    scores
+    Array(valLoss, valAcc, valF1, valTPR)
+
   }
 
   def measure(labeled: Array[(Array[Array[Float]], Array[Float])],
-              log: String => Unit,
-              extended: Boolean = false,
-              batchSize: Int = 100,
-              threshold: Float = 0.5f
-             ): Float = {
+              batchSize: Int = 100
+             ): Array[Float] = {
 
-    var correct = 0
-    var totalLabels = 0
+    var loss = 0f
+    var acc = 0f
+    var f1 = 0f
+    var tpr = 0f
 
     for (batch <- labeled.grouped(batchSize)) {
-
       val originalEmbeddings = batch.map(x => x._1)
       val originalLabels = batch.map(x => x._2)
 
-      val predictedLabels = internalPredict(originalEmbeddings, threshold = threshold)
-      val labeledPredicted = predictedLabels.zip(originalLabels)
-      totalLabels += originalLabels.map(x=>x.count(x => x != 0)).sum
-
-      for (i <- labeledPredicted) {
-        val predict = i._1
-        val original = i._2
-
-        predict.zip(original).map {case (pred, orig)=>
-          if(orig != 0.0f && pred == orig) correct+=1
-        }
-      }
+      val metricsArray = internalPredict(originalEmbeddings, originalLabels)
+      loss += metricsArray(0)
+      acc += metricsArray(1)
+      f1 += metricsArray(2)
+      tpr += metricsArray(3)
     }
 
-    (correct.toFloat / totalLabels.toFloat) * 100
+    val avgSize = labeled.grouped(batchSize).length
+    loss /= avgSize
+    acc /= avgSize
+    f1 /= avgSize
+    tpr /= avgSize
+
+    Array(loss, acc, f1, tpr)
+
   }
 
 }
