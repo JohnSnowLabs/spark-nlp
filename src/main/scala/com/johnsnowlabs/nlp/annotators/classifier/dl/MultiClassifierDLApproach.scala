@@ -261,7 +261,7 @@ class MultiClassifierDLApproach(override val uid: String)
 
   setDefault(
     maxEpochs -> 10,
-    lr -> 5e-3f,
+    lr -> 1e-3f,
     batchSize -> 64,
     enableOutputLogs -> false,
     verbose -> Verbose.Silent.id,
