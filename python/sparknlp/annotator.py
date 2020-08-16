@@ -2762,10 +2762,6 @@ class MultiClassifierDLApproach(AnnotatorApproach):
 
     batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
 
-    dropout = Param(Params._dummy(), "dropout", "Dropout coefficient", TypeConverters.toFloat)
-
-    posWeight = Param(Params._dummy(), "posWeight", "A coefficient to use on the positive examples.", TypeConverters.toFloat)
-
     maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
@@ -2809,14 +2805,6 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         self._set(batchSize=v)
         return self
 
-    def setDropout(self, v):
-        self._set(dropout=v)
-        return self
-
-    def setPosWeight(self, v):
-        self._set(posWeight=v)
-        return self
-
     def setMaxEpochs(self, v):
         return self._set(maxEpochs=v)
 
@@ -2845,12 +2833,10 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         super(MultiClassifierDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach")
         self._setDefault(
             maxEpochs=10,
-            lr=float(0.005),
-            dropout=float(0.2),
+            lr=float(0.001),
             batchSize=64,
-            validationSplit=0.0,
-            threshold=0.5,
-            posWeight=10.0,
+            validationSplit=float(0.0),
+            threshold=float(0.5),
             randomSeed=44,
             shufflePerEpoch=False,
             enableOutputLogs=False
@@ -2866,7 +2852,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
             java_model=java_model
         )
         self._setDefault(
-            threshold=0.5
+            threshold=float(0.5)
         )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
