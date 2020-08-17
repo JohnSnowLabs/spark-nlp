@@ -1,12 +1,12 @@
 ---
 layout: article
-title: Licensed Installation
+title: Spark NLP for Healthcare (licensed)
 permalink: /docs/en/licensed_install
 key: docs-licensed-install
 modify_date: "2020-10-11"
 ---
 
-### Install Licensed Spark NLP
+### Installation
 
 You can also install the licensed package with extra functionalities and
 pretrained models by using:
