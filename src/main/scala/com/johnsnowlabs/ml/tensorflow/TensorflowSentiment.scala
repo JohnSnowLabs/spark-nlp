@@ -61,8 +61,8 @@ class TensorflowSentiment(
       (trainingDataset.toArray, emptyValid.toArray)
     }
 
-    println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}")
-    outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}",
+    println(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length}")
+    outputLog(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length}",
       uuid, enableOutputLogs, outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
@@ -108,12 +108,12 @@ class TensorflowSentiment(
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample)
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }else{
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
     }

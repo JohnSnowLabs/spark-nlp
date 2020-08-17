@@ -251,6 +251,7 @@ class ClassifierDLApproach(override val uid: String)
     val inputColumns = getInputCols(0) + embeddingsField
     val train = dataset.select(dataset.col($(labelColumn)).cast("string"), dataset.col(inputColumns))
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
+    val labelsCount = labels.length
 
     require(
       labels.length <= 100,
@@ -291,6 +292,7 @@ class ClassifierDLApproach(override val uid: String)
       model.train(
         inputEmbeddings,
         inputLabels,
+        labelsCount,
         lr = $(lr),
         batchSize = $(batchSize),
         dropout = $(dropout),
