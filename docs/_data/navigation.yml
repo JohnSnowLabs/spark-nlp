@@ -49,9 +49,9 @@ docs-en:
         url:  /docs/en/developers
       - title: Release Notes
         url: /docs/en/release_notes
-  - title: Licensed Content
+  - title: Healthcare NLP
     children:
-      - title:  Installation
+      - title:  Getting started
         url:    /docs/en/licensed_install
       - title:  Annotators
         url:    /docs/en/licensed_annotators
@@ -65,7 +65,7 @@ docs-en:
         url: /docs/en/licensed_release_notes
   - title: Spark OCR
     children:
-      - title:  General Concepts
+      - title:  Getting started
         url:    /docs/en/ocr
       - title:  Installation
         url:    /docs/en/ocr_install
