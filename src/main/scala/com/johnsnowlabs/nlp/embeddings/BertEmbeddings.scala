@@ -192,6 +192,25 @@ class BertEmbeddings(override val uid: String) extends
 
     this
   }
+  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
+    val basicTokenizer = new BasicTokenizer($(caseSensitive))
+    val encoder = new WordpieceEncoder($$(vocabulary))
+
+    tokens.map{tokenIndex=>
+      // filter empty and only whitespace tokens
+      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map{ token =>
+        val content = if($(caseSensitive)) token.token else token.token.toLowerCase()
+        val sentenceBegin = token.begin
+        val sentenceEnd = token.end
+        val sentenceInedx = tokenIndex.sentenceIndex
+        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+          result.head
+      }
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token))
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+  }
+
   def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
     val encoder = new WordpieceEncoder($$(vocabulary))
@@ -212,8 +231,9 @@ class BertEmbeddings(override val uid: String) extends
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
     /*Return empty if the real tokens are empty*/
     if(tokenizedSentences.nonEmpty) {
-      val sentences = SentenceSplit.unpack(annotations)
-      val tokenized = tokenize(sentences)
+
+      val tokenized = tokenizeWithAlignment(tokenizedSentences)
+
       val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
         tokenized,
         tokenizedSentences,
