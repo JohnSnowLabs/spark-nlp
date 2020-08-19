@@ -1,6 +1,8 @@
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
+import org.apache.spark.sql.catalyst.expressions.Sentences
 
 import scala.collection.JavaConverters._
 
@@ -37,6 +39,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   private val maskIdsKey = "input_mask:0"
   private val segmentIdsKey = "segment_ids:0"
   private val embeddingsKey = "sequence_output:0"
+  private val senteneEmbeddingsKey = "pooled_output:0"
 
   def encode(sentence: WordpieceTokenizedSentence, maxSentenceLength: Int): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
@@ -111,6 +114,58 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   }
 
+  def tagSentence(batch: Seq[Array[Int]], maxSentenceLength: Int): Array[Array[Float]] = {
+    val tensors = new TensorResources()
+    val tensorsMasks = new TensorResources()
+    val tensorsSegments = new TensorResources()
+
+    val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
+    val maskBuffers = tensorsMasks.createIntBuffer(batch.length*maxSentenceLength)
+    val segmentBuffers = tensorsSegments.createIntBuffer(batch.length*maxSentenceLength)
+
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.map { sentence =>
+      if (sentence.length > maxSentenceLength) {
+        tokenBuffers.put(sentence.take(maxSentenceLength - 1) ++ Array(sentenceEndTokenId))
+        maskBuffers.put(sentence.take(maxSentenceLength).map(x=> if (x == 0) 0 else 1))
+        segmentBuffers.put(Array.fill(maxSentenceLength)(0))
+      }
+      else {
+        tokenBuffers.put(sentence)
+        maskBuffers.put(sentence.map(x=> if (x == 0) 0 else 1))
+        segmentBuffers.put(Array.fill(maxSentenceLength)(0))
+      }
+    }
+
+    tokenBuffers.flip()
+    maskBuffers.flip()
+    segmentBuffers.flip()
+
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
+
+    runner
+      .feed(tokenIdsKey, tokenTensors)
+      .feed(maskIdsKey, maskTensors)
+      .feed(segmentIdsKey, segmentTensors)
+      .fetch(senteneEmbeddingsKey)
+
+    val outs = runner.run().asScala
+    val embeddings = TensorResources.extractFloats(outs.head)
+
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+    tokenBuffers.clear()
+
+    val dim = embeddings.length / batch.length
+    embeddings.grouped(dim).toArray
+
+  }
+
   def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
                           originalTokenSentences: Seq[TokenizedSentence],
                           batchSize: Int,
@@ -166,5 +221,36 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       }
     }.toSeq
   }
+
+  def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
+                                  sentences: Seq[Sentence],
+                                  batchSize: Int,
+                                  maxSentenceLength: Int,
+                                  caseSensitive: Boolean
+                                 ): Seq[Annotation] = {
+
+    /*Run embeddings calculation by batches*/
+    tokens.zipWithIndex.grouped(batchSize).flatMap{batch =>
+      val encoded = batch.map(s => encode(s._1, maxSentenceLength))
+
+      val embeddings = tagSentence(encoded, maxSentenceLength)
+
+      sentences.zip(embeddings).map { case (sentence, vectors) =>
+        Annotation(
+          annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+          begin = sentence.start,
+          end = sentence.end,
+          result = sentence.content,
+          metadata = Map("sentence" -> sentence.index.toString,
+            "token" -> sentence.content,
+            "pieceId" -> "-1",
+            "isWordStart" -> "true"
+          ),
+          embeddings = vectors
+        )
+      }
+    }.toSeq
+  }
+
 }
 
