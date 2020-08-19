@@ -85,7 +85,6 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
     val embeddings = BertEmbeddings.pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
-      .setPoolingLayer(0)
 
     val embeddingsSentence = new SentenceEmbeddings()
       .setInputCols(Array("document", "embeddings"))
