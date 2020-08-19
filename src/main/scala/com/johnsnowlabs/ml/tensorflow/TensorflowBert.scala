@@ -36,7 +36,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   private val tokenIdsKey = "input_ids:0"
   private val maskIdsKey = "input_mask:0"
   private val segmentIdsKey = "segment_ids:0"
-  private val embeddingsKey = "output:0"
+  private val embeddingsKey = "sequence_output:0"
 
   def encode(sentence: WordpieceTokenizedSentence, maxSentenceLength: Int): Array[Int] = {
     val tokens = sentence.tokens.map(t => t.pieceId)
