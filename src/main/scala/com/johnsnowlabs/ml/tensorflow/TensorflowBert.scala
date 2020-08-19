@@ -111,29 +111,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   }
 
-  def extractPoolingLayer(layer: Int, dimension: Int): String = {
-    val bertLayer = if(dimension == 768){
-      layer match {
-        case -1 =>
-          "module/bert/encoder/Reshape_13:0"
-        case -2 =>
-          "module/bert/encoder/Reshape_12:0"
-        case 0 =>
-          "module/bert/encoder/Reshape_1:0"
-      }
-    } else {
-      layer match {
-        case -1 =>
-          "module/bert/encoder/Reshape_25:0"
-        case -2 =>
-          "module/bert/encoder/Reshape_24:0"
-        case 0 =>
-          "module/bert/encoder/Reshape_1:0"
-      }
-    }
-    bertLayer
-  }
-
   def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
                           originalTokenSentences: Seq[TokenizedSentence],
                           batchSize: Int,
