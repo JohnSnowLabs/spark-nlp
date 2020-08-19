@@ -149,14 +149,21 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
       /*Combine tokens and calculated embeddings*/
       batch.zip(vectors).map{case (sentence, tokenVectors) =>
-        originalTokenSentences.length
         val tokenLength = sentence._1.tokens.length
 
         /*All wordpiece embeddings*/
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
 
         /*Word-level and span-level alignment with Tokenizer
-        https://github.com/google-research/bert#tokenization*/
+        https://github.com/google-research/bert#tokenization
+
+        ### Input
+        orig_tokens = ["John", "Johanson", "'s",  "house"]
+        labels      = ["NNP",  "NNP",      "POS", "NN"]
+
+        # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
+        # orig_to_tok_map == [1, 2, 4, 6]*/
+
         val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
