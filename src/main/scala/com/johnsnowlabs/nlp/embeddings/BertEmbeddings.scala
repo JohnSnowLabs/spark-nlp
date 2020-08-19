@@ -211,16 +211,6 @@ class BertEmbeddings(override val uid: String) extends
     }
   }
 
-  def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
-    sentences.map { s =>
-      val tokens = basicTokenizer.tokenize(s)
-      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token))
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-  }
-
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
     *
