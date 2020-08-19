@@ -204,7 +204,7 @@ class BertEmbeddings(override val uid: String) extends
         val sentenceEnd = token.end
         val sentenceInedx = tokenIndex.sentenceIndex
         val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-          result.head
+        if (result.nonEmpty) result.head else IndexedToken("")
       }
       val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token))
       WordpieceTokenizedSentence(wordpieceTokens)
