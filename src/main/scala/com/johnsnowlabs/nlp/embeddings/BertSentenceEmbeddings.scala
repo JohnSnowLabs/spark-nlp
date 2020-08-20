@@ -18,7 +18,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
   *
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]] for further reference on how to use this API.
+  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala]] for further reference on how to use this API.
   * Sources:
   *
   *
@@ -47,14 +47,14 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class BertEmbeddings(override val uid: String) extends
-  AnnotatorModel[BertEmbeddings]
+class BertSentenceEmbeddings(override val uid: String) extends
+  AnnotatorModel[BertSentenceEmbeddings]
   with WriteTensorflowModel
   with HasEmbeddingsProperties
   with HasStorageRef
   with HasCaseSensitiveProperties {
 
-  def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
+  def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
   /** Batch size. Large values allows faster processing but requires more memory.
     *
@@ -130,7 +130,7 @@ class BertEmbeddings(override val uid: String) extends
     *
     * @group setParam
     * */
-  def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): BertSentenceEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
   /**
     * Max sentence length to process
@@ -186,21 +186,13 @@ class BertEmbeddings(override val uid: String) extends
 
     this
   }
-  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
+
+  def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
     val encoder = new WordpieceEncoder($$(vocabulary))
-
-    tokens.map{tokenIndex=>
-      // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map{ token =>
-        val content = if($(caseSensitive)) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token))
+    sentences.map { s =>
+      val tokens = basicTokenizer.tokenize(s)
+      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -212,56 +204,56 @@ class BertEmbeddings(override val uid: String) extends
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
-    /*Return empty if the real tokens are empty*/
-    if(tokenizedSentences.nonEmpty) {
-
-      val tokenized = tokenizeWithAlignment(tokenizedSentences)
-
-      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
+    /*Return empty if the real sentences are empty*/
+    val sentences = SentenceSplit.unpack(annotations)
+    if(sentences.nonEmpty) {
+      val tokenized = tokenize(sentences)
+      getModelIfNotSet.calculateSentenceEmbeddings(
         tokenized,
-        tokenizedSentences,
+        sentences,
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive)
       )
-      WordpieceEmbeddingsSentence.pack(withEmbeddings)
     } else {
       Seq.empty[Annotation]
     }
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(
+      getOutputCol,
+      wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef)))
+    )
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertSentenceEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
+trait ReadablePretrainedBertSentenceModel extends ParamsAndFeaturesReadable[BertSentenceEmbeddings] with HasPretrained[BertSentenceEmbeddings] {
   override val defaultModelName: Some[String] = Some("bert_base_cased")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertEmbeddings = super.pretrained()
-  override def pretrained(name: String): BertEmbeddings = super.pretrained(name)
-  override def pretrained(name: String, lang: String): BertEmbeddings = super.pretrained(name, lang)
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(): BertSentenceEmbeddings = super.pretrained()
+  override def pretrained(name: String): BertSentenceEmbeddings = super.pretrained(name)
+  override def pretrained(name: String, lang: String): BertSentenceEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String, remoteLoc: String): BertSentenceEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertTensorflowModel extends ReadTensorflowModel {
-  this:ParamsAndFeaturesReadable[BertEmbeddings] =>
+trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
+  this:ParamsAndFeaturesReadable[BertSentenceEmbeddings] =>
 
   override val tfFile: String = "bert_tensorflow"
 
-  def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -269,7 +261,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): BertEmbeddings = {
+  def loadSavedModel(folder: String, spark: SparkSession): BertSentenceEmbeddings = {
 
     val f = new File(folder)
     val savedModel = new File(folder, "saved_model.pb")
@@ -290,11 +282,11 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
     val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
-    new BertEmbeddings()
+    new BertSentenceEmbeddings()
       .setVocabulary(words)
       .setModelIfNotSet(spark, wrapper)
   }
 }
 
 
-object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel
+object BertSentenceEmbeddings extends ReadablePretrainedBertSentenceModel with ReadBertSentenceTensorflowModel

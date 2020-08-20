@@ -13,12 +13,6 @@ import scala.collection.JavaConverters._
   * Sources:
   *
   *
-  * 0  : corresponds to first layer (embeddings)
-  *
-  * -1 :  corresponds to last layer
-  *
-  * 2  :  second-to-last layer
-  *
   * @param tensorflow           Bert Model wrapper with TensorFlow Wrapper
   * @param sentenceStartTokenId Id of sentence start Token
   * @param sentenceEndTokenId   Id of sentence end Token.
