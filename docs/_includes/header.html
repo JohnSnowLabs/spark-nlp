@@ -7,6 +7,7 @@
 {%- endif -%}
     <div class="main">
       <div class="header__title">
+        <a href="#" id="responsive_menu"></a>
         <div class="header__brand">
           <a title="{%- if site.description -%}{{ site.description }}{%- endif -%}" href="https://www.johnsnowlabs.com" target="_blank">
             {%- include svg/logo.svg -%}
@@ -22,8 +23,8 @@
         {%- endif -%}
       </div>
       {%- if site.data.navigation.header -%}
-      <nav class="navigation">
-        <ul>
+      <nav class="navigation top_navigation">
+        <ul class="top-menu">
           {%- for _item in site.data.navigation.header -%}
             {%- include snippets/get-nav-url.html path=_item.url -%}
             {%- assign _nav_url = __return -%}
@@ -33,7 +34,7 @@
             {%- if _nav_url == _page_url or page.nav_key and _item.key and page.nav_key == _item.key -%}
               <li class="navigation__item navigation__item--active"><a href="{{ _nav_url }}">{%- if _item.title -%}{{ _item.title }}{%- else -%}{{ __return }}{%- endif -%}</a></li>
             {%- else -%}
-              <li class="navigation__item"><a href="{{ _nav_url }}">{%- if _item.title -%}{{ _item.title }}{%- else -%}{{ __return }}{%- endif -%}</a></li>
+              <li class="navigation__item {{ _type }}"><a href="{{ _nav_url }}">{%- if _item.title -%}{{ _item.title }}{%- else -%}{{ __return }}{%- endif -%}</a></li>
             {%- endif -%}
           {%- endfor -%}
           {%- if site.search.provider -%}
