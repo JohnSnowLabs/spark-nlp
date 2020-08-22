@@ -5,7 +5,9 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest._
 import java.util.Date
 
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.Transformer
 
 
 class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
@@ -32,6 +34,50 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     }
   }
 
+  /* here assembler can either be a SentenceDetector or a DocumentAssembler */
+  def getTokenizerPipelineOutput[T](assembler:Transformer, tokenizer: TokenizerModel, data: DataFrame, mode: String = "finisher"): Array[T] = {
+
+    val finisher = new Finisher().setInputCols("token").setOutputAsArray(true).setCleanAnnotations(false).setOutputCols("output")
+    val pipeline = new Pipeline().setStages(Array(assembler, tokenizer, finisher))
+    val pip = pipeline.fit(data).transform(data)
+
+    if (mode == "finisher") {
+      pip.select("output").as[Array[String]].collect.flatten.asInstanceOf[Array[T]]
+    } else {
+      pip.select("token").as[Array[Annotation]].collect.flatten.asInstanceOf[Array[T]]
+    }
+  }
+
+
+  val targetText0 = "My friend moved to New York. She likes it. Frank visited New York, and didn't like it."
+
+  "a Tokenizer" should s"correctly handle exceptions in sentences and documents" in {
+
+    val data = DataBuilder.basicDataBuild(targetText0)
+
+    val sentence = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+      .addException("New York")
+      .fit(data)
+
+
+    val result = getTokenizerPipelineOutput[Annotation](sentence, tokenizer, data, "annotation")
+    assert(
+      result(4) == Annotation(AnnotatorType.TOKEN, 19, 27, "New York.", Map("sentence" -> "0"))
+    )
+
+    assert(
+      result(11) == Annotation(AnnotatorType.TOKEN, 57, 65, "New York,", Map("sentence" -> "2"))
+    )
+  }
+
+
+
 
   val targetText1 = "Hello, I won't be from New York in the U.S.A. (and you know it héroe). Give me my horse! or $100" +
     " bucks 'He said', I'll defeat markus-crassus. You understand. Goodbye George E. Bush. www.google.com."
@@ -45,6 +91,7 @@ class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
     "héroe", ").", "Give", "me", "my", "horse", "!", "or", "$100", "bucks", "'", "He", "said", "',", "I'll",
     "defeat", "markus", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www.google.com", "."
   )
+
 
   "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" in {
 

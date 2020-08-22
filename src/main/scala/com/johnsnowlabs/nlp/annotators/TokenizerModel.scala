@@ -233,7 +233,7 @@ class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerM
         if (get(exceptions).isDefined && (candidate.matched.contains(PROTECT_CHAR) || casedMatchExists(candidate.matched))) {
           /** Put back character and move on */
           Seq(IndexedToken(
-            text.content.slice(text.start + candidate.start, text.start + candidate.end),
+            text.content.slice(candidate.start, candidate.end),
             text.start + candidate.start,
             text.start + candidate.end - 1
           ))
