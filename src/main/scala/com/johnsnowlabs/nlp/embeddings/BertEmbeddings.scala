@@ -247,7 +247,7 @@ class BertEmbeddings(override val uid: String) extends
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
-  override val defaultModelName: Some[String] = Some("bert_base_cased")
+  override val defaultModelName: Some[String] = Some("small_bert_L2_768")
 
   /** Java compliant-overrides */
   override def pretrained(): BertEmbeddings = super.pretrained()
