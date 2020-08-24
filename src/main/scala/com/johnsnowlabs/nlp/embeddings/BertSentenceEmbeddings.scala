@@ -233,13 +233,13 @@ class BertSentenceEmbeddings(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertSentenceEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert_sentence", BertSentenceEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
 trait ReadablePretrainedBertSentenceModel extends ParamsAndFeaturesReadable[BertSentenceEmbeddings] with HasPretrained[BertSentenceEmbeddings] {
-  override val defaultModelName: Some[String] = Some("bert_base_cased")
+  override val defaultModelName: Some[String] = Some("small_bert_L2_768")
 
   /** Java compliant-overrides */
   override def pretrained(): BertSentenceEmbeddings = super.pretrained()
@@ -251,11 +251,11 @@ trait ReadablePretrainedBertSentenceModel extends ParamsAndFeaturesReadable[Bert
 trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
   this:ParamsAndFeaturesReadable[BertSentenceEmbeddings] =>
 
-  override val tfFile: String = "bert_tensorflow"
+  override val tfFile: String = "bert_sentence_tensorflow"
 
   def readTensorflow(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
   }
 
