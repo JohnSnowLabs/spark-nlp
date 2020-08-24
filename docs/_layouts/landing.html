@@ -46,12 +46,134 @@ article_header:
           </div>
         {%- endif -%}
 
+        {%- if _section.threeblocks -%}
+        {%- assign _size = _section.threeblocks | size  -%}
+        <div class="grid--container">
+          <div class="grid grid--p-3">
+
+            {%- for child in _section.threeblocks -%}
+
+            {%- if _size >= 2 -%}
+            {%- assign _cell_sm_col = 12 -%}
+            {%- else -%}
+            {%- assign _cell_sm_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            {%- if _size >= 2 -%}
+            {%- assign _cell_md_col = 4 -%}
+            {%- else -%}
+            {%- assign _cell_md_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            {%- if _size >= 4 -%}
+            {%- assign _cell_lg_col = 3 -%}
+            {%- else -%}
+            {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            {%- if _size >= 6 -%}
+            {%- assign _cell_lg_col = 2 -%}
+            {%- else -%}
+            {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} cell--sm-{{ _cell_sm_col }}">
+
+              <div class="feature-item topthree {{ _section.featureitem }} ">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}
+                {%- assign _item_image_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="mx-auto" style="{{ child.image.style }}">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <h4>{{ child.title }}</h4>
+
+                {%- if child.excerpt-%}
+                <p>{{ child.excerpt }}</p>
+                {%- endif -%}
+
+                {%- if child.actions -%}
+                <ul class="menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>              
+
+              {%- if child.content-%}
+              <p>{{ child.content }}</p>
+              {%- endif -%}
+
+            </div>
+            {%- endfor-%}
+
+          </div>
+        </div>
+        {%- endif -%}
+
+        {%- if _section.image.full_width == true -%}
+      </div> {% comment %} end hero__content {% endcomment %}
+      {%- endif -%}
+
+      {%- if _section.image and _section.image.src -%}
+
+      {%- if _section.image.url -%}
+      {%- include snippets/get-nav-url.html path=_section.image.url -%}
+      {%- assign _section_image_url = __return -%}
+      {%- else -%}
+      {%- assign _section_image_url = nil -%}
+      {%- endif -%}
+
+      {%- include snippets/get-nav-url.html path=_section.image.src -%}
+      {%- assign _section_image_src = __return -%}
+
+      {%- if _section.image.is_row -%}
+      <div class="mb-5">
+        {%- endif -%}
+        <div class="mx-auto" style="{{ _section.image.style }}">
+          {%- if _section_image_url -%}
+          <a href="{{ _section_image_url }}">
+            {%- endif -%}
+            {%- if _section.image.full_width == true -%}
+            <img class="hero__cover hero__cover--full-width" src="{{ _section_image_src }}" />
+            {%- else -%}
+            <img class="hero__cover" src="{{ _section_image_src }}" />
+            {%- endif -%}
+            {%- if _section_image_url -%}
+          </a>
+          {%- endif -%}
+        </div>
+        {%- if _section.image.is_row -%}
+      </div>
+      {%- endif -%}
+      {%- endif -%}
+
         {%- if _section.install -%}
 
           <div class="quick_easy">
             <div class="grid--container">
               <div class="grid">
-                <div class="cell d_flex cell--12 cell--lg-5 cell--md-5">
+                <div class="cell d_flex cell--12 cell--lg-5 cell--md-5 cell--sm-12 quick_easy_inner">
                   <h3 class="grey h3_title">{{ _section.title }}</h3>
                   {%- if _section.excerpt-%}
                   <div class="descr_quick">{{ _section.excerpt }}</div>
@@ -68,27 +190,27 @@ article_header:
                     </ul>
                     {%- endif -%}
                 </div>
-                <div class="cell cell--12 cell--lg-7 cell--md-7">
+                <div class="cell cell--12 cell--lg-7 cell--md-7 cell--sm-12">
                   <div class="highlight-box">
-                      {% highlight bash %}
-                      # Install Spark NLP from PyPI
-                      $ pip install spark-nlp==2.5.5
-                    
-                      # Install Spark NLP from Anaconda/Conda
-                      $ conda install -c johnsnowlabs spark-nlp
-                    
-                      # Load Spark NLP with Spark Shell
-                      $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
-                    
-                      # Load Spark NLP with PySpark
-                      $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
-                    
-                      # Load Spark NLP with Spark Submit
-                      $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
-                    
-                      # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-                      $ spark-shell --jar spark-nlp-assembly-2.5.5
-                      {% endhighlight %}
+    {% highlight bash %}
+    # Install Spark NLP from PyPI
+    $ pip install spark-nlp==2.5.5
+  
+    # Install Spark NLP from Anaconda/Conda
+    $ conda install -c johnsnowlabs spark-nlp
+  
+    # Load Spark NLP with Spark Shell
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+  
+    # Load Spark NLP with PySpark
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+  
+    # Load Spark NLP with Spark Submit
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+  
+    # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
+    $ spark-shell --jar spark-nlp-assembly-2.5.5
+    {% endhighlight %}
                     </div>
                 </div>
               </div>
@@ -143,38 +265,38 @@ article_header:
                   </ul>
                 </div>
                               
-                  {% highlight python %}
-                    # Import Spark NLP            
-                    from sparknlp.base import *
-                    from sparknlp.annotator import *
-                              
-                    from sparknlp.pretrained import PretrainedPipeline
-                    import sparknlp
-                              
-                    # Start Spark Session with Spark NLP
-                    spark = sparknlp.start()
-                              
-                    # Download a pre-trained pipeline 
-                    pipeline = PretrainedPipeline('explain_document_dl', lang='en')
-                              
-                    # Your testing dataset
-                    text = """
-                    The Mona Lisa is a 16th century oil painting created by Leonardo. 
-                    It's held at the Louvre in Paris.
-                    """
-                              
-                    # Annotate your testing dataset
-                    result = pipeline.annotate(text)
-                              
-                    # What's in the pipeline
-                    list(result.keys())
-                    Output: ['entities', 'stem', 'checked', 'lemma', 'document',
-                    'pos', 'token', 'ner', 'embeddings', 'sentence']
-                              
-                    # Check the results
-                    result['entities']
-                    Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
-                  {% endhighlight %}
+    {% highlight python %}
+    # Import Spark NLP            
+    from sparknlp.base import *
+    from sparknlp.annotator import *
+              
+    from sparknlp.pretrained import PretrainedPipeline
+    import sparknlp
+              
+    # Start Spark Session with Spark NLP
+    spark = sparknlp.start()
+              
+    # Download a pre-trained pipeline 
+    pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+              
+    # Your testing dataset
+    text = """
+    The Mona Lisa is a 16th century oil painting created by Leonardo. 
+    It's held at the Louvre in Paris.
+    """
+              
+    # Annotate your testing dataset
+    result = pipeline.annotate(text)
+              
+    # What's in the pipeline
+    list(result.keys())
+    Output: ['entities', 'stem', 'checked', 'lemma', 'document',
+    'pos', 'token', 'ner', 'embeddings', 'sentence']
+              
+    # Check the results
+    result['entities']
+    Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
+    {% endhighlight %}
                 </div>
               </div>
             </div>
@@ -213,70 +335,74 @@ article_header:
                 {% highlight bash %}
                 
                 {% endhighlight %}
-                  <table class="table2">
-                    <thead>
-                        <th>System</th>
-                        <th>Year</th>
-                        <th>Language</th>
-                        <th>Accuracy</th>                      
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><strong>Spark NLP v2.4</strong></td>
-                        <td>2020</td>
-                        <td>Python/Scala/Java/R</td>
-                        <td><strong>93.3 (test F1) - 95.9 (dev F1)</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Spark NLP v2.x</td>
-                        <td>2019</td>
-                        <td>Python/Scala/Java/R</td>
-                        <td><strong>93</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Spark NLP v1.x</td>
-                        <td>2018</td>
-                        <td>Python/Scala/Java/R</td>
-                        <td>92</td>
-                      </tr>
-                      <tr>
-                        <td>spaCy v2.x</td>
-                        <td>2017<br></td>
-                        <td>Python/Cython</td>
-                        <td>92.6</td>
-                      </tr>
-                      <tr>
-                        <td>spaCy v1.x</td>
-                        <td>2015</td>
-                        <td>Python/Cython</td>
-                        <td>91.8</td>
-                      </tr>
-                      <tr>
-                        <td>ClearNLP</td>
-                        <td>2015</td>
-                        <td>Java</td>
-                        <td>91.7</td>
-                      </tr>
-                      <tr>
-                        <td>CoreNLP</td>
-                        <td>2015</td>
-                        <td>Java</td>
-                        <td>89.6</td>
-                      </tr>
-                      <tr>
-                        <td>MATE</td>
-                        <td>2015</td>
-                        <td>Java</td>
-                        <td>92.5</td>
-                      </tr>
-                      <tr>
-                        <td>Turbo</td>
-                        <td>2015</td>
-                        <td>C++</td>
-                        <td>92.4</td>
-                      </tr>                      
-                    </tbody>
-                  </table>            
+                <div class="table-wrapper">
+                    <div class="table-wrapper-inner">
+                      <table class="table2">
+                        <thead>
+                            <th>System</th>
+                            <th>Year</th>
+                            <th>Language</th>
+                            <th>Accuracy</th>                      
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><strong>Spark NLP v2.4</strong></td>
+                            <td>2020</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td><strong>93.3 (test F1) - 95.9 (dev F1)</strong></td>
+                          </tr>
+                          <tr>
+                            <td>Spark NLP v2.x</td>
+                            <td>2019</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td><strong>93</strong></td>
+                          </tr>
+                          <tr>
+                            <td>Spark NLP v1.x</td>
+                            <td>2018</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td>92</td>
+                          </tr>
+                          <tr>
+                            <td>spaCy v2.x</td>
+                            <td>2017<br></td>
+                            <td>Python/Cython</td>
+                            <td>92.6</td>
+                          </tr>
+                          <tr>
+                            <td>spaCy v1.x</td>
+                            <td>2015</td>
+                            <td>Python/Cython</td>
+                            <td>91.8</td>
+                          </tr>
+                          <tr>
+                            <td>ClearNLP</td>
+                            <td>2015</td>
+                            <td>Java</td>
+                            <td>91.7</td>
+                          </tr>
+                          <tr>
+                            <td>CoreNLP</td>
+                            <td>2015</td>
+                            <td>Java</td>
+                            <td>89.6</td>
+                          </tr>
+                          <tr>
+                            <td>MATE</td>
+                            <td>2015</td>
+                            <td>Java</td>
+                            <td>92.5</td>
+                          </tr>
+                          <tr>
+                            <td>Turbo</td>
+                            <td>2015</td>
+                            <td>C++</td>
+                            <td>92.4</td>
+                          </tr>                      
+                        </tbody>
+                      </table> 
+                    </div>                  
+                </div>                             
               </div>          
             </div>
           </div>
@@ -289,10 +415,10 @@ article_header:
         <div class="grid--container">
           <div class="grid grid--p-3">
 
-            {%- for child in _section.children -%}
+            {%- for child in _section.children -%}          
 
             {%- if _size >= 2 -%}
-            {%- assign _cell_md_col = 4 -%}
+            {%- assign _cell_md_col = 3 -%}
             {%- else -%}
             {%- assign _cell_md_col = 12 | divided_by: _size -%}
             {%- endif -%}
@@ -309,7 +435,7 @@ article_header:
             {%- assign _cell_lg_col = 12 | divided_by: _size -%}
             {%- endif -%}
 
-            <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
+            <div class="cell cell--6 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
 
               <div class="feature-item {{ _section.featureitem }} ">
                 {%- if child.image and child.image.src -%}
@@ -399,6 +525,7 @@ article_header:
       </div>
       {%- endif -%}
       {%- endif -%}
+      
 
       {%- if _section.image.full_width != true -%}
   </div> {% comment %} end hero__content {% endcomment %}

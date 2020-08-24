@@ -22,12 +22,13 @@ article_header:
     #   url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I    
   height: 20vh
   theme: dark
+  uniq_class: hghg
 data:
   sections:
     - title: The most widely used NLP library in the enterprise
       top: yes
       excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February
-      children:
+      threeblocks:
         - title: 100% Open Source
           image: 
               src: /assets/images/open_s.svg

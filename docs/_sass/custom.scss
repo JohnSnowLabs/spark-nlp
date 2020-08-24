@@ -477,6 +477,20 @@ ul.list1 {
 
 .benchmark-section {
 	text-align: left;
+	position: relative;
+	margin-top: 70px;
+	&:before {
+		content: '';
+		height: calc(100% + 136px);
+		width: 950px;
+		background: #F7FCFE;
+		top: -68px;
+		margin: 0 auto;
+		left: 0;
+		right: 0;
+		z-index: 0;
+		position: absolute;
+	}
 }
 
 .benchmark-top {
@@ -500,6 +514,7 @@ ul.list1 {
 
 .table2 {
 	width: 100%;
+	background: #ffffff;
 	thead {
 		tr {
 			background: #3E4095;
@@ -602,6 +617,12 @@ ul.list1 {
 }
 
 @media (max-width: 991px) {
+	.grid--container {
+		width: 760px;
+	}
+	.heros .section-row {
+		padding: 70px 0px;
+	}
 	#responsive_menu {
 		display: inline-block;
 		width: 30px;
@@ -614,6 +635,7 @@ ul.list1 {
 		}
 	}	
 	nav.top_navigation {
+		box-shadow: inset 0px 15px 15px rgba(0, 152, 218, 0.15);
 		position: fixed;
 		left: -100%;
 		height: calc(100vh - 70px);
@@ -626,30 +648,196 @@ ul.list1 {
 		transition: all 300ms ease;
 		z-index: 6;
 		top: 70px;
-		box-shadow: 0px 15px 15px rgba(0, 152, 218, 0.15);
 		&.open {
 			left: 0;
 		}
 	}		
-	.top-menu {
+	header.header nav.top_navigation .top-menu {
 		flex-direction: column;
 		width: 100% !important;
+		padding: 23px 0;
 		li {
 			text-align: left;
 			width: 100%;
 			margin: 0 !important;
-			border-top: 1px solid #E2F5FE;
-			&:last-child {
-				border-bottom: 1px solid #E2F5FE;
-			}
 			a {
 				display: block;
+				font-size: 18px;
 				padding: 10px 20px;
+				color: #5334AE !important;
 			}
 			button {
 				margin: 10px 0;
 			}
 		}
+	}
+	.feature-item {
+		h4 {
+			font-size: 19px;
+		}
+		p {
+			padding: 0;
+		}
+	}
+	.heros .quick_easy {
+		.descr_quick,
+		h3 {
+			text-align: left;
+		}
+	}
+	.benchmark-top {
+		padding-top: 0;
+	}
+	.benchmark-section {
+		margin-top: 0;
+		&:before {
+			display: none;
+		}
+	}
+	.sponsor figure {
+		padding: 20px !important;
+	}
+}
+
+@media (max-width: 767px) {
+	.grid--container {
+		width: 100%;
+	}
+	.article__header--overlay {
+		.button {
+			min-width: 180px;
+		}
+	}
+	.cell--sm-12 {
+		width: 100% !important;
+	}
+
+	.topthree {
+		width: 70%;
+		margin: 0 auto 25px;
+	}
+	.heros .quick_easy .grid--container::before {display: none;}
+	.heros .quick_easy .descr_quick, 
+	.heros .quick_easy h3 {
+		text-align: center;
+	}
+	.quick_easy_inner {
+		align-items: center !important;
+		padding-bottom: 30px !important;
+	}
+	.descr_quick {
+		padding-top: 0;
+	}
+	.hero .h3_title {
+		line-height: 45px;
+	}
+	.top_section {
+		padding: 0 15px;
+	}
+}
+
+@media (max-width: 700px) {
+	.sponsor figure {
+		padding: 0px !important;
+	}
+	.article__header--overlay .hero.hero--center .menu li {
+		margin: 0 5px;
+		.button {
+			min-width: 160px;
+		}
+	}
+	.article__header--overlay .hero.hero--center {
+		padding: 30px 0 50px;
+	}
+	.features-inner .features-ul {
+		flex-direction: column;
+		margin: 0;
+	}
+	ul.list1 {
+		margin: 0 0 35px;
+	}
+	.table-wrapper {
+		width: 100%;
+		margin-top: 30px;
+		position: relative;
+	}
+	.table-wrapper-inner {
+		overflow-x: auto;
+		&::after {
+			content: '';
+			height: 100%;
+			width: 40px;
+			position: absolute;
+			right: -10px;
+			top: 0;
+			display: block;
+			background: rgb(222,246,255);
+			background: -moz-linear-gradient(270deg, rgba(222,246,255,1) 0%, rgba(255,0,50,0) 100%);
+			background: -webkit-linear-gradient(270deg, rgba(222,246,255,1) 0%, rgba(255,0,50,0) 100%);
+			background: linear-gradient(270deg, rgba(222,246,255,1) 0%, rgba(255,0,50,0) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#def6ff",endColorstr="#ff0032",GradientType=1); 
+		}
+	}
+}
+@media (max-width: 560px) {
+	nav.top_navigation {
+		width: 100%;
+	}
+	.hero .h3_title {
+		line-height: 40px;
+		font-size: 30px;
+		&.big_h3 {
+			line-height: 45px;
+		}
+	}
+	.heros .section-row {
+		padding: 50px 0px;
+	}
+	.article__header h1 {
+		font-size: 48px;
+		span {
+			line-height: 43px;
+			font-size: 32px;
+		}
+	}
+	.article__header--overlay .hero.hero--center .menu li {
+		margin: 0 0 15px;
+		.button {
+			min-width: 160px;
+			width: 100%;
+		}
+	}
+	.topthree {
+		width: 100%;
+	}
+	.features-inner {
+		padding: 65px 15px 0;
+	}
+	.feature-item.sponsor {
+		padding: 0;
+	}
+	.three_a,
+	.article__header--overlay .menu {
+		flex-direction: column;
+		li {
+			width: 100%;
+			margin: 0 0 15px;
+			a {
+				width: 100%;
+				margin: 0 !important;
+			}
+		}
+	}
+	.table2 thead tr th {
+		font-size: 14px;
+		line-height: 30px;
+		height: 45px;
+	}
+	.sponsor figure {
+		padding: 15px !important;
+	}
+	.page__footer footer .site-info {
+		line-height: 22px;
 	}
 }
 /* end custom scss snippet */
