@@ -2,8 +2,8 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadClassifierDLTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedClassifierDL, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -12,8 +12,8 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.embeddings._
-import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -182,5 +182,10 @@ package object annotator {
   object MultiClassifierDLApproach extends DefaultParamsReadable[MultiClassifierDLApproach]
   type MultiClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel
   object MultiClassifierDLModel extends ReadablePretrainedMultiClassifierDL with ReadMultiClassifierDLTensorflowModel
+
+  type ChineseTokenizer = com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizer
+  object ChineseTokenizer extends DefaultParamsReadable[ChineseTokenizer]
+  type ChineseTokenizerModel = com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizerModel
+  object ChineseTokenizerModel extends ParamsAndFeaturesReadable[ChineseTokenizerModel]
 
 }

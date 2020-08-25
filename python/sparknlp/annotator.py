@@ -2974,3 +2974,73 @@ class YakeModel(AnnotatorModel):
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
 
+class ChineseTokenizer(AnnotatorApproach):
+    name = "ChineseTokenizer"
+    maxWordLength = Param(Params._dummy(), "maxWordLength", "Maximum word length", typeConverter=TypeConverters.toInt)
+    minFrequency = Param(Params._dummy(), "minFrequency", "Minimum frequency", typeConverter=TypeConverters.toFloat)
+    minEntropy = Param(Params._dummy(), "minEntropy", "Minimum entropy", typeConverter=TypeConverters.toFloat)
+    minAggregation = Param(Params._dummy(), "minAggregation", "Minimum aggregation",
+                           typeConverter=TypeConverters.toFloat)
+    wordSegmentMethod = Param(Params._dummy(), "wordSegmentMethod",
+                              "How to treat a combination of shorter words: LONG, SHORT, ALL",
+                              typeConverter=TypeConverters.toString)
+    knowledgeBase = Param(Params._dummy(),
+                            "knowledgeBase",
+                            "Text fragment that will be used as knowledge base to segment a sentence with the words generated from it",
+                            typeConverter=TypeConverters.identity)
+
+    def setMaxWordLength(self, value):
+        return self._set(maxWordLength=value)
+
+    def setMinFrequency(self, value):
+        return self._set(minFrequency=value)
+
+    def setMinEntropy(self, value):
+        return self._set(minEntropy=value)
+
+    def setMinAggregation(self, value):
+        return self._set(minAggregation=value)
+
+    def setWordSegmentMethod(self, value):
+        return self._set(wordSegmentMethod=value)
+
+    def setKnowledgeBase(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        opts = options.copy()
+        return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+
+    @keyword_only
+    def __init__(self):
+        super(ChineseTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizer")
+        self._setDefault(
+            maxWordLength=2,
+            minFrequency=float(0.00005),
+            wordSegmentMethod="ALL"
+        )
+
+    def _create_model(self, java_model):
+        return ChineseTokenizerModel(java_model=java_model)
+
+
+class ChineseTokenizerModel(AnnotatorModel):
+    name = "ChineseTokenizerModel"
+
+    maxWordLength = Param(Params._dummy(), "maxWordLength", "Maximum word length", typeConverter=TypeConverters.toInt)
+    wordSegmentMethod = Param(Params._dummy(), "wordSegmentMethod",
+                              "How to treat a combination of shorter words: LONG, SHORT, ALL",
+                              typeConverter=TypeConverters.toString)
+    words = Param(Params._dummy(), "words", "words generated from a document", TypeConverters.toListString)
+
+    def setWordSegmentMethod(self, value):
+        return self._set(wordSegmentMethod=value)
+
+    def setMaxWordLength(self, value):
+        return self._set(maxWordLength=value)
+
+    def setWords(self, value):
+        return self._set(words=value)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizerModel", java_model=None):
+        super(ChineseTokenizerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
