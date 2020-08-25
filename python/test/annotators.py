@@ -1315,3 +1315,30 @@ class YakeModelTestSpec(unittest.TestCase):
 
         result = pipeline.fit(self.data).transform(self.data)
         result.select("keywords").show(truncate=False)
+
+
+class ChineseTokenizerTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([["十四不是四十"]]) \
+            .toDF("text").cache()
+        self.knowledgeBase = "file:///" + os.getcwd() + "/../src/test/resources/tokenizer/sample_chinese_doc.txt"
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = ChineseTokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
