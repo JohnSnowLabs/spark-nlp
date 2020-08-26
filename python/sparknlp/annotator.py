@@ -1826,7 +1826,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
 
     @staticmethod
-    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
+    def pretrained(name="small_bert_L2_768", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
