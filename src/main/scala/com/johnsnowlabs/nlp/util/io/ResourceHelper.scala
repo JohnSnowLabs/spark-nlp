@@ -27,10 +27,10 @@ object ResourceHelper {
     SparkSession.getActiveSession.getOrElse(SparkSession.builder()
       .appName("SparkNLP Default Session")
       .master("local[*]")
-      .config("spark.driver.memory","12G")
-      .config("spark.driver.maxResultSize", "2G")
+      .config("spark.driver.memory","22G")
+      .config("spark.driver.maxResultSize", "0")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-      .config("spark.kryoserializer.buffer.max", "500m")
+      .config("spark.kryoserializer.buffer.max", "1000m")
       .getOrCreate()
     )
 
