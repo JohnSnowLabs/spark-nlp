@@ -210,7 +210,8 @@ object TensorflowWrapper {
     } catch {
       case e: org.tensorflow.TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
         throw new UnsupportedOperationException("Spark NLP tried to load a TensorFlow Graph using Contrib module, but" +
-          " failed to load it on this system. If you are on Windows, this operation is not supported. Please try a noncontrib model." +
+          " failed to load it on this system. If you are on Windows, please follow the correct steps for setup: " +
+          "https://github.com/JohnSnowLabs/spark-nlp/issues/994#issuecomment-673393106" +
           s" If not the case, please report this issue. Original error message:\n\n${e.getMessage}")
     }
     graph
