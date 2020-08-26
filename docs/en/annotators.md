@@ -214,7 +214,7 @@ Retrieves lemmas out of words with the objective of returning a base dictionary 
 **Input types:** Token  
 **Input:** abduct -> abducted abducting abduct abducts  
 **Reference:** [Lemmatizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala) | [LemmatizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala)  
-**Functions:** --
+**Functions:** 
 
 - setDictionary(path, keyDelimiter, valueDelimiter, readAs, options): Path and options to lemma dictionary, in lemma vs possible words format. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
 
@@ -304,7 +304,7 @@ Uses a reference file to match a set of regular expressions and put them inside 
 **Functions:**
 
 - setStrategy(strategy): Can be any of `MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE`
-- setRulesPath(path, delimiter, readAs, options): Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
+- setRules(path, delimiter, readAs, options): Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
 
 **Example:**
 
@@ -315,12 +315,13 @@ Refer to the [RegexMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowl
 ```python
 regex_matcher = RegexMatcher() \
     .setStrategy("MATCH_ALL") \
+    .setInputCols("document")
     .setOutputCol("regex")
 ```
 
 ```scala
 val regexMatcher = new RegexMatcher()
-    .setStrategy(strategy)
+    .setStrategy("MATCH_ALL")
     .setInputCols(Array("document"))
     .setOutputCol("regex")
 ```
@@ -499,7 +500,7 @@ val dateMatcher = new DateMatcher()
 #### Sentence Boundary Detector
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
-**Output type:** Document  
+**Output type:** Sentence
 **Input types:** Document  
 **Reference:** [SentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.scala)  
 **Functions:**
@@ -531,9 +532,10 @@ val sentenceDetector = new SentenceDetector()
 
 #### Sentence Boundary Detector with Machine Learning
 
-Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.  
-**Output type:** Document  
-**Input types:** Document, Token, Chunk  
+Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.       
+The Chunk column should be generated via the NER Converter annotator from the outputs of a NER annoator.       
+**Output type:** Document    
+**Input types:** Document, Token, Chunk    
 **Reference:** [DeepSentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/deep/DeepSentenceDetector.scala)  
 **Functions:**
 
@@ -548,7 +550,7 @@ Refer to the [DeepSentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.j
 
 ```python
 deep_sentence_detector = DeepSentenceDetector() \
-    .setInputCols(["document", "token", "ner_con"]) \
+    .setInputCols(["document", "token", "chunk_from_ner_converter"]) \
     .setOutputCol("sentence") \
     .setIncludePragmaticSegmenter(True) \
     .setEndPunctuation([".", "?"])
@@ -615,12 +617,14 @@ Scores a sentence for a sentiment
 
 Refer to the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach) Scala docs for more details on the API.
 
+Train your own model:
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 sentiment_detector = ViveknSentimentApproach() \
     .setInputCols(["sentence", "token"]) \
-    .setOutputCol("sentiment")
+    .setOutputCol("sentiment") \
     .setSentimentCol("sentiment_label")
 ```
 
@@ -631,6 +635,23 @@ val sentimentDetector = new ViveknSentimentApproach()
       .setSentimentCol("sentiment_label")
       .setCorpusPrune(0)
 ```
+
+Use a pretrained model:
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+sentiment_detector = ViveknSentimentModel.pretrained() \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("sentiment")
+```
+
+```scala
+val sentimentDetector = new ViveknSentimentModel.pretrained
+      .setInputCols(Array("token", "sentence"))
+      .setOutputCol("vivekn")
+```
+
 
 ### SentimentDetector
 
@@ -667,7 +688,7 @@ Refer to the [SentimentDetector](https://nlp.johnsnowlabs.com/api/index#com.john
 
 ```python
 sentiment_detector = SentimentDetector() \
-    .setInputCols(["lemma", "sentence"]) \
+    .setInputCols(["token", "sentence"]) \
     .setOutputCol("sentiment")
 ```
 
@@ -1206,7 +1227,7 @@ Refer to the [NerCrfApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 
 ```python
 nerTagger = NerCrfApproach()\
-    .setInputCols(["sentence", "token", "pos"])\
+    .setInputCols(["sentence", "token", "pos", "embeddings"])\
     .setLabelColumn("label")\
     .setOutputCol("ner")\
     .setMinEpochs(1)\
@@ -1222,7 +1243,7 @@ nerTagger = NerCrfApproach()\
 
 ```scala
 val nerTagger = new NerCrfApproach()
-    .setInputCols("sentence", "token", "pos")
+    .setInputCols("sentence", "token", "pos", "embeddings")
     .setLabelColumn("label")
     .setMinEpochs(1)
     .setMaxEpochs(3)
@@ -1238,8 +1259,8 @@ val nerTagger = new NerCrfApproach()
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.  
-**Output type:** Named_Entity  
-**Input types:** Document, Token, Word_Embeddings  
+**Output type:** Named_Entity    
+**Input types:** Document, Token, Word_Embeddings    
 **Reference:** [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala) | [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)  
 **Functions:**
 
@@ -1292,12 +1313,13 @@ val nerTagger = new NerDLApproach()
 
 #### Converts IOB or IOB2 representation of NER to user-friendly
 
-NER Converter used to finalize work of NER annotators. Combines entites with types `B-`, `I-` and etc. to the Chunks with Named entity in the metadata field (if LightPipeline is used can be extracted after `fullAnnotate()`)  
+NER Converter used to finalize work of NER annotators. Combines entites with types `B-`, `I-` and etc. to the Chunks with Named entity in the metadata field (if LightPipeline is used can be extracted after `fullAnnotate()`)
+This NER converter can be used to the output of a NER model into the ner chunk format which is expected for the DeepSentenceDetector annotator.       
  
-**Output type:** Chunk 
-**Input types:** Document, Token, Named_Entity  
-**Reference:** [NerConverter](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverter.scala)  
-**Functions:**
+**Output type:** Chunk       
+**Input types:** Document, Token, Named_Entity      
+**Reference:** [NerConverter](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverter.scala)      
+**Functions:**      
 
 - setWhiteList(Array(String)): If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels.
 - setPreservePosition(Boolean): Whether to preserve the original position of the tokens in the original document or use the modified tokens.
@@ -1323,10 +1345,10 @@ val nerConverter = new NerConverter()
 ### Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
-**Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
-**Input types:** Tokenizer  
-**Train Data:** train_corpus is a spark dataset of text content  
+**Output type:** Token    
+**Input types:** Token    
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.     
+**Train Data:** train_corpus is a spark dataset of text content     
 **Reference:** [NorvigSweetingApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala) | [NorvigSweetingModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala)  
 **Functions:**
 
@@ -1364,9 +1386,9 @@ val symSpellChecker = new NorvigSweetingApproach()
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
-**Input types:** Tokenizer  
-**Train Data:** train_corpus is a spark dataset of text content  
+**Input types:** Token    
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.       
+**Train Data:** train_corpus is a spark dataset of text content     
 **Reference:** [SymmetricDeleteApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteApproach.scala) | [SymmetricDeleteModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModel.scala)  
 **Functions:**
 
@@ -1397,9 +1419,9 @@ val spellChecker = new SymmetricDeleteApproach()
 
 Implements Noisy Channel Model Spell Algorithm. Correction candidates are extracted combining context information and word information  
 **Output type:** Token  
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
-**Input types:** Tokenizer  
-**Train Data:** train_corpus is a spark dataset of text content  
+**Input types:** Token  
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.      
+**Train Data:** train_corpus is a spark dataset of text content    
 **Reference:** [ContextSpellCheckerApproach](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.scala) | [ContextSpellCheckerModel](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.scala)  
 **Functions:**
 

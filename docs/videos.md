@@ -18,6 +18,14 @@ modify_date: "2019-05-16"
 
 ## John Snow Labs Channel
 
+<div>{%- include extensions/youtube.html id='sd4i2bvFqPE' -%}</div>
+
+<div>{%- include extensions/youtube.html id='cv-s-Mg2504' -%}</div>
+
+<div>{%- include extensions/youtube.html id='mfd_7a7HHwE' -%}</div>
+
+<div>{%- include extensions/youtube.html id='djWX0MR2Ooo' -%}</div>
+
 <div>{%- include extensions/youtube.html id='fsS057SNFtg' -%}</div>
 
 <div>{%- include extensions/youtube.html id='RZYXTSqV-mQ' -%}</div>

@@ -139,7 +139,9 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
 
       val tokensPiece = tokenize(batch, maxSentenceLength, caseSensitive)
       val tokenIds = tokensPiece.map { sentence =>
-        val tokens = sentence.flatMap(x => x.tokens.map(x => x.pieceId))
+        // SentencePiece generates multiple tokenIDs
+        // We need to be sure the maxSenetnceLength is respecetd
+        val tokens = sentence.flatMap(x => x.tokens.map(x => x.pieceId)).take(maxSentenceLength - 3)
         sentenceStartTokenId ++ tokens ++ sentenceEndTokenId
       }
       val vectors = tag(tokenIds)
@@ -173,7 +175,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
   Seq[Array[WordpieceTokenizedSentence]] = {
 
     val sentecneTokenPieces = sentences.map { s =>
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 1)
+      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 3)
       shrinkedSentence.map{
         case(token) =>
           val tokenContent = if (caseSensitive) token.token else token.token.toLowerCase()

@@ -151,6 +151,8 @@ class BertEmbeddings(override val uid: String) extends
     * @group setParam
     **/
   def setMaxSentenceLength(value: Int): this.type = {
+    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings")
+
     if (get(maxSentenceLength).isEmpty)
       set(maxSentenceLength, value)
     this
