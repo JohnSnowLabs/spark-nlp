@@ -1,13 +1,12 @@
 ---
 layout: article
-title: Licensed Annotators
+title: Spark NLP for Healthcare Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
 modify_date: "2020-08-10"
 use_language_switcher: "Python-Scala"
 ---
 
-## Spark-NLP Licensed
 
 The following annotators are available by buying a John Snow Labs Spark NLP license.
 They are mostly meant for healthcare applications but other applications have been made with these NLP features.

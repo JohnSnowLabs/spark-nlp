@@ -912,11 +912,20 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     name = 'SentenceDetector'
 
+    # this one is exclusive to this detector
+    detectLists = Param(Params._dummy(),
+                             "detectLists",
+                             "whether detect lists during sentence detection",
+                             typeConverter=TypeConverters.toBoolean)
+
     def setCustomBounds(self, value):
         return self._set(customBounds=value)
 
     def setUseAbbreviations(self, value):
         return self._set(useAbbreviations=value)
+
+    def setDetectLists(self, value):
+        return self._set(detectLists=value)
 
     def setUseCustomBoundsOnly(self, value):
         return self._set(useCustomBoundsOnly=value)
@@ -939,6 +948,7 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
         self._setDefault(
             useAbbreviations=True,
+            detectLists=True,
             useCustomBoundsOnly=False,
             customBounds=[],
             explodeSentences=False,
