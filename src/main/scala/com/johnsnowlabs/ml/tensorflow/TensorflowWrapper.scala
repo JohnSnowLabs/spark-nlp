@@ -282,13 +282,17 @@ object TensorflowWrapper {
   }
 
   def readZippedSavedModel(
-                            file: String,
+                            rootDir: String = "",
+                            fileName: String = "",
                             tags: Array[String] = Array.empty[String],
                             initAllTables: Boolean = false
                           ): TensorflowWrapper = {
     val t = new TensorResources()
 
-    val path = ResourceHelper.listResourceDirectory(file).head
+    val listFiles = ResourceHelper.listResourceDirectory(rootDir)
+    val path = if(listFiles.length > 1)
+      s"${listFiles.head.split("/").head}/${fileName}"
+    else listFiles.head
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
 
