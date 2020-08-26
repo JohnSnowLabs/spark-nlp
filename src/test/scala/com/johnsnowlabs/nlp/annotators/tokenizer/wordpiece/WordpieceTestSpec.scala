@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
 import com.johnsnowlabs.nlp.annotators.common.Sentence
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
+import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
 import org.scalatest.FlatSpec
 
 class WordpieceTestSpec extends FlatSpec {
@@ -119,7 +119,7 @@ class WordpieceTestSpec extends FlatSpec {
 
     val expected = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "[UNK]", "!")
 
-    val tokenizer = new BertEmbeddings()
+    val tokenizer = new BertSentenceEmbeddings()
         .setCaseSensitive(true)
         .setVocabulary(vocabulary)
 

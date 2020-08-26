@@ -175,6 +175,9 @@ package object annotator {
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
   object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
 
+  type BertSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+  object BertSentenceEmbeddings extends ReadablePretrainedBertSentenceModel with ReadBertSentenceTensorflowModel
+
   type MultiClassifierDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach
   object MultiClassifierDLApproach extends DefaultParamsReadable[MultiClassifierDLApproach]
   type MultiClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel
