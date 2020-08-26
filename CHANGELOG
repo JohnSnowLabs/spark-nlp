@@ -1,4 +1,27 @@
 ========
+2.5.5
+========
+---------------
+New Features
+---------------
+- Add getClasses() function to NerDLModel
+- Add getClasses() function to ClassifierDLModel
+- Add getClasses() function to SentimentDLModel
+
+---------------------
+Enhancements
+---------------------
+- Improve max sequence length calculation in BertEmbeddings and XlnetEmbeddings
+
+----------------
+Bugfixes
+----------------
+- Fix a bug in RegexTokenizer in Python
+- Fix StopWordsCleaner exception in Python when pretrained() is used
+- Fix max sequence length issue in AlbertEmbeddings and SentencePiece generation
+- Fix HDFS support for setGaphFolder param in NerDLApproach
+
+========
 2.5.4
 ========
 ---------------
