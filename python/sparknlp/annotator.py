@@ -1815,7 +1815,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
             dimension=768,
             batchSize=32,
             maxSentenceLength=128,
-            caseSensitive=True
+            caseSensitive=False
         )
 
     @staticmethod
@@ -1826,9 +1826,62 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
 
     @staticmethod
-    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
+    def pretrained(name="small_bert_L2_768", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
+
+
+class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "BertSentenceEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings", java_model=None):
+        super(BertEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=32,
+            maxSentenceLength=128,
+            caseSensitive=False
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _BertSentenceLoader
+        jModel = _BertSentenceLoader(folder, spark_session._jsparkSession)._java_obj
+        return BertSentenceEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="sent_small_bert_L2_768", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc)
 
 
 class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):

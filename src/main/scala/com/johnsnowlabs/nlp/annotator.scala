@@ -175,4 +175,7 @@ package object annotator {
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
   object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
 
+  type BertSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+  object BertSentenceEmbeddings extends ReadablePretrainedBertSentenceModel with ReadBertSentenceTensorflowModel
+
 }
