@@ -1861,7 +1861,7 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings", java_model=None):
-        super(BertEmbeddings, self).__init__(
+        super(BertSentenceEmbeddings, self).__init__(
             classname=classname,
             java_model=java_model
         )
