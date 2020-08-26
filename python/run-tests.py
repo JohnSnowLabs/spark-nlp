@@ -40,6 +40,7 @@ unittest.TextTestRunner().run(NerDLModelTestSpec())
 # unittest.TextTestRunner().run(XlnetEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(UniversalSentenceEncoderTestSpec())
 # unittest.TextTestRunner().run(ClassifierDLTestSpec())
+# unittest.TextTestRunner().run(MultiClassifierDLTestSpec())
 # unittest.TextTestRunner().run(SentimentDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())
 

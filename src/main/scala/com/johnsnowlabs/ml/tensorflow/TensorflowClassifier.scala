@@ -109,11 +109,11 @@ class TensorflowClassifier(
         val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
         val endTime = (System.nanoTime() - time)/1e9
         println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches")
-        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }else{
         val endTime = (System.nanoTime() - time)/1e9
         println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches")
-        outputLog(s"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
     }

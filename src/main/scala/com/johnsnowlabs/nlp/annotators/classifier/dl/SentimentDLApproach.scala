@@ -87,7 +87,7 @@ class SentimentDLApproach(override val uid: String)
 
     val labelColType = dataset.schema($(labelColumn)).dataType
     require(
-      labelColType != StringType | labelColType != IntegerType | labelColType != DoubleType | labelColType != FloatType,
+      labelColType == StringType | labelColType == IntegerType | labelColType == DoubleType | labelColType == FloatType,
       s"The label column $labelColumn type is $labelColType and it's not compatible. " +
         s"Compatible types are StringType, IntegerType, DoubleType, or FloatType. "
     )

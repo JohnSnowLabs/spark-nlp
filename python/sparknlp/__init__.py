@@ -49,6 +49,7 @@ def start(gpu=False, spark23=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "1000M") \
         .config("spark.driver.maxResultSize", "0")
+
     if gpu and spark23:
         builder.config("spark.jars.packages", maven_gpu_spark23)
     elif spark23:
