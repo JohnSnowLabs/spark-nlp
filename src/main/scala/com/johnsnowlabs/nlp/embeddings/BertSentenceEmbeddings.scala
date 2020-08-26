@@ -239,7 +239,7 @@ class BertSentenceEmbeddings(override val uid: String) extends
 }
 
 trait ReadablePretrainedBertSentenceModel extends ParamsAndFeaturesReadable[BertSentenceEmbeddings] with HasPretrained[BertSentenceEmbeddings] {
-  override val defaultModelName: Some[String] = Some("small_bert_L2_768")
+  override val defaultModelName: Some[String] = Some("sent_small_bert_L2_768")
 
   /** Java compliant-overrides */
   override def pretrained(): BertSentenceEmbeddings = super.pretrained()
