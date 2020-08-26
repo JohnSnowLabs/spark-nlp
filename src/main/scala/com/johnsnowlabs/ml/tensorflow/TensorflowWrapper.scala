@@ -153,6 +153,33 @@ class TensorflowWrapper(
     val graphFile = Paths.get(folder, "saved_model.pb").toString
     FileUtils.writeByteArrayToFile(new File(graphFile), graph)
 
+    val tfChkPointsVars = FileUtils.listFilesAndDirs(
+      new File(folder),
+      new WildcardFileFilter("part*"),
+      new WildcardFileFilter("variables*")
+    ).toArray()
+
+    // TF2 Saved Model generate parts for variables on second save
+    // This makes sure they are compatible with V1
+    if(tfChkPointsVars.length > 3){
+      val variablesDir = tfChkPointsVars(1).toString
+      val variablseDataPath = tfChkPointsVars(2).toString
+      val variablesIndexPath = tfChkPointsVars(3).toString
+
+      val varPath = Paths.get(variablseDataPath)
+      val idxPath = Paths.get(variablesIndexPath)
+      val varBytes = Files.readAllBytes(varPath)
+      val idxBytes = Files.readAllBytes(idxPath)
+
+      val varDataPath = Paths.get(folder, "variables.data-00000-of-00001").toString
+      val varInedxPath = Paths.get(folder, "variables.index").toString
+
+      FileUtils.writeByteArrayToFile(new File(varDataPath), varBytes)
+      FileUtils.writeByteArrayToFile(new File(varInedxPath), idxBytes)
+
+      FileHelper.delete(variablesDir)
+    }
+
     // 4. Zip folder
     ZipArchiveUtil.zip(folder, file)
 
