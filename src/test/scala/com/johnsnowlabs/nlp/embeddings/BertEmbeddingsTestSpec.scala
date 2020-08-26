@@ -73,7 +73,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
-      .setPoolingLayer(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -112,7 +111,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
-      .setPoolingLayer(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(

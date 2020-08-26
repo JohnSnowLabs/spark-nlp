@@ -1796,10 +1796,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
-    poolingLayer = Param(Params._dummy(),
-                         "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings",
-                         typeConverter=TypeConverters.toInt)
-
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1808,19 +1804,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
-
-    def setPoolingLayer(self, layer):
-        if layer == 0:
-            return self._set(poolingLayer=layer)
-        elif layer == -1:
-            return self._set(poolingLayer=layer)
-        elif layer == -2:
-            return self._set(poolingLayer=layer)
-        else:
-            return self._set(poolingLayer=0)
-
-    def getPoolingLayer(self):
-        return self.getOrDefault(self.poolingLayer)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
@@ -1832,8 +1815,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
             dimension=768,
             batchSize=32,
             maxSentenceLength=128,
-            caseSensitive=True,
-            poolingLayer=0
+            caseSensitive=False
         )
 
     @staticmethod
@@ -1844,9 +1826,62 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
 
     @staticmethod
-    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
+    def pretrained(name="small_bert_L2_768", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
+
+
+class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "BertSentenceEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings", java_model=None):
+        super(BertSentenceEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=32,
+            maxSentenceLength=128,
+            caseSensitive=False
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _BertSentenceLoader
+        jModel = _BertSentenceLoader(folder, spark_session._jsparkSession)._java_obj
+        return BertSentenceEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="sent_small_bert_L2_768", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc)
 
 
 class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
