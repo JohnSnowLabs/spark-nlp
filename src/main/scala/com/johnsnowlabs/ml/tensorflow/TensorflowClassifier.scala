@@ -30,6 +30,7 @@ class TensorflowClassifier(
   def train(
              inputs: Array[Array[Float]],
              labels: Array[String],
+             classNum: Int,
              lr: Float = 5e-3f,
              batchSize: Int = 64,
              dropout: Float = 0.5f,
@@ -61,8 +62,8 @@ class TensorflowClassifier(
       (trainingDataset.toArray, emptyValid.toArray)
     }
 
-    println(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}")
-    outputLog(s"Training started - total epochs: $endEpoch - learning rate: $lr - batch size: $batchSize - training examples: ${trainDatasetSeq.length}",
+    println(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum")
+    outputLog(s"Training started - epochs: $endEpoch - learning_rate: $lr - batch_size: $batchSize - training_examples: ${trainDatasetSeq.length} - classes: $classNum",
       uuid, enableOutputLogs, outputLogsPath)
 
     for (epoch <- startEpoch until endEpoch) {
@@ -92,13 +93,13 @@ class TensorflowClassifier(
           .feed(learningRateKey, lrTensor)
           .feed(dropouttKey, dpTensor)
           .fetch(predictionKey)
-          .fetch(optimizer)
           .fetch(cost)
           .fetch(accuracy)
+          .addTarget(optimizer)
           .run()
 
-        loss += TensorResources.extractFloats(calculated.get(2))(0)
-        acc += TensorResources.extractFloats(calculated.get(3))(0)
+        loss += TensorResources.extractFloats(calculated.get(1))(0)
+        acc += TensorResources.extractFloats(calculated.get(2))(0)
         batches += 1
 
         tensors.clearTensors()
@@ -108,12 +109,12 @@ class TensorflowClassifier(
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - validation: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }else{
         val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches")
-        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - accuracy: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
+        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+        outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
     }
