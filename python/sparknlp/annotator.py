@@ -1815,7 +1815,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
             dimension=768,
             batchSize=32,
             maxSentenceLength=128,
-            caseSensitive=True
+            caseSensitive=False
         )
 
     @staticmethod

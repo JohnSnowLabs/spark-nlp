@@ -161,7 +161,7 @@ class BertSentenceEmbeddings(override val uid: String) extends
     dimension -> 768,
     batchSize -> 32,
     maxSentenceLength -> 128,
-    caseSensitive -> true
+    caseSensitive -> false
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
