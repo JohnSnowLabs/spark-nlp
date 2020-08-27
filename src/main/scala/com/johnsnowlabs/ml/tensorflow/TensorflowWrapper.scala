@@ -166,16 +166,11 @@ class TensorflowWrapper(
       val variablseDataPath = tfChkPointsVars(2).toString
       val variablesIndexPath = tfChkPointsVars(3).toString
 
-      val varPath = Paths.get(variablseDataPath)
-      val idxPath = Paths.get(variablesIndexPath)
-      val varBytes = Files.readAllBytes(varPath)
-      val idxBytes = Files.readAllBytes(idxPath)
-
       val varDataPath = Paths.get(folder, "variables.data-00000-of-00001").toString
       val varInedxPath = Paths.get(folder, "variables.index").toString
 
-      FileUtils.writeByteArrayToFile(new File(varDataPath), varBytes)
-      FileUtils.writeByteArrayToFile(new File(varInedxPath), idxBytes)
+      FileUtils.moveFile(new File(variablseDataPath), new File(varDataPath))
+      FileUtils.moveFile(new File(variablesIndexPath), new File(varInedxPath))
 
       FileHelper.delete(variablesDir)
     }
