@@ -1236,7 +1236,7 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
             .setInputCol("ref") \
             .setOutputCol("document")
 
-        sentence_embeddings = UniversalSentenceEncoder.pretrained() \
+        sentence_embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128") \
             .setInputCols("document") \
             .setOutputCol("sentence_embeddings")
 
@@ -1247,8 +1247,6 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
             .setBatchSize(64) \
             .setMaxEpochs(20) \
             .setLr(0.001) \
-            .setDropout(0.5) \
-            .setPosWeight(20.0) \
             .setThreshold(0.5)
 
         pipeline = Pipeline(stages=[
