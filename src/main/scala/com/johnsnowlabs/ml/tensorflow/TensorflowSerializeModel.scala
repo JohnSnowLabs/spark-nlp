@@ -40,6 +40,33 @@ trait WriteTensorflowModel {
     FileUtils.deleteDirectory(new File(tmpFolder))
   }
 
+  def writeTensorflowModelV2(
+                            path: String,
+                            spark: SparkSession,
+                            tensorflow: TensorflowWrapper,
+                            suffix: String, filename:String,
+                            configProtoBytes: Option[Array[Byte]] = None
+                          ): Unit = {
+
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+
+    // 1. Create tmp folder
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
+      .toAbsolutePath.toString
+
+    val tfFile = Paths.get(tmpFolder, filename).toString
+
+    // 2. Save Tensorflow state
+    tensorflow.saveToFileV1V2(tfFile, configProtoBytes)
+
+    // 3. Copy to dest folder
+    fs.copyFromLocalFile(new Path(tfFile), new Path(path))
+
+    // 4. Remove tmp folder
+    FileUtils.deleteDirectory(new File(tmpFolder))
+  }
+
   def writeTensorflowHub(
                           path: String,
                           tfPath: String,

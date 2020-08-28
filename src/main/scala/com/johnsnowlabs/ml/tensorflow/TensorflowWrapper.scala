@@ -153,6 +153,35 @@ class TensorflowWrapper(
     val graphFile = Paths.get(folder, "saved_model.pb").toString
     FileUtils.writeByteArrayToFile(new File(graphFile), graph)
 
+    // 4. Zip folder
+    ZipArchiveUtil.zip(folder, file)
+
+    // 5. Remove tmp directory
+    FileHelper.delete(folder)
+    t.clearTensors()
+  }
+  /*
+  * saveToFileV2 is V2 compatible
+  * */
+  def saveToFileV1V2(file: String, configProtoBytes: Option[Array[Byte]] = None): Unit = {
+    val t = new TensorResources()
+
+    // 1. Create tmp director
+    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
+      .toAbsolutePath.toString
+
+    val variablesFile = Paths.get(folder, "variables").toString
+
+    // 2. Save variables
+    getSession(configProtoBytes).runner.addTarget("save/control_dependency")
+      .feed("save/Const", t.createTensor(variablesFile))
+      .run()
+
+    // 3. Save Graph
+    // val graphDef = graph.toGraphDef
+    val graphFile = Paths.get(folder, "saved_model.pb").toString
+    FileUtils.writeByteArrayToFile(new File(graphFile), graph)
+
     val tfChkPointsVars = FileUtils.listFilesAndDirs(
       new File(folder),
       new WildcardFileFilter("part*"),
