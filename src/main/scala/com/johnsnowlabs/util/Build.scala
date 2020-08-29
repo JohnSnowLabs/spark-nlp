@@ -2,5 +2,5 @@ package com.johnsnowlabs.util
 
 
 object Build {
-  val version: String = "2.6.0-rc2"
+  val version: String = "2.6.0-rc3"
 }
