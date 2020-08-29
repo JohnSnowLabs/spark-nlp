@@ -255,7 +255,7 @@ class ClassifierDLApproach(override val uid: String)
 
     require(
       labels.length >= 2 && labels.length <= 100,
-      s"The total unique number of classes must be less than 100. Currently is ${labels.length}"
+      s"The total unique number of classes must be more than 2 and less than 100. Currently is ${labels.length}"
     )
 
     val tf = loadSavedModel()
