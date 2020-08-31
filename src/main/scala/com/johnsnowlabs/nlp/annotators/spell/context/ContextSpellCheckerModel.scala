@@ -139,7 +139,9 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     gamma -> 120.0f,
     useNewLines -> false,
     maxCandidates -> 6,
-    maxWindowLen -> 5)
+    maxWindowLen -> 5,
+    caseStrategy -> CandidateStrategy.ALL
+  )
 
   // the scores for the EOS (end of sentence), and BOS (beginning of sentence)
   private val eosScore = .01
