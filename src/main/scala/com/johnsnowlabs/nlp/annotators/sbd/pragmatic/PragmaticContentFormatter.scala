@@ -38,9 +38,9 @@ class PragmaticContentFormatter(text: String) {
     * prepend separation symbol
     * @return
     */
-  def formatLists: this.type = {
-
-    wip = formatListsFactory.transformWithSymbolicRules(wip)
+  def formatLists(useLists:Boolean): this.type = {
+    if(useLists)
+      wip = formatListsFactory.transformWithSymbolicRules(wip)
 
     this
   }

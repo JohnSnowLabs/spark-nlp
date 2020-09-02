@@ -36,6 +36,8 @@ classifier = sys.modules[__name__]
 classifier.dl = sys.modules[__name__]
 ld = sys.modules[__name__]
 ld.dl = sys.modules[__name__]
+keyword = sys.modules[__name__]
+keyword.yake = sys.modules[__name__]
 
 
 class RecursiveTokenizer(AnnotatorApproach):
@@ -353,14 +355,14 @@ class RegexTokenizer(AnnotatorModel):
                       typeConverter=TypeConverters.toInt)
 
     toLowercase = Param(Params._dummy(),
-                                    "toLowercase",
-                                    "Indicates whether to convert all characters to lowercase before tokenizing.",
-                                    typeConverter=TypeConverters.toBoolean)
+                        "toLowercase",
+                        "Indicates whether to convert all characters to lowercase before tokenizing.",
+                        typeConverter=TypeConverters.toBoolean)
 
     pattern = Param(Params._dummy(),
-                          "pattern",
-                          "regex pattern used for tokenizing. Defaults \S+",
-                          typeConverter=TypeConverters.toString)
+                    "pattern",
+                    "regex pattern used for tokenizing. Defaults \S+",
+                    typeConverter=TypeConverters.toString)
 
     def setMinLength(self, value):
         return self._set(minLength=value)
@@ -912,11 +914,20 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     name = 'SentenceDetector'
 
+    # this one is exclusive to this detector
+    detectLists = Param(Params._dummy(),
+                             "detectLists",
+                             "whether detect lists during sentence detection",
+                             typeConverter=TypeConverters.toBoolean)
+
     def setCustomBounds(self, value):
         return self._set(customBounds=value)
 
     def setUseAbbreviations(self, value):
         return self._set(useAbbreviations=value)
+
+    def setDetectLists(self, value):
+        return self._set(detectLists=value)
 
     def setUseCustomBoundsOnly(self, value):
         return self._set(useCustomBoundsOnly=value)
@@ -939,6 +950,7 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             classname="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
         self._setDefault(
             useAbbreviations=True,
+            detectLists=True,
             useCustomBoundsOnly=False,
             customBounds=[],
             explodeSentences=False,
@@ -1539,8 +1551,8 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
     classes = Param(Params._dummy(), "classes",
-                              "get the tags used to trained this NerDLModel",
-                              TypeConverters.toListString)
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -1796,10 +1808,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
-    poolingLayer = Param(Params._dummy(),
-                         "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings",
-                         typeConverter=TypeConverters.toInt)
-
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1808,19 +1816,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
-
-    def setPoolingLayer(self, layer):
-        if layer == 0:
-            return self._set(poolingLayer=layer)
-        elif layer == -1:
-            return self._set(poolingLayer=layer)
-        elif layer == -2:
-            return self._set(poolingLayer=layer)
-        else:
-            return self._set(poolingLayer=0)
-
-    def getPoolingLayer(self):
-        return self.getOrDefault(self.poolingLayer)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
@@ -1832,8 +1827,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
             dimension=768,
             batchSize=32,
             maxSentenceLength=128,
-            caseSensitive=True,
-            poolingLayer=0
+            caseSensitive=False
         )
 
     @staticmethod
@@ -1844,9 +1838,62 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
 
     @staticmethod
-    def pretrained(name="bert_base_cased", lang="en", remote_loc=None):
+    def pretrained(name="small_bert_L2_768", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
+
+
+class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "BertSentenceEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    batchSize = Param(Params._dummy(),
+                      "batchSize",
+                      "Batch size. Large values allows faster processing but requires more memory.",
+                      typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    def setBatchSize(self, value):
+        return self._set(batchSize=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings", java_model=None):
+        super(BertSentenceEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=32,
+            maxSentenceLength=128,
+            caseSensitive=False
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _BertSentenceLoader
+        jModel = _BertSentenceLoader(folder, spark_session._jsparkSession)._java_obj
+        return BertSentenceEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="sent_small_bert_L2_768", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc)
 
 
 class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
@@ -2701,7 +2748,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     classes = Param(Params._dummy(), "classes",
                     "get the tags used to trained this NerDLModel",
                     TypeConverters.toListString)
-    
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -2754,4 +2801,176 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     def pretrained(name="ld_wiki_20", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
+
+
+class MultiClassifierDLApproach(AnnotatorApproach):
+
+    lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
+
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
+    maxEpochs = Param(Params._dummy(), "maxEpochs", "Maximum number of epochs to train", TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+
+    validationSplit = Param(Params._dummy(), "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                            TypeConverters.toFloat)
+
+    enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
+                             "Whether to use stdout in addition to Spark logs.",
+                             TypeConverters.toBoolean)
+
+    outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
+
+    labelColumn = Param(Params._dummy(),
+                        "labelColumn",
+                        "Column with label per each token",
+                        typeConverter=TypeConverters.toString)
+
+    verbose = Param(Params._dummy(), "verbose", "Level of verbosity during training", TypeConverters.toInt)
+    randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
+    shufflePerEpoch = Param(Params._dummy(), "shufflePerEpoch", "whether to shuffle the training data on each Epoch", TypeConverters.toBoolean)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
+
+    def setVerbose(self, v):
+        return self._set(verbose=v)
+
+    def setRandomSeed(self, seed):
+        return self._set(randomSeed=seed)
+
+    def setLabelColumn(self, v):
+        return self._set(labelColumn=v)
+
+    def setConfigProtoBytes(self, v):
+        return self._set(configProtoBytes=v)
+
+    def setLr(self, v):
+        self._set(lr=v)
+        return self
+
+    def setBatchSize(self, v):
+        self._set(batchSize=v)
+        return self
+
+    def setMaxEpochs(self, v):
+        return self._set(maxEpochs=v)
+
+    def _create_model(self, java_model):
+        return ClassifierDLModel(java_model=java_model)
+
+    def setValidationSplit(self, v):
+        self._set(validationSplit=v)
+        return self
+
+    def setEnableOutputLogs(self, v):
+        return self._set(enableOutputLogs=v)
+
+    def setOutputLogsPath(self, v):
+        return self._set(outputLogsPath=v)
+
+    def setShufflePerEpoch(self, v):
+        return self._set(shufflePerEpoch=v)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    @keyword_only
+    def __init__(self):
+        super(MultiClassifierDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach")
+        self._setDefault(
+            maxEpochs=10,
+            lr=float(0.001),
+            batchSize=64,
+            validationSplit=float(0.0),
+            threshold=float(0.5),
+            randomSeed=44,
+            shufflePerEpoch=False,
+            enableOutputLogs=False
+        )
+
+
+class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
+    name = "MultiClassifierDLModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel", java_model=None):
+        super(MultiClassifierDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            threshold=float(0.5)
+        )
+
+    configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
+    threshold = Param(Params._dummy(), "threshold", "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
+    classes = Param(Params._dummy(), "classes",
+                    "get the tags used to trained this NerDLModel",
+                    TypeConverters.toListString)
+
+    def setThreshold(self, v):
+        self._set(threshold=v)
+        return self
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    @staticmethod
+    def pretrained(name="multiclassifierdl_use_toxic", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
+
+
+class YakeModel(AnnotatorModel):
+    name = "YakeModel"
+    @keyword_only
+    def __init__(self):
+        super(YakeModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel")
+        self._setDefault(
+            minNGrams=2,
+            maxNGrams=3,
+            nKeywords=30,
+            windowSize=3,
+            threshold=-1,
+            stopWords=YakeModel.loadDefaultStopWords("english")
+        )
+
+    minNGrams = Param(Params._dummy(), "minNGrams", "Minimum N-grams a keyword should have", typeConverter=TypeConverters.toInt)
+    maxNGrams = Param(Params._dummy(), "maxNGrams", "Maximum N-grams a keyword should have", typeConverter=TypeConverters.toInt)
+    threshold = Param(Params._dummy(), "maxNGrams", "Keyword Score threshold", typeConverter=TypeConverters.toInt)
+    windowSize = Param(Params._dummy(), "windowSize", "Window size for Co-Occurrence", typeConverter=TypeConverters.toInt)
+    nKeywords = Param(Params._dummy(), "nKeywords", "Number of Keywords to extract", typeConverter=TypeConverters.toInt)
+    stopWords = Param(Params._dummy(), "stopWords", "the words to be filtered out. by default it's english stop words from Spark ML",typeConverter=TypeConverters.toListString)
+
+    def setWindowSize(self, value):
+        return self._set(windowSize=value)
+
+    def setMinNGrams(self, value):
+        return self._set(minNGrams=value)
+
+    def setMaxNGrams(self, value):
+        return self._set(maxNGrams=value)
+
+    def setThreshold(self, value):
+        return self._set(threshold=value)
+
+    def setNKeywords(self, value):
+        return self._set(nKeywords=value)
+
+    def setStopWords(self, value):
+        return self._set(stopWords=value)
+
+    def getStopWords(self):
+        return self.getOrDefault(self.stopWords)
+
+    def loadDefaultStopWords(language="english"):
+        from pyspark.ml.wrapper import _jvm
+
+        """
+        Loads the default stop words for the given language.
+        Supported languages: danish, dutch, english, finnish, french, german, hungarian,
+        italian, norwegian, portuguese, russian, spanish, swedish, turkish
+        """
+        stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
+        return list(stopWordsObj.loadDefaultStopWords(language))
 

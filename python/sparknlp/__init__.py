@@ -36,7 +36,7 @@ embeddings = annotator
 
 
 def start(gpu=False, spark23=False):
-    current_version="2.5.5"
+    current_version = "2.6.0"
     maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
     maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
     maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
@@ -49,6 +49,7 @@ def start(gpu=False, spark23=False):
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "1000M") \
         .config("spark.driver.maxResultSize", "0")
+
     if gpu and spark23:
         builder.config("spark.jars.packages", maven_gpu_spark23)
     elif spark23:
@@ -62,4 +63,4 @@ def start(gpu=False, spark23=False):
 
 
 def version():
-    return '2.5.5'
+    return '2.6.0'
