@@ -36,6 +36,8 @@ classifier = sys.modules[__name__]
 classifier.dl = sys.modules[__name__]
 ld = sys.modules[__name__]
 ld.dl = sys.modules[__name__]
+keyword = sys.modules[__name__]
+keyword.yake = sys.modules[__name__]
 
 
 class RecursiveTokenizer(AnnotatorApproach):
@@ -2917,4 +2919,58 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     def pretrained(name="multiclassifierdl_use_toxic", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
+
+
+class YakeModel(AnnotatorModel):
+    name = "YakeModel"
+    @keyword_only
+    def __init__(self):
+        super(YakeModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel")
+        self._setDefault(
+            minNGrams=2,
+            maxNGrams=3,
+            nKeywords=30,
+            windowSize=3,
+            threshold=-1,
+            stopWords=YakeModel.loadDefaultStopWords("english")
+        )
+
+    minNGrams = Param(Params._dummy(), "minNGrams", "Minimum N-grams a keyword should have", typeConverter=TypeConverters.toInt)
+    maxNGrams = Param(Params._dummy(), "maxNGrams", "Maximum N-grams a keyword should have", typeConverter=TypeConverters.toInt)
+    threshold = Param(Params._dummy(), "maxNGrams", "Keyword Score threshold", typeConverter=TypeConverters.toInt)
+    windowSize = Param(Params._dummy(), "windowSize", "Window size for Co-Occurrence", typeConverter=TypeConverters.toInt)
+    nKeywords = Param(Params._dummy(), "nKeywords", "Number of Keywords to extract", typeConverter=TypeConverters.toInt)
+    stopWords = Param(Params._dummy(), "stopWords", "the words to be filtered out. by default it's english stop words from Spark ML",typeConverter=TypeConverters.toListString)
+
+    def setWindowSize(self, value):
+        return self._set(windowSize=value)
+
+    def setMinNGrams(self, value):
+        return self._set(minNGrams=value)
+
+    def setMaxNGrams(self, value):
+        return self._set(maxNGrams=value)
+
+    def setThreshold(self, value):
+        return self._set(threshold=value)
+
+    def setNKeywords(self, value):
+        return self._set(nKeywords=value)
+
+    def setStopWords(self, value):
+        return self._set(stopWords=value)
+
+    def getStopWords(self):
+        return self.getOrDefault(self.stopWords)
+
+    def loadDefaultStopWords(language="english"):
+        from pyspark.ml.wrapper import _jvm
+
+        """
+        Loads the default stop words for the given language.
+        Supported languages: danish, dutch, english, finnish, french, german, hungarian,
+        italian, norwegian, portuguese, russian, spanish, swedish, turkish
+        """
+        stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
+        return list(stopWordsObj.loadDefaultStopWords(language))
 
