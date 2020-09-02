@@ -1,4 +1,32 @@
 ========
+2.6.0
+========
+------------------------------
+Major features and improvements
+------------------------------
+
+* **NEW:** A new MultiClassifierDL annotator for multi-label text classification
+* **NEW:** A new BertSentenceEmbeddings annotator with 41 available pre-trained models for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
+* **NEW:** A new YakeModel annotator for an unsupervised, corpus-independent, domain, and language-independent and single-document keyword extraction algorithm
+* Integrate 24 new Small BERT models where the smallest model is 24x times smaller and 28x times faster compare to BERT base models
+* Add 3 new ELECTRA small, base, and large models 
+* Add 4 new Finnish BERT models for BertEmbeddings and BertSentenceEmbeddings
+* Improve BertEmbeddings memory consumption by 30%
+* Improve BertEmbeddings performance by more than 70% with a new built-in dynamic shape inputs
+* Remove the poolingLayer parameter in BertEmbeddings in favor of sequence_output that is provided by TF Hub models for new BERT models
+* Add validation loss, validation accuracy, validation F1, and validation True Positive Rate during the training in MultiClassifierDL
+* Add parameter to enable/disable list detection in SentenceDetector
+* Unify the loggings in ClassifierDL and SentimentDL during training
+
+----------------
+Bugfixes
+----------------
+* Fix Tokenization bug with Bigrams in the exception list
+* Fix the versioning error in second SBT projects causing models not being found via pretrained function
+* Fix logging to file in NerDLApproach, ClassifierDL, SentimentDL, and MultiClassifierDL on HDFS
+* Fix ignored modified tokens in BertEmbeddings, now it will consider modified tokens instead of originals
+
+========
 2.5.5
 ========
 ---------------

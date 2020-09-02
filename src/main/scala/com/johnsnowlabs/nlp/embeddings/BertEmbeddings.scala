@@ -22,12 +22,6 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * Sources:
   *
   *
-  * 0  : corresponds to first layer (embeddings)
-  *
-  * -1 :  corresponds to last layer
-  *
-  * 2  :  second-to-last layer
-  *
   * '''Sources''' :
   *
   * [[https://arxiv.org/abs/1810.04805]]
@@ -67,26 +61,24 @@ class BertEmbeddings(override val uid: String) extends
     * @group param
     **/
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
+
   /** vocabulary
     *
     * @group param
     **/
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group param
     **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
   /** Max sentence length to process
     *
     * @group param
     **/
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-  /** Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings
-    *
-    * @group param
-    **/
-  val poolingLayer = new IntParam(this, "poolingLayer", "Set BERT pooling layer to: -1 for last hidden layer, -2 for second-to-last hidden layer, and 0 for first layer which is called embeddings")
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
@@ -110,7 +102,6 @@ class BertEmbeddings(override val uid: String) extends
 
   }
 
-
   /** Whether to lowercase tokens or not
     *
     * @group setParam
@@ -121,17 +112,13 @@ class BertEmbeddings(override val uid: String) extends
     this
   }
 
-
   /** Batch size. Large values allows faster processing but requires more memory.
     *
     * @group setParam
     * */
   def setBatchSize(size: Int): this.type = {
-    if (get(batchSize).isEmpty)
-      set(batchSize, size)
-    this
+    set(batchSize, size)
   }
-
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
     *
@@ -158,28 +145,6 @@ class BertEmbeddings(override val uid: String) extends
     this
   }
 
-  /**
-    * PoolingLayer must be either
-    *
-    * 0  : corresponds to first layer (embeddings)
-    *
-    * -1 :  corresponds to last layer
-    *
-    * 2  :  second-to-last layer
-    *
-    * Since output shape depends on the model selected, see [[https://github.com/google-research/bert]] for further reference
-    *
-    * @group setParam
-    **/
-  def setPoolingLayer(layer: Int): this.type = {
-    layer match {
-      case 0 => set(poolingLayer, 0)
-      case -1 => set(poolingLayer, -1)
-      case -2 => set(poolingLayer, -2)
-      case _ => throw new MatchError("poolingLayer must be either 0, -1, or -2: first layer (embeddings), last layer, second-to-last layer")
-    }
-  }
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group getParam
@@ -192,18 +157,11 @@ class BertEmbeddings(override val uid: String) extends
     **/
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
-  /** Get currently configured BERT output layer
-    *
-    * @group getParam
-    * */
-  def getPoolingLayer: Int = $(poolingLayer)
-
   setDefault(
     dimension -> 768,
     batchSize -> 32,
     maxSentenceLength -> 128,
-    caseSensitive -> true,
-    poolingLayer -> 0
+    caseSensitive -> false
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
@@ -228,13 +186,21 @@ class BertEmbeddings(override val uid: String) extends
 
     this
   }
-  def tokenize(sentences: Seq[Sentence]): Seq[WordpieceTokenizedSentence] = {
+  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
     val encoder = new WordpieceEncoder($$(vocabulary))
 
-    sentences.map { s =>
-      val tokens = basicTokenizer.tokenize(s)
-      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token))
+    tokens.map{tokenIndex=>
+      // filter empty and only whitespace tokens
+      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map{ token =>
+        val content = if($(caseSensitive)) token.token else token.token.toLowerCase()
+        val sentenceBegin = token.begin
+        val sentenceEnd = token.end
+        val sentenceInedx = tokenIndex.sentenceIndex
+        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        if (result.nonEmpty) result.head else IndexedToken("")
+      }
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -249,15 +215,14 @@ class BertEmbeddings(override val uid: String) extends
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
     /*Return empty if the real tokens are empty*/
     if(tokenizedSentences.nonEmpty) {
-      val sentences = SentenceSplit.unpack(annotations)
-      val tokenized = tokenize(sentences)
+
+      val tokenized = tokenizeWithAlignment(tokenizedSentences)
+
       val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
         tokenized,
         tokenizedSentences,
-        $(poolingLayer),
         $(batchSize),
         $(maxSentenceLength),
-        $(dimension),
         $(caseSensitive)
       )
       WordpieceEmbeddingsSentence.pack(withEmbeddings)
@@ -276,13 +241,13 @@ class BertEmbeddings(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
 trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddings] with HasPretrained[BertEmbeddings] {
-  override val defaultModelName: Some[String] = Some("bert_base_cased")
+  override val defaultModelName: Some[String] = Some("small_bert_L2_768")
 
   /** Java compliant-overrides */
   override def pretrained(): BertEmbeddings = super.pretrained()
