@@ -49,22 +49,22 @@ article_header:
           <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
             {% highlight bash %}
 # Install Spark NLP from PyPI
-$ pip install spark-nlp==2.5.5
+$ pip install spark-nlp==2.6.0
 
 # Install Spark NLP from Anaconda/Conda
 $ conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
-$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 
 # Load Spark NLP with PySpark
-$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 
 # Load Spark NLP with Spark Submit
-$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 
 # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-$ spark-shell --jar spark-nlp-assembly-2.5.5
+$ spark-shell --jar spark-nlp-assembly-2.6.0
             {% endhighlight %}
           </div>
         </div>
@@ -93,10 +93,13 @@ $ spark-shell --jar spark-nlp-assembly-2.5.5
               <li><strong>BERT</strong> Embeddings
               <li><strong>ELMO</strong> Embeddings
               <li><strong>Universal Sentence</strong> Encoder
+              <li><strong>BERT Sentence</strong> Embeddings
               <li><strong>Sentence</strong> Embeddings
               <li><strong>Chunk</strong> Embeddings
+              <li>Unsupervised <strong>keywords extraction</strong></li>
               <li>Language <strong>Detection</strong> & <strong>Identification</strong></li>
               <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
+              <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
               <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>  
               <li><strong>Named entity</strong> recognition (DL model)</li>
               <li>Easy <strong>TensorFlow</strong> integration</li>
