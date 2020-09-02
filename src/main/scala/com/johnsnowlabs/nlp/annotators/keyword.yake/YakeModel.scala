@@ -36,7 +36,7 @@ import scala.math.sqrt
   *
   * '''Sources''' :
   *
-  * [[https://www.sciencedirect.com/science/article/pii/S0020025519308588?via%3Dihub]]
+  * [[https://www.sciencedirect.com/science/article/pii/S0020025519308588]]
   *
   * ''' Paper abstract '''
   * As the amount of generated information grows, reading and summarizing texts of large collections turns into a challenging task. Many documents do not come with descriptive terms,
