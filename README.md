@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **330+** pretrained **pipelines** and **models** in more than **46+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class text classification, Multi-class sentiment analysis, and many more [NLP tasks](#features).
+Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **220+** pretrained **pipelines** and **models** in more than **46+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class text classification, Multi-class sentiment analysis, and many more [NLP tasks](#features).
 
 ## Project's website
 
@@ -67,13 +67,10 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * ALBERT Embeddings (TF Hub models)
 * XLNet Embeddings
 * Universal Sentence Encoder (TF Hub models)
-* BERT Sentence Embeddings (42 TF Hub models)
 * Sentence Embeddings
 * Chunk Embeddings
-* Unsupervised keywords extraction
 * Language Detection / Identification
 * Multi-class Sentiment analysis (Deep learning)
-* Multi-label Sentiment analysis (Deep learning)
 * Multi-class Text Classification (Deep learning)
 * Named entity recognition (Deep learning)
 * Dependency parsing (Labeled/unlabled)
@@ -81,8 +78,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * GPU Support
 * Full integration with Spark ML functions
 * +130 pre-trained models in 45 languages!
-* +70 pre-trained pipelines in 10 languages!
-* Multi-lingual NER models: Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish
+* +70 pre-trained pipelines in 13 languages!
+* Multi-lingual NER models: Danish, Dutch, English, Finnish, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish, and Swedish
 
 ## Requirements
 
@@ -100,7 +97,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.6 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==2.6.0 pyspark==2.4.4
+$ pip install spark-nlp==2.5.5 pyspark==2.4.4
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -144,12 +141,11 @@ For more examples, you can visit our dedicated [repository](https://github.com/J
 
 ## Apache Spark Support
 
-Spark NLP *2.6.0* has been built on top of Apache Spark 2.4.x and fully supports Apache Spark 2.3.x:
+Spark NLP *2.5.5* has been built on top of Apache Spark 2.4.x and fully supports Apache Spark 2.3.x:
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
 |-------------|-----------------------|--------------------|
-| 2.6.x       |YES                    |YES                 |
-| 2.5.x       |YES                    |YES                 |
+| 2.5.5       |YES                    |YES                 |
 | 2.4.x       |Partially              |YES                 |
 | 1.8.x       |Partially              |YES                 |
 | 1.7.x       |YES                    |NO                  |
@@ -162,7 +158,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ## Databricks Support
 
-Spark NLP 2.6.0 has been tested and is compatible with the following runtimes:
+Spark NLP 2.5.5 has been tested and is compatible with the following runtimes:
 
 - 6.2
 - 6.2 ML
@@ -175,7 +171,7 @@ Spark NLP 2.6.0 has been tested and is compatible with the following runtimes:
 
 ## EMR Support
 
-Spark NLP 2.6.0 has been tested and is compatible with the following EMR releases:
+Spark NLP 2.5.5 has been tested and is compatible with the following EMR releases:
 
 - 5.26.0
 - 5.27.0
@@ -192,28 +188,28 @@ This library has been uploaded to the [spark-packages repository](https://spark-
 
 The benefit of spark-packages is that makes it available for both Scala-Java and Python
 
-To use the most recent version on Apache Spark 2.4.x just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0` to you spark command:
+To use the most recent version on Apache Spark 2.4.x just add the `--packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5` to you spark command:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.0`
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.5`
 
 **NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
 
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.0`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.6.0`
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.5`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.5.5`
 
 ## Scala
 
@@ -228,7 +224,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.11</artifactId>
-    <version>2.6.0</version>
+    <version>2.5.5</version>
 </dependency>
 ```
 
@@ -239,7 +235,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>2.6.0</version>
+    <version>2.5.5</version>
 </dependency>
 ```
 
@@ -250,7 +246,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-spark23_2.11</artifactId>
-    <version>2.6.0</version>
+    <version>2.5.5</version>
 </dependency>
 ```
 
@@ -261,7 +257,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
-    <version>2.6.0</version>
+    <version>2.5.5s</version>
 </dependency>
 ```
 
@@ -271,28 +267,28 @@ Our package is deployed to maven central. To add this package as a dependency in
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.6.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.5.5"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.6.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.5.5"
 ```
 
 **spark-nlp** on Apacahe Spark 2.3.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "2.6.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "2.5.5"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark23
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "2.6.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "2.5.5"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -308,7 +304,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==2.6.0
+pip install spark-nlp==2.5.5
 ```
 
 Conda:
@@ -335,7 +331,7 @@ spark = SparkSession.builder \
     .master("local[4]")\
     .config("spark.driver.memory","16G")\
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5")\
     .config("spark.kryoserializer.buffer.max", "1000M")\
     .getOrCreate()
 ```
@@ -410,7 +406,7 @@ Use either one of the following options
 - Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
 ```
 
 - Add path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -420,7 +416,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 Apart from previous step, install python module through pip
 
 ```bash
-pip install spark-nlp==2.6.0
+pip install spark-nlp==2.5.5
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -445,7 +441,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -468,10 +464,10 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! java -version
 
 # Install pyspark
-! pip install pyspark==2.4.4
+! pip install --ignore-installed pyspark==2.4.4
 
 # Install Spark NLP
-! pip install spark-nlp==2.6.0
+! pip install --ignore-installed spark-nlp==2.5.5
 
 # Quick SparkSession start
 import sparknlp
@@ -500,7 +496,7 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
 
     3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -531,7 +527,7 @@ sparknlp {
 
 ### Pipelines
 
-Spark NLP offers more than `88 pre-trained pipelines` in `13 languages`.
+Spark NLP offers more than `70 pre-trained pipelines` in `10 languages`.
 
 **English pipelines:**
 | Pipeline                     | Name                                  | Build            | lang |
@@ -605,7 +601,7 @@ annotation.select("entities.result").show(false)
 
 ### Models
 
-Spark NLP offers more than `250 pre-trained models` in `46 languages`.
+Spark NLP offers more than `130 pre-trained models` in `45 languages`.
 
 **List of languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
