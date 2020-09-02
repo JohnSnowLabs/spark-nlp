@@ -34,6 +34,7 @@ unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(NerDLModelTestSpec())
+unittest.TextTestRunner().run(YakeModelTestSpec())
 # Should be locally tested
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
