@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ClassifierDatasetEncoder - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder</title>
-          <meta name="description" content="ClassifierDatasetEncoder - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
-          <meta name="keywords" content="ClassifierDatasetEncoder Spark NLP 2.5.5 ScalaDoc com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
+          <title>ClassifierDatasetEncoder - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder</title>
+          <meta name="description" content="ClassifierDatasetEncoder - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
+          <meta name="keywords" content="ClassifierDatasetEncoder Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -241,6 +241,25 @@
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Labels (string)
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Labels (string)
 </p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with embeddings and labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Map(String, Array(Float))</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#collectTrainingInstancesMultiLabel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="collectTrainingInstancesMultiLabel(dataset:org.apache.spark.sql.DataFrame,labelCol:String):Array[Array[(Array[String],Array[Float])]]"></a>
+      <a id="collectTrainingInstancesMultiLabel(DataFrame,String):Array[Array[(Array[String],Array[Float])]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">collectTrainingInstancesMultiLabel</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>])]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@collectTrainingInstancesMultiLabel(dataset:org.apache.spark.sql.DataFrame,labelCol:String):Array[Array[(Array[String],Array[Float])]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Converts DataFrame to labels and embeddings
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to labels and embeddings
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with embeddings and labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Map(Array(String), Array(Float))</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#decodeOutputData" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="decodeOutputData(tagIds:Array[Array[Float]]):Array[Array[(String,Float)]]"></a>
       <a id="decodeOutputData(Array[Array[Float]]):Array[Array[(String,Float)]]"></a>
@@ -273,6 +292,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@encodeTags(labels:Array[String]):Array[Array[Int]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#encodeTagsMultiLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encodeTagsMultiLabel(labels:Array[Array[String]]):Array[Array[Float]]"></a>
+      <a id="encodeTagsMultiLabel(Array[Array[String]]):Array[Array[Float]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encodeTagsMultiLabel</span><span class="params">(<span name="labels">labels: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@encodeTagsMultiLabel(labels:Array[Array[String]]):Array[Array[Float]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -330,6 +366,25 @@
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Labels (string)
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Labels (string)
 </p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of String</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractLabelsMultiLabel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractLabelsMultiLabel(dataset:Array[Array[(Array[String],Array[Float])]]):Array[Array[String]]"></a>
+      <a id="extractLabelsMultiLabel(Array[Array[(Array[String],Array[Float])]]):Array[Array[String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractLabelsMultiLabel</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>])]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@extractLabelsMultiLabel(dataset:Array[Array[(Array[String],Array[Float])]]):Array[Array[String]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Labels (string)
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Labels (string)
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with labels</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of String</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractSentenceEmbeddings(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Float]]"></a>
       <a id="extractSentenceEmbeddings(Seq[(Int,Seq[Annotation])]):Array[Array[Float]]"></a>
@@ -368,6 +423,69 @@
       <p class="shortcomment cmt">Converts DataFrame to Array of Arrays of Embeddings
 </p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of Arrays of Embeddings
 </p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Array of Float</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddingsMultiLabel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractSentenceEmbeddingsMultiLabel(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Array[Float]]]"></a>
+      <a id="extractSentenceEmbeddingsMultiLabel(Seq[(Int,Seq[Annotation])]):Array[Array[Array[Float]]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractSentenceEmbeddingsMultiLabel</span><span class="params">(<span name="docs">docs: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>])]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@extractSentenceEmbeddingsMultiLabel(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Array[Float]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
+The difference in this function is to create a sequence in case of multiple sentences in a document
+Used in MultiClassifierDL
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
+The difference in this function is to create a sequence in case of multiple sentences in a document
+Used in MultiClassifierDL
+</p></div><dl class="paramcmts block"><dt class="param">docs</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Arrays of Arrays of Floats</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddingsMultiLabel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractSentenceEmbeddingsMultiLabel(dataset:Array[Array[(Array[String],Array[Float])]]):Array[Array[Array[Float]]]"></a>
+      <a id="extractSentenceEmbeddingsMultiLabel(Array[Array[(Array[String],Array[Float])]]):Array[Array[Array[Float]]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractSentenceEmbeddingsMultiLabel</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>])]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@extractSentenceEmbeddingsMultiLabel(dataset:Array[Array[(Array[String],Array[Float])]]):Array[Array[Array[Float]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
+The difference in this function is to create a sequence in case of multiple sentences in a document
+Used in MultiClassifierDL
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts DataFrame to Array of arrays of arrays of arrays of Embeddings
+The difference in this function is to create a sequence in case of multiple sentences in a document
+Used in MultiClassifierDL
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>Input DataFrame with sentence_embeddings</p></dd><dt>returns</dt><dd class="cmt"><p>Array of Arrays of Arrays of Floats</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder#extractSentenceEmbeddingsMultiLabelPredict" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="extractSentenceEmbeddingsMultiLabelPredict(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Array[Float]]]"></a>
+      <a id="extractSentenceEmbeddingsMultiLabelPredict(Seq[(Int,Seq[Annotation])]):Array[Array[Array[Float]]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractSentenceEmbeddingsMultiLabelPredict</span><span class="params">(<span name="docs">docs: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>])]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.ClassifierDatasetEncoder@extractSentenceEmbeddingsMultiLabelPredict(docs:Seq[(Int,Seq[com.johnsnowlabs.nlp.Annotation])]):Array[Array[Array[Float]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ClassifierDLModel - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel</title>
-          <meta name="description" content="ClassifierDLModel - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel" />
-          <meta name="keywords" content="ClassifierDLModel Spark NLP 2.5.5 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel" />
+          <title>ClassifierDLModel - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel</title>
+          <meta name="description" content="ClassifierDLModel - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel" />
+          <meta name="keywords" content="ClassifierDLModel Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes</p><p>NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.</p><p>NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala</a> for further reference on how to use this API
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes</p><p>NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.</p><p>NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala</a> for further reference on how to use this API
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../../../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a>, <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a>, <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>], <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -2376,6 +2377,23 @@ metadata is built at schema level to record annotations structural information o
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel@writeTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]]):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel#writeTensorflowModelV2" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="writeTensorflowModelV2(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]]):Unit"></a>
+      <a id="writeTensorflowModelV2(String,SparkSession,TensorflowWrapper,String,String,Option[Array[Byte]]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">writeTensorflowModelV2</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="tensorflow">tensorflow: <a href="../../../../ml/tensorflow/TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filename">filename: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel@writeTensorflowModelV2(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]]):Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
