@@ -35,7 +35,7 @@ layout: base
   <div class="page__mask d-print-none js-page-mask js-sidebar-hide"></div>
   <div class="page__viewport">
     <div class="page__actions d-print-none">
-      <div class="button button--circle button--lg box-shadow-2 sidebar-button js-sidebar-show">
+      <div class="js-sidebar-show">
         <i class="fas fa-bars icon--show"></i>
       </div>
     </div>
@@ -232,6 +232,77 @@ layout: base
     </div> {%- comment -%} end grid {%- endcomment -%}
   </div> {%- comment -%} end page__viewport {%- endcomment -%}
 {%- endif -%}
+
+
+{%- for _section in page.data.sections -%}
+{%- if _section.articles -%}
+  {%- assign _size = _section.articles | size  -%}
+  <div class="grid--container container-aside">
+    <div class="grid">
+
+      {%- for child in _section.articles -%}          
+
+      {%- if _size >= 2 -%}
+      {%- assign _cell_md_col = 3 -%}
+      {%- else -%}
+      {%- assign _cell_md_col = 12 | divided_by: _size -%}
+      {%- endif -%}
+
+      {%- if _size >= 4 -%}
+      {%- assign _cell_lg_col = 3 -%}
+      {%- else -%}
+      {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+      {%- endif -%}
+
+      {%- if _size >= 6 -%}
+      {%- assign _cell_lg_col = 2 -%}
+      {%- else -%}
+      {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+      {%- endif -%}
+
+      <div class="cell cell--6 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
+
+        <div class="article-item">
+          {%- if child.image and child.image.src -%}
+
+          {%- if child.image.url -%}
+          {%- include snippets/get-nav-url.html path=child.image.url -%}
+          {%- assign _item_image_url = __return -%}
+          {%- else -%}
+          {%- assign _item_image_url = nil -%}
+          {%- endif -%}
+
+          {%- include snippets/get-nav-url.html path=child.image.src -%}
+          {%- assign _item_image_src = __return -%}
+
+          {%- if child.image.is_row -%}
+            {%- endif -%}
+            <figure class="mx-auto" style="{{ child.image.style }}">
+              <img src="{{ _item_image_src }}" />
+            </figure>
+            {%- if child.image.is_row -%}
+          {%- endif -%}
+          {%- endif -%}
+
+          <h4>{{ child.title }}</h4>
+
+          {%- if child.excerpt-%}
+          <div class="video-descr">{{ child.excerpt }}</div>
+          {%- endif -%}
+
+        </div>              
+
+        {%- if child.content-%}
+        <p>{{ child.content }}</p>
+        {%- endif -%}
+
+      </div>
+      {%- endfor-%}
+
+    </div>
+  </div>
+  {%- endif -%}
+{%- endfor-%}
 
 <script>{%- include scripts/lib/modal.js -%}</script>
 {%- if _lightbox == true -%}
