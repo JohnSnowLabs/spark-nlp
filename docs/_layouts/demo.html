@@ -1,0 +1,339 @@
+---
+layout: page
+header: true
+full_width: true
+---
+<!-- Do not use auto intent in this file. -->
+<div class="layout--landing">
+  <div class="heros demopage">
+    {%- for _section in page.data.sections -%}
+    {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
+    {%- assign _url = __return -%}
+    {%- if _section.theme == 'light' -%}
+    <section class="hero section-row hero--center hero--light" id="hero-{{ forloop.index }}" {%- elsif _section.theme == 'dark' -%}
+      <section class="hero  section-row hero--center hero--dark" id="hero-{{ forloop.index }}" {%- else -%} <section
+      class="hero section-row hero--center" id="hero-{{ forloop.index }}" {%- endif -%} {%- if _section.background_color -%}
+      style="background-image: url({{ _url }}); background-color: {{ _section.background_color }};">
+      {%- else -%}
+      style="background-image: url({{ _url }});">
+      {%- endif -%}
+
+      <div class="">
+        {{ content }}
+        {%- if _section.tabheader -%}
+        {%- assign _size = _section.tabheader | size  -%}
+          <div class="tab-header grid--container main-small">
+              <div class="tab-header-inner">
+              {%- for child in _section.tabheader -%}
+              <button class="tablinks" onclick="openTab(event, '{{ child.url }}')" {%- if child.default -%} id="{{ child.default }}" {%- endif -%}>{{ child.title }}</button>            
+              {%- endfor-%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="grid--container main-small">
+        {%- if _section.opensource -%}
+        {%- assign _size = _section.opensource | size  -%}
+          <div id="opensource" class="tabcontent">
+            <h3>Open Source</h3>
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.opensource -%}
+            <div class="tab-item">
+              <div class="tab-item-inner">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                {%- assign _item_image_src = __return -%}
+                {%- include snippets/get-nav-url.html path=child.image2.src -%}
+                {%- assign _item_image2_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="tab_fig_blue">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="{{ _item_image2_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <div class="tab-item-title">{{ child.title }}</div>
+
+                {%- if child.excerpt-%}
+                <div class="tab-description">{{ child.excerpt }}</div>
+                {%- endif -%}
+
+                {%- if child.actions -%}
+                <ul class="tab-menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div> 
+            </div>
+            {%- endfor-%}
+          </div>
+        </div>
+        {%- endif -%}
+
+
+        {%- if _section.languages -%}
+        {%- assign _size = _section.languages | size  -%}
+          <div id="languages" class="tabcontent">  
+            <h3>Languages</h3>
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.languages -%}
+            <div class="tab-item">
+              <div class="tab-item-inner">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                {%- assign _item_image_src = __return -%}
+                {%- include snippets/get-nav-url.html path=child.image2.src -%}
+                {%- assign _item_image2_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="tab_fig_blue">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="{{ _item_image2_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <div class="tab-item-title">{{ child.title }}</div>
+                {%- if child.excerpt-%}
+                <div class="tab-description">{{ child.excerpt }}</div>
+                {%- endif -%}
+                {%- if child.actions -%}
+                <ul class="tab-menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- endfor-%}
+          </div>
+        </div>
+        {%- endif -%}
+
+
+        {%- if _section.healthcare -%}
+        {%- assign _size = _section.healthcare | size  -%}
+          <div id="healthcare" class="tabcontent">  
+            <h3>Healthcare</h3>
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.healthcare -%}
+            <div class="tab-item">
+              <div class="tab-item-inner">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                {%- assign _item_image_src = __return -%}
+                {%- include snippets/get-nav-url.html path=child.image2.src -%}
+                {%- assign _item_image2_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="tab_fig_blue">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="{{ _item_image2_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <div class="tab-item-title">{{ child.title }}</div>
+                {%- if child.excerpt-%}
+                <div class="tab-description">{{ child.excerpt }}</div>
+                {%- endif -%}
+                {%- if child.actions -%}
+                <ul class="tab-menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- endfor-%}
+          </div>
+        </div>
+        {%- endif -%}
+
+
+        {%- if _section.sparkocr -%}
+        {%- assign _size = _section.sparkocr | size  -%}
+          <div id="sparkocr" class="tabcontent">  
+            <h3>Spark OCR</h3>
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.sparkocr -%}
+            <div class="tab-item">
+              <div class="tab-item-inner">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                {%- assign _item_image_src = __return -%}
+                {%- include snippets/get-nav-url.html path=child.image2.src -%}
+                {%- assign _item_image2_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="tab_fig_blue">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="{{ _item_image2_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <div class="tab-item-title">{{ child.title }}</div>
+                {%- if child.excerpt-%}
+                <div class="tab-description">{{ child.excerpt }}</div>
+                {%- endif -%}
+                {%- if child.actions -%}
+                <ul class="tab-menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- endfor-%}
+          </div>
+        </div>
+        {%- endif -%}
+
+        {%- if _section.deidentification -%}
+        {%- assign _size = _section.deidentification | size  -%}
+          <div id="deidentification" class="tabcontent">
+            <h3>De-identification</h3>
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.deidentification -%}
+            <div class="tab-item">
+              <div class="tab-item-inner">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                {%- assign _item_image_src = __return -%}
+                {%- include snippets/get-nav-url.html path=child.image2.src -%}
+                {%- assign _item_image2_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="tab_fig_blue">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="{{ _item_image2_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <div class="tab-item-title">{{ child.title }}</div>
+                {%- if child.excerpt-%}
+                <div class="tab-description">{{ child.excerpt }}</div>
+                {%- endif -%}
+                {%- if child.actions -%}
+                <ul class="tab-menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- endfor-%}
+          </div>
+        </div>
+        {%- endif -%}
+
+
+
+        </div>
+      {%- if _section.image.full_width == true -%}
+      </div> {% comment %} end hero__content {% endcomment %}
+      {%- endif -%}
+
+      {%- if _section.image.full_width != true -%}
+  </div> {% comment %} end hero__content {% endcomment %}
+  {%- endif -%}
+
+  {%- if _section.content-%}
+  <p>{{ _section.content }}</p>
+  {%- endif -%}
+  </section>
+  {%- endfor -%}
+</div>
+</div>
+
+
