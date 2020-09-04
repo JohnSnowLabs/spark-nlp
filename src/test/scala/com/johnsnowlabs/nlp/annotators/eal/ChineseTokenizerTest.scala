@@ -6,13 +6,12 @@ import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
 
 import scala.collection.mutable
 
 class ChineseTokenizerTest extends FlatSpec {
-
-  val maxWordLength = 2
 
   import SparkAccessor.spark.implicits._
 
@@ -27,10 +26,10 @@ class ChineseTokenizerTest extends FlatSpec {
   "A ChineseTokenizer" should "tokenize words" in {
 
     val testDataSet = Seq("十四不是四十").toDS.toDF("text")
-    val expectedResult = Array(
+    val expectedResult = Array(Seq(
       Annotation(TOKEN, 0, 1, "十四", Map("sentence" -> "0")),
       Annotation(TOKEN, 2, 3, "不是", Map("sentence" -> "0")),
-      Annotation(TOKEN, 4, 5, "四十", Map("sentence" -> "0"))
+      Annotation(TOKEN, 4, 5, "四十", Map("sentence" -> "0")))
     )
     val chineseTokenizer = new ChineseTokenizer()
       .setInputCols("sentence")
@@ -50,55 +49,44 @@ class ChineseTokenizerTest extends FlatSpec {
     val tokenizerPipeline = pipeline.fit(testDataSet)
     val tokenizerDataSet = tokenizerPipeline.transform(testDataSet)
 
-    val actualResult = tokenizerDataSet
-      .select("token.result", "token.metadata", "token.begin",  "token.end").rdd.flatMap{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[mutable.WrappedArray[Int]]
-      resultSeq.zipWithIndex.map{ case (token, index) =>
-        Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
-      }
-    }.collect()
-    expectedResult.zipWithIndex.foreach{ case (annotation, index) =>
-      assert(annotation.result == actualResult(index).result)
-    }
+    val actualResult = getActualResult(tokenizerDataSet)
+    assertAnnotations(expectedResult, actualResult)
   }
 
   it should "use documents from dataset as knowledge base" in {
-    val testDataSet = Seq(
-      "十四是十四四十是四十，十四不是四十，四十不是十四",
-      "十四不是四十",
-      "十四是十四四十是四十，十四不是四十，四十不是十四").toDS.toDF("text")
+    val trainDataSet = Seq("永和四永和服装四服装", "永和不是服装", "服装不是永和", "饰品四饰品",
+      "有限公司十有限公司", "有限公司十有限公司").toDS.toDF("text")
+    val testDataSet = Seq("永和服装饰品有限公司", "永和饰品").toDS.toDF("text")
+    val expectedResult = Array(Seq(
+      Annotation(TOKEN, 0, 1, "永和", Map("sentence" -> "0")),
+      Annotation(TOKEN, 2, 3, "服装", Map("sentence" -> "0")),
+      Annotation(TOKEN, 4, 5, "饰品", Map("sentence" -> "0")),
+      Annotation(TOKEN, 6, 9, "有限公司", Map("sentence" -> "0"))
+    ),
+      Seq(
+        Annotation(TOKEN, 0, 1, "永和", Map("sentence" -> "0")),
+        Annotation(TOKEN, 2, 3, "饰品", Map("sentence" -> "0"))
+      )
+    )
+
     val chineseTokenizer = new ChineseTokenizer()
       .setInputCols("sentence")
       .setOutputCol("token")
-      .setMaxWordLength(2)
+      .setMaxWordLength(4)
       .setMinAggregation(1.2)
       .setMinEntropy(0.4)
       .setWordSegmentMethod("ALL")
-
     val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
         chineseTokenizer
       ))
-
-    val tokenizerPipeline = pipeline.fit(testDataSet)
+    val tokenizerPipeline = pipeline.fit(trainDataSet)
     val tokenizerDataSet = tokenizerPipeline.transform(testDataSet)
 
-    val actualResult = tokenizerDataSet
-      .select("token.result", "token.metadata", "token.begin",  "token.end").rdd.map{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[mutable.WrappedArray[Int]]
-      resultSeq.zipWithIndex.map{ case (token, index) =>
-        Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
-      }
-    }.collect()
-    assert(actualResult.length == 3)
+    val actualResult = getActualResult(tokenizerDataSet)
+    assertAnnotations(expectedResult, actualResult)
   }
 
   it should "serialize a model" in {
@@ -120,10 +108,10 @@ class ChineseTokenizerTest extends FlatSpec {
 
   it should "deserialize a model" in {
     val testDataSet = Seq("十四不是四十").toDS.toDF("text")
-    val expectedResult = Array(
+    val expectedResult = Array(Seq(
       Annotation(TOKEN, 0, 1, "十四", Map("sentence" -> "0")),
       Annotation(TOKEN, 2, 3, "不是", Map("sentence" -> "0")),
-      Annotation(TOKEN, 4, 5, "四十", Map("sentence" -> "0"))
+      Annotation(TOKEN, 4, 5, "四十", Map("sentence" -> "0")))
     )
 
     val chineseTokenizer = ChineseTokenizerModel.load("./tmp_chinese_tokenizer")
@@ -136,8 +124,13 @@ class ChineseTokenizerTest extends FlatSpec {
       ))
     val tokenizerPipeline = pipeline.fit(testDataSet)
     val tokenizerDataSet = tokenizerPipeline.transform(testDataSet)
-    val actualResult = tokenizerDataSet
-      .select("token.result", "token.metadata", "token.begin",  "token.end").rdd.flatMap{ row=>
+
+    val actualResult = getActualResult(tokenizerDataSet)
+    assertAnnotations(expectedResult, actualResult)
+  }
+
+  private def getActualResult(dataSet: Dataset[_]): Array[Seq[Annotation]] = {
+    dataSet.select("token.result", "token.metadata", "token.begin",  "token.end").rdd.map{ row=>
       val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
       val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
       val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
@@ -146,8 +139,14 @@ class ChineseTokenizerTest extends FlatSpec {
         Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
       }
     }.collect()
-    expectedResult.zipWithIndex.foreach{ case (annotation, index) =>
-      assert(annotation.result == actualResult(index).result)
+  }
+
+  private def assertAnnotations(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
+    expectedResult.zipWithIndex.foreach { case (annotationDocument, indexDocument) =>
+      val actualDocument = actualResult(indexDocument)
+      annotationDocument.zipWithIndex.foreach { case (annotation, index) =>
+        assert(annotation.result == actualDocument(index).result)
+      }
     }
   }
 

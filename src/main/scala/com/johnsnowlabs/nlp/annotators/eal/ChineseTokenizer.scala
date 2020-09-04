@@ -61,9 +61,10 @@ class ChineseTokenizer(override val uid: String) extends AnnotatorApproach[Chine
       val externalKnowledgeBase = ResourceHelper.parseLines($(knowledgeBase)).mkString(",")
       words = getWords(externalKnowledgeBase)
     } else {
-      words = dataset.select("document.result").rdd.flatMap( row =>
+      val knowledgeBase = dataset.select("document.result").rdd.flatMap( row =>
         row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      ).collect()
+      ).collect().mkString(" ")
+      words = getWords(knowledgeBase)
    }
 
     new ChineseTokenizerModel()
