@@ -2803,7 +2803,6 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
 
 
-<<<<<<< HEAD
 class MultiClassifierDLApproach(AnnotatorApproach):
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -2975,8 +2974,6 @@ class YakeModel(AnnotatorModel):
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
 
-=======
->>>>>>> eed9c04b243b9d7e409f4923936fffc1386d41bf
 class ChineseTokenizer(AnnotatorApproach):
     name = "ChineseTokenizer"
     maxWordLength = Param(Params._dummy(), "maxWordLength", "Maximum word length", typeConverter=TypeConverters.toInt)
