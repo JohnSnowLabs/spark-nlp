@@ -1456,6 +1456,7 @@ It supports following operation:
 
 
 
+
 ```
 
 ```python
@@ -1505,6 +1506,101 @@ for r in result.select("image", "corrected_image").collect():
 **Opening image:**
 
 ![opening](/assets/images/ocr/opening.png)
+
+## ImageCropper
+
+`ImageCropper`is a transformer for cropping image.
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| cropRectangle | Rectangle | Rectangle(0,0,0,0) | Image rectangle. |
+| cropSquareType | [CropSquareType](ocr_structures#cropsquaretype) | CropSquareType.TOP_LEFT | Type of square. |
+
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | cropped_image | scaled image struct ([Image schema](ocr_structures#image-schema)) |
+
+
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageAdaptiveScaler
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+import java.awt.Rectangle
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val rectangle: Rectangle = new Rectangle(0, 0, 200, 110)
+val cropper: ImageCropper = new ImageCropper()
+  .setInputCol("image")
+  .setOutputCol("cropped_image")
+  .setCropRectangle(rectangle)
+
+val data = transformer.transform(df)
+data.storeImage("cropped_image")
+
+
+
+
+
+
+
+
+
+
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image") \
+    .setOperation(MorphologyOperationType.OPENING)
+
+cropper = ImageCropper() \
+    .setInputCol("image") \
+    .setOutputCol("cropped_image") \
+    .setCropRectangle((0, 0, 200, 110))
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    cropper
+])
+
+result = pipeline.transform(df)
+
+for r in result.select("image", "cropped_image").collect():
+    display_image(r.image)
+    display_image(r.cropped_image)
+```
 
 # Splitting image to regions
 
