@@ -6,6 +6,23 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+# 1.6.0
+
+### Overview
+
+Support parsing data from tables.
+
+#### Enhancements
+
+* Optimized memory usage during image processing
+
+#### New Features
+
+* Added `PdfToTextTable` transformer for extract tables from Pdf document per each page.
+* Added `ImageCropper` transformer for crop images.
+* Added `ImageBrandsToText` transformer for detect text in defined areas.
+
+
 # 1.5.0
 
 Release date: 22-07-2020
