@@ -561,6 +561,102 @@ Results:
 
 ![Result with regions](/assets/images/ocr/with_regions.png)
 
+## PdfToTextTable
+
+Extract tables from Pdf document page.
+Input is a column with binary representation of PDF document.
+As output generate column with tables and tables text chunks coordinates (rows/cols).
+
+##### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+
+##### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pageIndex | integer | -1 | Page index to extract Tables. |
+| guess | bool | false | A logical indicating whether to guess the locations of tables on each page. |
+| method | string | decide | Identifying the prefered method of table extraction: basic, spreadsheet. |
+
+
+##### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | TableContainer | tables | Extracted tables |
+
+
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import java.io.FileOutputStream
+import java.nio.file.Files
+
+import com.johnsnowlabs.ocr.transformers._
+import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.util.io.ReadAs
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdfToTextTable = new PdfToTextTable()
+  .setInputCol("content")
+  .setOutputCol("table")
+  .pdf_to_text_table.setPageIndex(1)
+  .pdf_to_text_table.setMethod("basic")
+
+table = pdfToTextTable.transform(df)
+
+// Show first row
+table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
+```
+
+```python
+from pyspark.ml import Pipeline
+
+from sparkocr.transformers import *
+from sparknlp.annotator import *
+from sparknlp.base import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_text_table = PdfToTextTable()
+pdf_to_text_table.setInputCol("content")
+pdf_to_text_table.setOutputCol("table")
+pdf_to_text_table.setPageIndex(1)
+pdf_to_text_table.setMethod("basic")
+
+table = pdf_to_text_table.transform(df)
+
+# Show first row
+table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
+
+
+```
+
+Output:
+
+```
++------------------------------------------------------------------+
+|table.chunks AS chunks#760[1].chunkText                           |
++------------------------------------------------------------------+
+|[Mazda RX4, 21.0, 6, , 160.0, 110, 3.90, 2.620, 16.46, 0, 1, 4, 4]|
++------------------------------------------------------------------+
+```
+
+
 # Dicom processing
 
 ## DicomToImage
@@ -2008,6 +2104,142 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 
 ```
+
+## ImageBrandsToText
+
+`ImageBrandsToText` runs OCR for specified brands of input image, return recognized text
+to _outputCol_ and positions with font size to 'positionsCol' column.
+
+
+#### Input Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+#### Parameters
+
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
+| pageIteratorLevel | [PageIteratorLevel](ocr_structures#pageiteratorlevel) | BLOCK | page iteration level |
+| ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY| OCR engine mode |
+| language | string | eng | language |
+| confidenceThreshold | int | 0 | Confidence threshold. |
+| ignoreResolution | bool | true | Ignore resolution from metadata of image. |
+| ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
+| brandsCoords | string | | Json with coordinates of brands. | 
+
+#### Output Columns
+
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | structure | image_brands | Structure with recognized text from brands. |
+| textCol | string | text | Recognized text |
+| positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) | 
+
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToText
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageBrandsToText()
+  .setInputCol("image")
+  .setOutputCol("text")
+  .setBrandsCoordsStr(
+        """
+          [
+             {
+                "name":"part_one",
+                "rectangle":{
+                   "x":286,
+                   "y":65,
+                   "width":542,
+                   "height":342
+                }
+             },
+             {
+                "name":"part_two",
+                "rectangle":{
+                   "x":828,
+                   "y":65,
+                   "width":1126,
+                   "height":329
+                }
+             }
+          ]
+          """.stripMargin)
+
+val data = transformer.transform(df)
+print(data.select("text").collect()[0].text)
+
+
+
+
+
+
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageBrandsToText() \
+    .setInputCol("image") \
+    .setOutputCol("text") \
+    .setBrandsCoords("""[
+                     {
+                        "name":"part_one",
+                        "rectangle":{
+                           "x":286,
+                           "y":65,
+                           "width":542,
+                           "height":342
+                        }
+                     },
+                     {
+                        "name":"part_two",
+                        "rectangle":{
+                           "x":828,
+                           "y":65,
+                           "width":1126,
+                           "height":329
+                        }
+                     }
+                  ]""")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
 
 # Other
 
