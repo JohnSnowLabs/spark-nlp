@@ -6,6 +6,20 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+# 1.6.0
+
+#### Overview
+
+Support parsing data from tables for selectable PDFs.
+
+
+#### New Features
+
+* Added [PdfToTextTable](ocr_pipeline_components#pdftotexttable) transformer for extract tables from Pdf document per each page.
+* Added [ImageCropper](ocr_pipeline_components#imagecropper) transformer for crop images.
+* Added [ImageBrandsToText](ocr_pipeline_components#imagebrandstotext) transformer for detect text in defined areas.
+
+
 # 1.5.0
 
 Release date: 22-07-2020
