@@ -1317,7 +1317,7 @@ class YakeModelTestSpec(unittest.TestCase):
         result.select("keywords").show(truncate=False)
 
 
-class ChineseTokenizerTestSpec(unittest.TestCase):
+class WordSegmenterTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([["十四不是四十"]]) \
             .toDF("text").cache()
@@ -1330,7 +1330,7 @@ class ChineseTokenizerTestSpec(unittest.TestCase):
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
-        tokenizer = ChineseTokenizer() \
+        tokenizer = WordSegmenterApproach() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
@@ -1341,4 +1341,4 @@ class ChineseTokenizerTestSpec(unittest.TestCase):
         ])
 
         model = pipeline.fit(self.data)
-        model.transform(self.data).show()
+        model.transform(self.data).show(truncate=False)

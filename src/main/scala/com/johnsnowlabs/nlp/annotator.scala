@@ -12,7 +12,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptr
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer, WordSegmenterApproach, WordSegmenterModel}
 import com.johnsnowlabs.nlp.embeddings._
 import org.apache.spark.ml.util.DefaultParamsReadable
 
@@ -183,9 +183,9 @@ package object annotator {
   type MultiClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel
   object MultiClassifierDLModel extends ReadablePretrainedMultiClassifierDL with ReadMultiClassifierDLTensorflowModel
 
-  type ChineseTokenizer = com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizer
+  type ChineseTokenizer = WordSegmenterApproach
   object ChineseTokenizer extends DefaultParamsReadable[ChineseTokenizer]
-  type ChineseTokenizerModel = com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizerModel
+  type ChineseTokenizerModel = WordSegmenterModel
   object ChineseTokenizerModel extends ParamsAndFeaturesReadable[ChineseTokenizerModel]
 
 }

@@ -1,6 +1,6 @@
-package com.johnsnowlabs.nlp.annotators.eal
+package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
+import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -11,9 +11,9 @@ import org.apache.spark.sql.Dataset
 
 import scala.collection.mutable
 
-class ChineseTokenizer(override val uid: String) extends AnnotatorApproach[ChineseTokenizerModel]{
+class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[WordSegmenterModel]{
 
-  def this() = this(Identifiable.randomUID("CHINESE_TOKENIZER"))
+  def this() = this(Identifiable.randomUID("WORD_SEGMENTER"))
 
   override val description: String = "Chinese word segmentation without corpus"
 
@@ -56,7 +56,7 @@ class ChineseTokenizer(override val uid: String) extends AnnotatorApproach[Chine
   case class WordInfo(text: String, var aggregation: Double = 0, frequencyEntropy: Double = 0.0,
                       leftEntropy: Double = 0.0, rightEntropy: Double = 0.0)
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ChineseTokenizerModel = {
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): WordSegmenterModel = {
     var words: Array[String] = Array()
     if (get(knowledgeBase).isDefined) {
       val externalKnowledgeBase = ResourceHelper.parseLines($(knowledgeBase)).mkString(",")
@@ -68,7 +68,7 @@ class ChineseTokenizer(override val uid: String) extends AnnotatorApproach[Chine
       words = getWords(knowledgeBase)
    }
 
-    new ChineseTokenizerModel()
+    new WordSegmenterModel()
       .setWords(words)
       .setWordSegmentMethod($(wordSegmentMethod))
       .setMaxWordLength($(maxWordLength))
@@ -163,4 +163,4 @@ class ChineseTokenizer(override val uid: String) extends AnnotatorApproach[Chine
   override val outputAnnotatorType: AnnotatorType = TOKEN
 }
 
-object ChineseTokenizer extends DefaultParamsReadable[ChineseTokenizer]
+object WordSegmenterApproach extends DefaultParamsReadable[WordSegmenterApproach]

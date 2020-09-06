@@ -2975,8 +2975,8 @@ class YakeModel(AnnotatorModel):
         return list(stopWordsObj.loadDefaultStopWords(language))
 
 
-class ChineseTokenizer(AnnotatorApproach):
-    name = "ChineseTokenizer"
+class WordSegmenterApproach(AnnotatorApproach):
+    name = "WordSegmenterApproach"
 
     maxWordLength = Param(Params._dummy(), "maxWordLength", "Maximum word length", typeConverter=TypeConverters.toInt)
     minFrequency = Param(Params._dummy(), "minFrequency", "Minimum frequency", typeConverter=TypeConverters.toFloat)
@@ -3012,7 +3012,7 @@ class ChineseTokenizer(AnnotatorApproach):
 
     @keyword_only
     def __init__(self):
-        super(ChineseTokenizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizer")
+        super(WordSegmenterApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.WordSegmenterApproach")
         self._setDefault(
             maxWordLength=2,
             minFrequency=float(0.00005),
@@ -3022,11 +3022,11 @@ class ChineseTokenizer(AnnotatorApproach):
         )
 
     def _create_model(self, java_model):
-        return ChineseTokenizerModel(java_model=java_model)
+        return WordSegmenterModel(java_model=java_model)
 
 
-class ChineseTokenizerModel(AnnotatorModel):
-    name = "ChineseTokenizerModel"
+class WordSegmenterModel(AnnotatorModel):
+    name = "WordSegmenterModel"
 
     maxWordLength = Param(Params._dummy(), "maxWordLength", "Maximum word length", typeConverter=TypeConverters.toInt)
     wordSegmentMethod = Param(Params._dummy(), "wordSegmentMethod",
@@ -3043,8 +3043,8 @@ class ChineseTokenizerModel(AnnotatorModel):
     def setWords(self, value):
         return self._set(words=value)
 
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.eal.ChineseTokenizerModel", java_model=None):
-        super(ChineseTokenizerModel, self).__init__(
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.WordSegmenterModel", java_model=None):
+        super(WordSegmenterModel, self).__init__(
             classname=classname,
             java_model=java_model
         )

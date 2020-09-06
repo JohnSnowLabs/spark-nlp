@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.annotators.eal
+package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
@@ -9,9 +9,9 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks.{break, breakable}
 
-class ChineseTokenizerModel(override val uid: String) extends AnnotatorModel[ChineseTokenizerModel] {
+class WordSegmenterModel(override val uid: String) extends AnnotatorModel[WordSegmenterModel] {
 
-  def this() = this(Identifiable.randomUID("CHINESE_TOKENIZER"))
+  def this() = this(Identifiable.randomUID("WORD_SEGMENTER"))
 
   val words: StringArrayParam = new StringArrayParam(this, "words", "Words generated from a document")
 
@@ -95,4 +95,4 @@ class ChineseTokenizerModel(override val uid: String) extends AnnotatorModel[Chi
 
 }
 
-object ChineseTokenizerModel extends ParamsAndFeaturesReadable[ChineseTokenizerModel]
+object WordSegmenterModel extends ParamsAndFeaturesReadable[WordSegmenterModel]
