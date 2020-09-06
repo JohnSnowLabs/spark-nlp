@@ -15,7 +15,7 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
 
   def this() = this(Identifiable.randomUID("WORD_SEGMENTER"))
 
-  override val description: String = "Chinese word segmentation without corpus"
+  override val description: String = "Word segmentation without corpus"
 
   val maxWordLength = new IntParam(this, "maxWordLength", "Maximum word length")
 
