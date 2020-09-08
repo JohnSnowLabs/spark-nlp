@@ -24,7 +24,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 # Load Spark NLP with Spark Submit
 spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 
-# Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
+# Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
 spark-shell --jar spark-nlp-assembly-2.6.0
 ```
 
