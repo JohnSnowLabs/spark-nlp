@@ -7,14 +7,26 @@ jQuery(document).ready(function($) {
       jQuery('.top_navigation').toggleClass('open');
   });
   jQuery('#aside_menu').click(function(e) {
-    e.preventDefault();
-    jQuery(this).toggleClass('close');
-    jQuery('.js-col-aside').toggleClass('open');
-});
+      e.preventDefault();
+      jQuery(this).toggleClass('close');
+      jQuery('.js-col-aside').toggleClass('open');
+      if (jQuery(window).width() <= 1023)
+      {
+        jQuery('.page__sidebar').toggleClass('open'); 
+      }
+  });
+  jQuery('.toc--ellipsis a').click(function(e) {
+    if (jQuery(window).width() <= 767)
+      {
+        jQuery('.js-col-aside').removeClass('open');
+        jQuery('.page__sidebar').removeClass('open');     
+        jQuery('#aside_menu').removeClass('close');  
+      }       
+  });
 });
 
-
-function openTab(evt, cityName) {
+/*TABS*/
+function openTabCall(cityName){
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -32,10 +44,18 @@ function openTab(evt, cityName) {
 
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(cityName).style.display = "block";
+}
+
+function openTab(evt, cityName) {
+  openTabCall(cityName);
   evt.currentTarget.className += " active";
 }
-document.getElementById("defaultOpen").click();
 
+/*OPen by URL*/
+$(document).ready(function () {  
+  const tabName = (window.location.hash || '').replace('#', '');
+  document.getElementById(tabName || 'opensource_l').click();
+});
 
 jQuery(document).ready(function(){
 	jQuery('.tab-item').click(function(event) {		

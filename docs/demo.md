@@ -15,15 +15,22 @@ data:
       tabheader: 
         - title: Open Source
           url: opensource
-          default: defaultOpen
+          default: opensource_l
         - title: Languages
           url: languages
+          default: languages_l
         - title: Healthcare
           url: healthcare
+          default: healthcare_l
         - title: Spark OCR
           url: sparkocr
+          default: sparkocr_l
         - title: De-identification
           url: deidentification
+          default: deidentification_l
+        - title: Entity Resolvers
+          url: resolvers
+          default: resolvers_l
       opensource: yes
       opensource: 
         - title: Recognize entities in text
@@ -619,4 +626,71 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb
+      resolvers: yes
+      resolvers: 
+        - title: SNOMED coding
+          image: 
+              src: /assets/images/Detect_signs_and_symptoms.svg
+          image2: 
+              src: /assets/images/Detect_signs_and_symptoms_f.svg
+          excerpt: Automatically resolve the SNOMED code corresponding to the diseases and conditions mentioned in your health record using Spark NLP for Healthcare out of the box.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
+        - title: ICDO coding
+          image: 
+              src: /assets/images/Detect_diagnosis_and_procedures.svg
+          image2: 
+              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
+          excerpt: Automatically detect the tumor in your healthcare records and link it to the corresponding ICDO code using Spark NLP for Healthcare out of the box.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
+        - title: ICD10-CM coding 
+          image: 
+              src: /assets/images/Detect_risk_factors.svg
+          image2: 
+              src: /assets/images/Detect_risk_factors_f.svg
+          excerpt: Automatically detect the pre and post op diagnosis, signs and symptoms or other findings in your healthcare records and automatically link them to the corresponding ICD10-CM code using Spark NLP for Healthcare out of the box.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
+        - title: ICD10-PCS coding
+          image: 
+              src: /assets/images/Detect_posology_relations.svg
+          image2: 
+              src: /assets/images/Detect_posology_relations_f.svg
+          excerpt: Automatically detect the procedures mentioned in your discharge record and link them to the corresponding ICD10-PCS code using Spark NLP for Healthcare out of the box.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_PCS
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_PCS.ipynb
+        - title: RxNORM coding
+          image: 
+              src: /assets/images/Detect_drugs_and_prescriptions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
+          excerpt: Automatically detect the drugs and treatments names mentioned in your prescription or healthcare records and link them to the corresponding RxNORM codes using Spark NLP for Healthcare out of the box.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb  
 ---

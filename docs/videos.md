@@ -144,10 +144,6 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[Spark NLP in action: intelligent, high-accuracy fact extraction from long financial documents](https://www.johnsnowlabs.com/uipath-intelligent-extraction-from-long-financial-documents/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_6.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
 </div></div>
 
 {:.h2_article}
@@ -188,10 +184,6 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_1.jpg)[Topic Modelling with PySpark and Spark NLP](https://medium.com/trustyou-engineering/topic-modelling-with-pyspark-and-spark-nlp-a99d063f1a6e)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 </div></div>
@@ -257,14 +249,6 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_3.jpg)[SelectData uses AI to better understand home health patients](https://www.johnsnowlabs.com/selectdata-uses-ai-to-undrstand-home-health-patients/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_5.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 </div></div>
@@ -338,10 +322,6 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_7.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_6.jpg)[Running Spark NLP in Docker Container for Named Entity Recognition and Other NLP Features
 ](https://towardsdatascience.com/running-spark-nlp-in-docker-container-for-named-entity-recognition-and-other-nlp-features-8acdb662da5b)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
@@ -379,17 +359,8 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_5.jpg)[Lesson Learned annotating training data for healthcare NLP projects (Upcoming NLP Summit talk)](https://www.nlpsummit.org/lesson-learned-annotating-training-data-for-healthcare-nlp-projects/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[Lesson Learned annotating training data for healthcare NLP projects](https://www.nlpsummit.org/lesson-learned-annotating-training-data-for-healthcare-nlp-projects/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_6.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_7.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
 
 </div></div>
 

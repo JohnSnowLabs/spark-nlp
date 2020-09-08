@@ -5,6 +5,7 @@ permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2020-06-12"
 use_language_switcher: "Python-Scala"
+header: true
 
 ---
 
@@ -1472,7 +1473,7 @@ val spellChecker = new ContextSpellCheckerApproach()
 Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to specific questions.
 The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
 
-![Dependency Parser](../assets/images/dependency_parser.png)
+![Dependency Parser](\assets\images\dependency_parser.png)
 
 Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure. [1]
 
