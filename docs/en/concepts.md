@@ -10,7 +10,7 @@ use_language_switcher: "Python-Scala"
 
 ## Concepts
 
-Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library for more information.
+Spark ML provides a set of Machine Learning applications, and its logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library for more information.
 
 ## Annotation
 
