@@ -6,7 +6,7 @@ key: docs-licensed-release-notes
 modify_date: "2020-09-07"
 ---
 
-#### 2.6.0
+### 2.6.0
 
 #### Overview
 
@@ -90,7 +90,7 @@ Due to ongoing requests about Clinical Entity Resolvers, we release a notebook t
 
 https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.Snomed_Entity_Resolver_Model_Training.ipynb
 
-#### 2.5.5
+### 2.5.5
 
 #### Overview
 
@@ -126,7 +126,7 @@ Models
    - `re_clinical`: with `ner_clinical` and `embeddings_clinical`
    - `re_posology`: with `ner_posology` and `embeddings_clinical`
 
-#### 2.5.3
+### 2.5.3
 
 #### Overview
 
@@ -158,7 +158,7 @@ We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and
 * We have 2 new `spanish` models for Clinical Entity Recognition: `ner_diag_proc` and `ner_neoplasms`
 * We have a new `english` Named Entity Recognition model for deidentification: `ner_deid_enriched`
 
-#### 2.5.2
+### 2.5.2
 
 #### Overview
 
@@ -195,7 +195,7 @@ Thanks to the community for all the feedback and suggestions, it's really comfor
 * ChunkMerge now weights the token coverage correctly when multiple multi-token entities overlap
 
 
-#### 2.5.0
+### 2.5.0
 
 #### Overview
 
