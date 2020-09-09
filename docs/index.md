@@ -107,7 +107,7 @@ data:
             is_row: true        
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Intel-logo.svg/500px-Intel-logo.svg.png
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Intel_logo_%282006%29.svg/800px-Intel_logo_%282006%29.svg.png
             url: https://www.intel.com/
             style: "padding: 25px;"
             is_row: true

@@ -5,7 +5,7 @@ $color-blue: #1E77B7;
 $color-orange: #FF8A00;
 
 body {
-	font-size: 16px;
+	font-size: 18px;
 	line-height: 26px;
 	color: #536B76;
 	overflow-x: hidden;
@@ -183,16 +183,13 @@ header {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	&.button--primary, 
-	&.button--primary:link, 
-	&.button--primary:visited
-	&.button--info, 
-	&.button--info:link, 
-	&.button--info:visited {
+	&.button--primary,
+	&.button--info {
 		background: $color-orange;
 		&:hover {
-			color: $color-blue !important;
-			border-color: $color-blue;
+			color: #fff !important;
+			border-color: $color-blue !important;			
+			background: $color-blue !important;
 		}
 	}
 	.fab {
@@ -1339,7 +1336,7 @@ code {
 
 .model-wrap {
 	p {
-		font-size: 16px;
+		font-size: 18px;
 		line-height: 26px;
 		color: #536B76;
 	}
