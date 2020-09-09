@@ -20,23 +20,22 @@ The first time ever, we are releasing 3 licensed German models for healthcare an
 
 The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 
-``` 
-pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
+`pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')`
+`pipeline.annotate('my string')`
 
-pipeline.annotate('my string')
-```
 
 Pipeline descriptions:
 
-```explain_clinical_doc_carp```
+`explain_clinical_doc_carp`
 
 a pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
-```explain_clinical_doc_era```
+`explain_clinical_doc_era`
+
 
 a pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
 
-```recognize_entities_posology```
+`recognize_entities_posology`
 
 a pipeline with ner_posology. It will only extract medication entities.
 
@@ -46,19 +45,19 @@ https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/ma
 ##### Pretrained Named Entity Recognition and Relationship Extraction Models (English)
 
 RE models:
-```
-re_temporal_events_clinical
-re_temporal_events_enriched_clinical
-re_human_phenotype_gene_clinical
-re_drug_drug_interaction_clinical
-re_chemprot_clinical
-```
+
+`re_temporal_events_clinical`
+`re_temporal_events_enriched_clinical`
+`re_human_phenotype_gene_clinical`
+`re_drug_drug_interaction_clinical`
+`re_chemprot_clinical`
+
 NER models:
-```
-ner_human_phenotype_gene_clinical
-ner_human_phenotype_go_clinical
-ner_chemprot_clinical
-```
+
+`ner_human_phenotype_gene_clinical`
+`ner_human_phenotype_go_clinical`
+`ner_chemprot_clinical`
+
 More information and examples here:
 https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
 
