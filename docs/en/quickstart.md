@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Quick Start
+title: Getting started with Spark NLP
 permalink: /docs/en/quickstart
 key: docs-quickstart
 modify_date: "2020-07-23"
