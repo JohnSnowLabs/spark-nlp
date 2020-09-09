@@ -11,10 +11,10 @@ modify_date: "2020-09-07"
 #### Overview
 
 We are honored to announce that Spark NLP Enterprise 2.6.0 has been released.
-The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
+The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases.
 The first time ever, we are releasing 3 licensed German models for healthcare and Legal domains.
 
-### Models
+#### Models
 
 ##### Pretrained Pipelines:
 
