@@ -6,7 +6,7 @@ name: explain_clinical_doc_era_en
 date: 2020-08-19
 tags: [pipeline, en, explain_clinical_doc_era]
 article_header:
-type: cover
+  type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,6 +32,16 @@ annotations = pipeline.annotate(text)
 annotations.keys()
 
 ```
+```scala
+
+
+pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
+
+annotations = pipeline.annotate(text)
+
+annotations.keys()
+
+```
 
 {:.model-param}
 ## Model Parameters
@@ -41,8 +51,8 @@ annotations.keys()
 |Model Name:|explain_clinical_doc_era_en_2.5.5_2.4|
 |Type:|pipeline|
 |Compatibility:|Spark NLP 2.5.5|
+|License:|Licensed|
 |Edition:|Healthcare|
-|License:|Enterprise|
 |Language:|[en]|
 
 {:.h2_title}

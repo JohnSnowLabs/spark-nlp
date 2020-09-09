@@ -16,10 +16,7 @@ Pretrained named entity recognition deep learning model for clinical terms. The 
 
 {:.h2_title}
 ## Included Entities  
-
- - Problem
- - Test
- - Treatment
+Problem, Test, Treatment
 
 
 {:.btn-box}
@@ -70,8 +67,8 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.5.0|
 |Edition:|Healthcare|
-|License:|Enterprise|
-|Spark inputs:|[sentence,token, embeddings]|
+|License:|Licenced|
+|Spark inputs:|[sentence, token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|
 |Case sensitive:|false|

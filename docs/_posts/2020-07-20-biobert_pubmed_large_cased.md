@@ -42,13 +42,13 @@ val embeddings = BertEmbeddings.pretrained("biobert_pubmed_large_cased", "en")
 |Model Name:|biobert_pubmed_large_cased|
 |Type:|embeddings|
 |Compatibility:|Spark NLP 2.5.0|
+|License:|Open Source|
 |Edition:|Official|
 |Spark inputs:|[sentence, token]|
 |Spark outputs:|[word_embeddings]|
 |Language:|[en]|
 |Dimension:|1024|
 |Case sensitive:|true|
-|License:|Open Source|
 
 {:.h2_title}
 ## Source

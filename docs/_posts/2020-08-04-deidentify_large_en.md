@@ -46,13 +46,13 @@ val deid = DeIdentificationModel.pretrained("deidentify_large", "en")
 |Model Name:|deidentify_large|
 |Type:|deid|
 |Compatibility:| Spark NLP JSL2.5.5|
+|License:|Licensed|
 |Edition:|Official|
 |Spark inputs:|sentence, token, ner_chunk|
 |Spark outputs:|obfuscated|
 |Language:|en|
-
 |Case sensitive:|false|
-|License:|Enterprise|
+
 
 {:.h2_title}
 ## Source

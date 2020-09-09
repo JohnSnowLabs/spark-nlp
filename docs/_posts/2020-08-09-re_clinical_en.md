@@ -6,7 +6,7 @@ name: re_clinical_en
 date: 2020-08-09
 tags: [re, en, re_clinical]
 article_header:
-type: cover
+  type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -81,7 +81,7 @@ rel_df = get_relations_df (annotations)
 |Type:|re|
 |Compatibility:|Spark NLP 2.5.5|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[embeddings, pos_tags, ner_chunks, dependencies]|
 |Spark outputs:|[relations]|
 |Language:|[en]|
