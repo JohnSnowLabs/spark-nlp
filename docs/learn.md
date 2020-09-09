@@ -1,7 +1,7 @@
 ---
 layout: article
 title: Learn
-permalink: /videos
+permalink: /learn
 key: videos
 aside:
     toc: true 

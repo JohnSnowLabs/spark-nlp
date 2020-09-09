@@ -14,8 +14,13 @@
     source0=layout.show_edit_on_github source1=include.article.show_edit_on_github -%}
   {%- assign _show_edit_on_github = __return -%}
 
+  {%- assign _show_author = include.article.author -%}
+
   {%- if _show_title or _show_edit_on_github -%}
     <div class="article__header">
+      {%- if _show_author -%}
+      <div class="header-author">{%- include article-info-author.html article=page -%}</div>
+      {%- endif -%}
       {%- if _show_title -%}
         <header><h1>{{ _article_title }}</h1></header>
       {%- endif -%}
