@@ -4,9 +4,12 @@ header:
   - title: Docs
     url: /docs/en/quickstart
     key: docs
-  - title: Videos
-    url: /videos
-    key: videos
+  - title: Learn
+    url: /learn
+    key: learn
+  - title: Models
+    url: /models
+    key: models
   - title: Demo
     url: /demo
   - title: '<span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span>'
