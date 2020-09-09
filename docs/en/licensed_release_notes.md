@@ -6,15 +6,15 @@ key: docs-licensed-release-notes
 modify_date: "2020-09-07"
 ---
 
-#### 2.6.0
+### 2.6.0
 
 #### Overview
 
 We are honored to announce that Spark NLP Enterprise 2.6.0 has been released.
-The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
+The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases.
 The first time ever, we are releasing 3 licensed German models for healthcare and Legal domains.
 
-### Models
+#### Models
 
 ##### Pretrained Pipelines:
 
@@ -90,7 +90,7 @@ Due to ongoing requests about Clinical Entity Resolvers, we release a notebook t
 
 https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.Snomed_Entity_Resolver_Model_Training.ipynb
 
-#### 2.5.5
+### 2.5.5
 
 #### Overview
 
@@ -126,7 +126,7 @@ Models
    - `re_clinical`: with `ner_clinical` and `embeddings_clinical`
    - `re_posology`: with `ner_posology` and `embeddings_clinical`
 
-#### 2.5.3
+### 2.5.3
 
 #### Overview
 
@@ -158,7 +158,7 @@ We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and
 * We have 2 new `spanish` models for Clinical Entity Recognition: `ner_diag_proc` and `ner_neoplasms`
 * We have a new `english` Named Entity Recognition model for deidentification: `ner_deid_enriched`
 
-#### 2.5.2
+### 2.5.2
 
 #### Overview
 
@@ -195,7 +195,7 @@ Thanks to the community for all the feedback and suggestions, it's really comfor
 * ChunkMerge now weights the token coverage correctly when multiple multi-token entities overlap
 
 
-#### 2.5.0
+### 2.5.0
 
 #### Overview
 
