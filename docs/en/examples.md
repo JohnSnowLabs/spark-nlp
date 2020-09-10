@@ -3,31 +3,37 @@ layout: article
 title: Examples
 key: docs-examples
 permalink: /docs/en/examples
-modify_date: "2019-05-16"
+modify_date: "2020-09-01"
 ---
 
 Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.
 
-## Docker setup
-
-If you want to experience Spark NLP and run Jupyter exmaples without installing anything, you can simply use our [Docker image](https://hub.docker.com/r/johnsnowlabs/spark-nlp-workshop):
-
-1- Get the docker image for spark-nlp-workshop:
+## Python Setup
 
 ```bash
-docker pull johnsnowlabs/spark-nlp-workshop
+$ java -version
+# should be Java 8 (Oracle or OpenJDK)
+$ conda create -n sparknlp python=3.6 -y
+$ conda activate sparknlp
+$ pip install spark-nlp pyspark==2.4.4
 ```
 
-2- Run the image locally with port binding.
+## Colab setup
 
-```bash
- docker run -it --rm -p 8888:8888 -p 4040:4040 johnsnowlabs/spark-nlp-workshop
-```
+```python
+import os
 
-3- Open Jupyter notebooks inside your browser by using the token printed on the console.
+# Install java
+! apt-get update -qq
+! apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
 
-```bash
-http://localhost:8888/?token=LOOK_INSIDE_YOUR_CONSOLE
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
+! java -version
+
+# Install pyspark
+! pip install -q pyspark==2.4.6
+! pip install -q spark-nlp
 ```
 
 ## Notebooks

@@ -48,9 +48,9 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
     if ($(customBounds).nonEmpty && $(useCustomBoundsOnly))
       new CustomPragmaticMethod($(customBounds))
     else if ($(customBounds).nonEmpty)
-      new MixedPragmaticMethod($(useAbbrevations), $(customBounds))
+      new MixedPragmaticMethod($(useAbbrevations), $(detectLists), $(customBounds))
     else
-      new DefaultPragmaticMethod($(useAbbrevations))
+      new DefaultPragmaticMethod($(useAbbrevations), $(detectLists))
 
   def tag(document: String): Array[Sentence] = {
     model.extractBounds(

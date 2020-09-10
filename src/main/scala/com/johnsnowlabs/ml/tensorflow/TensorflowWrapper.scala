@@ -160,6 +160,57 @@ class TensorflowWrapper(
     FileHelper.delete(folder)
     t.clearTensors()
   }
+  /*
+  * saveToFileV2 is V2 compatible
+  * */
+  def saveToFileV1V2(file: String, configProtoBytes: Option[Array[Byte]] = None): Unit = {
+    val t = new TensorResources()
+
+    // 1. Create tmp director
+    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
+      .toAbsolutePath.toString
+
+    val variablesFile = Paths.get(folder, "variables").toString
+
+    // 2. Save variables
+    getSession(configProtoBytes).runner.addTarget("save/control_dependency")
+      .feed("save/Const", t.createTensor(variablesFile))
+      .run()
+
+    // 3. Save Graph
+    // val graphDef = graph.toGraphDef
+    val graphFile = Paths.get(folder, "saved_model.pb").toString
+    FileUtils.writeByteArrayToFile(new File(graphFile), graph)
+
+    val tfChkPointsVars = FileUtils.listFilesAndDirs(
+      new File(folder),
+      new WildcardFileFilter("part*"),
+      new WildcardFileFilter("variables*")
+    ).toArray()
+
+    // TF2 Saved Model generate parts for variables on second save
+    // This makes sure they are compatible with V1
+    if(tfChkPointsVars.length > 3){
+      val variablesDir = tfChkPointsVars(1).toString
+      val variablseDataPath = tfChkPointsVars(2).toString
+      val variablesIndexPath = tfChkPointsVars(3).toString
+
+      val varDataPath = Paths.get(folder, "variables.data-00000-of-00001").toString
+      val varInedxPath = Paths.get(folder, "variables.index").toString
+
+      FileUtils.moveFile(new File(variablseDataPath), new File(varDataPath))
+      FileUtils.moveFile(new File(variablesIndexPath), new File(varInedxPath))
+
+      FileHelper.delete(variablesDir)
+    }
+
+    // 4. Zip folder
+    ZipArchiveUtil.zip(folder, file)
+
+    // 5. Remove tmp directory
+    FileHelper.delete(folder)
+    t.clearTensors()
+  }
 
   @throws(classOf[IOException])
   private def writeObject(out: ObjectOutputStream): Unit = {
@@ -210,7 +261,8 @@ object TensorflowWrapper {
     } catch {
       case e: org.tensorflow.TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
         throw new UnsupportedOperationException("Spark NLP tried to load a TensorFlow Graph using Contrib module, but" +
-          " failed to load it on this system. If you are on Windows, this operation is not supported. Please try a noncontrib model." +
+          " failed to load it on this system. If you are on Windows, please follow the correct steps for setup: " +
+          "https://github.com/JohnSnowLabs/spark-nlp/issues/1022" +
           s" If not the case, please report this issue. Original error message:\n\n${e.getMessage}")
     }
     graph
@@ -282,13 +334,17 @@ object TensorflowWrapper {
   }
 
   def readZippedSavedModel(
-                            file: String,
+                            rootDir: String = "",
+                            fileName: String = "",
                             tags: Array[String] = Array.empty[String],
                             initAllTables: Boolean = false
                           ): TensorflowWrapper = {
     val t = new TensorResources()
 
-    val path = ResourceHelper.listResourceDirectory(file).head
+    val listFiles = ResourceHelper.listResourceDirectory(rootDir)
+    val path = if(listFiles.length > 1)
+      s"${listFiles.head.split("/").head}/${fileName}"
+    else listFiles.head
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
 

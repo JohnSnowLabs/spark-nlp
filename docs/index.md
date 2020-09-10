@@ -26,7 +26,7 @@ data:
   sections:
     - title: The most widely used NLP library in the enterprise
       top: yes
-      excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February
+      excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February, 2020
       threeblocks:
         - title: 100% Open Source
           image: 
@@ -59,7 +59,7 @@ data:
         - text: Pipelines
           url: /docs/en/pipelines     
         - text: Models
-          url: /docs/en/models
+          url: /models
       features: true
       # theme: dark
       # background_color: "#123"

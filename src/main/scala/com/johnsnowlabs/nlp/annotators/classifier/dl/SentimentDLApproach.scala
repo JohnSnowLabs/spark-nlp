@@ -87,7 +87,7 @@ class SentimentDLApproach(override val uid: String)
 
     val labelColType = dataset.schema($(labelColumn)).dataType
     require(
-      labelColType != StringType | labelColType != IntegerType | labelColType != DoubleType | labelColType != FloatType,
+      labelColType == StringType | labelColType == IntegerType | labelColType == DoubleType | labelColType == FloatType,
       s"The label column $labelColumn type is $labelColType and it's not compatible. " +
         s"Compatible types are StringType, IntegerType, DoubleType, or FloatType. "
     )
@@ -100,7 +100,7 @@ class SentimentDLApproach(override val uid: String)
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 
     require(
-      labels.length <= 3,
+      labels.length >= 2 && labels.length <= 3,
       s"The total unique number of classes must be maximum 3. Currently is ${labels.length}. Please use ClassifierDL" +
         s" if you have more than 3 classes/labels"
     )

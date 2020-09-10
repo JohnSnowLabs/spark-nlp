@@ -1,44 +1,97 @@
-env:
-  - DOCKER_SPARK_NLP_SCALA="${DOCKER_USERNAME}/spark-nlp-scala-${TRAVIS_BUILD_ID}" JAVA_OPTS="-XX:+UseG1GC"
-
 sudo: required
 
-services:
-  - docker
-
-cache:
-  directories:
-    - $HOME/.spark_nlp.dep.cache
+language: scala
+scala:
+  - 2.11.12
+os:
+  - linux
+jdk:
+  - openjdk8
+env:
+  global:
+    JAVA_OPTS=-Xmx4g
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+    brew update;
+    brew install sbt;
+    fi
 
 jobs:
   include:
-    - stage: Build 2.4
-      install: skip
-      script: 
-        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/DockerfileSpark24 .
-        - docker push "$DOCKER_SPARK_NLP_SCALA"
-    - stage: Test 2.4
-      install: skip
+    - stage: "Spark NLP Build"
+      name: "Apache Spark 2.4"
       language: scala
-      script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt -mem 8192 test
-    - language: python
-      python: "3.6"
       script:
-       - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
-       - docker run spark-nlp-python-3 python3 run-tests.py
-    - stage: Build 2.3
-      install: skip
-      script:
-        - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-        - docker build -t "$DOCKER_SPARK_NLP_SCALA" -f .ci/DockerfileSpark23 .
-        - docker push "$DOCKER_SPARK_NLP_SCALA"
-    - stage: Test 2.3
-      install: skip
+        - sbt ++$TRAVIS_SCALA_VERSION clean
+        - sbt ++$TRAVIS_SCALA_VERSION compile
+        - sbt ++$TRAVIS_SCALA_VERSION assemblyAndCopy
+      workspaces:
+        create:
+          name: sparknlp24
+          paths:
+            - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
+    - name: "Apache Spark 2.3"
       language: scala
-      script: docker run "$DOCKER_SPARK_NLP_SCALA" sbt -mem 8192 -Dis_spark23=true test
-    - language: python
-      python: "3.6"
       script:
-        - docker build --build-arg from="$DOCKER_SPARK_NLP_SCALA" -t spark-nlp-python-3 -f .ci/DockerfilePy3 .
-        - docker run spark-nlp-python-3 python3 run-tests.py
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION clean
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION compile
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION assemblyAndCopy
+      workspaces:
+        create:
+          name: sparknlp23
+          paths:
+            - /home/travis/build/JohnSnowLabs/spark-nlp/python/lib/sparknlp.jar
+
+    - stage: "Spark NLP Test"
+      name: "Scala Tests - Apache Spark 2.4"
+      workspaces:
+        use: sparknlp24
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION test
+    - name: "Python Tests - Apache Spark 2.4"
+      workspaces:
+        use: sparknlp24
+      language: python
+      python:
+         - "3.6"
+         - "3.7"
+         - "pypy3"
+      env:
+        - export PYSPARK_PYTHON=python3.6
+        - export PYSPARK_DRIVER_PYTHON=python3.6
+        - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+      install:
+        - pip install pyspark==2.4.4 numpy
+      script:
+        - cd python; python3 run-tests.py || python run-tests.py;
+
+    - name: "Scala Tests - Apache Spark 2.3"
+      workspaces:
+        use: sparknlp23
+      script:
+        - sbt -Dis_spark23=true ++$TRAVIS_SCALA_VERSION test
+    - name: "Python Tests - Apache Spark 2.3"
+      workspaces:
+        use: sparknlp23
+      language: python
+      python:
+        - "3.6"
+        - "3.7"
+        - "pypy3"
+      env:
+        - export PYSPARK_PYTHON=python3.6
+        - export PYSPARK_DRIVER_PYTHON=python3.6
+        - JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+      install:
+        - pip install pyspark==2.3.4 numpy
+      script:
+        - cd python; python3 run-tests.py || python run-tests.py;
+
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
+    - $HOME/.spark_nlp.dep.cache
+before_cache:
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+  - find $HOME/.sbt -name "*.lock" -delete
