@@ -33,7 +33,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String]): Unit = {
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
       s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
-      val pragmaticApproach = new MixedPragmaticMethod(true, customBounds)
+      val pragmaticApproach = new MixedPragmaticMethod(true, true, customBounds)
       val result = pragmaticApproach.extractBounds(input)
       val diffInResult = result.map(_.content).diff(correctAnswer)
       val diffInCorrect = correctAnswer.diff(result.map(_.content))
@@ -67,7 +67,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
 
   def isolatedPDReadScore(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String]): Unit = {
     s"boundaries prediction" should s"have an F1 score higher than 95%" in {
-      val pragmaticApproach = new MixedPragmaticMethod(true, customBounds)
+      val pragmaticApproach = new MixedPragmaticMethod(true, true, customBounds)
       val result = pragmaticApproach.extractBounds(input).map(_.content)
       val f1 = f1Score(result, correctAnswer)
       val unmatched = result.zip(correctAnswer).toMap.mapValues("\n"+_)

@@ -9,6 +9,8 @@ trait SentenceDetectorParams extends Params {
 
   /** whether to apply abbreviations at sentence detection */
   val useAbbrevations = new BooleanParam(this, "useAbbreviations", "whether to apply abbreviations at sentence detection")
+  /** whether take lists into consideration at sentence detection */
+  val detectLists = new BooleanParam(this, "detectLists", "whether take lists into consideration at sentence detection")
   /** whether to only utilize custom bounds for sentence detection */
   val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
   /** whether to explode each sentence into a different row, for better parallelization. Defaults to false. */
@@ -24,6 +26,7 @@ trait SentenceDetectorParams extends Params {
 
   setDefault(
     useAbbrevations -> true,
+    detectLists -> true,
     useCustomBoundsOnly -> false,
     explodeSentences -> false,
     customBounds -> Array.empty[String],
@@ -47,6 +50,12 @@ trait SentenceDetectorParams extends Params {
 
   /** Whether to consider abbreviation strategies for better accuracy but slower performance. Defaults to true. */
   def getUseAbbreviations: Boolean = $(useAbbrevations)
+
+  /** Whether to take lists into consideration at sentence detection. Defaults to true. */
+  def setDetectLists(value: Boolean): this.type = set(detectLists, value)
+
+  /** Whether to take lists into consideration at sentence detection. Defaults to true. */
+  def getDetectLists: Boolean = $(detectLists)
 
   /** Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false. */
   def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)

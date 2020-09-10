@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TensorflowBert - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert</title>
-          <meta name="description" content="TensorflowBert - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
-          <meta name="keywords" content="TensorflowBert Spark NLP 2.5.5 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
+          <title>TensorflowBert - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert</title>
+          <meta name="description" content="TensorflowBert - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
+          <meta name="keywords" content="TensorflowBert Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -50,8 +50,7 @@
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala</a> for further reference on how to use this API.
-Sources:</p><p>0  : corresponds to first layer (embeddings)</p><p>-1 :  corresponds to last layer</p><p>2  :  second-to-last layer
-</p></div><div class="toggleContainer block">
+Sources:</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -187,18 +186,35 @@ Sources:</p><p>0  : corresponds to first layer (embeddings)</p><p>-1 :  correspo
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#calculateEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="calculateEmbeddings(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],originalTokenSentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],poolingLayer:Int,batchSize:Int,maxSentenceLength:Int,dimension:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]"></a>
-      <a id="calculateEmbeddings(Seq[WordpieceTokenizedSentence],Seq[TokenizedSentence],Int,Int,Int,Int,Boolean):Seq[WordpieceEmbeddingsSentence]"></a>
+      <a id="calculateEmbeddings(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],originalTokenSentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]"></a>
+      <a id="calculateEmbeddings(Seq[WordpieceTokenizedSentence],Seq[TokenizedSentence],Int,Int,Boolean):Seq[WordpieceEmbeddingsSentence]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">calculateEmbeddings</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="originalTokenSentences">originalTokenSentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="poolingLayer">poolingLayer: <span class="extype" name="scala.Int">Int</span></span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="dimension">dimension: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>
+        <span class="name">calculateEmbeddings</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="originalTokenSentences">originalTokenSentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@calculateEmbeddings(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],originalTokenSentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],poolingLayer:Int,batchSize:Int,maxSentenceLength:Int,dimension:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@calculateEmbeddings(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],originalTokenSentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#calculateSentenceEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="calculateSentenceEmbeddings(tokens:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="calculateSentenceEmbeddings(Seq[WordpieceTokenizedSentence],Seq[Sentence],Int,Int,Boolean):Seq[Annotation]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">calculateSentenceEmbeddings</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@calculateSentenceEmbeddings(tokens:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -227,18 +243,18 @@ Sources:</p><p>0  : corresponds to first layer (embeddings)</p><p>-1 :  correspo
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#encode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="encode(sentence:com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence,maxSentenceLength:Int):Array[Int]"></a>
-      <a id="encode(WordpieceTokenizedSentence,Int):Array[Int]"></a>
+      <a id="encode(sentences:Seq[(com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence,Int)],maxSequenceLength:Int):Seq[Array[Int]]"></a>
+      <a id="encode(Seq[(WordpieceTokenizedSentence,Int)],Int):Seq[Array[Int]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">encode</span><span class="params">(<span name="sentence">sentence: <a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+        <span class="name">encode</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>, <span class="extype" name="scala.Int">Int</span>)]</span>, <span name="maxSequenceLength">maxSequenceLength: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@encode(sentence:com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence,maxSentenceLength:Int):Array[Int]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@encode(sentences:Seq[(com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence,Int)],maxSequenceLength:Int):Seq[Array[Int]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -277,23 +293,6 @@ Sources:</p><p>0  : corresponds to first layer (embeddings)</p><p>-1 :  correspo
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#extractPoolingLayer" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="extractPoolingLayer(layer:Int,dimension:Int):String"></a>
-      <a id="extractPoolingLayer(Int,Int):String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">extractPoolingLayer</span><span class="params">(<span name="layer">layer: <span class="extype" name="scala.Int">Int</span></span>, <span name="dimension">dimension: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@extractPoolingLayer(layer:Int,dimension:Int):String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -437,18 +436,35 @@ Sources:</p><p>0  : corresponds to first layer (embeddings)</p><p>-1 :  correspo
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#tag" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="tag(batch:Seq[Array[Int]],embeddingsKey:String,maxSentenceLength:Int):Seq[Array[Array[Float]]]"></a>
-      <a id="tag(Seq[Array[Int]],String,Int):Seq[Array[Array[Float]]]"></a>
+      <a id="tag(batch:Seq[Array[Int]]):Seq[Array[Array[Float]]]"></a>
+      <a id="tag(Seq[Array[Int]]):Seq[Array[Array[Float]]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">tag</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="embeddingsKey">embeddingsKey: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
+        <span class="name">tag</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@tag(batch:Seq[Array[Int]],embeddingsKey:String,maxSentenceLength:Int):Seq[Array[Array[Float]]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@tag(batch:Seq[Array[Int]]):Seq[Array[Array[Float]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#tagSentence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tagSentence(batch:Seq[Array[Int]]):Array[Array[Float]]"></a>
+      <a id="tagSentence(Seq[Array[Int]]):Array[Array[Float]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tagSentence</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@tagSentence(batch:Seq[Array[Int]]):Array[Array[Float]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

@@ -44,13 +44,13 @@ val ner = NerDLModel.pretrained("ner_deid_large", "en")
 |Model Name:|ner_deid_large|
 |Type:|ner|
 |Compatibility:| Spark NLP JSL2.4.2|
+|License:|Licensed|
 |Edition:|Official|
 |Spark inputs:|sentence, token, embeddings|
 |Spark outputs:|ner|
 |Language:|en|
-
 |Case sensitive:|false|
-|License:|Enterprise|
+
 
 {:.h2_title}
 ## Source

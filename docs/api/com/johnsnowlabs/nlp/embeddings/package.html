@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>embeddings - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.nlp.embeddings</title>
-          <meta name="description" content="embeddings - Spark NLP 2.5.5 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
-          <meta name="keywords" content="embeddings Spark NLP 2.5.5 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
+          <title>embeddings - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings</title>
+          <meta name="description" content="embeddings - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
+          <meta name="keywords" content="embeddings Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -114,7 +114,27 @@ the same number of hidden layers as it has to iterate through the same number of
       </a>
     </span>
       <p class="shortcomment cmt">BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture</p><div class="fullcomment"><div class="comment cmt"><p>BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala</a> for further reference on how to use this API.
-Sources:</p><p>0  : corresponds to first layer (embeddings)</p><p>-1 :  corresponds to last layer</p><p>2  :  second-to-last layer</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">https://arxiv.org/abs/1810.04805</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p>We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
+Sources:</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">https://arxiv.org/abs/1810.04805</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p>We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
+BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement).
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BertSentenceEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitiveProperties"></a>
+      <a id="BertSentenceEmbeddings:BertSentenceEmbeddings"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="BertSentenceEmbeddings.html"><span class="name">BertSentenceEmbeddings</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>] with <a href="../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a> with <a href="../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@BertSentenceEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitiveProperties" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture</p><div class="fullcomment"><div class="comment cmt"><p>BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala</a> for further reference on how to use this API.
+Sources:</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">https://arxiv.org/abs/1810.04805</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p>We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
 BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement).
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -210,6 +230,23 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@ReadAlbertTensorflowModelextendsReadTensorflowModelwithReadSentencePieceModel" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadBertSentenceTensorflowModel" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadBertSentenceTensorflowModelextendsReadTensorflowModel"></a>
+      <a id="ReadBertSentenceTensorflowModel:ReadBertSentenceTensorflowModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ReadBertSentenceTensorflowModel.html"><span class="name">ReadBertSentenceTensorflowModel</span></a><span class="result"> extends <a href="../../ml/tensorflow/ReadTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@ReadBertSentenceTensorflowModelextendsReadTensorflowModel" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -312,6 +349,23 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@ReadablePretrainedBertModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.BertEmbeddings]withHasPretrained[com.johnsnowlabs.nlp.embeddings.BertEmbeddings]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedBertSentenceModel" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedBertSentenceModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]withHasPretrained[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]"></a>
+      <a id="ReadablePretrainedBertSentenceModel:ReadablePretrainedBertSentenceModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ReadablePretrainedBertSentenceModel.html"><span class="name">ReadablePretrainedBertSentenceModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@ReadablePretrainedBertSentenceModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]withHasPretrained[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -566,6 +620,23 @@ XLNet-Base    = <a href="https://storage.googleapis.com/xlnet/released_models/ca
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@BertEmbeddings" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BertSentenceEmbeddings"></a>
+      <a id="BertSentenceEmbeddings:BertSentenceEmbeddings"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BertSentenceEmbeddings$.html"><span class="name">BertSentenceEmbeddings</span></a><span class="result"> extends <a href="ReadablePretrainedBertSentenceModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedBertSentenceModel">ReadablePretrainedBertSentenceModel</a> with <a href="ReadBertSentenceTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadBertSentenceTensorflowModel">ReadBertSentenceTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.package@BertSentenceEmbeddings" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

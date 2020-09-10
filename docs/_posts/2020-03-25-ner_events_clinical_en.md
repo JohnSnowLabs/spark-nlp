@@ -15,19 +15,8 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for clinical events. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 {:.h2_title}
-## Included Entities 
- - Date
- - Time
- - Problem
- - Test
- - Treatment
- - Occurence
- - Clinical_Dept
- - Evidential
- - Duration
- - Frequency
- - Admission
- - Discharge
+## Predicted Entities 
+Date,Time,Problem,Test,Treatment,Occurence,Clinical_Dept,Evidential,Duration,Frequency,Admission,Discharge
 
 {:.btn-box}
 [Live Demo](){:.button.button-orange}
@@ -78,7 +67,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.5.0|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence,token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|

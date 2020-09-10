@@ -10,7 +10,7 @@ use_language_switcher: "Python-Scala"
 
 ## Concepts
 
-Spark ML provides a set of Machine Learning applications, and it's logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library for more information.
+Spark ML provides a set of Machine Learning applications, and its logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library for more information.
 
 ## Annotation
 
@@ -47,25 +47,25 @@ The easiest way to run the python examples is by starting a pyspark
 jupyter notebook including the spark-nlp package:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.5`
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.0`
 
 **NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
 
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.5`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.5.5`
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.0`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.6.0`
 
 ### Explain Document ML
 

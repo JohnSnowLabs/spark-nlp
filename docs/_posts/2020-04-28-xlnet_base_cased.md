@@ -42,13 +42,13 @@ val embeddings = XlnetEmbeddings.pretrained("xlnet_base_cased", "en")
 |Model Name:|xlnet_base_cased|
 |Type:|embeddings|
 |Compatibility:|Spark NLP 2.5.0|
+|License:|Open Source|
 |Edition:|Official|
 |Spark inputs:|[sentence, token]|
 |Spark outputs:|[word_embeddings]|
 |Language:|[en]|
 |Dimension:|768|
 |Case sensitive:|true|
-|License:|Open Source|
 
 {:.h2_title}
 ## Source

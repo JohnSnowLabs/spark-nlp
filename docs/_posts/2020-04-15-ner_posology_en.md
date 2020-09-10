@@ -15,15 +15,8 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for posology. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 {:.h2_title}
-## Included Entities 
-
- - Dosage
- - Drug
- - Duration
- - Form
- - Frequency
- - Route
- - Strength
+## Predicted Entities 
+Dosage,Drug,Duration,Form,Frequency,Route,Strength
 
 {:.btn-box}
 [Live Demo](){:.button.button-orange}
@@ -75,7 +68,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.2|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence,token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|

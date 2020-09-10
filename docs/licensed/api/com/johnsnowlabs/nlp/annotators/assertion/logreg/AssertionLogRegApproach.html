@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>AssertionLogRegApproach - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach</title>
-          <meta name="description" content="AssertionLogRegApproach - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
-          <meta name="keywords" content="AssertionLogRegApproach Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
+          <title>AssertionLogRegApproach - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach</title>
+          <meta name="description" content="AssertionLogRegApproach - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
+          <meta name="keywords" content="AssertionLogRegApproach Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,7 +51,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is a classification method, which uses LogisticRegression algorithm
+Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a>, <a href="Windowing.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing">Windowing</a>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="AssertionLogRegModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="AssertionLogRegModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -107,7 +109,7 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach"></a>
       <a id="&lt;init&gt;:AssertionLogRegApproach"></a>
       <h4 class="signature">
@@ -123,7 +125,7 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instanced AssertionDLApproach</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1963,7 +1965,10 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → AnnotatorApproach</dd></dl></div>
+      <p class="shortcomment cmt">This is a main point of interest of this class.</p><div class="fullcomment"><div class="comment cmt"><p>This is a main point of interest of this class. It trains the dataset with recursive pipeline and uses
+methods trainWithChunk() and trainwithStartEnd()
+The choice of training happens based on the startCol value of the DL Approach
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>a collection of inputs to train</p></dd><dt class="param">recursivePipeline</dt><dd class="cmt"><p>an instance of PipelineModel</p></dd><dt>returns</dt><dd class="cmt"><p>an instance of trained AssertionLogRegModel</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → AnnotatorApproach</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#transformSchema" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a>
       <a id="transformSchema(StructType):StructType"></a>
@@ -2017,7 +2022,7 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → Identifiable</dd></dl></div>
+      <p class="shortcomment cmt">a unique identifier for the instanced AssertionDLApproach</p><div class="fullcomment"><div class="comment cmt"><p>a unique identifier for the instanced AssertionDLApproach</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → Identifiable</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="validate(StructType):Boolean"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DisambiguatorModelParams - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams</title>
-          <meta name="description" content="DisambiguatorModelParams - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams" />
-          <meta name="keywords" content="DisambiguatorModelParams Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams" />
+          <title>DisambiguatorModelParams - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams</title>
+          <meta name="description" content="DisambiguatorModelParams - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams" />
+          <meta name="keywords" content="DisambiguatorModelParams Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -45,16 +45,16 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">DisambiguatorModelParams</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>
+        <span class="name">DisambiguatorModelParams</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../NerDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>, <a href="../models/NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.models.NerDisambiguatorModel">NerDisambiguatorModel</a></div>
+            <div class="subClasses hiddenContent"><a href="../NerDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>, <a href="../NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a></div>
           </div></div>
         
 
@@ -72,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams"><span>DisambiguatorModelParams</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams"><span>DisambiguatorModelParams</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -185,6 +185,74 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):T"></a>
+      <a id="$$[T](StructFeature[T]):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@$$[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):T" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Map[K,V]"></a>
+      <a id="$$[K,V](MapFeature[K,V]):Map[K,V]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.V">V</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@$$[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Map[K,V]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Set[T]"></a>
+      <a id="$$[T](SetFeature[T]):Set[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@$$[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Set[T]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Array[T]"></a>
+      <a id="$$[T](ArrayFeature[T]):Array[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@$$[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Array[T]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
     </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a>
       <a id="==(Any):Boolean"></a>
@@ -412,6 +480,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#features" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]"></a>
+      <a id="features:ArrayBuffer[Feature[_,_,_]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">features</span><span class="result">: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<span class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</span>[_, _, _]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -435,6 +520,74 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]"></a>
+      <a id="get[T](StructFeature[T]):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]"></a>
+      <a id="get[K,V](MapFeature[K,V]):Option[Map[K,V]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Option[Set[T]]"></a>
+      <a id="get[T](SetFeature[T]):Option[Set[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@get[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Option[Set[T]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Option[Array[T]]"></a>
+      <a id="get[T](ArrayFeature[T]):Option[Array[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@get[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Option[Array[T]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="get[T](Param[T]):Option[T]"></a>
@@ -741,6 +894,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#knowledgeBaseStructure" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="knowledgeBaseStructure:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge]"></a>
+      <a id="knowledgeBaseStructure:StructFeature[Knowledge]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">knowledgeBaseStructure</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<a href="../logic/Knowledge.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge">Knowledge</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@knowledgeBaseStructure:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#levenshteinDistanceThresholdParam" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="levenshteinDistanceThresholdParam:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="levenshteinDistanceThresholdParam:DoubleParam"></a>
@@ -894,6 +1064,74 @@
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type"></a>
+      <a id="set[T](StructFeature[T],T):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type"></a>
+      <a id="set[K,V](MapFeature[K,V],Map[K,V]):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type"></a>
+      <a id="set[T](SetFeature[T],Set[T]):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type"></a>
+      <a id="set[T](ArrayFeature[T],Array[T]):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type"></a>
       <a id="set(ParamPair[_]):DisambiguatorModelParams.this.type"></a>
@@ -945,6 +1183,74 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a>
+      <a id="setDefault[T](StructFeature[T],()⇒T):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type"></a>
+      <a id="setDefault[K,V](MapFeature[K,V],()⇒Map[K,V]):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type"></a>
+      <a id="setDefault[T](SetFeature[T],()⇒Set[T]):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type"></a>
+      <a id="setDefault[T](ArrayFeature[T],()⇒Array[T]):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):DisambiguatorModelParams.this.type"></a>
@@ -992,6 +1298,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@setEmbeddingType(v:String):DisambiguatorModelParams.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setKnowledgeBaseStructure" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setKnowledgeBaseStructure(kb:com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge):DisambiguatorModelParams.this.type"></a>
+      <a id="setKnowledgeBaseStructure(Knowledge):DisambiguatorModelParams.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setKnowledgeBaseStructure</span><span class="params">(<span name="kb">kb: <a href="../logic/Knowledge.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge">Knowledge</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams@setKnowledgeBaseStructure(kb:com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge):DisambiguatorModelParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1227,7 +1550,9 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="org.apache.spark.ml.param.Params">
+        <div class="parent" name="com.johnsnowlabs.nlp.HasFeatures">
+              <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span></h3>
+            </div><div class="parent" name="org.apache.spark.ml.param.Params">
               <h3>Inherited from <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></h3>
             </div><div class="parent" name="scala.Serializable">
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>

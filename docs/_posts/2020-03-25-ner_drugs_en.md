@@ -68,7 +68,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.4|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence,token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|

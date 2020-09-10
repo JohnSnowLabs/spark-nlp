@@ -46,13 +46,14 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")
 |Model Name:|tfhub_use_lg|
 |Type:|embeddings|
 |Compatibility:|Spark NLP 2.4.0|
+|License:|Open Source|
 |Edition:|Official|
 |Spark inputs:|[sentence]|
 |Spark outputs:|[sentence_embeddings]|
 |Language:|[en]|
 |Dimension:|512|
 |Case sensitive:|true|
-|License:|Open Source|
+
 
 {:.h2_title}
 ## Source

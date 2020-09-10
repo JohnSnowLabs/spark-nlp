@@ -40,6 +40,7 @@ pipeline = PretrainedPipeline('explain_document_dl', lang =' en').annotate(' Hel
 |Model Name:|explain_document_dl|
 |Type:|pipeline|
 |Compatibility:|Spark NLP 2.5.5|
+|License:|Open Source|
 |Edition:|Community|
 |Language:|[en]|
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ChunkEntityResolverModel - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel</title>
-          <meta name="description" content="ChunkEntityResolverModel - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
-          <meta name="keywords" content="ChunkEntityResolverModel Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
+          <title>ChunkEntityResolverModel - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel</title>
+          <meta name="description" content="ChunkEntityResolverModel - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
+          <meta name="keywords" content="ChunkEntityResolverModel Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,7 +47,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">ChunkEntityResolverModel</span><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>] with <span class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</span> with <span class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</span> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <span class="name">ChunkEntityResolverModel</span><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>] with <a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</span> with <span class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       </h4>
       
@@ -56,7 +56,7 @@ of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddin
 and return the Normalized Entity for a particular trained ontology / curated dataset.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a>, <span class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</span>, <span class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</span>, <span class="extype" name="com.johnsnowlabs.storage.HasExcludableStorage">HasExcludableStorage</span>, <span class="extype" name="com.johnsnowlabs.storage.HasStorageReader">HasStorageReader</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span>, <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a>, <span class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</span>, <span class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</span>, <span class="extype" name="com.johnsnowlabs.storage.HasExcludableStorage">HasExcludableStorage</span>, <span class="extype" name="com.johnsnowlabs.storage.HasStorageReader">HasStorageReader</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span>, <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span>, <a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -74,7 +74,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel"><span>ChunkEntityResolverModel</span></li><li class="in" name="com.johnsnowlabs.license.Licensed"><span>Licensed</span></li><li class="in" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties"><span>HasEmbeddingsProperties</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageModel"><span>HasStorageModel</span></li><li class="in" name="com.johnsnowlabs.storage.HasExcludableStorage"><span>HasExcludableStorage</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageReader"><span>HasStorageReader</span></li><li class="in" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties"><span>HasCaseSensitiveProperties</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageRef"><span>HasStorageRef</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel"><span>ChunkEntityResolverModel</span></li><li class="in" name="com.johnsnowlabs.license.Licensed"><span>Licensed</span></li><li class="in" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties"><span>HasEmbeddingsProperties</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageModel"><span>HasStorageModel</span></li><li class="in" name="com.johnsnowlabs.storage.HasExcludableStorage"><span>HasExcludableStorage</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageReader"><span>HasStorageReader</span></li><li class="in" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties"><span>HasCaseSensitiveProperties</span></li><li class="in" name="com.johnsnowlabs.storage.HasStorageRef"><span>HasStorageRef</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams"><span>ResolverParams</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -343,7 +343,24 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AnnotatorModel</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#alternatives" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#allDistancesMetadata" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="allDistancesMetadata:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="allDistancesMetadata:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">allDistancesMetadata</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@allDistancesMetadata:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">whether or not to return an all distance values in the metadata.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to return an all distance values in the metadata. Default: False</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#alternatives" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="alternatives:org.apache.spark.ml.param.IntParam"></a>
       <a id="alternatives:IntParam"></a>
       <h4 class="signature">
@@ -359,7 +376,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">number of results to return in the metadata after sorting by last distance calculated</p>
+      <p class="shortcomment cmt">number of results to return in the metadata after sorting by last distance calculated</p><div class="fullcomment"><div class="comment cmt"><p>number of results to return in the metadata after sorting by last distance calculated</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#annotate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
       <a id="annotate(Seq[Annotation]):Seq[Annotation]"></a>
@@ -389,11 +406,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         all_k_jaro_distances -&gt; Respective JaroWinkler distance values
         all_k_levenshtein_distances -&gt; Respective Levenshtein distance values
         all_k_confidences -&gt; Respective normalized probabilities based in inverse distance values
-        all_k_confidence_ratios -&gt; Convenience indicator calculated as the ratio between the i_th and the (i+1)_th probability
         target_text -&gt; The actual searched string
         resolved_text -&gt; The top ResolverNormalized string
         confidence -&gt; Top probability
-        confidence_ratio -&gt; Top confidence ratio
         distance -&gt; Top distance value
         sentence -&gt; Sentence index
         chunk -&gt; Chunk Index
@@ -450,7 +465,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasCaseSensitiveProperties</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
+      <a id="checkSchema(schema:&lt;?&gt;,inputAnnotatorType:&lt;?&gt;):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -506,6 +521,23 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#confidenceFunction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="confidenceFunction:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="confidenceFunction:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">confidenceFunction</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@confidenceFunction:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">what function to use to calculate confidence: INVERSE or SOFTMAX</p><div class="fullcomment"><div class="comment cmt"><p>what function to use to calculate confidence: INVERSE or SOFTMAX</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#copy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):M"></a>
       <a id="copy(ParamMap):ChunkEntityResolverModel"></a>
@@ -541,7 +573,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#createDatabaseConnection" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="createDatabaseConnection(database:&lt;?&gt;):com.johnsnowlabs.storage.RocksDBConnection"></a>
+      <a id="createDatabaseConnection(database:com.johnsnowlabs.storage.Database.Name):com.johnsnowlabs.storage.RocksDBConnection"></a>
       <a id="createDatabaseConnection(Name):RocksDBConnection"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -661,7 +693,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasEmbeddingsProperties</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#distanceFunction" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#distanceFunction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="distanceFunction:org.apache.spark.ml.param.Param[String]"></a>
       <a id="distanceFunction:Param[String]"></a>
       <h4 class="signature">
@@ -677,8 +709,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#distanceWeights" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'</p><div class="fullcomment"><div class="comment cmt"><p>what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#distanceWeights" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="distanceWeights:org.apache.spark.ml.param.DoubleArrayParam"></a>
       <a id="distanceWeights:DoubleArrayParam"></a>
       <h4 class="signature">
@@ -694,8 +726,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">distance weights to apply before pooling: [WMD, TFIDF, Jaccard, SorensenDice, JaroWinkler, Levenshtein]</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#enableJaccard" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">distance weights to apply before pooling: [WMD, TFIDF, Jaccard, SorensenDice, JaroWinkler, Levenshtein]</p><div class="fullcomment"><div class="comment cmt"><p>distance weights to apply before pooling: [WMD, TFIDF, Jaccard, SorensenDice, JaroWinkler, Levenshtein]</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#enableJaccard" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableJaccard:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableJaccard:BooleanParam"></a>
       <h4 class="signature">
@@ -711,8 +743,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to use Jaccard token distance</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#enableJaroWinkler" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">whether or not to use Jaccard token distance.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to use Jaccard token distance. Default: True</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#enableJaroWinkler" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableJaroWinkler:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableJaroWinkler:BooleanParam"></a>
       <h4 class="signature">
@@ -728,8 +760,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to use Jaro-Winkler character distance</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#enableLevenshtein" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">whether or not to use Jaro-Winkler character distance.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to use Jaro-Winkler character distance. Default: False</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#enableLevenshtein" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableLevenshtein:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableLevenshtein:BooleanParam"></a>
       <h4 class="signature">
@@ -745,8 +777,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to use Levenshtein character distance</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#enableSorensenDice" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">whether or not to use Levenshtein character distance.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to use Levenshtein character distance. Default: False</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#enableSorensenDice" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableSorensenDice:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableSorensenDice:BooleanParam"></a>
       <h4 class="signature">
@@ -762,8 +794,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to use Sorensen-Dice token distance</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#enableTfidf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">whether or not to use Sorensen-Dice token distance.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to use Sorensen-Dice token distance. Default: False</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#enableTfidf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableTfidf:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableTfidf:BooleanParam"></a>
       <h4 class="signature">
@@ -779,8 +811,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to use TFIDF token distance</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#enableWmd" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">whether or not to use TFIDF token distance.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to use TFIDF token distance. Default: True</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#enableWmd" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableWmd:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="enableWmd:BooleanParam"></a>
       <h4 class="signature">
@@ -796,7 +828,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to use WMD token distance</p>
+      <p class="shortcomment cmt">whether or not to use WMD token distance.</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to use WMD token distance. Default: True</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -866,7 +898,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#extraValidate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean"></a>
+      <a id="extraValidate(structType:&lt;?&gt;):Boolean"></a>
       <a id="extraValidate(StructType):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -933,7 +965,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#extramassPenalty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#extramassPenalty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extramassPenalty:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="extramassPenalty:DoubleParam"></a>
       <h4 class="signature">
@@ -949,7 +981,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">penalty for extra words in the knowledge base match during WMD calculation</p>
+      <p class="shortcomment cmt">penalty for extra words in the knowledge base match during WMD calculation</p><div class="fullcomment"><div class="comment cmt"><p>penalty for extra words in the knowledge base match during WMD calculation</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#features" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]"></a>
       <a id="features:ArrayBuffer[Feature[_,_,_]]"></a>
@@ -1075,7 +1107,24 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getAlternatives" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getAllDistancesMetadata" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getAllDistancesMetadata:Boolean"></a>
+      <a id="getAllDistancesMetadata:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAllDistancesMetadata</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@getAllDistancesMetadata:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getAlternatives" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getAlternatives:Int"></a>
       <a id="getAlternatives:Int"></a>
       <h4 class="signature">
@@ -1091,7 +1140,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getCaseSensitive:Boolean"></a>
       <a id="getCaseSensitive:Boolean"></a>
@@ -1126,6 +1175,23 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getConfidenceFunction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getConfidenceFunction:String"></a>
+      <a id="getConfidenceFunction:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getConfidenceFunction</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@getConfidenceFunction:String" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="getDefault[T](Param[T]):Option[T]"></a>
@@ -1160,7 +1226,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasEmbeddingsProperties</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getDistanceFunction" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getDistanceFunction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDistanceFunction:String"></a>
       <a id="getDistanceFunction:String"></a>
       <h4 class="signature">
@@ -1176,8 +1242,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getDistanceWeights" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getDistanceWeights" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDistanceWeights:Array[Double]"></a>
       <a id="getDistanceWeights:Array[Double]"></a>
       <h4 class="signature">
@@ -1193,8 +1259,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getEnableJaccard" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getEnableJaccard" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableJaccard:Boolean"></a>
       <a id="getEnableJaccard:Boolean"></a>
       <h4 class="signature">
@@ -1210,8 +1276,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getEnableJaroWinkler" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getEnableJaroWinkler" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableJaroWinkler:Boolean"></a>
       <a id="getEnableJaroWinkler:Boolean"></a>
       <h4 class="signature">
@@ -1227,8 +1293,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getEnableLevenshtein" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getEnableLevenshtein" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableLevenshtein:Boolean"></a>
       <a id="getEnableLevenshtein:Boolean"></a>
       <h4 class="signature">
@@ -1244,8 +1310,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getEnableSorensenDice" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getEnableSorensenDice" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableSorensenDice:Boolean"></a>
       <a id="getEnableSorensenDice:Boolean"></a>
       <h4 class="signature">
@@ -1261,8 +1327,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getEnableTfidf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getEnableTfidf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableTfidf:Boolean"></a>
       <a id="getEnableTfidf:Boolean"></a>
       <h4 class="signature">
@@ -1278,8 +1344,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getEnableWmd" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getEnableWmd" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableWmd:Boolean"></a>
       <a id="getEnableWmd:Boolean"></a>
       <h4 class="signature">
@@ -1295,8 +1361,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getExtramassPenalty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getExtramassPenalty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getExtramassPenalty:Double"></a>
       <a id="getExtramassPenalty:Double"></a>
       <h4 class="signature">
@@ -1312,7 +1378,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasExcludableStorage#getIncludeStorage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getIncludeStorage:Boolean"></a>
       <a id="getIncludeStorage:Boolean"></a>
@@ -1364,7 +1430,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getMissAsEmpty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getMissAsEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getMissAsEmpty:Boolean"></a>
       <a id="getMissAsEmpty:Boolean"></a>
       <h4 class="signature">
@@ -1380,8 +1446,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getNeighbours" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getNeighbours" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getNeighbours:Int"></a>
       <a id="getNeighbours:Int"></a>
       <h4 class="signature">
@@ -1397,7 +1463,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a>
       <a id="getOrDefault[T](Param[T]):T"></a>
@@ -1449,7 +1515,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getPoolingStrategy" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getPoolingStrategy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getPoolingStrategy:String"></a>
       <a id="getPoolingStrategy:String"></a>
       <h4 class="signature">
@@ -1465,7 +1531,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageReader#getReader" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getReader[A](database:com.johnsnowlabs.storage.Database.Name):com.johnsnowlabs.storage.StorageReader[A]"></a>
       <a id="getReader[A](Name):StorageReader[A]"></a>
@@ -1534,7 +1600,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#getThreshold" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getThreshold:Double"></a>
       <a id="getThreshold:Double"></a>
       <h4 class="signature">
@@ -1550,7 +1616,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1993,7 +2059,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#missAsEmpty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#missAsEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="missAsEmpty:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="missAsEmpty:BooleanParam"></a>
       <h4 class="signature">
@@ -2009,9 +2075,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">whether or not to return an empty annotation on unmatched chunks</p>
+      <p class="shortcomment cmt">whether or not to return an empty annotation on unmatched chunks</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to return an empty annotation on unmatched chunks</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
+      <a id="msgHelper(schema:&lt;?&gt;):String"></a>
       <a id="msgHelper(StructType):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2044,7 +2110,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#neighbours" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#neighbours" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="neighbours:org.apache.spark.ml.param.IntParam"></a>
       <a id="neighbours:IntParam"></a>
       <h4 class="signature">
@@ -2060,7 +2126,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">number of neighbours to consider in the KNN query to calculate WMD</p>
+      <p class="shortcomment cmt">number of neighbours to consider in the KNN query to calculate WMD</p><div class="fullcomment"><div class="comment cmt"><p>number of neighbours to consider in the KNN query to calculate WMD</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -2180,7 +2246,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#poolingStrategy" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#poolingStrategy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="poolingStrategy:org.apache.spark.ml.param.Param[String]"></a>
       <a id="poolingStrategy:Param[String]"></a>
       <h4 class="signature">
@@ -2196,7 +2262,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">pooling strategy to aggregate distances: AVERAGE or SUM</p>
+      <p class="shortcomment cmt">pooling strategy to aggregate distances: AVERAGE or SUM</p><div class="fullcomment"><div class="comment cmt"><p>pooling strategy to aggregate distances: AVERAGE or SUM</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageReader#readers" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="readers:scala.collection.mutable.Map[com.johnsnowlabs.storage.Database.Name,com.johnsnowlabs.storage.StorageReader[_]]"></a>
       <a id="readers:Map[Name,StorageReader[_]]"></a>
@@ -2412,8 +2478,25 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setAlternatives" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setAlternatives(a:Int):ChunkEntityResolverModel.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setAllDistancesMetadata" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setAllDistancesMetadata(v:Boolean):ResolverParams.this.type"></a>
+      <a id="setAllDistancesMetadata(Boolean):ChunkEntityResolverModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAllDistancesMetadata</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setAllDistancesMetadata(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setAlternatives" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setAlternatives(a:Int):ResolverParams.this.type"></a>
       <a id="setAlternatives(Int):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2424,13 +2507,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setAlternatives</span><span class="params">(<span name="a">a: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setAlternatives(a:Int):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setAlternatives(a:Int):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setCaseSensitive(value:&lt;?&gt;):HasCaseSensitiveProperties.this.type"></a>
+      <a id="setCaseSensitive(value:Boolean):HasCaseSensitiveProperties.this.type"></a>
       <a id="setCaseSensitive(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2446,6 +2529,23 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasCaseSensitiveProperties</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setConfidenceFunction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setConfidenceFunction(v:String):ResolverParams.this.type"></a>
+      <a id="setConfidenceFunction(String):ChunkEntityResolverModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setConfidenceFunction</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setConfidenceFunction(v:String):ResolverParams.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a>
       <a id="setDefault[T](StructFeature[T],()⇒T):ChunkEntityResolverModel.this.type"></a>
@@ -2565,8 +2665,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasEmbeddingsProperties</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setDistanceFunction" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setDistanceFunction(value:String):ChunkEntityResolverModel.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setDistanceFunction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDistanceFunction(value:String):ResolverParams.this.type"></a>
       <a id="setDistanceFunction(String):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2577,13 +2677,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setDistanceFunction</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setDistanceFunction(value:String):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setDistanceFunction(value:String):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setDistanceWeights" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setDistanceWeights(v:Array[Double]):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setDistanceWeights" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDistanceWeights(v:Array[Double]):ResolverParams.this.type"></a>
       <a id="setDistanceWeights(Array[Double]):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2594,13 +2694,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setDistanceWeights</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setDistanceWeights(v:Array[Double]):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setDistanceWeights(v:Array[Double]):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setEnableJaccard" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEnableJaccard(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setEnableJaccard" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnableJaccard(v:Boolean):ResolverParams.this.type"></a>
       <a id="setEnableJaccard(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2611,13 +2711,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setEnableJaccard</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableJaccard(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableJaccard(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setEnableJaroWinkler" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEnableJaroWinkler(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setEnableJaroWinkler" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnableJaroWinkler(v:Boolean):ResolverParams.this.type"></a>
       <a id="setEnableJaroWinkler(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2628,13 +2728,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setEnableJaroWinkler</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableJaroWinkler(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableJaroWinkler(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setEnableLevenshtein" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEnableLevenshtein(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setEnableLevenshtein" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnableLevenshtein(v:Boolean):ResolverParams.this.type"></a>
       <a id="setEnableLevenshtein(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2645,13 +2745,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setEnableLevenshtein</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableLevenshtein(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableLevenshtein(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setEnableSorensenDice" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEnableSorensenDice(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setEnableSorensenDice" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnableSorensenDice(v:Boolean):ResolverParams.this.type"></a>
       <a id="setEnableSorensenDice(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2662,13 +2762,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setEnableSorensenDice</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableSorensenDice(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableSorensenDice(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setEnableTfidf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEnableTfidf(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setEnableTfidf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnableTfidf(v:Boolean):ResolverParams.this.type"></a>
       <a id="setEnableTfidf(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2679,13 +2779,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setEnableTfidf</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableTfidf(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableTfidf(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setEnableWmd" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setEnableWmd(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setEnableWmd" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnableWmd(v:Boolean):ResolverParams.this.type"></a>
       <a id="setEnableWmd(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2696,13 +2796,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setEnableWmd</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableWmd(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setEnableWmd(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setExtramassPenalty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setExtramassPenalty(emp:Double):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setExtramassPenalty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setExtramassPenalty(emp:Double):ResolverParams.this.type"></a>
       <a id="setExtramassPenalty(Double):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2713,11 +2813,11 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setExtramassPenalty</span><span class="params">(<span name="emp">emp: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setExtramassPenalty(emp:Double):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setExtramassPenalty(emp:Double):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasExcludableStorage#setIncludeStorage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setIncludeStorage(value:&lt;?&gt;):HasExcludableStorage.this.type"></a>
       <a id="setIncludeStorage(Boolean):ChunkEntityResolverModel.this.type"></a>
@@ -2770,7 +2870,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a>
+      <a id="setLazyAnnotator(value:&lt;?&gt;):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a>
       <a id="setLazyAnnotator(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2786,8 +2886,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setMissAsEmpty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setMissAsEmpty(v:Boolean):ChunkEntityResolverModel.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setMissAsEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setMissAsEmpty(v:Boolean):ResolverParams.this.type"></a>
       <a id="setMissAsEmpty(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2798,13 +2898,13 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setMissAsEmpty</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setMissAsEmpty(v:Boolean):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setMissAsEmpty(v:Boolean):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setNeighbours" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setNeighbours(k:Int):ChunkEntityResolverModel.this.type"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setNeighbours" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setNeighbours(k:Int):ResolverParams.this.type"></a>
       <a id="setNeighbours(Int):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2815,11 +2915,11 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setNeighbours</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setNeighbours(k:Int):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setNeighbours(k:Int):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):ChunkEntityResolverModel.this.type"></a>
@@ -2838,7 +2938,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
     </li><li name="org.apache.spark.ml.Model#setParent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setParent(parent:org.apache.spark.ml.Estimator[M]):M"></a>
+      <a id="setParent(parent:&lt;?&gt;):M"></a>
       <a id="setParent(Estimator[ChunkEntityResolverModel]):ChunkEntityResolverModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2854,8 +2954,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setPoolingStrategy" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setPoolingStrategy(value:String):ChunkEntityResolverModel.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setPoolingStrategy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setPoolingStrategy(value:String):ResolverParams.this.type"></a>
       <a id="setPoolingStrategy(String):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2866,11 +2966,11 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setPoolingStrategy</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setPoolingStrategy(value:String):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setPoolingStrategy(value:String):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setSearchTree" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setSearchTree(tree:com.johnsnowlabs.ml.search.SerializableKDTree[com.johnsnowlabs.nlp.annotators.resolution.TreeData]):ChunkEntityResolverModel.this.type"></a>
       <a id="setSearchTree(SerializableKDTree[TreeData]):ChunkEntityResolverModel.this.type"></a>
@@ -2922,8 +3022,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#setThreshold" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setThreshold(dist:Double):ChunkEntityResolverModel.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setThreshold(dist:Double):ResolverParams.this.type"></a>
       <a id="setThreshold(Double):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2934,11 +3034,11 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setThreshold</span><span class="params">(<span name="dist">dist: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>.this.type</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setThreshold(dist:Double):ChunkEntityResolverModel.this.type" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel@setThreshold(dist:Double):ResolverParams.this.type" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="storageRef:org.apache.spark.ml.param.Param[String]"></a>
       <a id="storageRef:Param[String]"></a>
@@ -2990,7 +3090,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </a>
     </span>
       <p class="shortcomment cmt">Inverted Document Frequency of the term.</p><div class="fullcomment"><div class="comment cmt"><p>Inverted Document Frequency of the term. Used in the TF-IDF method</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel#threshold" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#threshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="threshold:org.apache.spark.ml.param.DoubleParam"></a>
       <a id="threshold:DoubleParam"></a>
       <h4 class="signature">
@@ -3006,7 +3106,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">threshold value for the aggregated distance</p>
+      <p class="shortcomment cmt">threshold value for the aggregated distance</p><div class="fullcomment"><div class="comment cmt"><p>threshold value for the aggregated distance</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -3337,6 +3437,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span></h3>
             </div><div class="parent" name="com.johnsnowlabs.storage.HasStorageRef">
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">
+              <h3>Inherited from <a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.AnnotatorModel">
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.CanBeLazy">

@@ -15,12 +15,8 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for molecular biology related terms. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 {:.h2_title}
-## Included Entities 
- - DNA
- - Cell_type
- - Cell_line
- - RNA
- - Protein
+## Predicted Entities 
+DNA, Cell_type, Cell_line, RNA, Protein
 
 {:.btn-box}
 [Live Demo](){:.button.button-orange}
@@ -72,7 +68,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.2|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence,token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|

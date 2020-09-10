@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>AssertionDatasetEncoder - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder</title>
-          <meta name="description" content="AssertionDatasetEncoder - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder" />
-          <meta name="keywords" content="AssertionDatasetEncoder Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder" />
+          <title>AssertionDatasetEncoder - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder</title>
+          <meta name="description" content="AssertionDatasetEncoder - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder" />
+          <meta name="keywords" content="AssertionDatasetEncoder Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,7 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class contains methods for working with assertion dataset, such as split, normalise, decode
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -198,7 +199,11 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt">This method normalizes the input sentence by centering it around the target
+This method should apply only if the target sentence is outside the max sentence length
+</p><div class="fullcomment"><div class="comment cmt"><p>This method normalizes the input sentence by centering it around the target
+This method should apply only if the target sentence is outside the max sentence length
+</p></div><dl class="paramcmts block"><dt class="param">maxSentLen</dt><dd class="cmt"><p>an array of sentences to encode</p></dd><dt class="param">sentence</dt><dd class="cmt"><p>a candidate sentence to center for</p></dd><dt class="param">start</dt><dd class="cmt"><p>a start index</p></dd><dt class="param">end</dt><dd class="cmt"><p>an end index</p></dd><dt>returns</dt><dd class="cmt"><p>a triplet, which contains embedding sentence, begin and end indexes</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -222,7 +227,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#decodeOutputData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#decodeOutputData" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="decodeOutputData(tagIds:Array[Int]):Array[String]"></a>
       <a id="decodeOutputData(Array[Int]):Array[String]"></a>
       <h4 class="signature">
@@ -238,8 +243,10 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#encodeInputData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This method decodes array on Int
+</p><div class="fullcomment"><div class="comment cmt"><p>This method decodes array on Int
+</p></div><dl class="paramcmts block"><dt class="param">tagIds</dt><dd class="cmt"><p>an Array of Int, to decode for</p></dd><dt>returns</dt><dd class="cmt"><p>an Array of String, which represents decoded instances</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#encodeInputData" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="encodeInputData(sentences:Array[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence],start:Array[Int],end:Array[Int],embeddingsDim:Int,maxSentenceLength:Int):com.johnsnowlabs.ml.tensorflow.AssertionBatch"></a>
       <a id="encodeInputData(Array[WordpieceEmbeddingsSentence],Array[Int],Array[Int],Int,Int):AssertionBatch"></a>
       <h4 class="signature">
@@ -255,8 +262,12 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#encodeOneHot" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This method encodes the sentences using the embeddings dimensionality, start and end index
+At this point the graph does not support feeding a dynamic maxSentenceLength
+</p><div class="fullcomment"><div class="comment cmt"><p>This method encodes the sentences using the embeddings dimensionality, start and end index
+At this point the graph does not support feeding a dynamic maxSentenceLength
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>an array of sentences to encode</p></dd><dt class="param">start</dt><dd class="cmt"><p>an array of start positions</p></dd><dt class="param">end</dt><dd class="cmt"><p>an array of end positions</p></dd><dt class="param">embeddingsDim</dt><dd class="cmt"><p>a dimensionality of target Embeddings</p></dd><dt class="param">maxSentenceLength</dt><dd class="cmt"><p>a length, which constrains the maximum sentence length</p></dd><dt>returns</dt><dd class="cmt"><p>an instance of AssertionBatch</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#encodeOneHot" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="encodeOneHot(label:String):Array[Float]"></a>
       <a id="encodeOneHot(String):Array[Float]"></a>
       <h4 class="signature">
@@ -272,7 +283,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">This method performs one hot encoding of the label
+</p><div class="fullcomment"><div class="comment cmt"><p>This method performs one hot encoding of the label
+</p></div><dl class="paramcmts block"><dt class="param">label</dt><dd class="cmt"><p>a label to represent as one-hot representation</p></dd><dt>returns</dt><dd class="cmt"><p>an array in one-hot format, representing input label</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -398,7 +411,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#l2norm" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#l2norm" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="l2norm(xs:Array[Float]):Float"></a>
       <a id="l2norm(Array[Float]):Float"></a>
       <h4 class="signature">
@@ -414,7 +427,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">This simple method computes L2 distance of input array
+</p><div class="fullcomment"><div class="comment cmt"><p>This simple method computes L2 distance of input array
+</p></div><dl class="paramcmts block"><dt class="param">xs</dt><dd class="cmt"><p>an array of Float to get the distance for</p></dd><dt>returns</dt><dd class="cmt"><p>a Float, representing L2 distance</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -449,7 +464,7 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#normalize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#normalize" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="normalize(vec:Array[Float]):Array[Float]"></a>
       <a id="normalize(Array[Float]):Array[Float]"></a>
       <h4 class="signature">
@@ -465,7 +480,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">This method normalizes the input array using the L2 norm distance
+</p><div class="fullcomment"><div class="comment cmt"><p>This method normalizes the input array using the L2 norm distance
+</p></div><dl class="paramcmts block"><dt class="param">vec</dt><dd class="cmt"><p>an array of Float to normalize</p></dd><dt>returns</dt><dd class="cmt"><p>a normalized version of input array</p></dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -517,7 +534,7 @@
       </a>
     </span>
       
-    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#randomSplit" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.tensorflow.AssertionDatasetEncoder#randomSplit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="randomSplit(dataset:Seq[com.johnsnowlabs.nlp.annotators.assertion.Datapoint],fraction:Float):(Seq[com.johnsnowlabs.nlp.annotators.assertion.Datapoint],Seq[com.johnsnowlabs.nlp.annotators.assertion.Datapoint])"></a>
       <a id="randomSplit(Seq[Datapoint],Float):(Seq[Datapoint],Seq[Datapoint])"></a>
       <h4 class="signature">
@@ -533,7 +550,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">This method splits the input dataset into the train and test with given proportion
+</p><div class="fullcomment"><div class="comment cmt"><p>This method splits the input dataset into the train and test with given proportion
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>a Sequence of DataPoints to split for</p></dd><dt class="param">fraction</dt><dd class="cmt"><p>a proportion which represents in what scale we need to split the input data</p></dd><dt>returns</dt><dd class="cmt"><p>train and test fraction of original dataset</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

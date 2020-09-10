@@ -42,13 +42,14 @@ val embeddings = AlbertEmbeddings.pretrained("albert_xlarge_uncased", "en")
 |Model Name:|albert_xlarge_uncased|
 |Type:|embeddings|
 |Compatibility:|Spark NLP 2.5.0|
+|License:|Open Source|
 |Edition:|Official|
 |Spark inputs:|[sentence, token]|
 |Spark outputs:|[word_embeddings]|
 |Language:|[en]|
 |Dimension:|2048|
 |Case sensitive:|false|
-|License:|Open Source|
+
 
 {:.h2_title}
 ## Source

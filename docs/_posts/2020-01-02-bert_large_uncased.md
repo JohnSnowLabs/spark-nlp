@@ -4,7 +4,7 @@ title: BERT Large Uncased
 author: John Snow Labs
 name: bert_large_uncased
 date: 2020-01-02
-tags: [embeddings, en, bert]
+tags: [open_source, embeddings, en, bert]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -42,13 +42,13 @@ val embeddings = BertEmbeddings.pretrained("bert_large_uncased", "en")
 |Model Name:|bert_large_uncased|
 |Type:|embeddings|
 |Compatibility:|Spark NLP 2.4.0|
+|License:|Open Source|
 |Edition:|Official|
 |Spark inputs:|[sentence, token]|
 |Spark outputs:|[word_embeddings]|
 |Language:|[en]|
 |Dimension:|1024|
 |Case sensitive:|false|
-|License:|Open Source|
 
 {:.h2_title}
 ## Source

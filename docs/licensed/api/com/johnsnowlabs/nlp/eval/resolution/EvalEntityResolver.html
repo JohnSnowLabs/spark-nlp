@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>EvalEntityResolver - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver</title>
-          <meta name="description" content="EvalEntityResolver - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver" />
-          <meta name="keywords" content="EvalEntityResolver Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver" />
+          <title>EvalEntityResolver - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver</title>
+          <meta name="description" content="EvalEntityResolver - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver" />
+          <meta name="keywords" content="EvalEntityResolver Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -54,7 +54,7 @@
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../../annotators/resolution/BigChunkEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.BigChunkEntityResolverModel">BigChunkEntityResolverModel</a>, <a href="../../jsl/annotator/package$$ChunkEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.jsl.annotator.ChunkEntityResolverModel">ChunkEntityResolverModel</a>, <a href="../../annotators/resolution/ChunkEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>, <a href="../../annotators/resolution/EnsembleEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">EnsembleEntityResolverModel</a>, <a href="../../jsl/annotator/package$$EnsembleEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.jsl.annotator.EnsembleEntityResolverModel">EnsembleEntityResolverModel</a>, <a href="../../annotators/resolution/ReadablePretrainedBigChunkEntityResolver.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ReadablePretrainedBigChunkEntityResolver">ReadablePretrainedBigChunkEntityResolver</a>, <a href="../../annotators/resolution/ReadablePretrainedChunkEntityResolver.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ReadablePretrainedChunkEntityResolver">ReadablePretrainedChunkEntityResolver</a>, <a href="../../annotators/resolution/ReadablePretrainedEnsembleEntityResolver.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ReadablePretrainedEnsembleEntityResolver">ReadablePretrainedEnsembleEntityResolver</a></div>
+            <div class="subClasses hiddenContent"><a href="../../annotators/resolution/BigChunkEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.BigChunkEntityResolverModel">BigChunkEntityResolverModel</a>, <a href="../../jsl/annotator/package$$ChunkEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.jsl.annotator.ChunkEntityResolverModel">ChunkEntityResolverModel</a>, <a href="../../annotators/resolution/ChunkEntityResolverModel$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">ChunkEntityResolverModel</a>, <a href="../../annotators/resolution/ReadablePretrainedBigChunkEntityResolver.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ReadablePretrainedBigChunkEntityResolver">ReadablePretrainedBigChunkEntityResolver</a>, <a href="../../annotators/resolution/ReadablePretrainedChunkEntityResolver.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ReadablePretrainedChunkEntityResolver">ReadablePretrainedChunkEntityResolver</a></div>
           </div></div>
         
 
@@ -149,18 +149,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver#accuracy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="accuracy(dataset:org.apache.spark.sql.DataFrame,trueCol:String,resolverCol:String):Double"></a>
-      <a id="accuracy(DataFrame,String,String):Double"></a>
+      <a id="accuracy(dataset:org.apache.spark.sql.DataFrame,trueCol:String,resolverCol:String,numOfChars:Int):Double"></a>
+      <a id="accuracy(DataFrame,String,String,Int):Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">accuracy</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="trueCol">trueCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="resolverCol">resolverCol: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">accuracy</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="trueCol">trueCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="resolverCol">resolverCol: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="numOfChars">numOfChars: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver@accuracy(dataset:org.apache.spark.sql.DataFrame,trueCol:String,resolverCol:String):Double" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.eval.resolution.EvalEntityResolver@accuracy(dataset:org.apache.spark.sql.DataFrame,trueCol:String,resolverCol:String,numOfChars:Int):Double" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

@@ -15,18 +15,8 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for anatomy terms. Includes Anatomical_system, Cell, Cellular_component, Developing_anatomical_structure, Immaterial_anatomical_entity, Multi-tissue_structure, Organ, Organism_subdivision, Organism_substance, Pathological_formation, and Tissue entities. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 {:.h2_title}
-## Included Entities 
- - Anatomical_system
- - Cell
- - Cellular_component
- - Developing_anatomical_structure
- - Immaterial_anatomical_entity
- - Multi-tissue_structure
- - Organ
- - Organism_subdivision
- - Organism_substance
- - Pathological_formation
- - Tissue
+## Predicted Entities 
+Anatomical_system,Cell,Cellular_component,Developing_anatomical_structure,Immaterial_anatomical_entity,Multi-tissue_structure,Organ,Organism_subdivision,Organism_substance,Pathological_formation,Tissue
 
 
 {:.btn-box}
@@ -80,7 +70,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.2|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence,token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|

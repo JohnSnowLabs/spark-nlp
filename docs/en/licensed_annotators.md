@@ -1,13 +1,12 @@
 ---
 layout: article
-title: Licensed Annotators
+title: Spark NLP for Healthcare Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
-modify_date: "2020-04-21"
+modify_date: "2020-08-10"
 use_language_switcher: "Python-Scala"
 ---
 
-## Spark-NLP Licensed
 
 The following annotators are available by buying a John Snow Labs Spark NLP license.
 They are mostly meant for healthcare applications but other applications have been made with these NLP features.
@@ -184,64 +183,6 @@ val resolver = new ChunkEntityResolverApproach()
     .setMissAsEmpty(true)
 ```
 
-### EnsembleEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">Transformer scaladocs</a>
-
-Assigns a standard code (RxNorm, SNOMED, UMLS) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings.
-Designed to scale on a sub-log rate compared to the cardinality of the dataset
-
-**Input types:** "chunk_token", "embeddings"
-
-**Output type:** "resolution"
-
-**Example:**
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-resolver = EnsembleEntityResolverApproach() \
-    .setInputCols(["chunk_token", "chunk_embeddings"]) \
-    .setOutputCol("token") \
-    .setClassifierLabelCol("classifier_label") \
-    .setResolverLabelCol("resolver_label") \
-    .setNormalizedCol("normalized") \
-    .setNeighbours(200) \
-    .setAlternatives(25) \
-    .setThreshold(4) \
-    .setExtramassPenalty(1) \
-    .setEnableWmd(True) \
-    .vsetEnableTfidf(True) \
-    .setEnableJaccard(True) \
-    .setEnableSorensenDice(False) \
-    .setEnableJaroWinkler(False) \
-    .setEnableLevenshtein(False) \
-    .setDistanceWeights([1,3,3,0,0,0]) \
-    .setPoolingStrategy("AVERAGE") \
-    .setMissAsEmpty(True)
-```
-```scala
-val resolver = new EnsembleEntityResolverApproach()
-    .setInputCols(Array("chunk_token", "chunk_embeddings"))
-    .setOutputCol("token")
-    .setClassifierLabelCol("classifier_label")
-    .setResolverLabelCol("resolver_label")
-    .setNormalizedCol("normalized")
-    .setNeighbours(200)
-    .setAlternatives(25)
-    .setThreshold(4)
-    .setExtramassPenalty(1)
-    .setEnableWmd(true)
-    .vsetEnableTfidf(true)
-    .setEnableJaccard(true)
-    .setEnableSorensenDice(false)
-    .setEnableJaroWinkler(false)
-    .setEnableLevenshtein(false)
-    .setDistanceWeights(Array(1,3,3,0,0,0))
-    .setPoolingStrategy("AVERAGE")
-    .setMissAsEmpty(true)
-```
-
 ### DocumentLogRegClassifier
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
@@ -280,15 +221,42 @@ patients and remove them by replacing with semantic tags.
 
 **Input types:** "sentence", "token", "ner_chunk"
 
-**Output type:** "deidentified"
+**Output type:** "sentence"
 
-**Functions:**
-
-- setRegexPatternsDictionary(path, read_as, options)
+```python
+deid = DeIdentificationApproach() \
+      .setInputCols("sentence", "token", "ner_chunk") \
+      .setOutputCol("deid_sentence") \
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
+      .setMode("mask") \
+      .setDateTag("DATE") \
+      .setObfuscateDate(False) \
+      .setDays(5) \
+      .setDateToYear(False) \
+      .setMinYear(1900) \
+      .setDateFormats(["MM-dd-yyyy","MM-dd-yy"]) \
+      .setConsistentObfuscation(True) \
+      .setSameEntityThreshold(0.9)
+```
+```scala
+val deid = new DeIdentificationApproach()
+      .setInputCols("sentence", "token", "ner_chunk")
+      .setOutputCol("deid_sentence")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
+      .setMode("mask")
+      .setDateTag("DATE")
+      .setObfuscateDate(false)
+      .setDays(5)
+      .setDateToYear(false)
+      .setMinYear(1900)
+      .setDateFormats(Seq("MM-dd-yyyy","MM-dd-yy"))
+      .setConsistentObfuscation(true)
+      .setSameEntityThreshold(0.9)
+```
 
 ### Contextual Parser
 
-This annotator provides RegexMatchering, based on a JSON file.
+This annotator provides Regex + Contextual Matching, based on a JSON file.
 **Output type:** "sentence", "token"  
 **Input types:** "chunk"  
 **JSON format:**
@@ -303,8 +271,8 @@ This annotator provides RegexMatchering, based on a JSON file.
 
 - setJsonPath() -> Path to json file with rules
 - setCaseSensitive() -> optional: Whether to use case sensitive when matching values, default is false
-- setPrefixAndSuffixMatch() -> optional: Whether to match both prefix and suffix to annotate the hit
-- setContextMatch() -> optional: Whether to include context to annotate the hit
+- setPrefixAndSuffixMatch() -> optional: Whether to force both before AND after the regex match to annotate the hit
+- setContextMatch() -> optional: Whether to include prior and next context to annotate the hit
 - setUpdateTokenizer() -> optional: Whether to update tokenizer from pipeline when detecting multiple words on dictionary values
 - setDictionary() -> optional: Path to dictionary file in tsv or csv format
 
@@ -326,3 +294,49 @@ val contextualParser = new ContextualParserApproach()
 ### References
 
 [1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
+
+
+### RelationExtraction 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">Transformer scaladocs</a>
+
+Extracts and classifier instances of relations between named entities.
+
+**Input types:** "pos", "ner_chunk", "embeddings", "dependency"
+
+**Output type:** "category"
+
+**Example:**
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+reApproach = sparknlp_jsl.annotator.RelationExtractionApproach()\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setLabelColumn("target_rel")\
+    .setEpochsNumber(300)\
+    .setBatchSize(200)\
+    .setLearningRate(0.001)\
+    .setModelFile("RE.in1200D.out20.pb")\
+    .setFixImbalance(True)\
+    .setValidationSplit(0.05)\
+    .setFromEntity("from_begin", "from_end", "from_label")\
+    .setToEntity("to_begin", "to_end", "to_label")
+```
+
+```scala
+val reApproach = new RelationExtractionApproach()
+  .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+  .setOutputCol("relations")
+  .setLabelColumn("target_rel")
+  .setEpochsNumber(300)
+  .setBatchSize(200)
+  .setlearningRate(0.001f)
+  .setModelFile("RE.in1200D.out20.pb")
+  .setFixImbalance(true)
+  .setValidationSplit(0.05f)
+  .setFromEntity("from_begin", "from_end", "from_label")
+  .setToEntity("to_begin", "to_end", "to_label")
+
+```

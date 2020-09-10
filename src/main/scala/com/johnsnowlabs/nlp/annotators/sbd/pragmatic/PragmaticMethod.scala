@@ -32,7 +32,8 @@ class CustomPragmaticMethod(customBounds: Array[String]) extends PragmaticMethod
   }
 }
 
-class DefaultPragmaticMethod(useAbbreviations: Boolean = false) extends PragmaticMethod with Serializable {
+class DefaultPragmaticMethod(useAbbreviations: Boolean = false, detectLists: Boolean = true)
+  extends PragmaticMethod with Serializable {
   /** this is a hardcoded order of operations
     * considered to go from those most specific non-ambiguous cases
     * down to those that are more general and can easily be ambiguous
@@ -40,7 +41,7 @@ class DefaultPragmaticMethod(useAbbreviations: Boolean = false) extends Pragmati
   def extractBounds(content: String): Array[Sentence] = {
     val symbolyzedData =
       new PragmaticContentFormatter(content)
-        .formatLists
+        .formatLists(detectLists)
         .formatNumbers
         .formatAbbreviations(useAbbreviations)
         .formatPunctuations
@@ -56,7 +57,8 @@ class DefaultPragmaticMethod(useAbbreviations: Boolean = false) extends Pragmati
   }
 }
 
-class MixedPragmaticMethod(useAbbreviations: Boolean = false, customBounds: Array[String]) extends PragmaticMethod with Serializable {
+class MixedPragmaticMethod(useAbbreviations: Boolean = false, detectLists: Boolean = true,
+                           customBounds: Array[String]) extends PragmaticMethod with Serializable {
   val customBoundsFactory = new RuleFactory(MATCH_ALL, REPLACE_ALL_WITH_SYMBOL)
   customBounds.foreach(bound => customBoundsFactory.addRule(bound.r, s"split bound: $bound"))
   /** this is a hardcoded order of operations
@@ -67,7 +69,7 @@ class MixedPragmaticMethod(useAbbreviations: Boolean = false, customBounds: Arra
     val symbolyzedData =
       new PragmaticContentFormatter(content)
         .formatCustomBounds(customBoundsFactory)
-        .formatLists
+        .formatLists(detectLists)
         .formatAbbreviations(useAbbreviations)
         .formatNumbers
         .formatPunctuations

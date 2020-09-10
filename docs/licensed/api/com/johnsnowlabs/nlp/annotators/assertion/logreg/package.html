@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>logreg - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg</title>
-          <meta name="description" content="logreg - Spark NLP 2.4.6 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg" />
-          <meta name="keywords" content="logreg Spark NLP 2.4.6 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg" />
+          <title>logreg - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg</title>
+          <meta name="description" content="logreg - Spark NLP 2.6.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg" />
+          <meta name="keywords" content="logreg Spark NLP 2.6.0 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -82,8 +82,10 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This is a classification method, which uses LogisticRegression algorithm
+Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AssertionLogRegModelextendsModel[com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel]withRawAnnotator[com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel]withWindowingwithHasStorageRefwithCanBeLazywithLicensed"></a>
       <a id="AssertionLogRegModel:AssertionLogRegModel"></a>
       <h4 class="signature">
@@ -99,7 +101,11 @@
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by jose on 22/11/17.</p>
+      <p class="shortcomment cmt">This is a main class in AssertionLogReg family.</p><div class="fullcomment"><div class="comment cmt"><p>This is a main class in AssertionLogReg family. It contains all the parameters and main point of interest
+method transform() which projects the input dataset into DataFrame.
+Unlike DL Model, this class does not extend AnnotatorModel.
+Instead it extends the RawAnnotator, that's why the main point of interest is method transform()
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Datapoint" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DatapointextendsProductwithSerializable"></a>
       <a id="Datapoint:Datapoint"></a>

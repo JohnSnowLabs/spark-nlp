@@ -20,17 +20,8 @@ Pretrained named entity recognition deep learning model for Heart Disease Risk F
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_risk_factors_en_2.4.2_2.4_1587513300751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## Included Entities  
-
- - CAD
- - Diabetes
- - Family_hist
- - Hyperlipidemia
- - Hypertension
- - Medication
- - Obese
- - PHI
- - Smoker
+## Predicted Entities  
+CAD, Diabetes, Family_hist, Hyperlipidemia, Hypertension, Medication, Obese, PHI, Smoker
 
 
 ## How to use
@@ -78,7 +69,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.2|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence,token, embeddings]|
 |Spark outputs:|[ner]|
 |Language:|[en]|

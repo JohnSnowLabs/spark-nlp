@@ -16,12 +16,7 @@ Logistic regression based named entity recognition model for assertions.
 
 ## Included Assertions
 
- - hypothetical
- - present
- - absent
- - possible
- - conditional
- - associated_with_someone_else
+ Hypothetical, Present, Absent, Possible, Conditional, Associated_with_someone_else 
 
 {:.btn-box}
 [Live Demo](){:.button.button-orange}
@@ -71,7 +66,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.0|
 |Edition:|Healthcare|
-|License:|Enterprise|
+|License:|Licensed|
 |Spark inputs:|[sentence, ner_chunk, embeddings]|
 |Spark outputs:|[assertion]|
 |Language:|[en]|
