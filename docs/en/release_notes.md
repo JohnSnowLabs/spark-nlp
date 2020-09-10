@@ -3,8 +3,627 @@ layout: article
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2020-07-16"
+modify_date: "2020-09-10"
 ---
+
+### 2.6.0
+
+#### John Snow Labs Spark-NLP 2.6.0: New multi-label classifier, BERT sentence embeddings, unsupervised keyword extractions, over 110 pretrained pipelines, models, Transformers, and more!
+
+Overview
+
+We are very excited to finally release Spark NLP 2.6.0! This has been one of the biggest releases we have ever made and we are so proud to share it with our community! 
+
+This release comes with a brand new MultiClassifierDL for multi-label text classification, BertSentenceEmbeddings with 42 models, unsupervised keyword extractions annotator, and adding 28 new pretrained Transformers such as Small BERT, CovidBERT, ELECTRA, and the state-of-the-art language-agnostic BERT Sentence Embedding model(LaBSE). 
+
+The 2.6.0 release has over 110 new pretrained models, pipelines, and Transformers with extending full support for Danish, Finnish, and Swedish languages.
+
+Major features and improvements
+
+* **NEW:** A new MultiClassifierDL annotator for multi-label text classification built by using Bidirectional GRU and CNN inside TensorFlow that supports up to 100 classes
+* **NEW:** A new BertSentenceEmbeddings annotator with 42 available pre-trained models for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
+* **NEW:** A new YakeModel annotator for an unsupervised, corpus-independent, domain, and language-independent and single-document keyword extraction algorithm
+* **NEW:** Integrate 24 new Small BERT models where the smallest model is 24x times smaller and 28x times faster compare to BERT base models
+* **NEW:** Add 3 new ELECTRA small, base, and large models 
+* **NEW:** Add 4 new Finnish BERT models for BertEmbeddings and BertSentenceEmbeddings
+* Improve BertEmbeddings memory consumption by 30%
+* Improve BertEmbeddings performance by more than 70% with a new built-in dynamic shape inputs
+* Remove the poolingLayer parameter in BertEmbeddings in favor of sequence_output that is provided by TF Hub models for new BERT models
+* Add validation loss, validation accuracy, validation F1, and validation True Positive Rate during the training in MultiClassifierDL
+* Add parameter to enable/disable list detection in SentenceDetector
+* Unify the loggings in ClassifierDL and SentimentDL during training
+
+Bugfixes
+
+* Fix Tokenization bug with Bigrams in the exception list
+* Fix the versioning error in second SBT projects causing models not being found via pretrained function
+* Fix logging to file in NerDLApproach, ClassifierDL, SentimentDL, and MultiClassifierDL on HDFS
+* Fix ignored modified tokens in BertEmbeddings, now it will consider modified tokens instead of originals
+
+Models and Pipelines
+
+This release comes with over 100+ new pretrained models and pipelines available for Windows, Linux, and macOS users. 
+
+The complete list of all 330+ models & pipelines in 46+ languages is [available here](https://github.com/JohnSnowLabs/spark-nlp-models/).
+
+#### Some selected Transformers:
+
+| Model                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| BertEmbeddings                    | `electra_small_uncased`       | 2.6.0 |      `en`
+| BertEmbeddings                    | `electra_base_uncased`       | 2.6.0 |      `en` 
+| BertEmbeddings                    | `electra_large_uncased`       | 2.6.0 |      `en`
+| BertEmbeddings                    | `covidbert_large_uncased`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L2_128`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L4_128`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L6_128`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L8_128`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L10_128`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L12_128`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L2_256`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L4_256`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L6_256`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L8_256`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L10_256`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L12_256`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L2_512`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L4_512`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L6_512`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L8_512`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L10_512`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L12_512`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L2_768`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L4_768`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L6_768`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L8_768`        | 2.6.0 |      `en`      
+| BertEmbeddings                    | `small_bert_L10_768`        | 2.6.0 |      `en`     
+| BertEmbeddings                    | `small_bert_L12_768`        | 2.6.0 |      `en` 
+| BertEmbeddings   | `bert_finnish_cased`       | 2.6.0 |      `fi`      
+| BertEmbeddings   | `bert_finnish_uncased`       | 2.6.0 |      `fi`    
+| BertSentenceEmbeddings   | `sent_bert_finnish_cased`       | 2.6.0 |   `fi`
+| BertSentenceEmbeddings   | `sent_bert_finnish_uncased`       | 2.6.0 | `fi`
+| BertSentenceEmbeddings   | `sent_electra_small_uncased`       | 2.6.0 |      `en`    
+| BertSentenceEmbeddings   | `sent_electra_base_uncased`         | 2.6.0 |      `en`        
+| BertSentenceEmbeddings   | `sent_electra_large_uncased`      | 2.6.0 |      `en`          
+| BertSentenceEmbeddings   | `sent_bert_base_uncased`       | 2.6.0 |      `en`             
+| BertSentenceEmbeddings   | `sent_bert_base_cased`         | 2.6.0 |      `en`             
+| BertSentenceEmbeddings   | `sent_bert_large_uncased`      | 2.6.0 |      `en`             
+| BertSentenceEmbeddings   | `sent_bert_large_cased`        | 2.6.0 |      `en`             
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_base_cased`        | 2.6.0 |      `en`    
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_large_cased`        | 2.6.0 |      `en`   
+| BertSentenceEmbeddings   | `sent_biobert_pmc_base_cased`        | 2.6.0 |      `en`       
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_pmc_base_cased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_biobert_clinical_base_cased`        | 2.6.0 |      `en`  
+| BertSentenceEmbeddings   | `sent_biobert_discharge_base_cased`        | 2.6.0 |      `en` 
+| BertSentenceEmbeddings   | `sent_covidbert_large_uncased`        | 2.6.0 |      `en`      
+| BertSentenceEmbeddings   | `sent_small_bert_L2_128`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L4_128`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L6_128`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L8_128`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L10_128`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L12_128`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L2_256`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L4_256`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L6_256`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L8_256`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L10_256`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L12_256`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L2_512`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L4_512`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L6_512`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L8_512`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L10_512`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L12_512`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L2_768`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L4_768`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L6_768`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L8_768`        | 2.6.0 |      `en`            
+| BertSentenceEmbeddings   | `sent_small_bert_L10_768`        | 2.6.0 |      `en`           
+| BertSentenceEmbeddings   | `sent_small_bert_L12_768`        | 2.6.0 |      `en`    
+| BertSentenceEmbeddings | `sent_bert_multi_cased` | 2.6.0 |   `xx`   
+| BertSentenceEmbeddings | `labse` | 2.6.0 |   `xx`  
+
+#### Danish pipelines
+
+| Pipeline                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `da` 
+| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `da` 
+| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `da` 
+| Entity Recognizer Small   | `entity_recognizer_sm`  | 2.6.0 |   `da`
+| Entity Recognizer Medium  | `entity_recognizer_md`  | 2.6.0 |   `da`
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.6.0 |   `da`
+
+#### Finnish pipelines
+
+| Pipeline                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `fi` 
+| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `fi` 
+| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `fi` 
+| Entity Recognizer Small   | `entity_recognizer_sm`  | 2.6.0 |   `fi`
+| Entity Recognizer Medium  | `entity_recognizer_md`  | 2.6.0 |   `fi`
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.6.0 |   `fi`
+
+#### Swedish pipelines
+
+| Pipeline                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `sv` 
+| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `sv` 
+| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `sv`
+| Entity Recognizer Small   | `entity_recognizer_sm`  | 2.6.0 |   `sv`
+| Entity Recognizer Medium  | `entity_recognizer_md`  | 2.6.0 |   `sv`
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.6.0 |   `sv`
+
+Documentation and Notebooks
+
+* New notebook for training multi-label [Toxic comments](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_toxic_classifier.ipynb)
+* New notebook for training multi-label [E2E Challenge](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
+* Update documentation for release of Spark NLP 2.6.0
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.6.0
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.6.0
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.6.0
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.0
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.0
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.6.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.6.0</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.6.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.6.0</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.6.0.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.6.0.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.6.0.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.6.0.jar
+
+### 2.5.5
+
+#### John Snow Labs Spark-NLP 2.5.5: 28 new Lemma and POS models in 14 languages, bug fixes, and lots of new notebooks!
+
+Overview
+
+We are excited to release Spark NLP 2.5.5 with 28 new pretrained models for Lemma and POS in 14 languages, bug fixes, new notebooks, and more!
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+New Features
+
+- Add getClasses() function to NerDLModel
+- Add getClasses() function to ClassifierDLModel
+- Add  getClasses() function to SentimentDLModel
+
+Example:
+```python
+ner_model = NerDLModel.pretrained('onto_100')
+print(ner_model.getClasses())
+#['O', 'B-CARDINAL', 'B-EVENT', 'I-EVENT', 'B-WORK_OF_ART', 'I-WORK_OF_ART', 'B-ORG', 'B-DATE', 'I-DATE', 'I-ORG', 'B-GPE', 'B-PERSON', 'B-PRODUCT', 'B-NORP', 'B-ORDINAL', 'I-PERSON', 'B-MONEY', 'I-MONEY', 'I-GPE', 'B-LOC', 'I-LOC', 'I-CARDINAL', 'B-FAC', 'I-FAC', 'B-LAW', 'I-LAW', 'B-TIME', 'I-TIME', 'B-PERCENT', 'I-PERCENT', 'I-NORP', 'I-PRODUCT', 'B-QUANTITY', 'I-QUANTITY', 'B-LANGUAGE', 'I-ORDINAL', 'I-LANGUAGE', 'X']
+```
+
+Enhancements
+
+- Improve max sequence length calculation in BertEmbeddings and XlnetEmbeddings
+
+Bugfixes
+
+- Fix a bug in RegexTokenizer in Python
+- Fix StopWordsCleaner exception in Python when pretrained() is used
+- Fix max sequence length issue in AlbertEmbeddings and SentencePiece generation
+- Fix HDFS support for setGaphFolder param in NerDLApproach
+
+Models
+
+* We have added 28 new pretrained models for Lemma and POS in 14 languages:
+
+| Model                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `br`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `ca`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `da`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `ga`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `hi`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `hy`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `eu`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `mr`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `yo`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `la`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `lv`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `sl`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `gl`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `id`    
+| PerceptronModel (POS UD) | `pos_ud_keb`            | 2.5.5 |   `br`    
+| PerceptronModel (POS UD) | `pos_ud_ancora`            | 2.5.5 |   `ca`    
+| PerceptronModel (POS UD) | `pos_ud_ddt`            | 2.5.5 |   `da`    
+| PerceptronModel (POS UD) | `pos_ud_idt`            | 2.5.5 |   `ga`    
+| PerceptronModel (POS UD) | `pos_ud_hdtb`            | 2.5.5 |   `hi`    
+| PerceptronModel (POS UD) | `pos_ud_armtdp`            | 2.5.5 |   `hy`    
+| PerceptronModel (POS UD) | `pos_ud_bdt`            | 2.5.5 |   `eu`    
+| PerceptronModel (POS UD) | `pos_ud_ufal`            | 2.5.5 |   `mr`    
+| PerceptronModel (POS UD) | `pos_ud_ytb`            | 2.5.5 |   `yo`    
+| PerceptronModel (POS UD) | `pos_ud_llct`            | 2.5.5 |   `la`    
+| PerceptronModel (POS UD) | `pos_ud_lvtb`            | 2.5.5 |   `lv`    
+| PerceptronModel (POS UD) | `pos_ud_ssj`            | 2.5.5 |   `sl`    
+| PerceptronModel (POS UD) | `pos_ud_treegal`            | 2.5.5 |   `gl`    
+| PerceptronModel (POS UD) | `pos_ud_gsd`            | 2.5.5 |   `id`    
+
+Languages: Armenian, Basque, Breton, Catalan, Danish, Galician, Hindi, Indonesian, Irish, Latin, Latvian, Marathi, Slovenian, Yoruba
+
+Documentation and Notebooks
+
+* New notebook for pretrained [StopWordsCleaner](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb)
+* New notebook to [Detect entities in German language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_DE.ipynb)
+* New notebook to [Detect entities in English language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb)
+* New notebook to [Detect entities in Spanish language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_ES.ipynb)
+* New notebook to [Detect entities in French language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FR.ipynb)
+* New notebook to [Detect entities in Italian language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_IT.ipynb)
+* New notebook to [Detect entities in Norwegian language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_NO.ipynb)
+* New notebook to [Detect entities in Polish language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_PL.ipynb)
+* New notebook to [Detect entities in Portugese language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_PT.ipynb)
+* New notebook to [Detect entities in Russian language](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_RU.ipynb)
+* Update documentation for release of Spark NLP 2.5.x
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.5.x
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.5.5
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.5.5
+```
+
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.5
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.5
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.5.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.5.5
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.5.5</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.5.5</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.5.5</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.5.5</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.5.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.5.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.5.5.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.5.5.jar
+
+### 2.5.4
+
+#### John Snow Labs Spark-NLP 2.5.4: Supporting Apache Spark 2.3, 43 new models and 26 new languages, new RegexTokenizer, lots of new notebooks, and more
+
+Overview
+
+We are excited to release Spark NLP 2.5.4 with the full support of Apache Spark 2.3.x, adding 43 new pre-trained models for stop words cleaning, supporting 26 new languages, a new RegexTokenizer annotator and more!
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+New Features
+
+* Add support for Apache Spark 2.3.x including new Maven artifacts and full support of all pre-trained models/pipelines
+* Add 43 new pre-trained models in 43 languages to StopWordsCleaner annotator
+* Introduce a new RegexTokenizer to split text by regex pattern
+
+Enhancements
+
+* Retrained 6 new BioBERT and ClinicalBERT models 
+* Add a new param `spark23` to `start()` function to start the session for Apache Spark 2.3.x
+
+Bugfixes
+
+* Add missing library for SentencePiece used by AlbertEmbeddings and XlnetEmbeddings on Windows
+* Fix ModuleNotFoundError in LanguageDetectorDL pipelines in Python
+
+Models
+
+* We have added 43 new pre-trained models in 43 languages for StopWordsCleaner. Some selected models:
+
+#### Afrikaans - Models
+
+| Model                        | Name               | Build            | Lang |  Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|
+| StopWordsCleaner  | `stopwords_af`            | 2.5.4 |   `af`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_af_af_2.5.4_2.4_1594742440083.zip) |
+
+#### Arabic - Models
+
+| Model                        | Name               | Build            | Lang |  Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|
+| StopWordsCleaner  | `stopwords_ar`            | 2.5.4 |   `ar`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_ar_ar_2.5.4_2.4_1594742440256.zip) |
+
+#### Armenian - Models
+
+| Model                        | Name               | Build            | Lang |  Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|
+| StopWordsCleaner  | `stopwords_hy`            | 2.5.4 |   `hy`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_hy_hy_2.5.4_2.4_1594742439626.zip) |
+
+#### Basque - Models
+
+| Model                        | Name               | Build            | Lang |  Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|
+| StopWordsCleaner  | `stopwords_eu`            | 2.5.4 |   `eu`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_eu_eu_2.5.4_2.4_1594742441951.zip) |
+
+#### Bengali - Models
+
+| Model                        | Name               | Build            | Lang |  Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|
+| StopWordsCleaner  | `stopwords_bn`            | 2.5.4 |   `bn`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_bn_bn_2.5.4_2.4_1594742440339.zip) |
+
+#### Breton - Models
+
+| Model                        | Name               | Build            | Lang |  Offline|
+|:-----------------------------|:-------------------|:-----------------|:------|:------------|
+| StopWordsCleaner  | `stopwords_br`            | 2.5.4 |   `br`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_br_br_2.5.4_2.4_1594742440778.zip) |
+
+Documentation and Notebooks
+
+* New notebook for [Language detection and identification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb)
+* New notebook for [Classify text according to TREC classes](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb)
+* New notebook for [Detect Spam messages](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_SPAM.ipynb)
+* New notebook for [Detect fake news](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_FAKENEWS.ipynb)
+* New notebook for [Find sentiment in text](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb)
+* New notebook for [Detect bullying in tweets](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_CYBERBULLYING.ipynb)
+* New notebook for [Detect Emotions in text](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_EMOTION.ipynb)
+* New notebook for [Detect Sarcasm in text](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb)
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.5.x
+* Update documentation for release of Spark NLP 2.5.x
+
+Installation
+
+**Python**
+```shell
+#PyPI
+
+pip install spark-nlp==2.5.4
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.5.4
+```
+
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.4
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.5.4
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.5.4
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.5.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.5.4
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.5.4</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.5.4</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.5.4</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.5.4</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.4.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.4.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.5.4.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.5.4.jar
 
 ### 2.5.3
 
