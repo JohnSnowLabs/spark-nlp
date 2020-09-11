@@ -1,4 +1,12 @@
 ========
+2.6.1
+========
+----------------
+Bugfixes
+----------------
+* Fix a bug in ClassifierDL that resulted in low accuracy during the training
+
+========
 2.6.0
 ========
 ------------------------------
