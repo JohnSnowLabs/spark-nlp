@@ -3,7 +3,7 @@ layout: article
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-06-12"
+modify_date: "2020-09-11"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -76,15 +76,19 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |SentimentDetector|Scores a sentence for a sentiment|Opensource|
 |WordEmbeddings|Word Embeddings lookup annotator that maps tokens to vectors|Opensource|
 |BertEmbeddings|BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture|Opensource|
+|BertSentenceEmbeddings|This annotator generates sentence embeddings from all BERT models|Opensource|
 |ElmoEmbeddings|Computes contextualized word representations using character-based word representations and bidirectional LSTMs|Opensource|
 |AlbertEmbeddings|Computes contextualized word representations using "A Lite" implementation of BERT algorithm by applying parameter-reduction techniques|Opensource|
 |XlnetEmbeddings|Computes contextualized word representations using combination of Autoregressive Language Model and Permutation Language Model|Opensource|
 |UniversalSentenceEncoder|Encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
-|ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes|Opensource|
+|ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning 
+model (DNNs) we have built inside TensorFlow and supports up to 100 classes|Opensource|
+|MultiClassifierDL|Multi-label Text Classification. MultiClassifierDL uses a Bidirectional GRU with Convolution model that we have built inside TensorFlow and supports up to 100 classes.|Opensource|
 |SentimentDL|Multi-class Sentiment Analysis Annotator. SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets|Opensource|
 |LanguageDetectorDL|State-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks|Opensource|
+|YakeModel|Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction algorithm.|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
 |NerCrf|Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm|Opensource|
 |NorvigSweeting SpellChecker|This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary|Opensource|
@@ -652,7 +656,6 @@ val sentimentDetector = new ViveknSentimentModel.pretrained
       .setOutputCol("vivekn")
 ```
 
-
 ### SentimentDetector
 
 #### Sentiment analysis
@@ -749,7 +752,7 @@ There are also two convenient functions to retrieve the embeddings coverage with
 
 BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
 
-You can find the pre-trained models for `BertEmbeddings` in the [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models#english---models) repository
+You can find the pre-trained models for `BertEmbeddings` in the [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models) repository
 
 **Output type:** Word_Embeddings  
 
@@ -774,7 +777,37 @@ bert = BertEmbeddings.pretrained() \
 val bert = BertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("bert")
-      .setPoolingLayer(0) // 0, -1, or -2
+```
+
+### BertSentenceEmbeddings
+
+BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
+
+You can find the pre-trained models for `BertEmbeddings` in the [Spark NLP Models](https://github.com/JohnSnowLabs/spark-nlp-models) repository
+
+**Output type:** Sentence_Embeddings  
+
+**Input types:** Document
+
+**Reference:** [BertSentenceEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.scala)  
+
+Refer to the [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings) Scala docs for more
+
+How to use pretrained BertEmbeddings:
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+
+bert = BertESentencembeddings.pretrained() \
+      .setInputCols("document") \
+      .setOutputCol("bert_sentence_embeddings")
+```
+
+```scala
+val bert = BertEmbeddings.pretrained()
+      .setInputCols("document")
+      .setOutputCol("bert_sentence_embeddings")
 ```
 
 ### ElmoEmbeddings
@@ -1050,11 +1083,11 @@ pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_e
 
 #### Multi-class Text Classification
 
-ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes
 
 **NOTE**: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
 
-**NOTE**: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+**NOTE**: UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol
 
 **Output type:** CATEGORY
 
@@ -1102,6 +1135,59 @@ val docClassifier = new ClassifierDLApproach()
 
 Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
 
+### MultiClassifierDL
+
+#### Multi-label Text Classification
+
+ MultiClassifierDL is a Multi-label Text Classification. MultiClassifierDL uses a Bidirectional GRU with Convolution model that we have built inside TensorFlow and supports up to 100 classes. The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings
+
+**NOTE**: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+
+**NOTE**: UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol
+
+**Output type:** CATEGORY
+
+**Input types:** SENTENCE_EMBEDDINGS
+
+**Functions:**
+
+- setLabelColumn: If DatasetPath is not provided, this Seq\[Annotation\] type of column should have labeled data per token.
+- setLr: Initial learning rate.
+- setBatchSize: Batch size for training.
+- setMaxEpochs: Maximum number of epochs to train.
+- setEnableOutputLogs: Whether to output to annotators log folder.
+- setValidationSplit: Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+- setVerbose: Level of verbosity during training.
+- setOutputLogsPath: Folder path to save training logs.
+
+Refer to the [MultiClassifierDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach) Scala docs for more
+
+Refer to the [MultiClassifierDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+docMultiClassifier = MultiClassifierDLApproach()\
+      .setInputCols("sentence_embeddings")\
+      .setOutputCol("category")\
+      .setLabelColumn("label")\
+      .setBatchSize(64)\
+      .setMaxEpochs(20)\
+      .setLr(0.5)
+```
+
+```scala
+val docMultiClassifier = new MultiClassifierDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(64)
+      .setMaxEpochs(20)
+      .setLr(5e-3f)
+```
+
+Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
+
 ### SentimentDL
 
 #### Multi-class Sentiment Analysis annotator
@@ -1110,7 +1196,7 @@ SentimentDL is an annotator for multi-class sentiment analysis. This annotator c
 
 **NOTE**: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
 
-**NOTE**: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+**NOTE**: UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol
 
 **Output type:** CATEGORY
 
@@ -1194,6 +1280,55 @@ languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
       .setOutputCol("language")
       .setThreshold(0.3f)
       .setCoalesceSentences(true)
+```
+
+### YakeModel
+
+#### Keywords Extraction
+
+Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction algorithm.
+
+sExtracting keywords from texts has become a challenge for individuals and organizations as the information grows in complexity and size. The need to automate this task so that text can be processed in a timely and adequate manner has led to the emergence of automatic keyword extraction tools. Yake is a novel feature-based system for multi-lingual keyword extraction, which supports texts of different sizes, domain or languages. Unlike other approaches, Yake does not rely on dictionaries nor thesauri, neither is trained against any corpora. Instead, it follows an unsupervised approach which builds upon features extracted from the text, making it thus applicable to documents written in different languages without the need for further knowledge. This can be beneficial for a large number of tasks and a plethora of situations where access to training corpora is either limited or restricted.
+
+The algorithm makes use of the position of a sentence and token. Therefore, to use the annotator, the text should be first sent through a Sentence Boundary Detector and then a tokenizer.
+
+You can tweak the following parameters to get the best result from the annotator.
+
+**Output type:** KEYWORD
+
+**Input types:** TOKEN
+
+**Functions:**
+
+- setMinNGrams(int) Select the minimum length of a extracted keyword
+- setMaxNGrams(int) Select the maximum length of a extracted keyword
+- setNKeywords(int) Extract the top N keywords
+- setStopWords(list) Set the list of stop words
+- setThreshold(float) Each keyword will be given a keyword score greater than 0. (Lower the score better the keyword) Set an upper bound for the keyword score from this method.
+- setWindowSize(int) Yake will construct a co-occurence matrix. You can set the window size for the cooccurence matrix construction from this method. ex: windowSize=2 will look at two words to both left and right of a candidate word.
+
+Refer to the [YakeModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel) Scala docs for more
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+keywords = YakeModel() \
+    .setInputCols("token") \
+    .setOutputCol("keywords") \
+    .setMinNGrams(1) \
+    .setMaxNGrams(3)\
+    .setNKeywords(20)\
+    .setStopWords(stopwords)
+```
+
+```scala
+ val keywords = new YakeModel()
+    .setInputCols("token")
+    .setOutputCol("keywords")
+    .setMinNGrams(1)
+    .setMaxNGrams(3)
+    .setNKeywords(20)
+    .setStopWords(stopwords)
 ```
 
 ### NER CRF

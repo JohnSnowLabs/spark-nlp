@@ -22,7 +22,7 @@ class TensorflowClassifier(
   private val numClasses: Int = encoder.params.tags.length
 
   private val predictionKey = s"softmax_output_$numClasses/Softmax:0"
-  private val optimizer = s"optimizer_adam_$numClasses/Adam"
+  private val optimizer = s"optimizer_adam_$numClasses/Adam/Assign:0"
   private val cost = s"loss_$numClasses/softmax_cross_entropy_with_logits_sg:0"
   private val accuracy = s"accuracy_$numClasses/mean_accuracy:0"
   private val initKey = "init_all_tables"
@@ -92,14 +92,14 @@ class TensorflowClassifier(
           .feed(labelKey, labelTensor)
           .feed(learningRateKey, lrTensor)
           .feed(dropouttKey, dpTensor)
+          .fetch(optimizer)
           .fetch(predictionKey)
           .fetch(cost)
           .fetch(accuracy)
-          .addTarget(optimizer)
           .run()
 
-        loss += TensorResources.extractFloats(calculated.get(1))(0)
-        acc += TensorResources.extractFloats(calculated.get(2))(0)
+        loss += TensorResources.extractFloats(calculated.get(2))(0)
+        acc += TensorResources.extractFloats(calculated.get(3))(0)
         batches += 1
 
         tensors.clearTensors()
