@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
@@ -8,6 +9,8 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Transformers Guideline
+
+<div class="h3-box" markdown="1">
 
 ### DocumentAssembler: Getting data in
 
@@ -39,6 +42,7 @@ information
 Refer to the [DocumentAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.DocumentAssembler)
 Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -73,6 +77,8 @@ val documentAssembler = new DocumentAssembler()
     .setCleanupMode("shrink")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### TokenAssembler: Getting data reshaped
 
 This transformer reconstructs a Document type annotation from tokens,
@@ -89,6 +95,8 @@ annotators.
 **Example:**
 
 Refer to the [TokenAssembler](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.TokenAssembler) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -111,6 +119,8 @@ val token_assembler = new TokenAssembler()
     .setOutputCol("assembled")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Doc2Chunk
 
 Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol. Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType\[StringType\] (using isArray Param) Useful for annotators that require a CHUNK type input.  
@@ -130,8 +140,9 @@ Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkC
 
 Refer to the [Doc2Chunk](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Doc2Chunk) Scala docs for more details on the API.
 
-{% include programmingLanguageSelectScalaPython.html %}
+<div class="tabs-box" markdown="1">
 
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 chunker = Doc2Chunk()\
@@ -149,6 +160,8 @@ val chunker = new Doc2Chunk()
     .setChunkCol("some_column")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Chunk2Doc
 
 Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokenize or do further analysis on a CHUNK result.  
@@ -162,8 +175,9 @@ Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokeni
 
 Refer to the [Chunk2Doc](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Chunk2Doc) Scala docs for more details on the API.
 
-{% include programmingLanguageSelectScalaPython.html %}
+<div class="tabs-box" markdown="1">
 
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 chunk_doc = Chunk2Doc()\
@@ -176,6 +190,8 @@ val chunk_doc = new Chunk2Doc()
     .setInputCols("chunk_output")
     .setOutputCol("new_document")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Finisher
 
@@ -195,8 +211,9 @@ Once we have our NLP pipeline ready to go, we might want to use our annotation r
 
 Refer to the [Finisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.Finisher) Scala docs for more details on the API.
 
-{% include programmingLanguageSelect.html %}
+<div class="tabs-box" markdown="1">
 
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 finisher = Finisher() \
@@ -209,6 +226,8 @@ val finisher = new Finisher()
     .setInputCols("token")
     .setIncludeMetadata(true) // set to False to remove metadata
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### EmbeddingsFinisher
 
@@ -225,7 +244,10 @@ This transformer is designed to deal with embedding annotators: `WordEmbeddings`
 
 Refer to the [EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.EmbeddingsFinisher) Scala docs for more details on the API.
 
-{% include programmingLanguageSelect.html %}
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```java
 todo
 ```
@@ -244,3 +266,4 @@ val embeddingsFinisher = new EmbeddingsFinisher()
       .setOutputAsVector(true)
       .setCleanAnnotations(false)
 ```
+</div></div>

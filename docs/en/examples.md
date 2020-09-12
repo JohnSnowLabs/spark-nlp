@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Examples
 key: docs-examples
 permalink: /docs/en/examples

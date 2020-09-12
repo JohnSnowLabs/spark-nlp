@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
@@ -10,6 +11,8 @@ header: true
 ---
 
 ## Annotators Guidelines
+
+<div class="h3-box" markdown="1">
 
 ### How to read this section
 
@@ -58,7 +61,8 @@ There are annotators freely available in the Open Source version of
 Spark-NLP. More are available in the licensed version of Spark NLP.
 Visit www.johnsnowlabs.com for more information about getting a license.
 
-|Annotator|Description|version |
+{:.table-model-big}
+|Annotator|Description|Version |
 |---|---|---|
 |Tokenizer|Identifies tokens with tokenization open standards|Opensource|
 |Normalizer|Removes all dirty characters from text|Opensource|
@@ -99,7 +103,11 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
 |DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
 
+</div>
+
 ## Spark-NLP Open Source
+
+<div class="h3-box" markdown="1">
 
 ### Tokenizer
 
@@ -129,6 +137,8 @@ Identifies tokens with tokenization open standards. A few rules will help custom
 
 Refer to the [Tokenizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Tokenizer) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -151,6 +161,8 @@ val tokenizer = new Tokenizer()
     .addException("e-mail")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Normalizer
 
 #### Text cleaning
@@ -169,6 +181,8 @@ Removes all dirty characters from text following a regex pattern and transforms 
 
 Refer to the [Normalizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Normalizer) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -183,6 +197,8 @@ val normalizer = new Normalizer()
     .setOutputCol("normalized")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Stemmer
 
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
@@ -193,6 +209,8 @@ Returns hard-stems out of words with the objective of retrieving the meaningful 
 **Example:**
 
 Refer to the [Stemmer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotator.package$$Stemmer$) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -208,6 +226,8 @@ val stemmer = new Stemmer()
     .setOutputCol("stem")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Lemmatizer
 
 Retrieves lemmas out of words with the objective of returning a base dictionary word  
@@ -222,6 +242,8 @@ Retrieves lemmas out of words with the objective of returning a base dictionary 
 **Example:**
 
 Refer to the [Lemmatizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Lemmatizer) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -239,6 +261,8 @@ val lemmatizer = new Lemmatizer()
     .setDictionary("./lemmas001.txt")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### StopWordsCleaner
 
 This annotator excludes from a sequence of strings (e.g. the output of a `Tokenizer`, `Normalizer`, `Lemmatizer`, and `Stemmer`) and drops all the stop words from the input sequences.
@@ -251,6 +275,8 @@ This annotator excludes from a sequence of strings (e.g. the output of a `Tokeni
 **Example:**
 
 Refer to the [StopWordsCleaner](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.StopWordsCleaner) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -269,6 +295,8 @@ val stopWordsCleaner = new StopWordsCleaner()
       .setStopWords(Array("this", "is", "and"))
       .setCaseSensitive(false)
 ```
+
+
 
 **NOTE:**
 If you need to `setStopWords` from a text file, you can first read and convert it into an array of string:
@@ -295,6 +323,8 @@ val stopWordsCleaner = new StopWordsCleaner()
       .setCaseSensitive(false)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### RegexMatcher
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
@@ -311,6 +341,8 @@ Uses a reference file to match a set of regular expressions and put them inside 
 
 Refer to the [RegexMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.RegexMatcher) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -326,6 +358,8 @@ val regexMatcher = new RegexMatcher()
     .setInputCols(Array("document"))
     .setOutputCol("regex")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### TextMatcher
 
@@ -347,6 +381,8 @@ Annotator to match entire phrases (by token) provided in a file against a Docume
 
 Refer to the [TextMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.TextMatcher) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -362,6 +398,8 @@ val entityExtractor = new TextMatcher()
     .setOutputCol("entity")
     .setEntities("/path/to/file/myentities.txt")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Chunker
 
@@ -381,6 +419,8 @@ This annotator matches a pattern of part-of-speech tags in order to return meani
 
 Refer to the [Chunker](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Chunker) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -396,6 +436,8 @@ val chunker = new Chunker()
     .setOutputCol("chunk")
     .setRegexParsers(Array("‹NNP›+", "‹DT|PP\\$›?‹JJ›*‹NN›"))
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### NGramGenerator
 
@@ -413,6 +455,8 @@ val chunker = new Chunker()
 **Example:**
 
 Refer to the [NGramGenerator](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.NGramGenerator) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -433,6 +477,8 @@ val nGrams = new NGramGenerator()
       .setEnableCumulative(true)
       .setDelimiter("_") // Default is space
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### DateMatcher
 
@@ -482,6 +528,8 @@ Reads from different forms of date and time expressions and converts them to a p
 
 Refer to the [DateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.DateMatcher) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -495,6 +543,8 @@ val dateMatcher = new DateMatcher()
     .setFormat("yyyyMM")
     .setOutputCol("date")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### SentenceDetector
 
@@ -515,6 +565,8 @@ Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.
 
 Refer to the [SentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -528,6 +580,8 @@ val sentenceDetector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentence")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### DeepSentenceDetector
 
@@ -547,6 +601,8 @@ The Chunk column should be generated via the NER Converter annotator from the ou
 
 Refer to the [DeepSentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -565,6 +621,8 @@ val deepSentenceDetector = new DeepSentenceDetector()
     .setEndPunctuation(Array(".", "?"))
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### POSTagger
 
 #### Part of speech tagger
@@ -581,6 +639,8 @@ Sets a POS tag to each word within a sentence. Its train data (train_pos) is a s
 **Example:**
 
 Refer to the [PerceptronApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -599,6 +659,8 @@ val posTagger = new PerceptronApproach()
     .setNIterations(2)
     .fit(trainPOS)
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### ViveknSentimentDetector
 
@@ -620,6 +682,8 @@ Refer to the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/index#co
 
 Train your own model:
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -637,7 +701,11 @@ val sentimentDetector = new ViveknSentimentApproach()
       .setCorpusPrune(0)
 ```
 
+</div>
+
 Use a pretrained model:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -653,6 +721,7 @@ val sentimentDetector = new ViveknSentimentModel.pretrained
       .setOutputCol("vivekn")
 ```
 
+</div></div><div class="h3-box" markdown="1">
 
 ### SentimentDetector
 
@@ -685,6 +754,8 @@ Scores a sentence for a sentiment
 
 Refer to the [SentimentDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -698,6 +769,8 @@ val sentimentDetector = new SentimentDetector
     .setInputCols(Array("token", "sentence"))
     .setOutputCol("sentiment")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### WordEmbeddings
 
@@ -721,6 +794,8 @@ Word Embeddings lookup annotator that maps tokens to vectors
 
 Refer to the [WordEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.WordEmbeddings) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -741,10 +816,13 @@ val embeddings = new WordEmbeddings()
       .setOutputCol("embeddings")
 ```
 
+</div>
+
 There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:  
 
 - withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
+</div><div class="h3-box" markdown="1">
 
 ### BertEmbeddings
 
@@ -762,6 +840,8 @@ Refer to the [BertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsno
 
 How to use pretrained BertEmbeddings:
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -778,6 +858,8 @@ val bert = BertEmbeddings.pretrained()
       .setPoolingLayer(0) // 0, -1, or -2
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### ElmoEmbeddings
 
 Computes contextualized word representations using character-based word representations and bidirectional LSTMs
@@ -793,6 +875,8 @@ You can find the pre-trained model for `ElmoEmbeddings` in the  [Spark NLP Model
 Refer to the [ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings) Scala docs for more
 
 How to use pretrained ElmoEmbeddings:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -816,6 +900,8 @@ val elmo = ElmoEmbeddings.pretrained()
       .setPoolingLayer("elmo") //  word_emb, lstm_outputs1, lstm_outputs2 or elmo
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### AlbertEmbeddings
 
 Computes contextualized word representations using "A Lite" implementation of BERT algorithm by applying parameter-reduction techniques
@@ -836,6 +922,8 @@ You can find the pre-trained model for `AlbertEmbeddings` in the  [Spark NLP Mod
 Refer to the [AlbertEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings) Scala docs for more
 
 How to use pretrained AlbertEmbeddings:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -858,6 +946,8 @@ val albert = AlbertEmbeddings.pretrained()
       .setOutputCol("albert")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### XlnetEmbeddings
 
 Computes contextualized word representations using combination of Autoregressive Language Model and Permutation Language Model
@@ -878,6 +968,8 @@ You can find the pre-trained model for `XlnetEmbeddings` in the  [Spark NLP Mode
 Refer to the [XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings) Scala docs for more
 
 How to use pretrained XlnetEmbeddings:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -900,6 +992,8 @@ val xlnet = XlnetEmbeddings.pretrained()
       .setOutputCol("xlnet")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### UniversalSentenceEncoder
 
 The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
@@ -909,6 +1003,8 @@ The Universal Sentence Encoder encodes text into high dimensional vectors that c
 **Input types:** Document
 
 Refer to the [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder) Scala docs for more
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -924,6 +1020,8 @@ val use = new UniversalSentenceEncoder()
       .setOutputCol("use_embeddings")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### SentenceEmbeddings
 
 This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, `ElmoEmbeddings`, `AlbertEmbeddings`, or `XlnetEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
@@ -937,6 +1035,8 @@ This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, `El
 **Input types:** Document
 
 Refer to the [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings) Scala docs for more
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -989,6 +1089,8 @@ pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedd
 .withColumn("features", convertToVectorUDF($"sentence_embedding"))
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### ChunkEmbeddings
 
 This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from either `Chunker`, `NGramGenerator`, or `NerConverter` outputs.
@@ -1002,6 +1104,8 @@ This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk e
 **Input types:** CHUNK, Word_Embeddings
 
 Refer to the [ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings) Scala docs for more
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1047,6 +1151,8 @@ pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_e
 .withColumn("features", convertToVectorUDF($"chunk_embeddings_exploded"))
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### ClassifierDL
 
 #### Multi-class Text Classification
@@ -1077,6 +1183,8 @@ Refer to the [ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/index#com.j
 
 Refer to the [ClassifierDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel) Scala docs for more
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1101,7 +1209,11 @@ val docClassifier = new ClassifierDLApproach()
       .setDropout(0.5f)
 ```
 
+</div>
+
 Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
+
+</div><div class="h3-box" markdown="1">
 
 ### SentimentDL
 
@@ -1135,6 +1247,8 @@ Refer to the [SentimentDLApproach](https://nlp.johnsnowlabs.com/api/index#com.jo
 
 Refer to the [SentimentDLModel](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel) Scala docs for more
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1159,7 +1273,11 @@ val sentimentClassifier = new SentimentDLApproach()
       .setDropout(0.5f)
 ```
 
+</div>
+
 Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/) for more examples.
+
+</div><div class="h3-box" markdown="1">
 
 ### LanguageDetectorDL
 
@@ -1179,6 +1297,8 @@ LanguageDetectorDL is a state-of-the-art language detection and identification a
 
 Refer to the [LanguageDetectorDL](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL) Scala docs for more
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1196,6 +1316,8 @@ languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
       .setThreshold(0.3f)
       .setCoalesceSentences(true)
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### NER CRF
 
@@ -1223,6 +1345,8 @@ Optionally the user can provide an entity dictionary file for better accuracy
 **Example:**
 
 Refer to the [NerCrfApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1254,6 +1378,8 @@ val nerTagger = new NerCrfApproach()
     .fit(trainNer)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### NER DL
 
 #### Named Entity Recognition Deep Learning annotator
@@ -1281,6 +1407,8 @@ Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-t
 **Example:**
 
 Refer to the [NerDLApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1310,6 +1438,8 @@ val nerTagger = new NerDLApproach()
         .fit(trainNer)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### NER Converter
 
 #### Converts IOB or IOB2 representation of NER to user-friendly
@@ -1329,6 +1459,8 @@ This NER converter can be used to the output of a NER model into the ner chunk f
 
 Refer to the [NerConverter](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.ner.NerConverter) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1342,6 +1474,8 @@ val nerConverter = new NerConverter()
         .setInputCols("sentence", "token", "ner_src")
         .setOutputCol("ner_chunk")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Norvig SpellChecker
 
@@ -1367,6 +1501,8 @@ This annotator retrieves tokens and makes corrections automatically if not found
 
 Refer to the [NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1382,6 +1518,8 @@ val symSpellChecker = new NorvigSweetingApproach()
       .setOutputCol("checked")
       .setDictionary("coca2017.txt", "[a-zA-Z]+")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Symmetric SpellChecker
 
@@ -1400,6 +1538,8 @@ This spell checker is inspired on Symmetric Delete algorithm. It retrieves token
 
 Refer to the [SymmetricDeleteApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1415,6 +1555,8 @@ val spellChecker = new SymmetricDeleteApproach()
     .setOutputCol("spell")
     .fit(trainCorpus)
 ```  
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Context SpellChecker
 
@@ -1452,6 +1594,8 @@ Train:
 
 Refer to the [ContextSpellCheckerApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1466,7 +1610,9 @@ val spellChecker = new ContextSpellCheckerApproach()
     .setInputCols(Array("token"))
     .setOutputCol("spell")
     .fit(trainCorpus)
-```  
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Dependency Parsers
 
@@ -1476,6 +1622,8 @@ The following diagram illustrates a dependency-style analysis using the standard
 ![Dependency Parser](\assets\images\dependency_parser.png)
 
 Relations among the words are illustrated above the sentence with directed, labeled arcs from heads to dependents. We call this a typed dependency structure because the labels are drawn from a fixed inventory of grammatical relations. It also includes a root node that explicitly marks the root of the tree, the head of the entire structure. [1]
+
+</div><div class="h3-box" markdown="1">
 
 ### Dependency Parser
 
@@ -1495,6 +1643,8 @@ Unlabeled parser that finds a grammatical relation between two words in a senten
 
 Refer to the [DependencyParserApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1512,6 +1662,8 @@ val dependencyParser = new DependencyParserApproach()
     .setDependencyTreeBank("parser/dependency_treebank")
     .setNumberOfIterations(10)
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Typed Dependency Parser
 
@@ -1531,6 +1683,8 @@ Labeled parser that finds a grammatical relation between two words in a sentence
 
 Refer to the [TypedDependencyParserApproach](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach) Scala docs for more details on the API.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -1547,6 +1701,8 @@ val typedDependencyParser = new TypedDependencyParserApproach()
     .setOutputCol("labdep")
     .setConll2009("conll2009/eng.train"))
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### References
 
