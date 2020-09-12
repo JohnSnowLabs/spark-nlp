@@ -1,10 +1,13 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark NLP for Healthcare
 permalink: /docs/en/licensed_install
 key: docs-licensed-install
 modify_date: "2020-09-09"
 ---
+
+<div class="h3-box" markdown="1">
 
 ### Installation
 
@@ -17,6 +20,8 @@ pip install spark-nlp-jsl==2.5.5 --extra-index-url {secret-url} --upgrade
 The `{secret-url}` is a secret URL only available for users with valid license. If you have not received it, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
 At the moment there is no conda package for Spark NLP for Healthcare version.
+
+</div><div class="h3-box" markdown="1">
 
 ### Setup AWS-CLI Credentials for licensed pretrained models
 
@@ -34,6 +39,8 @@ the instructions at:
 
 Please substitute the `ACCESS_KEY` and `SECRET_KEY` with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at 
 <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
+
+</div>
 
 ### Start Spark NLP for Healthcare Session from Python
 

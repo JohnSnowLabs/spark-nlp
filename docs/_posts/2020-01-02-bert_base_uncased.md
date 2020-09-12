@@ -18,6 +18,8 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 
 ## How to use
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -33,6 +35,8 @@ val embeddings = BertEmbeddings.pretrained("bert_base_uncased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 ```
+
+</div>
 
 {:.model-param}
 ## Model Parameters

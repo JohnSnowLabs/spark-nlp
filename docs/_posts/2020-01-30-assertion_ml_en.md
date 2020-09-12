@@ -28,6 +28,8 @@ Logistic regression based named entity recognition model for assertions.
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel, NerConverter, AssertionLogRegModel.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 
@@ -54,9 +56,10 @@ val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en"
 val pipeline = new Pipeline().setStages(Array(clinical_assertion_ml))
 
 val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
-
-
 ```
+
+</div>
+
 {:.model-param}
 ## Model Parameters
 

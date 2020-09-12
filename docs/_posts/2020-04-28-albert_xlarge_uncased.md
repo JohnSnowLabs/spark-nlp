@@ -18,6 +18,8 @@ ALBERT is "A Lite" version of BERT, a popular unsupervised language representati
 
 ## How to use
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -33,6 +35,8 @@ val embeddings = AlbertEmbeddings.pretrained("albert_xlarge_uncased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 ```
+
+</div>
 
 {:.model-param}
 ## Model Parameters

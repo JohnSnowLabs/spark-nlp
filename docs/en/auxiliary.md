@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Auxiliary
 permalink: /docs/en/auxiliary
 key: docs-auxiliary
@@ -10,10 +11,14 @@ use_language_switcher: "Python-Scala"
 
 ## Auxiliary functions and utilities
 
+<div class="h3-box" markdown="1">
+
 ### Spark NLP Annotation functions
 
 The functions presented here help users manipulate annotations, by providing
 both UDFs and dataframe utilities to deal with them more easily
+
+</div><div class="h3-box" markdown="1">
 
 #### Python
 In python, the functions are straight forward and have both UDF and Dataframe applications
@@ -23,6 +28,8 @@ In python, the functions are straight forward and have both UDF and Dataframe ap
 * `filter_by_annotations_col(dataframe, f, column)` applies a boolean filter f() to `column` from `dataframe`
 * `explode_annotations_col(dataframe: DataFrame, column, output_column)` explodes annotation `column` from `dataframe`
 
+</div><div class="h3-box" markdown="1">
+
 #### Scala
 In Scala, importing inner functions brings implicits that allow these functions to be applied directly on top of the dataframe
 * `mapAnnotations(function: Seq[Annotation] => T, outputType: DataType)`
@@ -31,7 +38,11 @@ In Scala, importing inner functions brings implicits that allow these functions 
 * `eachAnnotationsCol[T: TypeTag](column: String, function: Seq[Annotation] => Unit)`
 * `def explodeAnnotationsCol[T: TypeTag](column: String, outputCol: String)`
 
+</div>
+
 **Imports:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -45,10 +56,14 @@ import com.johnsnowlabs.nlp.functions._
 import com.johnsnowlabs.nlp.Annotation
 ```
 
+</div>
+
 **Examples:**
 
 Complete usage examples can be seen here:
 https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/jupyter/annotation/english/spark-nlp-basics/spark-nlp-basics-functions.ipynb
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -72,3 +87,5 @@ result.select(
     map_annotations(my_annoation_map_function, Annotation.arrayType())('token')
 ).toDF("my output").show(truncate=False)
 ```
+
+</div>

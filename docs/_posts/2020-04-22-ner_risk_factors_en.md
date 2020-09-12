@@ -29,6 +29,8 @@ CAD, Diabetes, Family_hist, Hyperlipidemia, Hypertension, Medication, Obese, PHI
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 
@@ -60,6 +62,9 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 
 
 ```
+
+</div>
+
 {:.model-param}
 ## Model Parameters
 

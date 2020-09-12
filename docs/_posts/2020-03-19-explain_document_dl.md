@@ -20,6 +20,8 @@ The *explain_document_dl* is a pretrained pipeline that we can use to process te
 
 ## How to use
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
@@ -31,6 +33,8 @@ code example
 
 pipeline = PretrainedPipeline('explain_document_dl', lang =' en').annotate(' Hello world!')
 ```
+
+</div>
 
 {:.model-param}
 ## Model Parameters

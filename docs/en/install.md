@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Installation
 permalink: /docs/en/install
 key: docs-install
@@ -35,6 +36,8 @@ spark-shell --jar spark-nlp-assembly-2.6.0
 
 ## Python
 
+<div class="h3-box" markdown="1">
+
 ### Quick Install
 
 Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any enviroment.
@@ -59,6 +62,8 @@ Now you should be ready to create a jupyter notebook running from terminal:
 jupyter notebook
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### Start Spark NLP Session from python
 
 If you need to manually start SparkSession because you have other configuraations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
@@ -74,7 +79,11 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
+</div>
+
 ## Scala and Java
+
+<div class="h3-box" markdown="1">
 
 Our package is deployed to maven central. In order to add this package
 as a dependency in your application:
@@ -123,6 +132,8 @@ as a dependency in your application:
 </dependency>
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### SBT
 
 **spark-nlp** on Apacahe Spark 2.4.x:
@@ -153,10 +164,13 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "2.6.0"
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "2.6.0"
 ```
 
-
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
 
+</div>
+
 ## Databricks
+
+<div class="h3-box" markdown="1">
 
 ### Databricks Support
 
@@ -170,6 +184,8 @@ Spark NLP 2.6.0 has been tested and is compatible with the following runtimes:
 * 6.4 ML
 * 6.5
 * 6.5 ML
+
+</div><div class="h3-box" markdown="1">
 
 ### Install Spark NLP on Databricks
 
@@ -190,6 +206,8 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
+</div>
+
 ### Databricks Notebooks
 
 You can view all the Databricks notebooks from this address:
@@ -197,3 +215,5 @@ You can view all the Databricks notebooks from this address:
 [https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html](https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html)
 
 Note: You can import these notebooks by using their URLs.
+
+

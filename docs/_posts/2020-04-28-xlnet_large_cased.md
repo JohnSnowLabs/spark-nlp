@@ -18,6 +18,8 @@ XLNet is a new unsupervised language representation learning method based on a n
 
 ## How to use
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -33,6 +35,8 @@ val embeddings = XlnetEmbeddings.pretrained("xlnet_large_cased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 ```
+
+</div>
 
 {:.model-param}
 ## Model Parameters

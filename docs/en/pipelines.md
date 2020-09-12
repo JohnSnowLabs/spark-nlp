@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
@@ -11,11 +12,14 @@ Please follow this link for updated list:
 [https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
 {:.success}
 
+<div class="h3-box" markdown="1">
+
 ## English
 
 **NOTE:**
 `noncontrib` pipelines are compatible with `Windows` operating systems.
 
+{:.table-model-big}
 | Pipelines            | Name                   |
 | -------------------- | ---------------------- |
 | [Explain Document ML](#explain_document_ml)  | `explain_document_ml`
@@ -39,6 +43,8 @@ Please follow this link for updated list:
 | Analyze Sentiment DL | `analyze_sentimentdl_use_imdb` |
 | Analyze Sentiment DL | `analyze_sentimentdl_use_twitter` |
 | Dependency Parse | `dependency_parse` |
+
+</div><div class="h3-box" markdown="1">
 
 ### explain_document_ml
 
@@ -73,6 +79,8 @@ annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 7 more f
 */
 
 {% endhighlight %}
+
+</div><div class="h3-box" markdown="1">
 
 ### explain_document_dl
 
@@ -121,6 +129,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### recognize_entities_dl
 
 {% highlight scala %}
@@ -168,6 +178,8 @@ annotation.select("entities.result").show(false)
 */
 
 {% endhighlight %}
+
+</div><div class="h3-box" markdown="1">
 
 ### onto_recognize_entities_sm
 
@@ -219,6 +231,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### onto_recognize_entities_lg
 
 Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **OntoNotes** corpus and supports the identification of 18 entities.
@@ -268,6 +282,8 @@ annotation.select("entities.result").show(false)
 */
 
 {% endhighlight %}
+
+</div><div class="h3-box" markdown="1">
 
 ### match_datetime
 
@@ -319,6 +335,8 @@ annotation.select("date.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### match_pattern
 
 RegexMatcher (match phone numbers)
@@ -365,6 +383,8 @@ annotation.select("regex.result").show(false)
 */
 
 {% endhighlight %}
+
+</div><div class="h3-box" markdown="1">
 
 ### match_chunks
 
@@ -416,8 +436,11 @@ annotation.select("chunk.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ## French
 
+{:.table-model-big}
 | Pipelines               | Name                  |
 | ----------------------- | --------------------- |
 | [Explain Document Large](#french-explain_document_lg)  | `explain_document_lg` |
@@ -425,12 +448,15 @@ annotation.select("chunk.result").show(false)
 | [Entity Recognizer Large](#french-entity_recognizer_lg) | `entity_recognizer_lg` |
 | [Entity Recognizer Medium](#french-entity_recognizer_md) | `entity_recognizer_md` |
 
+{:.table-model-big}
 |Feature | Description|
 |---|----|
 |**NER**|Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities
 |**Lemma**|Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/fr_gsd/index.html)
 |**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300** WordEmbeddings
+
+</div><div class="h3-box" markdown="1">
 
 ### French explain_document_lg
 
@@ -479,6 +505,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### French explain_document_md
 
 {% highlight scala %}
@@ -526,6 +554,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### French entity_recognizer_lg
 
 {% highlight scala %}
@@ -568,6 +598,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### French entity_recognizer_md
 
 {% highlight scala %}
@@ -609,8 +641,11 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ## Italian
 
+{:.table-model-big}
 | Pipelines               | Name                  |
 | ----------------------- | --------------------- |
 | [Explain Document Large](#italian-explain_document_lg)  | `explain_document_lg`  |
@@ -618,12 +653,15 @@ annotation.select("entities.result").show(false)
 | [Entity Recognizer Large](#italian-entity_recognizer_lg) | `entity_recognizer_lg` |
 | [Entity Recognizer Medium](#italian-entity_recognizer_md) | `entity_recognizer_md` |
 
+{:.table-model-big}
 |Feature | Description|
 |---|----|
 |**NER**|Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities
 |**Lemma**|Trained by **Lemmatizer** annotator on **DXC Technology** dataset
 |**POS**| Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/it_isdt/index.html)
 |**Size**| Model size indicator, **md** and **lg**. The large pipeline uses **glove_840B_300** and the medium uses **glove_6B_300** WordEmbeddings
+
+</div><div class="h3-box" markdown="1">
 
 ### Italian explain_document_lg
 
@@ -673,6 +711,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### Italian explain_document_md
 
 {% highlight scala %}
@@ -720,6 +760,8 @@ annotation.select("entities.result").show(false)
 */
 
 {% endhighlight %}
+
+</div><div class="h3-box" markdown="1">
 
 ### Italian entity_recognizer_lg
 
@@ -769,6 +811,8 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ### Italian entity_recognizer_md
 
 {% highlight scala %}
@@ -817,8 +861,11 @@ annotation.select("entities.result").show(false)
 
 {% endhighlight %}
 
+</div><div class="h3-box" markdown="1">
+
 ## Spanish
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.4.0 |   `es` |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_es_2.4.0_2.4_1581977077084.zip)  |
@@ -828,6 +875,7 @@ annotation.select("entities.result").show(false)
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.4.0 |   `es` |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_es_2.4.0_2.4_1581978260094.zip)  |
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.4.0 |   `es` |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_es_2.4.0_2.4_1581977172660.zip)  |
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`                                                                                                                     |
@@ -835,8 +883,11 @@ annotation.select("entities.result").show(false)
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 |**Size**| Model size indicator, **sm**, **md**, and **lg**. The small pipelines use **glove_100d**, the medium pipelines use **glove_6B_300**, and large pipelines use **glove_840B_300** WordEmbeddings
 
+</div><div class="h3-box" markdown="1">
+
 ## Russian
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.4.4 |   `ru` |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_ru_2.4.4_2.4_1584017142719.zip)  |
@@ -846,14 +897,18 @@ annotation.select("entities.result").show(false)
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.4.4 |   `ru` |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_ru_2.4.4_2.4_1584018332357.zip)  |
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.4.4 |   `ru` |             | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_ru_2.4.4_2.4_1584017227871.zip)  |  
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/ru_gsd/index.html)|
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/ru_gsd/index.html)                                                             |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 
+</div><div class="h3-box" markdown="1">
+
 ## Dutch
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `nl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_nl_2.5.0_2.4_1588546621618.zip)  |
@@ -863,8 +918,11 @@ annotation.select("entities.result").show(false)
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `nl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_nl_2.5.0_2.4_1588546645304.zip)  |
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `nl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_nl_2.5.0_2.4_1588612569958.zip)  |  
 
+</div><div class="h3-box" markdown="1">
+
 ## Norwegian
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `no` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_no_2.5.0_2.4_1588784132955.zip)  |
@@ -874,8 +932,11 @@ annotation.select("entities.result").show(false)
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `no` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_no_2.5.0_2.4_1588794357614.zip)  |
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `no` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_no_2.5.0_2.4_1588793261642.zip)  |  
 
+</div><div class="h3-box" markdown="1">
+
 ## Polish
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `pl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pl_2.5.0_2.4_1588531081173.zip)  |
@@ -883,10 +944,13 @@ annotation.select("entities.result").show(false)
 | Explain Document Large    | `explain_document_lg`  | 2.5.0 |   `pl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_pl_2.5.0_2.4_1588529695577.zip)  |
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pl_2.5.0_2.4_1588532616080.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pl_2.5.0_2.4_1588532376753.zip)  |
-| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pl_2.5.0_2.4_1588531171903.zip)  |  
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pl_2.5.0_2.4_1588531171903.zip)  | 
+
+</div><div class="h3-box" markdown="1">
 
 ## Portuguese
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `pt` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pt_2.5.0_2.4_1588501423743.zip)  |
@@ -894,10 +958,13 @@ annotation.select("entities.result").show(false)
 | Explain Document Large    | `explain_document_lg`  | 2.5.0 |   `pt` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_pt_2.5.0_2.4_1588500056427.zip)  |
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pt_2.5.0_2.4_1588502815900.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pt_2.5.0_2.4_1588502606198.zip)  |
-| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pt_2.5.0_2.4_1588501526324.zip)  |  
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pt_2.5.0_2.4_1588501526324.zip)  | 
+
+</div><div class="h3-box" markdown="1">
 
 ## Multi-language
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | LanguageDetectorDL    | `detect_language_7`        | 2.5.2 |      `xx` |        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_7_xx_2.5.0_2.4_1591875676774.zip) |
@@ -905,6 +972,8 @@ annotation.select("entities.result").show(false)
 
 * The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
 * The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
+
+</div><div class="h3-box" markdown="1">
 
 ## How to use
 
@@ -925,6 +994,8 @@ Same in Scala
 val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
 
 {% endhighlight %}
+
+</div>
 
 ### Offline
 

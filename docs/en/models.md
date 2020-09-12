@@ -1,10 +1,13 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Models
 permalink: /docs/en/models
 key: docs-models
 modify_date: "2020-06-12"
 ---
+
+<div class="h3-box" markdown="1">
 
 ## Pretrained Models
 
@@ -12,6 +15,8 @@ Pretrained Models moved to its own dedicated repository.
 Please follow this link for updated list:
 [https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
 {:.success}
+
+</div><div class="h3-box" markdown="1">
 
 ## How to use Pretrained Models
 
@@ -33,7 +38,9 @@ The default language is `en`, so for other laguages you should set the language:
 val french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 // load Italain LemmatizerModel
 val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang="it")
-````
+```
+
+</div><div class="h3-box" markdown="1">
 
 ### Offline
 
@@ -48,6 +55,8 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setInputCols("document", "token")
       .setOutputCol("pos")
 ```
+
+</div><div class="h3-box" markdown="1">
 
 ## Public Models
 
@@ -64,8 +73,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 
 **NOTE:** `build` means the model can be downloaded or loaded for that specific version or above. For instance, `2.4.0` can be used in all the releases after `2.4.x` but not before.
 
+</div><div class="h3-box" markdown="1">
+
 ### Dutch - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `nl`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_nl_2.5.0_2.4_1588532720582.zip) |
@@ -74,8 +86,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | NerDLModel (glove_6B_300)  | `wikiner_6B_300`     | 2.5.0 |   `nl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_300_nl_2.5.0_2.4_1588546201483.zip) |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.5.0 |   `nl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_nl_2.5.0_2.4_1588546201484.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### English - Models
 
+{:.table-model-big}
 | Model                                    | Name                      | Build            | Lang | Offline
 |:-----------------------------------------|:--------------------------|:-----------------|:------------|:------|
 | LemmatizerModel (Lemmatizer)             | `lemma_antbnc`            | 2.0.2 |      `en`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_antbnc_en_2.0.2_2.4_1556480454569.zip) |
@@ -93,8 +108,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | DependencyParser (Dependency)            | `dependency_conllu`       | 2.0.8 |      `en`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_conllu_en_2.0.8_2.4_1561435004077.zip)|
 | TypedDependencyParser (Dependency)       | `dependency_typed_conllu` | 2.0.8 |      `en`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_typed_conllu_en_2.0.8_2.4_1561473259215.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 #### Embeddings
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | WordEmbeddings (GloVe)            | `glove_100d`              | 2.4.0 |      `en`        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_100d_en_2.4.0_2.4_1579690104032.zip) |
@@ -112,8 +130,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | XlnetEmbeddings                  | `xlnet_base_cased`    | 2.5.0 |      `en`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlnet_base_cased_en_2.5.0_2.4_1588074114942.zip)
 | XlnetEmbeddings                  | `xlnet_large_cased`    | 2.5.0 |      `en`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlnet_large_cased_en_2.5.0_2.4_1588074397954.zip)
 
+</div><div class="h3-box" markdown="1">
+
 #### Classification
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | ClassifierDL (with tfhub_use)          | `classifierdl_use_trec6`        | 2.5.0 |      `en`        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_trec6_en_2.5.0_2.4_1588492648979.zip) |
@@ -122,36 +143,47 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | SentimentDL (with tfhub_use)           | `sentimentdl_use_twitter`       | 2.5.0 |      `en`        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentimentdl_use_twitter_en_2.5.0_2.4_1589108892106.zip) |
 | SentimentDL (with glove_100d)          | `sentimentdl_glove_imdb`         | 2.5.0 |      `en`        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentimentdl_glove_imdb_en_2.5.0_2.4_1588682682507.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### French - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build | Lang |  Offline                                                                                                                                                                                                |
 |:-----------------------------|:-------------------|:------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            |   2.0.2    |   `fr`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fr_2.0.2_2.4_1556531462843.zip)                                                                                       |
 | PerceptronModel (POS UD)     | `pos_ud_gsd`       |   2.0.2    |    `fr`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_fr_2.0.2_2.4_1556531457346.zip)                                                                                  |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` |   2.0.2    |    `fr`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_fr_2.4.0_2.4_1579699913554.zip)                                                                            |
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |    |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---|
 | **Lemma** | Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`                                                                                                                     |    |
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/fr_gsd/index.html)                                                             |    |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |    |
 
+</div><div class="h3-box" markdown="1">
+
 ### German - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang | Offline                                                                                                                                                                                                |
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.0.8 |       `de`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_de_2.0.8_2.4_1561248996126.zip)                                                                                             |
 | PerceptronModel (POS UD)     | `pos_ud_hdt`       | 2.0.8 |       `de`      | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_hdt_de_2.0.8_2.4_1561232528570.zip)                                                                                        |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.4.0 |       `de`        | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_de_2.4.0_2.4_1579699913555.zip)|
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`                                                                                                                     |
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/de_hdt/index.html)                                                             |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 
+</div><div class="h3-box" markdown="1">
+
 ### Italian - Models
 
+{:.table-model-big}
 | Model                         | Name               | Build            | Lang  | Offline|
 |:------------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer)  | `lemma_dxc`        | 2.0.2 |    `it`   |  [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_dxc_it_2.0.2_2.4_1556531469058.zip)        |
@@ -159,14 +191,18 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | PerceptronModel (POS UD)      | `pos_ud_isdt`      | 2.0.8 |    `it`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_isdt_it_2.0.8_2.4_1560168427464.zip)      |
 | NerDLModel (glove_840B_300)   | `wikiner_840B_300` | 2.4.0 |   `it`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_it_2.4.0_2.4_1579699913554.zip) |
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on **DXC Technology** dataset                                                                                                                                      |
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/it_isdt/index.html)                                                            |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 
+</div><div class="h3-box" markdown="1">
+
 ### Norwegian - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `nb`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_nb_2.5.0_2.4_1588693886432.zip) |
@@ -176,8 +212,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | NerDLModel (glove_6B_300)  | `norne_6B_300`     | 2.5.0 |   `no`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/norne_6B_300_no_2.5.0_2.4_1588781290264.zip) |
 | NerDLModel (glove_840B_300)  | `norne_840B_300` | 2.5.0 |   `no`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/norne_840B_300_no_2.5.0_2.4_1588781290267.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Polish - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `pl`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_pl_2.5.0_2.4_1588518491035.zip) |
@@ -186,8 +225,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | NerDLModel (glove_6B_300)  | `wikiner_6B_300`     | 2.5.0 |   `pl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_300_pl_2.5.0_2.4_1588519719571.zip) |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.5.0 |   `pl`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_pl_2.5.0_2.4_1588519719572.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Portuguese - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `pt`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_pt_2.5.0_2.4_1588499301752.zip) |
@@ -196,8 +238,11 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | NerDLModel (glove_6B_300)  | `wikiner_6B_300`     | 2.5.0 |   `pt`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_300_pt_2.5.0_2.4_1588495233641.zip) |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.5.0 |   `pt`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_pt_2.5.0_2.4_1588495233642.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Russian - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang  | Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.4.4 |    `ru`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_ru_2.4.4_2.4_1584013425855.zip) |
@@ -206,14 +251,18 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | NerDLModel (glove_6B_300)  | `wikiner_6B_300` | 2.4.4 |  `ru`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_300_ru_2.4.4_2.4_1584014001694.zip) |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.4.4 |   `ru`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_ru_2.4.4_2.4_1584014001695.zip) |
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/ru_gsd/index.html)|
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/ru_gsd/index.html)                                                             |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 
+</div><div class="h3-box" markdown="1">
+
 ### Spanish - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.4.0 |    `es`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_es_2.4.0_2.4_1581890818386.zip) |
@@ -222,84 +271,118 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 | NerDLModel (glove_6B_300)  | `wikiner_6B_300` | 2.4.0 |  `es`     | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_6B_300_es_2.4.0_2.4_1581971942090.zip) |
 | NerDLModel (glove_840B_300)  | `wikiner_840B_300` | 2.4.0 |   `es`    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wikiner_840B_300_es_2.4.0_2.4_1581971942091.zip;) |
 
+{:.table-model-big}
 | Feature   | Description                                                                                                                                                                                            |
 |:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Lemma** | Trained by **Lemmatizer** annotator on **lemmatization-lists** by `Michal Měchura`                                                                                                                     |
 | **POS**   | Trained by **PerceptronApproach** annotator on the [Universal Dependencies](https://universaldependencies.org/treebanks/es_gsd/index.html)                                                             |
 | **NER**   | Trained by **NerDLApproach** annotator with **Char CNNs - BiLSTM - CRF** and **GloVe Embeddings** on the **WikiNER** corpus and supports the identification of `PER`, `LOC`, `ORG` and `MISC` entities |
 
+</div><div class="h3-box" markdown="1">
+
 ### Bulgarian - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `bg`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_bg_2.5.0_2.4_1588666297763.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_btb`       | 2.5.0 |   `bg`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_btb_bg_2.5.0_2.4_1588621401140.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Czech - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `cs`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_cs_2.5.0_2.4_1588666300042.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_pdt`       | 2.5.0 |   `cs`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_pdt_cs_2.5.0_2.4_1588622155494.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Greek - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `el`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_el_2.5.0_2.4_1588686951720.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_gdt`       | 2.5.0 |   `el`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gdt_el_2.5.0_2.4_1588686949851.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Finnish - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `fi`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_fi_2.5.0_2.4_1588671290521.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_tdt`       | 2.5.0 |   `fi`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_tdt_fi_2.5.0_2.4_1588622348985.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Hungarian - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `hu`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_hu_2.5.0_2.4_1588671968880.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_szeged`       | 2.5.0 |   `hu`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_szeged_hu_2.5.0_2.4_1588671966774.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Romanian - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `ro`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_ro_2.5.0_2.4_1588666512149.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_rrt`       | 2.5.0 |   `ro`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_rrt_ro_2.5.0_2.4_1588622539956.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Slovak - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `sk`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_sk_2.5.0_2.4_1588666524270.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_snk`       | 2.5.0 |   `sk`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_snk_sk_2.5.0_2.4_1588622627281.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Swedish - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `sv`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_sv_2.5.0_2.4_1588666548498.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_tal`       | 2.5.0 |   `sv`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_tal_sv_2.5.0_2.4_1588622711284.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Turkish - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `tr`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_tr_2.5.0_2.4_1587479962436.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_imst`       | 2.5.0 |   `tr`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_imst_tr_2.5.0_2.4_1587480006078.zip) |
 
+</div><div class="h3-box" markdown="1">
+
 ### Ukrainian - Models
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  Offline|
 |:-----------------------------|:-------------------|:-----------------|:------|:------------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.0 |   `uk`   |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_uk_2.5.0_2.4_1588671294202.zip) |
 | PerceptronModel (POS UD)     | `pos_ud_iu`       | 2.5.0 |   `uk`    |[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_iu_uk_2.5.0_2.4_1588668890963.zip) |
 
+</div>
+
 ### Multi-language
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang | Offline |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | WordEmbeddings (GloVe)       | `glove_840B_300`   | 2.4.0 |  `xx`   | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove_840B_300_xx_2.4.0_2.4_1579698926752.zip)   |

@@ -20,6 +20,8 @@ Clinical NER (Large) is a Named Entity Recognition model that annotates text to 
 
 ## How to use 
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -35,6 +37,8 @@ val ner = NerDLModel.pretrained("ner_clinical_large", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
 ```
+
+</div>
 
 {:.model-param}
 ## Model Parameters

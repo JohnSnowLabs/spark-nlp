@@ -28,11 +28,12 @@ Deep learning named entity recognition model for assertions. The SparkNLP deep l
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel, NerConverter, AssertionDLModel.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 
 ```python
-
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
@@ -42,11 +43,9 @@ nlpPipeline = Pipeline(stages=[clinical_assertion])
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
-
 ```
 
 ```scala
-
 val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
@@ -54,9 +53,10 @@ val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clin
 val pipeline = new Pipeline().setStages(Array(clinical_assertion))
 
 val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
-
-
 ```
+
+</div>
+
 {:.model-param}
 ## Model Parameters
 

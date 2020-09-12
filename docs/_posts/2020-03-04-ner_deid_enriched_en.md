@@ -20,6 +20,8 @@ Deidentification NER (Enriched) is a Named Entity Recognition model that annotat
 
 ## How to use 
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -35,6 +37,8 @@ val ner = NerDLModel.pretrained("ner_deid_enriched", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
 ```
+
+</div>
 
 {:.model-param}
 ## Model Parameters

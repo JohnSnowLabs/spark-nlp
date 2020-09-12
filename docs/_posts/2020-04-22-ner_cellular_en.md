@@ -28,6 +28,8 @@ DNA, Cell_type, Cell_line, RNA, Protein
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 
@@ -56,9 +58,10 @@ val ner = NerDLModel.pretrained("ner_cellular", "en", "clinical/models") \
 val pipeline = new Pipeline().setStages(Array(ner))
 
 val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
-
-
 ```
+
+</div>
+
 {:.model-param}
 ## Model Parameters
 

@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
@@ -27,6 +28,8 @@ This object is **automatically generated** by annotators after a transform proce
 
 ## Annotators
 
+<div class="h3-box" markdown="1">
+
 Annotators are the spearhead of NLP functions in Spark NLP. There are two forms of annotators:
 
 - **Annotator Approaches:** Are those who represent a Spark ML Estimator and require a training stage. They have a function called fit(data) which trains a model based on some data. They produce the second type of annotator which is an annotator model or transformer.
@@ -34,10 +37,14 @@ Annotators are the spearhead of NLP functions in Spark NLP. There are two forms 
 
 Both forms of annotators can be included in a Pipeline and will automatically go through all stages in the provided order and transform the data accordingly. A Pipeline is turned into a PipelineModel after the fit() stage. Either before or after can be saved and re-loaded to disk at any time.
 
+</div><div class="h3-box" markdown="1">
+
 ### Common Functions
 
 - **setInputCols**(column_names): Takes a list of column names of annotations required by this annotator
 - **setOutputCol(**column_name): Defines the name of the column containing the result of this annotator. Use this name as an input for other annotators requiring the annotations of this one.
+
+</div><div class="h3-box" markdown="1">
 
 ## Quickly annotate some text
 
@@ -67,11 +74,15 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 - CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.0`
 - GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.6.0`
 
+</div><div class="h3-box" markdown="1">
+
 ### Explain Document ML
 
 Spark NLP offers a variety of pretrained pipelines that will help you
 get started, and get a sense of how the library works. We are constantly
 working on improving the available content.
+
+</div><div class="h3-box" markdown="1">
 
 ### Downloading and using a pretrained pipeline
 
@@ -79,6 +90,8 @@ Explain Document ML, named as explain_document_ml is a pretrained
 pipeline that does a little bit of everything NLP related. Let's try it
 out in scala. Note that the first time might take longer since it
 downloads the model from our servers!
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -112,6 +125,7 @@ val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 ```
 
 ```bash
+Bash
 explain_document_ml download started this may take some time.
 Approximate size to download 9.4 MB
 Download done! Loading the resource.
@@ -124,6 +138,7 @@ println(annotations)
 ```
 
 ```bash
+Bash
 Map(
    stem -> List(we, ar, veri, happi, about, sparknlp), 
    checked -> List(We, are, very, happy, about, SparkNLP), 
@@ -135,10 +150,14 @@ Map(
    )
 ```
 
+</div>
+
 As you can see the explain_document_ml is able to annotate any "document"
 providing as output a list of stems, check-spelling, lemmas,
 part of speech tags, tokens and sentence boundary detection and all this
 "out-of-the-box"!.
+
+</div><div class="h3-box" markdown="1">
 
 ### Using a pretrained pipeline with spark dataframes
 
@@ -151,6 +170,8 @@ different components in a spark dataframe.
 Remember than when starting jupyter notebook from pyspark or when running
 the spark-shell for scala a Spark Session is started in the background
 by default within the namespace 'scala'.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -227,11 +248,15 @@ annotations_df.show()
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Manipulating pipelines
 
 The output of the previous DataFrame was in terms of Annotation objects.
  This output is not really comfortable to deal with, as you can see by
 running the code:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -338,7 +363,11 @@ scala> annotations_df.select("finished_token").show(truncate=false)
 +-------------------------------------------+
 ```
 
+</div></div>
+
 ## Setup your own pipeline
+
+<div class="h3-box" markdown="1">
 
 ### Annotator types
 
@@ -349,12 +378,16 @@ For example, when a token type annotator is required by another annotator,
 such as a sentiment analysis annotator, you can either provide a normalized
 token or a lemma, as both are of type token.
 
+</div><div class="h3-box" markdown="1">
+
 ### Necessary imports
 
 Since version 1.5.0 we are making necessary imports easy to reach,
 **base.\_** will include general Spark NLP transformers and concepts,
 while **annotator.\_** will include all annotators that we currently
 provide. We also need Spark ML pipelines.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -369,6 +402,7 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import org.apache.spark.ml.Pipeline
 ```
+</div></div><div class="h3-box" markdown="1">
 
 ### DocumentAssembler: Getting data in
 
@@ -376,6 +410,8 @@ In order to get through the NLP process, we need to get raw data
 annotated. There is a special **transformer** that does this for us:
 the **DocumentAssembler**, it creates the first annotation of type
 **Document** which may be used by annotators down the road
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -391,6 +427,7 @@ val documentAssembler = new DocumentAssembler().
     setInputCol("text").
     setOutputCol("document")
 ```
+</div></div><div class="h3-box" markdown="1">
 
 ### Sentence detection and tokenization
 
@@ -400,6 +437,8 @@ which is provided by the DocumentAssembler output, and it's itself a
 Document type token. The Tokenizer requires a Document annotation type,
 meaning it works both with DocumentAssembler or SentenceDetector output,
 in here, we use the sentence output.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -441,10 +480,13 @@ val finisher = new Finisher().
     setInputCols("token").
     setCleanAnnotations(false)
 ```
+</div></div><div class="h3-box" markdown="1">
 
 ### Finisher: Getting data out
 
 At the end of each pipeline or any stage that was done by Spark NLP, you may want to get results out whether onto another pipeline or simply write them on disk. The `Finisher` annotator helps you to clean the metadata (if it's set to true) and output the results into an array:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -479,12 +521,15 @@ import org.apache.spark.sql.functions._
 
 df.withColumn("tmp", explode(col("chunk"))).select("tmp.*")
 ```
+</div></div>
 
 ## Using Spark ML Pipeline
 
 Now we want to put all this together and retrieve the results, we use a
 Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -533,6 +578,8 @@ annotations.select("finished_token").show(truncate=false)
 +-------------------------------------------+
 ```
 
+</div>
+
 ## Using Spark NLP's LightPipeline
 
 LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
@@ -543,6 +590,8 @@ amounts of data. This means, we do not input a Spark Dataframe, but a
 string or an Array of strings instead, to be annotated. To create Light
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It's transform() stage is converted into annotate() instead.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -593,7 +642,11 @@ Map[String,Seq[String]] =
     )
 ```
 
+</div>
+
 ## Training annotators
+
+<div class="h3-box" markdown="1">
 
 ### Training methodology
 
@@ -624,6 +677,8 @@ API just like any other annotator. For more advanced users, we also
 allow importing your own graphs or even training from Python and
 converting them into an AnnotatorModel.
 
+</div><div class="h3-box" markdown="1">
+
 
 ### Spark NLP Imports
 
@@ -633,6 +688,8 @@ include all annotators that we currently provide. **embeddings** include
 word embedding annotators. This does not include Spark imports.
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -646,6 +703,7 @@ from sparknlp.embeddings import *
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 ```
+</div></div><div class="h3-box" markdown="1">
 
 ### Spark ML Pipelines
 
@@ -655,6 +713,8 @@ seamlessly so it is important to have this concept handy. Once a
 **Pipeline** is trained with **fit()**, this becomes a **PipelineModel**  
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -667,6 +727,7 @@ pipeline = Pipeline().setStages([...])
 import org.apache.spark.ml.Pipeline
 new Pipeline().setStages(Array(...))
 ```
+</div></div><div class="h3-box" markdown="1">
 
 ### LightPipeline
 
@@ -676,6 +737,8 @@ amounts of data (small is relative, but 50k sentences is roughly a good
 maximum). To use them, simply plug in a trained (fitted) pipeline.
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -689,12 +752,16 @@ import com.johnsnowlabs.nlp.LightPipeline
 new LightPipeline(somePipelineModel).annotate(someStringOrArray))
 ```
 
+</div>
+
 **Functions:**
 
 - annotate(string or string\[\]): returns dictionary list of annotation
 results
 - fullAnnotate(string or string\[\]): returns dictionary list of entire
 annotations content
+
+</div><div class="h3-box" markdown="1">
 
 ### RecursivePipeline
 
@@ -708,30 +775,34 @@ same intention.
 
 **Example:**
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 from sparknlp.annotator import *
 recursivePipeline = RecursivePipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        lemmatizer,
-        finisher
-        ])
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    lemmatizer,
+    finisher
+])
 ```
 
 ```scala
 import com.johnsnowlabs.nlp.RecursivePipeline
 val recursivePipeline = new RecursivePipeline()
-        .setStages(Array(
+    .setStages(Array(
         documentAssembler,
         sentenceDetector,
         tokenizer,
         lemmatizer,
         finisher
-        ))
+    ))
 ```
+
+</div></div>
 
 ### Params and Features
 
