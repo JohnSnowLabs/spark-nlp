@@ -667,19 +667,6 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: ICD10-PCS coding
-          image: 
-              src: /assets/images/Detect_posology_relations.svg
-          image2: 
-              src: /assets/images/Detect_posology_relations_f.svg
-          excerpt: Automatically detect the procedures mentioned in your discharge record and link them to the corresponding ICD10-PCS code using Spark NLP for Healthcare out of the box.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_PCS
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_PCS.ipynb
         - title: RxNORM coding
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg

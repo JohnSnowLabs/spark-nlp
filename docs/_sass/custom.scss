@@ -111,9 +111,10 @@ header.header {
 				}
 				.search-button {
 					background: none !important;
+					border: none !important;
 					width: 26px;
 					height: 26px;
-					margin-left: 18px;
+					margin-left: 5px;
 					i {
 						color: $color-orange;
 						font-size: 24px;

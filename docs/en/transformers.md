@@ -8,11 +8,9 @@ modify_date: "2019-11-01"
 use_language_switcher: "Python-Scala-Java"
 ---
 
-## Transformers Guideline
-
 <div class="h3-box" markdown="1">
 
-### DocumentAssembler: Getting data in
+## DocumentAssembler: Getting data in
 
 In order to get through the NLP process, we need to get raw data
 annotated. There is a special transformer that does this for us: it
@@ -79,7 +77,7 @@ val documentAssembler = new DocumentAssembler()
 
 </div></div><div class="h3-box" markdown="1">
 
-### TokenAssembler: Getting data reshaped
+## TokenAssembler: Getting data reshaped
 
 This transformer reconstructs a Document type annotation from tokens,
 usually after these have been normalized, lemmatized, normalized, spell
@@ -121,7 +119,7 @@ val token_assembler = new TokenAssembler()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Doc2Chunk
+## Doc2Chunk
 
 Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol. Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType\[StringType\] (using isArray Param) Useful for annotators that require a CHUNK type input.  
 
@@ -162,7 +160,7 @@ val chunker = new Doc2Chunk()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Chunk2Doc
+## Chunk2Doc
 
 Converts a CHUNK type column back into DOCUMENT. Useful when trying to re-tokenize or do further analysis on a CHUNK result.  
 
@@ -193,7 +191,7 @@ val chunk_doc = new Chunk2Doc()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Finisher
+## Finisher
 
 Once we have our NLP pipeline ready to go, we might want to use our annotation results somewhere else where it is easy to use. The Finisher outputs annotation(s) values into string.
 
@@ -229,7 +227,7 @@ val finisher = new Finisher()
 
 </div></div><div class="h3-box" markdown="1">
 
-### EmbeddingsFinisher
+## EmbeddingsFinisher
 
 This transformer is designed to deal with embedding annotators: `WordEmbeddings`, `BertEmbeddings`, `SentenceEmbeddingd`, and `ChunkEmbeddings`. By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or Vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require `featureCol`.
 

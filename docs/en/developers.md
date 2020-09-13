@@ -1,23 +1,22 @@
 ---
 layout: docs
 header: true
-title: Developers
+title: Developers Guideline
 permalink: /docs/en/developers
 key: docs-developers
 modify_date: "2020-05-08"
 ---
 
-## Developers Guideline
 
-## Contribute
+Spark NLP is an open-source library and everyone's contribution is welcome!
+In this section we provide a guide on how to setup your environment using IntelliJ IDEA for a smoother start. You can also check our video tutorials available on our YouTube channel: https://www.youtube.com/johnsnowlabs 
 
-### General concepts (Spark, Jars, SBT, Scala vs Python, Spark ML, etc)
+## Setting up the Environment
 
-### Setting up the Environment
 
 <div class="h3-box" markdown="1">
 
-#### Import to IntelliJ IDEA
+### Import to IntelliJ IDEA
 
 Setup Spark NLP development environment. This section will cover library set up for IntelliJ IDEA.
 
@@ -87,9 +86,9 @@ If you don't see Python installed in the `SDK's` tab click **+** button, add **P
 
 </div><div class="h3-box" markdown="1">
 
-### Compiling, assembly and unit testing
+## Compiling, assembly and unit testing
 
-#### Run tests in Scala
+### Run tests in Scala
 
 Click **Add configuration** in the Top right corner. In the pop up click on the **+** and look for **sbt task**. 
 
@@ -107,13 +106,13 @@ This algorithm will Run all tests under ``spark-nlp/src/test/scala/com.johnsnowl
 
 </div><div class="h3-box" markdown="1">
 
-##### Copy tasks
+#### Copy tasks
 
 After you created task, click **Edit configuration**. Select target task and instead of **+** button you can click **copy** in the same menu. It will recreate all settings from parent task and create a new task. You can do it for Scala or for Python tasks.
 
 </div><div class="h3-box" markdown="1">
 
-##### Run individual tests
+#### Run individual tests
 
 Open test file you want to run. For example, ``spark-nlp/src/test/scala/com.johnsnowlabs/nlp/FinisherTestSpec.scala``. Right click on the class name and select **Copy reference**. It will copy to you buffer classpath - ``com.johnsnowlabs.nlp.FinisherTestSpec``. Copy existing Scala task and Name it as ``FinisherTest``.
 
@@ -125,13 +124,13 @@ Press **play** button to run individual test.
 
 </div><div class="h3-box" markdown="1">
 
-#### Debugging tests
+### Debugging tests
 
 To run tests in debug mode click **Debug** button (next to **play** button). In this mode task will stop at the given break points.
 
 </div><div class="h3-box" markdown="1">
 
-#### Run tests in Python
+### Run tests in Python
 
 To run Python test, first you need to configure project structure. Go to `File -> Project Settings -> Modules`, click on the **+** button and select **New Module**.
 
@@ -180,7 +179,7 @@ pip install pyspark numpy
 
 </div><div class="h3-box" markdown="1">
 
-#### Compiling jar
+### Compiling jar
 
 
 Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**.
@@ -195,7 +194,7 @@ You can find created jar in the folder ``spark-nlp/python/lib/sparknlp.jar``
 
 </div>
 
-#### Compiling pypi, whl
+### Compiling pypi, whl
 
 Click **Add configuration** or **Edit configuration** in the Top right corner. In the pop up click on the **+** and select **sbt task**.
 

@@ -10,11 +10,9 @@ header: true
 
 ---
 
-## Annotators Guidelines
-
 <div class="h3-box" markdown="1">
 
-### How to read this section
+## How to read this section
 
 All annotators in Spark NLP share a common interface, this is:
 
@@ -105,11 +103,9 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 
 </div>
 
-## Spark-NLP Open Source
-
 <div class="h3-box" markdown="1">
 
-### Tokenizer
+## Tokenizer
 
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
 **Output type:** Token  
@@ -163,9 +159,7 @@ val tokenizer = new Tokenizer()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Normalizer
-
-#### Text cleaning
+## Normalizer (Text cleaning)
 
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
 **Output type:** Token  
@@ -199,7 +193,7 @@ val normalizer = new Normalizer()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Stemmer
+## Stemmer
 
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word  
 **Output type:** Token  
@@ -228,7 +222,7 @@ val stemmer = new Stemmer()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Lemmatizer
+## Lemmatizer
 
 Retrieves lemmas out of words with the objective of returning a base dictionary word  
 **Output type:** Token  
@@ -263,7 +257,7 @@ val lemmatizer = new Lemmatizer()
 
 </div></div><div class="h3-box" markdown="1">
 
-### StopWordsCleaner
+## StopWordsCleaner
 
 This annotator excludes from a sequence of strings (e.g. the output of a `Tokenizer`, `Normalizer`, `Lemmatizer`, and `Stemmer`) and drops all the stop words from the input sequences.
 
@@ -325,7 +319,7 @@ val stopWordsCleaner = new StopWordsCleaner()
 
 </div></div><div class="h3-box" markdown="1">
 
-### RegexMatcher
+## RegexMatcher
 
 Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.  
 **Output type:** Regex  
@@ -361,9 +355,7 @@ val regexMatcher = new RegexMatcher()
 
 </div></div><div class="h3-box" markdown="1">
 
-### TextMatcher
-
-#### Phrase matching
+## TextMatcher (Phrase matching)
 
 Annotator to match entire phrases (by token) provided in a file against a Document  
 **Output type:** Entity  
@@ -401,9 +393,7 @@ val entityExtractor = new TextMatcher()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Chunker
-
-#### Meaningful phrase matching
+## Chunker
 
 This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
 
@@ -439,7 +429,7 @@ val chunker = new Chunker()
 
 </div></div><div class="h3-box" markdown="1">
 
-### NGramGenerator
+## NGramGenerator
 
 `NGramGenerator` annotator takes as input a sequence of strings (e.g. the output of a `Tokenizer`, `Normalizer`, `Stemmer`, `Lemmatizer`, and `StopWordsCleaner`). The parameter `n` is used to determine the number of terms in each n-gram. The output will consist of a sequence of n-grams where each n-gram is represented by a space-delimited string of n consecutive words with annotatorType `CHUNK` same as the `Chunker` annotator.
 
@@ -480,9 +470,7 @@ val nGrams = new NGramGenerator()
 
 </div></div><div class="h3-box" markdown="1">
 
-### DateMatcher
-
-#### Date-time parsing
+## DateMatcher
 
 Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.  
 **Output type:** Date  
@@ -546,9 +534,8 @@ val dateMatcher = new DateMatcher()
 
 </div></div><div class="h3-box" markdown="1">
 
-### SentenceDetector
+## SentenceDetector
 
-#### Sentence Boundary Detector
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Sentence
@@ -583,9 +570,7 @@ val sentenceDetector = new SentenceDetector()
 
 </div></div><div class="h3-box" markdown="1">
 
-### DeepSentenceDetector
-
-#### Sentence Boundary Detector with Machine Learning
+## DeepSentenceDetector
 
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.       
 The Chunk column should be generated via the NER Converter annotator from the outputs of a NER annoator.       
@@ -623,9 +608,7 @@ val deepSentenceDetector = new DeepSentenceDetector()
 
 </div></div><div class="h3-box" markdown="1">
 
-### POSTagger
-
-#### Part of speech tagger
+## POSTagger (Part of speech tagger)
 
 Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
 **Output type:** POS  
@@ -662,7 +645,7 @@ val posTagger = new PerceptronApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### ViveknSentimentDetector
+## ViveknSentimentDetector
 
 Scores a sentence for a sentiment
   
@@ -723,9 +706,7 @@ val sentimentDetector = new ViveknSentimentModel.pretrained
 
 </div></div><div class="h3-box" markdown="1">
 
-### SentimentDetector
-
-#### Sentiment analysis
+## SentimentDetector (Sentiment analysis)
 
 Scores a sentence for a sentiment  
 **Output type:** sentiment  
@@ -772,7 +753,7 @@ val sentimentDetector = new SentimentDetector
 
 </div></div><div class="h3-box" markdown="1">
 
-### WordEmbeddings
+## WordEmbeddings
 
 Word Embeddings lookup annotator that maps tokens to vectors  
 
@@ -824,7 +805,7 @@ There are also two convenient functions to retrieve the embeddings coverage with
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
 </div><div class="h3-box" markdown="1">
 
-### BertEmbeddings
+## BertEmbeddings
 
 BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
 
@@ -860,7 +841,7 @@ val bert = BertEmbeddings.pretrained()
 
 </div></div><div class="h3-box" markdown="1">
 
-### ElmoEmbeddings
+## ElmoEmbeddings
 
 Computes contextualized word representations using character-based word representations and bidirectional LSTMs
 
@@ -902,7 +883,7 @@ val elmo = ElmoEmbeddings.pretrained()
 
 </div></div><div class="h3-box" markdown="1">
 
-### AlbertEmbeddings
+## AlbertEmbeddings
 
 Computes contextualized word representations using "A Lite" implementation of BERT algorithm by applying parameter-reduction techniques
 
@@ -948,7 +929,7 @@ val albert = AlbertEmbeddings.pretrained()
 
 </div></div><div class="h3-box" markdown="1">
 
-### XlnetEmbeddings
+## XlnetEmbeddings
 
 Computes contextualized word representations using combination of Autoregressive Language Model and Permutation Language Model
 
@@ -994,7 +975,7 @@ val xlnet = XlnetEmbeddings.pretrained()
 
 </div></div><div class="h3-box" markdown="1">
 
-### UniversalSentenceEncoder
+## UniversalSentenceEncoder
 
 The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
 
@@ -1022,7 +1003,7 @@ val use = new UniversalSentenceEncoder()
 
 </div></div><div class="h3-box" markdown="1">
 
-### SentenceEmbeddings
+## SentenceEmbeddings
 
 This annotator converts the results from `WordEmbeddings`, `BertEmbeddings`, `ElmoEmbeddings`, `AlbertEmbeddings`, or `XlnetEmbeddings` into `sentence` or `document` embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the `inputCols`).
 
@@ -1091,7 +1072,7 @@ pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedd
 
 </div></div><div class="h3-box" markdown="1">
 
-### ChunkEmbeddings
+## ChunkEmbeddings
 
 This annotator utilizes `WordEmbeddings` or `BertEmbeddings` to generate chunk embeddings from either `Chunker`, `NGramGenerator`, or `NerConverter` outputs.
 
@@ -1153,9 +1134,7 @@ pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_e
 
 </div></div><div class="h3-box" markdown="1">
 
-### ClassifierDL
-
-#### Multi-class Text Classification
+## ClassifierDL (Multi-class Text Classification)
 
 ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
 
@@ -1215,9 +1194,7 @@ Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-w
 
 </div><div class="h3-box" markdown="1">
 
-### SentimentDL
-
-#### Multi-class Sentiment Analysis annotator
+## SentimentDL (Multi-class Sentiment Analysis annotator)
 
 SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets
 
@@ -1279,9 +1256,7 @@ Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-w
 
 </div><div class="h3-box" markdown="1">
 
-### LanguageDetectorDL
-
-#### Language Detection and Identiffication
+## LanguageDetectorDL (Language Detection and Identiffication)
 
 LanguageDetectorDL is a state-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks.
 
@@ -1319,9 +1294,7 @@ languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
 
 </div></div><div class="h3-box" markdown="1">
 
-### NER CRF
-
-#### Named Entity Recognition CRF annotator
+## NER CRF (Named Entity Recognition CRF annotator)
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Optionally the user can provide an entity dictionary file for better accuracy  
@@ -1380,9 +1353,7 @@ val nerTagger = new NerCrfApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### NER DL
-
-#### Named Entity Recognition Deep Learning annotator
+## NER DL (Named Entity Recognition Deep Learning annotator)
 
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
 Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.  
@@ -1440,9 +1411,7 @@ val nerTagger = new NerDLApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### NER Converter
-
-#### Converts IOB or IOB2 representation of NER to user-friendly
+## NER Converter (Converts IOB or IOB2 representation of NER to user-friendly)
 
 NER Converter used to finalize work of NER annotators. Combines entites with types `B-`, `I-` and etc. to the Chunks with Named entity in the metadata field (if LightPipeline is used can be extracted after `fullAnnotate()`)
 This NER converter can be used to the output of a NER model into the ner chunk format which is expected for the DeepSentenceDetector annotator.       
@@ -1477,7 +1446,7 @@ val nerConverter = new NerConverter()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Norvig SpellChecker
+## Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
 **Output type:** Token    
@@ -1521,7 +1490,7 @@ val symSpellChecker = new NorvigSweetingApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Symmetric SpellChecker
+## Symmetric SpellChecker
 
 This spell checker is inspired on Symmetric Delete algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words  
 **Output type:** Token  
@@ -1558,7 +1527,7 @@ val spellChecker = new SymmetricDeleteApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Context SpellChecker
+## Context SpellChecker
 
 Implements Noisy Channel Model Spell Algorithm. Correction candidates are extracted combining context information and word information  
 **Output type:** Token  
@@ -1614,7 +1583,7 @@ val spellChecker = new ContextSpellCheckerApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Dependency Parsers
+## Dependency Parsers
 
 Dependency parser provides information about word relationship. For example, dependency parsing can tell you what the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help you find precise answers to specific questions.
 The following diagram illustrates a dependency-style analysis using the standard graphical method favored in the dependency-parsing community.
@@ -1625,9 +1594,7 @@ Relations among the words are illustrated above the sentence with directed, labe
 
 </div><div class="h3-box" markdown="1">
 
-### Dependency Parser
-
-#### Unlabeled grammatical relation
+## Untyped Dependency Parser (Unlabeled grammatical relation)
 
 Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.  
 **Output type:** Dependency  
@@ -1665,9 +1632,7 @@ val dependencyParser = new DependencyParserApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### Typed Dependency Parser
-
-#### Labeled grammatical relation
+## Typed Dependency Parser (Labeled grammatical relation)
 
 Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.  
 **Output type:** Labeled Dependency  
@@ -1704,6 +1669,6 @@ val typedDependencyParser = new TypedDependencyParserApproach()
 
 </div></div><div class="h3-box" markdown="1">
 
-### References
+## References
 
 [1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018

@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Concepts
+title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
 modify_date: "2020-08-03"
@@ -11,20 +11,22 @@ use_language_switcher: "Python-Scala"
 
 ## Concepts
 
-Spark ML provides a set of Machine Learning applications, and its logic consists of two main components: **Estimators** and **Transformers**. The first, have a method called fit() which secures and trains a piece of data to such application, and a **Transformer**, which is generally the result of a fitting process, applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. **Pipelines** are a mechanism that allow multiple estimators and transformers within a single workflow, allowing multiple chained transformations along a Machine Learning task. Refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library for more information.
+Spark ML provides a set of Machine Learning applications that can be build using two main components: **Estimators** and **Transformers**. The **Estimators** have a method called fit() which secures and trains a piece of data to such application. The **Transformer** is generally the result of a fitting process and applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. 
+
+**Pipelines** are a mechanism for combining multiple estimators and transformers in a single workflow. They allow multiple chained transformations along a Machine Learning task. For more information please refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library.
 
 ## Annotation
 
-An annotation is the basic form of the result of a Spark NLP operation. It's structure is made of:
+The basic result of a Spark NLP operation is an **annotation**. It's structure includes:
 
-- **annotatorType:** which annotator generated this annotation
+- **annotatorType:** the type of annotator that generated the current annotation
 - **begin:** the begin of the matched content relative to raw-text
 - **end:** the end of the matched content relative to raw-text
 - **result:** the main output of the annotation
 - **metadata:** content of matched result and additional information
 - **embeddings:** (new in 2.0) contains vector mappings if required
 
-This object is **automatically generated** by annotators after a transform process. No manual work is required. But it must be understood in order to use it efficiently.
+This object is **automatically generated** by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it. 
 
 ## Annotators
 
@@ -32,17 +34,17 @@ This object is **automatically generated** by annotators after a transform proce
 
 Annotators are the spearhead of NLP functions in Spark NLP. There are two forms of annotators:
 
-- **Annotator Approaches:** Are those who represent a Spark ML Estimator and require a training stage. They have a function called fit(data) which trains a model based on some data. They produce the second type of annotator which is an annotator model or transformer.
-- **Annotator Model:** They are spark models or transformers, meaning they have a **transform(data)** function which take a dataset and add to it a column with the result of this annotation. All transformers are additive, meaning they append to current data, never replace or delete previous information.
+- **Annotator Approaches:** are those who represent a Spark ML Estimator and require a training stage. They have a function called fit(data) which trains a model based on some data. They produce the second type of annotator which is an annotator model or transformer.
+- **Annotator Models:** are spark models or transformers, meaning they have a **transform(data)** function. This function takes as input a dataframe to which it adds a new column containing the result of the current annotation. All transformers are additive, meaning they append to current data, never replace or delete previous information.
 
-Both forms of annotators can be included in a Pipeline and will automatically go through all stages in the provided order and transform the data accordingly. A Pipeline is turned into a PipelineModel after the fit() stage. Either before or after can be saved and re-loaded to disk at any time.
+Both forms of annotators can be included in a Pipeline. All annotators included in a Pipeline will be automatically executed in the defined order and will transform the data accordingly. A Pipeline is turned into a PipelineModel after the fit() stage. The Pipeline can be saved to disk and re-loaded at any time.
 
 </div><div class="h3-box" markdown="1">
 
 ### Common Functions
 
-- **setInputCols**(column_names): Takes a list of column names of annotations required by this annotator
-- **setOutputCol(**column_name): Defines the name of the column containing the result of this annotator. Use this name as an input for other annotators requiring the annotations of this one.
+- **setInputCols**(column_names): Takes a list of column names of annotations required by this annotator. Those are generated by the annotators which precede the current annotator in the pipeline. 
+- **setOutputCol(**column_name): Defines the name of the column containing the result of the current annotator. Use this name as an input for other annotators down the pipeline requiring the outputs generated by the current annotator.
 
 </div><div class="h3-box" markdown="1">
 
@@ -50,8 +52,7 @@ Both forms of annotators can be included in a Pipeline and will automatically go
 
 You can run these examples using Python or Scala.
 
-The easiest way to run the python examples is by starting a pyspark
-jupyter notebook including the spark-nlp package:
+The easiest way to run the python examples is by starting a pyspark jupyter notebook including the spark-nlp package:
 
 ```sh
 spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
@@ -78,18 +79,21 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 
 ### Explain Document ML
 
-Spark NLP offers a variety of pretrained pipelines that will help you
-get started, and get a sense of how the library works. We are constantly
-working on improving the available content.
+Spark NLP offers a variety of pretrained pipelines that will help you get started, and get a sense of how the library works. We are constantly
+working on improving the available content. 
+You can checkout a demo application of the Explain Document ML pipeline here: 
+
+
+{:.btn-block}
+[View Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button--primary.button--rounded.button--md}
+
 
 </div><div class="h3-box" markdown="1">
 
 ### Downloading and using a pretrained pipeline
 
-Explain Document ML, named as explain_document_ml is a pretrained
-pipeline that does a little bit of everything NLP related. Let's try it
-out in scala. Note that the first time might take longer since it
-downloads the model from our servers!
+Explain Document ML (**explain_document_ml**) is a pretrained pipeline that does a little bit of everything NLP related. Let's try it
+out in scala. Note that the first time you run the below code it might take longer since it downloads the pretrained pipeline from our servers!
 
 <div class="tabs-box" markdown="1">
 
@@ -104,9 +108,8 @@ from sparknlp.pretrained import PretrainedPipeline
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 annotations = explain_document_pipeline.annotate("We are very happy about SparkNLP")
 print(annotations)
-```
 
-```python
+bash
 {
   'stem': ['we', 'ar', 'veri', 'happi', 'about', 'sparknlp'],
   'checked': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
@@ -122,10 +125,8 @@ print(annotations)
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
-```
 
-```bash
-Bash
+bash
 explain_document_ml download started this may take some time.
 Approximate size to download 9.4 MB
 Download done! Loading the resource.
@@ -135,10 +136,8 @@ explain_document_pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = 
 ```scala
 val annotations = explainDocumentPipeline.annotate("We are very happy about SparkNLP")
 println(annotations)
-```
 
-```bash
-Bash
+bash
 Map(
    stem -> List(we, ar, veri, happi, about, sparknlp), 
    checked -> List(We, are, very, happy, about, SparkNLP), 
@@ -152,23 +151,18 @@ Map(
 
 </div>
 
-As you can see the explain_document_ml is able to annotate any "document"
-providing as output a list of stems, check-spelling, lemmas,
-part of speech tags, tokens and sentence boundary detection and all this
-"out-of-the-box"!.
+As you can see the explain_document_ml is able to annotate any "document" providing as output a list of stems, check-spelling, lemmas,
+part of speech tags, tokens and sentence boundary detection and all this "out-of-the-box"!.
 
 </div><div class="h3-box" markdown="1">
 
 ### Using a pretrained pipeline with spark dataframes
 
-You can also use the pipeline through a spark dataframe. You just need
-to create first a spark dataframe with a column named "text" that will
-work as the input for the pipeline and then use the .transform() method
-to run the pipeline over that dataframe and store the outputs of the
+You can also use the pipeline with a spark dataframe. You just need to create first a spark dataframe with a column named "text" that will
+work as the input for the pipeline and then use the *.transform()* method to run the pipeline over that dataframe and store the outputs of the
 different components in a spark dataframe.
 
-Remember than when starting jupyter notebook from pyspark or when running
-the spark-shell for scala a Spark Session is started in the background
+Remember than when starting jupyter notebook from pyspark or when running the spark-shell for scala, a Spark Session is started in the background
 by default within the namespace 'scala'.
 
 <div class="tabs-box" markdown="1">
@@ -189,23 +183,20 @@ data = spark.createDataFrame(sentences).toDF("text")
 
 # Download the pretrained pipeline from Johnsnowlab's servers
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
-```
 
-```bash
+bash
 explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
 ```
-
 ```python
 # Transform 'data' and store output in a new 'annotations_df' dataframe
 annotations_df = explain_document_pipeline.transform(data)
 
 # Show the results
 annotations_df.show()
-```
 
-```bash
+bash
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
@@ -222,9 +213,8 @@ val data = Seq(
     .toDF("text")
 
 data.show(truncate=false)
-```
 
-```bash
+bash
 +------------------------------+
 |text                          |
 +------------------------------+
@@ -232,14 +222,12 @@ data.show(truncate=false)
 |And this is a second sentence.|
 +------------------------------+
 ```
-
 ```scala
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val annotations_df = explainDocumentPipeline.transform(data)
 annotations_df.show()
-```
 
-```bash
+bash
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
@@ -252,8 +240,7 @@ annotations_df.show()
 
 ### Manipulating pipelines
 
-The output of the previous DataFrame was in terms of Annotation objects.
- This output is not really comfortable to deal with, as you can see by
+The output of the previous DataFrame was in terms of Annotation objects. This output is not really comfortable to deal with, as you can see by
 running the code:
 
 <div class="tabs-box" markdown="1">
@@ -262,9 +249,9 @@ running the code:
 
 ```python
 annotations_df.select("token").show(truncate=False)
-```
 
-```bash+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+bash
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[[token, 0, 4, Hello, [sentence -> 0], [], []], [token, 5, 5, ,, [sentence -> 0], [], []], [token, 7, 10, this, [sentence -> 0], [], []], [token, 12, 13, is, [sentence -> 0], [], []], [token, 15, 16, an, [sentence -> 0], [], []], [token, 18, 24, example, [sentence -> 0], [], []], [token, 26, 33, sentence, [sentence -> 0], [], []]]|
@@ -275,9 +262,8 @@ annotations_df.select("token").show(truncate=False)
 
 ```scala
 annotations_df.select("token").show(truncate=false)
-```
 
-```bash
+bash
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -286,13 +272,10 @@ annotations_df.select("token").show(truncate=false)
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-What if we want to deal with just the
-resulting annotations? We can use the Finisher annotator, retrieve the
-Explain Document ML pipeline, and add them together in a Spark ML
-Pipeline. Remember that pretrained pipelines expect the input column to be
-named "text".
+What if we want to deal with just the resulting annotations? We can use the **Finisher** annotator, retrieve the Explain Document ML pipeline, and add them together in a Spark ML Pipeline. Remember that pretrained pipelines expect the input column to be named "text".
 
 
+{% include programmingLanguageSelectScalaPython.html %}
 ```python
 from sparknlp import Finisher
 from pyspark.ml import Pipeline
@@ -318,9 +301,8 @@ model = pipeline.fit(data)
 annotations_finished_df = model.transform(data)
 
 annotations_finished_df.select('finished_token').show(truncate=False)
-```
 
-```bash
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -352,9 +334,8 @@ scala> val data = Seq(
 scala> val model = pipeline.fit(data)
 scala> val annotations_df = model.transform(data)
 scala> annotations_df.select("finished_token").show(truncate=false)
-```
 
-```bash
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -371,21 +352,16 @@ scala> annotations_df.select("finished_token").show(truncate=false)
 
 ### Annotator types
 
-Every annotator has a type. Those annotators that share a type, can be
-used interchangeably, meaning you could you use any of them when needed.
+Every annotator has a type. Those annotators that share a type, can be used interchangeably, meaning you could use any of them when needed.
 
-For example, when a token type annotator is required by another annotator,
-such as a sentiment analysis annotator, you can either provide a normalized
+For example, when a token type annotator is required by another annotator, such as a sentiment analysis annotator, you can either provide a normalized
 token or a lemma, as both are of type token.
 
 </div><div class="h3-box" markdown="1">
 
 ### Necessary imports
 
-Since version 1.5.0 we are making necessary imports easy to reach,
-**base.\_** will include general Spark NLP transformers and concepts,
-while **annotator.\_** will include all annotators that we currently
-provide. We also need Spark ML pipelines.
+Since version 1.5.0 we are making necessary imports easy to reach, **base.\_** will include general Spark NLP transformers and concepts, while **annotator.\_** will include all annotators that we currently provide. We also need Spark ML pipelines.
 
 <div class="tabs-box" markdown="1">
 
@@ -409,7 +385,7 @@ import org.apache.spark.ml.Pipeline
 In order to get through the NLP process, we need to get raw data
 annotated. There is a special **transformer** that does this for us:
 the **DocumentAssembler**, it creates the first annotation of type
-**Document** which may be used by annotators down the road
+**Document** which may be used by annotators down the road.
 
 <div class="tabs-box" markdown="1">
 
@@ -431,12 +407,8 @@ val documentAssembler = new DocumentAssembler().
 
 ### Sentence detection and tokenization
 
-In this quick example, we now proceed to identify the sentences in each
-of our document lines. SentenceDetector requires a Document annotation,
-which is provided by the DocumentAssembler output, and it's itself a
-Document type token. The Tokenizer requires a Document annotation type,
-meaning it works both with DocumentAssembler or SentenceDetector output,
-in here, we use the sentence output.
+In this quick example, we now proceed to identify the sentences in the input document. SentenceDetector requires a Document annotation,
+which is provided by the DocumentAssembler output, and it's itself a Document type token. The Tokenizer requires a Document annotation type. That means it works both with DocumentAssembler or SentenceDetector output. In the following example we use the sentence output.
 
 <div class="tabs-box" markdown="1">
 
@@ -463,9 +435,7 @@ val regexTokenizer = new Tokenizer().
     setOutputCol("token")
 ```
 
-We also include another special transformer, called **Finisher** to show
-tokens in a human language.
-
+Spark NLP also includes another special transformer, called **Finisher** to show tokens in a human language.
 
 
 ```python
@@ -502,13 +472,7 @@ val finisher = new Finisher()
     .setIncludeMetadata(true)
 ```
 
-Or, you can use Apache Spark functions (SQL) to manipulate the output DataFrame. Here we combine the tokens and NER results together:
-
-```scala
-finisher.withColumn("newCol", explode(arrays_zip($"finished_token", $"finished_ner")))
-```
-
-If you need to have a flattened DataFrame (each sub-array in a new column) from any annotations other than struct type columns, you can use `explode` function from Spark SQL.
+If you need to have a flattened DataFrame (each sub-array in a new column) from any annotations other than struct type columns, you can use `explode` function from Spark SQL. You can also use Apache Spark functions (SQL) to manipulate the output DataFrame in any way you need. Here we combine the tokens and NER results together:
 
 ```python
 import pyspark.sql.functions as F
@@ -517,6 +481,8 @@ df.withColumn("tmp", F.explode("chunk")).select("tmp.*")
 ```
 
 ```scala
+finisher.withColumn("newCol", explode(arrays_zip($"finished_token", $"finished_ner")))
+
 import org.apache.spark.sql.functions._
 
 df.withColumn("tmp", explode(col("chunk"))).select("tmp.*")
@@ -525,8 +491,7 @@ df.withColumn("tmp", explode(col("chunk"))).select("tmp.*")
 
 ## Using Spark ML Pipeline
 
-Now we want to put all this together and retrieve the results, we use a
-Pipeline for this.  We use the same data in fit() that we will use in
+Now we want to put all this together and retrieve the results, we use a Pipeline for this.  We use the same data in fit() that we will use in
 transform since none of the pipeline stages have a training stage.
 
 <div class="tabs-box" markdown="1">
@@ -541,9 +506,8 @@ pipeline = Pipeline() \
         regexTokenizer,
         finisher
     ])
-```
 
-```bash
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -568,9 +532,8 @@ val annotations = pipeline.
     transform(data).toDF("text"))
 
 annotations.select("finished_token").show(truncate=false)
-```
 
-```bash
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -582,12 +545,9 @@ annotations.select("finished_token").show(truncate=false)
 
 ## Using Spark NLP's LightPipeline
 
-LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
-ML Pipeline. The difference is that it's execution does not hold to
-Spark principles, instead it computes everything locally (but in
-parallel) in order to achieve fast results when dealing with small
-amounts of data. This means, we do not input a Spark Dataframe, but a
-string or an Array of strings instead, to be annotated. To create Light
+LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark ML Pipeline. The difference is that it's execution does not hold to
+Spark principles, instead it computes everything locally (but in parallel) in order to achieve fast results when dealing with small
+amounts of data. This means, we do not input a Spark Dataframe, but a string or an Array of strings instead, to be annotated. To create Light
 Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
 It's transform() stage is converted into annotate() instead.
 
@@ -596,22 +556,20 @@ It's transform() stage is converted into annotate() instead.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-from pyspark.sql.types import StructType
-emptyDataFrame = spark.createDataFrame([], StructType([]))
-```
+from sparknlp.base import LightPipeline
+explain_document_pipeline = PretrainedPipeline("explain_document_ml")
+lightPipeline = LightPipeline(explain_document_pipeline.model)
 
-```bash
+bash
 explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
 ```
-
 ```python
-lightPipeline = LightPipeline(explainDocumentPipeline.model)
-lightPipeline.annotate("Hello world, please annotate my text")
-```
 
-```bash
+lightPipeline.annotate("Hello world, please annotate my text")
+
+bash
 {'stem': ['hello', 'world', ',', 'pleas', 'annot', 'my', 'text'],
  'checked': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
  'lemma': ['Hello', 'world', ',', 'please', 'annotate', 'i', 'text'],
@@ -627,9 +585,8 @@ import com.johnsnowlabs.nlp.base._
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val lightPipeline = new LightPipeline(explainDocumentPipeline.model)
 lightPipeline.annotate("Hello world, please annotate my text")
-```
 
-```bash
+bash
 Map[String,Seq[String]] =
   Map(
     stem -> List(hello, world, ,, pleas, annot, my, text),
@@ -650,16 +607,16 @@ Map[String,Seq[String]] =
 
 ### Training methodology
 
-Training your own annotators is the most key concept when dealing with
+Training your own annotators is a key concept when dealing with
 real life scenarios. Any of the annotators provided above, such as
-pretrained pipelines and models, will rarely ever apply to a specific
-use case. Dealing with real life problems will require training your own
-models. In Spark NLP, training annotators will vary depending on the
-annotators. Currently, we support three ways:
+pretrained pipelines and models, can be applied out-of-the-box to a specific
+use case, but better results are obtained when they are fine-tuned to your specific use-case. 
+Dealing with real life problems ofter requires training your own
+models. In Spark NLP, we support three ways of training a custom annotator:
 
-1. Most annotators are capable of training through the dataset passed to
-**fit()** just as Spark ML does. Annotators that use the suffix
-**Approach** are trainable annotators. Training from fit() is the
+1. Train from **a dataset**. Most annotators are capable of training from a dataset passed to
+**fit()** method just as Spark ML does. Annotators that use the suffix
+**Approach** are such trainable annotators. Training from fit() is the
 standard behavior in Spark ML. Annotators have different schema
 requirements for training. Check the reference to see what are the
 requirements of each annotators.
@@ -682,10 +639,10 @@ converting them into an AnnotatorModel.
 
 ### Spark NLP Imports
 
-We attempt making necessary imports easy to reach, **base** will include
-general Spark NLP transformers and concepts, while **annotator** will
-include all annotators that we currently provide. **embeddings** include
-word embedding annotators. This does not include Spark imports.
+- **base** includes general Spark NLP transformers and concepts, 
+- **annotator** includes all annotators that we currently provide,
+- **embeddings** includes word embedding annotators. 
+
 
 **Example:**
 
@@ -710,7 +667,7 @@ import com.johnsnowlabs.nlp.annotator._
 SparkML Pipelines are a uniform structure that helps creating and tuning
 practical machine learning pipelines. Spark NLP integrates with them
 seamlessly so it is important to have this concept handy. Once a
-**Pipeline** is trained with **fit()**, this becomes a **PipelineModel**  
+**Pipeline** is trained with **fit()**, it becomes a **PipelineModel**  
 
 **Example:**
 
@@ -754,12 +711,11 @@ new LightPipeline(somePipelineModel).annotate(someStringOrArray))
 
 </div>
 
-**Functions:**
 
-- annotate(string or string\[\]): returns dictionary list of annotation
-results
-- fullAnnotate(string or string\[\]): returns dictionary list of entire
-annotations content
+**Functions:**
+- annotate(string or string\[\]): returns dictionary list of annotation results
+- fullAnnotate(string or string\[\]): returns dictionary list of entire annotations content
+For more details please refer to <a href="/docs/en/concepts#using-spark-nlps-lightpipeline">Using Spark NLP's LightPipelines</a>.
 
 </div><div class="h3-box" markdown="1">
 
@@ -770,7 +726,7 @@ ML Pipeline to know about itself on every Pipeline Stage task, allowing
 annotators to utilize this same pipeline against external resources to
 process them in the same way the user decides. Only some of our
 annotators take advantage of this. RecursivePipeline behaves exactly
-the same than normal Spark ML pipelines, so they can be used with the
+the same as normal Spark ML pipelines, so they can be used with the
 same intention.
 
 **Example:**

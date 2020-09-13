@@ -14,13 +14,14 @@ header: true
 
 ## Requirements & Setup
 
-Spark NLP is built on top of **Apache Spark 2.4.4**. In order to use Spark NLP you need the following requirements:
+Spark NLP is built on top of **Apache Spark 2.4.4**. For using Spark NLP you need:
 
 {:.list3}
 * Java 8
 * Apache Spark 2.4.x (or Apache Spark 2.3.x)
 
-It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
+It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP. 
+Please refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
 </div><div class="right-box" markdown="1">
 
@@ -49,7 +50,7 @@ Join our channel, to ask for help and share your feedback. Developers and users 
 Make sure to check out our demos built by Streamlit to showcase Spark NLP in action:
 
 {:.btn-block}
-[Spark NLP Demo](https://demo.johnsnowlabs.com/){:.button.button--primary.button--rounded.button--md}
+[Spark NLP Demo](/demo){:.button.button--primary.button--rounded.button--md}
 
 </div></div>
 

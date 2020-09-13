@@ -59,7 +59,7 @@ data:
         - text: Pipelines
           url: /docs/en/pipelines     
         - text: Models
-          url: /models
+          url: /docs/models
       features: true
       # theme: dark
       # background_color: "#123"
@@ -69,7 +69,7 @@ data:
           url: /docs/en/install
         - text: Models
           type: trans_white
-          url: /docs/en/install
+          url: /models
     
     - title: Benchmark
       excerpt: Spark NLP 2.5.x obtained the best performing academic peer-reviewed results
@@ -243,7 +243,7 @@ data:
       actions:
         - text: View Demo
           type: trans
-          url: https://demo.johnsnowlabs.com
+          url: /demo
         - text: Examples
           type: trans
           url: https://github.com/JohnSnowLabs/spark-nlp-workshop

@@ -36,7 +36,7 @@ docs-en:
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
-        url:    /docs/en/models
+        url:    /models
       - title:  Training
         url:    /docs/en/training
       - title:  Tensorflow Graph
@@ -49,7 +49,7 @@ docs-en:
         url: /docs/en/release_notes
   - title: Spark NLP for Healthcare
     children:
-      - title:  Installation
+      - title:  Getting Started
         url:    /docs/en/licensed_install
       - title:  Annotators
         url:    /docs/en/licensed_annotators
@@ -63,7 +63,7 @@ docs-en:
         url: /docs/en/licensed_release_notes
   - title: Spark OCR
     children:
-      - title:  General Concepts
+      - title:  Getting Started
         url:    /docs/en/ocr
       - title:  Installation
         url:    /docs/en/ocr_install
