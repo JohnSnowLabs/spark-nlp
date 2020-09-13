@@ -138,28 +138,28 @@ as a dependency in your application:
 
 **spark-nlp** on Apacahe Spark 2.4.x:
 
-```sbtshell
+```shell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.6.0"
 ```
 
 **spark-nlp-gpu:**
 
-```sbtshell
+```shell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.6.0"
 ```
 
 **spark-nlp** on Apacahe Spark 2.3.x:
 
-```sbtshell
+```shell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "2.6.0"
 ```
 
 **spark-nlp-gpu:**
 
-```sbtshell
+```shell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark23
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "2.6.0"
 ```
@@ -174,16 +174,7 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 ### Databricks Support
 
-Spark NLP 2.6.0 has been tested and is compatible with the following runtimes:
-
-* 6.2
-* 6.2 ML
-* 6.3
-* 6.3 ML
-* 6.4
-* 6.4 ML
-* 6.5
-* 6.5 ML
+Spark NLP 2.6.0 has been tested and is compatible with the following runtimes: 6.2, 6.2 ML, 6.3, 6.3 ML, 6.4, 6.4 ML, 6.5, 6.5 ML
 
 </div><div class="h3-box" markdown="1">
 

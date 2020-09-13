@@ -1,14 +1,21 @@
 ---
 layout: docs
 header: true
-title: Spark OCR (Licensed)
+title: Spark OCR
 permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
-Spark OCR provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
-It is built on top of Apache Spark.
+Spark OCR is a licensed library that provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
+It is built on top of ```Apache Spark```.
+
+If you want to try it out on your own documents click on the below button:
+
+{:.btn-block}
+[Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
+
+
 
 ## OCR Pipelines
 

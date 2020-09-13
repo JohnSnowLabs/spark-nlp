@@ -10,8 +10,7 @@ use_language_switcher: "Python-Scala"
 
 <div class="h3-box" markdown="1">
 
-The following annotators are available by buying a John Snow Labs Spark NLP license.
-They are mostly meant for healthcare applications but other applications have been made with these NLP features.
+A Spark NLP for Healthcare subscription includes access to several pretrained annotators. 
 Check out www.johnsnowlabs.com for more information.
 
 </div><div class="h3-box" markdown="1">
@@ -20,10 +19,9 @@ Check out www.johnsnowlabs.com for more information.
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">Transformer scaladocs</a>
 
-It will classify each clinically relevant named entity into its assertion:
+This annotator classifies each clinically relevant named entity into its assertion:
 
-type: "present", "absent", "hypothetical", "conditional",
-"associated_with_other_person", etc.
+type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** `"sentence", "ner_chunk", "embeddings"`
 
@@ -69,8 +67,7 @@ val logRegAssert = new AssertionLogRegApproach()
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">Transformer scaladocs</a>
 
-It will classify each clinically relevant named entity into its assertion
-type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
+This annotator classifies each clinically relevant named entity into its assertion type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** "sentence", "ner_chunk", "embeddings"
 
@@ -240,8 +237,7 @@ val logregClassifier = new DocumentLogRegClassifierApproach()
 
 ### DeIdentificator
 
-Identifies potential pieces of content with personal information about
-patients and remove them by replacing with semantic tags.
+Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.
 
 **Input types:** "sentence", "token", "ner_chunk"
 
@@ -289,8 +285,11 @@ val deid = new DeIdentificationApproach()
 ### Contextual Parser
 
 This annotator provides Regex + Contextual Matching, based on a JSON file.
+
 **Output type:** "sentence", "token"  
+
 **Input types:** "chunk"  
+
 **JSON format:**
 ```
 {
@@ -327,13 +326,6 @@ val contextualParser = new ContextualParserApproach()
         .setJsonPath("data/Stage.json")
 ```
 
-</div></div><div class="h3-box" markdown="1">
-
-### References
-
-[1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
-
-</div>
 
 ### RelationExtraction 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 

@@ -9,12 +9,12 @@ modify_date: "2020-04-08"
 
 <div class="h3-box" markdown="1">
 
-## Requirements
 
 Spark OCR is built on top of **Apache Spark 2.4.4**. 
 We have custom build for 2.3.*.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
+
 
 Spark OCR required:
  - Scala 2.11
@@ -26,7 +26,12 @@ Before you start, make sure that you have:
 - Spark OCR python wheel file 
 - License key
 
-If not please contact info@johnsnowlabs.com to get the library and free trial license. 
+If you don't have a valid subscription yet and you want to test out the Spark OCR library press the button below:
+
+{:.btn-block}
+[Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
+
+
 
 </div><div class="h3-box" markdown="1">
 

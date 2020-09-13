@@ -23,9 +23,10 @@ The first time ever, we are releasing 3 licensed German models for healthcare an
 
 ##### Pretrained Pipelines:
 
-The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
+The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. 
+Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 
-``` 
+```python
 pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
 
 pipeline.annotate('my string')
@@ -33,24 +34,17 @@ pipeline.annotate('my string')
 
 Pipeline descriptions:
 
-```explain_clinical_doc_carp```
+- ```explain_clinical_doc_carp``` a pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
-a pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
+- ```explain_clinical_doc_era``` a pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
 
-```explain_clinical_doc_era```
+- ```recognize_entities_posology``` a pipeline with ner_posology. It will only extract medication entities.
 
-a pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
-
-```recognize_entities_posology```
-
-a pipeline with ner_posology. It will only extract medication entities.
-
-More information and examples here:
-https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb
+More information and examples are available here: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb.
 
 </div><div class="h3-box" markdown="1">
 
-##### Pretrained Named Entity Recognition and Relationship Extraction Models (English)
+#### Pretrained Named Entity Recognition and Relationship Extraction Models (English)
 
 RE models:
 
@@ -73,15 +67,15 @@ https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/ma
 
 </div><div class="h3-box" markdown="1">
 
-##### Pretrained Named Entity Recognition and Relationship Extraction Models (German)
+#### Pretrained Named Entity Recognition and Relationship Extraction Models (German)
 
 The first time ever, we are releasing 3 licensed German models for healthcare and Legal domains.
 
-- German Clinical NER model for 19 clinical entities
+- ```German Clinical NER``` model for 19 clinical entities
 
-- German Legal NER model for 19 legal entities
+- ```German Legal NER``` model for 19 legal entities
 
-- German ICD-10GM
+- ```German ICD-10GM```
 
 More information and examples here:
 
@@ -91,7 +85,7 @@ https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/ma
 
 </div><div class="h3-box" markdown="1">
 
-##### Other Pretrained Models
+#### Other Pretrained Models
 
 We now have Named Entity Disambiguation model out of the box.
 

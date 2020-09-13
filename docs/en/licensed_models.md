@@ -11,9 +11,8 @@ modify_date: "2020-04-22"
 
 ## Pretrained Models
 
-Pretrained Models moved to its own dedicated repository.
-Please follow this link for updated list:
-[GitHub Repository for Pretrained Models](https://github.com/JohnSnowLabs/spark-nlp-models#licensed-enterprise)
+We are currently in the process of moving the pretrained models and pipelines to a Model Hub that you can explore here: 
+[Models Hub](/models)
 {:.success}
 
 </div>

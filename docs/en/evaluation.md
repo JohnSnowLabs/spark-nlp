@@ -36,7 +36,7 @@ import com.johnsnowlabs.nlp.eval._
 
 ### Evaluating Norvig Spell Checker
 
-You can evaluate this spell checker either training an annotator or using a pretrained model.
+You can evaluate this spell checker either by training an annotator or by using a pretrained model.
 
 - spark: Spark session.
 - trainFile: A corpus of documents with correctly spell words.
@@ -109,7 +109,7 @@ norvigSpellEvaluation.computeAccuracyModel(spell)
 
 ### Evaluating Symmetric Spell Checker
 
-You can evaluate this spell checker either training an annotator or using a pretrained model.
+You can evaluate this spell checker either by training an annotator or by using a pretrained model.
 
 - spark: Spark session
 - trainFile: A corpus of documents with correctly spell words.
@@ -327,7 +327,7 @@ nerCrfEvaluation.computeAccuracyModel(nerCrf)
 
 ### Evaluating POS Tagger
 
-You can evaluate POS either training an annotator or using a pretrained model.
+You can evaluate POS either by training an annotator or by using a pretrained model.
 
 - spark: Spark session.
 - trainFile: A labeled POS file see and example [here](https://nlp.johnsnowlabs.com/docs/en/annotators#pos-dataset).

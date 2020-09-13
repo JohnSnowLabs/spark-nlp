@@ -9,17 +9,27 @@ modify_date: "2020-09-09"
 
 <div class="h3-box" markdown="1">
 
-### Installation
+### Getting started
 
-You can also install the Spark NLP for Healthcare package with extra functionalities and pretrained models by using:
+Spark NLP for Healthcare is a licensed library build on top of Spark NLP, which offers extra functionalities as well as pretrained models and pipelines. If you don't have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.
+
+
+{:.btn-block}
+[Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
+
+
+<br/>
+You can install the Spark NLP for Healthcare package by using:
 
 ```bash
-pip install spark-nlp-jsl==2.5.5 --extra-index-url {secret-url} --upgrade
+pip install spark-nlp-jsl==2.6.0 --extra-index-url {secret-url} --upgrade
 ```
 
-The `{secret-url}` is a secret URL only available for users with valid license. If you have not received it, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
-At the moment there is no conda package for Spark NLP for Healthcare version.
+The `{secret-url}` is a secret URL only available for users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
+
+
+
 
 </div><div class="h3-box" markdown="1">
 
@@ -32,8 +42,7 @@ Instructions about how to install AWSCLI are available at:
 
 <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">Installing the AWS CLI</a>
 
-Make sure you configure your credentials with aws configure following
-the instructions at:
+Make sure you configure your credentials with aws configure following the instructions at:
 
 <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a>
 
@@ -68,7 +77,7 @@ spark = SparkSession.builder \
     .master("local[*]") \
     .config("spark.driver.memory","16") \
     .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5") \
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0") \
     .config("spark.jars", "{secret-url}") \
     .getOrCreate()
 ```
