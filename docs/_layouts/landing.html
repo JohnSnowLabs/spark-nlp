@@ -46,6 +46,7 @@ article_header:
           </div>
         {%- endif -%}
 
+
         {%- if _section.threeblocks -%}
         {%- assign _size = _section.threeblocks | size  -%}
         <div class="grid--container">
@@ -102,6 +103,7 @@ article_header:
                 {%- endif -%}
 
                 <h4>{{ child.title }}</h4>
+
 
                 {%- if child.excerpt-%}
                 <p>{{ child.excerpt }}</p>
@@ -214,8 +216,7 @@ article_header:
                     </div>
                 </div>
               </div>
-            </div>
-            
+            </div>           
           </div>
         
         {%- endif -%}

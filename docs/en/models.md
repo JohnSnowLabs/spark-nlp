@@ -4,7 +4,7 @@ header: true
 title: Models
 permalink: /docs/en/models
 key: docs-models
-modify_date: "2020-06-12"
+modify_date: "2020-09-10"
 ---
 
 <div class="h3-box" markdown="1">
@@ -12,7 +12,7 @@ modify_date: "2020-06-12"
 ## Pretrained Models
 
 Pretrained Models moved to its own dedicated repository.
-Please follow this link for updated list:
+Please follow this link for the updated list:
 [https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
 {:.success}
 
@@ -60,7 +60,6 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 ## Public Models
 
-
 If you wish to use a pre-trained model for a specific annotator in your pipeline, you need to use the annotator which is mentioned under `Model` following with `pretrained(name, lang)` function.
 
 Example to load a pretraiand BERT model or NER model:
@@ -70,6 +69,7 @@ bert = BertEmbeddings.pretrained(name='bert_base_cased', lang='en')
 
 ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 ```
+
 
 **NOTE:** `build` means the model can be downloaded or loaded for that specific version or above. For instance, `2.4.0` can be used in all the releases after `2.4.x` but not before.
 
@@ -393,3 +393,8 @@ ner_onto = NerDLModel.pretrained(name='ner_dl_bert', lang='en')
 
 * The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
 * The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
+
+Please follow this link for the updated list:
+[https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
+{:.success}
+
