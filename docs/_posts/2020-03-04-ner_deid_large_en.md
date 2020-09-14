@@ -16,7 +16,7 @@ Deidentification NER (Large) is a Named Entity Recognition model that annotates 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](||https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_large_en_2.4.2_2.4_1587513305751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_large_en_2.4.2_2.4_1587513305751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use 
 
@@ -47,11 +47,11 @@ val ner = NerDLModel.pretrained("ner_deid_large", "en")
 |---|---|
 |Model Name:|ner_deid_large|
 |Type:|ner|
-|Compatibility:| Spark NLP JSL2.4.2|
+|Compatibility:| Spark NLP for Healthcare 2.4.2+|
 |License:|Licensed|
 |Edition:|Official|
-|Spark inputs:|sentence, token, embeddings|
-|Spark outputs:|ner|
+|Input Labels:|sentence, token, embeddings|
+|Output Labels:|ner|
 |Language:|en|
 |Case sensitive:|false|
 

@@ -85,8 +85,8 @@ rel_df = get_relations_df (annotations)
 |Compatibility:|Spark NLP 2.5.5|
 |Edition:|Healthcare|
 |License:|Licensed|
-|Spark inputs:|[embeddings, pos_tags, ner_chunks, dependencies]|
-|Spark outputs:|[relations]|
+|Input Labels:|[embeddings, pos_tags, ner_chunks, dependencies]|
+|Output Labels:|[relations]|
 |Language:|[en]|
 |Case sensitive:|false|
 

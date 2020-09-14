@@ -48,8 +48,8 @@ val embeddings = BertEmbeddings.pretrained("bert_large_cased", "en")
 |Compatibility:|Spark NLP 2.4.0|
 |License:|Open Source|
 |Edition:|Official|
-|Spark inputs:|[sentence, token]|
-|Spark outputs:|[word_embeddings]|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[word_embeddings]|
 |Language:|[en]|
 |Dimension:|1024|
 |Case sensitive:|true|

@@ -40,6 +40,11 @@ val ner = NerDLModel.pretrained("wikiner_6B_300", "fr")
 
 </div>
 
+{:.h2_title}
+## Results
+The output is a dataframe with a Relation column and a Confidence column....
+
+
 {:.model-param}
 ## Model Parameters
 
@@ -50,12 +55,16 @@ val ner = NerDLModel.pretrained("wikiner_6B_300", "fr")
 |Compatibility:| Spark NLP 2.5.0|
 |License:|Open Source|
 |Edition:|Official|
-|Spark inputs:|sentence, token, embeddings|
-|Spark outputs:|ner|
+|Input Labels:|sentence, token, embeddings|
+|Output Labels:|ner|
 |Language:|fr|
 |Case sensitive:|false|
 
 
 {:.h2_title}
 ## Source
-The model is imported from [https://fr.wikipedia.org](https://fr.wikipedia.org)
+The model is trained based on data from ...
+
+{:.h2_title}
+## Dataset used for training
+Trained on ...

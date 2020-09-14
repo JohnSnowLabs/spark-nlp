@@ -295,16 +295,14 @@ article_header:
                     <li><strong>Named entity</strong> recognition (DL model)</li>
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>+250</strong> pre-trained <strong>models </strong> in <strong>46 languages! </strong>
-                    <li><strong>+90</strong> pre-trained <strong>pipelines </strong> in <strong>13 languages! </strong>
+                    <li><strong>330+</strong> pre-trained <strong>models </strong> in <strong>46 languages! </strong>
+                    <li><strong>90+</strong> pre-trained <strong>pipelines </strong> in <strong>13 languages! </strong>
                   </ul>
                 </div>
                               
     {% highlight python %}
-    # Import Spark NLP            
     from sparknlp.base import *
-    from sparknlp.annotator import *
-              
+    from sparknlp.annotator import *              
     from sparknlp.pretrained import PretrainedPipeline
     import sparknlp
               
@@ -313,20 +311,13 @@ article_header:
               
     # Download a pre-trained pipeline 
     pipeline = PretrainedPipeline('explain_document_dl', lang='en')
-              
-    # Your testing dataset
-    text = """
-    The Mona Lisa is a 16th century oil painting created by Leonardo. 
-    It's held at the Louvre in Paris.
-    """
-              
+
     # Annotate your testing dataset
-    result = pipeline.annotate(text)
+    result = pipeline.annotate("The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris.")
               
     # What's in the pipeline
     list(result.keys())
-    Output: ['entities', 'stem', 'checked', 'lemma', 'document',
-    'pos', 'token', 'ner', 'embeddings', 'sentence']
+    Output: ['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence']
               
     # Check the results
     result['entities']
