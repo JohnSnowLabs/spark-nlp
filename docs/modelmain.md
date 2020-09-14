@@ -1,17 +1,16 @@
 ---
 layout: landing
 comment: no
-title: 'Spark NLP: <span>State of the Art Natural Language Processing</span>'
-excerpt: >
-   <br> The first production grade versions of the latest deep learning NLP research
+title: Spark NLP Models Hub 
+excerpt: A place for sharing and discovery of both community and premium Spark NLP models.
 permalink: /modelmain
 header: true  
 article_header:
   actions:
-    - text: Get Started
-      type: active
+    - text: Explore Models
+      type: trans
       url: /docs/en/quickstart
-    - text: View Demo
+    - text: Models in Action
       type: trans
       url: https://demo.johnsnowlabs.com
     - text: '<i class="fab fa-github"></i> GitHub'
@@ -24,10 +23,10 @@ header:
 data:
   sections:   
     - title: Quick and Easy
-      install: yes
-      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, <a href="https://mvnrepository.com/artifact/JohnSnowLabs/spark-nlp" target="_blank">Maven</a>, and <a href="https://spark-packages.org/package/JohnSnowLabs/spark-nlp" target="_blank">Spark Packages</a>
+      landingmodels: yes
+      excerpt: Upload your model and share it with the community.
       actions:
-        - text: Install Spark NLP
+        - text: Upload Spark NLP Model
           type: big_btn
           url: /docs/en/install    
 ---

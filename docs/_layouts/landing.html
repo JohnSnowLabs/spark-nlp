@@ -221,6 +221,37 @@ article_header:
         
         {%- endif -%}
 
+
+        {%- if _section.landingmodels -%}
+
+          <div class="quick_easy landing_models">
+            <div class="grid--container">
+              <div class="grid">
+                <div class="cell d_flex cell--12">
+                  <h3 class="h3_title blue">{{ _section.title }}</h3>
+                  {%- if _section.excerpt-%}
+                  <div class="descr_quick">{{ _section.excerpt }}</div>
+                  {%- endif -%}
+                   {%- if _section.actions -%}
+                    <ul class="menu">
+                      {%- for _action in _section.actions -%}
+                      {%- include snippets/get-nav-url.html path=_action.url -%}
+                      {%- assign _url = __return -%}
+                      {%- assign _type = _action.type | default: 'outline-info' -%}
+                      <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a>
+                      </li>
+                      {%- endfor -%}
+                    </ul>
+                    {%- endif -%}
+                </div>                
+              </div>
+            </div>           
+          </div>
+        
+        {%- endif -%}
+
+
+
         {%- if _section.features -%}
         <div class="features-section">
           <div class="grid--container">

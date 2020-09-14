@@ -352,6 +352,14 @@ h2.h2_doc {
 	}
 	.quick_easy {
 		position: relative;
+		&.landing_models {
+			.grid--container::before {
+				display: none;
+			}
+			.d_flex {
+				align-items: center;
+			}
+		}
 		.grid--container {
 			&:before {
 				content: '';
@@ -378,8 +386,9 @@ h2.h2_doc {
 			align-items: flex-start;
 		}
 	}
-
 }
+
+
 
 .grid--container {
 	margin: 0 auto;
