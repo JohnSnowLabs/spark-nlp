@@ -4,7 +4,7 @@ header: true
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
-modify_date: "2020-06-12"
+modify_date: "2020-09-10"
 ---
 
 Pretrained Pipelines moved to its own dedicated repository.
