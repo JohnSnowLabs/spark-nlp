@@ -98,4 +98,4 @@ https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 {:.h2_title}
 ## Results
 The output is a dataframe with a Relation column and a Confidence column.
-![image](\assets\images\re_clinical.png)
+![image](/assets/images/re_clinical.png)

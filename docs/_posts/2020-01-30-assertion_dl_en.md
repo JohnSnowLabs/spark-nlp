@@ -81,4 +81,4 @@ https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 ## Results
 The output is a dataframe with a sentence per row and an "assertion" column containing all of the assertion labels in the sentence. The assertion column also contains assertion character indices, and other metadata. To get only the entity chunks and assertion labels, without the metadata, select "ner_chunk.result" and "assertion.result" from your output dataframe.
 
-![image](\assets\images\assertiondl.png) 
+![image](/assets/images/assertiondl.png) 

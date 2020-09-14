@@ -86,4 +86,4 @@ http://www.geniaproject.org/
 ## Results
 The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
 
-![image](\assets\images\ner_cellular.png)
+![image](/assets/images/ner_cellular.png)
