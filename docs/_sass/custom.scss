@@ -542,8 +542,13 @@ b {
 }
 
 .highlight > {
+	text-align: left !important;
 	pre {
 		padding: 25px 0;
+		text-align: left !important;
+	}
+	code {
+		text-align: left !important;
 	}
 }
 

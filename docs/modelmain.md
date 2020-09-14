@@ -5,7 +5,7 @@ title: 'Spark NLP: <span>State of the Art Natural Language Processing</span>'
 excerpt: >
    <br> The first production grade versions of the latest deep learning NLP research
 permalink: /modelmain
-header: true
+header: true  
 article_header:
   actions:
     - text: Get Started
@@ -19,6 +19,8 @@ article_header:
       url: https://github.com/johnsnowlabs/spark-nlp     
   height: 20vh
   theme: dark
+header:
+  background_image: assets/images/modellanding.jpg
 data:
   sections:   
     - title: Quick and Easy
