@@ -25,7 +25,7 @@ full_width: true
           <div class="tab-header grid--container main-small">
               <div class="tab-header-inner" id="tabs">
               {%- for child in _section.tabheader -%}
-              <button class="tablinks" href="#{%- if child.default -%} {{ child.default }} {%- endif -%}" onclick="openTab(event, '{{ child.url }}')" {%- if child.default -%} id="{{ child.default }}" {%- endif -%}>{{ child.title }}</button>            
+              <button class="tablinks" href="#{%- if child.default -%} {{ child.default }} {%- endif -%}" onclick="openTab(event, '{{ child.url }}_l')" {%- if child.default -%} id="{{ child.default }}" {%- endif -%}>{{ child.title }}</button>            
               {%- endfor-%}
             </div>
           </div>
@@ -34,7 +34,7 @@ full_width: true
         <div class="grid--container main-big" id="panels">
         {%- if _section.opensource -%}
         {%- assign _size = _section.opensource | size  -%}
-          <div id="opensource" class="tabcontent">
+          <div id="opensource_l" class="tabcontent">
             <h3>Open Source</h3>
             <div class="tab-wrapper-inner">
             {%- for child in _section.opensource -%}
@@ -93,7 +93,7 @@ full_width: true
 
         {%- if _section.languages -%}
         {%- assign _size = _section.languages | size  -%}
-          <div id="languages" class="tabcontent">  
+          <div id="languages_l" class="tabcontent">  
             <h3>Languages</h3>
             <div class="tab-wrapper-inner">
             {%- for child in _section.languages -%}
@@ -150,7 +150,7 @@ full_width: true
 
         {%- if _section.healthcare -%}
         {%- assign _size = _section.healthcare | size  -%}
-          <div id="healthcare" class="tabcontent">  
+          <div id="healthcare_l" class="tabcontent">  
             <h3>Healthcare</h3>
             <div class="tab-wrapper-inner">
             {%- for child in _section.healthcare -%}
@@ -207,7 +207,7 @@ full_width: true
 
         {%- if _section.sparkocr -%}
         {%- assign _size = _section.sparkocr | size  -%}
-          <div id="sparkocr" class="tabcontent">  
+          <div id="sparkocr_l" class="tabcontent">  
             <h3>Spark OCR</h3>
             <div class="tab-wrapper-inner">
             {%- for child in _section.sparkocr -%}
@@ -263,7 +263,7 @@ full_width: true
 
         {%- if _section.deidentification -%}
         {%- assign _size = _section.deidentification | size  -%}
-          <div id="deidentification" class="tabcontent">
+          <div id="deidentification_l" class="tabcontent">
             <h3>De-identification</h3>
             <div class="tab-wrapper-inner">
             {%- for child in _section.deidentification -%}
@@ -321,7 +321,7 @@ full_width: true
 
         {%- if _section.resolvers -%}
         {%- assign _size = _section.resolvers | size  -%}
-          <div id="resolvers" class="tabcontent">
+          <div id="resolvers_l" class="tabcontent">
             <h3>Entity Resolvers</h3>
             <div class="tab-wrapper-inner">
             {%- for child in _section.resolvers -%}

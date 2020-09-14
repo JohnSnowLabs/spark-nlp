@@ -7,8 +7,8 @@ $color-lightblue: #0098DA;
 $color-orange: #FF8A00;
 
 body {
-	font-size: 18px;
-	line-height: 26px;
+	font-size: 16px;
+	line-height: 24px;
 	color: $color-darkblue;
 	overflow-x: hidden;
 	font-family: 'Roboto', sans-serif;
@@ -113,6 +113,7 @@ header.header {
 					background: none !important;
 					border: none !important;
 					width: 26px;
+					min-width: 10px;
 					height: 26px;
 					margin-left: 5px;
 					i {
@@ -132,6 +133,14 @@ header.header {
 			}
 		}	
 	}
+}
+
+.header__title > .search-button {
+	min-width: 10px;
+}
+
+.modal--overflow {
+	padding: 15px;
 }
 
 .hero__content .article__header {
@@ -1210,6 +1219,7 @@ ul.list1 {
 	button {
 		margin: 10px 5px;
 		min-width: 182px;
+		position: relative;
 		text-align: center;
 		display: inline-block;
 		background: #ECF9FF;
@@ -1232,7 +1242,34 @@ ul.list1 {
 			background:$color-lightblue;
 			border-color:$color-lightblue;
 		}
-	}
+		strong {
+			position: absolute;
+			display: inline-block;
+			padding: 3px 13px;
+			color: #fff;
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 12px;
+			line-height: 15px;
+			background: #5E31DF;
+			right: 4px;
+			top: -6px;
+			&:after {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 50%;
+				width: 0;
+				height: 0;
+				border: 6px solid transparent;
+				border-right-color: #5334AE;
+				border-left: 0;
+				border-bottom: 0;
+				margin-top: -11px;
+				margin-left: -6px;
+			}
+		}		
+	}	
 }
 
 .tab-header-inner {
@@ -2151,6 +2188,9 @@ code {
 	}
 }
 @media (max-width: 991px) {
+	header.header nav.top_navigation ul li .search-button {
+		margin-left: 20px !important;
+	}
 	#aside_menu {
 		position: absolute;
 		right: 0;
@@ -2591,6 +2631,15 @@ code {
 	}
 }
 
+@media (max-width: 499px) {
+	.header__title > .search-button {
+		margin-left: 0;
+		margin-right: 42px;
+		width: 40px;
+		height: 40px;
+	}	
+}
+
 @media (max-width: 400px) {
 	.docs-wrapper .table-model-big tbody tr td {
 		padding: 15px 5px;
@@ -2620,6 +2669,13 @@ code {
 	body {
 		font-size: 16px;
 		line-height: 24px;
+	}
+	.tab-header button strong {
+		font-size: 10px;
+		line-height: 12px;
+		&:after {
+			margin-top: -9px;
+		}
 	}
 }
 
