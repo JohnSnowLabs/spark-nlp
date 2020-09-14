@@ -446,6 +446,7 @@ h2.h2_doc {
 
 .article__footer {
 	margin: 112px 0 40px;
+	display: none;
 }
 
 .article__license {
@@ -862,7 +863,7 @@ ul.list1 {
 
 .video-descr {
 	height: 70px;
-	display: flex;
+	display: none;
 	align-items: center;
 	font-weight: 500;
 	font-size: 14px;
