@@ -86,8 +86,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |UniversalSentenceEncoder|Encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.|Opensource|
 |SentenceEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate sentence or document embeddings|Opensource|
 |ChunkEmbeddings|utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs|Opensource|
-|ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning 
-model (DNNs) we have built inside TensorFlow and supports up to 100 classes|Opensource|
+|ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes|Opensource|
 |MultiClassifierDL|Multi-label Text Classification. MultiClassifierDL uses a Bidirectional GRU with Convolution model that we have built inside TensorFlow and supports up to 100 classes.|Opensource|
 |SentimentDL|Multi-class Sentiment Analysis Annotator. SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets|Opensource|
 |LanguageDetectorDL|State-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks|Opensource|
@@ -808,6 +807,7 @@ There are also two convenient functions to retrieve the embeddings coverage with
 
 - withCoverageColumn(dataset, embeddingsCol, outputCol): Adds a custom column with **word coverage** stats for the embedded field: (coveredWords, totalWords, coveragePercentage). This creates a new column with statistics for each row.
 - overallCoverage(dataset, embeddingsCol): Calculates overall **word coverage** for the whole data in the embedded field. This returns a single coverage object considering all rows in the field.
+
 </div><div class="h3-box" markdown="1">
 
 ## BertEmbeddings
@@ -843,7 +843,9 @@ val bert = BertEmbeddings.pretrained()
       .setOutputCol("bert")
 ```
 
-### BertSentenceEmbeddings
+</div><div class="h3-box" markdown="1">
+
+## BertSentenceEmbeddings
 
 BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
 
@@ -1227,12 +1229,9 @@ val docClassifier = new ClassifierDLApproach()
 
 Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) for more examples.
 
-
 </div><div class="h3-box" markdown="1">
 
-### MultiClassifierDL
-
-#### Multi-label Text Classification
+## MultiClassifierDL (Multi-label Text Classification)
 
  MultiClassifierDL is a Multi-label Text Classification. MultiClassifierDL uses a Bidirectional GRU with Convolution model that we have built inside TensorFlow and supports up to 100 classes. The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings
 
@@ -1285,7 +1284,6 @@ Please refer to [existing notebooks](https://github.com/JohnSnowLabs/spark-nlp-w
 
 </div><div class="h3-box" markdown="1">
 
-### SentimentDL
 ## SentimentDL (Multi-class Sentiment Analysis annotator)
 
 SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets
@@ -1384,10 +1382,9 @@ languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
       .setCoalesceSentences(true)
 ```
 
-</div></div><div class="h3-box" markdown="1">
-### YakeModel
+</div><div class="h3-box" markdown="1">
 
-#### Keywords Extraction
+## YakeModel (Keywords Extraction)
 
 Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction algorithm.
 
@@ -1436,7 +1433,6 @@ keywords = YakeModel() \
 
 </div><div class="h3-box" markdown="1">
 
-### NER CRF
 ## NER CRF (Named Entity Recognition CRF annotator)
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an [external CoNLL 2003 IOB based](#conll-dataset) spark dataset with Annotations columns. Also the user has to provide [word embeddings annotation](#WordEmbeddings) column.  
@@ -1557,12 +1553,12 @@ val nerTagger = new NerDLApproach()
 ## NER Converter (Converts IOB or IOB2 representation of NER to user-friendly)
 
 NER Converter used to finalize work of NER annotators. Combines entites with types `B-`, `I-` and etc. to the Chunks with Named entity in the metadata field (if LightPipeline is used can be extracted after `fullAnnotate()`)
-This NER converter can be used to the output of a NER model into the ner chunk format which is expected for the DeepSentenceDetector annotator.       
- 
-**Output type:** Chunk       
-**Input types:** Document, Token, Named_Entity      
-**Reference:** [NerConverter](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverter.scala)      
-**Functions:**      
+This NER converter can be used to the output of a NER model into the ner chunk format which is expected for the DeepSentenceDetector annotator.
+
+**Output type:** Chunk
+**Input types:** Document, Token, Named_Entity
+**Reference:** [NerConverter](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverter.scala)
+**Functions:**
 
 - setWhiteList(Array(String)): If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels.
 - setPreservePosition(Boolean): Whether to preserve the original position of the tokens in the original document or use the modified tokens.
