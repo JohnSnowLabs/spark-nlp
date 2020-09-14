@@ -165,7 +165,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_use_tf", initAllTables = true)
+    val tf = readTensorflowWithSPModel(path, spark, "_use_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -183,7 +183,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
     )
 
     val wrapper =
-      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+      TensorflowWrapper.readWithSP(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
 
     new UniversalSentenceEncoder()
       .setModelIfNotSet(spark, wrapper)
