@@ -13,24 +13,24 @@ data:
       excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February
       tabheader: yes
       tabheader: 
-        - title: Open Source
+        - title: Open Source <strong>Free</strong>
           url: opensource
-          default: opensource_l
-        - title: Languages
+          default: opensource
+        - title: Languages <strong>Free</strong>
           url: languages
-          default: languages_l
+          default: languages
         - title: Healthcare
           url: healthcare
-          default: healthcare_l
+          default: healthcare
         - title: Spark OCR
           url: sparkocr
-          default: sparkocr_l
+          default: sparkocr
         - title: De-identification
           url: deidentification
-          default: deidentification_l
+          default: deidentification
         - title: Entity Resolvers
           url: resolvers
-          default: resolvers_l
+          default: resolvers
       opensource: yes
       opensource: 
         - title: Recognize entities in text

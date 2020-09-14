@@ -54,7 +54,7 @@ function openTab(evt, cityName) {
 /*OPen by URL*/
 $(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
-  document.getElementById(tabName || 'opensource_l').click();
+  document.getElementById(tabName || 'opensource').click();
 });
 
 jQuery(document).ready(function(){
