@@ -28,9 +28,6 @@ data:
         - title: De-identification
           url: deidentification
           default: deidentification
-        - title: Entity Resolvers
-          url: resolvers
-          default: resolvers
       opensource: yes
       opensource: 
         - title: Recognize entities in text
