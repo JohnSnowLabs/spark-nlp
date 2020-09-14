@@ -4,7 +4,7 @@ title: Explain Clinical Doc ERA
 author: John Snow Labs
 name: explain_clinical_doc_era_en
 date: 2020-08-19
-tags: [pipeline, en, explain_clinical_doc_era]
+tags: [pipeline, en, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

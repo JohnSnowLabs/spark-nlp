@@ -4,7 +4,7 @@ title: NerDLModel Diseases
 author: John Snow Labs
 name: ner_diseases_en
 date: 2020-03-25
-tags: [ner, en, ner_diseases]
+tags: [ner, en, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

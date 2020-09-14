@@ -109,7 +109,7 @@ explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 annotations = explain_document_pipeline.annotate("We are very happy about SparkNLP")
 print(annotations)
 
-/*
+bash
 {
   'stem': ['we', 'ar', 'veri', 'happi', 'about', 'sparknlp'],
   'checked': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
@@ -119,7 +119,6 @@ print(annotations)
   'token': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
   'sentence': ['We are very happy about SparkNLP']
 }
-*/
 ```
 
 
@@ -127,19 +126,18 @@ print(annotations)
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 
-/*
+bash
 explain_document_ml download started this may take some time.
 Approximate size to download 9.4 MB
 Download done! Loading the resource.
 explain_document_pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_ml,en,public/models)
-*/
 ```
 
 ```scala
 val annotations = explainDocumentPipeline.annotate("We are very happy about SparkNLP")
 println(annotations)
 
-/*
+bash
 Map(
    stem -> List(we, ar, veri, happi, about, sparknlp), 
    checked -> List(We, are, very, happy, about, SparkNLP), 
@@ -149,7 +147,6 @@ Map(
    token -> List(We, are, very, happy, about, SparkNLP), 
    sentence -> List(We are very happy about SparkNLP)
    )
-*/
 ```
 
 </div>
@@ -187,11 +184,10 @@ data = spark.createDataFrame(sentences).toDF("text")
 # Download the pretrained pipeline from Johnsnowlab's servers
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 
-/*
+bash
 explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
-*/
 ```
 ```python
 # Transform 'data' and store output in a new 'annotations_df' dataframe
@@ -200,14 +196,13 @@ annotations_df = explain_document_pipeline.transform(data)
 # Show the results
 annotations_df.show()
 
-/*
+bash
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |Hello, this is an...|[[document, 0, 33...|[[document, 0, 33...|[[token, 0, 4, He...|[[token, 0, 4, He...|[[token, 0, 4, He...|[[token, 0, 4, he...|[[pos, 0, 4, UH, ...|
 |And this is a sec...|[[document, 0, 29...|[[document, 0, 29...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, an...|[[pos, 0, 2, CC, ...|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/
 ```
 
 
@@ -219,27 +214,26 @@ val data = Seq(
 
 data.show(truncate=false)
 
-/*
+bash
 +------------------------------+
 |text                          |
 +------------------------------+
 |Hello, this is an example set |
 |And this is a second sentence.|
 +------------------------------+
-*/
 ```
 ```scala
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val annotations_df = explainDocumentPipeline.transform(data)
 annotations_df.show()
-/*
+
+bash
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |Hello, this is an...|[[document, 0, 33...|[[document, 0, 33...|[[token, 0, 4, He...|[[token, 0, 4, He...|[[token, 0, 4, He...|[[token, 0, 4, he...|[[pos, 0, 4, UH, ...|
 |And this is a sec...|[[document, 0, 29...|[[document, 0, 29...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, an...|[[pos, 0, 2, CC, ...|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/
 ```
 
 </div></div><div class="h3-box" markdown="1">
@@ -256,29 +250,26 @@ running the code:
 ```python
 annotations_df.select("token").show(truncate=False)
 
-/*
-
+bash
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[[token, 0, 4, Hello, [sentence -> 0], [], []], [token, 5, 5, ,, [sentence -> 0], [], []], [token, 7, 10, this, [sentence -> 0], [], []], [token, 12, 13, is, [sentence -> 0], [], []], [token, 15, 16, an, [sentence -> 0], [], []], [token, 18, 24, example, [sentence -> 0], [], []], [token, 26, 33, sentence, [sentence -> 0], [], []]]|
 |[[token, 0, 2, And, [sentence -> 0], [], []], [token, 4, 7, this, [sentence -> 0], [], []], [token, 9, 10, is, [sentence -> 0], [], []], [token, 12, 12, a, [sentence -> 0], [], []], [token, 14, 19, second, [sentence -> 0], [], []], [token, 21, 28, sentence, [sentence -> 0], [], []], [token, 29, 29, ., [sentence -> 0], [], []]]    |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-*/
 ```
 
 
 ```scala
 annotations_df.select("token").show(truncate=false)
 
-/*
+bash
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[[token, 0, 4, Hello, [sentence -> 0], [], []], [token, 5, 5, ,, [sentence -> 0], [], []], [token, 7, 10, this, [sentence -> 0], [], []], [token, 12, 13, is, [sentence -> 0], [], []], [token, 15, 16, an, [sentence -> 0], [], []], [token, 18, 24, example, [sentence -> 0], [], []], [token, 26, 33, sentence, [sentence -> 0], [], []]]|
 |[[token, 0, 2, And, [sentence -> 0], [], []], [token, 4, 7, this, [sentence -> 0], [], []], [token, 9, 10, is, [sentence -> 0], [], []], [token, 12, 12, a, [sentence -> 0], [], []], [token, 14, 19, second, [sentence -> 0], [], []], [token, 21, 28, sentence, [sentence -> 0], [], []], [token, 29, 29, ., [sentence -> 0], [], []]]    |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-*/
 ```
 
 What if we want to deal with just the resulting annotations? We can use the **Finisher** annotator, retrieve the Explain Document ML pipeline, and add them together in a Spark ML Pipeline. Remember that pretrained pipelines expect the input column to be named "text".
@@ -311,14 +302,13 @@ annotations_finished_df = model.transform(data)
 
 annotations_finished_df.select('finished_token').show(truncate=False)
 
-/*
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
 |[Hello, ,, this, is, an, example, sentence]|
 |[And, this, is, a, second, sentence, .]    |
 +-------------------------------------------+
-*/
 ```
 
 
@@ -345,14 +335,13 @@ scala> val model = pipeline.fit(data)
 scala> val annotations_df = model.transform(data)
 scala> annotations_df.select("finished_token").show(truncate=false)
 
-/*
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
 |[Hello, ,, this, is, an, example, sentence]|
 |[And, this, is, a, second, sentence, .]    |
 +-------------------------------------------+
-*/
 ```
 
 </div></div>
@@ -518,13 +507,12 @@ pipeline = Pipeline() \
         finisher
     ])
 
-/*
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
 |[hello, ,, this, is, an, example, sentence]|
 +-------------------------------------------+
-*/
 ```
 
 
@@ -545,13 +533,12 @@ val annotations = pipeline.
 
 annotations.select("finished_token").show(truncate=false)
 
-/*
+bash
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
 |[hello, ,, this, is, an, example, sentence]|
 +-------------------------------------------+
-*/
 ```
 
 </div>
@@ -573,17 +560,16 @@ from sparknlp.base import LightPipeline
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 lightPipeline = LightPipeline(explain_document_pipeline.model)
 
-/*
+bash
 explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
-/*
 ```
 ```python
 
 lightPipeline.annotate("Hello world, please annotate my text")
 
-/*
+bash
 {'stem': ['hello', 'world', ',', 'pleas', 'annot', 'my', 'text'],
  'checked': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
  'lemma': ['Hello', 'world', ',', 'please', 'annotate', 'i', 'text'],
@@ -591,7 +577,6 @@ lightPipeline.annotate("Hello world, please annotate my text")
  'pos': ['UH', 'NN', ',', 'VB', 'NN', 'PRP$', 'NN'],
  'token': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
  'sentence': ['Hello world, please annotate my text']}
- */
 ```
 
 
@@ -601,7 +586,7 @@ val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val lightPipeline = new LightPipeline(explainDocumentPipeline.model)
 lightPipeline.annotate("Hello world, please annotate my text")
 
-/*
+bash
 Map[String,Seq[String]] =
   Map(
     stem -> List(hello, world, ,, pleas, annot, my, text),
@@ -612,7 +597,6 @@ Map[String,Seq[String]] =
     token -> List(Hello, world, ,, please, annotate, my, text),
     sentence -> List(Hello world, please annotate my text)
     )
-    */
 ```
 
 </div>

@@ -4,7 +4,7 @@ title: RelationExtractionModel Clinical
 author: John Snow Labs
 name: re_clinical_en
 date: 2020-08-09
-tags: [re, en, re_clinical]
+tags: [re, en, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

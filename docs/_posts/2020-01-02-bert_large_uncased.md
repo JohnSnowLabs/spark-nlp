@@ -4,7 +4,7 @@ title: BERT Large Uncased
 author: John Snow Labs
 name: bert_large_uncased
 date: 2020-01-02
-tags: [open_source, embeddings, en, bert]
+tags: [open_source, embeddings, en]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

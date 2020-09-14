@@ -4,7 +4,7 @@ title: Deidentify (Large)
 author: John Snow Labs
 name: deidentify_large
 date: 2020-08-04
-tags: [deid, en, deidentify]
+tags: [deid, en, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

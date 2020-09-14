@@ -4,7 +4,7 @@ title: Clinical NER (Large)
 author: John Snow Labs
 name: ner_clinical_large
 date: 2020-05-10
-tags: [ner, en]
+tags: [ner, en, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

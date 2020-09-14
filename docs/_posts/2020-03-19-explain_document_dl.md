@@ -4,7 +4,7 @@ title: Explain Document DL
 author: John Snow Labs
 name: explain_document_dl
 date: 2020-03-19 00:00:00 +0800
-tags: [pipeline, en]
+tags: [pipeline, en, open_source]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

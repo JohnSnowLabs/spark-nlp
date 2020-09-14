@@ -4,7 +4,7 @@ title: ALBERT XLarge Uncase
 author: John Snow Labs
 name: albert_xlarge_uncased
 date: 2020-04-28
-tags: [embeddings, en, albert]
+tags: [embeddings, en, open_source]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

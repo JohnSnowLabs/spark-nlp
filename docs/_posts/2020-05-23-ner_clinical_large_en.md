@@ -4,7 +4,7 @@ title: NerDLModel Clinical Large
 author: John Snow Labs
 name: ner_clinical_large_en
 date: 2020-05-23
-tags: [ner, en, ner_clinical_large]
+tags: [ner, en, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

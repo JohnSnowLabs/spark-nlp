@@ -4,7 +4,7 @@ title: Universal Sentence Encoder Large
 author: John Snow Labs
 name: tfhub_use_lg
 date: 2020-04-17
-tags: [embeddings, en, use]
+tags: [embeddings, en, open_source]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

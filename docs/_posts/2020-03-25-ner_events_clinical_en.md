@@ -4,7 +4,7 @@ title: NerDLModel Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-03-25
-tags: [ner, en, ner_events_clinical]
+tags: [ner, en, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

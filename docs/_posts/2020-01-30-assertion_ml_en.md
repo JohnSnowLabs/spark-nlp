@@ -4,7 +4,7 @@ title: Assertion ML
 author: John Snow Labs
 name: assertion_ml_en
 date: 2020-01-30
-tags: [ner, en, assertion_ml]
+tags: [licensed, ner, en]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

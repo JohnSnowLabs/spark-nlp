@@ -4,7 +4,7 @@ title: NerDLModel Risk Factors
 author: John Snow Labs
 name: ner_risk_factors_en
 date: 2020-04-22
-tags: [ner, en, ner_risk_factors]
+tags: [ner, en, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

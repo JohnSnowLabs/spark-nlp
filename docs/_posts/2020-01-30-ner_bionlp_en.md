@@ -4,7 +4,7 @@ title: NerDLModel Bionlp
 author: John Snow Labs
 name: ner_bionlp_en
 date: 2020-01-30
-tags: [ner, en, ner_bionlp]
+tags: [licensed, ner, en]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

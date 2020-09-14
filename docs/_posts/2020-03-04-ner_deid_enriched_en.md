@@ -4,7 +4,7 @@ title: Deidentification NER (Enriched)
 author: John Snow Labs
 name: ner_deid_enriched
 date: 2020-03-04
-tags: [ner, en, deidentify]
+tags: [ner, en, deidentify, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

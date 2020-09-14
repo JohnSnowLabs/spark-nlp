@@ -4,7 +4,7 @@ title: BioBERT Pubmed Large
 author: John Snow Labs
 name: biobert_pubmed_large_cased
 date: 2020-07-20
-tags: [embeddings, en, bert]
+tags: [embeddings, en, open_source]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

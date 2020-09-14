@@ -4,7 +4,7 @@ title: NerDLModel Posology Large
 author: John Snow Labs
 name: ner_posology_large_en
 date: 2020-04-22
-tags: [ner, en, ner_posology_large]
+tags: [ner, en, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

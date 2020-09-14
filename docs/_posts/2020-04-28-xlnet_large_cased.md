@@ -4,7 +4,7 @@ title: XLNet Large
 author: John Snow Labs
 name: xlnet_large_cased
 date: 2020-04-28
-tags: [embeddings, en, xlnet]
+tags: [embeddings, en, open_source]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

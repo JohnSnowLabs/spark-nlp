@@ -4,7 +4,7 @@ title: Neoplasms NER
 author: John Snow Labs
 name: ner_neoplasms
 date: 2020-07-03
-tags: [ner, en, tumor]
+tags: [ner, en, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

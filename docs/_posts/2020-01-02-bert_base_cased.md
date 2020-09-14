@@ -4,7 +4,7 @@ title: BERT Base Cased
 author: John Snow Labs
 name: bert_base_cased
 date: 2020-01-02
-tags: [open_source, embeddings, en, bert]
+tags: [open_source, embeddings, en]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
