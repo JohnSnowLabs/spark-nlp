@@ -55,19 +55,11 @@ data:
       classmenu: three_a
       classtitle: grey big_h3
       excerpt: Spark NLP ships with many <b>NLP features</b>, pre-trained <b>models</b> and <b>pipelines</b>
-      actions:
-        - text: Pipelines
-          url: /docs/en/pipelines     
-        - text: Models
-          url: /docs/models
       features: true
       # theme: dark
       # background_color: "#123"
       actions:
-        - text: Pipelines
-          type: trans_white
-          url: /docs/en/install
-        - text: Models
+        - text: Models Hub
           type: trans_white
           url: /models
     
