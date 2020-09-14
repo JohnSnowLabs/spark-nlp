@@ -23,8 +23,6 @@ docs-en:
         url:    /docs/en/quickstart
       - title:  Install Spark NLP
         url:    /docs/en/install
-  - title:      Documentation
-    children:
       - title:  General Concepts
         url:    /docs/en/concepts
       - title:  Transformers
