@@ -18,9 +18,6 @@
       {%- if _site_author.bio -%}
         <meta itemprop="description" content="{{ _site_author.bio }}">
       {%- endif -%}
-      <div class="footer__author-links">
-        {%- include author-links.html author=_site_author -%}
-      </div>
     </div>
     {%- include snippets/get-locale-string.html key='COPYRIGHT_DATES' -%}
     {%- assign _locale_copyright_dates = __return -%}
@@ -34,3 +31,9 @@
     </div>
   </div>
 </footer>
+
+<script>
+
+{% include scripts/custom.js %}
+
+</script>
