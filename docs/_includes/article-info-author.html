@@ -1,0 +1,66 @@
+{%- assign _author = site.data.authors[include.article.author] | default: site.author -%}
+
+{%- if include.html != false -%}
+
+  {%- include snippets/assign.html
+    target=site.data.variables.default.page.show_date
+    source0=layout.show_date source1=include.article.show_date -%}
+  {%- assign _show_date = __return -%}
+  {%- if _show_date and include.article.date -%}
+    {%- assign _show_date = true -%}
+  {%- else -%}
+    {%- assign _show_date = false -%}
+  {%- endif -%}
+
+  {%- assign _show_author = include.article.author -%}
+
+  {%- include snippets/assign.html target=site.data.variables.default.page.pageview
+    source0=layout.pageview source1=page.pageview -%}
+  {%- assign _pageview = __return -%}
+  {%- if _pageview or include.show_pageview -%}
+    {%- assign _pageview = true -%}
+  {%- else -%}
+    {%- assign _pageview = false -%}
+  {%- endif -%}
+
+  {%- assign _paths_archive = site.paths.archive | default: site.data.variables.default.paths.archive -%}
+
+  {%- if _show_tags or _show_author or _show_date or _pageview -%}
+    <div class="article__info clearfix">
+
+      {%- if _show_author or _show_date or _pageview -%}
+        <ul class="right-col menu">
+          {%- if _show_author  -%}
+            <li><i class="far fa-user"></i> <span>{{ _author.name }}</span></li>
+          {%- endif -%}
+
+          {%- if _show_date -%}
+            <li>
+              {%- include snippets/get-locale-string.html key='ARTICLE_DATE_FORMAT' -%}
+              <i class="far fa-calendar-alt"></i> <span>{{ include.article.date | date: __return }}</span>
+            </li>
+          {%- endif -%}
+
+          {%- if _pageview -%}
+            {%- if site.pageview.provider -%}
+              {%- include snippets/get-locale-string.html key='VIEWS' -%}
+              {%- assign _locale_views = __return -%}
+              <li><i class="far fa-eye"></i> <span class="js-pageview" data-page-key="{{ include.article.key }}">0</span> {{ _locale_views }}</li>
+            {%- endif -%}
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+
+{%- if include.semantic != false -%}
+  {%- if _author -%}
+    <meta itemprop="author" content="{{ _author.name }}"/>
+  {%- endif -%}
+  {%- if include.article.date -%}
+    <meta itemprop="datePublished" content="{{ include.article.date | date_to_xmlschema }}">
+  {%- endif -%}  
+{%- endif -%}

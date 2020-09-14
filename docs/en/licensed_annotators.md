@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark NLP for Healthcare Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
@@ -7,25 +8,28 @@ modify_date: "2020-08-10"
 use_language_switcher: "Python-Scala"
 ---
 
+<div class="h3-box" markdown="1">
 
-The following annotators are available by buying a John Snow Labs Spark NLP license.
-They are mostly meant for healthcare applications but other applications have been made with these NLP features.
+A Spark NLP for Healthcare subscription includes access to several pretrained annotators. 
 Check out www.johnsnowlabs.com for more information.
+
+</div><div class="h3-box" markdown="1">
 
 ### AssertionLogReg 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">Transformer scaladocs</a>
 
-It will classify each clinically relevant named entity into its assertion:
+This annotator classifies each clinically relevant named entity into its assertion:
 
-type: "present", "absent", "hypothetical", "conditional",
-"associated_with_other_person", etc.
+type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** `"sentence", "ner_chunk", "embeddings"`
 
 **Output type:** `"assertion"`
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -57,18 +61,21 @@ val logRegAssert = new AssertionLogRegApproach()
     .setEndCol("end")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### AssertionDL 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">Transformer scaladocs</a>
 
-It will classify each clinically relevant named entity into its assertion
-type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
+This annotator classifies each clinically relevant named entity into its assertion type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** "sentence", "ner_chunk", "embeddings"
 
 **Output type:** "assertion"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -104,6 +111,8 @@ val dlAssert = new AssertionDLApproach()
     .setEndCol("end")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Chunk2Token
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.Chunk2Token">Transformer scaladocs</a>
 
@@ -114,6 +123,8 @@ Transforms a complete chunk Annotation into a token Annotation without further t
 **Output type:** "token"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -128,6 +139,8 @@ val chunk2Token = new Chunk2Token()
     .setOutputCol("token")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### ChunkEntityResolver
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">Transformer scaladocs</a>
@@ -139,6 +152,8 @@ Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified fr
 **Output type:** "resolution"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -183,6 +198,8 @@ val resolver = new ChunkEntityResolverApproach()
     .setMissAsEmpty(true)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### DocumentLogRegClassifier
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
@@ -192,6 +209,8 @@ A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs
 **Output type:** "category"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -214,14 +233,21 @@ val logregClassifier = new DocumentLogRegClassifierApproach()
     .setFitIntercept(true)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### DeIdentificator
 
-Identifies potential pieces of content with personal information about
-patients and remove them by replacing with semantic tags.
+Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.
 
 **Input types:** "sentence", "token", "ner_chunk"
 
 **Output type:** "sentence"
+
+**Example:**
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 deid = DeIdentificationApproach() \
@@ -254,11 +280,16 @@ val deid = new DeIdentificationApproach()
       .setSameEntityThreshold(0.9)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Contextual Parser
 
 This annotator provides Regex + Contextual Matching, based on a JSON file.
+
 **Output type:** "sentence", "token"  
+
 **Input types:** "chunk"  
+
 **JSON format:**
 ```
 {
@@ -278,6 +309,10 @@ This annotator provides Regex + Contextual Matching, based on a JSON file.
 
 **Example:**
 
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 contextual_parser = ContextualParserApproach() \
         .setInputCols(["sentence", "token"]) \
@@ -291,10 +326,6 @@ val contextualParser = new ContextualParserApproach()
         .setJsonPath("data/Stage.json")
 ```
 
-### References
-
-[1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
-
 
 ### RelationExtraction 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
@@ -307,6 +338,8 @@ Extracts and classifier instances of relations between named entities.
 **Output type:** "category"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -340,3 +373,5 @@ val reApproach = new RelationExtractionApproach()
   .setToEntity("to_begin", "to_end", "to_label")
 
 ```
+
+</div>

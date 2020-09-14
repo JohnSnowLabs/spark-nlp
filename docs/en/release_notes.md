@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
@@ -627,6 +628,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.5.4
 
 ### 2.5.3
 
+<div class="h3-box" markdown="1">
+
 #### John Snow Labs Spark-NLP 2.5.3: Detect Fake news, emotions, spams, and more classification models, enhancements, and bug fixes
 
 Overview
@@ -655,6 +658,7 @@ Models
 
 We have added 5 new pre-trained ClassifierDL models for multi-class text classification.
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Description | Offline
 |:--------------|:--------------------------|:-----------------|:-----|:----------|:------|
 | ClassifierDLModel    | `classifierdl_use_spam`        | 2.5.3 |      `en` |  Detect if a message is spam or not    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_spam_en_2.5.3_2.4_1593783318934.zip) |
@@ -707,6 +711,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.3.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.2
 
 #### John Snow Labs Spark-NLP 2.5.2: New Language Detection annotator, enhancements, and bug fixes
@@ -741,11 +747,13 @@ We have added 4 new LanguageDetectorDL models and pipelines to detect and identi
 * The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
 * The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | LanguageDetectorDL    | `ld_wiki_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_7_xx_2.5.0_2.4_1591875673486.zip) |
 | LanguageDetectorDL    | `ld_wiki_20`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_20_xx_2.5.0_2.4_1591875680011.zip) |
 
+{:.table-model-big}
 | Pipeline    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | LanguageDetectorDL    | `detect_language_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_7_xx_2.5.0_2.4_1591875676774.zip) |
@@ -795,6 +803,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.2.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.1
 
 #### John Snow Labs Spark-NLP 2.5.1: Adding support for 6 new BioBERT and ClinicalBERT models
@@ -814,6 +824,7 @@ Models
 
 We have added 6 new BERT models for medical and clinical purposes. The 4 BERT pre-trained models are from BioBERT and the other 2 are coming from ClinicalBERT models:
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | BertEmbeddings                    | `biobert_pubmed_base_cased`        | 2.5.0 |      `en`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_base_cased_en_2.5.0_2.4_1590487367971.zip) |
@@ -873,6 +884,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.1.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.0
 
 #### John Snow Labs Spark-NLP 2.5.0: ALBERT & XLNet transformers, state-of-the-art spell checker, multi-class sentiment detector, 80+ new models & pipelines in 14 new languages & more
@@ -916,6 +929,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Dutch - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `nl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_nl_2.5.0_2.4_1588546621618.zip)  |
@@ -927,6 +941,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Norwegian - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `no` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_no_2.5.0_2.4_1588784132955.zip)  |
@@ -938,6 +953,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Polish - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `pl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pl_2.5.0_2.4_1588531081173.zip)  |
@@ -949,6 +965,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Portuguese - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `pt` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pt_2.5.0_2.4_1588501423743.zip)  |
@@ -1001,6 +1018,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 * CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.0.jar
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.0.jar
+
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.5
 
@@ -1075,6 +1094,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.5.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.4
 
 #### John Snow Labs Spark-NLP 2.4.4: The very first native multi-class text classifier and pre-trained models and pipelines in Russian
@@ -1097,6 +1118,7 @@ New Features
 
 **Models:**
 
+{:.table-model-big}
 | Model                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | LemmatizerModel (Lemmatizer) | `lemma `|`ru`|
@@ -1107,6 +1129,7 @@ New Features
 
 **Pipelines:**
 
+{:.table-model-big}
 | Pipeline                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | Explain Document (Small) | `explain_document_sm`|`ru`|
@@ -1118,17 +1141,24 @@ New Features
 
 **Evaluation:**
 
+
 wikiner_6B_100 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 |97.76%|88.85%|  88.55%| 88.70
 
 wikiner_6B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 |97.78%| 89.09% | 88.51%|  88.80
 
 wikiner_840B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 |97.85%|  89.85%|  89.11%|  89.48
@@ -1204,6 +1234,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.4.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.3
 
 #### John Snow Labs Spark-NLP 2.4.3: Minor bug fix in Python
@@ -1264,6 +1296,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.3
 
 **CPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.3.jar
 **GPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.3.jar
+
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.2
 
@@ -1334,6 +1368,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 **CPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.2.jar
 **GPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.2.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.1
 
 #### John Snow Labs Spark-NLP 2.4.1: Bug fixes and the very first Spanish models & pipelines
@@ -1350,6 +1386,7 @@ Models & Pipelines
 
 **Models:**
 
+{:.table-model-big}
 | Model                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | LemmatizerModel (Lemmatizer) | `lemma `|`es`|
@@ -1360,6 +1397,7 @@ Models & Pipelines
 
 **Pipelines:**
 
+{:.table-model-big}
 | Pipeline                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | Explain Document (Small) | `explain_document_sm`|`es`|
@@ -1372,19 +1410,27 @@ Models & Pipelines
 **Evaluation:**
 
 wikiner_6B_100 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 | 98.35% | 88.97% | 88.64% | 88.80 |
 
 wikiner_6B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 | 98.38% | 89.42% | 89.03% | 89.22 |
 
 wikiner_840B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 | 98.46% | 89.74% | 89.43% | 89.58 |
+
+</div><div class="h3-box" markdown="1">
 
 #### Example
 
@@ -1419,6 +1465,8 @@ Documentation
 * Add multiple programming languages for demos and examples
 * Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
 
+</div>
+
 ### 2.4.0
 
 #### John Snow Labs Spark-NLP 2.4.0: New TensorFlow 1.15, Universal Sentence Encoder, Elmo, faster Word Embeddings & more
@@ -1452,6 +1500,7 @@ Models and Pipelines
 
 Spark NLP `2.4.0` comes with new models including Universal Sentence Encoder, BERT, and Elmo models from TF Hub. In addition, our multilingual pipelines are now available for Windows as same as Linux and macOS users.
 
+{:.table-model-big}
 | Models              |   Name        |
 |------------------------|---------------|
 |UniversalSentenceEncoder|`tf_use`
@@ -1465,6 +1514,7 @@ Spark NLP `2.4.0` comes with new models including Universal Sentence Encoder, BE
 |NerDLModel|`onto_100`
 |NerDLModel|`onto_300`
 
+{:.table-model-big}
 | Pipelines               | Name                   | Language
 | ----------------------- | ---------------------  | ---------|
 | Explain Document Large  | `explain_document_lg`  | fr

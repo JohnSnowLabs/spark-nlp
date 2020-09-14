@@ -1,22 +1,27 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Licensed Models
 permalink: /docs/en/licensed_models
 key: docs-licensed-models
 modify_date: "2020-04-22"
 ---
 
+<div class="h3-box" markdown="1">
+
 ## Pretrained Models
 
-Pretrained Models moved to its own dedicated repository.
-Please follow this link for updated list:
-[GitHub Repository for Pretrained Models](https://github.com/JohnSnowLabs/spark-nlp-models#licensed-enterprise)
+We are currently in the process of moving the pretrained models and pipelines to a Model Hub that you can explore here: 
+[Models Hub](/models)
 {:.success}
+
+</div>
 
 ### English
 
 It is required to specify 3rd argument to `pretrained(name, lang, location)` function to add the location of these
 
+{:.table-model-big}
 | Model                      | Name                                            | Build   | Download                                                                                                                                                                                      |
 |----------------------------|-------------------------------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |  AssertionDLModel          |  assertion_dl_large                             |  2.5.0  | [:floppy_disk:](https://s3.console.aws.amazon.com/s3/object/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_large_en_2.5.0_2.4_1590022282256.zip 'Download')                            |

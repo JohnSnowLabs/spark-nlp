@@ -16,7 +16,7 @@ function toggleScala() {
     $( ".language-python" ).hide()
     $( ".language-java" ).hide()
 
-    }
+}
 
 function togglePython() {
 
@@ -36,7 +36,7 @@ function togglePython() {
     $( ".language-python" ).show() 
     $( ".language-java" ).hide()
     $( ".language-scala" ).hide()
-    }
+}
 
 function defer(method) { //wait until jquery ready
     if (window.jQuery) {
@@ -47,5 +47,6 @@ function defer(method) { //wait until jquery ready
 }
 
 defer(function () { // load inital language
-    toggleScala()
+    togglePython()
 });
+
