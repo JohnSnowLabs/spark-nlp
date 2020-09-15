@@ -14,8 +14,8 @@ use_language_switcher: "Python-Scala-Java"
 Clinical NER (Large) is a Named Entity Recognition model that annotates text to find references to clinical events. The entities it annotates are Problem, Treatment, and Test. Clinical NER is trained with the 'embeddings_clinical' word embeddings model, so be sure to use the same embeddings in the pipeline.
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_EVENTS_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_EVENTS_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_large_clinical_en_2.5.0_2.4_1590021302624.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use 
