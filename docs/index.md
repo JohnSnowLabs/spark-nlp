@@ -13,7 +13,7 @@ article_header:
       url: /docs/en/quickstart
     - text: View Demo
       type: trans
-      url: https://demo.johnsnowlabs.com
+      url: /demo
     - text: '<i class="fab fa-github"></i> GitHub'
       type: trans
       url: https://github.com/johnsnowlabs/spark-nlp  
@@ -26,7 +26,7 @@ data:
   sections:
     - title: The most widely used NLP library in the enterprise
       top: yes
-      excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" survey in February, 2020
+      excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" surveys in February 2019 and March 2020.
       threeblocks:
         - title: 100% Open Source
           image: 

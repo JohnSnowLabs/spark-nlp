@@ -48,8 +48,8 @@ val embeddings = AlbertEmbeddings.pretrained("albert_large_uncased", "en")
 |Compatibility:|Spark NLP 2.5.0|
 |License:|Open Source|
 |Edition:|Official|
-|Spark inputs:|[sentence, token]|
-|Spark outputs:|[word_embeddings]|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[word_embeddings]|
 |Language:|[en]|
 |Dimension:|1024|
 |Case sensitive:|false|

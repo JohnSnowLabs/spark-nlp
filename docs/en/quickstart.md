@@ -28,7 +28,7 @@ Please refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.h
 Install Spark NLP in
 
 {:.btn-list}
-* [Python and PySpark](https://nlp.johnsnowlabs.com/docs/en/install#python)
+* [Python](https://nlp.johnsnowlabs.com/docs/en/install#python)
 * [Scala and Java](https://nlp.johnsnowlabs.com/docs/en/install#scala-and-java)
 * [Databricks](https://nlp.johnsnowlabs.com/docs/en/install#databricks)
     
