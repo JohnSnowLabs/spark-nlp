@@ -109,7 +109,7 @@ explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 annotations = explain_document_pipeline.annotate("We are very happy about SparkNLP")
 print(annotations)
 
-bash
+OUTPUT:
 {
   'stem': ['we', 'ar', 'veri', 'happi', 'about', 'sparknlp'],
   'checked': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
@@ -126,7 +126,7 @@ bash
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 
-bash
+OUTPUT:
 explain_document_ml download started this may take some time.
 Approximate size to download 9.4 MB
 Download done! Loading the resource.
@@ -137,7 +137,7 @@ explain_document_pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = 
 val annotations = explainDocumentPipeline.annotate("We are very happy about SparkNLP")
 println(annotations)
 
-bash
+OUTPUT:
 Map(
    stem -> List(we, ar, veri, happi, about, sparknlp), 
    checked -> List(We, are, very, happy, about, SparkNLP), 
@@ -184,7 +184,7 @@ data = spark.createDataFrame(sentences).toDF("text")
 # Download the pretrained pipeline from Johnsnowlab's servers
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 
-bash
+OUTPUT:
 explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
@@ -196,7 +196,7 @@ annotations_df = explain_document_pipeline.transform(data)
 # Show the results
 annotations_df.show()
 
-bash
+OUTPUT:
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
@@ -214,7 +214,7 @@ val data = Seq(
 
 data.show(truncate=false)
 
-bash
+OUTPUT:
 +------------------------------+
 |text                          |
 +------------------------------+
@@ -227,7 +227,7 @@ val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val annotations_df = explainDocumentPipeline.transform(data)
 annotations_df.show()
 
-bash
+OUTPUT:
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
@@ -250,7 +250,7 @@ running the code:
 ```python
 annotations_df.select("token").show(truncate=False)
 
-bash
+OUTPUT:
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -263,7 +263,7 @@ bash
 ```scala
 annotations_df.select("token").show(truncate=false)
 
-bash
+OUTPUT:
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -302,7 +302,7 @@ annotations_finished_df = model.transform(data)
 
 annotations_finished_df.select('finished_token').show(truncate=False)
 
-bash
+OUTPUT:
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -335,7 +335,7 @@ scala> val model = pipeline.fit(data)
 scala> val annotations_df = model.transform(data)
 scala> annotations_df.select("finished_token").show(truncate=false)
 
-bash
+OUTPUT:
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -507,7 +507,7 @@ pipeline = Pipeline() \
         finisher
     ])
 
-bash
+OUTPUT:
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -533,7 +533,7 @@ val annotations = pipeline.
 
 annotations.select("finished_token").show(truncate=false)
 
-bash
+OUTPUT:
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -560,7 +560,7 @@ from sparknlp.base import LightPipeline
 explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 lightPipeline = LightPipeline(explain_document_pipeline.model)
 
-bash
+OUTPUT:
 explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
@@ -569,7 +569,7 @@ Approx size to download 9.4 MB
 
 lightPipeline.annotate("Hello world, please annotate my text")
 
-bash
+OUTPUT:
 {'stem': ['hello', 'world', ',', 'pleas', 'annot', 'my', 'text'],
  'checked': ['Hello', 'world', ',', 'please', 'annotate', 'my', 'text'],
  'lemma': ['Hello', 'world', ',', 'please', 'annotate', 'i', 'text'],
@@ -586,7 +586,7 @@ val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val lightPipeline = new LightPipeline(explainDocumentPipeline.model)
 lightPipeline.annotate("Hello world, please annotate my text")
 
-bash
+OUTPUT:
 Map[String,Seq[String]] =
   Map(
     stem -> List(hello, world, ,, pleas, annot, my, text),
