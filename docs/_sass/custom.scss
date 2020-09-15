@@ -244,9 +244,9 @@ header {
 		background: none;
 		color: #fff;
 		&:hover {
-			color: #fff;
-			background: $color-blue;
-			border-color: $color-blue;
+			color: $color-blue !important;
+			background: #fff;
+			border-color: #fff;
 		}	
 	}
 }
@@ -1394,25 +1394,20 @@ code {
 		float: none !important;
 		li {
 			margin: 0 4px;
-			display: inline-block;
-			a {
-				font-weight: bold;
-				font-size: 14px;
-				line-height: 17px !important;
-				text-align: center;
-				color: $color-blue !important;
-				display: block;
-				min-width: 10px;
-				min-height: 10px;
-				padding: 8px 24px;
-				border-radius: 15px;
-				border: none;
-				background: #ECF9FF;
-				&:hover {
-					color: #fff !important;
-					background: #5334AE !important;
-				}
-			}
+			display: inline-block;			
+			font-weight: bold;
+			font-size: 14px;
+			line-height: 17px !important;
+			text-align: center;
+			color: $color-blue !important;
+			display: block;
+			min-width: 10px;
+			min-height: 10px;
+			padding: 8px 24px;
+			border-radius: 15px;
+			border: none;
+			background: #ECF9FF;
+			float: left;		
 		}
 	}
 }
@@ -1674,6 +1669,8 @@ code {
 }
 
 .docs-wrapper {
+	margin: 0 auto;
+	width: 850px;
 	padding: 0 15px;
 	img {
 		margin-bottom: 15px;
