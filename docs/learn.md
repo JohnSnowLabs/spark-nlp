@@ -286,14 +286,6 @@ modify_date: "2019-05-16"
 ](https://www.nlpsummit.org/a-unified-cv-ocr-nlp-model-pipeline-for-document-understanding-at-docusign/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_8.jpg)[A Unified CV, OCR & NLP Model Pipeline for Document Understanding at DocuSign
-](https://www.nlpsummit.org/a-unified-cv-ocr-nlp-model-pipeline-for-document-understanding-at-docusign/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[]()</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
-</div></div>
 
 </div></div>
 
