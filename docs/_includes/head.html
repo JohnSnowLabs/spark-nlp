@@ -4,6 +4,9 @@
 
 {%- if page.layout == "landing" -%}
 <title>John Snow Labs - Spark NLP</title>
+{%- elsif page.layout == "model" -%}
+{%- include snippets/get-article-title.html article=page -%}
+<title>{%- if __return -%}{{ __return }}{%- endif -%} - Spark NLP Model</title>
 {%- else -%}
 {%- include snippets/get-article-title.html article=page -%}
 <title>{%- if __return -%}{{ __return }} - {{ site.title }}{%- else -%}{{ site.title }}{%- endif -%}</title>
