@@ -34,8 +34,10 @@ TeCP: A test was performed to investigate a medical problem (eg, ‘chest x-ray 
 PIP: Two problems are related to each other (eg, ‘Azotemia presumed secondary to sepsis’)
 
 
+[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
+
 {:.btn-box}
-[Live Demo](){:.button.button-orange}{:target="_blank"}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_clinical_en_2.5.5_2.4_1596928426753.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
