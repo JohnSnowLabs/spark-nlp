@@ -19,8 +19,8 @@ Pretrained named entity recognition deep learning model for clinical terminology
 Age, Diagnosis, Dosage, Drug_name, Frequency, Gender, Lab_name, Lab_result, Symptom_name
 
 {:.btn-box}
-[Live Demo](){:.button.button-orange}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_enriched_en_2.4.2_2.4_1587513303751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 

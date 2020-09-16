@@ -46,10 +46,7 @@
           {%- for _tag in include.article.tags -%}
             {%- assign _tag_path = __return -%}
             {%- assign _tag_encode = _tag | strip | url_encode } -%}
-            <li>
-              <a class="button button--secondary button--pill button--sm"
-                href="{{ _tag_path | append: _tag_encode | replace: '//', '/' }}">{{ _tag }}</a>
-            </li>
+            <li>{{ _tag }}</li>
           {%- endfor -%}
         </ul>
       {%- endif -%}

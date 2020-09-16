@@ -79,12 +79,11 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[SPARK NLP 2.5 DELIVERS STATE-OF-THE-ART ACCURACY FOR SPELL CHECKING AND SENTIMENT ANALYSIS](https://www.johnsnowlabs.com/spark-nlp-2-5-delivers-state-of-the-art-accuracy-for-spell-checking-and-sentiment-analysis/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[Spark nlp 2.5 delivers state-of-the-art accuracy for spell checking and sentiment analysis](https://www.johnsnowlabs.com/spark-nlp-2-5-delivers-state-of-the-art-accuracy-for-spell-checking-and-sentiment-analysis/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[JOHN SNOW LABS SETS NEW ACCURACY RECORDS WITH ITS BIGGEST SPARK NLP RELEASE EVER
-](https://www.johnsnowlabs.com/john-snow-labs-announces-its-biggest-spar-nlp-release-ever-spark-nlp-enterprise-2-4-0/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[John Snow Labs sets new accuracy records with its biggest spark nlp release ever](https://www.johnsnowlabs.com/john-snow-labs-announces-its-biggest-spar-nlp-release-ever-spark-nlp-enterprise-2-4-0/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -92,18 +91,15 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_8.jpg)[INTRODUCING SPARK NLP: WHY WOULD WE NEED ANOTHER NLP LIBRARY (PART-I)
-](https://www.johnsnowlabs.com/introducing-spark-nlp-why-would-we-need-another-nlp-library-part-i-2/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_8.jpg)[Introducing Spark NLP: Why would we need another NLP library (Part-I)](https://www.johnsnowlabs.com/introducing-spark-nlp-why-would-we-need-another-nlp-library-part-i-2/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_7.jpg)[INTRODUCING SPARK NLP: BASIC COMPONENTS AND UNDERLYING TECHNOLOGIES (PART-III)
-](https://www.johnsnowlabs.com/introducing-spark-nlp-basic-components-and-underlying-technologies-part-iii/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_7.jpg)[Introducing Spark NLP: basic components and underlying technologies (Part-III)](https://www.johnsnowlabs.com/introducing-spark-nlp-basic-components-and-underlying-technologies-part-iii/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_6.jpg)[EXPLAIN DOCUMENT DL – SPARK NLP PRETRAINED PIPELINE
-](https://www.johnsnowlabs.com/explain-document-pretrained-pipeline-spark-nlp-short-blogpost-series-1/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_6.jpg)[Explain document DL – Spark NLP pretrained pipeline](https://www.johnsnowlabs.com/explain-document-pretrained-pipeline-spark-nlp-short-blogpost-series-1/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 </div></div>
@@ -128,8 +124,7 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[State-of-the-art named entity recognition with BERT
-](https://events.johnsnowlabs.com/webinar-state-of-the-art-named-entity-recognition-using-bert?hsCtaTracking=c5bfb98f-bf4e-4b81-92d0-4ad149f9da05%7C47b0af91-4c83-401d-9163-2417863ed82b )</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[State-of-the-art named entity recognition with BERT](https://events.johnsnowlabs.com/webinar-state-of-the-art-named-entity-recognition-using-bert?hsCtaTracking=c5bfb98f-bf4e-4b81-92d0-4ad149f9da05%7C47b0af91-4c83-401d-9163-2417863ed82b )</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -178,8 +173,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[Build Text Categorization Model with Spark NLP
-](https://medium.com/analytics-vidhya/build-text-categorization-model-with-spark-nlp-3617c6b17cea)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Build Text Categorization Model with Spark NLP](https://medium.com/analytics-vidhya/build-text-categorization-model-with-spark-nlp-3617c6b17cea)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -218,8 +212,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_6.jpg)[SPARK NLP IN ACTION: IMPROVING PATIENT FLOW FORECASTING
-](https://www.johnsnowlabs.com/ai-case-studies-kaiser-permanente-improving-patient-flow-forecasting/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_6.jpg)[Spark NLP in action: Improving patient flow forecasting](https://www.johnsnowlabs.com/ai-case-studies-kaiser-permanente-improving-patient-flow-forecasting/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -235,8 +228,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[Automated Mapping of Clinical Entities from Natural Language Text to Medical Terminologies
-](https://events.johnsnowlabs.com/en/automated-mapping-of-clinical-entities-from-natural-language-text-to-medical-terminologies?hsCtaTracking=584b3181-cc71-4846-9077-a399767213f8%7C85c96753-f29e-45ca-9b79-5fc8ce302f62)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Automated Mapping of Clinical Entities from Natural Language Text to Medical Terminologies](https://events.johnsnowlabs.com/en/automated-mapping-of-clinical-entities-from-natural-language-text-to-medical-terminologies?hsCtaTracking=584b3181-cc71-4846-9077-a399767213f8%7C85c96753-f29e-45ca-9b79-5fc8ce302f62)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -262,28 +254,23 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[Maximizing Text Recognition Accuracy with Image Transformers in Spark OCR
-](https://events.johnsnowlabs.com/webinar-maximizing-text-recognition-accuracy-with-image-transformers-in-spark-ocr?hsCtaTracking=9075f5ac-567f-4042-a8da-21fbd34620a7%7C33611d22-cf71-418e-a3bf-9c28f2f54abb)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Maximizing Text Recognition Accuracy with Image Transformers in Spark OCR](https://events.johnsnowlabs.com/webinar-maximizing-text-recognition-accuracy-with-image-transformers-in-spark-ocr?hsCtaTracking=9075f5ac-567f-4042-a8da-21fbd34620a7%7C33611d22-cf71-418e-a3bf-9c28f2f54abb)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[SCALING HIGH-ACCURACY TEXT EXTRACTION FROM IMAGES USING SPARK OCR ON DATABRICKS
-](https://www.johnsnowlabs.com/scaling-high-accuracy-text-extraction-from-images-using-spark-ocr-on-databricks/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[SCALING HIGH-ACCURACY TEXT EXTRACTION FROM IMAGES USING SPARK OCR ON DATABRICKS](https://www.johnsnowlabs.com/scaling-high-accuracy-text-extraction-from-images-using-spark-ocr-on-databricks/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[Accurate de-identification, obfuscation, and editing of scanned medical documents and images
-](https://events.johnsnowlabs.com/webinar-accurate-de-identification-obfuscation-and-editing-of-scanned-medical-documents-and-images?hsCtaTracking=f5fb8847-85b1-47f0-a584-84a461130bc2%7C3576c527-3906-41eb-bdda-3b288224c282)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Accurate de-identification, obfuscation, and editing of scanned medical documents and images](https://events.johnsnowlabs.com/webinar-accurate-de-identification-obfuscation-and-editing-of-scanned-medical-documents-and-images?hsCtaTracking=f5fb8847-85b1-47f0-a584-84a461130bc2%7C3576c527-3906-41eb-bdda-3b288224c282)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[Accurate De-Identification of Structured & Unstructured Medical Data at Scale
-](https://events.johnsnowlabs.com/webinar-accurate-de-identification-of-structured-unstructured-medical-data-at-scale?hsCtaTracking=8bf3c8f7-99ad-4f50-a0f9-0c03b7fa94d0%7Cc2c4678e-6472-4184-a5b0-a558936b6a9d)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[Accurate De-Identification of Structured & Unstructured Medical Data at Scale](https://events.johnsnowlabs.com/webinar-accurate-de-identification-of-structured-unstructured-medical-data-at-scale?hsCtaTracking=8bf3c8f7-99ad-4f50-a0f9-0c03b7fa94d0%7Cc2c4678e-6472-4184-a5b0-a558936b6a9d)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_5.jpg)[A Unified CV, OCR & NLP Model Pipeline for Document Understanding at DocuSign
-](https://www.nlpsummit.org/a-unified-cv-ocr-nlp-model-pipeline-for-document-understanding-at-docusign/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[A Unified CV, OCR & NLP Model Pipeline for Document Understanding at DocuSign](https://www.nlpsummit.org/a-unified-cv-ocr-nlp-model-pipeline-for-document-understanding-at-docusign/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 
@@ -306,7 +293,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[Mueller Report for Nerds! Spark meets NLP with TensorFlow and BERT ](https://medium.com/hackernoon/mueller-report-for-nerds-spark-meets-nlp-with-tensorflow-and-bert-part-1-32490a8f8f12)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Mueller Report for Nerds! Spark meets NLP with TensorFlow and BERT](https://medium.com/hackernoon/mueller-report-for-nerds-spark-meets-nlp-with-tensorflow-and-bert-part-1-32490a8f8f12)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -314,8 +301,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_6.jpg)[Running Spark NLP in Docker Container for Named Entity Recognition and Other NLP Features
-](https://towardsdatascience.com/running-spark-nlp-in-docker-container-for-named-entity-recognition-and-other-nlp-features-8acdb662da5b)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_6.jpg)[Running Spark NLP in Docker Container for Named Entity Recognition and Other NLP Features](https://towardsdatascience.com/running-spark-nlp-in-docker-container-for-named-entity-recognition-and-other-nlp-features-8acdb662da5b)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 </div></div>
@@ -338,7 +324,7 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[JOHN SNOW LABS’ DATA ANNOTATOR & ACTIVE LEARNING FOR HUMAN-IN-THE-LOOP AI IS NOW INCLUDED WITH ALL SUBSCRIPTIONS](https://www.johnsnowlabs.com/john-snow-labs-data-annotator-for-human-in-the-loop-ai-is-now-included-with-all-subscriptions/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs’ data annotator & active learning for human-in-the-loop AI is now included with all subscriptions](https://www.johnsnowlabs.com/john-snow-labs-data-annotator-for-human-in-the-loop-ai-is-now-included-with-all-subscriptions/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -346,8 +332,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[Auto NLP: Pretrain, Tune & Deploy State-of-the-art Models Without Coding
-](https://www.nlpsummit.org/auto-nlp-pretrain-tune-deploy-state-of-the-art-models/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Auto NLP: Pretrain, Tune & Deploy State-of-the-art Models Without Coding](https://www.nlpsummit.org/auto-nlp-pretrain-tune-deploy-state-of-the-art-models/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -365,8 +350,7 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[SpaCy or Spark NLP — A Benchmarking Comparison
-](https://medium.com/spark-nlp/spacy-or-spark-nlp-a-benchmarking-comparison-23202f12a65c)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[SpaCy or Spark NLP — A Benchmarking Comparison](https://medium.com/spark-nlp/spacy-or-spark-nlp-a-benchmarking-comparison-23202f12a65c)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -374,8 +358,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[NLP Industry Survey Analysis: the industry landscape of natural language use cases in 2020
-](https://www.nlpsummit.org/nlp-industry-survey-analysis-2020/ )</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[NLP Industry Survey Analysis: the industry landscape of natural language use cases in 2020](https://www.nlpsummit.org/nlp-industry-survey-analysis-2020/ )</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -391,27 +374,27 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[JOHN SNOW LABS IS HEALTHCARE TECH OUTLOOK’S 2020 HEALTHCARE ANALYTICS PROVIDER OF THE YEAR](https://www.johnsnowlabs.com/john-snow-labs-is-healthcare-tech-outlooks-2020-healthcare-analytics-provider-of-the-year/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs is healthcare tech outlook’s 2020 healthcare analytics provider of the year](https://www.johnsnowlabs.com/john-snow-labs-is-healthcare-tech-outlooks-2020-healthcare-analytics-provider-of-the-year/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[JOHN SNOW LABS WINS THE 2020 ARTIFICIAL INTELLIGENCE EXCELLENCE AWARD](https://www.johnsnowlabs.com/john-snow-labs-wins-the-2020-artificial-intelligence-excellence-award/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs wins the 2020 artificial intelligence excellence award](https://www.johnsnowlabs.com/john-snow-labs-wins-the-2020-artificial-intelligence-excellence-award/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[JOHN SNOW LABS IS NAMED ‘2019 AI PLATFORM OF THE YEAR](https://www.johnsnowlabs.com/john-snow-labs-is-named-2019-ai-platform-of-the-year/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs is named ‘2019 ai platform of the year](https://www.johnsnowlabs.com/john-snow-labs-is-named-2019-ai-platform-of-the-year/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[SPARK NLP IS THE WORLD’S MOST WIDELY USED NLP LIBRARY BY ENTERPRISE PRACTITIONERS](https://www.johnsnowlabs.com/spark-nlp-is-the-worlds-most-widely-used-nlp-library-by-enterprise-practitioners/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Spark NLP is the world’s most widely used nlp library by enterprise practitioners](https://www.johnsnowlabs.com/spark-nlp-is-the-worlds-most-widely-used-nlp-library-by-enterprise-practitioners/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[JOHN SNOW LABS’ SPARK NLP WINS “MOST SIGNIFICANT OPEN SOURCE PROJECT” AT THE STRATA DATA AWARDS](https://www.johnsnowlabs.com/john-snow-labs-spark-nlp-wins-most-significant-open-source-project-at-the-strata-data-awards%ef%bb%bf/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs’ spark nlp wins “most significant open source project” at the strata data awards](https://www.johnsnowlabs.com/john-snow-labs-spark-nlp-wins-most-significant-open-source-project-at-the-strata-data-awards%ef%bb%bf/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[JOHN SNOW LABS NAMED “ARTIFICIAL INTELLIGENCE SOLUTION PROVIDER OF THE YEAR” BY CIO REVIEW](https://www.johnsnowlabs.com/john-snow-labs-named-artificial-intelligence-solution-provider-of-the-year-by-cio-review/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs named “artificial intelligence solution provider of the year” by cio review](https://www.johnsnowlabs.com/john-snow-labs-named-artificial-intelligence-solution-provider-of-the-year-by-cio-review/)</span><span class="video-descr">**Alina Petukhova** &nbsp;- July 20, 2020</span>
 </div></div>
 
 </div></div>

@@ -11,7 +11,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-
+Short description of the pipeline and its use.
 
 {:.btn-box}
 [Live Demo](){:.button.button-orange}
@@ -36,32 +36,11 @@ pipeline = PretrainedPipeline('explain_document_dl', lang =' en').annotate(' Hel
 
 </div>
 
-{:.model-param}
-## Model Parameters
-
-{:.table-model}
-|---|---|
-|Model Name:|explain_document_dl|
-|Type:|pipeline|
-|Compatibility:|Spark NLP 2.5.5|
-|License:|Open Source|
-|Edition:|Community|
-|Language:|[en]|
-
-
-## Included Models 
-
-
-
 ## Results
+Add the results returned by the above code...
 
 {:.result_box}
 ```python
-
-result = pipeline.annotate(testDoc, "text")
-result.printSchema()
-result.show()
-
 root
  |-- text: string (nullable = true)
  |-- document: array (nullable = true)
@@ -147,5 +126,20 @@ root
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |French author who...|[[document, 0, 23...|[[document, 0, 57...|[[token, 0, 5, Fr...|[[token, 0, 5, Fr...|[[token, 0, 5, Fr...|[[token, 0, 5, fr...|[[pos, 0, 5, JJ, ...|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-
 ```
+
+{:.model-param}
+## Model Parameters
+
+{:.table-model}
+|---|---|
+|Pipeline Name:|Name of the model - same as in the metadata (header of this file)|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 2.5.5+|
+|License:|Open Source or Licensed|
+|Edition:|Official or Community|
+|Language:|en|
+
+
+## Included Models 
+The list of models included in the pipeline

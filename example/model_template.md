@@ -1,17 +1,19 @@
 ---
 layout: model
-title: 
+title: title of the models (SEO optimized)
 author: John Snow Labs
-name: 
-date: 
-tags: [open_source, ner, fr]
+name: name of the model (ex. ner_dl)
+date: publishing date
+tags: [open_source or licensed, ner, fr, healthcare?] 
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-
+Short description of the model
+### Predicted Labels
+The list of labels predicted by the model. Please add explanations if necessary but keep them short...
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_FR){:.button.button-orange}
@@ -42,29 +44,47 @@ val ner = NerDLModel.pretrained("wikiner_6B_300", "fr")
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a Relation column and a Confidence column....
+The actual outputs of the code above + some explanations if necessary....
 
+{:.result_box}
+```python
+root
+ |-- text: string (nullable = true)
+ |-- document: array (nullable = true)
+ |    |-- element: struct (containsNull = true)
+ |    |    |-- annotatorType: string (nullable = true)
+ |    |    |-- begin: integer (nullable = false)
+ |    |    |-- end: integer (nullable = false)
+ |    |    |-- result: string (nullable = true)
+ |    |    |-- metadata: map (nullable = true)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = true)
+ |    |    |-- embeddings: array (nullable = true)
+ |    |    |    |-- element: float (containsNull = false)
+ |-- sentence: array (nullable = true)
+ ...
+ ```
 
 {:.model-param}
 ## Model Parameters
 
 {:.table-model}
 |---|---|
-|Model Name:|Name|
+|Model Name:|Name of the model - same as in the metadata (header of this file)|
 |Type:|ner|
-|Compatibility:| Spark NLP 2.5.0|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|sentence, token, embeddings|
-|Output Labels:|ner|
+|Compatibility:| Spark NLP 2.5.0 + or Spark NLP for Healthcare 2.6.0 +|
+|License:|Open Source or Licensed|
+|Edition:|Official or Community|
+|Input Labels:|[sentence, token, embeddings]|
+|Output Labels:|[ner]|
 |Language:|fr|
 |Case sensitive:|false|
 
 
 {:.h2_title}
-## Source
+## Data Source
 The model is trained based on data from ...
 
 {:.h2_title}
-## Dataset used for training
-Trained on ...
+## Benchmarking 
+Info about accuracy etc...

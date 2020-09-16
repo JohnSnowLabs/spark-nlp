@@ -12,7 +12,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Next section describes the transformers that deal with PDF files with the purpose of extracting text and image data from PDF files.
 
-## PdfToText
+### PdfToText
 
 `PDFToText` extracts text from selectable PDF (with text layout).
 
@@ -104,7 +104,7 @@ data.select("pagenum", "text").show()
 +-------+----------------------+
 ```
 
-## PdfToImage
+### PdfToImage
 
 `PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
 
@@ -185,7 +185,7 @@ data.select("pagenum", "text").show()
 
 </div>
 
-## ImageToPdf
+### ImageToPdf
 
 `ImageToPdf` transform image to Pdf document.
 If dataframe contains few records for same origin path, it groups image by origin
@@ -269,7 +269,7 @@ pdf_df.select("content").show()
 
 </div>
 
-## TextToPdf
+### TextToPdf
 
 `TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to same position
 with same font size as in original image or PDF.
@@ -403,7 +403,7 @@ with open("test.pdf", "wb") as file:
 
 </div>
 
-## PdfDrawRegions
+### PdfDrawRegions
 
 `PdfDrawRegions` transformer for drawing regions to Pdf document.
 
@@ -582,7 +582,7 @@ Results:
 
 ![Result with regions](/assets/images/ocr/with_regions.png)
 
-## PdfToTextTable
+### PdfToTextTable
 
 Extract tables from Pdf document page.
 Input is a column with binary representation of PDF document.
@@ -750,7 +750,7 @@ data.select("image", "pagenum", "meta").show()
 
 </div>
 
-## ImageToDicom
+### ImageToDicom
 
 `ImageToDicom` transforms image to Dicom document.
 
@@ -889,7 +889,7 @@ data.select("image").show()
 
 </div>
 
-## ImageBinarizer
+### ImageBinarizer
 
 `ImageBinarizer` transforms image to binary color schema by threshold.
 
@@ -974,7 +974,7 @@ data.show()
 ![binarized](/assets/images/ocr/binarized.png)
 
 
-## ImageAdaptiveThresholding
+### ImageAdaptiveThresholding
 
 Compute a threshold mask image based on local pixel neighborhood and apply it to image.
 
@@ -1063,7 +1063,7 @@ for r in result.select("image", "corrected_image").collect():
 ![binarized](/assets/images/ocr/adaptive_binarized.png)
 
 
-## ImageScaler
+### ImageScaler
 
 `ImageScaler` scales image by provided scale factor.
 
@@ -1138,7 +1138,7 @@ data.show()
 
 </div>
 
-## ImageAdaptiveScaler
+### ImageAdaptiveScaler
 
 `ImageAdaptiveScaler` detects font size and scales image for have desired font size.
 
@@ -1212,7 +1212,7 @@ data.show()
 
 </div>
 
-## ImageSkewCorrector
+### ImageSkewCorrector
 
 `ImageSkewCorrector` detects skew of the image and rotates it.
 
@@ -1299,7 +1299,7 @@ data.show()
 
 ![corrected](/assets/images/ocr/corrected.png)
 
-## ImageNoiseScorer
+### ImageNoiseScorer
 
 `ImageNoiseScorer` computes noise score for each region.
 
@@ -1424,7 +1424,7 @@ data.select("path", "noiselevel").show()
 
 ```
 
-## ImageRemoveObjects
+### ImageRemoveObjects
 
 **python only**
 
@@ -1505,7 +1505,7 @@ data = pipeline.transform(df)
 
 </div>
 
-## ImageMorphologyOperation
+### ImageMorphologyOperation
 
 **python only**
 
@@ -1602,7 +1602,7 @@ for r in result.select("image", "corrected_image").collect():
 
 ![opening](/assets/images/ocr/opening.png)
 
-## ImageCropper
+### ImageCropper
 
 `ImageCropper`is a transformer for cropping image.
 
@@ -1694,7 +1694,7 @@ for r in result.select("image", "cropped_image").collect():
 
 </div>
 
-## Splitting image to regions
+### Splitting image to regions
 
 ### ImageLayoutAnalyzer
 
@@ -1784,7 +1784,7 @@ data.show()
 
 </div>
 
-## ImageSplitRegions
+### ImageSplitRegions
 
 `ImageSplitRegions` splits image to regions.
 
@@ -1893,7 +1893,7 @@ data.show()
 
 </div>
 
-## ImageDrawRegions
+### ImageDrawRegions
 
 `ImageDrawRegions` draw regions to image.
 
@@ -2113,7 +2113,7 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
 
-## ImageBrandsToText
+### ImageBrandsToText
 
 `ImageBrandsToText` runs OCR for specified brands of input image, return recognized text
 to _outputCol_ and positions with font size to 'positionsCol' column.
@@ -2401,7 +2401,7 @@ results.show()
 
 </div>
 
-## UpdateTextPosition
+### UpdateTextPosition
 
 `UpdateTextPosition` update output text and keep old coordinates of original document.
 
@@ -2543,7 +2543,7 @@ results.show()
 
 </div>
 
-## FoundationOneReportParser
+### FoundationOneReportParser
 
 `FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
 Current implementation support parsing patient info, genomic and biomarker findings.
