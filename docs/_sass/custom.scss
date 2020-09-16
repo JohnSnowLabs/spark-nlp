@@ -1509,6 +1509,10 @@ code {
 		text-align: center;
 		border-radius: 22px;
 		border: 2px solid $color-orange;
+		&:disabled {
+			background: #aeaeae;
+			border-color: #aeaeae;
+		}
 		&.button-orange-trans {
 			background: #fff;
 			color: $color-orange !important;
