@@ -14,8 +14,11 @@ use_language_switcher: "Python-Scala-Java"
 A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
 
+
+[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
+
 {:.btn-box}
-[Live Demo](){:.button.button-orange}{:target="_blank"}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_carp_en_2.5.5_2.4_1597841630062.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -26,14 +29,15 @@ A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posol
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
-
 pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
 
 annotations = pipeline.annotate(text)
 
 annotations.keys()
+```
 
+{:.noactive}
+```scala
 ```
 
 </div>

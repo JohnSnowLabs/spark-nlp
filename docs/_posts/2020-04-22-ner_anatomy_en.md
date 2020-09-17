@@ -19,8 +19,10 @@ Pretrained named entity recognition deep learning model for anatomy terms. Inclu
 Anatomical_system,Cell,Cellular_component,Developing_anatomical_structure,Immaterial_anatomical_entity,Multi-tissue_structure,Organ,Organism_subdivision,Organism_substance,Pathological_formation,Tissue
 
 
+[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
+
 {:.btn-box}
-[Live Demo](){:.button.button-orange}{:target="_blank"}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_en_2.4.2_2.4_1587513307751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

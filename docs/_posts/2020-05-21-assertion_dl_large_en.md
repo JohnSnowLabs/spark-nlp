@@ -23,8 +23,10 @@ Deep learning named entity recognition model for assertions. The SparkNLP deep l
  - conditional
  - associated_with_someone_else
 
+[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
+
 {:.btn-box}
-[Live Demo](){:.button.button-orange}{:target="_blank"}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_large_en_2.5.0_2.4_1590022282256.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

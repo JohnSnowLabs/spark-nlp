@@ -11,14 +11,35 @@ modify_date: "2020-09-09"
 
 ### Getting started
 
-Spark NLP for Healthcare is a licensed library build on top of Spark NLP, which offers extra functionalities as well as pretrained models and pipelines. If you don't have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.
-
+Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don't have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.
 
 {:.btn-block}
 [Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
+<br/>
+<br/>
+Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:
+- Clinical entity recognition
+- Clinical Entity Linking
+- Entity normalization
+- Assertion Status Detection
+- De-identification
+- Relation Extraction
+- Spell checking & correction
+
+
+The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities:
+- Clinical - support Signs, Symptoms, Treatments, Procedures, Tests, Labs, Sections
+- Drugs - support Name, Dosage, Strength, Route, Duration, Frequency
+- Risk Factors- support Smoking, Obesity, Diabetes, Hypertension, Substance Abuse
+- Anatomy - support Organ, Subdivision, Cell, Structure Organism, Tissue, Gene, Chemical
+- Demographics - support Age, Gender, Height, Weight, Race, Ethnicity, Marital Status, Vital Signs
+- Sensitive Data- support Patient Name, Address, Phone, Email, Dates, Providers, Identifiers
 
 
 <br/>
+
+### Install Spark NLP for Healthcare
+
 You can install the Spark NLP for Healthcare package by using:
 
 ```bash
