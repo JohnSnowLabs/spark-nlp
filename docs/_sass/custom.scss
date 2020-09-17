@@ -1861,6 +1861,9 @@ code {
 			color: #fff;
 			border-color:$color-lightblue;
 		}
+		&.noactive {
+			display: none;
+		}
 	}
 	.highlighter-rouge {
 		padding: 10px;
