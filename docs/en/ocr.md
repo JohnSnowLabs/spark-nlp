@@ -7,39 +7,39 @@ key: docs-ocr
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
-Spark OCR is a licensed library that provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
-It is built on top of ```Apache Spark```.
-
-If you want to try it out on your own documents click on the below button:
+Spark OCR is another commercial extension of Spark NLP for optical character recognition from images, scanned PDF documents, and DICOM files. f you want to try it out on your own documents click on the below button:
 
 {:.btn-block}
 [Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
 
 
 
-## OCR Pipelines
+Spark OCR is built on top of ```Apache Spark``` and offers the following capabilities:
+- Image pre-processing algorithms to improve text recognition results:
+  - Adaptive thresholding & denoising
+  - Skew detection & correction
+  - Adaptive scaling
+  - Layout Analysis & region detection
+  - Image cropping
+  - Removing background objects
+- Text recognition, by combining NLP and OCR pipelines:
+  - Extracting text from images (optical character recognition)
+  - Extracting data from tables
+  - Recognizing and highlighting named entities in PDF documents
+  - Masking sensitive text in order to de-identify images
+- Output generation in different formats:
+  - PDF, images, or DICOM files with annotated or masked entities
+  - Digital text for downstream processing in Spark NLP or other libraries
+  - Structured data formats (JSON and CSV), as files or Spark data frames
+- Scale out: distribute the OCR jobs across multiple nodes in a Spark cluster.
+- Frictionless unification of OCR, NLP, ML & DL pipelines.
 
-Using Spark OCR it is possible to build pipelines for text recognition from:
- - scanned image(s) (png, tiff, jpeg ...)
- - selectable PDF (that contains text layout)
- - not selectable PDF (that contains scanned text as an image)
- 
-It contains a set of tools for:
-
- - PDF processing transformers which extract text and images from PDF files
- - Image pre-processing (scaling, binarization, skew correction, etc.) transformers
- - Splitting image to regions analyzers and transformers
- - Characters recognition using ImageToText estimator
-
-More details on transformers/estimators could be found in further section [OCR Pipeline Components](ocr_pipeline_components)
 
 ## Spark OCR Workshop
 
-If you prefer learning by example, check this repository:
+If you prefer learning by example, click the button below to checkout the workshop repository full of fresh examples.
 
 [Spark OCR Workshop](https://github.com/JohnSnowLabs/spark-ocr-workshop){:.button.button--primary.button--rounded.button--md}
-
-It is full of fresh examples.
 
 Below, you can follow a more theoretical and thorough quick start guide.
 
