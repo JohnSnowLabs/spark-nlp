@@ -100,9 +100,9 @@ class SentimentDLApproach(override val uid: String)
     val labels = train.select($(labelColumn)).distinct.collect.map(x => x(0).toString)
 
     require(
-      labels.length >= 2 && labels.length <= 3,
-      s"The total unique number of classes must be maximum 3. Currently is ${labels.length}. Please use ClassifierDL" +
-        s" if you have more than 3 classes/labels"
+      labels.length == 2,
+      s"The total unique number of classes must be 2. Currently is ${labels.length}. Please use ClassifierDLApproach" +
+        s" if you have more than 2 classes/labels."
     )
 
     val tf = loadSavedModel()
