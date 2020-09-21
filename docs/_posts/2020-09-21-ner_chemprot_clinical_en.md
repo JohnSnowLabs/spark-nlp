@@ -2,7 +2,7 @@
 layout: model
 title: Detect chemical compounds and genes
 author: John Snow Labs
-name: ner_chemprot_clinical_en
+name: ner_chemprot_clinical
 date: 2020-09-21
 tags: [ner, en, licensed]
 article_header:
@@ -37,35 +37,35 @@ clinical_ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/mo
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[clinical_ner])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-model = nlpPipeline.fit(empty_data)
+light_pipeline = LightPipeline(pipeline_model)
 
-results = model.transform(data)
+results = light_pipeline.annotate("This is an example")
 
 ```
-
+{:.noactive}
 ```scala
-
-val ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(ner))
-
-val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ```
-
 </div>
+
+{:.h2_title}
+## Results
+{"document": ["This is an example"],
+ "ner_chunk": [],
+ "token": ['This', 'is', 'an', 'example'],
+ "ner": ['O', 'O', 'O', 'O'],
+ "embeddings": ['This', 'is', 'an', 'example'],
+ "sentence": ['This is an example']}
 
 {:.model-param}
 ## Model Parameters
 
 {:.table-model}
 |---|---|
-|Model Name:|ner_chemprot_clinical_en|
+|Model Name:|ner_chemprot_clinical|
 |Type:|ner|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
 |Edition:|Healthcare|
@@ -79,7 +79,3 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ## Data Source
 The model is trained the ChemProt corpus with 'embeddings_clinical'.
 https://biocreative.bioinformatics.udel.edu/
-
-{:.h2_title}
-## Results
-The output is a dataframe with a sentence per row and an "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" annotator to the end of your pipeline.
