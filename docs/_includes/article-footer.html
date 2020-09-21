@@ -20,7 +20,7 @@
 
     {%- include snippets/get-locale-string.html key='LAST_UPDATED' -%}
     {%- assign _locale_last_update = __return -%}
-    <span>{{ _locale_last_update }}
+    <span class="footer_date">{{ _locale_last_update }}
       <time itemprop="dateModified" datetime="{{ page.modify_date | date_to_xmlschema }}">{{ page.modify_date | date: _locale_date_format }}</time>
     </span>
   {%- elsif page.date -%}

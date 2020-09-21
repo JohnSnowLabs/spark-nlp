@@ -1,10 +1,13 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
 modify_date: "2020-09-07"
 ---
+
+<div class="h3-box" markdown="1">
 
 ### 2.6.0
 
@@ -14,62 +17,65 @@ We are honored to announce that Spark NLP Enterprise 2.6.0 has been released.
 The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases.
 The first time ever, we are releasing 3 licensed German models for healthcare and Legal domains.
 
+</div><div class="h3-box" markdown="1">
+
 #### Models
 
 ##### Pretrained Pipelines:
 
-The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
+The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. 
+Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 
-`pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')`
-`pipeline.annotate('my string')`
+```python
+pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
 
+pipeline.annotate('my string')
+```
 
 Pipeline descriptions:
 
-`explain_clinical_doc_carp`
+- ```explain_clinical_doc_carp``` a pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
-a pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
+- ```explain_clinical_doc_era``` a pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
 
-`explain_clinical_doc_era`
+- ```recognize_entities_posology``` a pipeline with ner_posology. It will only extract medication entities.
 
+More information and examples are available here: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb.
 
-a pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
+</div><div class="h3-box" markdown="1">
 
-`recognize_entities_posology`
-
-a pipeline with ner_posology. It will only extract medication entities.
-
-More information and examples here:
-https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb
-
-##### Pretrained Named Entity Recognition and Relationship Extraction Models (English)
+#### Pretrained Named Entity Recognition and Relationship Extraction Models (English)
 
 RE models:
 
-`re_temporal_events_clinical`
-`re_temporal_events_enriched_clinical`
-`re_human_phenotype_gene_clinical`
-`re_drug_drug_interaction_clinical`
-`re_chemprot_clinical`
-
+```
+re_temporal_events_clinical
+re_temporal_events_enriched_clinical
+re_human_phenotype_gene_clinical
+re_drug_drug_interaction_clinical
+re_chemprot_clinical
+```
 NER models:
 
-`ner_human_phenotype_gene_clinical`
-`ner_human_phenotype_go_clinical`
-`ner_chemprot_clinical`
-
+```
+ner_human_phenotype_gene_clinical
+ner_human_phenotype_go_clinical
+ner_chemprot_clinical
+```
 More information and examples here:
 https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
 
-##### Pretrained Named Entity Recognition and Relationship Extraction Models (German)
+</div><div class="h3-box" markdown="1">
+
+#### Pretrained Named Entity Recognition and Relationship Extraction Models (German)
 
 The first time ever, we are releasing 3 licensed German models for healthcare and Legal domains.
 
-- German Clinical NER model for 19 clinical entities
+- ```German Clinical NER``` model for 19 clinical entities
 
-- German Legal NER model for 19 legal entities
+- ```German Legal NER``` model for 19 legal entities
 
-- German ICD-10GM
+- ```German ICD-10GM```
 
 More information and examples here:
 
@@ -77,7 +83,9 @@ https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/ma
 
 https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/15.German_Legal_Model.ipynb
 
-##### Other Pretrained Models
+</div><div class="h3-box" markdown="1">
+
+#### Other Pretrained Models
 
 We now have Named Entity Disambiguation model out of the box.
 
@@ -89,6 +97,8 @@ Due to ongoing requests about Clinical Entity Resolvers, we release a notebook t
 
 https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.Snomed_Entity_Resolver_Model_Training.ipynb
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.5
 
 #### Overview
@@ -97,9 +107,13 @@ We are very happy to release Spark NLP for Healthcare 2.5.5 with a new state-of-
 This is also the first release to support Relation Extraction with the following two (2) models: `re_clinical` and `re_posology` in the `clinical/models` repository.
 We also include multiple bug fixes as usual.
 
+</div><div class="h3-box" markdown="1">
+
 #### New Features
 
 * RelationExtraction annotator that receives `WORD_EMBEDDINGS`, `POS`, `CHUNK`, `DEPENDENCY` and returns the CATEGORY of the relationship and a confidence score.
+
+</div><div class="h3-box" markdown="1">
 
 #### Enhancements
 
@@ -109,11 +123,15 @@ We also include multiple bug fixes as usual.
 * NerConverterInternal now has a `greedyMode` param that will merge all contiguous tags of the same type regardless of boundary tags like "B","E","S".
 * AnnotationToolJsonReader includes `mergeOverlapping` parameter to merge (or not) overlapping entities from the Annotator jsons i.e. not included in the assertion list.
 
+</div><div class="h3-box" markdown="1">
+
 #### Bugfixes
 
 * DeIdentification documentation bug fix (typo)
 * DeIdentification training bug fix in obfuscation dictionary
 * IOBTagger now has the correct output type `NAMED_ENTITY`
+
+</div><div class="h3-box" markdown="1">
 
 #### Deprecations
 
@@ -125,6 +143,8 @@ Models
    - `re_clinical`: with `ner_clinical` and `embeddings_clinical`
    - `re_posology`: with `ner_posology` and `embeddings_clinical`
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.3
 
 #### Overview
@@ -133,7 +153,9 @@ We are pleased to announce the release of Spark NLP for Healthcare 2.5.3.
 This time we include four (4) new Annotators: FeatureAssembler, GenericClassifier, Yake Keyword Extractor and NerConverterInternal.
 We also include helper classes to read datasets from CodiEsp and Cantemist Spanish NER Challenges.
 This is also the first release to support the following models: `ner_diag_proc` (spanish), `ner_neoplasms` (spanish), `ner_deid_enriched` (english).
-We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and ChunkMergeModel .
+We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and ChunkMergeModel.
+
+</div><div class="h3-box" markdown="1">
 
 #### New Features
 
@@ -143,19 +165,27 @@ We have also included Bugifxes and Enhancements for AnnotationToolJsonReader and
 * NerConverterInternal Annotator: Similar to it's open source counterpart in functionality, performs smarter extraction for complex tokenizations and confidence calculation
 * Readers for CodiEsp and Cantemist Challenges
 
+</div><div class="h3-box" markdown="1">
+
 #### Enhancements
 
 * AnnotationToolJsonReader includes parameter for preprocessing pipeline (from Document Assembling to Tokenization)
 * AnnotationToolJsonReader includes parameter to discard specific entity types
 
+</div><div class="h3-box" markdown="1">
+
 #### Bugfixes
 
 * ChunkMergeModel now prioritizes highest number of different entities when coverage is the same
+
+</div><div class="h3-box" markdown="1">
 
 #### Models
 
 * We have 2 new `spanish` models for Clinical Entity Recognition: `ner_diag_proc` and `ner_neoplasms`
 * We have a new `english` Named Entity Recognition model for deidentification: `ner_deid_enriched`
+
+</div><div class="h3-box" markdown="1">
 
 ### 2.5.2
 
@@ -167,10 +197,14 @@ Also the ChunkMerge annotator has ben provided with extra functionality to remov
 We also dedicated some time in finalizing some refactorization in DeIdentification annotator, mainly improving type consistency and case insensitive entity dictionary for obfuscation.
 Thanks to the community for all the feedback and suggestions, it's really comfortable to navigate together towards common functional goals that keep us agile in the SotA.
 
+</div><div class="h3-box" markdown="1">
+
 #### New Features
 
 * Brand new IOBTagger Annotator
 * NerDL Metrics provides an intuitive DataFrame API to calculate NER metrics at tag (token) and entity (chunk) level
+
+</div><div class="h3-box" markdown="1">
 
 #### Enhancements
 
@@ -187,12 +221,15 @@ Thanks to the community for all the feedback and suggestions, it's really comfor
 * Output logs for AssertionDLApproach loss
 * Disambiguator is back with improved dependency management
 
+</div><div class="h3-box" markdown="1">
+
 #### Bugfixes
 
 * Bugfix in python when Annotators shared domain parts across public and internal
 * Bugfix in python when ChunkMerge annotator was loaded from disk
 * ChunkMerge now weights the token coverage correctly when multiple multi-token entities overlap
 
+</div><div class="h3-box" markdown="1">
 
 ### 2.5.0
 
@@ -205,6 +242,8 @@ We also introduce an Annotation Reader for JSL AI Platform's Annotation Tool.
 This release is also the first one to support the models: `ner_large_clinical`, `ner_events_clinical`, `assertion_dl_large`, `chunkresolve_loinc_clinical`, `deidentify_large`
 And of course we have fixed some bugs.
 
+</div><div class="h3-box" markdown="1">
+
 #### New Features
 
 * AnnotationToolJsonReader is a new class that imports a JSON from AI Platform's Annotation Tool an generates NER and Assertion training datasets
@@ -212,13 +251,17 @@ And of course we have fixed some bugs.
 * ChunkMerge Annotator handles inputs from NerDLModel, RegexMatcher, ContextualParser, TextMatcher
 * A DeIdentification pretrained model can now work in 'mask' or 'obfuscate' mode
 
+</div><div class="h3-box" markdown="1">
+
 #### Enhancements
 
 * DeIdentification Annotator has a more consistent API:
- - `mode` param with values ('mask'|'obfuscate') to drive its behavior
- - `dateFormats` param a list of string values to to select which `dateFormats` to obfuscate (and which to just mask)
+    * `mode` param with values ('mask'l'obfuscate') to drive its behavior
+    * `dateFormats` param a list of string values to to select which `dateFormats` to obfuscate (and which to just mask)
 * DeIdentification Annotator no longer automatically obfuscates dates. Obfuscation is now driven by `mode` and `dateFormats` params
 * A DeIdentification pretrained model can now work in 'mask' or 'obfuscate' mode
+
+</div><div class="h3-box" markdown="1">
 
 #### Bugfixes
 
@@ -228,12 +271,15 @@ And of course we have fixed some bugs.
 * AssertionDLApproach now has the `setClasses` param setter in Python wrapper
 * JVM Memory and Kryo Max Buffer size increased to 32G and 2000M respectively in `sparknlp_jsl.start(secret)` function
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.6
 
 #### Overview
 
 We release Spark NLP for Healthcare 2.4.6 to fix some minor bugs.
 
+</div><div class="h3-box" markdown="1">
 
 #### Bugfixes
 
@@ -243,15 +289,16 @@ We release Spark NLP for Healthcare 2.4.6 to fix some minor bugs.
 * Environment Variable for License value named jsl.settings.license
 * Now DocumentLogRegClassifier can be serialized from Python (bug introduced with the implementation of RecursivePipelines, LazyAnnotator attribute)
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.5
 
-
 #### Overview
-
 
 We are glad to announce Spark NLP for Healthcare 2.4.5. As a new feature we are happy to introduce our new EnsembleEntityResolver which allows our Entity Resolution architecture to scale up in multiple orders of magnitude and handle datasets of millions of records on a sub-log computation increase
 We also enhanced our ChunkEntityResolverModel with 5 new distance calculations with weighting-array and aggregation-strategy params that results in more levers to finetune its performance against a given dataset.
 
+</div><div class="h3-box" markdown="1">
 
 #### New Features
 
@@ -262,6 +309,7 @@ We also enhanced our ChunkEntityResolverModel with 5 new distance calculations w
 * Weight parameter that works as a multiplier for each distance result to be considered during their aggregation
 * Three (3) aggregation strategies for the enabled distance in a particular instance, namely: AVERAGE, MAX and MIN
 
+</div><div class="h3-box" markdown="1">
 
 #### Enhancements
 
@@ -272,18 +320,21 @@ before it would calculate them over the neighbours and return them all in the me
 * StringDistances class has been included in utils to aid in the calculation and organization of different types of distances for Strings
 * HasFeaturesJsl trait has been included to support the serialization of Features including [T] <: AnnotatorModel[T] types
 
+</div><div class="h3-box" markdown="1">
 
 #### Bugfixes
 
 * Frequency calculation for WMD in ChunkEntityResolver has been adjusted to account for real word count representation
 * AnnotatorType for DocumentLogRegClassifier has been changed to CATEGORY to align with classifiers in Open Source library
 
+</div><div class="h3-box" markdown="1">
 
 #### Deprecations
 
 * Legacy EntityResolver{Approach, Model} classes have been deprecated in favor of ChunkEntityResolver classes
 * ChunkEntityResolverSelector classes has been deprecated in favor of EnsembleEntityResolver
 
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.2
 
@@ -293,17 +344,20 @@ We are glad to announce Spark NLP for Healthcare 2.4.2. As a new feature we are 
 which will let the users resolve different kind of entities based on Knowledge bases provided in the form of Records in a RocksDB database.
 We also enhanced / fixed DocumentLogRegClassifier, ChunkEntityResolverModel and ChunkEntityResolverSelector Annotators.
 
+</div><div class="h3-box" markdown="1">
 
 #### New Features
 
 * Disambiguation Annotator (NerDisambiguator and NerDisambiguatorModel) which accepts annotator types CHUNK and SENTENCE_EMBEDDINGS and
 returns DISAMBIGUATION annotator type. This output annotation type includes all the matches in the result and their similarity scores in the metadata.
 
+</div><div class="h3-box" markdown="1">
 
 #### Enhancements
 
 * ChunkEntityResolver Annotator now supports both EUCLIDEAN and COSINE distance for the KNN search and WMD calculation.
 
+</div><div class="h3-box" markdown="1">
 
 #### Bugfixes
 
@@ -311,6 +365,7 @@ returns DISAMBIGUATION annotator type. This output annotation type includes all 
 * Fixed a bug in ChunkEntityResolverSelector Annotator to group by both SENTENCE and CHUNK at the time of forwarding tokens and embeddings to the lazy annotators.
 * Fixed a bug in ChunkEntityResolverModel in which the same exact embeddings was not included in the neighbours.
 
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.1
 
@@ -319,11 +374,14 @@ returns DISAMBIGUATION annotator type. This output annotation type includes all 
 Introducing Spark NLP for Healthcare 2.4.1 after all the feedback we received in the form of issues and suggestions on our different communication channels.
 Even though 2.4.0 was very stable, version 2.4.1 is here to address minor bug fixes that we summarize in the following lines.
 
+</div><div class="h3-box" markdown="1">
 
 #### Bugfixes
 
 * Changing the license Spark property key to be "jsl" instead of "sparkjsl" as the latter generates inconsistencies
 * Fix the alignment logic for tokens and chunks in the ChunkEntityResolverSelector because when tokens and chunks did not have the same begin-end indexes the resolution was not executed
+
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.0
 
@@ -336,6 +394,8 @@ These last two Annotators also target performance time and memory consumption by
 We have put a big effort on this one, so please enjoy and share your comments. Your words are always welcome through all our different channels.
 Thank you very much for your important doubts, bug reports and feedback; they are always welcome and much appreciated.
 
+</div><div class="h3-box" markdown="1">
+
 #### New Features
 
 * BigChunkEntityResolver Annotator: New experimental approach to reduce memory consumption at expense of disk IO.
@@ -343,11 +403,14 @@ Thank you very much for your important doubts, bug reports and feedback; they ar
 * ChunkEntityResolverSelector Annotator: New AnnotatorModel that takes advantage of the RecursivePipelineModel + LazyAnnotator pattern to annotate with different LazyAnnotators at runtime.
 * DocumentLogregClassifier Annotator: New Annotator that provides a wrapped TFIDF Vectorizer + LogReg Classifier for TOKEN AnnotatorTypes (either at Document level or Chunk level)
 
+</div><div class="h3-box" markdown="1">
 
 #### Enhancements
 
 * `normalizedColumn` Param is no longer required in ChunkEntityResolver Annotator (defaults to the `labelCol` Param value).
 * ChunkEntityResolverMetadata now has more data to infer whether the match is meaningful or not.
+
+</div><div class="h3-box" markdown="1">
 
 #### Bugfixes
 
@@ -355,9 +418,13 @@ Thank you very much for your important doubts, bug reports and feedback; they ar
 * Fixed a bug on ChunkEntityResolver Annotator where undetermined results were coming out of negligible confidence scores for matches.
 * Fixed a bug on ChunkEntityResolver Annotator where search would fail if the `neighbours` Param was grater than the number of nodes in the tree. Now it returns up to the number of nodes in the tree.
 
+</div><div class="h3-box" markdown="1">
+
 #### Deprecations
 
 * OCR Moves to its own JSL Spark OCR project.
+
+</div>
 
 #### Infrastructure
 

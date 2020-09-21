@@ -1,45 +1,57 @@
 ---
-layout: article
-title: Spark OCR (Licensed)
+layout: docs
+header: true
+title: Spark OCR
 permalink: /docs/en/ocr
 key: docs-ocr
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
-Spark OCR provides a set of Spark ML transformers/estimators that help users create and use OCR pipelines.
-It is built on top of Apache Spark.
+Spark OCR is another commercial extension of Spark NLP for optical character recognition from images, scanned PDF documents, and DICOM files. f you want to try it out on your own documents click on the below button:
 
-# OCR Pipelines
+{:.btn-block}
+[Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
 
-Using Spark OCR it is possible to build pipelines for text recognition from:
- - scanned image(s) (png, tiff, jpeg ...)
- - selectable PDF (that contains text layout)
- - not selectable PDF (that contains scanned text as an image)
- 
-It contains a set of tools for:
 
- - PDF processing transformers which extract text and images from PDF files
- - Image pre-processing (scaling, binarization, skew correction, etc.) transformers
- - Splitting image to regions analyzers and transformers
- - Characters recognition using ImageToText estimator
 
-More details on transformers/estimators could be found in further section [OCR Pipeline Components](ocr_pipeline_components)
+Spark OCR is built on top of ```Apache Spark``` and offers the following capabilities:
+- Image pre-processing algorithms to improve text recognition results:
+  - Adaptive thresholding & denoising
+  - Skew detection & correction
+  - Adaptive scaling
+  - Layout Analysis & region detection
+  - Image cropping
+  - Removing background objects
+- Text recognition, by combining NLP and OCR pipelines:
+  - Extracting text from images (optical character recognition)
+  - Extracting data from tables
+  - Recognizing and highlighting named entities in PDF documents
+  - Masking sensitive text in order to de-identify images
+- Output generation in different formats:
+  - PDF, images, or DICOM files with annotated or masked entities
+  - Digital text for downstream processing in Spark NLP or other libraries
+  - Structured data formats (JSON and CSV), as files or Spark data frames
+- Scale out: distribute the OCR jobs across multiple nodes in a Spark cluster.
+- Frictionless unification of OCR, NLP, ML & DL pipelines.
 
-# Spark OCR Workshop
 
-If you prefer learning by example, check this repository:
+## Spark OCR Workshop
+
+If you prefer learning by example, click the button below to checkout the workshop repository full of fresh examples.
 
 [Spark OCR Workshop](https://github.com/JohnSnowLabs/spark-ocr-workshop){:.button.button--primary.button--rounded.button--md}
 
-It is full of fresh examples.
-
 Below, you can follow a more theoretical and thorough quick start guide.
 
-# Quickstart Examples
+## Quickstart Examples
 
-## Images
+<div class="h3-box" markdown="1">
+
+### Images
 
 The following code example creates an OCR Pipeline for processing image(s). The image file(s) can contain complex layout like columns, tables, images inside.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -110,15 +122,15 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 data.show()
-
-
-
 ```
 
-## Scanned PDF files
+</div></div><div class="h3-box" markdown="1">
+
+### Scanned PDF files
 
 Next sample provides an example of OCR Pipeline for processing PDF files containing image data. In this case, the [PdfToImage](ocr_pipeline_components#pdftoimage) transformer is used to convert PDF file to a set of images.
 
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -189,12 +201,11 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 data.show()
-
-
-
 ```
 
-## PDF files (scanned or text) 
+</div></div><div class="h3-box" markdown="1">
+
+### PDF files (scanned or text) 
 
 In the following code example we will create OCR Pipeline for processing PDF files that contain text or image data.
 
@@ -205,6 +216,8 @@ For each PDF file, this pipeline will:
     - detect and split image to regions
     - run OCR and save output to the `text` column
 
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -296,13 +309,15 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 
 data.show()
-
-
 ```
 
-## Images (streaming mode)
+</div></div><div class="h3-box" markdown="1">
+
+### Images (streaming mode)
 
 Next code segments provide an example of streaming OCR pipeline. It processes images and stores results to memory table.
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -364,7 +379,11 @@ query = modelPipeline.transform(dataFrame) \
   .start()
 ```
 
+</div>
+
 For getting results from memory table following code could be used:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -376,25 +395,32 @@ spark.table("results").select("path", "text").show()
 spark.table("results").select("path", "text").show()
 ```
 
+</div>
+
 More details about Spark Structured Streaming could be found in [spark documentation](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html).
 {:.info}
 
-# Advanced Topics
+</div><div class="h3-box" markdown="1">
 
-## Error Handling
+## Advanced Topics
+
+### Error Handling
 
 Pipeline execution would not be interrupted in case of the runtime exceptions 
 while processing some records. 
 
 In this case OCR transformers would fill _exception_ column that contains _transformer name_ and _exception_.
 
-NOTE: Storing runtime errors to the _exception_ field allows to process batch of files. 
+**NOTE:** Storing runtime errors to the _exception_ field allows to process batch of files. 
 {:.info}
 
+</div><div class="h3-box" markdown="1">
 
 #### Output
 
 Here is an output with exception when try to process js file using OCR pipeline:
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -406,6 +432,8 @@ result.select("path", "text", "exception").show(2, false)
 result.select("path", "text", "exception").show(2, False)
 ```
 
+</div>
+
 ```
 +----------------------+-------------------------------------------+-----------------------------------------------------+
 |path                  |text                                       |exception                                            |
@@ -415,7 +443,9 @@ result.select("path", "text", "exception").show(2, False)
 +----------------------+-------------------------------------------+-----------------------------------------------------+
 ```
 
-## Performance
+</div>
+
+### Performance
 
 In case of big count of text PDF's in dataset
 need have manual partitioning for avoid skew in partitions and effective utilize resources. 

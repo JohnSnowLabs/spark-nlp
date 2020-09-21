@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Tensorflow Graph
 permalink: /docs/en/graph
 key: docs-graph
@@ -15,6 +16,7 @@ NER DL uses Char CNNs - BiLSTM - CRF Neural Network architecture. Spark NLP defi
 Spark NLP infers these values from the training dataset used in [NerDLApproach annotator](annotators.md#ner-dl) and tries to load the graph embedded on spark-nlp package.
 Currently, Spark NLP has graphs for the most common combination of tags, embeddings, and number of chars values:
 
+{:.table-model-big.w7}
 | Tags | Embeddings Dimension |
 | :--- | :------------------: |
 |  10  |       100            |

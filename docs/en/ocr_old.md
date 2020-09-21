@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark OCR 2.3.x (Licensed)
 permalink: /docs/en/ocr_old
 key: docs-ocr-old
