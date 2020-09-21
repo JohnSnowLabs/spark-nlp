@@ -1,4 +1,4 @@
-/* start custom scss snippet */
+	/* start custom scss snippet */
 
 /****Vars****/
 $color-blue: #1E77B7;
@@ -10,6 +10,7 @@ body {
 	font-size: 16px;
 	line-height: 24px;
 	color: $color-darkblue;
+	height: auto;
 	overflow-x: hidden;
 	font-family: 'Roboto', sans-serif;
 }
@@ -267,9 +268,11 @@ h2.h2_doc {
 
 /******Index*******/
 
-.layout--page.layout--page--sidebar .page__viewport, 
-.layout--page.layout--page--sidebar .page__grid {
-	height: auto;
+.layout--page.layout--page--sidebar {
+	.page__viewport,
+	.page__grid {
+		height: auto;
+	}
 }
 
 .article__header--overlay {
@@ -665,6 +668,7 @@ ul.list1 {
 .page__sidebar {
 	position: fixed;
 	left: 0;
+	max-width: 280px;
 	top: 70px;
 	background: none;
 	border: none;
@@ -707,12 +711,42 @@ ul.list1 {
 	position: relative !important;
 	width: 100%;
 	top: auto;
-	right: 10px;
+	right: 0;
 	top: 0 !important;
 	overflow: auto;
 	height: 100%;
 	left: auto !important;
 }
+
+@media (min-width: 1700px) {
+	.layout--page--aside {
+		&:not(.layout--page--sidebar) {
+			background: url('../../assets/images/main-bg1.jpg') 0 0 repeat;
+			.page__viewport {
+				margin-left: 260px;
+				&.has-aside .col-main {
+					margin-right: 0;
+				}
+				.page__main-inner {
+					padding-right: 260px;
+				}
+			}
+		}
+	}
+	.layout--page--sidebar {
+		&.layout--page--aside {
+			background: url('../../assets/images/main-bg1.jpg') 0 0 repeat;
+			.page__viewport {
+				margin-right: 260px;
+				.has-aside .col-aside {
+					right: 260px;
+				}
+			}
+		}
+	}
+}
+
+
 
 .layout--page--sidebar {	 
 	.page__main-inner {
@@ -744,6 +778,7 @@ ul.list1 {
 	position: absolute;
 	right: 5%;
 	top: 10px;
+	display: none;
 }
 .h2_article {
 	font-weight: bold;
@@ -791,6 +826,7 @@ ul.list1 {
 				font-family: 'Montserrat', sans-serif;
 				color: #5334AE;
 				border: none;
+				letter-spacing: -0.5px;
 			}
 			.toc-h2 {
 				padding-left: 5px;
@@ -817,10 +853,26 @@ ul.list1 {
 	.page__aside {
 		ul.toc--ellipsis {
 			li {
-				margin: 0 0 15px;
+				margin: 0 0 10px;
 				white-space: normal;
 				&.toc-h3 {
 					padding-left: 15px;
+					margin-bottom: 10px;
+					position: relative;
+					&:before {
+						content: '';
+						position: absolute;
+						left: 4px;
+						top: 8px;
+						display: block;
+						width: 4px;
+						height: 4px;
+						border-radius: 5px;
+						background: $color-blue;
+					}
+				}
+				&.toc-h2 {
+					padding-top: 7px;
 				}
 			}
 			.toc-h3,
@@ -863,9 +915,9 @@ ul.list1 {
 
 .video-descr {
 	height: 70px;
-	display: none;
 	align-items: center;
 	font-weight: 500;
+	display: flex;
 	font-size: 14px;
 	line-height: 16px;
 	color: $color-darkblue;
@@ -1008,6 +1060,7 @@ ul.list1 {
 		padding: 10px;
 		position: relative;
 		z-index: 9;
+		display: flex;
 		background: #fff;
 	}
 	p {
@@ -1655,7 +1708,7 @@ code {
 }
 
 .btn-block {
-	padding-top: 20px;
+	padding: 20px 0;
 	margin: 0 !important;
 }
 

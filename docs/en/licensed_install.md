@@ -15,8 +15,8 @@ Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and
 
 {:.btn-block}
 [Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
-<br/>
-<br/>
+
+
 Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:
 - Clinical entity recognition
 - Clinical Entity Linking
