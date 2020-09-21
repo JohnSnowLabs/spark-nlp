@@ -1,4 +1,5 @@
 
+
 function toggleScala() {
     //set current button to active class and remove unactive class
     $(".scala-button").removeClass('code-selector-un-active');
@@ -16,7 +17,7 @@ function toggleScala() {
     $( ".language-python" ).hide()
     $( ".language-java" ).hide()
 
-    }
+}
 
 function togglePython() {
 
@@ -36,7 +37,7 @@ function togglePython() {
     $( ".language-python" ).show() 
     $( ".language-java" ).hide()
     $( ".language-scala" ).hide()
-    }
+}
 
 function defer(method) { //wait until jquery ready
     if (window.jQuery) {
@@ -47,5 +48,7 @@ function defer(method) { //wait until jquery ready
 }
 
 defer(function () { // load inital language
-    toggleScala()
+    togglePython()
 });
+
+

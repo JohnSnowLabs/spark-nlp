@@ -14,242 +14,54 @@ article_header:
     {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
     {%- assign _url = __return -%}
     {%- if _section.theme == 'light' -%}
-    <section class="hero hero--center hero--light" id="hero-{{ forloop.index }}" {%- elsif _section.theme == 'dark' -%}
-      <section class="hero hero--center hero--dark" id="hero-{{ forloop.index }}" {%- else -%} <section
-      class="hero hero--center" id="hero-{{ forloop.index }}" {%- endif -%} {%- if _section.background_color -%}
+    <section class="hero section-row hero--center hero--light" id="hero-{{ forloop.index }}" {%- elsif _section.theme == 'dark' -%}
+      <section class="hero  section-row hero--center hero--dark" id="hero-{{ forloop.index }}" {%- else -%} <section
+      class="hero section-row hero--center" id="hero-{{ forloop.index }}" {%- endif -%} {%- if _section.background_color -%}
       style="background-image: url({{ _url }}); background-color: {{ _section.background_color }};">
       {%- else -%}
       style="background-image: url({{ _url }});">
       {%- endif -%}
 
-      <div class="hero__content">
-        <div class="mb-5">
+      <div class="">
+        {%- if _section.top -%}
+          <div class="top_section {{ _section.topclass }}">
 
-          <h1>{{ _section.title }}</h1>
-          {%- if _section.excerpt-%}
-          <p>{{ _section.excerpt }}</p>
-          {%- endif -%}
+            <h3 class="blue h3_title {{ _section.classtitle }}">{{ _section.title }}</h3>
+            {%- if _section.excerpt-%}
+            <p class="h3_descr">{{ _section.excerpt }}</p>
+            {%- endif -%}
 
-          {%- if _section.actions -%}
-          <ul class="menu">
-            {%- for _action in _section.actions -%}
-            {%- include snippets/get-nav-url.html path=_action.url -%}
-            {%- assign _url = __return -%}
-            {%- assign _type = _action.type | default: 'outline-info' -%}
-            <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a>
-            </li>
-            {%- endfor -%}
-          </ul>
-          {%- endif -%}
+            {%- if _section.actions -%}
+              <ul class="menu {{ _section.classmenu }}">
+                {%- for _action in _section.actions -%}
+                {%- include snippets/get-nav-url.html path=_action.url -%}
+                {%- assign _url = __return -%}
+                {%- assign _type = _action.type | default: 'outline-info' -%}
+                <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a>
+                </li>
+                {%- endfor -%}
+              </ul>
+              {%- endif -%}
 
-        </div>
-
-        {%- if _section.install -%}
-        <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-12" style="text-align: left; background-color: #2d2d2d; padding: 10px">
-            {% highlight bash %}
-# Install Spark NLP from PyPI
-$ pip install spark-nlp==2.6.0
-
-# Install Spark NLP from Anaconda/Conda
-$ conda install -c johnsnowlabs spark-nlp
-
-# Load Spark NLP with Spark Shell
-$ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
-
-# Load Spark NLP with PySpark
-$ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
-
-# Load Spark NLP with Spark Submit
-$ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0
-
-# Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-$ spark-shell --jar spark-nlp-assembly-2.6.0
-            {% endhighlight %}
           </div>
-        </div>
         {%- endif -%}
-        {%- if _section.features -%}
-        <div class="grid" style="background-color: #2d2d2d">
-          <div class="cell cell--12 cell--lg-5" style="text-align: left; background-color: #ffffff; font-size: 1.2em">
-            <h3 style="margin-left:-30px">NLP Features</h3>
-            <ul>
-              <li>Tokenization</li>
-              <li>Stop Words Removal</li>
-              <li>Normalizer</li>
-              <li>Stemmer</li>
-              <li>Lemmatizer</li>
-              <li>NGrams</li>
-              <li>Regex Matching</li>
-              <li>Text Matching</li>
-              <li>Chunking</li>
-              <li>Date Matcher</li>
-              <li><strong>Part-of-speech</strong> tagging</li>
-              <li>Sentence Detector</li>
-              <li>Dependency parsing (Labeled/unlabled)</li>
-              <li><strong>Sentiment</strong> Detection (ML models)</li>
-              <li><strong>Spell</strong> Checker (ML and DL models)</li>
-              <li>Word Embeddings (<strong>GloVe</strong> and <strong>Word2Vec</strong>)</li>
-              <li><strong>BERT</strong> Embeddings
-              <li><strong>ELMO</strong> Embeddings
-              <li><strong>Universal Sentence</strong> Encoder
-              <li><strong>BERT Sentence</strong> Embeddings
-              <li><strong>Sentence</strong> Embeddings
-              <li><strong>Chunk</strong> Embeddings
-              <li>Unsupervised <strong>keywords extraction</strong></li>
-              <li>Language <strong>Detection</strong> & <strong>Identification</strong></li>
-              <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
-              <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
-              <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>  
-              <li><strong>Named entity</strong> recognition (DL model)</li>
-              <li>Easy <strong>TensorFlow</strong> integration</li>
-              <li>Full integration with <strong>Spark ML</strong> functions</li>
-              <li><strong>+250</strong> pre-trained <strong>models </strong> in <strong>46 languages! </strong>
-              <li><strong>+88</strong> pre-trained <strong>pipelines </strong> in <strong>13 languages! </strong>
-            </ul>
-          </div>
-          <div class="cell cell--12 cell--lg-7" style="text-align: left; padding: 10px">
-            {% highlight python %}
-# Import Spark NLP            
-from sparknlp.base import *
-from sparknlp.annotator import *
 
-from sparknlp.pretrained import PretrainedPipeline
-import sparknlp
 
-# Start Spark Session with Spark NLP
-spark = sparknlp.start()
-
-# Download a pre-trained pipeline 
-pipeline = PretrainedPipeline('explain_document_dl', lang='en')
-
-# Your testing dataset
-text = """
-The Mona Lisa is a 16th century oil painting created by Leonardo. 
-It's held at the Louvre in Paris.
-"""
-
-# Annotate your testing dataset
-result = pipeline.annotate(text)
-
-# What's in the pipeline
-list(result.keys())
-Output: ['entities', 'stem', 'checked', 'lemma', 'document',
-'pos', 'token', 'ner', 'embeddings', 'sentence']
-
-# Check the results
-result['entities']
-Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
-            {% endhighlight %}
-          </div>
-        </div>
-        {%- endif -%}
-        {%- if _section.benchmark -%}
-        
-        <div class="grid">
-          <div class="cell cell--12 cell--lg-5" style="text-align: left; font-size: 1.2em; padding: 10px">
-            <h3 style="margin-left:-10px">Training NER</h3>
-            <ul>
-              <li>State-of-the-art <strong>Deep Learning</strong> algorithms</li>
-              <li>Achieve <strong>high accuracy</strong> within a few minutes</li>
-              <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
-              <li>Blazing fast training</li>
-              <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
-              <li>Easy to choose Word Embeddings</li>
-              <li>Pre-trained <strong>GloVe</strong> models</li>
-              <li>Pre-trained <strong>BERT</strong> models (TF Hub)
-              <li>Pre-trained <strong>ELMO</strong> models (TF Hub)
-              <li>Pre-trained <strong>ALBERT</strong> models (TF Hub)
-              <li>Pre-trained <strong>XLNet</strong> models
-              <li>Multi-lingual NER models in <strong>Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish</strong></li>
-            </ul>
-          </div>
-          <div class="cell cell--12 cell--lg-7" style="text-align: center; padding: 10px">
-            {% highlight bash %}
-            
-            {% endhighlight %}
-            <style type="text/css">
-              .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
-              .tg td{font-family:Arial, sans-serif;font-size:14px;padding:15px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ccc;color:#333;background-color:#fff;}
-              .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:15px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ffffff;color:#ffffff;background-color:#168be8;}
-              .tg .tg-fymr{font-weight:bold;border-color:inherit;text-align:left;vertical-align:top}
-              .tg .tg-0lax{text-align:left;vertical-align:top}
-              .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-              </style>
-              <table class="tg">
-                <tr>
-                  <th class="tg-fymr">SYSTEM</th>
-                  <th class="tg-fymr">YEAR</th>
-                  <th class="tg-fymr">LANGUAGE</th>
-                  <th class="tg-fymr">ACCURACY</th>
-                </tr>
-                <tr>
-                  <td class="tg-0lax"><span style="font-weight:bold">Spark NLP v2.4</span></td>
-                  <td class="tg-0lax">2020</td>
-                  <td class="tg-0lax">Python/Scala/Java/R</td>
-                  <td class="tg-0lax"><span style="font-weight:bold">93.3 (test F1) - 95.9 (dev F1)</span></td>
-                </tr>
-                <tr>
-                  <td class="tg-0lax">Spark NLP v2.x</td>
-                  <td class="tg-0lax">2019</td>
-                  <td class="tg-0lax">Python/Scala/Java/R</td>
-                  <td class="tg-0lax"><span style="font-weight:bold">93</span></td>
-                </tr>
-                <tr>
-                  <td class="tg-0lax">Spark NLP v1.x</td>
-                  <td class="tg-0lax">2018</td>
-                  <td class="tg-0lax">Python/Scala/Java/R</td>
-                  <td class="tg-0lax">92</td>
-                </tr>
-                <tr>
-                  <td class="tg-0pky">spaCy v2.x</td>
-                  <td class="tg-0pky">2017<br></td>
-                  <td class="tg-0pky">Python/Cython</td>
-                  <td class="tg-0pky">92.6</td>
-                </tr>
-                <tr>
-                  <td class="tg-0pky">spaCy v1.x</td>
-                  <td class="tg-0pky">2015</td>
-                  <td class="tg-0pky">Python/Cython</td>
-                  <td class="tg-0pky">91.8</td>
-                </tr>
-                <tr>
-                  <td class="tg-0pky">ClearNLP</td>
-                  <td class="tg-0pky">2015</td>
-                  <td class="tg-0pky">Java</td>
-                  <td class="tg-0pky">91.7</td>
-                </tr>
-                <tr>
-                  <td class="tg-0pky">CoreNLP</td>
-                  <td class="tg-0pky">2015</td>
-                  <td class="tg-0pky">Java</td>
-                  <td class="tg-0pky">89.6</td>
-                </tr>
-                <tr>
-                  <td class="tg-0pky">MATE</td>
-                  <td class="tg-0pky">2015</td>
-                  <td class="tg-0pky">Java</td>
-                  <td class="tg-0pky">92.5</td>
-                </tr>
-                <tr>
-                  <td class="tg-0pky">Turbo</td>
-                  <td class="tg-0pky">2015</td>
-                  <td class="tg-0pky">C++</td>
-                  <td class="tg-0pky">92.4</td>
-                </tr>
-              </table>            
-          </div>          
-        </div>
-        {%- endif -%}
-        {%- if _section.children -%}
-        {%- assign _size = _section.children | size  -%}
+        {%- if _section.threeblocks -%}
+        {%- assign _size = _section.threeblocks | size  -%}
         <div class="grid--container">
           <div class="grid grid--p-3">
 
-            {%- for child in _section.children -%}
+            {%- for child in _section.threeblocks -%}
 
             {%- if _size >= 2 -%}
-            {%- assign _cell_md_col = 6 -%}
+            {%- assign _cell_sm_col = 12 -%}
+            {%- else -%}
+            {%- assign _cell_sm_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            {%- if _size >= 2 -%}
+            {%- assign _cell_md_col = 4 -%}
             {%- else -%}
             {%- assign _cell_md_col = 12 | divided_by: _size -%}
             {%- endif -%}
@@ -260,10 +72,38 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
             {%- assign _cell_lg_col = 12 | divided_by: _size -%}
             {%- endif -%}
 
-            <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
+            {%- if _size >= 6 -%}
+            {%- assign _cell_lg_col = 2 -%}
+            {%- else -%}
+            {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+            {%- endif -%}
 
-              <div class="mb-5">
+            <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} cell--sm-{{ _cell_sm_col }}">
+
+              <div class="feature-item topthree {{ _section.featureitem }} ">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}
+                {%- assign _item_image_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="mx-auto" style="{{ child.image.style }}">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
                 <h4>{{ child.title }}</h4>
+
 
                 {%- if child.excerpt-%}
                 <p>{{ child.excerpt }}</p>
@@ -280,36 +120,7 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
                   {%- endfor -%}
                 </ul>
                 {%- endif -%}
-              </div>
-
-              {%- if child.image and child.image.src -%}
-
-              {%- if child.image.url -%}
-              {%- include snippets/get-nav-url.html path=child.image.url -%}
-              {%- assign _item_image_url = __return -%}
-              {%- else -%}
-              {%- assign _item_image_url = nil -%}
-              {%- endif -%}
-
-              {%- include snippets/get-nav-url.html path=child.image.src -%}
-              {%- assign _item_image_src = __return -%}
-
-              {%- if child.image.is_row -%}
-              <div class="mb-5">
-                {%- endif -%}
-                <div class="mx-auto" style="{{ child.image.style }}">
-                  {%- if _item_image_url -%}
-                  <a href="{{ _item_image_url }}">
-                    {%- endif -%}
-                    <img src="{{ _item_image_src }}" />
-                    {%- if _item_image_url -%}
-                  </a>
-                  {%- endif -%}
-                </div>
-                {%- if child.image.is_row -%}
-              </div>
-              {%- endif -%}
-              {%- endif -%}
+              </div>              
 
               {%- if child.content-%}
               <p>{{ child.content }}</p>
@@ -358,6 +169,385 @@ Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
       </div>
       {%- endif -%}
       {%- endif -%}
+
+        {%- if _section.install -%}
+
+          <div class="quick_easy">
+            <div class="grid--container">
+              <div class="grid">
+                <div class="cell d_flex cell--12 cell--lg-5 cell--md-5 cell--sm-12 quick_easy_inner">
+                  <h3 class="grey h3_title">{{ _section.title }}</h3>
+                  {%- if _section.excerpt-%}
+                  <div class="descr_quick">{{ _section.excerpt }}</div>
+                  {%- endif -%}
+                   {%- if _section.actions -%}
+                    <ul class="menu">
+                      {%- for _action in _section.actions -%}
+                      {%- include snippets/get-nav-url.html path=_action.url -%}
+                      {%- assign _url = __return -%}
+                      {%- assign _type = _action.type | default: 'outline-info' -%}
+                      <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a>
+                      </li>
+                      {%- endfor -%}
+                    </ul>
+                    {%- endif -%}
+                </div>
+                <div class="cell cell--12 cell--lg-7 cell--md-7 cell--sm-12">
+                  <div class="highlight-box">
+    {% highlight bash %}
+    # Install Spark NLP from PyPI
+    $ pip install spark-nlp==2.5.5
+  
+    # Install Spark NLP from Anaconda/Conda
+    $ conda install -c johnsnowlabs spark-nlp
+  
+    # Load Spark NLP with Spark Shell
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+  
+    # Load Spark NLP with PySpark
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+  
+    # Load Spark NLP with Spark Submit
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.5
+  
+    # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
+    $ spark-shell --jar spark-nlp-assembly-2.5.5
+    {% endhighlight %}
+                    </div>
+                </div>
+              </div>
+            </div>           
+          </div>
+        
+        {%- endif -%}
+
+
+        {%- if _section.landingmodels -%}
+
+          <div class="quick_easy landing_models">
+            <div class="grid--container">
+              <div class="grid">
+                <div class="cell d_flex cell--12">
+                  <h3 class="h3_title blue">{{ _section.title }}</h3>
+                  {%- if _section.excerpt-%}
+                  <div class="descr_quick">{{ _section.excerpt }}</div>
+                  {%- endif -%}
+                   {%- if _section.actions -%}
+                    <ul class="menu">
+                      {%- for _action in _section.actions -%}
+                      {%- include snippets/get-nav-url.html path=_action.url -%}
+                      {%- assign _url = __return -%}
+                      {%- assign _type = _action.type | default: 'outline-info' -%}
+                      <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a>
+                      </li>
+                      {%- endfor -%}
+                    </ul>
+                    {%- endif -%}
+                </div>                
+              </div>
+            </div>           
+          </div>
+        
+        {%- endif -%}
+
+
+
+        {%- if _section.features -%}
+        <div class="features-section">
+          <div class="grid--container">
+            <div class="grid">
+              <div class="cell cell--12 cell--lg-12">
+                <div class="features-inner">
+                <h4 class="blue h4_title">NLP Features</h4>
+                <div class="features-ul">
+                  <ul class="list1">
+                    <li>Tokenization</li>
+                    <li>Stop Words Removal</li>
+                    <li>Normalizer</li>
+                    <li>Stemmer</li>
+                    <li>Lemmatizer</li>
+                    <li>NGrams</li>
+                    <li>Regex Matching</li>
+                    <li>Text Matching</li>
+                    <li>Chunking</li>
+                    <li>Date Matcher</li>
+                    <li><strong>Part-of-speech</strong> tagging</li>
+                  </ul>
+                  <ul class="list1">
+                    <li>Sentence Detector</li>
+                    <li>Dependency parsing (Labeled/unlabled)</li>
+                    <li><strong>Sentiment</strong> Detection (ML models)</li>
+                    <li><strong>Spell</strong> Checker (ML and DL models)</li>
+                    <li>Word Embeddings (<strong>GloVe</strong> and <strong>Word2Vec</strong>)</li>
+                    <li><strong>BERT</strong> Embeddings
+                    <li><strong>ELMO</strong> Embeddings
+                    <li><strong>Universal Sentence</strong> Encoder
+                    <li><strong>BERT Sentence</strong> Embeddings
+                    <li><strong>Sentence</strong> Embeddings
+                    <li><strong>Chunk</strong> Embeddings
+                  </ul>
+                  <ul class="list1">
+                    <li>Unsupervised <strong>keywords extraction</strong></li>
+                    <li>Language <strong>Detection</strong> & <strong>Identification</strong></li>
+                    <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
+                    <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
+                    <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>  
+                    <li><strong>Named entity</strong> recognition (DL model)</li>
+                    <li>Easy <strong>TensorFlow</strong> integration</li>
+                    <li>Full integration with <strong>Spark ML</strong> functions</li>
+                    <li><strong>330+</strong> pre-trained <strong>models </strong> in <strong>46 languages! </strong>
+                    <li><strong>90+</strong> pre-trained <strong>pipelines </strong> in <strong>13 languages! </strong>
+                  </ul>
+                </div>
+                              
+    {% highlight python %}
+    from sparknlp.base import *
+    from sparknlp.annotator import *              
+    from sparknlp.pretrained import PretrainedPipeline
+    import sparknlp
+              
+    # Start Spark Session with Spark NLP
+    spark = sparknlp.start()
+              
+    # Download a pre-trained pipeline 
+    pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+
+    # Annotate your testing dataset
+    result = pipeline.annotate("The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris.")
+              
+    # What's in the pipeline
+    list(result.keys())
+    Output: ['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence']
+              
+    # Check the results
+    result['entities']
+    Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
+    {% endhighlight %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%- endif -%}
+        {%- if _section.benchmark -%}
+
+        <div class="benchmark-section">
+          <div class="grid--container">
+            <div class="grid">
+              <div class="cell cell--12 cell--lg-5">
+                <div class="benchmark-top">
+                  <h2 class="h2_title grey">Benchmark</h2>
+                  <div class="benchmark-descr">Spark NLP 2.5.x obtained the best performing academic peer-reviewed results</div>
+                </div>
+                <div class="benchmark-inner">
+                  <h4 class="h4_title blue">Training NER</h4>
+                  <ul class="list1">
+                    <li>State-of-the-art <strong>Deep Learning</strong> algorithms</li>
+                    <li>Achieve <strong>high accuracy</strong> within a few minutes</li>
+                    <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
+                    <li>Blazing fast training</li>
+                    <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
+                    <li>30+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
+                    <strong>BERT</strong>, <strong>ELMO</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
+                    <li>Multi-lingual NER models in <strong>Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish</strong></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="cell cell--12 cell--lg-7" style="text-align: center; padding: 10px">
+                {% highlight bash %}
+                
+                {% endhighlight %}
+                <div class="table-wrapper">
+                    <div class="table-wrapper-inner">
+                      <table class="table2">
+                        <thead>
+                            <th>System</th>
+                            <th>Year</th>
+                            <th>Language</th>
+                            <th>Accuracy</th>                      
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><strong>Spark NLP v2.4</strong></td>
+                            <td>2020</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td><strong>93.3 (test F1) - 95.9 (dev F1)</strong></td>
+                          </tr>
+                          <tr>
+                            <td>Spark NLP v2.x</td>
+                            <td>2019</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td><strong>93</strong></td>
+                          </tr>
+                          <tr>
+                            <td>Spark NLP v1.x</td>
+                            <td>2018</td>
+                            <td>Python/Scala/Java/R</td>
+                            <td>92</td>
+                          </tr>
+                          <tr>
+                            <td>spaCy v2.x</td>
+                            <td>2017<br></td>
+                            <td>Python/Cython</td>
+                            <td>92.6</td>
+                          </tr>
+                          <tr>
+                            <td>spaCy v1.x</td>
+                            <td>2015</td>
+                            <td>Python/Cython</td>
+                            <td>91.8</td>
+                          </tr>
+                          <tr>
+                            <td>ClearNLP</td>
+                            <td>2015</td>
+                            <td>Java</td>
+                            <td>91.7</td>
+                          </tr>
+                          <tr>
+                            <td>CoreNLP</td>
+                            <td>2015</td>
+                            <td>Java</td>
+                            <td>89.6</td>
+                          </tr>
+                          <tr>
+                            <td>MATE</td>
+                            <td>2015</td>
+                            <td>Java</td>
+                            <td>92.5</td>
+                          </tr>
+                          <tr>
+                            <td>Turbo</td>
+                            <td>2015</td>
+                            <td>C++</td>
+                            <td>92.4</td>
+                          </tr>                      
+                        </tbody>
+                      </table> 
+                    </div>                  
+                </div>                             
+              </div>          
+            </div>
+          </div>
+        </div>
+        
+        
+        {%- endif -%}
+        {%- if _section.children -%}
+        {%- assign _size = _section.children | size  -%}
+        <div class="grid--container">
+          <div class="grid grid--p-3">
+
+            {%- for child in _section.children -%}          
+
+            {%- if _size >= 2 -%}
+            {%- assign _cell_md_col = 3 -%}
+            {%- else -%}
+            {%- assign _cell_md_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            {%- if _size >= 4 -%}
+            {%- assign _cell_lg_col = 3 -%}
+            {%- else -%}
+            {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            {%- if _size >= 6 -%}
+            {%- assign _cell_lg_col = 2 -%}
+            {%- else -%}
+            {%- assign _cell_lg_col = 12 | divided_by: _size -%}
+            {%- endif -%}
+
+            <div class="cell cell--6 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
+
+              <div class="feature-item {{ _section.featureitem }} ">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}
+                {%- assign _item_image_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="mx-auto" style="{{ child.image.style }}">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <h4>{{ child.title }}</h4>
+
+                {%- if child.excerpt-%}
+                <p>{{ child.excerpt }}</p>
+                {%- endif -%}
+
+                {%- if child.actions -%}
+                <ul class="menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div>              
+
+              {%- if child.content-%}
+              <p>{{ child.content }}</p>
+              {%- endif -%}
+
+            </div>
+            {%- endfor-%}
+
+          </div>
+        </div>
+        {%- endif -%}
+
+        {%- if _section.image.full_width == true -%}
+      </div> {% comment %} end hero__content {% endcomment %}
+      {%- endif -%}
+
+      {%- if _section.image and _section.image.src -%}
+
+      {%- if _section.image.url -%}
+      {%- include snippets/get-nav-url.html path=_section.image.url -%}
+      {%- assign _section_image_url = __return -%}
+      {%- else -%}
+      {%- assign _section_image_url = nil -%}
+      {%- endif -%}
+
+      {%- include snippets/get-nav-url.html path=_section.image.src -%}
+      {%- assign _section_image_src = __return -%}
+
+      {%- if _section.image.is_row -%}
+      <div class="mb-5">
+        {%- endif -%}
+        <div class="mx-auto" style="{{ _section.image.style }}">
+          {%- if _section_image_url -%}
+          <a href="{{ _section_image_url }}">
+            {%- endif -%}
+            {%- if _section.image.full_width == true -%}
+            <img class="hero__cover hero__cover--full-width" src="{{ _section_image_src }}" />
+            {%- else -%}
+            <img class="hero__cover" src="{{ _section_image_src }}" />
+            {%- endif -%}
+            {%- if _section_image_url -%}
+          </a>
+          {%- endif -%}
+        </div>
+        {%- if _section.image.is_row -%}
+      </div>
+      {%- endif -%}
+      {%- endif -%}
+      
 
       {%- if _section.image.full_width != true -%}
   </div> {% comment %} end hero__content {% endcomment %}
