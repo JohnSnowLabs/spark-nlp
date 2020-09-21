@@ -29,6 +29,8 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
 
   val knowledgeBase = new ExternalResourceParam(this, "knowledgeBase", "Text fragment that will be used as knowledge base to segment a sentence with the words generated from it")
 
+  val cleanPattern = new Param[String](this, "cleanPattern", "Regex pattern that defines the characters to skip when building the knowledge base")
+
   def setWordSegmentMethod(method: String): this.type = {
     method.toUpperCase() match {
       case "LONG" => set(wordSegmentMethod, "LONG")
@@ -50,8 +52,11 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
 
   def setMinAggregation(value: Double): this.type = set(minAggregation, value)
 
-  setDefault(maxWordLength -> 5, minFrequency -> 0.00005, minEntropy -> 2.0, minAggregation -> 50,
-             wordSegmentMethod -> "ALL")
+  def setCleanPattern(value: String): this.type  = set(cleanPattern, value)
+
+  setDefault(maxWordLength -> 5, minFrequency -> 5.0E-5, minEntropy -> 2.0, minAggregation -> 50,
+      wordSegmentMethod -> "ALL",
+      cleanPattern -> "[\\s,.<>/?:;\'\"[\\\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+")
 
   case class WordInfo(text: String, var aggregation: Double = 0, frequencyEntropy: Double = 0.0,
                       leftEntropy: Double = 0.0, rightEntropy: Double = 0.0)
@@ -81,8 +86,7 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
   }
 
   def generateCandidateWords(knowledgeBase: String): Map[String, WordInfo] = {
-    val pattern = "[\\s\\d,.<>/?:;\'\"[\\\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+"
-    val cleanKnowledgeBase = knowledgeBase.replaceAll(pattern, " ")
+    val cleanKnowledgeBase = knowledgeBase.replaceAll($(cleanPattern), " ")
     val suffixWithIndexes = indexOfSortedSuffix(cleanKnowledgeBase)
     val wordsInfo = suffixWithIndexes
       .groupBy(_._1).mapValues(_.map(_._2))

@@ -2991,6 +2991,10 @@ class WordSegmenterApproach(AnnotatorApproach):
                             "Text fragment that will be used as knowledge base to segment a sentence with the words generated from it",
                             typeConverter=TypeConverters.identity)
 
+    cleanPattern = Param(Params._dummy(), "cleanPattern",
+                         "Regex pattern that defines the characters to skip when building the knowledge base",
+                         typeConverter=TypeConverters.toString)
+
     def setMaxWordLength(self, value):
         return self._set(maxWordLength=value)
 
@@ -3010,6 +3014,9 @@ class WordSegmenterApproach(AnnotatorApproach):
         opts = options.copy()
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
+    def setCleanPattern(self, value):
+        return self._set(cleanPattern=value)
+
     @keyword_only
     def __init__(self):
         super(WordSegmenterApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.WordSegmenterApproach")
@@ -3018,7 +3025,8 @@ class WordSegmenterApproach(AnnotatorApproach):
             minFrequency=float(0.00005),
             minEntropy=2.0,
             minAggregation=50,
-            wordSegmentMethod="ALL"
+            wordSegmentMethod="ALL",
+            cleanPattern="[\\s,.<>/?:;\'\"[\\\\]{}()\\|~!@#$%^&*\\-_=+a-zA-Z，。《》、？：；“”‘’｛｝【】（）…￥！—┄－]+"
         )
 
     def _create_model(self, java_model):
