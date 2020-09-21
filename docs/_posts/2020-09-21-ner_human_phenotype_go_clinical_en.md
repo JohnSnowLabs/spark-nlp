@@ -43,7 +43,10 @@ model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline = LightPipeline(pipeline_model)
 
-results = light_pipeline.annotate("This is an example")
+annotations = light_pipeline.fullAnnotate("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.")
+
+for chunk in annotations[0]['ner_chunk']:
+    print (f"{chunk.result}\t{chunk.begin}\t{chunk.end}\t{chunk.metadata['entity']}")
 
 ```
 {:.noactive}
@@ -54,12 +57,13 @@ results = light_pipeline.annotate("This is an example")
 
 {:.h2_title}
 ## Results
-{"document": ["This is an example"],
- "ner_chunk": [],
- "token": ['This', 'is', 'an', 'example'],
- "ner": ['O', 'O', 'O', 'O'],
- "embeddings": ['This', 'is', 'an', 'example'],
- "sentence": ['This is an example']}
++----+--------------------------+---------+-------+----------+
+|    | chunk                    |   begin |   end | entity   |
++====+==========================+=========+=======+==========+
+|  0 | tumor                    |      39 |    43 | HP       |
++----+--------------------------+---------+-------+----------+
+|  1 | tricarboxylic acid cycle |      79 |   102 | GO       |
++----+--------------------------+---------+-------+----------+
 
 {:.model-param}
 ## Model Parameters

@@ -43,7 +43,10 @@ model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline = LightPipeline(pipeline_model)
 
-results = light_pipeline.annotate("This is an example")
+annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).")
+
+for chunk in annotations[0]['ner_chunk']:
+    print (f"{chunk.result}\t{chunk.begin}\t{chunk.end}\t{chunk.metadata['entity']}")
 
 ```
 {:.noactive}
@@ -53,12 +56,20 @@ results = light_pipeline.annotate("This is an example")
 
 {:.h2_title}
 ## Results
-{"document": ["This is an example"],
- "ner_chunk": [],
- "token": ['This', 'is', 'an', 'example'],
- "ner": ['O', 'O', 'O', 'O'],
- "embeddings": ['This', 'is', 'an', 'example'],
- "sentence": ['This is an example']}
++----+------------------+---------+-------+----------+
+|    | chunk            |   begin |   end | entity   |
++====+==================+=========+=======+==========+
+|  0 | type             |      29 |    32 | GENE     |
++----+------------------+---------+-------+----------+
+|  1 | polyhydramnios   |      75 |    88 | HP       |
++----+------------------+---------+-------+----------+
+|  2 | polyuria         |      91 |    98 | HP       |
++----+------------------+---------+-------+----------+
+|  3 | nephrocalcinosis |     101 |   116 | HP       |
++----+------------------+---------+-------+----------+
+|  4 | hypokalemia      |     122 |   132 | HP       |
++----+------------------+---------+-------+----------+
+
 
 {:.model-param}
 ## Model Parameters

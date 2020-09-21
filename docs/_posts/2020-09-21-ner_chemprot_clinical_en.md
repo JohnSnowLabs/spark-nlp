@@ -43,8 +43,11 @@ pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline = LightPipeline(pipeline_model)
 
-results = light_pipeline.annotate("This is an example")
+results = light_pipeline.fullAnnotate("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.")
 
+for chunk in annotations[0]['ner_chunk']:
+    print (f"{chunk.result}\t{chunk.begin}\t{chunk.end}\t{chunk.metadata['entity']}")
+    
 ```
 {:.noactive}
 ```scala
@@ -53,12 +56,13 @@ results = light_pipeline.annotate("This is an example")
 
 {:.h2_title}
 ## Results
-{"document": ["This is an example"],
- "ner_chunk": [],
- "token": ['This', 'is', 'an', 'example'],
- "ner": ['O', 'O', 'O', 'O'],
- "embeddings": ['This', 'is', 'an', 'example'],
- "sentence": ['This is an example']}
++----+---------------------------------+---------+-------+----------+
+|    | chunk                           |   begin |   end | entity   |
++====+=================================+=========+=======+==========+
+|  0 | Keratinocyte growth factor      |       0 |    25 | GENE-Y   |
++----+---------------------------------+---------+-------+----------+
+|  1 | acidic fibroblast growth factor |      31 |    61 | GENE-Y   |
++----+---------------------------------+---------+-------+----------+
 
 {:.model-param}
 ## Model Parameters
