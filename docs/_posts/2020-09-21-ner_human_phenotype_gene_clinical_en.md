@@ -11,17 +11,12 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-Automatically detect mentions of genes and human phenotypes (hp) in medical text using Spark NLP for Healthcare pretrained models.
-
-{:.h2_title}
-## Predicted Entities 
-GENE, HP
+This model detects mentions of genes and human phenotypes (hp) in medical text.
+## Predicted Entities: GENE, HP
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_gene_clinical_en_2.5.5_2.4_1598558253840.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-
-
 ## How to use
 
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
@@ -39,27 +34,21 @@ clinical_ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", 
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
-light_pipeline = LightPipeline(pipeline_model)
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).")
 
-for chunk in annotations[0]['ner_chunk']:
-    print (f"{chunk.result}\t{chunk.begin}\t{chunk.end}\t{chunk.metadata['entity']}")
+```
 
-```
-{:.noactive}
-```scala
-```
 </div>
 
 {:.h2_title}
 ## Results
+```bash
 +----+------------------+---------+-------+----------+
 |    | chunk            |   begin |   end | entity   |
 +====+==================+=========+=======+==========+
-|  0 | type             |      29 |    32 | GENE     |
+|  0 | BS type          |      29 |    32 | GENE     |
 +----+------------------+---------+-------+----------+
 |  1 | polyhydramnios   |      75 |    88 | HP       |
 +----+------------------+---------+-------+----------+
@@ -69,7 +58,7 @@ for chunk in annotations[0]['ner_chunk']:
 +----+------------------+---------+-------+----------+
 |  4 | hypokalemia      |     122 |   132 | HP       |
 +----+------------------+---------+-------+----------+
-
+```
 
 {:.model-param}
 ## Model Parameters
@@ -85,4 +74,5 @@ for chunk in annotations[0]['ner_chunk']:
 |Output Labels:|[ner]|
 |Language:|[en]|
 |Case sensitive:|false|
+
 
