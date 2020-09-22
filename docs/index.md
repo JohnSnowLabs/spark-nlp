@@ -26,20 +26,20 @@ data:
   sections:
     - title: The most widely used NLP library in the enterprise
       top: yes
-      excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" surveys in February 2019 and March 2020.
+      excerpt: Source:2020 NLP Industry Survey, by <b>Gradient Flow</b>.
       bigimage: /assets/images/2020.png 
       threeblocks:
         - title: 100% Open Source
           image: 
-              src: /assets/images/open_s.svg
+            src: /assets/images/open_source.svg
           excerpt: Including pre-trained <b>models</b> and <b>pipelines</b>
         - title: Natively scalable
           image: 
-            src: /assets/images/natively.svg
+            src: /assets/images/one_node_to_many.svg
           excerpt: The only <b>NLP</b> library built <b>natively</b> on Apache Spark   
         - title: Multiple Languages
           image: 
-            src: /assets/images/multi_l.svg
+            src: /assets/images/chat_symbols.svg
           excerpt: Full <b>Python</b>, <b>Scala</b>, and <b>Java</b> support
    
     - title: Quick and Easy
