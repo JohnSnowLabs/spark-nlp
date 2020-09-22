@@ -199,6 +199,45 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb
+        - title: Detect Key Phrases
+          image: 
+              src: /assets/images/Detect_Key_Phrases.svg
+          image2: 
+              src: /assets/images/Detect_Key_Phrases_f.svg
+          excerpt: Automatically detect key phrases in your text documents using out-of-the-box Spark NLP models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/KEYPHRASE_EXTRACTION
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/KEYPHRASE_EXTRACTION.ipynb
+        - title: Detect similar sentences
+          image: 
+              src: /assets/images/Detect_similar_sentences.svg
+          image2: 
+              src: /assets/images/Detect_similar_sentences_f.svg
+          excerpt: Automatically compute the similarity between two sentences using Spark NLP Universal Sentence Embeddings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTENCE_SIMILARITY
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTENCE_SIMILARITY.ipynb
+        - title: Detect toxic content in comments
+          image: 
+              src: /assets/images/Detect_Toxic_Comments.svg
+          image2: 
+              src: /assets/images/Detect_Toxic_Comments_f.svg
+          excerpt: Automatically detect identity hate, insult, obscene, severe toxic, threat or toxic content in SM comments using our out-of-the-box Spark NLP Multiclassifier DL.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_MULTILABEL_TOXIC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
       languages: yes
       languages: 
         - title: Detect language
@@ -515,58 +554,58 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb          
-        - title: SNOMED coding
+        - title: Detect demographics and vital signs using rules
           image: 
-              src: /assets/images/Detect_signs_and_symptoms.svg
+              src: /assets/images/Detect_demographics_and_vital_signs_using_rules.svg
           image2: 
-              src: /assets/images/Detect_signs_and_symptoms_f.svg
-          excerpt: Automatically resolve the SNOMED code corresponding to the diseases and conditions mentioned in your health record using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Detect_demographics_and_vital_signs_using_rules_f.svg
+          excerpt: Automatically detect demographic information as well as vital signs using our out-of-the-box Spark NLP Contextual Rules. Custom rules are very easy to define and run on your own data.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED
+            url: https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_PARSER
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
-        - title: ICDO coding
+            url: https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_PARSER
+        - title: Detect chemical compounds and genes
           image: 
-              src: /assets/images/Detect_diagnosis_and_procedures.svg
+              src: /assets/images/Detect_chemical_compounds_and_genes.svg
           image2: 
-              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
-          excerpt: Automatically detect the tumor in your healthcare records and link it to the corresponding ICDO code using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Detect_chemical_compounds_and_genes_f.svg
+          excerpt: Automatically detect all chemical compounds and gene mentions using our pretrained chemprot model included in Spark NLP for Healthcare.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: ICD10-CM coding
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMPROT_CLINICAL.ipynb
+        - title: Detect genes and human phenotypes
           image: 
-              src: /assets/images/Detect_risk_factors.svg
+              src: /assets/images/Detect_genes_and_human_phenotypes.svg
           image2: 
-              src: /assets/images/Detect_risk_factors_f.svg
-          excerpt: Automatically detect the pre and post op diagnosis, signs and symptoms or other findings in your healthcare records and automatically link them to the corresponding ICD10-CM code using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Detect_genes_and_human_phenotypes_f.svg
+          excerpt: Automatically detect mentions of genes and human phenotypes (hp) in medical text using Spark NLP for Healthcare pretrained models.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM
+            url: https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: RxNORM coding
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL.ipynb
+        - title: Detect normalized genes and human phenotypes
           image: 
-              src: /assets/images/Detect_drugs_and_prescriptions.svg
+              src: /assets/images/Detect_normalized_genes_and_human_phenotypes.svg
           image2: 
-              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
-          excerpt: Automatically detect the drugs and treatments names mentioned in your prescription or healthcare records and link them to the corresponding RxNORM codes using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Detect_normalized_genes_and_human_phenotypes_f.svg
+          excerpt: Automatically detect normalized mentions of genes (go) and human phenotypes (hp) in medical text using Spark NLP for Healthcare pretrained models.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM
+            url: https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
