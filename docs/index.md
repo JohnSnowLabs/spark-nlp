@@ -27,6 +27,7 @@ data:
     - title: The most widely used NLP library in the enterprise
       top: yes
       excerpt: Backed by <b>O'Reilly's</b> most recent "AI Adoption in the Enterprise" surveys in February 2019 and March 2020.
+      bigimage: /assets/images/2020.png 
       threeblocks:
         - title: 100% Open Source
           image: 

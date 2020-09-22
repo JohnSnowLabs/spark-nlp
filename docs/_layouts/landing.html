@@ -27,6 +27,11 @@ article_header:
           <div class="top_section {{ _section.topclass }}">
 
             <h3 class="blue h3_title {{ _section.classtitle }}">{{ _section.title }}</h3>
+
+            {%- if _section.bigimage-%}
+            <figure class="big_img"><img src="{{ _section.bigimage }}" alt=""></figure>
+            {%- endif -%}
+
             {%- if _section.excerpt-%}
             <p class="h3_descr">{{ _section.excerpt }}</p>
             {%- endif -%}
