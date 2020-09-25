@@ -618,7 +618,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_GM_DE.ipynb
         - title: Detect symptoms, treatments and other NERs in German
           image: 
               src: /assets/images/Detect_causality_between_symptoms.svg
@@ -641,10 +641,10 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/
+            url: https://demo.johnsnowlabs.com/public/NER_LEGAL_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HEALTHCARE_DE.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
