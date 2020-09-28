@@ -641,10 +641,10 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_LEGAL_DE/
+            url: https://demo.johnsnowlabs.com/public/healthcare/NER_LEGAL_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HEALTHCARE_DE.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
