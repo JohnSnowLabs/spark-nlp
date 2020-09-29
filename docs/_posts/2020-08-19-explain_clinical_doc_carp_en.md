@@ -1,66 +1,67 @@
 ---
 layout: model
-title: Explain Clinical Doc CARP
+title: Explain Clinical Doc Clinical Assertion Relation Posology
 author: John Snow Labs
-name: explain_clinical_doc_carp_en
+name: explain_clinical_doc_carp
+class: PipelineModel
+language: en
+repository: clinical/models
 date: 2020-08-19
-tags: [pipeline, en, licensed]
+tags: [clinical,pipeline,ner,assertion,relation,posology,en]
 article_header:
-  type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
+  
 A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
+{:.h2_title}
+## Data Source
 
+  
 
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
+{:.h2_title}
+## Included Models
+- ner_clinical
+- assertion_dl
+- re_clinical
+- ner_posology
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}{:target="_blank"}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_carp_en_2.5.5_2.4_1597841630062.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-
-## How to use
-
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_carp_en_2.5.5_2.4_1597841630062.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+{:.h2_title}
+## How to use 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
-
-annotations = pipeline.annotate(text)
-
-annotations.keys()
+model = ResourceDownloader.downloadPipeline("explain_clinical_doc_carp","en","clinical/models")\
+	.setInputCols("")\
+	.setOutputCol("")
 ```
 
-{:.noactive}
 ```scala
+val model = ResourceDownloader.downloadPipeline("explain_clinical_doc_carp","Some(en)","clinical/models")
+	.setInputCols("")
+	.setOutputCol("")
 ```
-
 </div>
 
+
+
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
-|---|---|
-|Model Name:|explain_clinical_doc_carp_en_2.5.5_2.4|
-|Type:|pipeline|
-|Compatibility:|Spark NLP 2.5.5|
-|License:|Licensed|
-|Edition:|Healthcare|
-|Language:|[en]|
+|---------------|---------------------------|
+| name          | explain_clinical_doc_carp |
+| model_class   | PipelineModel             |
+| compatibility | 2.5.5                     |
+| license       | Licensed                  |
+| edition       | Healthcare                |
+| language      | en                        |
 
-{:.h2_title}
-## Included Models 
- - ner_clinical
- - assertion_dl
- - re_clinical
- - ner_posology
-{:.h2_title}
-## Results
-
-The output is a dictionary with the following keys: 'sentences', 'clinical_ner_tags', 'document', 'ner_chunks', 'clinical_ner_chunks', 'ner_tags', 'assertion', 'clinical_relations', 'tokens', 'embeddings', 'pos_tags', 'dependencies'.

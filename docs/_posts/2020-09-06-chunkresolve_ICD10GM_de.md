@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance  
 
 
 {:.h2_title}
@@ -25,7 +25,7 @@ Codes and their normalized definition with `clinical_embeddings`
 {:.h2_title}
 ## Data Source
 FILLUP
-
+  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_ICD10GM_de_2.5.5_2.4_1599431635423.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -36,8 +36,8 @@ FILLUP
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM","de","clinical/models")
-	.setInputCols("token","chunk_embeddings")
+model = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM","de","clinical/models")\
+	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("entity")
 ```
 

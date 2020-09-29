@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance  
 
 
 {:.h2_title}
@@ -25,7 +25,7 @@ Snomed Codes and their normalized definition with `clinical_embeddings`
 {:.h2_title}
 ## Data Source
 Trained on SNOMED CT Findings
-http://www.snomed.org/
+http://www.snomed.org/  
 
 {:.btn-box}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.Snomed_Entity_Resolver_Model_Training.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_snomed_findings_clinical_en_2.5.1_2.4_1592617161564.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -36,8 +36,8 @@ http://www.snomed.org/
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_findings_clinical","en","clinical/models")
-	.setInputCols("token","chunk_embeddings")
+model = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_findings_clinical","en","clinical/models")\
+	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("entity")
 ```
 

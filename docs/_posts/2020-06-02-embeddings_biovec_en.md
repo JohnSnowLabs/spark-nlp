@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Word Embeddings lookup annotator that maps tokens to vectors
+Word Embeddings lookup annotator that maps tokens to vectors  
 
 
 {:.h2_title}
@@ -25,7 +25,7 @@ Word2Vec feature vectors based on embeddings_biovec
 {:.h2_title}
 ## Data Source
 Trained on PubMed corpora
-https://github.com/ncbi-nlp/BioSentVec
+https://github.com/ncbi-nlp/BioSentVec  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_biovec_en_2.5.0_2.4_1591068211397.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -36,8 +36,8 @@ https://github.com/ncbi-nlp/BioSentVec
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = WordEmbeddingsModel.pretrained("embeddings_biovec","en","clinical/models")
-	.setInputCols("document","token")
+model = WordEmbeddingsModel.pretrained("embeddings_biovec","en","clinical/models")\
+	.setInputCols("document","token")\
 	.setOutputCol("word_embeddings")
 ```
 

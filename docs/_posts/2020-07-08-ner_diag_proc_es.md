@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
+Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.  
 Pretrained named entity recognition deep learning model for diagnostics and procedures in spanish
 
 {:.h2_title}
@@ -25,7 +25,7 @@ Diagnostico, Procedimiento
 {:.h2_title}
 ## Data Source
 Trained on CodiEsp Challenge dataset trained with `embeddings_scielowiki_300d`
-https://temu.bsc.es/codiesp/
+https://temu.bsc.es/codiesp/  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_diag_proc_es_2.5.3_2.4_1594168623415.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -36,8 +36,8 @@ https://temu.bsc.es/codiesp/
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_diag_proc","es","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_diag_proc","es","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

@@ -1,73 +1,66 @@
 ---
 layout: model
-title: Explain Clinical Doc ERA
+title: Explain Clinical Doc Events Relation Assertion
 author: John Snow Labs
-name: explain_clinical_doc_era_en
+name: explain_clinical_doc_era
+class: PipelineModel
+language: en
+repository: clinical/models
 date: 2020-08-19
-tags: [pipeline, en, licensed]
+tags: [clinical,pipeline,ner,events,assertion,relation,en]
 article_header:
-  type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
+  
 A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities
 
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
+{:.h2_title}
+## Data Source
+
+  
+
+{:.h2_title}
+## Included Models
+- ner_clinical_events
+- assertion_dl
+- re_temporal_events_clinical
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_era_en_2.5.5_2.4_1597841630062.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-
-## How to use
-
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_era_en_2.5.5_2.4_1597845753750.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+{:.h2_title}
+## How to use 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
-
-pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
-
-annotations = pipeline.annotate(text)
-
-annotations.keys()
-
+model = ResourceDownloader.downloadPipeline("explain_clinical_doc_era","en","clinical/models")\
+	.setInputCols("")\
+	.setOutputCol("")
 ```
+
 ```scala
-
-
-pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
-
-annotations = pipeline.annotate(text)
-
-annotations.keys()
-
+val model = ResourceDownloader.downloadPipeline("explain_clinical_doc_era","Some(en)","clinical/models")
+	.setInputCols("")
+	.setOutputCol("")
 ```
-
 </div>
 
+
+
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
-|---|---|
-|Model Name:|explain_clinical_doc_era_en_2.5.5_2.4|
-|Type:|pipeline|
-|Compatibility:|Spark NLP 2.5.5|
-|License:|Licensed|
-|Edition:|Healthcare|
-|Language:|[en]|
+|---------------|--------------------------|
+| name          | explain_clinical_doc_era |
+| model_class   | PipelineModel            |
+| compatibility | 2.5.5                    |
+| license       | Licensed                 |
+| edition       | Healthcare               |
+| language      | en                       |
 
-{:.h2_title}
-## Included Models 
- - ner_clinical_events
- - assertion_dl
- - re_temporal_events_clinical
- 
-{:.h2_title}
-## Results
-
-THe output is a dictionary with the following keys: 'sentences', 'clinical_ner_tags', 'clinical_ner_chunks_re', 'document', 'clinical_ner_chunks', 'assertion', 'clinical_relations', 'tokens', 'embeddings', 'pos_tags', 'dependencies'.
