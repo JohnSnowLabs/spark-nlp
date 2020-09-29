@@ -7,7 +7,7 @@ class: ContextSpellCheckerModel
 language: en
 repository: clinical/models
 date: 2020-04-17
-tags: [clinical,spellcheck,dl,contextual,en]
+tags: [clinical,spellcheck,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,14 +17,10 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Implements Noisy Channel Model Spell Algorithm. Correction candidates are extracted combining context information and word information
 
-
-{:.h2_title}
-## Data Source
-Trained with PubMed and i2b2 datasets
-
-
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/6.Clinical_Context_Spell_Checker.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_en_2.4.2_2.4_1587146727460.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -44,20 +40,21 @@ val model = ContextSpellCheckerModel.pretrained("spellcheck_clinical","en","clin
 ```
 </div>
 
-
-
 {:.model-param}
 ## Model Information
 
 {:.table-model}
 |---------------|--------------------------|
-| name          | spellcheck_clinical      |
-| model_class   | ContextSpellCheckerModel |
-| compatibility | 2.4.2                    |
-| license       | Licensed                 |
-| edition       | Healthcare               |
-| inputs        | token                    |
-| output        | spell                    |
-| language      | en                       |
-| upstream_deps | embeddings_clinical      |
+| Name:          | spellcheck_clinical      |
+| Type:   | ContextSpellCheckerModel |
+| Compatibility: | 2.4.2                    |
+| License:       | Licensed                 |
+| Edition:       | Official               |
+|Input labels:        | [token]                    |
+|Output labels:       | [spell]                    |
+| Language:      | en                       |
+| Dependencies: | embeddings_clinical      |
 
+{:.h2_title}
+## Data Source
+Trained with PubMed and i2b2 datasets.

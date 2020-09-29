@@ -7,7 +7,7 @@ class: ChunkEntityResolverModel
 language: de
 repository: clinical/models
 date: 2020-09-06
-tags: [clinical,entity_resolution,icd10gm,de]
+tags: [clinical,entity_resolution,de]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,19 +15,14 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-
-{:.h2_title}
-## Prediction Domain
-Codes and their normalized definition with `clinical_embeddings`
-
-{:.h2_title}
-## Data Source
-FILLUP
-
+## Predicted Entities 
+Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_ICD10GM_de_2.5.5_2.4_1599431635423.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
@@ -55,14 +50,17 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM","de","cli
 
 {:.table-model}
 |----------------|--------------------------|
-| name           | chunkresolve_ICD10GM     |
-| model_class    | ChunkEntityResolverModel |
-| compatibility  | 2.5.5                    |
-| license        | Licensed                 |
-| edition        | Healthcare               |
-| inputs         | token, chunk_embeddings  |
-| output         | entity                   |
-| language       | de                       |
-| case_sensitive | True                     |
-| upstream_deps  | w2v_cc_300d              |
+| Name:           | chunkresolve_ICD10GM     |
+| Type:    | ChunkEntityResolverModel |
+| Compatibility:  | Spark NLP 2.5.5+                    |
+| License:        | Licensed                 |
+|Edition:|Official|               |
+|Input labels:         | [token, chunk_embeddings]  |
+|Output labels:        | [entity]                  |
+| Language:       | de                       |
+| Case sensitive: | True                     |
+| Dependencies:  | w2v_cc_300d              |
 
+{:.h2_title}
+## Data Source
+FILLUP

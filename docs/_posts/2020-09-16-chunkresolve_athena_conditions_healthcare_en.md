@@ -7,7 +7,7 @@ class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-09-16
-tags: [clinical,entity_resolution,athena,conditions,en]
+tags: [clinical,entity_resolution,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,16 +18,12 @@ use_language_switcher: "Python-Scala-Java"
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
 
 
-{:.h2_title}
-## Prediction Domain
+## Predicted Entities 
 Athena Codes and their normalized definition
 
-{:.h2_title}
-## Data Source
-Trained on Athena dataset
-
-
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_athena_conditions_healthcare_en_2.6.0_2.4_1600265258887.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
@@ -55,14 +51,17 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_
 
 {:.table-model}
 |----------------|-------------------------------------------|
-| name           | chunkresolve_athena_conditions_healthcare |
-| model_class    | ChunkEntityResolverModel                  |
-| compatibility  | 2.6.0                                     |
-| license        | Licensed                                  |
-| edition        | Healthcare                                |
-| inputs         | token, chunk_embeddings                   |
-| output         | entity                                    |
-| language       | en                                        |
-| case_sensitive | True                                      |
-| upstream_deps  | embeddings_healthcare_100d                |
+| Name:           | chunkresolve_athena_conditions_healthcare |
+| Type:    | ChunkEntityResolverModel                  |
+| Compatibility:  | 2.6.0                                     |
+| License:        | Licensed                                  |
+|Edition:|Official|                                |
+|Input labels:         | [token, chunk_embeddings]                   |
+|Output labels:        | [entity]                                    |
+| Language:       | en                                        |
+| Case sensitive: | True                                      |
+| Dependencies:  | embeddings_healthcare_100d                |
 
+{:.h2_title}
+## Data Source
+Trained on Athena dataset

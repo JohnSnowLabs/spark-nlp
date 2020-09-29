@@ -13,8 +13,6 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities
 
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
-
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
@@ -28,7 +26,6 @@ A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_eve
 
 ```python
 
-
 pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
 
 annotations = pipeline.annotate(text)
@@ -37,7 +34,6 @@ annotations.keys()
 
 ```
 ```scala
-
 
 pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
 
@@ -49,8 +45,13 @@ annotations.keys()
 
 </div>
 
+{:.h2_title}
+## Results
+THe output is a dictionary with the following keys: 'sentences', 'clinical_ner_tags', 'clinical_ner_chunks_re', 'document', 'clinical_ner_chunks', 'assertion', 'clinical_relations', 'tokens', 'embeddings', 'pos_tags', 'dependencies'.
+
+
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
@@ -58,7 +59,7 @@ annotations.keys()
 |Type:|pipeline|
 |Compatibility:|Spark NLP 2.5.5|
 |License:|Licensed|
-|Edition:|Healthcare|
+|Edition:|Official|
 |Language:|[en]|
 
 {:.h2_title}
@@ -67,7 +68,3 @@ annotations.keys()
  - assertion_dl
  - re_temporal_events_clinical
  
-{:.h2_title}
-## Results
-
-THe output is a dictionary with the following keys: 'sentences', 'clinical_ner_tags', 'clinical_ner_chunks_re', 'document', 'clinical_ner_chunks', 'assertion', 'clinical_relations', 'tokens', 'embeddings', 'pos_tags', 'dependencies'.

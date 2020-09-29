@@ -17,17 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
 
-
-{:.h2_title}
-## Prediction Domain
+## Predicted Entities 
 ICD-O Codes and their normalized definition with `clinical_embeddings`
 
-{:.h2_title}
-## Data Source
-Trained on ICD-O Histology Behaviour dataset
-https://apps.who.int/iris/bitstream/handle/10665/96612/9789241548496_eng.pdf
-
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icdo_clinical_en_2.4.5_2.4_1587491354644.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
@@ -48,21 +43,23 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_icdo_clinical","en
 ```
 </div>
 
-
-
 {:.model-param}
 ## Model Information
 
 {:.table-model}
 |----------------|----------------------------|
-| name           | chunkresolve_icdo_clinical |
-| model_class    | ChunkEntityResolverModel   |
-| compatibility  | 2.4.2                      |
-| license        | Licensed                   |
-| edition        | Healthcare                 |
-| inputs         | token, chunk_embeddings    |
-| output         | entity                     |
-| language       | en                         |
-| case_sensitive | True                       |
-| upstream_deps  | embeddings_clinical        |
+| Name:           | chunkresolve_icdo_clinical |
+| Type:    | ChunkEntityResolverModel   |
+| Compatibility:  | Spark NLP 2.4.2+                     |
+| License:        | Licensed                   |
+|Edition:|Official|                 |
+|Input labels:         | token, chunk_embeddings    |
+|Output labels:        | entity                     |
+| Language:       | en                         |
+| Case sensitive: | True                       |
+| Dependencies:  | embeddings_clinical        |
 
+{:.h2_title}
+## Data Source
+Trained on ICD-O Histology Behaviour dataset
+https://apps.who.int/iris/bitstream/handle/10665/96612/9789241548496_eng.pdf

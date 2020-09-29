@@ -11,7 +11,10 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-Deidentification NER (Enriched) is a Named Entity Recognition model that annotates text to find protected health information that may need to be deidentified. The entities it annotates are Age, City, Country, Date, Doctor, Hospital, Idnum, Medicalrecord, Organization, Patient, Phone, Profession, State, Street, Username, and Zip. Clinical NER is trained with the 'embeddings_clinical' word embeddings model, so be sure to use the same embeddings in the pipeline.
+Deidentification NER (Enriched) is a Named Entity Recognition model that annotates text to find protected health information that may need to be deidentified. Clinical NER is trained with the 'embeddings_clinical' word embeddings model, so be sure to use the same embeddings in the pipeline.
+
+## Predicted Labels 
+Age, City, Country, Date, Doctor, Hospital, Idnum, Medicalrecord, Organization, Patient, Phone, Profession, State, Street, Username, and Zip.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}{:target="_blank"}
@@ -41,7 +44,7 @@ val ner = NerDLModel.pretrained("ner_deid_enriched", "en")
 </div>
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
@@ -50,12 +53,12 @@ val ner = NerDLModel.pretrained("ner_deid_enriched", "en")
 |Compatibility:| Spark NLP for Healthcare 2.4.2+ |
 |License:|Licensed|
 |Edition:|Official|
-|Input Labels:|sentence, token, embeddings|
-|Output Labels:|ner|
+|Input Labels:|[sentence, token, embeddings]|
+|Output Labels:|[ner]|
 |Language:|en|
 |Case sensitive:|false|
 
 
 {:.h2_title}
-## Source
-The model is imported from [https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)
+## Data Source
+The model is trained based on data from [https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)

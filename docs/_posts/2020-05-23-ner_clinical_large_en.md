@@ -15,11 +15,8 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for clinical terms. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 {:.h2_title}
-## Included Entities  
+## Predicted Entities  
 Problem, Test, Treatment
-
-
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -28,7 +25,6 @@ Problem, Test, Treatment
 
 
 ## How to use
-
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
@@ -65,15 +61,21 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 
 </div>
 
+{:.h2_title}
+## Results
+The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe:
+
+![image](/assets/images/ner_clinical.png)
+
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_clinical_large_en_2.5.0_2.4|
 |Type:|ner|
-|Compatibility:|Spark NLP 2.5.0|
-|Edition:|Healthcare|
+|Compatibility:|Spark NLP 2.5.0+|
+|Edition:|Official|
 |License:|Licenced|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
@@ -81,12 +83,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Case sensitive:|false|
 
 {:.h2_title}
-## Dataset used for training
+## Data Source
 Trained on augmented 2010 i2b2 challenge data with 'embeddings_clinical'.
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
-{:.h2_title}
-## Results
-The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe:
-
-![image](/assets/images/ner_clinical.png)

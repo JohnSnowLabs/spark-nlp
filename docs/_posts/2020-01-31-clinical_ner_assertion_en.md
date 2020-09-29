@@ -7,7 +7,7 @@ class: PipelineModel
 language: en
 repository: clinical/models
 date: 2020-01-31
-tags: []
+tags: [ner, clinical]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,13 +17,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 
-
-{:.h2_title}
-## Data Source
-
-
-
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_ner_assertion_en_2.4.0_2.4_1580481098096.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
@@ -44,6 +39,8 @@ val model = PipelineModel.pretrained("clinical_ner_assertion","en","clinical/mod
 ```
 </div>
 
+{:.h2_title}
+## Results
 
 
 {:.model-param}
@@ -51,10 +48,13 @@ val model = PipelineModel.pretrained("clinical_ner_assertion","en","clinical/mod
 
 {:.table-model}
 |---------------|------------------------|
-| name          | clinical_ner_assertion |
-| model_class   | PipelineModel          |
-| compatibility | 2.4.0                  |
-| license       | Licensed               |
-| edition       | Healthcare             |
-| language      | en                     |
+| Name:          | clinical_ner_assertion |
+| Type:   | PipelineModel          |
+| Compatibility: | Spark NLP 2.4.0+                  |
+| License:       | Licensed               |
+| Edition:       | Official             |
+| Language:      | en                     |
 
+
+{:.h2_title}
+## Data Source

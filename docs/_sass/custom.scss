@@ -248,6 +248,9 @@ header {
 			color: $color-blue !important;
 			background: #fff;
 			border-color: #fff;
+			i {
+				color: $color-blue;
+			}
 		}	
 	}
 }
@@ -396,8 +399,6 @@ h2.h2_doc {
 	}
 }
 
-
-
 .grid--container {
 	margin: 0 auto;
 	width: 1170px;
@@ -417,6 +418,7 @@ h2.h2_doc {
 	background: #FFFFFF;
 	box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);
 	padding: 70px 15px;
+	height: 100%;
 	figure {
 		width: 60px;
 		margin: 0 auto 20px;

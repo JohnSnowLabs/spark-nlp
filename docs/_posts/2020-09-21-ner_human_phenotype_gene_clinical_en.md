@@ -12,13 +12,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 This model detects mentions of genes and human phenotypes (hp) in medical text.
-## Predicted Entities: GENE, HP
+## Predicted Entities: 
+GENE, HP
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_gene_clinical_en_2.5.5_2.4_1598558253840.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-## How to use
 
+## How to use
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
@@ -61,14 +62,14 @@ annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of
 ```
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_human_phenotype_gene_clinical|
 |Type:|ner|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
-|Edition:|Healthcare|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
