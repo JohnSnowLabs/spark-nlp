@@ -43,8 +43,10 @@ The library offers access to several clinical and biomedical transformers: JSL-B
 You can install the Spark NLP for Healthcare package by using:
 
 ```bash
-pip install spark-nlp-jsl==2.6.0 --extra-index-url https://pypi.johnsnowlabs.com/${secret.code} --upgrade
+pip install spark-nlp-jsl==${version} --extra-index-url https://pypi.johnsnowlabs.com/${secret.code} --upgrade
 ```
+
+`{version}` is the version part of the `{secret.code}` (`{secret.code}.split('-')[0]`) (i.e. `2.6.0`)
 
 The `{secret.code}` is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
@@ -99,5 +101,3 @@ spark = SparkSession.builder \
     .config("spark.jars", "https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar") \
     .getOrCreate()
 ```
-
-{version} is the version part of the {secret.code} (`{secret.code}.split('-')[0]`) (i.e. `2.6.0`)
