@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowGenericClassifier, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSentenceDetectorDL, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
@@ -83,13 +83,13 @@ class SentenceDetectorDLModel(override val uid: String)
     impossiblePenultimates -> Array()
   )
 
-  private var _tfClassifier: Option[Broadcast[TensorflowGenericClassifier]] = None
+  private var _tfClassifier: Option[Broadcast[TensorflowSentenceDetectorDL]] = None
 
   def setupTFClassifier(spark: SparkSession, tfWrapper: TensorflowWrapper): this.type = {
     if (_tfClassifier.isEmpty) {
       _tfClassifier = Some(
         spark.sparkContext.broadcast(
-          new TensorflowGenericClassifier(
+          new TensorflowSentenceDetectorDL(
             tfWrapper
           )
         )
@@ -108,7 +108,7 @@ class SentenceDetectorDLModel(override val uid: String)
   }
 
 
-  def getTFClassifier: TensorflowGenericClassifier = {
+  def getTFClassifier: TensorflowSentenceDetectorDL = {
     require(_tfClassifier.isDefined, "TF model not setup.")
     _tfClassifier.get.value
   }

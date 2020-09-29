@@ -4,7 +4,7 @@ package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 
 import scala.io.Source
-import com.johnsnowlabs.ml.tensorflow.{TensorflowGenericClassifier, TensorflowWrapper, Variables}
+import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.io.IOUtils
 import org.scalatest.FlatSpec
@@ -172,7 +172,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
       graph.toGraphDef
     )
 
-    val tfModel = new TensorflowGenericClassifier(tfWrapper, outputLogsPath = None)
+    val tfModel = new TensorflowSentenceDetectorDL(tfWrapper, outputLogsPath = None)
 
     tfModel.train(
       data._2,
