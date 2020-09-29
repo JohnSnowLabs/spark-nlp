@@ -27,7 +27,7 @@ Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, mod
 - Spell checking & correction
 
 
-The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities:
+The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities (any many more):
 - Clinical - support Signs, Symptoms, Treatments, Procedures, Tests, Labs, Sections
 - Drugs - support Name, Dosage, Strength, Route, Duration, Frequency
 - Risk Factors- support Smoking, Obesity, Diabetes, Hypertension, Substance Abuse
@@ -43,13 +43,12 @@ The library offers access to several clinical and biomedical transformers: JSL-B
 You can install the Spark NLP for Healthcare package by using:
 
 ```bash
-pip install spark-nlp-jsl==2.6.0 --extra-index-url {secret-url} --upgrade
+pip install spark-nlp-jsl==${version} --extra-index-url https://pypi.johnsnowlabs.com/${secret.code} --upgrade
 ```
 
+`{version}` is the version part of the `{secret.code}` (`{secret.code}.split('-')[0]`) (i.e. `2.6.0`)
 
-The `{secret-url}` is a secret URL only available for users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
-
-
+The `{secret.code}` is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
 
 </div><div class="h3-box" markdown="1">
@@ -79,7 +78,7 @@ pyspark this cell is just ignored.
 
 Initializing the spark session takes some seconds (usually less than 1 minute) as the jar from the server needs to be loaded.
 
-The `{secret-url}` / `{secret-code}` tokens are secret  strings you should have received from your Customer Owner (CO). If you have
+The `{secret-code}` is a secret  string you should have received from your Customer Owner (CO). If you have
 not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
 You can either use our convenience function to start your Spark Session that will use standard configuration arguments:
@@ -99,6 +98,6 @@ spark = SparkSession.builder \
     .config("spark.driver.memory","16") \
     .config("spark.driver.maxResultSize", "2G") \
     .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0") \
-    .config("spark.jars", "{secret-url}") \
+    .config("spark.jars", "https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar") \
     .getOrCreate()
 ```
