@@ -8,7 +8,7 @@ import scala.util.Random
 
 import org.apache.spark.ml.util.Identifiable
 
-class TensorflowGenericClassifier(
+class TensorflowSentenceDetectorDL (
                                    val model: TensorflowWrapper,
                                    val verboseLevel: Verbose.Value = Verbose.All,
                                    val outputLogsPath: Option[String] = None

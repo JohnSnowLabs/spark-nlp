@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 
-import com.johnsnowlabs.ml.tensorflow.{TensorflowGenericClassifier, TensorflowWrapper, Variables}
+import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.Annotation
@@ -194,7 +194,7 @@ class SentenceDetectorDLApproach(override val uid: String)
       graph.toGraphDef
     )
 
-    val tfModel = new TensorflowGenericClassifier(
+    val tfModel = new TensorflowSentenceDetectorDL(
       tfWrapper,
       outputLogsPath = if (getOutputLogsPath.length > 0) Some(getOutputLogsPath) else None)
 
