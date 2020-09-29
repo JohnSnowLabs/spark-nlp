@@ -22,10 +22,11 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ## Prediction Domain
 ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 
+[https://www.icd10data.com/ICD10CM/Codes/S00-T88](https://www.icd10data.com/ICD10CM/Codes/S00-T88)
+
 {:.h2_title}
 ## Data Source
 Trained on ICD10CM Dataset Range: S0000XA-S98929S 
-https://www.icd10data.com/ICD10CM/Codes/S00-T88  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_injuries_clinical_en_2.4.5_2.4_1588103825347.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

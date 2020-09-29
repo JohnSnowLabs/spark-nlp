@@ -22,10 +22,11 @@ Contextual embeddings representation using biobert_pubmed_base_cased
 ## Prediction Domain
 Contextual feature vectors based on biobert_pubmed_base_cased
 
+[https://github.com/naver/biobert-pretrained](https://github.com/naver/biobert-pretrained)
+
 {:.h2_title}
 ## Data Source
 Trained on PubMed + MIMIC III corpora
-https://github.com/naver/biobert-pretrained  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/biobert_pubmed_base_cased_en_2.6.0_2.4_1600182457870.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -63,6 +64,6 @@ val model = BertEmbeddings.pretrained("biobert_pubmed_base_cased","en","clinical
 | inputs         | document, sentence, token |
 | output         | word_embeddings           |
 | language       | en                        |
-| dimension      | 768.0                     |
+| dimension      | 768                       |
 | case_sensitive | True                      |
 

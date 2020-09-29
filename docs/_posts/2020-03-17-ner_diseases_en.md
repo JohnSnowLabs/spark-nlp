@@ -22,10 +22,11 @@ Pretrained named entity recognition deep learning model for diseases.
 ## Prediction Domain
 Disease
 
+
+
 {:.h2_title}
 ## Data Source
 Trained on i2b2 with `embeddings_clinical`
-  
 
 {:.btn-box}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_diseases_en_2.4.4_2.4_1584452534235.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

@@ -22,10 +22,11 @@ Pretrained named entity recognition deep learning model for biology and genetics
 ## Prediction Domain
 DNA,RNA,cell_line,cell_type,protein
 
+[http://2013.bionlp-st.org/tasks/cancer-genetics](http://2013.bionlp-st.org/tasks/cancer-genetics)
+
 {:.h2_title}
 ## Data Source
 Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013 with `embeddings_clinical`
-http://2013.bionlp-st.org/tasks/cancer-genetics  
 
 {:.btn-box}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_cancer_genetics_en_2.4.2_2.4_1587567870408.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

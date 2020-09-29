@@ -22,10 +22,11 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ## Prediction Domain
 Snomed Codes and their normalized definition with `clinical_embeddings`
 
+[http://www.snomed.org/](http://www.snomed.org/)
+
 {:.h2_title}
 ## Data Source
 Trained on December 2019 RxNorm Subset
-http://www.snomed.org/  
 
 {:.btn-box}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.Snomed_Entity_Resolver_Model_Training.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_rxnorm_xsmall_clinical_en_2.5.2_2.4_1592959394598.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

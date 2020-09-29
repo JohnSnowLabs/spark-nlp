@@ -22,10 +22,11 @@ Pretrained named entity recognition deep learning model for posology, this NER i
 ## Prediction Domain
 DOSAGE,DRUG,DURATION,FORM,FREQUENCY,ROUTE,STRENGTH
 
+[https://open.fda.gov/](https://open.fda.gov/)
+
 {:.h2_title}
 ## Data Source
 Trained on the 2018 i2b2 dataset and FDA Drug datasets with `embeddings_clinical`.
-https://open.fda.gov/  
 
 {:.btn-box}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_large_en_2.4.2_2.4_1587513302751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

@@ -22,10 +22,11 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ## Prediction Domain
 ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 
+[https://www.icd10data.com/ICD10CM/Codes/O00-O9A](https://www.icd10data.com/ICD10CM/Codes/O00-O9A)
+
 {:.h2_title}
 ## Data Source
 Trained on ICD10CM Dataset Range: O0000-O9989
-https://www.icd10data.com/ICD10CM/Codes/O00-O9A  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_puerile_clinical_en_2.4.5_2.4_1588103916781.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

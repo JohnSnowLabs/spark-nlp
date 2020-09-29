@@ -22,10 +22,11 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 ## Prediction Domain
 Contact, Location, Name, Profession
 
+[https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)
+
 {:.h2_title}
 ## Data Source
 Trained on 10.000 Contact, Location, Name and Profession random replacements
-https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/  
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentificiation.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/deidentify_large_en_2.5.1_2.4_1595199111307.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

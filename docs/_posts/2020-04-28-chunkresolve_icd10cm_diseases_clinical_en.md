@@ -22,10 +22,11 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ## Prediction Domain
 ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 
+[https://www.icd10data.com/ICD10CM/Codes/](https://www.icd10data.com/ICD10CM/Codes/)
+
 {:.h2_title}
 ## Data Source
 Trained on ICD10CM Dataset Range: A000-N989 Except Neoplasms and Musculoskeletal
-https://www.icd10data.com/ICD10CM/Codes/  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_diseases_clinical_en_2.4.5_2.4_1588105984876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

@@ -22,10 +22,11 @@ Anonymization and DeIdentification model based on outputs from DeId NERs and Rep
 ## Prediction Domain
 Personal Information in order to deidentify
 
+
+
 {:.h2_title}
 ## Data Source
 Rule based DeIdentifier based on `ner_deid`
-  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/deidentify_rb_no_regex_en_2.5.0_2.4_1589924063833.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

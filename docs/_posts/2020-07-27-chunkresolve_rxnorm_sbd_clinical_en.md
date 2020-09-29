@@ -22,10 +22,11 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ## Prediction Domain
 RxNorm Codes and their normalized definition with `clinical_embeddings`
 
+[https://www.nlm.nih.gov/pubs/techbull/nd19/brief/nd19_rxnorm_december_2019_release.html](https://www.nlm.nih.gov/pubs/techbull/nd19/brief/nd19_rxnorm_december_2019_release.html)
+
 {:.h2_title}
 ## Data Source
 Trained on December 2019 RxNorm Clinical Drugs (TTY=SBD) ontology graph with `embeddings_clinical`
-https://www.nlm.nih.gov/pubs/techbull/nd19/brief/nd19_rxnorm_december_2019_release.html  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_rxnorm_sbd_clinical_en_2.5.1_2.4_1595813912622.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

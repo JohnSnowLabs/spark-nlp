@@ -22,10 +22,11 @@ Word Embeddings lookup annotator that maps tokens to vectors
 ## Prediction Domain
 Word2Vec feature vectors based on embeddings_scielo_50d
 
+[https://zenodo.org/record/3744326#.XtViinVKh_U](https://zenodo.org/record/3744326#.XtViinVKh_U)
+
 {:.h2_title}
 ## Data Source
 Trained on Scielo Articles
-https://zenodo.org/record/3744326#.XtViinVKh_U  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_scielo_50d_es_2.5.0_2.4_1590467114993.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -63,5 +64,5 @@ val model = WordEmbeddingsModel.pretrained("embeddings_scielo_50d","es","clinica
 | inputs        | document, token       |
 | output        | word_embeddings       |
 | language      | es                    |
-| dimension     | 50.0                  |
+| dimension     | 50                    |
 

@@ -22,10 +22,11 @@ Clinical NER (Large) is a Named Entity Recognition model that annotates text to 
 ## Prediction Domain
 Problem, Test, Treatment
 
+[https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/)
+
 {:.h2_title}
 ## Data Source
 Trained on i2b2 augmented data with `clinical_embeddings`
-https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/  
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_EVENTS_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_clinical_large_en_2.5.0_2.4_1590021302624.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

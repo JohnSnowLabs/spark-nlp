@@ -22,10 +22,11 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 ## Prediction Domain
 GO,HP
 
+
+
 {:.h2_title}
 ## Data Source
 
-  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_go_clinical_en_2.5.5_2.4_1598558398770.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

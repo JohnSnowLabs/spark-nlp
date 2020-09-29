@@ -22,10 +22,11 @@ Deidentification NER (Large) is a Named Entity Recognition model that annotates 
 ## Prediction Domain
 Age, Contact, Date, Id, Location, Name, Profession
 
+[https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)
+
 {:.h2_title}
 ## Data Source
 Trained on plain n2c2 2014: De-identification and Heart Disease Risk Factors Challenge datasets with `embeddings_clinical`
-https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/  
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_large_en_2.5.3_2.4_1595427435246.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

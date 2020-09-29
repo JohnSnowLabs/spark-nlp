@@ -22,10 +22,11 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ## Prediction Domain
 LOINC Codes and ther Standard Name with `clinical_embeddings`
 
+[https://loinc.org/](https://loinc.org/)
+
 {:.h2_title}
 ## Data Source
 Trained on LOINC dataset with `embeddings_clinical`
-https://loinc.org/  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_loinc_clinical_en_2.5.0_2.4_1589599195201.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

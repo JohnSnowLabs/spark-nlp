@@ -22,10 +22,11 @@ Pretrained named entity recognition deep learning model for diagnostics and proc
 ## Prediction Domain
 Diagnostico, Procedimiento
 
+[https://temu.bsc.es/codiesp/](https://temu.bsc.es/codiesp/)
+
 {:.h2_title}
 ## Data Source
 Trained on CodiEsp Challenge dataset trained with `embeddings_scielowiki_300d`
-https://temu.bsc.es/codiesp/  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_diag_proc_es_2.5.3_2.4_1594168623415.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

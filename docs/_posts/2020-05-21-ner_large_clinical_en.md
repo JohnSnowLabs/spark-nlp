@@ -22,10 +22,11 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 ## Prediction Domain
 PROBLEM,TEST,TREATMENT
 
+[https://www.johnsnowlabs.com/data/](https://www.johnsnowlabs.com/data/)
+
 {:.h2_title}
 ## Data Source
 Trained on data gathered and manually annotated by John Snow Labs
-https://www.johnsnowlabs.com/data/  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_large_clinical_en_2.5.0_2.4_1590021302624.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

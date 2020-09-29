@@ -22,10 +22,11 @@ Pretrained named entity recognition deep learning model for Drugs.
 ## Prediction Domain
 DrugChem (Drug and Chemicals)
 
+[https://www.i2b2.org/NLP/Medication](https://www.i2b2.org/NLP/Medication)
+
 {:.h2_title}
 ## Data Source
 Trained on i2b2_med7 + FDA with `embeddings_clinical`.
-https://www.i2b2.org/NLP/Medication  
 
 {:.btn-box}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_drugs_en_2.4.4_2.4_1584452534235.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

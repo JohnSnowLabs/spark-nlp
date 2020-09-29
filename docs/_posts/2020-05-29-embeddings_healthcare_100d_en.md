@@ -22,10 +22,11 @@ Word Embeddings lookup annotator that maps tokens to vectors
 ## Prediction Domain
 Word2Vec feature vectors based on embeddings_healthcare_100d
 
+[https://www.nlm.nih.gov/databases/download/pubmed_medline.html](https://www.nlm.nih.gov/databases/download/pubmed_medline.html)
+
 {:.h2_title}
 ## Data Source
 Trained on PubMed + ICD10 + UMLS + MIMIC III corpora
-https://www.nlm.nih.gov/databases/download/pubmed_medline.html  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_healthcare_100d_en_2.5.0_2.4_1590794626292.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -63,5 +64,5 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","cl
 | inputs        | document, token            |
 | output        | word_embeddings            |
 | language      | en                         |
-| dimension     | 100.0                      |
+| dimension     | 100                        |
 

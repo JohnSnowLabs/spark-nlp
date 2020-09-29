@@ -22,10 +22,11 @@ Word Embeddings lookup annotator that maps tokens to vectors
 ## Prediction Domain
 Word2Vec feature vectors based on embeddings_biovec
 
+[https://github.com/ncbi-nlp/BioSentVec](https://github.com/ncbi-nlp/BioSentVec)
+
 {:.h2_title}
 ## Data Source
 Trained on PubMed corpora
-https://github.com/ncbi-nlp/BioSentVec  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_biovec_en_2.5.0_2.4_1591068211397.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -63,5 +64,5 @@ val model = WordEmbeddingsModel.pretrained("embeddings_biovec","en","clinical/mo
 | inputs        | document, token     |
 | output        | word_embeddings     |
 | language      | en                  |
-| dimension     | 300.0               |
+| dimension     | 300                 |
 

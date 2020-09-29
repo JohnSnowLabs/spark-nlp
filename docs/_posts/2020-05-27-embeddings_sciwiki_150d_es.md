@@ -22,10 +22,11 @@ Word Embeddings lookup annotator that maps tokens to vectors
 ## Prediction Domain
 Word2Vec feature vectors based on embeddings_sciwiki_150d
 
+[https://zenodo.org/record/3744326#.XtViinVKh_U](https://zenodo.org/record/3744326#.XtViinVKh_U)
+
 {:.h2_title}
 ## Data Source
 Trained on Clinical Wikipedia Articles
-https://zenodo.org/record/3744326#.XtViinVKh_U  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_sciwiki_150d_es_2.5.0_2.4_1590609340084.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -63,5 +64,5 @@ val model = WordEmbeddingsModel.pretrained("embeddings_sciwiki_150d","es","clini
 | inputs        | document, token         |
 | output        | word_embeddings         |
 | language      | es                      |
-| dimension     | 150.0                   |
+| dimension     | 150                     |
 

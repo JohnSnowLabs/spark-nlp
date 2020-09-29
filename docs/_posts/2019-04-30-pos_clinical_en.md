@@ -18,10 +18,11 @@ use_language_switcher: "Python-Scala-Java"
 Sets a Part-Of-Speech tag to each word within a sentence.  
 
 
+
+
 {:.h2_title}
 ## Data Source
 Trained with MedPost dataset
-  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/pos_clinical_en_2.0.2_2.4_1556660550177.zip){:.button.button-orange.button-orange-trans.arr.button-icon}

@@ -18,10 +18,11 @@ use_language_switcher: "Python-Scala-Java"
 Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model. The Chunk column should be generated via the NER Converter annotator from the outputs of a NER annotator  
 
 
+[https://github.com/dbmdz/deep-eos](https://github.com/dbmdz/deep-eos)
+
 {:.h2_title}
 ## Data Source
 Please visit the [repo](https://github.com/dbmdz/deep-eos) for more information
-https://github.com/dbmdz/deep-eos  
 
 {:.btn-box}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sentence_detector_dl_en_2.6.0_2.4_1600002888450.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
