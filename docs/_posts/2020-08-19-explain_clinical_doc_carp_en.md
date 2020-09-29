@@ -13,8 +13,6 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
-
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}{:target="_blank"}
@@ -36,9 +34,11 @@ annotations = pipeline.annotate("This is an example")
 {:.noactive}
 ```scala
 ```
+</div>
 
 {:.h2_title}
 ## Results
+```bash
 {'sentences': ['This is an example'],
  'clinical_ner_tags': ['O', 'O', 'O', 'O'],
  'document': ['This is an example'],
@@ -51,11 +51,11 @@ annotations = pipeline.annotate("This is an example")
  'embeddings': ['This', 'is', 'an', 'example'],
  'pos_tags': ['PND', 'VBZ', 'DD', 'NN'],
  'dependencies': ['example', 'example', 'example', 'ROOT']}
+```
 
-</div>
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
@@ -63,7 +63,7 @@ annotations = pipeline.annotate("This is an example")
 |Type:|pipeline|
 |Compatibility:|Spark NLP 2.5.5|
 |License:|Licensed|
-|Edition:|Healthcare|
+|Edition:|Official|
 |Language:|[en]|
 
 {:.h2_title}

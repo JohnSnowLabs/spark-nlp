@@ -7,7 +7,7 @@ class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-04-21
-tags: [clinical,ner,drugs,fda,large,en]
+tags: [clinical,ner,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,16 +18,12 @@ use_language_switcher: "Python-Scala-Java"
 Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
 Pretrained named entity recognition deep learning model for posology, this NER is trained with the 'embeddings_clinical' word embeddings model, so be sure to use the same embeddings in the pipeline
 
-{:.h2_title}
-## Prediction Domain
-DOSAGE,DRUG,DURATION,FORM,FREQUENCY,ROUTE,STRENGTH
+## Predicted Entities 
 
-{:.h2_title}
-## Data Source
-Trained on the 2018 i2b2 dataset and FDA Drug datasets with `embeddings_clinical`.
-https://open.fda.gov/
+DOSAGE, DRUG, DURATION, FORM, FREQUENCY, ROUTE, STRENGTH
 
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_large_en_2.4.2_2.4_1587513302751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
@@ -48,21 +44,23 @@ val model = NerDLModel.pretrained("ner_posology_large","en","clinical/models")
 ```
 </div>
 
-
-
 {:.model-param}
 ## Model Information
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_posology_large               |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.2                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Name:           | ner_posology_large               |
+| Type:    | NerDLModel                       |
+| Compatibility:  | Spark NLP 2.4.2+                           |
+| License:        | Licensed                         |
+|Edition:|Official|                       |
+|Input labels:         | sentence, token, word_embeddings |
+|Output labels:        | ner                              |
+| Language:       | en                               |
+| Case sensitive: | False                            |
+| Dependencies:  | embeddings_clinical              |
 
+{:.h2_title}
+## Data Source
+Trained on data gathered and manually annotated by John Snow Labs
+https://www.johnsnowlabs.com/data/

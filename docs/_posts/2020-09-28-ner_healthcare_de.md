@@ -12,32 +12,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 This model can be used to detect symptomes, treatments and other entities in medical text in German language.
+
 ## Predicted Entities
-- DIAGLAB_PROCEDURE
-- MEDICAL_SPECIFICATION
-- MEDICAL_DEVICE
-- MEASUREMENT
-- BIOLOGICAL_CHEMISTRY
-- BODY_FLUID
-- TIME_INFORMATION
-- LOCAL_SPECIFICATION
-- BIOLOGICAL_PARAMETER
-- PROCESS
-- MEDICATION
-- DOSING
-- DEGREE
-- MEDICAL_CONDITION
-- PERSON
-- TISSUE
-- STATE_OF_HEALTH
-- BODY_PART
-- TREATMENT
+DIAGLAB_PROCEDURE, MEDICAL_SPECIFICATION, MEDICAL_DEVICE, MEASUREMENT, BIOLOGICAL_CHEMISTRY, BODY_FLUID, TIME_INFORMATION, LOCAL_SPECIFICATION, BIOLOGICAL_PARAMETER, PROCESS, MEDICATION, DOSING, DEGREE, MEDICAL_CONDITION, PERSON, TISSUE, STATE_OF_HEALTH, BODY_PART, TREATMENT
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_de_2.5.5_2.4_1599433028253.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 ## How to use
-
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
@@ -86,14 +68,14 @@ annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (K
 +----+-------------------+---------+---------+--------------------------+
 ```
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_healthcare|
 |Type:|ner|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
-|Edition:|Healthcare|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|

@@ -12,13 +12,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 This model can be used to detect normalized mentions of genes (go) and human phenotypes (hp) in medical text.
-## Predicted Entities: GO, HP
+## Predicted Entities: 
+GO, HP
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_gene_clinical_en_2.5.5_2.4_1598558253840.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-## How to use
 
+## How to use
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
@@ -39,7 +40,6 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.")
 
 ```
-
 </div>
 
 {:.h2_title}
@@ -55,14 +55,14 @@ annotations = light_pipeline.fullAnnotate("Another disease that shares two of th
 +----+--------------------------+---------+-------+----------+
 ```
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_human_phenotype_go_clinical|
 |Type:|ner|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
-|Edition:|Healthcare|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|

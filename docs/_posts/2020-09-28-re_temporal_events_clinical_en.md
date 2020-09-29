@@ -13,9 +13,7 @@ use_language_switcher: "Python"
 ## Description
 This model can be used to identify temporal relationships among clinical events.
 ## Included Relations
-- AFTER
-- BEFORE
-- OVERLAP
+AFTER, BEFORE, OVERLAP
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/){:.button.button-orange}
@@ -27,7 +25,6 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
 
 ```python
 
@@ -62,14 +59,14 @@ annotations = light_pipeline.fullAnnotate("""The patient is a 56-year-old right-
 +----+------------+------------+-----------------+---------------+--------------------------+-----------+-----------------+---------------+---------------------+--------------+
 ```
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|re_temporal_events_clinical|
 |Type:|re|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
-|Edition:|Healthcare|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[embeddings, pos_tags, ner_chunks, dependencies]|
 |Output Labels:|[relations]|

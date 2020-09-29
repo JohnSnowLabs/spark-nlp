@@ -13,25 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This model can be used to detect legal entities in German text.
 ## Predicted Entities
-- STR
-- LIT
-- PER
-- EUN
-- VT
-- MRK
-- INN
-- UN
-- RS
-- ORG
-- GS
-- VS
-- LDS
-- GRT
-- VO
-- RR
-- LD
-- AN
-- ST
+STR, LIT, PER, EUN, VT, MRK, INN, UN, RS, ORG, GS, VS, LDS, GRT, VO, RR, LD, AN, ST
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/){:.button.button-orange}
@@ -76,14 +58,14 @@ annotations = light_pipeline.fullAnnotate("Dementsprechend hat der Bundesgericht
 +----+-----------------------------------------------------+---------+---------+------------+
 ```
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_legal|
 |Type:|ner|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
-|Edition:|Healthcare|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
