@@ -38,7 +38,7 @@ ld = sys.modules[__name__]
 ld.dl = sys.modules[__name__]
 keyword = sys.modules[__name__]
 keyword.yake = sys.modules[__name__]
-
+sentence_detector_dl = sys.modules[__name__]
 
 class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
@@ -2994,8 +2994,7 @@ class SentenceDetectorDLModel(AnnotatorModel):
     @staticmethod
     def pretrained(name, lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SentenceDetectorDLModel, name, lang, remote_loc,
-                                                j_dwn='InternalsPythonResourceDownloader')
+        return ResourceDownloader.downloadModel(SentenceDetectorDLModel, name, lang, remote_loc)
 
 
 class SentenceDetectorDLApproach(AnnotatorApproach):
