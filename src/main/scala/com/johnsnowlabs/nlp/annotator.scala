@@ -14,6 +14,7 @@ import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
+import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -180,7 +181,14 @@ package object annotator {
 
   type MultiClassifierDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach
   object MultiClassifierDLApproach extends DefaultParamsReadable[MultiClassifierDLApproach]
+
   type MultiClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel
   object MultiClassifierDLModel extends ReadablePretrainedMultiClassifierDL with ReadMultiClassifierDLTensorflowModel
+
+  type SentenceDetectorDLApproach  = com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach
+  object SentenceDetectorDLApproach extends DefaultParamsReadable[SentenceDetectorDLApproach]
+
+  type SentenceDetectorDLModel  = com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+  object SentenceDetectorDLModel extends ReadsSentenceDetectorDLGraph with ReadablePretrainedSentenceDetectorDL
 
 }
