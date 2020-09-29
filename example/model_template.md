@@ -12,6 +12,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 Short description of the model
+
 ### Predicted Labels
 The list of labels predicted by the model. Please add explanations if necessary but keep them short...
 
@@ -47,23 +48,9 @@ val ner = NerDLModel.pretrained("wikiner_6B_300", "fr")
 The actual outputs of the code above + some explanations if necessary....
 
 {:.result_box}
-```python
-root
- |-- text: string (nullable = true)
- |-- document: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- sentence: array (nullable = true)
- ...
- ```
+```bash
+ 	put here the outputs of the model - dataframe
+```
 
 {:.model-param}
 ## Model Parameters
