@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Ner DL Model Events `embeddings_clinical`
+title: Ner DL Model Events
 author: John Snow Labs
 name: ner_events_clinical
 class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-08-18
-tags: [clinical,ner,events,en]
+tags: [clinical,ner,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

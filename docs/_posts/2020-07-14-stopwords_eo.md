@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Moldavian
 author: John Snow Labs
 name: stopwords_eo
 date: 2020-07-14 19:03:00 +0800
-tags: [stopwords, eo]
+tags: [stopwords]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

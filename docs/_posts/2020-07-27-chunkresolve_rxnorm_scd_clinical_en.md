@@ -7,7 +7,7 @@ class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-07-27
-tags: [clinical,entity_resolution,rxnorm,en]
+tags: [clinical,entity_resolution,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

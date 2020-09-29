@@ -7,7 +7,7 @@ class: AssertionDLModel
 language: en
 repository: clinical/models
 date: 2020-05-07
-tags: [clinical,assertion,dl,n2c2,en]
+tags: [clinical,assertion,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
