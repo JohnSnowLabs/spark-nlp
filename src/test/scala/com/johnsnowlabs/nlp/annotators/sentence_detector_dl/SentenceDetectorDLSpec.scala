@@ -19,84 +19,50 @@ import scala.util.Random
 class SentenceDetectorDLSpec  extends FlatSpec {
   implicit val session = spark
 
-  val dataset = "en"//europarl
-
-  val trainDataFile = s"/data/sent/lang/${dataset}.train.txt"
-  val testDataFile = s"/data/sent/lang/${dataset}.test.txt"
-  val testSampleFreeText = "/data/sent/sample.text"
-
-  val vocabFile = s"/data/sent/vocab_${dataset}.json"
-  val modelGraphFile = "/models/sent/graphs/cnn.pb"
-  val savedTFModelPath = s"/models/sent/cnn_${dataset}"
-  val savedModelPath = s"/models/SDDL_${dataset}_cnn"
-
-  val languages = Array("bg", "bs", "de", "el", "en", "hr", "mk", "ro", "sq", "sr", "tr", "multilang")
+  val trainDataFile = "src/test/resources/sentence_detector_dl/train.txt"
+  val testDataFile =  "src/test/resources/sentence_detector_dl/test.txt"
+  val savedModelPath = "./tmp_sdd_model/new_model"
+  val testSampleFreeText = "src/test/resources/sentence_detector_dl/sample.txt"
 
   "Sentence Detector DL" should "train a new model" in {
 
-    languages.foreach(lang => {
+    assert(Files.exists(Paths.get(trainDataFile)))
 
-      println(s"Training ${lang}")
+    val df = spark.read.text(trainDataFile).toDF("text")
 
-      val trainDataFile = s"/data/sent/lang/${lang}.train.txt"
-      val savedModelPath = s"/models/SDDL_${lang}_cnn"
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
 
-      assert(Files.exists(Paths.get(trainDataFile)))
+    val sentenceDetector = new SentenceDetectorDLApproach()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+      .setEpochsNumber(100)
 
-      val df = spark.read.text(trainDataFile).toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
 
-      val documentAssembler = new DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-      val sentenceDetector = new SentenceDetectorDLApproach()
-        .setInputCols(Array("document"))
-        .setOutputCol("sentences")
-        .setGraphFile("/models/sent/graphs/cnn_large_vocabulary.pb")
-        .setEpochsNumber(5)
-
-      val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
-
-      val model = pipeline.fit(df)
-      model.stages(1).asInstanceOf[SentenceDetectorDLModel].write.overwrite().save(savedModelPath)
-
-      println(s"${lang} completed.\n\n")
-    })
+    val model = pipeline.fit(df)
+    model.stages(1).asInstanceOf[SentenceDetectorDLModel].write.overwrite().save(savedModelPath)
   }
 
   "Sentence Detector DL" should "run test metrics" in {
 
-    assert(Files.exists(Paths.get(testDataFile)))
-    assert(Files.exists(Paths.get(savedModelPath)))
+    val text = Source.fromFile(testDataFile).getLines().map(_.trim).mkString("\n")
+    val sentenceDetectorDL = SentenceDetectorDLModel.load(savedModelPath)
+    val metrics = sentenceDetectorDL.getMetrics(text, false)
 
-    var begin = true
-    languages.foreach(lang => {
 
-      val testDataFile = s"/data/sent/lang/${lang}.test.txt"
+    println("%1$15s %2$15s %3$15s %4$15s".format("Accuracy", "Recall", "Precision", "F1"))
 
-      val text = Source.fromFile(testDataFile).getLines().map(_.trim).mkString("\n")
-
-      val savedModelPath = s"/models/SDDL_${lang}_cnn"
-
-      val sentenceDetectorDL = SentenceDetectorDLModel.load(savedModelPath)
-      val metrics = sentenceDetectorDL.getMetrics(text, false)
-
-      if (begin) {
-        println("%5$15s %1$15s %2$15s %3$15s %4$15s".format("Accuracy", "Recall", "Precision", "F1", "Language"))
-        begin = false
-      }
-      println("%5$15s %1$15.2f %2$15.2f %3$15.2f %4$15.2f".format(
-        metrics.accuracy,
-        metrics.recall,
-        metrics.precision,
-        metrics.f1,
-        lang))
-
-    })
+    println("%1$15.2f %2$15.2f %3$15.2f %4$15.2f".format(
+      metrics.accuracy,
+      metrics.recall,
+      metrics.precision,
+      metrics.f1))
   }
 
   "Sentence Detector DL" should "load and run pretrained model" in {
-    assert(Files.exists(Paths.get(testSampleFreeText)))
+
     val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
 
     val documentAssembler = new DocumentAssembler()
@@ -123,72 +89,11 @@ class SentenceDetectorDLSpec  extends FlatSpec {
       if (anno._1 == "sentences"){
         anno._2.foreach(s => {
           println(s.result)
-          println(text.slice(s.begin, s.end))
           println("\n")
         })
       }
 
     })
   }
-
-  "Sentence Detector DL" should "save new pretrained model" ignore {
-
-    val sentenceDetectorDL = new SentenceDetectorDLModel()
-      .setInputCols(Array("document"))
-      .setOutputCol("sentences")
-      .setModel("cnn")
-      .setupNew(session, savedTFModelPath, vocabFile)
-
-    sentenceDetectorDL.write.overwrite().save(savedModelPath)
-  }
-
-  "Sentence Detector DL" should "train using GenericClassifier" ignore {
-
-    assert(Files.exists(Paths.get(trainDataFile)))
-
-    val text = Source.fromFile(trainDataFile).getLines().map(_.trim).mkString("\n")
-
-    val encoder = new SentenceDetectorDLEncoder()
-    if (Files.exists(Paths.get(vocabFile))){
-      encoder.loadVocabulary(vocabFile)
-    } else {
-      encoder.buildVocabulary(text)
-      encoder.saveVocabulary(vocabFile)
-    }
-
-    val data = encoder.getTrainingData(text)
-
-    println("Positive examples %s".format(data._1.filter(l => l == 1.0f).length))
-    println("Negative examples %s".format(data._1.filter(l => l == 0.0f).length))
-
-
-    val graph = new Graph()
-    val graphStream = ResourceHelper.getResourceStream(modelGraphFile)
-    val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(graphBytesDef)
-
-    val tfWrapper = new TensorflowWrapper(
-      Variables(Array.empty[Byte], Array.empty[Byte]),
-      graph.toGraphDef
-    )
-
-    val tfModel = new TensorflowSentenceDetectorDL(tfWrapper, outputLogsPath = None)
-
-    tfModel.train(
-      data._2,
-      data._1.map(Array(_)),
-      batchSize = 32,
-      epochsNumber = 20,
-      learningRate = 0.0001f,
-      validationSplit = 0.1f,
-      classWeights = Array(1.0f),
-      dropout = 1.0f,
-      uuid = "sentence_detector_dl"
-    )
-
-    tfModel.model.saveToFile(savedTFModelPath)
-  }
-
-
 
 }
