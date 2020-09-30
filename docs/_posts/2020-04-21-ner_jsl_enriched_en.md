@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for clinical terminology.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Age,Allergenic_substance,Blood_Pressure,Causative_Agents_(Virus_and_Bacteria),Diagnosis,Dosage,Drug_Name,Frequency,Gender,Lab_Name,Lab_Result,Maybe,Modifier,Name,Negation,O2_Saturation,Procedure,Procedure_Name,Pulse_Rate,Respiratory_Rate,Route,Section_Name,Substance_Name,Symptom_Name,Temperature,Weight
 
 [https://www.johnsnowlabs.com/data/](https://www.johnsnowlabs.com/data/)
@@ -37,8 +37,8 @@ Trained on data gathered and manually annotated by John Snow Labs
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_jsl_enriched","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_jsl_enriched","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_jsl_enriched","en","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_jsl_enriched                 |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.2                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | ner_jsl_enriched                 |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.4.2                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_clinical              |
 

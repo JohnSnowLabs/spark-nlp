@@ -19,7 +19,7 @@ Word Embeddings lookup annotator that maps tokens to vectors
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Word2Vec feature vectors based on embeddings_scielowiki_300d
 
 [https://zenodo.org/record/3744326#.XtViinVKh_U](https://zenodo.org/record/3744326#.XtViinVKh_U)
@@ -37,8 +37,8 @@ Trained on Scielo Articles + Clinical Wikipedia Articles
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d","es","clinical/models")\
-	.setInputCols("document","token")\
+model = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d","es","clinical/models") \
+	.setInputCols("document","token") \
 	.setOutputCol("word_embeddings")
 ```
 
@@ -56,13 +56,13 @@ val model = WordEmbeddingsModel.pretrained("embeddings_scielowiki_300d","es","cl
 
 {:.table-model}
 |---------------|----------------------------|
-| name          | embeddings_scielowiki_300d |
-| model_class   | WordEmbeddingsModel        |
-| compatibility | 2.5.0                      |
-| license       | Licensed                   |
-| edition       | Healthcare                 |
-| inputs        | document, token            |
-| output        | word_embeddings            |
-| language      | es                         |
-| dimension     | 300                        |
+| Model Name    | embeddings_scielowiki_300d |
+| Type          | WordEmbeddingsModel        |
+| Compatibility | 2.5.0                      |
+| License       | Licensed                   |
+| Edition       | Healthcare                 |
+| Inputs        | document, token            |
+| Output        | word_embeddings            |
+| Language      | es                         |
+| Dimension     | 300                        |
 

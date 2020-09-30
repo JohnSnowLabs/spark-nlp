@@ -19,7 +19,7 @@ BERT (Bidirectional Encoder Representations from Transformers) provides dense ve
 Contextual embeddings representation using biobert_pubmed_base_cased
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Contextual feature vectors based on biobert_pubmed_base_cased
 
 [https://github.com/naver/biobert-pretrained](https://github.com/naver/biobert-pretrained)
@@ -37,8 +37,8 @@ Trained on PubMed + MIMIC III corpora
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = BertEmbeddings.pretrained("biobert_pubmed_base_cased","en","clinical/models")\
-	.setInputCols("document","sentence","token")\
+model = BertEmbeddings.pretrained("biobert_pubmed_base_cased","en","clinical/models") \
+	.setInputCols("document","sentence","token") \
 	.setOutputCol("word_embeddings")
 ```
 
@@ -56,14 +56,14 @@ val model = BertEmbeddings.pretrained("biobert_pubmed_base_cased","en","clinical
 
 {:.table-model}
 |----------------|---------------------------|
-| name           | biobert_pubmed_base_cased |
-| model_class    | BertEmbeddings            |
-| compatibility  | 2.5.0                     |
-| license        | Licensed                  |
-| edition        | Healthcare                |
-| inputs         | document, sentence, token |
-| output         | word_embeddings           |
-| language       | en                        |
-| dimension      | 768                       |
-| case_sensitive | True                      |
+| Model Name     | biobert_pubmed_base_cased |
+| Type           | BertEmbeddings            |
+| Compatibility  | 2.5.0                     |
+| License        | Licensed                  |
+| Edition        | Healthcare                |
+| Inputs         | document, sentence, token |
+| Output         | word_embeddings           |
+| Language       | en                        |
+| Dimension      | 768                       |
+| Case Sensitive | True                      |
 

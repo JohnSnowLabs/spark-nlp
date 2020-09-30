@@ -18,6 +18,8 @@ use_language_switcher: "Python-Scala-Java"
   
 A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
+
+
 {:.h2_title}
 ## Included Models
 - ner_clinical
@@ -30,6 +32,7 @@ A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posol
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -52,9 +55,10 @@ model.annotate("Include a healthcare document here. Can be a prescription, medic
 
 {:.table-model}
 |---------------|---------------------------|
-| name          | explain_clinical_doc_carp |
-| model_class   | PipelineModel             |
-| compatibility | 2.5.5                     |
-| license       | Licensed                  |
-| edition       | Healthcare                |
-| language      | en                        |
+| Model Name    | explain_clinical_doc_carp |
+| Type          | PipelineModel             |
+| Compatibility | 2.5.5                     |
+| License       | Licensed                  |
+| Edition       | Healthcare                |
+| Language      | en                        |
+

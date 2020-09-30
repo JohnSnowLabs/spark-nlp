@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for molecular biology related terms.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 DNA,RNA,cell_line,cell_type,protein
 
 [http://www.geniaproject.org/](http://www.geniaproject.org/)
@@ -37,8 +37,8 @@ Trained on the JNLPBA corpus containing more than 2.404 publication abstracts wi
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_cellular","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_cellular","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_cellular","en","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_cellular                     |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.2                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | ner_cellular                     |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.4.2                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_clinical              |
 

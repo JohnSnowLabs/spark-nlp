@@ -19,7 +19,7 @@ Anonymization and DeIdentification model based on outputs from DeId NERs and Rep
 Deidentify (Large) is a deidentification model. It identifies instances of protected health information in text documents, and it can either obfuscate them (e.g., replacing names with different, fake names) or mask them (e.g., replacing "2020,06,04" with "<DATE>"). This model is useful for maintaining HIPAA compliance when dealing with text documents that contain protected health information.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Contact, Location, Name, Profession
 
 [https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)
@@ -37,8 +37,8 @@ Trained on 10.000 Contact, Location, Name and Profession random replacements
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = DeIdentificationModel.pretrained("deidentify_large","en","clinical/models")\
-	.setInputCols("document","token","chunk")\
+model = DeIdentificationModel.pretrained("deidentify_large","en","clinical/models") \
+	.setInputCols("document","token","chunk") \
 	.setOutputCol("document")
 ```
 
@@ -56,13 +56,13 @@ val model = DeIdentificationModel.pretrained("deidentify_large","en","clinical/m
 
 {:.table-model}
 |---------------|------------------------|
-| name          | deidentify_large       |
-| model_class   | DeIdentificationModel  |
-| compatibility | 2.5.1                  |
-| license       | Licensed               |
-| edition       | Healthcare             |
-| inputs        | document, token, chunk |
-| output        | document               |
-| language      | en                     |
-| upstream_deps | ner_deid_large         |
+| Model Name    | deidentify_large       |
+| Type          | DeIdentificationModel  |
+| Compatibility | 2.5.1                  |
+| License       | Licensed               |
+| Edition       | Healthcare             |
+| Inputs        | document, token, chunk |
+| Output        | document               |
+| Language      | en                     |
+| Dependencies  | ner_deid_large         |
 

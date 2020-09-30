@@ -54,10 +54,10 @@ model.annotate("Include a healthcare document here. Can be a prescription, medic
 
 {:.table-model}
 |---------------|--------------------------|
-| name          | explain_clinical_doc_cra |
-| model_class   | PipelineModel            |
-| compatibility | 2.5.5                    |
-| license       | Licensed                 |
-| edition       | Healthcare               |
-| language      | en                       |
+| Model Name    | explain_clinical_doc_cra |
+| Type          | PipelineModel            |
+| Compatibility | 2.5.5                    |
+| License       | Licensed                 |
+| Edition       | Healthcare               |
+| Language      | en                       |
 

@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 GENE,HP
 
 
@@ -29,7 +29,7 @@ GENE,HP
 
 
 {:.btn-box}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_gene_clinical_en_2.5.5_2.4_1598558253840.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL/){:.button.button-orange}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_human_phenotype_gene_clinical_en_2.5.5_2.4_1598558253840.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ GENE,HP
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_human_phenotype_gene_clinical","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_human_phenotype_gene_clinical","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,13 +56,13 @@ val model = NerDLModel.pretrained("ner_human_phenotype_gene_clinical","en","clin
 
 {:.table-model}
 |---------------|-----------------------------------|
-| name          | ner_human_phenotype_gene_clinical |
-| model_class   | NerDLModel                        |
-| compatibility | 2.5.5                             |
-| license       | Licensed                          |
-| edition       | Healthcare                        |
-| inputs        | sentence, token, word_embeddings  |
-| output        | ner                               |
-| language      | en                                |
-| upstream_deps | embeddings_clinical               |
+| Model Name    | ner_human_phenotype_gene_clinical |
+| Type          | NerDLModel                        |
+| Compatibility | 2.5.5                             |
+| License       | Licensed                          |
+| Edition       | Healthcare                        |
+| Inputs        | sentence, token, word_embeddings  |
+| Output        | ner                               |
+| Language      | en                                |
+| Dependencies  | embeddings_clinical               |
 

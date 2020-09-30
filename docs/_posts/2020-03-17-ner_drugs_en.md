@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for Drugs.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 DrugChem (Drug and Chemicals)
 
 [https://www.i2b2.org/NLP/Medication](https://www.i2b2.org/NLP/Medication)
@@ -37,8 +37,8 @@ Trained on i2b2_med7 + FDA with `embeddings_clinical`.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_drugs","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_drugs","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_drugs","en","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_drugs                        |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.4                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | ner_drugs                        |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.4.4                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_clinical              |
 

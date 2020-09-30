@@ -19,7 +19,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Codes and their normalized definition with `clinical_embeddings`
 
 
@@ -29,7 +29,7 @@ Codes and their normalized definition with `clinical_embeddings`
 FILLUP
 
 {:.btn-box}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_ICD10GM_de_2.5.5_2.4_1599431635423.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/){:.button.button-orange}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_ICD10GM_de_2.5.5_2.4_1599431635423.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ FILLUP
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM","de","clinical/models")\
-	.setInputCols("token","chunk_embeddings")\
+model = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM","de","clinical/models") \
+	.setInputCols("token","chunk_embeddings") \
 	.setOutputCol("entity")
 ```
 
@@ -56,14 +56,14 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM","de","cli
 
 {:.table-model}
 |----------------|--------------------------|
-| name           | chunkresolve_ICD10GM     |
-| model_class    | ChunkEntityResolverModel |
-| compatibility  | 2.5.5                    |
-| license        | Licensed                 |
-| edition        | Healthcare               |
-| inputs         | token, chunk_embeddings  |
-| output         | entity                   |
-| language       | de                       |
-| case_sensitive | True                     |
-| upstream_deps  | w2v_cc_300d              |
+| Model Name     | chunkresolve_ICD10GM     |
+| Type           | ChunkEntityResolverModel |
+| Compatibility  | 2.5.5                    |
+| License        | Licensed                 |
+| Edition        | Healthcare               |
+| Inputs         | token, chunk_embeddings  |
+| Output         | entity                   |
+| Language       | de                       |
+| Case Sensitive | True                     |
+| Dependencies   | w2v_cc_300d              |
 

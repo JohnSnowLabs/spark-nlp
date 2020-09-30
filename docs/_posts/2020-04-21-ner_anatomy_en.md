@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for anatomy terms.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Anatomical_system,Cell,Cellular_component,Developing_anatomical_structure,Immaterial_anatomical_entity,Organ,Organism_subdivision,Organism_substance,Pathological_formation,Tissue,tissue_structure
 
 [http://www.nactem.ac.uk/anatomy/](http://www.nactem.ac.uk/anatomy/)
@@ -29,7 +29,7 @@ Anatomical_system,Cell,Cellular_component,Developing_anatomical_structure,Immate
 Trained on the Anatomical Entity Mention (AnEM) corpus with `embeddings_clinical`
 
 {:.btn-box}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_en_2.4.2_2.4_1587513307751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_en_2.4.2_2.4_1587513307751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ Trained on the Anatomical Entity Mention (AnEM) corpus with `embeddings_clinical
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_anatomy","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_anatomy","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_anatomy","en","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_anatomy                      |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.2                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | ner_anatomy                      |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.4.2                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_clinical              |
 

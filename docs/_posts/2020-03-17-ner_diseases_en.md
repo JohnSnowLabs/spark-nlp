@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for diseases.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Disease
 
 
@@ -29,7 +29,7 @@ Disease
 Trained on i2b2 with `embeddings_clinical`
 
 {:.btn-box}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_diseases_en_2.4.4_2.4_1584452534235.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC/){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_diseases_en_2.4.4_2.4_1584452534235.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ Trained on i2b2 with `embeddings_clinical`
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_diseases","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_diseases","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_diseases","en","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_diseases                     |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.4                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | ner_diseases                     |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.4.4                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_clinical              |
 

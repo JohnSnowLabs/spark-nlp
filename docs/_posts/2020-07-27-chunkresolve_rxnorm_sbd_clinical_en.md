@@ -19,7 +19,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 RxNorm Codes and their normalized definition with `clinical_embeddings`
 
 [https://www.nlm.nih.gov/pubs/techbull/nd19/brief/nd19_rxnorm_december_2019_release.html](https://www.nlm.nih.gov/pubs/techbull/nd19/brief/nd19_rxnorm_december_2019_release.html)
@@ -29,7 +29,7 @@ RxNorm Codes and their normalized definition with `clinical_embeddings`
 Trained on December 2019 RxNorm Clinical Drugs (TTY=SBD) ontology graph with `embeddings_clinical`
 
 {:.btn-box}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_rxnorm_sbd_clinical_en_2.5.1_2.4_1595813912622.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/){:.button.button-orange}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_rxnorm_sbd_clinical_en_2.5.1_2.4_1595813912622.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ Trained on December 2019 RxNorm Clinical Drugs (TTY=SBD) ontology graph with `em
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_sbd_clinical","en","clinical/models")\
-	.setInputCols("token","chunk_embeddings")\
+model = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_sbd_clinical","en","clinical/models") \
+	.setInputCols("token","chunk_embeddings") \
 	.setOutputCol("entity")
 ```
 
@@ -56,14 +56,14 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_sbd_clinica
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | chunkresolve_rxnorm_sbd_clinical |
-| model_class    | ChunkEntityResolverModel         |
-| compatibility  | 2.5.1                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | token, chunk_embeddings          |
-| output         | entity                           |
-| language       | en                               |
-| case_sensitive | True                             |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | chunkresolve_rxnorm_sbd_clinical |
+| Type           | ChunkEntityResolverModel         |
+| Compatibility  | 2.5.1                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | token, chunk_embeddings          |
+| Output         | entity                           |
+| Language       | en                               |
+| Case Sensitive | True                             |
+| Dependencies   | embeddings_clinical              |
 

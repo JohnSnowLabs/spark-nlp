@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 PROBLEM,TEST,TREATMENT
 
 [https://www.johnsnowlabs.com/data/](https://www.johnsnowlabs.com/data/)
@@ -37,8 +37,8 @@ Trained on data gathered and manually annotated by John Snow Labs
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,13 +56,13 @@ val model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models")
 
 {:.table-model}
 |---------------|----------------------------------|
-| name          | ner_large_clinical               |
-| model_class   | NerDLModel                       |
-| compatibility | 2.5.0                            |
-| license       | Licensed                         |
-| edition       | Healthcare                       |
-| inputs        | sentence, token, word_embeddings |
-| output        | ner                              |
-| language      | en                               |
-| upstream_deps | embeddings_clinical              |
+| Model Name    | ner_large_clinical               |
+| Type          | NerDLModel                       |
+| Compatibility | 2.5.0                            |
+| License       | Licensed                         |
+| Edition       | Healthcare                       |
+| Inputs        | sentence, token, word_embeddings |
+| Output        | ner                              |
+| Language      | en                               |
+| Dependencies  | embeddings_clinical              |
 

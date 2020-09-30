@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for biology and genetics terms.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 DNA,RNA,cell_line,cell_type,protein
 
 [http://2013.bionlp-st.org/tasks/cancer-genetics](http://2013.bionlp-st.org/tasks/cancer-genetics)
@@ -37,8 +37,8 @@ Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013 with `embedd
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_cancer_genetics","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_cancer_genetics","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,13 +56,13 @@ val model = NerDLModel.pretrained("ner_cancer_genetics","en","clinical/models")
 
 {:.table-model}
 |---------------|----------------------------------|
-| name          | ner_cancer_genetics              |
-| model_class   | NerDLModel                       |
-| compatibility | 2.4.2                            |
-| license       | Licensed                         |
-| edition       | Healthcare                       |
-| inputs        | sentence, token, word_embeddings |
-| output        | ner                              |
-| language      | en                               |
-| upstream_deps | embeddings_clinical              |
+| Model Name    | ner_cancer_genetics              |
+| Type          | NerDLModel                       |
+| Compatibility | 2.4.2                            |
+| License       | Licensed                         |
+| Edition       | Healthcare                       |
+| Inputs        | sentence, token, word_embeddings |
+| Output        | ner                              |
+| Language      | en                               |
+| Dependencies  | embeddings_clinical              |
 

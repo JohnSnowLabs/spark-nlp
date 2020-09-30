@@ -19,7 +19,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Athena Codes and their normalized definition
 
 
@@ -37,8 +37,8 @@ Trained on Athena dataset
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_healthcare","en","clinical/models")\
-	.setInputCols("token","chunk_embeddings")\
+model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_healthcare","en","clinical/models") \
+	.setInputCols("token","chunk_embeddings") \
 	.setOutputCol("entity")
 ```
 
@@ -56,14 +56,14 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_
 
 {:.table-model}
 |----------------|-------------------------------------------|
-| name           | chunkresolve_athena_conditions_healthcare |
-| model_class    | ChunkEntityResolverModel                  |
-| compatibility  | 2.6.0                                     |
-| license        | Licensed                                  |
-| edition        | Healthcare                                |
-| inputs         | token, chunk_embeddings                   |
-| output         | entity                                    |
-| language       | en                                        |
-| case_sensitive | True                                      |
-| upstream_deps  | embeddings_healthcare_100d                |
+| Model Name     | chunkresolve_athena_conditions_healthcare |
+| Type           | ChunkEntityResolverModel                  |
+| Compatibility  | 2.6.0                                     |
+| License        | Licensed                                  |
+| Edition        | Healthcare                                |
+| Inputs         | token, chunk_embeddings                   |
+| Output         | entity                                    |
+| Language       | en                                        |
+| Case Sensitive | True                                      |
+| Dependencies   | embeddings_healthcare_100d                |
 

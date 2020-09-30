@@ -19,7 +19,7 @@ Word Embeddings lookup annotator that maps tokens to vectors
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Word2Vec feature vectors based on embeddings_healthcare_100d
 
 [https://www.nlm.nih.gov/databases/download/pubmed_medline.html](https://www.nlm.nih.gov/databases/download/pubmed_medline.html)
@@ -37,8 +37,8 @@ Trained on PubMed + ICD10 + UMLS + MIMIC III corpora
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","clinical/models")\
-	.setInputCols("document","token")\
+model = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","clinical/models") \
+	.setInputCols("document","token") \
 	.setOutputCol("word_embeddings")
 ```
 
@@ -56,13 +56,13 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","cl
 
 {:.table-model}
 |---------------|----------------------------|
-| name          | embeddings_healthcare_100d |
-| model_class   | WordEmbeddingsModel        |
-| compatibility | 2.5.0                      |
-| license       | Licensed                   |
-| edition       | Healthcare                 |
-| inputs        | document, token            |
-| output        | word_embeddings            |
-| language      | en                         |
-| dimension     | 100                        |
+| Model Name    | embeddings_healthcare_100d |
+| Type          | WordEmbeddingsModel        |
+| Compatibility | 2.5.0                      |
+| License       | Licensed                   |
+| Edition       | Healthcare                 |
+| Inputs        | document, token            |
+| Output        | word_embeddings            |
+| Language      | en                         |
+| Dimension     | 100                        |
 

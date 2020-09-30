@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 AN,EUN,GRT,GS,INN,LD,LDS,LIT,MRK,ORG,PER,RR,RS,ST,STR,UN,VO,VS,VT
 
 
@@ -29,7 +29,7 @@ AN,EUN,GRT,GS,INN,LD,LDS,LIT,MRK,ORG,PER,RR,RS,ST,STR,UN,VO,VS,VT
 
 
 {:.btn-box}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/15.German_Legal_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_legal_de_2.5.5_2.4_1599471454959.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/15.German_Legal_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_legal_de_2.5.5_2.4_1599471454959.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ AN,EUN,GRT,GS,INN,LD,LDS,LIT,MRK,ORG,PER,RR,RS,ST,STR,UN,VO,VS,VT
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_legal","de","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_legal","de","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,13 +56,13 @@ val model = NerDLModel.pretrained("ner_legal","de","clinical/models")
 
 {:.table-model}
 |---------------|----------------------------------|
-| name          | ner_legal                        |
-| model_class   | NerDLModel                       |
-| compatibility | 2.5.5                            |
-| license       | Licensed                         |
-| edition       | Legal                            |
-| inputs        | sentence, token, word_embeddings |
-| output        | ner                              |
-| language      | de                               |
-| upstream_deps | embeddings_clinical              |
+| Model Name    | ner_legal                        |
+| Type          | NerDLModel                       |
+| Compatibility | 2.5.5                            |
+| License       | Licensed                         |
+| Edition       | Legal                            |
+| Inputs        | sentence, token, word_embeddings |
+| Output        | ner                              |
+| Language      | de                               |
+| Dependencies  | embeddings_clinical              |
 

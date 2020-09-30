@@ -19,7 +19,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 ICD10-PCS Codes and their normalized definition with `clinical_embeddings`
 
 [https://www.icd10data.com/ICD10PCS/Codes](https://www.icd10data.com/ICD10PCS/Codes)
@@ -37,8 +37,8 @@ Trained on ICD10 Procedure Coding System dataset
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")\
-	.setInputCols("token","chunk_embeddings")\
+model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models") \
+	.setInputCols("token","chunk_embeddings") \
 	.setOutputCol("entity")
 ```
 
@@ -56,14 +56,14 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical"
 
 {:.table-model}
 |----------------|--------------------------------|
-| name           | chunkresolve_icd10pcs_clinical |
-| model_class    | ChunkEntityResolverModel       |
-| compatibility  | 2.4.2                          |
-| license        | Licensed                       |
-| edition        | Healthcare                     |
-| inputs         | token, chunk_embeddings        |
-| output         | entity                         |
-| language       | en                             |
-| case_sensitive | True                           |
-| upstream_deps  | embeddings_clinical            |
+| Model Name     | chunkresolve_icd10pcs_clinical |
+| Type           | ChunkEntityResolverModel       |
+| Compatibility  | 2.4.2                          |
+| License        | Licensed                       |
+| Edition        | Healthcare                     |
+| Inputs         | token, chunk_embeddings        |
+| Output         | entity                         |
+| Language       | en                             |
+| Case Sensitive | True                           |
+| Dependencies   | embeddings_clinical            |
 

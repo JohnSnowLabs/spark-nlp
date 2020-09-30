@@ -19,7 +19,7 @@ Anonymization and DeIdentification model based on outputs from DeId NERs and Rep
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Personal Information in order to deidentify
 
 
@@ -37,8 +37,8 @@ Rule based DeIdentifier based on `ner_deid`
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = DeIdentificationModel.pretrained("deidentify_rb_no_regex","en","clinical/models")\
-	.setInputCols("document","token","chunk")\
+model = DeIdentificationModel.pretrained("deidentify_rb_no_regex","en","clinical/models") \
+	.setInputCols("document","token","chunk") \
 	.setOutputCol("document")
 ```
 
@@ -56,13 +56,13 @@ val model = DeIdentificationModel.pretrained("deidentify_rb_no_regex","en","clin
 
 {:.table-model}
 |---------------|------------------------|
-| name          | deidentify_rb_no_regex |
-| model_class   | DeIdentificationModel  |
-| compatibility | 2.4.5                  |
-| license       | Licensed               |
-| edition       | Healthcare             |
-| inputs        | document, token, chunk |
-| output        | document               |
-| language      | en                     |
-| upstream_deps | ner_deid               |
+| Model Name    | deidentify_rb_no_regex |
+| Type          | DeIdentificationModel  |
+| Compatibility | 2.4.5                  |
+| License       | Licensed               |
+| Edition       | Healthcare             |
+| Inputs        | document, token, chunk |
+| Output        | document               |
+| Language      | en                     |
+| Dependencies  | ner_deid               |
 

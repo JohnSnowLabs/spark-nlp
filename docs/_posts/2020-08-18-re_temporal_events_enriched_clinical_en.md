@@ -19,7 +19,7 @@ Relation Extraction model based on syntactic features using deep learning
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Extracts: Temporal relations (BEFORE, AFTER, SIMULTANEOUS, BEGUN_BY, ENDED_BY, DURING, BEFORE_OVERLAP) between clinical events (`ner_events_clinical`)
 
 [https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/)
@@ -37,8 +37,8 @@ Trained on data gathered and manually annotated by John Snow Labs
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = RelationExtractionModel.pretrained("re_temporal_events_enriched_clinical","en","clinical/models")\
-	.setInputCols("word_embeddings","chunk","pos","dependency")\
+model = RelationExtractionModel.pretrained("re_temporal_events_enriched_clinical","en","clinical/models") \
+	.setInputCols("word_embeddings","chunk","pos","dependency") \
 	.setOutputCol("category")
 ```
 
@@ -56,14 +56,14 @@ val model = RelationExtractionModel.pretrained("re_temporal_events_enriched_clin
 
 {:.table-model}
 |----------------|-----------------------------------------|
-| name           | re_temporal_events_enriched_clinical    |
-| model_class    | RelationExtractionModel                 |
-| compatibility  | 2.5.5                                   |
-| license        | Licensed                                |
-| edition        | Healthcare                              |
-| inputs         | word_embeddings, chunk, pos, dependency |
-| output         | category                                |
-| language       | en                                      |
-| case_sensitive | False                                   |
-| upstream_deps  | embeddings_clinical                     |
+| Model Name     | re_temporal_events_enriched_clinical    |
+| Type           | RelationExtractionModel                 |
+| Compatibility  | 2.5.5                                   |
+| License        | Licensed                                |
+| Edition        | Healthcare                              |
+| Inputs         | word_embeddings, chunk, pos, dependency |
+| Output         | category                                |
+| Language       | en                                      |
+| Case Sensitive | False                                   |
+| Dependencies   | embeddings_clinical                     |
 

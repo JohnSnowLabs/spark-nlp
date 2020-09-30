@@ -33,8 +33,8 @@ Trained on data gathered and manually annotated by John Snow Labs
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = RelationExtractionModel.pretrained("re_human_phenotype_gene_clinical","en","clinical/models")\
-	.setInputCols("word_embeddings","chunk","pos","dependency")\
+model = RelationExtractionModel.pretrained("re_human_phenotype_gene_clinical","en","clinical/models") \
+	.setInputCols("word_embeddings","chunk","pos","dependency") \
 	.setOutputCol("category")
 ```
 
@@ -52,14 +52,14 @@ val model = RelationExtractionModel.pretrained("re_human_phenotype_gene_clinical
 
 {:.table-model}
 |----------------|-----------------------------------------|
-| name           | re_human_phenotype_gene_clinical        |
-| model_class    | RelationExtractionModel                 |
-| compatibility  | 2.5.5                                   |
-| license        | Licensed                                |
-| edition        | Healthcare                              |
-| inputs         | word_embeddings, chunk, pos, dependency |
-| output         | category                                |
-| language       | en                                      |
-| case_sensitive | False                                   |
-| upstream_deps  | embeddings_clinical                     |
+| Model Name     | re_human_phenotype_gene_clinical        |
+| Type           | RelationExtractionModel                 |
+| Compatibility  | 2.5.5                                   |
+| License        | Licensed                                |
+| Edition        | Healthcare                              |
+| Inputs         | word_embeddings, chunk, pos, dependency |
+| Output         | category                                |
+| Language       | en                                      |
+| Case Sensitive | False                                   |
+| Dependencies   | embeddings_clinical                     |
 

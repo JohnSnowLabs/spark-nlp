@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 BIOLOGICAL_CHEMISTRY,BIOLOGICAL_PARAMETER,BODY_FLUID,BODY_PART,DEGREE,DIAGLAB_PROCEDURE,DOSING,LOCAL_SPECIFICATION,MEASUREMENT,MEDICAL_CONDITION,MEDICAL_DEVICE,MEDICAL_SPECIFICATION,MEDICATION,PERSON,PROCESS,STATE_OF_HEALTH,TIME_INFORMATION,TISSUE,TREATMENT
 
 
@@ -29,7 +29,7 @@ BIOLOGICAL_CHEMISTRY,BIOLOGICAL_PARAMETER,BODY_FLUID,BODY_PART,DEGREE,DIAGLAB_PR
 Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with `w2v_cc_300d`
 
 {:.btn-box}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_de_2.5.5_2.4_1599433028253.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_de_2.5.5_2.4_1599433028253.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clin
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_healthcare","de","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_healthcare","de","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,13 +56,13 @@ val model = NerDLModel.pretrained("ner_healthcare","de","clinical/models")
 
 {:.table-model}
 |---------------|----------------------------------|
-| name          | ner_healthcare                   |
-| model_class   | NerDLModel                       |
-| compatibility | 2.5.5                            |
-| license       | Licensed                         |
-| edition       | Healthcare                       |
-| inputs        | sentence, token, word_embeddings |
-| output        | ner                              |
-| language      | de                               |
-| upstream_deps | FILLUP                           |
+| Model Name    | ner_healthcare                   |
+| Type          | NerDLModel                       |
+| Compatibility | 2.5.5                            |
+| License       | Licensed                         |
+| Edition       | Healthcare                       |
+| Inputs        | sentence, token, word_embeddings |
+| Output        | ner                              |
+| Language      | de                               |
+| Dependencies  | FILLUP                           |
 

@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Neoplasms NER is a Named Entity Recognition model that annotates text to find references to tumors. The only entity it annotates is MalignantNeoplasm. Neoplasms NER is trained with the 'embeddings_scielowiki_300d' word embeddings model, so be sure to use the same embeddings in the pipeline.
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 MORFOLOGIA_NEOPLASIA
 
 [https://temu.bsc.es/cantemist/](https://temu.bsc.es/cantemist/)
@@ -37,8 +37,8 @@ Named Entity Recognition model for Neoplasic Morphology
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_neoplasms","es","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_neoplasms","es","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_neoplasms","es","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_neoplasms                    |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.5.3                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | es                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_scielowiki_300d       |
+| Model Name     | ner_neoplasms                    |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.5.3                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | es                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_scielowiki_300d       |
 

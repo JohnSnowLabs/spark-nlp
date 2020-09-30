@@ -33,8 +33,8 @@ Trained with MedPost dataset
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PerceptronModel.pretrained("pos_clinical","en","clinical/models")\
-	.setInputCols("token","sentence")\
+model = PerceptronModel.pretrained("pos_clinical","en","clinical/models") \
+	.setInputCols("token","sentence") \
 	.setOutputCol("pos")
 ```
 
@@ -52,13 +52,13 @@ val model = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
 
 {:.table-model}
 |---------------|---------------------|
-| name          | pos_clinical        |
-| model_class   | PerceptronModel     |
-| compatibility | 2.0.2               |
-| license       | Licensed            |
-| edition       | Healthcare          |
-| inputs        | token, sentence     |
-| output        | pos                 |
-| language      | en                  |
-| upstream_deps | embeddings_clinical |
+| Model Name    | pos_clinical        |
+| Type          | PerceptronModel     |
+| Compatibility | 2.0.2               |
+| License       | Licensed            |
+| Edition       | Healthcare          |
+| Inputs        | token, sentence     |
+| Output        | pos                 |
+| Language      | en                  |
+| Dependencies  | embeddings_clinical |
 

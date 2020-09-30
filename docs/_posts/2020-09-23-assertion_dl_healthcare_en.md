@@ -19,7 +19,7 @@ Assertion of Clinical Entities based on Deep Learning
 Deep learning named entity recognition model for assertions 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 hypothetical, present, absent, possible, conditional, associated_with_someone_else
 
 [https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/)
@@ -37,8 +37,8 @@ Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clin
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical/models")\
-	.setInputCols("document","chunk","word_embeddings")\
+model = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical/models") \
+	.setInputCols("document","chunk","word_embeddings") \
 	.setOutputCol("assertion")
 ```
 
@@ -56,14 +56,14 @@ val model = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | assertion_dl_healthcare          |
-| model_class    | AssertionDLModel                 |
-| compatibility  | 2.6.0                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | document, chunk, word_embeddings |
-| output         | assertion                        |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_healthcare_100d       |
+| Model Name     | assertion_dl_healthcare          |
+| Type           | AssertionDLModel                 |
+| Compatibility  | 2.6.0                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | document, chunk, word_embeddings |
+| Output         | assertion                        |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_healthcare_100d       |
 

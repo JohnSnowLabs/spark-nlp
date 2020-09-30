@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for posology, this NER is trained with the 'embeddings_clinical' word embeddings model, so be sure to use the same embeddings in the pipeline
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 DOSAGE,DRUG,DURATION,FORM,FREQUENCY,ROUTE,STRENGTH
 
 [https://open.fda.gov/](https://open.fda.gov/)
@@ -37,8 +37,8 @@ Trained on the 2018 i2b2 dataset and FDA Drug datasets with `embeddings_clinical
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_posology_large","en","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_posology_large","en","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,14 +56,14 @@ val model = NerDLModel.pretrained("ner_posology_large","en","clinical/models")
 
 {:.table-model}
 |----------------|----------------------------------|
-| name           | ner_posology_large               |
-| model_class    | NerDLModel                       |
-| compatibility  | 2.4.2                            |
-| license        | Licensed                         |
-| edition        | Healthcare                       |
-| inputs         | sentence, token, word_embeddings |
-| output         | ner                              |
-| language       | en                               |
-| case_sensitive | False                            |
-| upstream_deps  | embeddings_clinical              |
+| Model Name     | ner_posology_large               |
+| Type           | NerDLModel                       |
+| Compatibility  | 2.4.2                            |
+| License        | Licensed                         |
+| Edition        | Healthcare                       |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | en                               |
+| Case Sensitive | False                            |
+| Dependencies   | embeddings_clinical              |
 

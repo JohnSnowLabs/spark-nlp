@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for diagnostics and procedures in spanish
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 Diagnostico, Procedimiento
 
 [https://temu.bsc.es/codiesp/](https://temu.bsc.es/codiesp/)
@@ -37,8 +37,8 @@ Trained on CodiEsp Challenge dataset trained with `embeddings_scielowiki_300d`
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_diag_proc","es","clinical/models")\
-	.setInputCols("sentence","token","word_embeddings")\
+model = NerDLModel.pretrained("ner_diag_proc","es","clinical/models") \
+	.setInputCols("sentence","token","word_embeddings") \
 	.setOutputCol("ner")
 ```
 
@@ -56,13 +56,13 @@ val model = NerDLModel.pretrained("ner_diag_proc","es","clinical/models")
 
 {:.table-model}
 |---------------|----------------------------------|
-| name          | ner_diag_proc                    |
-| model_class   | NerDLModel                       |
-| compatibility | 2.5.3                            |
-| license       | Licensed                         |
-| edition       | Healthcare                       |
-| inputs        | sentence, token, word_embeddings |
-| output        | ner                              |
-| language      | es                               |
-| upstream_deps | embeddings_scielowiki_300d       |
+| Model Name    | ner_diag_proc                    |
+| Type          | NerDLModel                       |
+| Compatibility | 2.5.3                            |
+| License       | Licensed                         |
+| Edition       | Healthcare                       |
+| Inputs        | sentence, token, word_embeddings |
+| Output        | ner                              |
+| Language      | es                               |
+| Dependencies  | embeddings_scielowiki_300d       |
 

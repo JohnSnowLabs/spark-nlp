@@ -19,7 +19,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 
 [https://www.icd10data.com/ICD10CM/Codes/](https://www.icd10data.com/ICD10CM/Codes/)
@@ -29,7 +29,7 @@ ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 Trained on ICD10CM Dataset Range: A000-N989 Except Neoplasms and Musculoskeletal
 
 {:.btn-box}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_diseases_clinical_en_2.4.5_2.4_1588105984876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_diseases_clinical_en_2.4.5_2.4_1588105984876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -37,8 +37,8 @@ Trained on ICD10CM Dataset Range: A000-N989 Except Neoplasms and Musculoskeletal
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_diseases_clinical","en","clinical/models")\
-	.setInputCols("token","chunk_embeddings")\
+model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_diseases_clinical","en","clinical/models") \
+	.setInputCols("token","chunk_embeddings") \
 	.setOutputCol("entity")
 ```
 
@@ -56,14 +56,14 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_diseases_c
 
 {:.table-model}
 |----------------|----------------------------------------|
-| name           | chunkresolve_icd10cm_diseases_clinical |
-| model_class    | ChunkEntityResolverModel               |
-| compatibility  | 2.4.5                                  |
-| license        | Licensed                               |
-| edition        | Healthcare                             |
-| inputs         | token, chunk_embeddings                |
-| output         | entity                                 |
-| language       | en                                     |
-| case_sensitive | True                                   |
-| upstream_deps  | embeddings_clinical                    |
+| Model Name     | chunkresolve_icd10cm_diseases_clinical |
+| Type           | ChunkEntityResolverModel               |
+| Compatibility  | 2.4.5                                  |
+| License        | Licensed                               |
+| Edition        | Healthcare                             |
+| Inputs         | token, chunk_embeddings                |
+| Output         | entity                                 |
+| Language       | en                                     |
+| Case Sensitive | True                                   |
+| Dependencies   | embeddings_clinical                    |
 

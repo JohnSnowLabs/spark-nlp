@@ -19,7 +19,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 
 
 {:.h2_title}
-## Prediction Domain
+## Prediction Labels
 LOINC Codes and ther Standard Name with `clinical_embeddings`
 
 [https://loinc.org/](https://loinc.org/)
@@ -37,8 +37,8 @@ Trained on LOINC dataset with `embeddings_clinical`
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinical","en","clinical/models")\
-	.setInputCols("token","chunk_embeddings")\
+model = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinical","en","clinical/models") \
+	.setInputCols("token","chunk_embeddings") \
 	.setOutputCol("entity")
 ```
 
@@ -56,14 +56,14 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinical","e
 
 {:.table-model}
 |----------------|-----------------------------|
-| name           | chunkresolve_loinc_clinical |
-| model_class    | ChunkEntityResolverModel    |
-| compatibility  | 2.5.0                       |
-| license        | Licensed                    |
-| edition        | Healthcare                  |
-| inputs         | token, chunk_embeddings     |
-| output         | entity                      |
-| language       | en                          |
-| case_sensitive | True                        |
-| upstream_deps  | embeddings_clinical         |
+| Model Name     | chunkresolve_loinc_clinical |
+| Type           | ChunkEntityResolverModel    |
+| Compatibility  | 2.5.0                       |
+| License        | Licensed                    |
+| Edition        | Healthcare                  |
+| Inputs         | token, chunk_embeddings     |
+| Output         | entity                      |
+| Language       | en                          |
+| Case Sensitive | True                        |
+| Dependencies   | embeddings_clinical         |
 
