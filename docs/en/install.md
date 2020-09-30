@@ -4,7 +4,7 @@ header: true
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2020-08-03"
+modify_date: "2020-09-30"
 ---
 
 ## Spark NLP Cheat Sheet
