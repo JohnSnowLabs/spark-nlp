@@ -206,9 +206,9 @@ SPARK_NLP_LICENSE=zzz
 
     3.3. For Spark NLP Licensed version, also do the following:
 
-        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark_nlp_jsl-${version}-py3-none-any.whl`
+    3.3.1. Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark_nlp_jsl-${version}-py3-none-any.whl`
 
-        - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
+    3.3.2. Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
