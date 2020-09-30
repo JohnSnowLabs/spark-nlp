@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner DL Model Posology Large
+title: Posology Large
 author: John Snow Labs
 name: ner_posology_large
 class: NerDLModel
@@ -23,7 +23,7 @@ Pretrained named entity recognition deep learning model for posology, this NER i
 DOSAGE, DRUG, DURATION, FORM, FREQUENCY, ROUTE, STRENGTH
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_large_en_2.4.2_2.4_1587513302751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
