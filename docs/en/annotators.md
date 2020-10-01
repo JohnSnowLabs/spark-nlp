@@ -4,7 +4,7 @@ header: true
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-09-11"
+modify_date: "2020-10-01"
 use_language_switcher: "Python-Scala"
 ---
 
@@ -71,7 +71,6 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |NGramGenerator|integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library|Opensource|
 |DateMatcher|Reads from different forms of date and time expressions and converts them to a provided date format|Opensource|
 |SentenceDetector|Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter|Opensource|
-|DeepSentenceDetector|Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model|Opensource|
 |POSTagger|Sets a Part-Of-Speech tag to each word within a sentence. |Opensource|
 |ViveknSentimentDetector|Scores a sentence for a sentiment|Opensource|
 |SentimentDetector|Scores a sentence for a sentiment|Opensource|
@@ -567,44 +566,6 @@ sentence_detector = SentenceDetector() \
 val sentenceDetector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentence")
-```
-
-</div></div><div class="h3-box" markdown="1">
-
-## DeepSentenceDetector
-
-Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model.       
-The Chunk column should be generated via the NER Converter annotator from the outputs of a NER annoator.       
-**Output type:** Document    
-**Input types:** Document, Token, Chunk    
-**Reference:** [DeepSentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/deep/DeepSentenceDetector.scala)  
-**Functions:**
-
-- setIncludePragmaticSegmenter(bool): Whether to include rule-based sentence detector as first filter. Defaults to false.
-- setEndPunctuation(patterns): An array of symbols that deep sentence detector will consider as an end of sentence punctuation. Defaults to ".", "!", "?"
-
-**Example:**
-
-Refer to the [DeepSentenceDetector](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector) Scala docs for more details on the API.
-
-<div class="tabs-box" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-deep_sentence_detector = DeepSentenceDetector() \
-    .setInputCols(["document", "token", "chunk_from_ner_converter"]) \
-    .setOutputCol("sentence") \
-    .setIncludePragmaticSegmenter(True) \
-    .setEndPunctuation([".", "?"])
-```
-
-```scala
-val deepSentenceDetector = new DeepSentenceDetector()
-    .setInputCols(Array("document", "token", "ner_con"))
-    .setOutputCol("sentence")
-    .setIncludePragmaticSegmenter(true)
-    .setEndPunctuation(Array(".", "?"))
 ```
 
 </div></div><div class="h3-box" markdown="1">
@@ -1551,7 +1512,8 @@ val nerTagger = new NerDLApproach()
 ## NER Converter (Converts IOB or IOB2 representation of NER to user-friendly)
 
 NER Converter used to finalize work of NER annotators. Combines entites with types `B-`, `I-` and etc. to the Chunks with Named entity in the metadata field (if LightPipeline is used can be extracted after `fullAnnotate()`)
-This NER converter can be used to the output of a NER model into the ner chunk format which is expected for the DeepSentenceDetector annotator.
+
+This NER converter can be used to the output of a NER model into the ner chunk format.
 
 **Output type:** Chunk
 **Input types:** Document, Token, Named_Entity
@@ -1586,10 +1548,10 @@ val nerConverter = new NerConverter()
 ## Norvig SpellChecker
 
 This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary  
-**Output type:** Token    
-**Input types:** Token    
-**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.     
-**Train Data:** train_corpus is a spark dataset of text content     
+**Output type:** Token
+**Input types:** Token
+**Inputs:** Any text for corpus. A list of words for dictionary. A comma separated custom dictionary.
+**Train Data:** train_corpus is a spark dataset of text content
 **Reference:** [NorvigSweetingApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala) | [NorvigSweetingModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala)  
 **Functions:**
 

@@ -1,4 +1,32 @@
 ========
+2.6.2
+========
+---------------
+New Features
+---------------
+* Introducing a new SentenceDetectorDL
+
+----------------
+Enhancements
+----------------
+* Improved BioBERT models quality for BertEmbeddings (it achieves higher accuracy in sequence classification)
+* Improved Sentence BioBERT models quality for BertSentenceEmbeddings (it achieves higher accuracy in text classification)
+* Add unit test to MultiClassifierDL annotator
+* Better error handling in SentimentDLApproach
+* Improve loadSavedModel in BertEmbeddings and BertSentenceEmbeddings
+
+----------------
+Bugfixes
+----------------
+* Fix BERT LaBSE model for BertSentenceEmbeddings
+* Fix loadSavedModel for BertSentenceEmbeddings in Python
+
+---------------
+Deprecations
+---------------
+* DeepSentenceDetector is deprecated in favor of SentenceDetectorDL
+
+========
 2.6.1
 ========
 ----------------

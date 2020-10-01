@@ -20,7 +20,6 @@ ner.dl = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
 sbd.pragmatic = sys.modules[__name__]
-sbd.deep = sys.modules[__name__]
 sda = sys.modules[__name__]
 sda.pragmatic = sys.modules[__name__]
 sda.vivekn = sys.modules[__name__]
@@ -38,7 +37,7 @@ ld = sys.modules[__name__]
 ld.dl = sys.modules[__name__]
 keyword = sys.modules[__name__]
 keyword.yake = sys.modules[__name__]
-
+sentence_detector_dl = sys.modules[__name__]
 
 class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
@@ -957,49 +956,6 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             minLength=0,
             maxLength=99999
         )
-
-
-class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
-
-    includesPragmaticSegmenter = Param(Params._dummy(),
-                                       "includesPragmaticSegmenter",
-                                       "Whether to include rule-based sentence detector as first filter",
-                                       typeConverter=TypeConverters.toBoolean)
-
-    endPunctuation = Param(
-        Params._dummy(), "endPunctuation",
-        "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
-        typeConverter=TypeConverters.toListString)
-
-    name = "DeepSentenceDetector"
-
-    def setIncludePragmaticSegmenter(self, value):
-        return self._set(includesPragmaticSegmenter=value)
-
-    def setEndPunctuation(self, value):
-        return self._set(endPunctuation=value)
-
-    def setExplodeSentences(self, value):
-        return self._set(explodeSentences=value)
-
-    def setCustomBounds(self, value):
-        return self._set(customBounds=value)
-
-    def setUseAbbreviations(self, value):
-        return self._set(useAbbreviations=value)
-
-    def setUseCustomBoundsOnly(self, value):
-        return self._set(useCustomBoundsOnly=value)
-
-    def setSplitLength(self, value):
-        return self._set(splitLength=value)
-
-    @keyword_only
-    def __init__(self):
-        super(DeepSentenceDetector, self).__init__(
-            classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
-        self._setDefault(includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
-                         explodeSentences=False)
 
 
 class SentimentDetector(AnnotatorApproach):
@@ -2974,3 +2930,77 @@ class YakeModel(AnnotatorModel):
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
 
+
+class SentenceDetectorDLModel(AnnotatorModel):
+    name = "SentenceDetectorDLModel"
+
+    modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
+                              typeConverter=TypeConverters.toString)
+
+    def setModel(self, modelArchitecture):
+        return self._set(modelArchitecture=modelArchitecture)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel",
+                 java_model=None):
+        super(SentenceDetectorDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(SentenceDetectorDLModel, name, lang, remote_loc)
+
+
+class SentenceDetectorDLApproach(AnnotatorApproach):
+
+    name = "SentenceDetectorDLApproach"
+
+    modelArchitecture = Param(Params._dummy(),
+                              "modelArchitecture",
+                              "Model architecture (CNN)",
+                              typeConverter=TypeConverters.toString)
+
+    impossiblePenultimates = Param(Params._dummy(),
+                                   "impossiblePenultimates",
+                                   "Impossible penultimates - list of strings which a sentence can't end with",
+                                   typeConverter=TypeConverters.toListString)
+
+    validationSplit = Param(Params._dummy(),
+                            "validationSplit",
+                            "Choose the proportion of training dataset to be validated against the model on each "
+                            "Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                            TypeConverters.toFloat)
+
+    epochsNumber = Param(Params._dummy(),
+                         "epochsNumber",
+                         "Number of epochs for the optimization process",
+                         TypeConverters.toInt)
+
+    outputLogsPath = Param(Params._dummy(),
+                           "outputLogsPath",
+                           "Path to folder where logs will be saved. If no path is specified, no logs are generated",
+                           TypeConverters.toString)
+
+    def setModel(self, model_architecture):
+        return self._set(modelArchitecture=model_architecture)
+
+    def setValidationSplit(self, validation_split):
+        return self._set(validationSplit=validation_split)
+
+    def setEpochsNumber(self, epochs_number):
+        return self._set(epochsNumber=epochs_number)
+
+    def setOutputLogsPath(self, output_logs_path):
+        return self._set(outputLogsPath=output_logs_path)
+
+    def setImpossiblePenultimates(self, impossible_penultimates):
+        return self._set(impossiblePenultimates=impossible_penultimates)
+
+    def _create_model(self, java_model):
+        return SentenceDetectorDLModel(java_model=java_model)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach"):
+        super(SentenceDetectorDLApproach, self).__init__(classname=classname)

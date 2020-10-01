@@ -101,3 +101,30 @@ spark = SparkSession.builder \
     .config("spark.jars", "https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar") \
     .getOrCreate()
 ```
+
+### Install Spark NLP for Healthcare on Databricks
+
+1. Create a cluster if you don't have one already
+2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
+
+    ```bash
+    spark.kryoserializer.buffer.max 1000M
+    spark.serializer org.apache.spark.serializer.KryoSerializer
+    ```
+      -  Please add the following to the `Advanced Options -> Spark` tab, in `Environment Variables` box:
+
+    ```bash
+    AWS_ACCESS_KEY_ID=xxx
+    AWS_SECRET_ACCESS_KEY=yyy
+    SPARK_NLP_LICENSE=zzz
+    ```
+
+3. In `Libraries` tab inside your cluster you need to follow these steps:
+ - Install New -> PyPI -> `spark-nlp` -> Install
+ - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1` -> Install
+ - Please add following jars:
+        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark_nlp_jsl-${version}-py3-none-any.whl`
+        - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
+4. Now you can attach your notebook to the cluster and use Spark NLP!
+
+</div>
