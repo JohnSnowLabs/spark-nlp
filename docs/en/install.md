@@ -188,20 +188,11 @@ Spark NLP 2.6.2 has been tested and is compatible with the following runtimes: 6
     spark.kryoserializer.buffer.max 1000M
     spark.serializer org.apache.spark.serializer.KryoSerializer
     ```
-      -  For Spark NLP Licensed version, also add the following to the `Advanced Options -> Spark` tab, in `Environment Variables` box:
-
-    ```bash
-    AWS_ACCESS_KEY_ID=xxx
-    AWS_SECRET_ACCESS_KEY=yyy
-    SPARK_NLP_LICENSE=zzz
-    ```
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
  - Install New -> PyPI -> `spark-nlp` -> Install
- - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1` -> Install
- - For Spark NLP Licensed version, also do the following:
-        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark_nlp_jsl-${version}-py3-none-any.whl`
-        - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
+ - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2` -> Install
+
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
 </div>
