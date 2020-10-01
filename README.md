@@ -58,6 +58,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Chunking
 * Date Matcher
 * Sentence Detector
+* Deep Sentence Detector (Deep learning)
 * Part-of-speech tagging
 * Sentiment Detection (ML models)
 * Spell Checker (ML and DL models)
