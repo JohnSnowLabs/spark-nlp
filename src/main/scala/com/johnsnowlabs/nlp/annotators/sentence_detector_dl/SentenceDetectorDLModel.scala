@@ -184,7 +184,7 @@ class SentenceDetectorDLModel(override val uid: String)
     var startPos = 0
     val skipChars = getEncoder.getSkipChars
 
-    getEncoder.getEOSPositions(text, getImpossiblePenultimates).map(ex => {
+    val sentences = getEncoder.getEOSPositions(text, getImpossiblePenultimates).map(ex => {
       val (pos, vector) = ex
       val output = getTFClassifier.predict(Array(vector))
       val posActivation = output._2(0)
@@ -206,6 +206,12 @@ class SentenceDetectorDLModel(override val uid: String)
         s
 
       })
+
+      sentences ++ (
+        if (startPos < text.length)
+          Array((startPos, text.length, text.slice(startPos, text.length))).toIterator
+        else
+          Array().toIterator)
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
