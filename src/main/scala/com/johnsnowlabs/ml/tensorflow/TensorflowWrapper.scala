@@ -72,7 +72,7 @@ class TensorflowWrapper(
     msession
   }
 
-  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
+  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true): Session = {
 
     if (msession == null){
       logger.debug("Restoring TF Hub session from bytes")
@@ -98,11 +98,18 @@ class TensorflowWrapper(
       // create the session and load the variables
       val session = new Session(g, config)
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
-      session.runner
-        .addTarget("save/restore_all")
-        .addTarget("init_all_tables")
-        .feed("save/Const", t.createTensor(variablesPath))
-        .run()
+      if(initAllTables) {
+        session.runner
+          .addTarget("save/restore_all")
+          .addTarget("init_all_tables")
+          .feed("save/Const", t.createTensor(variablesPath))
+          .run()
+      }else{
+        session.runner
+          .addTarget("save/restore_all")
+          .feed("save/Const", t.createTensor(variablesPath))
+          .run()
+      }
 
       //delete variable files
       Files.delete(varData)
