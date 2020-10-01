@@ -255,7 +255,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -280,7 +280,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
 
     new BertSentenceEmbeddings()
       .setVocabulary(words)
