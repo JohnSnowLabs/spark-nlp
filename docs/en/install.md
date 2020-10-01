@@ -4,7 +4,7 @@ header: true
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2020-10-01"
+modify_date: "2020-09-30"
 ---
 
 ## Spark NLP Cheat Sheet
@@ -176,25 +176,32 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 Spark NLP 2.6.2 has been tested and is compatible with the following runtimes: 6.2, 6.2 ML, 6.3, 6.3 ML, 6.4, 6.4 ML, 6.5, 6.5 ML
 
-</div><div class="h3-box" markdown="1">
+</div>
+<div class="h3-box" markdown="1">
 
 ### Install Spark NLP on Databricks
 
 1. Create a cluster if you don't have one already
+2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
 
-2. On a new cluster or existing one you need to add the following to the `Aadvanced Options -> Spark` tab:
+    ```bash
+    spark.kryoserializer.buffer.max 1000M
+    spark.serializer org.apache.spark.serializer.KryoSerializer
+    ```
+      -  For Spark NLP Licensed version, also add the following to the `Advanced Options -> Spark` tab, in `Environment Variables` box:
 
-```bash
-spark.kryoserializer.buffer.max 1000M
-spark.serializer org.apache.spark.serializer.KryoSerializer
-```
+    ```bash
+    AWS_ACCESS_KEY_ID=xxx
+    AWS_SECRET_ACCESS_KEY=yyy
+    SPARK_NLP_LICENSE=zzz
+    ```
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
-
-    3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
-
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2` -> Install
-
+ - Install New -> PyPI -> `spark-nlp` -> Install
+ - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1` -> Install
+ - For Spark NLP Licensed version, also do the following:
+        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark_nlp_jsl-${version}-py3-none-any.whl`
+        - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
 </div>

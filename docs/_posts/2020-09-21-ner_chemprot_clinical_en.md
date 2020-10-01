@@ -12,7 +12,8 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 This is a pre-trained model that can be used to automatically detect all chemical compounds and gene mentions from medical texts. 
-## Predicted Entities: CHEMICAL, GENE-Y, GENE-N
+## Predicted Entities: 
+CHEMICAL, GENE-Y, GENE-N
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}
@@ -54,14 +55,14 @@ results = light_pipeline.fullAnnotate("Keratinocyte growth factor and acidic fib
 ```
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_chemprot_clinical|
 |Type:|ner|
 |Compatibility:|Spark NLP for Healthcare 2.6.0 +|
-|Edition:|Healthcare|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|

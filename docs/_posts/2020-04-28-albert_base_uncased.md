@@ -14,6 +14,8 @@ use_language_switcher: "Python-Scala-Java"
 ALBERT is "A Lite" version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper "[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)"
 
 {:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_en_2.5.0_2.4_1588073363475.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -39,13 +41,13 @@ val embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en")
 </div>
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|albert_base_uncased|
 |Type:|embeddings|
-|Compatibility:|Spark NLP 2.5.0|
+|Compatibility:|Spark NLP 2.5.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
@@ -56,5 +58,5 @@ val embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en")
 
 
 {:.h2_title}
-## Source
+## Data Source
 The model is imported from [https://tfhub.dev/google/albert_base/3](https://tfhub.dev/google/albert_base/3)

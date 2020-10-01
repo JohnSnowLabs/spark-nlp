@@ -41,7 +41,7 @@ val ner = NerDLModel.pretrained("ner_clinical_large", "en")
 </div>
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
@@ -50,12 +50,12 @@ val ner = NerDLModel.pretrained("ner_clinical_large", "en")
 |Compatibility:| Spark NLP for Healthcare 2.5.0+|
 |License:|Licensed|
 |Edition:|Official|
-|Input Labels:|sentence, token, embeddings|
-|Output Labels:|ner|
+|Input Labels:|[sentence, token, embeddings]|
+|Output Labels:|[ner]|
 |Language:|en|
 |Case sensitive:|false|
 
 
 {:.h2_title}
-## Source
+## Data Source
 The model is imported from [https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/)

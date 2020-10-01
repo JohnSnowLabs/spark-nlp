@@ -4,7 +4,7 @@ title: Deidentify (Large)
 author: John Snow Labs
 name: deidentify_large
 date: 2020-08-04
-tags: [deid, en, licensed]
+tags: [deidentify, en, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,7 +43,7 @@ val deid = DeIdentificationModel.pretrained("deidentify_large", "en")
 </div>
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
@@ -52,12 +52,12 @@ val deid = DeIdentificationModel.pretrained("deidentify_large", "en")
 |Compatibility:| Spark NLP for Healthcare 2.5.5|
 |License:|Licensed|
 |Edition:|Official|
-|Input Labels:|sentence, token, ner_chunk|
-|Output Labels:|obfuscated|
+|Input Labels:|[sentence, token, ner_chunk]|
+|Output Labels:|[obfuscated]|
 |Language:|en|
 |Case sensitive:|false|
 
 
 {:.h2_title}
-## Source
-The model is imported from [https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)
+## Data Source
+The model was trained based on data from [https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/)

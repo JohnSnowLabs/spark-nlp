@@ -13,8 +13,6 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 The *explain_document_dl* is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps.
 
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
-
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/explain-document-ml/explain_document_ml.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
@@ -28,7 +26,6 @@ The *explain_document_dl* is a pretrained pipeline that we can use to process te
 
 ```scala
 
-code example
 ```
 
 ```python
@@ -37,15 +34,26 @@ pipeline = PretrainedPipeline('explain_document_dl', lang =' en').annotate(' Hel
 ```
 
 </div>
+## Results
+
+{:.result_box}
+```bash
++--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|                text|            document|            sentence|               token|               spell|              lemmas|               stems|                 pos|
++--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+|French author who...|[[document, 0, 23...|[[document, 0, 57...|[[token, 0, 5, Fr...|[[token, 0, 5, Fr...|[[token, 0, 5, Fr...|[[token, 0, 5, fr...|[[pos, 0, 5, JJ, ...|
++--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+
+```
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|explain_document_dl|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 2.5.5|
+|Compatibility:|Spark NLP 2.5.5+|
 |License:|Open Source|
 |Edition:|Community|
 |Language:|[en]|
@@ -61,99 +69,3 @@ The explain_document_ml has one Transformer and six annotators:
 - Lemmatizer - An annotator that produces the lemmas of the tokens. 
 - POS Tagger - An annotator that produces the parts of speech of the associated tokens.
 
-## Results
-
-{:.result_box}
-```python
-
-result = pipeline.annotate(testDoc, "text")
-result.printSchema()
-result.show()
-
-root
- |-- text: string (nullable = true)
- |-- document: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- sentence: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- token: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- spell: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- lemmas: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- stems: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
- |-- pos: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- annotatorType: string (nullable = true)
- |    |    |-- begin: integer (nullable = false)
- |    |    |-- end: integer (nullable = false)
- |    |    |-- result: string (nullable = true)
- |    |    |-- metadata: map (nullable = true)
- |    |    |    |-- key: string
- |    |    |    |-- value: string (valueContainsNull = true)
- |    |    |-- embeddings: array (nullable = true)
- |    |    |    |-- element: float (containsNull = false)
-
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|                text|            document|            sentence|               token|               spell|              lemmas|               stems|                 pos|
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|French author who...|[[document, 0, 23...|[[document, 0, 57...|[[token, 0, 5, Fr...|[[token, 0, 5, Fr...|[[token, 0, 5, Fr...|[[token, 0, 5, fr...|[[pos, 0, 5, JJ, ...|
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-
-```

@@ -14,11 +14,8 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained named entity recognition deep learning model for clinical events. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
-{:.h2_title}
 ## Predicted Entities 
 Date,Time,Problem,Test,Treatment,Occurence,Clinical_Dept,Evidential,Duration,Frequency,Admission,Discharge
-
-[//]: <[Live Demo](){:.button.button-orange}{:target="_blank"}>
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -40,11 +37,9 @@ clinical_ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/mode
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[clinical_ner])
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(data)
 
@@ -64,16 +59,21 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ```
 
 </div>
+{:.h2_title}
+## Results
+The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
+
+![image](/assets/images/ner_clinical.png) 
 
 {:.model-param}
-## Model Parameters
+## Model Information
 
 {:.table-model}
 |---|---|
 |Model Name:|ner_events_clinical_en_2.5.0_2.4|
 |Type:|ner|
-|Compatibility:|Spark NLP 2.5.0|
-|Edition:|Healthcare|
+|Compatibility:|Spark NLP 2.5.0+|
+|Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence,token, embeddings]|
 |Output Labels:|[ner]|
@@ -81,12 +81,7 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 |Case sensitive:|false|
 
 {:.h2_title}
-## Dataset used for training
+## Data Source
 Trained on i2b2 events data with 'clinical_embeddings'. 
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
-{:.h2_title}
-## Results
-The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
-
-![image](/assets/images/ner_clinical.png) 
