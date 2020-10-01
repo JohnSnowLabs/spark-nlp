@@ -20,7 +20,6 @@ ner.dl = sys.modules[__name__]
 regex = sys.modules[__name__]
 sbd = sys.modules[__name__]
 sbd.pragmatic = sys.modules[__name__]
-sbd.deep = sys.modules[__name__]
 sda = sys.modules[__name__]
 sda.pragmatic = sys.modules[__name__]
 sda.vivekn = sys.modules[__name__]
@@ -957,49 +956,6 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
             minLength=0,
             maxLength=99999
         )
-
-
-class DeepSentenceDetector(AnnotatorModel, SentenceDetectorParams):
-
-    includesPragmaticSegmenter = Param(Params._dummy(),
-                                       "includesPragmaticSegmenter",
-                                       "Whether to include rule-based sentence detector as first filter",
-                                       typeConverter=TypeConverters.toBoolean)
-
-    endPunctuation = Param(
-        Params._dummy(), "endPunctuation",
-        "An array of symbols that deep sentence detector will consider as end of sentence punctuation",
-        typeConverter=TypeConverters.toListString)
-
-    name = "DeepSentenceDetector"
-
-    def setIncludePragmaticSegmenter(self, value):
-        return self._set(includesPragmaticSegmenter=value)
-
-    def setEndPunctuation(self, value):
-        return self._set(endPunctuation=value)
-
-    def setExplodeSentences(self, value):
-        return self._set(explodeSentences=value)
-
-    def setCustomBounds(self, value):
-        return self._set(customBounds=value)
-
-    def setUseAbbreviations(self, value):
-        return self._set(useAbbreviations=value)
-
-    def setUseCustomBoundsOnly(self, value):
-        return self._set(useCustomBoundsOnly=value)
-
-    def setSplitLength(self, value):
-        return self._set(splitLength=value)
-
-    @keyword_only
-    def __init__(self):
-        super(DeepSentenceDetector, self).__init__(
-            classname="com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector")
-        self._setDefault(includesPragmaticSegmenter=False, endPunctuation=[".", "!", "?"],
-                         explodeSentences=False)
 
 
 class SentimentDetector(AnnotatorApproach):
