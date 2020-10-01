@@ -2,8 +2,8 @@
 layout: model
 title: BioBERT Pubmed PMC
 author: John Snow Labs
-name: biobert_pubmed_pmc_base_cased
-date: 2020-07-20
+name: sent_biobert_pubmed_pmc_base_cased
+date: 2020-09-19
 tags: [embeddings, en, open_source]
 article_header:
   type: cover
@@ -16,7 +16,7 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_pmc_base_cased_en_2.5.0_2.4_1590489367180.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_biobert_pubmed_pmc_base_cased_en_2.6.2_2.4_1600533114335.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -26,16 +26,16 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 
 ```python
 
-embeddings = BertEmbeddings.pretrained("biobert_pubmed_pmc_base_cased", "en") \
-      .setInputCols("sentence", "token") \
-      .setOutputCol("embeddings")
+embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_pmc_base_cased", "en") \
+      .setInputCols("sentence") \
+      .setOutputCol("sentence_embeddings")
 ```
 
 ```scala
 
-val embeddings = BertEmbeddings.pretrained("biobert_pubmed_pmc_base_cased", "en")
-      .setInputCols("sentence", "token")
-      .setOutputCol("embeddings")
+val embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_pmc_base_cased", "en")
+      .setInputCols("sentence")
+      .setOutputCol("sentence_embeddings")
 ```
 
 </div>
@@ -45,13 +45,13 @@ val embeddings = BertEmbeddings.pretrained("biobert_pubmed_pmc_base_cased", "en"
 
 {:.table-model}
 |---|---|
-|Model Name:|biobert_pubmed_pmc_base_cased|
+|Model Name:|sent_biobert_pubmed_pmc_base_cased|
 |Type:|embeddings|
-|Compatibility:|Spark NLP 2.5.0+|
+|Compatibility:|Spark NLP 2.6.2|
 |License:|Open Source|
 |Edition:|Official|
-|Input Labels:|[sentence, token]|
-|Output Labels:|[word_embeddings]|
+|Input Labels:|[sentence]|
+|Output Labels:|[sentence_embeddings]|
 |Language:|[en]|
 |Dimension:|768|
 |Case sensitive:|true|
