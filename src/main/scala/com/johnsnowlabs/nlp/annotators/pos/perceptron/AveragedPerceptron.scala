@@ -39,22 +39,20 @@ case class AveragedPerceptron(
       * Return highest tag by score
       *
       */
-    val scoresByTag = features
+    val summedWeights: MMap[String, Double] = MMap.empty
+    features
       .filter{case (feature, value) => featuresWeight.contains(feature) && value != 0}
-      .map{case (feature, value ) =>
+      .foreach{case (feature, value ) =>
         featuresWeight(feature)
-          .map{ case (tag, weight) =>
-            (tag, value * weight)
+          .foreach { case (tag, weight) =>
+            summedWeights.update(tag, summedWeights.getOrElse(tag, 0.0) + (value * weight))
           }
-      }.aggregate(Map[String, Double]())(
-      (tagsScores, tagScore) => tagScore ++ tagsScores.map{case(tag, score) => (tag, tagScore.getOrElse(tag, 0.0) + score)},
-      (pTagScore, cTagScore) => pTagScore.map{case (tag, score) => (tag, cTagScore.getOrElse(tag, 0.0) + score)}
-    )
+      }
     /**
       * ToDo: Watch it here. Because of missing training corpus, default values are made to make tests pass
       * Secondary sort by tag simply made to match original python behavior
       */
-    tags.maxBy{ tag => (scoresByTag.withDefaultValue(0.0)(tag), tag)}
+    tags.maxBy{ tag => (summedWeights.withDefaultValue(0.0)(tag), tag)}
   }
 
   /** @group getParam */
