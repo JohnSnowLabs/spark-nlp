@@ -863,20 +863,8 @@ ul.list1 {
 				margin: 0 0 10px;
 				white-space: normal;
 				&.toc-h3 {
-					padding-left: 15px;
 					margin-bottom: 10px;
 					position: relative;
-					&:before {
-						content: '';
-						position: absolute;
-						left: 4px;
-						top: 8px;
-						display: block;
-						width: 4px;
-						height: 4px;
-						border-radius: 5px;
-						background: $color-blue;
-					}
 				}
 				&.toc-h2 {
 					padding-top: 7px;
