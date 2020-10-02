@@ -134,4 +134,3 @@ spark = SparkSession.builder \
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-</div>
