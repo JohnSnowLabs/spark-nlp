@@ -172,7 +172,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[Out of the box Spark NLP models in action](https://www.johnsnowlabs.com/classification-of-unstructured-documents-esg-taxonomy/)</span><span class="video-descr">White Paper - 2020</span>
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[Classification of Unstructured Documents into the Environmental, Social & Governance (ESG) Taxonomy](https://www.johnsnowlabs.com/classification-of-unstructured-documents-esg-taxonomy/)</span><span class="video-descr">Alina Petukhova - May, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
