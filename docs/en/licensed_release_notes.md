@@ -22,9 +22,9 @@ We are pleased to announce that we have a brand new named entity recognition (NE
 
 ADE NER will have four versions in the library, trained with different size of word embeddings:
 
-`ner_ade_bioert` (768d Bert embeddings)
-`ner_ade_clinicalbert` (768d Bert embeddings)
-`ner_ade_clinical` (200d clinical embeddings)
+`ner_ade_bioert` (768d Bert embeddings)  
+`ner_ade_clinicalbert` (768d Bert embeddings)  
+`ner_ade_clinical` (200d clinical embeddings)  
 `ner_ade_healthcare` (100d healthcare embeddings)
 
 More information and examples [here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb)
@@ -34,7 +34,7 @@ We are also releasing our first clinical pretrained classifier for ADE classific
 ##### Classifiers
 ADE classifier will have two versions in the library, trained with different Bert embeddings:
 
-`classifierdl_ade_bioert` (768d BioBert embeddings)
+`classifierdl_ade_bioert` (768d BioBert embeddings)  
 `classifierdl_adee_clinicalbert` (768d ClinicalBert embeddings)
 
 More information and examples [here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb)
@@ -42,7 +42,7 @@ More information and examples [here](https://colab.research.google.com/github/Jo
 ##### Pipeline
 By combining ADE NER and Classifier, we are releasing a new pretrained clinical pipeline for ADE tasks to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 ```python
-pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
+pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')  
  
 pipeline.annotate('my string')
 ```
@@ -55,10 +55,10 @@ It is named as `chunkresolve_athena_conditions_healthcare`.
 
 We added slim versions of several clinical NER models that are trained with 100d healthcare word embeddings, which is lighter and smaller in size.
 
-`ner_healthcare`
-`assertion_dl_healthcare`
-`ner_posology_healthcare`
-`ner_events_healthcare`
+`ner_healthcare`  
+`assertion_dl_healthcare`  
+`ner_posology_healthcare`  
+`ner_events_healthcare`  
 
 Spark NLP Licensed version has several DL based annotators (modules) such as NerDL, AssertionDL, RelationExtraction and GenericClassifier, and they are all based on Tensorflow (tf) with custom graphs. In order to make the creating and customizing the tf graphs for these models easier for our licensed users, we added a graph builder to the Python side of the library. Now you can customize your graphs and use them in the respected models while training a new DL model.
 
