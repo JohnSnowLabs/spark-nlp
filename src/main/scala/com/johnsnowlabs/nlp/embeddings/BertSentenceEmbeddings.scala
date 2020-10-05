@@ -214,7 +214,7 @@ class BertSentenceEmbeddings(override val uid: String)
         sentences,
         $(batchSize),
         $(maxSentenceLength),
-        $(caseSensitive)
+        true // FixMe: Migrate to batch
       )
     } else {
       Seq.empty[Annotation]
