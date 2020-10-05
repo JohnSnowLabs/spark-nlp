@@ -169,22 +169,20 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
+  def calculateEmbeddings(batch: Seq[WordpieceTokenizedSentence],
                           originalTokenSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
                           maxSentenceLength: Int,
                           caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+                         ): Seq[Seq[WordpieceEmbeddingsSentence]] = {
 
     /*Run embeddings calculation by batches*/
-    sentences.zipWithIndex.grouped(batchSize).flatMap{batch =>
-      val encoded = encode(batch, maxSentenceLength)
+      val encoded = encode(batch.zipWithIndex, maxSentenceLength)
 
       val vectors = tag(encoded)
 
       /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map{case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.tokens.length
+      batch.zip(vectors).zipWithIndex.map{case ((sentence, tokenVectors), bid) =>
+        val tokenLength = sentence.tokens.length
 
         /*All wordpiece embeddings*/
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
@@ -199,10 +197,10 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
+        val tokensWithEmbeddings = sentence.tokens.zip(tokenEmbeddings).flatMap{
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(
+            val originalTokensWithEmbeddings = originalTokenSentences(bid).indexedTokens.find(
               p => p.begin == tokenWithEmbeddings.begin).map{
               case (token) =>
                 val originalTokenWithEmbedding = TokenPieceEmbeddings(
@@ -220,9 +218,8 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
             originalTokensWithEmbeddings
         }
 
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
-      }
-    }.toSeq
+        (bid, WordpieceEmbeddingsSentence(tokensWithEmbeddings, bid))
+      }.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
   }
 
   def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
