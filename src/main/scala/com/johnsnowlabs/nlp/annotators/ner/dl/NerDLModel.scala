@@ -125,16 +125,14 @@ class NerDLModel(override val uid: String)
     encoder.tags
   }
 
-  case class RowIdentifiedSentence(index: Int, sentenceGroup: WordpieceEmbeddingsSentence)
-
-  def tag(tokenized: Array[Array[WordpieceEmbeddingsSentence]]): Seq[Array[NerTaggedSentence]] = {
-    val batch = tokenized.zipWithIndex.flatMap{case (t, i) => t.map(RowIdentifiedSentence(i, _))}
+  def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Seq[Array[NerTaggedSentence]] = {
+    val batch = tokenized
     // Predict
-    val labels = getModelIfNotSet.predict(batch.map(_.sentenceGroup), getConfigProtoBytes, includeConfidence = $(includeConfidence))
+    val labels = getModelIfNotSet.predict(batch, getConfigProtoBytes, includeConfidence = $(includeConfidence))
 
     // Combine labels with sentences tokens
     batch.indices.map { i =>
-      val sentence = batch(i).sentenceGroup
+      val sentence = batch(i)
 
       val tokens = sentence.tokens.indices.flatMap { j =>
         val token = sentence.tokens(j)
@@ -147,7 +145,7 @@ class NerDLModel(override val uid: String)
         }
       }.toArray
 
-      (batch(i).index, new TaggedSentence(tokens))
+      (i, new TaggedSentence(tokens))
     }.toArray.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
   }
 
@@ -177,9 +175,9 @@ class NerDLModel(override val uid: String)
     dataset
   }
 
-  override def batchAnnotate(batchedAnnotations: Array[Seq[Annotation]]): Seq[Seq[Annotation]] = {
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     // Parse
-    val tokenized = batchedAnnotations.map(annotations => WordpieceEmbeddingsSentence.unpack(annotations).toArray)
+    val tokenized = batchedAnnotations.flatMap(annotations => WordpieceEmbeddingsSentence.unpack(annotations)).toArray
 
     // Predict
     val tagged = tag(tokenized)
