@@ -260,6 +260,10 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_3.jpg)[Introducing Spark NLP: State of the art NLP Package (Part-II)](https://www.johnsnowlabs.com/introducing-spark-nlp-state-of-the-art-nlp-package-part-ii/)</span><span class="video-descr">Veysel Kocaman - January 20, 2020</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Automated Adverse Drug Event (ADE) Detection from Text in Spark NLP with BioBert](https://towardsdatascience.com/automated-adverse-drug-event-ade-detection-from-text-in-spark-nlp-with-biobert-837c700f5d8c)</span><span class="video-descr">Veysel Kocaman - Octover 4, 2020</span>
+</div></div>
+
 </div></div>
 
 {:.h2_article}
@@ -299,6 +303,15 @@ modify_date: "2019-05-16"
 
 {:.h2_article}
 ## Spark NLP at Scale
+
+{:.h4_article}
+### Videos
+
+<div class="grid--container container-aside"><div class="grid">
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='fvdJRSQMtoc' -%}<div class="video-descr">Turbocharging State-of-the-art Natural Language Processing on Ray. David Talby - October 3, 2020</div></div></div>
+
+</div></div>
 
 {:.h4_article}
 ### Articles
