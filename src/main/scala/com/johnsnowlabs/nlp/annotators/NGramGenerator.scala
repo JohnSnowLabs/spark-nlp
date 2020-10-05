@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, WithAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
@@ -31,7 +31,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGenerator] {
+class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGenerator] with WithAnnotate[NGramGenerator] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

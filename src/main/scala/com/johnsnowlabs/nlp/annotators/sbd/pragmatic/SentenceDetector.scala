@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, WithAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -27,7 +27,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] with SentenceDetectorParams {
+class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] with WithAnnotate[SentenceDetector] with SentenceDetectorParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

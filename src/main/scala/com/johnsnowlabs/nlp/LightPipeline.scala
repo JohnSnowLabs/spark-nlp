@@ -26,7 +26,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
           val combinedAnnotations =
             recursiveAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(recursiveAnnotator.getOutputCol, recursiveAnnotator.annotate(combinedAnnotations, pipelineModel))
-        case annotator: AnnotatorModel[_] =>
+        case batchedAnnotator: AnnotatorModel[_] with WithBatchAnnotate[_] =>
+          val combinedAnnotations = batchedAnnotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+          // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
+          annotations.updated(batchedAnnotator.getOutputCol, batchedAnnotator.batchAnnotate(Array(combinedAnnotations)).head)
+        case annotator: AnnotatorModel[_] with WithAnnotate[_] =>
           val combinedAnnotations =
             annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))

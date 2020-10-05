@@ -18,7 +18,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, SentenceSplit, TokenizedSentence, TokenizedWithSentence}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, WithAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
@@ -27,7 +27,7 @@ import org.apache.spark.ml.util.Identifiable
   *
   * @see [[RegexTokenizer]]
   */
-class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexTokenizer] {
+class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexTokenizer] with WithAnnotate[RegexTokenizer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

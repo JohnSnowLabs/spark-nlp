@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorModel, AnnotatorType, DocumentAssembler, HasRecursiveFit, HasRecursiveTransform, SparkAccessor}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorModel, AnnotatorType, DocumentAssembler, HasRecursiveFit, HasRecursiveTransform, SparkAccessor, WithAnnotate}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Dataset
 import org.scalatest._
@@ -46,7 +46,7 @@ class RecursiveTestSpec extends FlatSpec {
         assert(recursivePipeline.get.stages.head.isInstanceOf[DocumentAssembler], "because train has not received a document assembler")
         assert(recursivePipeline.get.stages(1).isInstanceOf[TokenizerModel], "because train has not received a document assembler")
 
-        new SomeModel() {
+        new SomeModel() with WithAnnotate[SomeModel] {
           override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
             annotations
           }
@@ -70,7 +70,7 @@ class RecursiveTestSpec extends FlatSpec {
   "Recursive Model" should "receive annotator models in the pipeline" in {
     import com.johnsnowlabs.nlp.recursive._
 
-    val someModel = new SomeModel() {
+    val someModel = new SomeModel() with WithAnnotate[SomeModel] {
       override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
         assert(annotations.nonEmpty, "because received no annotations to annotate")
         assert(annotations.map(_.annotatorType).toSet.size == 1, "because did not get exactly DOCUMENT type annotations")
@@ -104,7 +104,7 @@ class RecursiveTestSpec extends FlatSpec {
 
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
 
-    val someModel = new SomeModel() {
+    val someModel = new SomeModel() with WithAnnotate[SomeModel] {
 
       override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
 
@@ -139,7 +139,7 @@ class RecursiveTestSpec extends FlatSpec {
 
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
 
-    val someModel = new SomeModel() {
+    val someModel = new SomeModel() with WithAnnotate[SomeModel] {
       override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
         throw new IllegalStateException("SomeModel does not accept annotate without recursion")
       }

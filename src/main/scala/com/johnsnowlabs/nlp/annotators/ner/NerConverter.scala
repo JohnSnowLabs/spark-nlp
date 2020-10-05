@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.ner
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesReadable, WithAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -26,7 +26,7 @@ import scala.collection.Map
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter] {
+class NerConverter(override val uid: String) extends AnnotatorModel[NerConverter] with WithAnnotate[NerConverter] {
 
   def this() = this(Identifiable.randomUID("NER_CONVERTER"))
 
