@@ -5,7 +5,7 @@ import org.apache.spark.ml.param.IntParam
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 
-trait WithBatchAnnotate[M <: Model[M]] {
+trait HasBatchedAnnotate[M <: Model[M]] {
 
   this: RawAnnotator[M] =>
 

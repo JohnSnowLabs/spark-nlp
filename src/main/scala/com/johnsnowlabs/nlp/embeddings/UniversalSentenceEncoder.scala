@@ -4,7 +4,7 @@ import java.io.File
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowUSE, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
@@ -40,7 +40,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class UniversalSentenceEncoder(override val uid: String)
-    extends AnnotatorModel[UniversalSentenceEncoder] with WithAnnotate[UniversalSentenceEncoder]
+    extends AnnotatorModel[UniversalSentenceEncoder] with HasSimpleAnnotate[UniversalSentenceEncoder]
     with HasEmbeddingsProperties
     with HasStorageRef
     with WriteTensorflowModel {

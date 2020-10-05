@@ -18,7 +18,7 @@ class SomeApproachTest(override val uid: String) extends AnnotatorApproach[SomeM
   override val outputAnnotatorType: AnnotatorType = "BAR"
 }
 
-class SomeModelTest(override val uid: String) extends AnnotatorModel[SomeModelTest] with WithAnnotate[SomeModelTest] with HasRecursiveTransform[SomeModelTest] {
+class SomeModelTest(override val uid: String) extends AnnotatorModel[SomeModelTest] with HasSimpleAnnotate[SomeModelTest] with HasRecursiveTransform[SomeModelTest] {
 
   def this() = this("bar_uid")
 

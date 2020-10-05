@@ -35,7 +35,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   *
   */
-class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMatcherModel] with WithAnnotate[RegexMatcherModel] {
+class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMatcherModel] with HasSimpleAnnotate[RegexMatcherModel] {
 
   /** Input annotator type: CHUNK
     *

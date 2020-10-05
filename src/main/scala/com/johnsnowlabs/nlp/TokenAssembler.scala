@@ -7,7 +7,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.collection.mutable.ArrayBuffer
 
-class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler] with WithAnnotate[TokenAssembler] {
+class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler] with HasSimpleAnnotate[TokenAssembler] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
