@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
 import org.apache.spark.ml.param.IntParam
@@ -30,7 +30,7 @@ import org.apache.spark.sql.{DataFrame, Row}
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class WordEmbeddingsModel(override val uid: String)
-  extends AnnotatorModel[WordEmbeddingsModel] with WithAnnotate[WordEmbeddingsModel]
+  extends AnnotatorModel[WordEmbeddingsModel] with HasSimpleAnnotate[WordEmbeddingsModel]
     with HasEmbeddingsProperties
     with HasStorageModel
     with ParamsAndFeaturesWritable {

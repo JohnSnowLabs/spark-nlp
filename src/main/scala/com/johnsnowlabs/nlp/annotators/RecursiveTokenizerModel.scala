@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common.{InfixToken, PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesWritable, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesWritable, HasSimpleAnnotate}
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -23,7 +23,7 @@ import org.apache.spark.ml.util.Identifiable
   **/
 class RecursiveTokenizerModel(override val uid: String)
   extends AnnotatorModel[RecursiveTokenizerModel]
-    with WithAnnotate[RecursiveTokenizerModel]
+    with HasSimpleAnnotate[RecursiveTokenizerModel]
     with ParamsAndFeaturesWritable {
 
   /** prefixes

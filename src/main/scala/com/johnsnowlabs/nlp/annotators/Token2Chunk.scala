@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -21,7 +21,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   *
   **/
-class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk] with WithAnnotate[Token2Chunk] {
+class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk] with HasSimpleAnnotate[Token2Chunk] {
 
 
   /** Output Annotator Type : CHUNK

@@ -36,7 +36,7 @@ import org.apache.spark.sql.SparkSession
   **/
 class LanguageDetectorDL(override val uid: String)
   extends AnnotatorModel[LanguageDetectorDL]
-    with WithAnnotate[LanguageDetectorDL]
+    with HasSimpleAnnotate[LanguageDetectorDL]
     with WriteTensorflowModel {
 
   def this() = this(Identifiable.randomUID("LANGUAGE_DETECTOR_DL"))

@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -26,7 +26,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class PerceptronModel(override val uid: String) extends AnnotatorModel[PerceptronModel] with WithAnnotate[PerceptronModel] with PerceptronUtils {
+class PerceptronModel(override val uid: String) extends AnnotatorModel[PerceptronModel] with HasSimpleAnnotate[PerceptronModel] with PerceptronUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

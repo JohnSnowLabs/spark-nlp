@@ -55,7 +55,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   */
 class AlbertEmbeddings(override val uid: String)
   extends AnnotatorModel[AlbertEmbeddings]
-    with WithAnnotate[AlbertEmbeddings]
+    with HasSimpleAnnotate[AlbertEmbeddings]
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with HasEmbeddingsProperties

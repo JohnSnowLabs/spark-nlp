@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.{DependencyParsed, DependencyParsedSentence, PosTagged}
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import org.apache.spark.ml.util.Identifiable
 
 /** Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.
@@ -26,7 +26,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] with WithAnnotate[DependencyParserModel] {
+class DependencyParserModel(override val uid: String) extends AnnotatorModel[DependencyParserModel] with HasSimpleAnnotate[DependencyParserModel] {
   def this() = this(Identifiable.randomUID(DEPENDENCY))
 
   /** Output annotation type : DEPENDENCY
