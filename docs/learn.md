@@ -14,9 +14,13 @@ modify_date: "2019-05-16"
 ## Introductions to Spark NLP
 
 {:.h4_article}
-### Video
+### Videos
 
 <div class="grid--container container-aside"><div class="grid">
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/412399242" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">State of the Art Natural Language Processing at Scale. David Talby - April 13, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='WxPARvMtkK8' -%}<div class="video-descr">Spark NLP: State of the art natural language processing at scale. David Talby - 4 Jun 2020</div></div></div>
+
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='h4rI8v6UjV0' -%}<div class="video-descr">What is Spark NLP. John Snow Labs - 30 Jul 2019</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ziUrLnJ_Y8A' -%}<div class="video-descr">Apache Spark NLP Extending Spark ML to Deliver Fast, Scalable, and Unified Natural Language Process. David Talby - 6 May 2019</div></div></div>
@@ -28,13 +32,16 @@ modify_date: "2019-05-16"
 ### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
-
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[State-of-the-art Natural Language Processing at Scale](https://events.johnsnowlabs.com/state-of-the-art-natural-language-processing-at-scale?hsCtaTracking=29ecddee-3d88-4272-bc32-33b6635d0fa2%7C912a831b-0ad1-4e80-a324-6e607cdd1de2)</span><span class="video-descr">David Talby - April 13, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[Introducing the Natural Language Processing Library for Apache Spark](https://databricks.com/blog/2017/10/19/introducing-natural-language-processing-library-apache-spark.html)</span><span class="video-descr">David Talby - October 19, 2017</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[Introducing the Natural Language Processing Library for Apache Spark](https://databricks.com/blog/2017/10/19/introducing-natural-language-processing-library-apache-spark.html)</span><span class="video-descr">David Talby - October 19, 2017</span>
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[A Google Colab Notebook Introducing Spark NLP](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/1hr_workshop/SparkNLP_openSource_intro.ipynb)</span><span class="video-descr">Veysel Kocaman - September, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[State-of-the-art Natural Language Processing at Scale](https://events.johnsnowlabs.com/state-of-the-art-natural-language-processing-at-scale?hsCtaTracking=29ecddee-3d88-4272-bc32-33b6635d0fa2%7C912a831b-0ad1-4e80-a324-6e607cdd1de2)</span><span class="video-descr">David Talby - April 13, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -59,10 +66,12 @@ modify_date: "2019-05-16"
 ## Spark NLP Tasks & Pipelines
 
 {:.h4_article}
-### Video
+### Videos
 
 <div class="grid--container container-aside"><div class="grid">
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='fsS057SNFtg' -%}<div class="video-descr">Spark NLP Annotators, Annotations and Pipelines. John Snow Labs - 23 Oct 2019</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='fEU37G70SFc' -%}<div class="video-descr">Your first Spark NLP Pipeline. John Snow Labs - 23 Oct 2019</div></div></div>
 </div></div>
 
 {:.h4_article}
@@ -75,15 +84,11 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[Spark NLP Walkthrough, powered by TensorFlow](https://medium.com/@saif1988/spark-nlp-walkthrough-powered-by-tensorflow-9965538663fd)</span><span class="video-descr">Saif Addin Ellafi - Nov 19, 2018</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_4.jpg)[Spark nlp 2.5 delivers state-of-the-art accuracy for spell checking and sentiment analysis](https://www.johnsnowlabs.com/spark-nlp-2-5-delivers-state-of-the-art-accuracy-for-spell-checking-and-sentiment-analysis/)</span><span class="video-descr">Ida Lucente - May 12, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[John Snow Labs sets new accuracy records with its biggest spark nlp release ever](https://www.johnsnowlabs.com/john-snow-labs-announces-its-biggest-spar-nlp-release-ever-spark-nlp-enterprise-2-4-0/)</span><span class="video-descr">Ida Lucente - February 14, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Spark NLP 2.4: More Accurate NER, OCR, and Entity Resolution](https://www.johnsnowlabs.com/john-snow-labs-announces-its-biggest-spar-nlp-release-ever-spark-nlp-enterprise-2-4-0/)</span><span class="video-descr">Ida Lucente - February 14, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -102,19 +107,23 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_6.jpg)[Explain document DL – Spark NLP pretrained pipeline](https://www.johnsnowlabs.com/explain-document-pretrained-pipeline-spark-nlp-short-blogpost-series-1/)</span><span class="video-descr">Veysel Kocaman - January 15, 2020</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Spark NLP Walkthrough, powered by TensorFlow](https://medium.com/@saif1988/spark-nlp-walkthrough-powered-by-tensorflow-9965538663fd)</span><span class="video-descr">Saif Addin Ellafi - Nov 19, 2018</span>
+</div></div>
+
 </div></div>
 
 {:.h2_article}
 ## Named Entity Recognition
 
 {:.h4_article}
-### Video
+### Videos
 
 <div class="grid--container container-aside"><div class="grid">
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='-ALqzSrstvo' -%}<div class="video-descr">Train your own NerDL. John Snow Labs - 7 Oct 2019</div></div></div>
-
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='djWX0MR2Ooo' -%}<div class="video-descr">State-of-the-art Clinical Named Entity Recognition in Spark NLP Workshop - Veysel Kocaman</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='-ALqzSrstvo' -%}<div class="video-descr">Train your own NerDL. John Snow Labs - 7 Oct 2019</div></div></div>
 
 </div></div>
 
@@ -128,15 +137,15 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[State-of-the-art Named Entity Recognition in Spark NLP](https://aiplus.odsc.com/courses/state-of-the-art-named-entity-recognition-in-spark-nlp)</span><span class="video-descr">Veysel Kocaman</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[Spark NLP in action: intelligent, high-accuracy fact extraction from long financial documents](https://www.johnsnowlabs.com/uipath-intelligent-extraction-from-long-financial-documents/)</span><span class="video-descr">Saif Addin Ellafi - May 5, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_1.jpg)[Named Entity Recognition (NER) with BERT in Spark NLP](https://towardsdatascience.com/named-entity-recognition-ner-with-bert-in-spark-nlp-874df20d1d77)</span><span class="video-descr">Veysel Kocaman - Mar 4, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[ODSC Copenhagen talk:](https://aiplus.odsc.com/courses/state-of-the-art-named-entity-recognition-in-spark-nlp)</span><span class="video-descr">Veysel Kocaman</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_5.jpg)[Spark NLP in action: intelligent, high-accuracy fact extraction from long financial documents](https://www.johnsnowlabs.com/uipath-intelligent-extraction-from-long-financial-documents/)</span><span class="video-descr">Veysel Kocaman - July 5, 2020</span>
 </div></div>
 
 </div></div>
@@ -145,11 +154,9 @@ modify_date: "2019-05-16"
 ## Text Classification
 
 {:.h4_article}
-### Video
+### Videos
 
 <div class="grid--container container-aside"><div class="grid">
-
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='-ALqzSrstvo' -%}<div class="video-descr">Train your own NerDL. John Snow Labs - 7 Oct 2019</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='qG_bdbpOM-Y' -%}<div class="video-descr">Spark NLP in Action: Learning to read Life Science research - Saif Addin Ellafi. Saif Addin Ellafi - 1 Aug 2018</div></div></div>
 
@@ -165,7 +172,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[Classification of Unstructured Documents into the Environmental, Social & Governance (ESG) Taxonomy using Spark NLP](https://www.johnsnowlabs.com/classification-of-unstructured-documents-esg-taxonomy/)</span><span class="video-descr">White Paper - 2020</span>
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[Classification of Unstructured Documents into the Environmental, Social & Governance (ESG) Taxonomy](https://www.johnsnowlabs.com/classification-of-unstructured-documents-esg-taxonomy/)</span><span class="video-descr">Alina Petukhova - May, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -186,15 +193,21 @@ modify_date: "2019-05-16"
 ## Spark NLP for Healthcare
 
 {:.h4_article}
-### Video
+### Videos
 
 <div class="grid--container container-aside"><div class="grid">
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='iHjdqF6iCnU' -%}<div class="video-descr">Advanced Natural Language Processing with Apache Spark NLP. David Talby - 20 Aug 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/413744566" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Applying State-of-the-art Natural Language Processing for Personalized Healthcare. David Talby - April 13, 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='rpmbKLxFMWY' -%}<div class="video-descr">Apache Spark NLP for Healthcare: Lessons Learned Building Real-World Healthcare AI Systems. Veysel Kocaman - 9 Jul 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='mfd_7a7HHwE' -%}<div class="video-descr">SNOMED entity resolver. John Snow Labs - 31 Jul 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='g6DIb9FYdhQ' -%}<div class="video-descr">NLP and its applications in Healthcare. Veysel Kocaman - 17 May 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/412397682" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Lessons Learned Building Real-World Healthcare AI Systems. Veysel Kocaman - April 13, 2020</div></div></div>
 
 </div></div>
 
@@ -204,7 +217,7 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_8.jpg)[https://medium.com/spark-nlp/named-entity-recognition-for-healthcare-with-sparknlp-nerdl-and-nercrf-a7751b6ad571](https://medium.com/spark-nlp/named-entity-recognition-for-healthcare-with-sparknlp-nerdl-and-nercrf-a7751b6ad571)</span><span class="video-descr">Maggie Yilmaz - Jul 20 2020</span>
+<span class="article-inner">![News](/assets/images/Article_8.jpg)[Named Entity Recognition for Healthcare with SparkNLP NerDL and NerCRF](https://medium.com/spark-nlp/named-entity-recognition-for-healthcare-with-sparknlp-nerdl-and-nercrf-a7751b6ad571)</span><span class="video-descr">Maggie Yilmaz - Jul 20 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -224,10 +237,6 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[Spark NLP for Healthcare: Lessons Learned Building Real-World Healthcare AI Systems](https://events.johnsnowlabs.com/spark-nlp-for-healthcare-lessons-learned-building-real-world-healthcare-ai-systems?hsCtaTracking=24e0923e-716c-4f9b-b3c0-e3224f5d7b1f%7Cacca6bfd-ff5d-4599-a1bf-2f691fcbc17b)</span><span class="video-descr">Veysel Kocaman - April 13, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_2.jpg)[Automated Mapping of Clinical Entities from Natural Language Text to Medical Terminologies](https://events.johnsnowlabs.com/en/automated-mapping-of-clinical-entities-from-natural-language-text-to-medical-terminologies?hsCtaTracking=584b3181-cc71-4846-9077-a399767213f8%7C85c96753-f29e-45ca-9b79-5fc8ce302f62)</span><span class="video-descr">Andrés Fernández - April 29 2020</span>
 </div></div>
 
@@ -243,10 +252,35 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_3.jpg)[SelectData uses AI to better understand home health patients](https://www.johnsnowlabs.com/selectdata-uses-ai-to-undrstand-home-health-patients/)</span><span class="video-descr">Case Study</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Explain Clinical Document Spark NLP Pretrained Pipeline](https://www.johnsnowlabs.com/explain-clinical-document-spark-nlp-pretrained-pipeline/)</span><span class="video-descr">Veysel Kocaman - January 20, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Introducing Spark NLP: State of the art NLP Package (Part-II)](https://www.johnsnowlabs.com/introducing-spark-nlp-state-of-the-art-nlp-package-part-ii/)</span><span class="video-descr">Veysel Kocaman - January 20, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Automated Adverse Drug Event (ADE) Detection from Text in Spark NLP with BioBert](https://towardsdatascience.com/automated-adverse-drug-event-ade-detection-from-text-in-spark-nlp-with-biobert-837c700f5d8c)</span><span class="video-descr">Veysel Kocaman - Octover 4, 2020</span>
+</div></div>
+
 </div></div>
 
 {:.h2_article}
 ## Spark OCR & De-Identification
+
+{:.h4_article}
+### Videos
+
+<div class="grid--container container-aside"><div class="grid">
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/432305213" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Maximizing Text Recognition Accuracy with Image Transformers in Spark OCR. Mykola Melnyk - June 24, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/449445904" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Accurate de-identification, obfuscation, and editing of scanned medical documents and images. Alina Petukhova - August 19, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/412396046" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Accurate De-Identification of Structured & Unstructured Medical Data at Scale. Julio Bonis - March 18, 2020</div></div></div>
+
+</div></div>
 
 {:.h4_article}
 ### Articles
@@ -254,30 +288,30 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[Maximizing Text Recognition Accuracy with Image Transformers in Spark OCR](https://events.johnsnowlabs.com/webinar-maximizing-text-recognition-accuracy-with-image-transformers-in-spark-ocr?hsCtaTracking=9075f5ac-567f-4042-a8da-21fbd34620a7%7C33611d22-cf71-418e-a3bf-9c28f2f54abb)</span><span class="video-descr">Mykola Melnyk - June 24, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[SCALING HIGH-ACCURACY TEXT EXTRACTION FROM IMAGES USING SPARK OCR ON DATABRICKS](https://www.johnsnowlabs.com/scaling-high-accuracy-text-extraction-from-images-using-spark-ocr-on-databricks/)</span><span class="video-descr">Mykola Melnyk - July 2, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[Accurate de-identification, obfuscation, and editing of scanned medical documents and images](https://events.johnsnowlabs.com/webinar-accurate-de-identification-obfuscation-and-editing-of-scanned-medical-documents-and-images?hsCtaTracking=f5fb8847-85b1-47f0-a584-84a461130bc2%7C3576c527-3906-41eb-bdda-3b288224c282)</span><span class="video-descr">Alina Petukhova - August 19, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[Accurate De-Identification of Structured & Unstructured Medical Data at Scale](https://events.johnsnowlabs.com/webinar-accurate-de-identification-of-structured-unstructured-medical-data-at-scale?hsCtaTracking=8bf3c8f7-99ad-4f50-a0f9-0c03b7fa94d0%7Cc2c4678e-6472-4184-a5b0-a558936b6a9d)</span><span class="video-descr">Julio Bonis - March 18, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Scaling high-accuracy text extraction from images using spark ocr on databricks](https://www.johnsnowlabs.com/scaling-high-accuracy-text-extraction-from-images-using-spark-ocr-on-databricks/)</span><span class="video-descr">Big Data Ro - September, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[A Unified CV, OCR & NLP Model Pipeline for Document Understanding at DocuSign](https://www.nlpsummit.org/a-unified-cv-ocr-nlp-model-pipeline-for-document-understanding-at-docusign/)</span><span class="video-descr">Patrick Beukema, Michael Chertushkin - October 6, 2020</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[Scaling High-Accuracy Text Extraction from Images using Spark OCR on Databricks](https://www.johnsnowlabs.com/scaling-high-accuracy-text-extraction-from-images-using-spark-ocr-on-databricks/)</span><span class="video-descr">Mikola Melnyk - July 2, 2020</span>
+</div></div>
 
 </div></div>
 
 {:.h2_article}
 ## Spark NLP at Scale
+
+{:.h4_article}
+### Videos
+
+<div class="grid--container container-aside"><div class="grid">
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='fvdJRSQMtoc' -%}<div class="video-descr">Turbocharging State-of-the-art Natural Language Processing on Ray. David Talby - October 3, 2020</div></div></div>
+
+</div></div>
 
 {:.h4_article}
 ### Articles
@@ -310,11 +344,13 @@ modify_date: "2019-05-16"
 ## Data Annotator & Active Learning
 
 {:.h4_article}
-### Video
+### Videos
 
 <div class="grid--container container-aside"><div class="grid">
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='cv-s-Mg2504' -%}<div class="video-descr">MLOPS Veysel & Dia. Dia Trambitas, Veysel Kocaman - July 16, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/423632854" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Best Practices & Tools for Accurate Document Annotation and Data Abstraction. Dia Trambitas - May 27, 2020</div></div></div>
 
 </div></div>
 
@@ -325,10 +361,6 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_1.jpg)[John Snow Labs’ data annotator & active learning for human-in-the-loop AI is now included with all subscriptions](https://www.johnsnowlabs.com/john-snow-labs-data-annotator-for-human-in-the-loop-ai-is-now-included-with-all-subscriptions/)</span><span class="video-descr">Ida Lucente - May 26, 2020</span>
-</div></div>
-
-<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_2.jpg)[Best Practices & Tools for Accurate Document Annotation and Data Abstraction](https://events.johnsnowlabs.com/webinar-best-practices-tools-for-accurate-document-annotation-and-data-abstraction?hsCtaTracking=21850e70-aabc-4e1d-8fbb-8884c2eb823a%7Cecd24bb4-6112-49c9-be21-9f92072f8b61)</span><span class="video-descr">Dia Trambitas - May 27, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -350,7 +382,7 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[SpaCy or Spark NLP — A Benchmarking Comparison](https://medium.com/spark-nlp/spacy-or-spark-nlp-a-benchmarking-comparison-23202f12a65c)</span><span class="video-descr">Mustafa Aytuğ Kaya - Aug 27, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[NLP Industry Survey Analysis: the industry landscape of natural language use cases in 2020](https://www.nlpsummit.org/nlp-industry-survey-analysis-2020/ )</span><span class="video-descr">Paco Nathan - October 6, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -358,7 +390,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[NLP Industry Survey Analysis: the industry landscape of natural language use cases in 2020](https://www.nlpsummit.org/nlp-industry-survey-analysis-2020/ )</span><span class="video-descr">Paco Nathan - October 6, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[SpaCy or Spark NLP — A Benchmarking Comparison](https://medium.com/spark-nlp/spacy-or-spark-nlp-a-benchmarking-comparison-23202f12a65c)</span><span class="video-descr">Mustafa Aytuğ Kaya - Aug 27, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
