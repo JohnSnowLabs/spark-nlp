@@ -20,7 +20,7 @@ import org.apache.spark.sql.Dataset
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf]] for further reference on this API.
   */
-class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasStorageRef {
+class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with WithAnnotate[NerCrfModel] with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("NER"))
 

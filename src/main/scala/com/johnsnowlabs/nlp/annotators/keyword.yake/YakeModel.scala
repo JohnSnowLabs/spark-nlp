@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.keyword.yake
 
 import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Utilities.{getTag, medianCalculator}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, WithAnnotate}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.immutable.ListMap
 import scala.collection.{immutable, mutable}
 import scala.collection.mutable.ListBuffer
-import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, KEYWORD}
+import com.johnsnowlabs.nlp.AnnotatorType.{KEYWORD, TOKEN}
 import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Token
 
 import scala.math.sqrt
@@ -63,7 +63,7 @@ import scala.math.sqrt
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class YakeModel(override val uid: String) extends AnnotatorModel[YakeModel] with YakeParams {
+class YakeModel(override val uid: String) extends AnnotatorModel[YakeModel] with WithAnnotate[YakeModel] with YakeParams {
 
   /**
     * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type

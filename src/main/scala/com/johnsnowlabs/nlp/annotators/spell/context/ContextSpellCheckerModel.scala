@@ -14,7 +14,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
 
-class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel]
+class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel] with WithAnnotate[ContextSpellCheckerModel]
   with WeightedLevenshtein
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable

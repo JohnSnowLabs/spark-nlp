@@ -34,9 +34,10 @@ import org.apache.spark.sql.SparkSession
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class LanguageDetectorDL(override val uid: String) extends
-  AnnotatorModel[LanguageDetectorDL]
-  with WriteTensorflowModel {
+class LanguageDetectorDL(override val uid: String)
+  extends AnnotatorModel[LanguageDetectorDL]
+    with WithAnnotate[LanguageDetectorDL]
+    with WriteTensorflowModel {
 
   def this() = this(Identifiable.randomUID("LANGUAGE_DETECTOR_DL"))
 
