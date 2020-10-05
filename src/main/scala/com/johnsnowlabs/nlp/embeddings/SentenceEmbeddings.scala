@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, WithAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -27,7 +27,7 @@ import org.apache.spark.sql.DataFrame
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class SentenceEmbeddings(override val uid: String)
-  extends AnnotatorModel[SentenceEmbeddings] with WithAnnotate[SentenceEmbeddings]
+  extends AnnotatorModel[SentenceEmbeddings] with HasSimpleAnnotate[SentenceEmbeddings]
     with HasEmbeddingsProperties
     with HasStorageRef {
 

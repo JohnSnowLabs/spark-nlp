@@ -49,7 +49,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   **/
 class BertSentenceEmbeddings(override val uid: String)
   extends AnnotatorModel[BertSentenceEmbeddings]
-    with WithAnnotate[BertSentenceEmbeddings]
+    with HasSimpleAnnotate[BertSentenceEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef

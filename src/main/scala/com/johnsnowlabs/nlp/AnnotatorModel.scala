@@ -35,7 +35,7 @@ abstract class AnnotatorModel[M <: Model[M]]
 
     val processedDataset = {
       this match {
-        case withAnnotate: WithAnnotate[M] =>
+        case withAnnotate: HasSimpleAnnotate[M] =>
           inputDataset.withColumn(
             getOutputCol,
             wrapColumnMetadata({
@@ -51,7 +51,7 @@ abstract class AnnotatorModel[M <: Model[M]]
               }
             })
           )
-        case withBatchAnnotate: WithBatchAnnotate[M] =>
+        case withBatchAnnotate: HasBatchedAnnotate[M] =>
           val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
           implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {

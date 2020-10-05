@@ -4,7 +4,7 @@ import org.apache.spark.ml.Model
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 
-trait WithAnnotate[M <: Model[M]] {
+trait HasSimpleAnnotate[M <: Model[M]] {
 
   this: AnnotatorModel[M] =>
 

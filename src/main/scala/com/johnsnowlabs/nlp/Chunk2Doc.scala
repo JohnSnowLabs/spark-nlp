@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] with WithAnnotate[Chunk2Doc] {
+class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] with HasSimpleAnnotate[Chunk2Doc] {
 
   def this() = this(Identifiable.randomUID("CHUNK2DOC"))
 

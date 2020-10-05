@@ -25,7 +25,7 @@ class NerDLModel(override val uid: String)
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable
-    with WithBatchAnnotate[NerDLModel] {
+    with HasBatchedAnnotate[NerDLModel] {
 
   def this() = this(Identifiable.randomUID("NerDLModel"))
 

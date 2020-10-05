@@ -17,7 +17,7 @@ import scala.collection.mutable.ArrayBuffer
   * @@ entitiesPath: Path to file with phrases to search
   * @@ insideSentences: Should Extractor search only within sentence borders?
   */
-class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTextMatcherModel] with WithAnnotate[BigTextMatcherModel] with HasStorageModel {
+class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTextMatcherModel] with HasSimpleAnnotate[BigTextMatcherModel] with HasStorageModel {
 
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
