@@ -16,26 +16,30 @@ We are very happy to announce that version 2.6.2 of Spark NLP Enterprise is read
 We are making available Named Entity Recognition, Sentence Classification and Entity Resolution models to analyze Adverse Drug Events in natural language text from clinical domains.
 
 #### Models
+
+##### NERs
 We are pleased to announce that we have a brand new named entity recognition (NER) model for Adverse Drug Events (ADE) to extract ADE and DRUG entities from a given text.
 
 ADE NER will have four versions in the library, trained with different size of word embeddings:
 
-`ner_ade_bioert` (768d Bert embeddings)
-`ner_ade_clinicalbert` (768d Bert embeddings)
-`ner_ade_clinical` (200d clinical embeddings)
-`ner_ade_healthcare` (100d healthcare embeddings)
+`ner_ade_bioert` (768d Bert embeddings)  
+`ner_ade_clinicalbert` (768d Bert embeddings)  
+`ner_ade_clinical` (200d clinical embeddings)  
+`ner_ade_healthcare` (100d healthcare embeddings)  
 
 More information and examples [here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb)
 
 We are also releasing our first clinical pretrained classifier for ADE classification tasks. This new ADE classifier is trained on various ADE datasets, including the mentions in tweets to represent the daily life conversations as well. So it works well on the texts coming from academic context, social media and clinical notes. It’s trained with `Clinical Biobert` embeddings, which is the most powerful contextual language model in the clinical domain out there.
 
+##### Classifiers
 ADE classifier will have two versions in the library, trained with different Bert embeddings:
 
-`classifierdl_ade_bioert` (768d BioBert embeddings)
-`classifierdl_adee_clinicalbert` (768d ClinicalBert embeddings)
+`classifierdl_ade_bioert` (768d BioBert embeddings)  
+`classifierdl_adee_clinicalbert` (768d ClinicalBert embeddings)  
 
 More information and examples [here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb)
 
+##### Pipeline
 By combining ADE NER and Classifier, we are releasing a new pretrained clinical pipeline for ADE tasks to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 ```python
 pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
@@ -46,6 +50,7 @@ pipeline.annotate('my string')
 
 More information and examples [here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb)
 
+##### Entity Resolver
 We are releasing the first Entity Resolver for `Athena` (Automated Terminology Harmonization, Extraction and Normalization for Analytics, http://athena.ohdsi.org/) to extract concept ids via standardized medical vocabularies. For now, it only supports `conditions` section and can be used to map the clinical conditions with the corresponding standard terminology and then get the concept ids to store them in various database schemas.
 It is named as `chunkresolve_athena_conditions_healthcare`.
 
@@ -56,6 +61,7 @@ We added slim versions of several clinical NER models that are trained with 100d
 `ner_posology_healthcare`
 `ner_events_healthcare`
 
+##### Graph Builder
 Spark NLP Licensed version has several DL based annotators (modules) such as NerDL, AssertionDL, RelationExtraction and GenericClassifier, and they are all based on Tensorflow (tf) with custom graphs. In order to make the creating and customizing the tf graphs for these models easier for our licensed users, we added a graph builder to the Python side of the library. Now you can customize your graphs and use them in the respected models while training a new DL model.
 
 ```python
