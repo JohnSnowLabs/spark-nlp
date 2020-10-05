@@ -30,7 +30,7 @@ import scala.collection.mutable.ArrayBuffer
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] {
+class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] with WithAnnotate[TextMatcherModel] {
 
   /** Output annotator type : CHUNK
     *

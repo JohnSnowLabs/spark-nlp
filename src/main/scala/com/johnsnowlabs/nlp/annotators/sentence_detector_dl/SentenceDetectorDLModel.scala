@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSentenceDetectorDL, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable, WithAnnotate}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
@@ -17,7 +17,7 @@ import scala.util.Random
 case class Metrics(accuracy: Double, recall: Double, precision: Double, f1: Double)
 
 class SentenceDetectorDLModel(override val uid: String)
-  extends AnnotatorModel[SentenceDetectorDLModel]
+  extends AnnotatorModel[SentenceDetectorDLModel] with WithAnnotate[SentenceDetectorDLModel]
     with HasStorageRef
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel {

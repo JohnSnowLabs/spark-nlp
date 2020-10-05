@@ -6,6 +6,7 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
@@ -52,13 +53,14 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * however the computational cost remains similar to a BERT-like architecture with
   * the same number of hidden layers as it has to iterate through the same number of (repeating) layers.
   */
-class AlbertEmbeddings(override val uid: String) extends
-  AnnotatorModel[AlbertEmbeddings]
-  with WriteTensorflowModel
-  with WriteSentencePieceModel
-  with HasEmbeddingsProperties
-  with HasStorageRef
-  with HasCaseSensitiveProperties {
+class AlbertEmbeddings(override val uid: String)
+  extends AnnotatorModel[AlbertEmbeddings]
+    with WithAnnotate[AlbertEmbeddings]
+    with WriteTensorflowModel
+    with WriteSentencePieceModel
+    with HasEmbeddingsProperties
+    with HasStorageRef
+    with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)

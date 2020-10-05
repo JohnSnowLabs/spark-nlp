@@ -50,12 +50,13 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class ElmoEmbeddings(override val uid: String) extends
-  AnnotatorModel[ElmoEmbeddings]
-  with WriteTensorflowModel
-  with HasEmbeddingsProperties
-  with HasStorageRef
-  with HasCaseSensitiveProperties {
+class ElmoEmbeddings(override val uid: String)
+  extends AnnotatorModel[ElmoEmbeddings]
+    with WithAnnotate[ElmoEmbeddings]
+    with WriteTensorflowModel
+    with HasEmbeddingsProperties
+    with HasStorageRef
+    with HasCaseSensitiveProperties {
 
 
   /** Output annotator type : TOKEN
