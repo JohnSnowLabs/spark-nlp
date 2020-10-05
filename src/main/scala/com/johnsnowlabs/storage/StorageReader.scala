@@ -37,10 +37,7 @@ trait StorageReader[A] extends HasConnection {
   }
 
   def containsIndex(index: String): Boolean = {
-    val wordBytes = index.trim.getBytes()
-    connection.getDb.get(wordBytes) != null ||
-      (connection.getDb.get(index.trim.toLowerCase.getBytes()) != null) ||
-      (connection.getDb.get(index.trim.toUpperCase.getBytes()) != null)
+    lookupDisk(index).isDefined
   }
 
   def clear(): Unit = {
