@@ -290,7 +290,6 @@ class TensorflowNer
 
             val label = labels(i)
             val tag = tags(i)
-            val iWord = tokens(i)
 
             correct(label) = correct.getOrElse(label, 0) + 1
             predicted(tag._1) = predicted.getOrElse(tag._1, 0) + 1

@@ -133,7 +133,7 @@ class NerDLModel(override val uid: String)
     val labels = getModelIfNotSet.predict(batch.map(_.sentenceGroup), getConfigProtoBytes, includeConfidence = $(includeConfidence))
 
     // Combine labels with sentences tokens
-    val ib = batch.indices.map { i =>
+    batch.indices.map { i =>
       val sentence = batch(i).sentenceGroup
 
       val tokens = sentence.tokens.indices.flatMap { j =>
@@ -148,8 +148,7 @@ class NerDLModel(override val uid: String)
       }.toArray
 
       (batch(i).index, new TaggedSentence(tokens))
-    }
-    ib.toArray.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
+    }.toArray.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
   }
 
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
