@@ -49,7 +49,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   */
 class XlnetEmbeddings(override val uid: String)
   extends AnnotatorModel[XlnetEmbeddings]
-    with WithAnnotate[XlnetEmbeddings]
+    with HasSimpleAnnotate[XlnetEmbeddings]
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with HasEmbeddingsProperties

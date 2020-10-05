@@ -52,7 +52,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   */
 class ElmoEmbeddings(override val uid: String)
   extends AnnotatorModel[ElmoEmbeddings]
-    with WithAnnotate[ElmoEmbeddings]
+    with HasSimpleAnnotate[ElmoEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef

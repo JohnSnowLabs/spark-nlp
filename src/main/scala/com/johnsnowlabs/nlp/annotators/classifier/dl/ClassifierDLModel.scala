@@ -39,7 +39,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   *
   **/
 class ClassifierDLModel(override val uid: String)
-  extends AnnotatorModel[ClassifierDLModel] with WithAnnotate[ClassifierDLModel]
+  extends AnnotatorModel[ClassifierDLModel] with HasSimpleAnnotate[ClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
