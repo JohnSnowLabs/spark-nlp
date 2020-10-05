@@ -47,13 +47,14 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class XlnetEmbeddings(override val uid: String) extends
-  AnnotatorModel[XlnetEmbeddings]
-  with WriteTensorflowModel
-  with WriteSentencePieceModel
-  with HasEmbeddingsProperties
-  with HasStorageRef
-  with HasCaseSensitiveProperties {
+class XlnetEmbeddings(override val uid: String)
+  extends AnnotatorModel[XlnetEmbeddings]
+    with WithAnnotate[XlnetEmbeddings]
+    with WriteTensorflowModel
+    with WriteSentencePieceModel
+    with HasEmbeddingsProperties
+    with HasStorageRef
+    with HasCaseSensitiveProperties {
 
   /** Input Annotator Type : TOKEN DOCUMENT
     *

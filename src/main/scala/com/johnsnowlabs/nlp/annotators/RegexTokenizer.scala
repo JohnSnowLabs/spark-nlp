@@ -17,8 +17,8 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, SentenceSplit, TokenizedSentence, TokenizedWithSentence}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, WithAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
@@ -27,7 +27,7 @@ import org.apache.spark.ml.util.Identifiable
   *
   * @see [[RegexTokenizer]]
   */
-class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexTokenizer] {
+class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexTokenizer] with WithAnnotate[RegexTokenizer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -101,68 +101,13 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
   /** @group getParam */
   def getMaxLength: Int = $(maxLength)
 
-  /**
-    * Indicates whether to apply the regex tokenization using a positional mask to guarantee the incremental progression
-    * Default: false
-    * @group param
-    **/
-  val positionalMask: BooleanParam =
-    new BooleanParam(this,
-      "positionalMask",
-      "Using a positional mask to guarantee the incremental progression of the tokenization.")
-
-  /** @group setParam */
-  def setPositionalMask(value: Boolean): this.type = set(positionalMask, value)
-
-  /** @group getParam */
-  def getPositionalMask: Boolean = $(positionalMask)
-
   setDefault(
     inputCols -> Array(DOCUMENT),
     outputCol -> "regexToken",
     toLowercase -> false,
     minLength -> 1,
-    pattern -> "\\s+",
-    positionalMask -> false
+    pattern -> "\\s+"
   )
-
-  /**
-    * This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
-    *
-    * @param sentences to tag
-    * @return Seq of TokenizedSentence objects
-    */
-  def tagWithPositionalMask(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
-
-    def calculateIndex(indexType: String, mask: Array[Int], text: String, token: String) = {
-      val tokenBeginIndex: Int = text.substring(mask.indexOf(0), text.length).indexOf(token) + mask.indexOf(0)
-      indexType match {
-        case "begin" => tokenBeginIndex
-        case "end" =>
-          val endIndex = tokenBeginIndex + token.length
-          for (i <- Range(0, endIndex)) mask(i) = 1
-          endIndex - 1
-      }
-    }
-
-    sentences.map { text =>
-      val re = $(pattern).r
-      val _content = if ($(toLowercase)) text.content.toLowerCase() else text.content
-      val _mask = new Array[Int](_content.length)
-
-      val tokens = re.split(_content)
-        .map{ token =>
-          IndexedToken(
-            token,
-            calculateIndex("begin", _mask, _content, token),
-            calculateIndex("end", _mask, _content, token))
-        }
-        .filter(t =>
-          t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m => t.token.length <= m))
-
-      TokenizedSentence(tokens, text.index)
-    }
-  }
 
   /**
     * This func generates a Seq of TokenizedSentences from a Seq of Sentences.
@@ -186,13 +131,16 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
         indexedTokens
       }.filter(t => t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m => t.token.length <= m))
       TokenizedSentence(tokens, text.index)
+
     }
   }
-
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+
     val sentences = SentenceSplit.unpack(annotations)
-    val tokenized = if(getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
+    val tokenized = tag(sentences)
     TokenizedWithSentence.pack(tokenized)
+
   }
+
 }
 
