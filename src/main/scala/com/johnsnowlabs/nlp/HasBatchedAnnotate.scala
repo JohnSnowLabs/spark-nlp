@@ -35,7 +35,6 @@ trait HasBatchedAnnotate[M <: Model[M]] {
         })
       })
       val outputAnnotations = batchAnnotate(inputAnnotations)
-      require(batchedRows.length == outputAnnotations.length, s"failed in ${this}") // FixMe: Remove me after stable
       batchedRows.zip(outputAnnotations).map { case (row, annotations) =>
         row.toSeq ++ Array(annotations.map(a => Row(a.productIterator.toSeq:_*)))
       }
@@ -49,6 +48,7 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     * @return any number of annotations processed for every batch of input annotations. Not necessary one to one relationship
     *
     *         IMPORTANT: !MUST! return sequences of equal lengths !!
+    *         IMPORTANT: !MUST! return sentences that belong to the same original row !! (challenging)
     */
   def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]]
 
