@@ -824,7 +824,7 @@ How to use pretrained BertEmbeddings:
 
 ```python
 
-bert = BertESentencembeddings.pretrained() \
+bert = BertSentencembeddings.pretrained() \
       .setInputCols("document") \
       .setOutputCol("bert_sentence_embeddings")
 ```
