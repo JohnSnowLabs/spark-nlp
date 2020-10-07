@@ -63,7 +63,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(batch: Seq[Array[Int]]): Seq[Seq[Array[Float]]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
     val tensorsSegments = new TensorResources()
@@ -106,7 +106,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     tokenBuffers.clear()
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+    val shrinkedEmbeddings = embeddings.grouped(dim).grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
@@ -179,10 +179,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val vectors = tag(encoded)
 
-    val originalTokenSentencesA = originalTokenSentences.map(_.toArray).toArray
-
     /*Run embeddings calculation by batches*/
-    sentences.zipWithIndex
+    sentences
+      .zipWithIndex
       .flatMap { case (a, i) =>
         a.zipWithIndex.map { case (a, si) => (a, i, si) }
       }.zip(vectors)
@@ -205,27 +204,23 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
         val tokensWithEmbeddings = sentence.tokens.zip(tokenEmbeddings).flatMap {
           case (token, tokenEmbedding) =>
-            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = originalTokenSentencesA(batchIndex)(sentenceIndex).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin).map {
-              case (token) =>
-                val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
-                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                    pieceId = tokenWithEmbeddings.pieceId,
-                    isWordStart = tokenWithEmbeddings.isWordStart,
-                    begin = token.begin,
-                    end = token.end
+            originalTokenSentences(batchIndex)(sentenceIndex).indexedTokens.find(
+              p => p.begin == token.begin).map {
+              indexedToken =>
+                TokenPieceEmbeddings(
+                  TokenPiece(wordpiece = token.wordpiece,
+                    token = if (caseSensitive) indexedToken.token else indexedToken.token.toLowerCase(),
+                    pieceId = token.pieceId,
+                    isWordStart = token.isWordStart,
+                    begin = indexedToken.begin,
+                    end = indexedToken.end
                   ),
                   tokenEmbedding
                 )
-                originalTokenWithEmbedding
             }
-            originalTokensWithEmbeddings
         }
-
         (batchIndex, WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex))
-      }.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2).toSeq)
+      }.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
   }
 
   def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
