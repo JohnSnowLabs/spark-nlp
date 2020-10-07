@@ -204,7 +204,6 @@ class BertEmbeddings(override val uid: String)
     // FixMe: There was an if statement cleaning up here
     val tokenizedSentences = batchedAnnotations
       .map(annotations => TokenizedWithSentence.unpack(annotations))
-      .toArray
     /*Return empty if the real tokens are empty*/
 
     val tokenized = tokenizedSentences.map(group => tokenizeWithAlignment(group))
