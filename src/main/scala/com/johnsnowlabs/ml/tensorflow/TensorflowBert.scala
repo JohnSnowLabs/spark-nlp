@@ -34,16 +34,16 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   private val embeddingsKey = "sequence_output:0"
   private val senteneEmbeddingsKey = "pooled_output:0"
 
-  def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+  def encode(sentences: Seq[WordpieceTokenizedSentence], maxSequenceLength: Int): Seq[Array[Int]] = {
 
     //    val tokens = sentence.tokens.map(t => t.pieceId)
 
-    val sentenceLength = sentences.map(x => x._1.tokens.length).toArray
+    val sentenceLength = sentences.map(x => x.tokens.length).toArray
     val maxSentenceLength = sentenceLength.max
 
     sentences.map { sentence =>
 
-      val tokenPieceId = sentence._1.tokens.map(t => t.pieceId)
+      val tokenPieceId = sentence.tokens.map(t => t.pieceId)
       val diff = maxSentenceLength - tokenPieceId.length
 
       if(maxSentenceLength >= maxSequenceLength){
@@ -169,22 +169,26 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(sentences: Array[Seq[WordpieceTokenizedSentence]],
-                          originalTokenSentences: Array[Seq[TokenizedSentence]],
+  def calculateEmbeddings(sentences: Seq[Seq[WordpieceTokenizedSentence]],
+                          originalTokenSentences: Seq[Seq[TokenizedSentence]],
                           maxSentenceLength: Int,
                           caseSensitive: Boolean
                          ): Seq[Seq[WordpieceEmbeddingsSentence]] = {
 
-    val encoded = encode(sentences.flatten.zipWithIndex, maxSentenceLength)
+    val encoded = encode(sentences.flatten, maxSentenceLength)
 
     val vectors = tag(encoded)
 
-    /*Run embeddings calculation by batches*/
-    sentences.zipWithIndex.flatMap{case (batch, batchIndex) =>
+    val originalTokenSentencesA = originalTokenSentences.map(_.toArray).toArray
 
-      /*Combine tokens and calculated embeddings*/
-      batch.zipWithIndex.zip(vectors).map{case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.tokens.length
+    /*Run embeddings calculation by batches*/
+    sentences.zipWithIndex
+      .flatMap { case (a, i) =>
+        a.zipWithIndex.map { case (a, si) => (a, i, si) }
+      }.zip(vectors)
+      .map { case ((sentence, batchIndex, sentenceIndex), tokenVectors) =>
+
+        val tokenLength = sentence.tokens.length
 
         /*All wordpiece embeddings*/
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
@@ -199,11 +203,11 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
+        val tokensWithEmbeddings = sentence.tokens.zip(tokenEmbeddings).flatMap {
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = originalTokenSentences(batchIndex)(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin).map{
+            val originalTokensWithEmbeddings = originalTokenSentencesA(batchIndex)(sentenceIndex).indexedTokens.find(
+              p => p.begin == tokenWithEmbeddings.begin).map {
               case (token) =>
                 val originalTokenWithEmbedding = TokenPieceEmbeddings(
                   TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
@@ -220,9 +224,8 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
             originalTokensWithEmbeddings
         }
 
-        (batchIndex, WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2))
-      }
-    }.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2).toSeq)
+        (batchIndex, WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex))
+      }.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2).toSeq)
   }
 
   def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
@@ -233,7 +236,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                                  ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
-    tokens.zipWithIndex.grouped(batchSize).flatMap{batch =>
+    tokens.grouped(batchSize).flatMap{batch =>
       val encoded = encode(batch, maxSentenceLength)
       val embeddings = tagSentence(encoded)
 
