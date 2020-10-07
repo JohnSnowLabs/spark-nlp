@@ -38,7 +38,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     //    val tokens = sentence.tokens.map(t => t.pieceId)
 
-    val sentenceLength = sentences.map(x => x.tokens.length).toArray
+    val sentenceLength = sentences.map(x => x.tokens.length)
     val maxSentenceLength = sentenceLength.max
 
     sentences.map { sentence =>
@@ -69,10 +69,11 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
+    val bufferSize = batch.length*maxSentenceLength
 
-    val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createIntBuffer(batch.length*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batch.length*maxSentenceLength)
+    val tokenBuffers = tensors.createIntBuffer(bufferSize)
+    val maskBuffers = tensorsMasks.createIntBuffer(bufferSize)
+    val segmentBuffers = tensorsSegments.createIntBuffer(bufferSize)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
@@ -105,7 +106,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     tensors.clearTensors()
     tokenBuffers.clear()
 
-    val dim = embeddings.length / (batch.length * maxSentenceLength)
+    val dim = embeddings.length / bufferSize
     val shrinkedEmbeddings = embeddings.grouped(dim).grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
