@@ -181,7 +181,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                           caseSensitive: Boolean
                          ): Seq[Seq[WordpieceEmbeddingsSentence]] = {
 
-    val outputAccumulator = Array.fill(sentences.length)(Seq.empty[WordpieceEmbeddingsSentence])
+    val outputBatches = Array.fill(sentences.length)(Seq.empty[WordpieceEmbeddingsSentence])
 
     val vectors = sentences.map(s => tag(encode(s, maxSentenceLength)).toArray).toArray
 
@@ -225,39 +225,41 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
           }
       }
       (batchIndex, WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex))
-      outputAccumulator(batchIndex) =
-        outputAccumulator.apply(batchIndex) :+ WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex)
+      outputBatches(batchIndex) =
+        outputBatches.apply(batchIndex) :+ WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex)
     }
-    outputAccumulator
+    outputBatches
   }
 
-  def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
-                                  sentences: Seq[Sentence],
-                                  batchSize: Int,
-                                  maxSentenceLength: Int,
-                                  caseSensitive: Boolean
-                                 ): Seq[Annotation] = {
+  def calculateSentenceEmbeddings(wordpieceTokenized: Seq[Seq[WordpieceTokenizedSentence]],
+                                  originalSentences: Seq[Seq[Sentence]],
+                                  maxSentenceLength: Int
+                                 ): Seq[Seq[Annotation]] = {
 
     /*Run embeddings calculation by batches*/
-    tokens.grouped(batchSize).flatMap{batch =>
-      val encoded = encode(batch, maxSentenceLength)
-      val embeddings = tagSentence(encoded)
+    val encoded = wordpieceTokenized.map(wordpiece => encode(wordpiece, maxSentenceLength))
+    val embeddings = encoded.flatMap(encodedSentence => tagSentence(encodedSentence))
 
-      sentences.zip(embeddings).map { case (sentence, vectors) =>
-        Annotation(
-          annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
-          begin = sentence.start,
-          end = sentence.end,
-          result = sentence.content,
-          metadata = Map("sentence" -> sentence.index.toString,
-            "token" -> sentence.content,
-            "pieceId" -> "-1",
-            "isWordStart" -> "true"
-          ),
-          embeddings = vectors
-        )
-      }
-    }.toSeq
+    val outputBatches = Array.fill(originalSentences.length)(Seq.empty[Annotation])
+
+    originalSentences.zipWithIndex
+      .flatMap{case (sent, batchId) => sent.map((_, batchId))}
+      .zip(embeddings).foreach { case ((sentence, batchId), vectors) =>
+      val annotation = Annotation(
+        annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
+        begin = sentence.start,
+        end = sentence.end,
+        result = sentence.content,
+        metadata = Map("sentence" -> sentence.index.toString,
+          "token" -> sentence.content,
+          "pieceId" -> "-1",
+          "isWordStart" -> "true"
+        ),
+        embeddings = vectors
+      )
+      outputBatches(batchId) = outputBatches(batchId) :+ annotation
+    }
+    outputBatches
   }
 
 }
