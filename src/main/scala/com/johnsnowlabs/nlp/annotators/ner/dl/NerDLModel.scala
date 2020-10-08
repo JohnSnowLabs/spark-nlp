@@ -125,16 +125,18 @@ class NerDLModel(override val uid: String)
     encoder.tags
   }
 
-  case class RowIdentifiedSentence(index: Int, sentenceGroup: WordpieceEmbeddingsSentence)
+  private case class RowIdentifiedSentence(rowIndex: Int, rowSentence: WordpieceEmbeddingsSentence)
 
   def tag(tokenized: Array[Array[WordpieceEmbeddingsSentence]]): Seq[Array[NerTaggedSentence]] = {
     val batch = tokenized.zipWithIndex.flatMap{case (t, i) => t.map(RowIdentifiedSentence(i, _))}
     // Predict
-    val labels = getModelIfNotSet.predict(batch.map(_.sentenceGroup), getConfigProtoBytes, includeConfidence = $(includeConfidence))
+    val labels = getModelIfNotSet.predict(batch.map(_.rowSentence), getConfigProtoBytes, includeConfidence = $(includeConfidence))
+
+    val outputBatches = Array.fill[Array[NerTaggedSentence]](tokenized.length)(Array.empty)
 
     // Combine labels with sentences tokens
-    batch.indices.map { i =>
-      val sentence = batch(i).sentenceGroup
+    batch.indices.foreach { i =>
+      val sentence = batch(i).rowSentence
 
       val tokens = sentence.tokens.indices.flatMap { j =>
         val token = sentence.tokens(j)
@@ -147,8 +149,9 @@ class NerDLModel(override val uid: String)
         }
       }.toArray
 
-      (batch(i).index, new TaggedSentence(tokens))
-    }.toArray.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
+      outputBatches(batch(i).rowIndex) = outputBatches(batch(i).rowIndex) :+ new TaggedSentence(tokens)
+    }
+    outputBatches
   }
 
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
