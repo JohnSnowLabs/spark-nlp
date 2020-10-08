@@ -38,6 +38,8 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     //    val tokens = sentence.tokens.map(t => t.pieceId)
 
+    if (sentences.isEmpty)
+      return Seq.empty
     val sentenceLength = sentences.map(x => x.tokens.length)
     val maxSentenceLength = sentenceLength.max
 
@@ -64,6 +66,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Seq[Array[Float]]] = {
+    if (batch.isEmpty)
+      return Seq.empty
+
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
     val tensorsSegments = new TensorResources()
@@ -176,52 +181,54 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                           caseSensitive: Boolean
                          ): Seq[Seq[WordpieceEmbeddingsSentence]] = {
 
-    val encoded = encode(sentences.flatten, maxSentenceLength)
+    val outputAccumulator = Array.fill(sentences.length)(Seq.empty[WordpieceEmbeddingsSentence])
 
-    val vectors = tag(encoded)
+    val vectors = sentences.map(s => tag(encode(s, maxSentenceLength)).toArray).toArray
 
     /*Run embeddings calculation by batches*/
     sentences
       .zipWithIndex
       .flatMap { case (a, i) =>
         a.zipWithIndex.map { case (a, si) => (a, i, si) }
-      }.zip(vectors)
-      .map { case ((sentence, batchIndex, sentenceIndex), tokenVectors) =>
+      }.foreach { case (sentence, batchIndex, sentenceIndex) =>
 
-        val tokenLength = sentence.tokens.length
+      val tokenLength = sentence.tokens.length
 
-        /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+      /*All wordpiece embeddings*/
+      val tokenEmbeddings = vectors(batchIndex)(sentenceIndex).slice(1, tokenLength + 1)
 
-        /*Word-level and span-level alignment with Tokenizer
-        https://github.com/google-research/bert#tokenization
+      /*Word-level and span-level alignment with Tokenizer
+      https://github.com/google-research/bert#tokenization
 
-        ### Input
-        orig_tokens = ["John", "Johanson", "'s",  "house"]
-        labels      = ["NNP",  "NNP",      "POS", "NN"]
+      ### Input
+      orig_tokens = ["John", "Johanson", "'s",  "house"]
+      labels      = ["NNP",  "NNP",      "POS", "NN"]
 
-        # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
-        # orig_to_tok_map == [1, 2, 4, 6]*/
+      # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
+      # orig_to_tok_map == [1, 2, 4, 6]*/
 
-        val tokensWithEmbeddings = sentence.tokens.zip(tokenEmbeddings).flatMap {
-          case (token, tokenEmbedding) =>
-            originalTokenSentences(batchIndex)(sentenceIndex).indexedTokens.find(
-              p => p.begin == token.begin).map {
-              indexedToken =>
-                TokenPieceEmbeddings(
-                  TokenPiece(wordpiece = token.wordpiece,
-                    token = if (caseSensitive) indexedToken.token else indexedToken.token.toLowerCase(),
-                    pieceId = token.pieceId,
-                    isWordStart = token.isWordStart,
-                    begin = indexedToken.begin,
-                    end = indexedToken.end
-                  ),
-                  tokenEmbedding
-                )
-            }
-        }
-        (batchIndex, WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex))
-      }.groupBy(_._1).toSeq.sortBy(_._1).map(_._2.map(_._2))
+      val tokensWithEmbeddings = sentence.tokens.zip(tokenEmbeddings).flatMap {
+        case (token, tokenEmbedding) =>
+          originalTokenSentences(batchIndex)(sentenceIndex).indexedTokens.find(
+            p => p.begin == token.begin).map {
+            indexedToken =>
+              TokenPieceEmbeddings(
+                TokenPiece(wordpiece = token.wordpiece,
+                  token = if (caseSensitive) indexedToken.token else indexedToken.token.toLowerCase(),
+                  pieceId = token.pieceId,
+                  isWordStart = token.isWordStart,
+                  begin = indexedToken.begin,
+                  end = indexedToken.end
+                ),
+                tokenEmbedding
+              )
+          }
+      }
+      (batchIndex, WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex))
+      outputAccumulator(batchIndex) =
+        outputAccumulator.apply(batchIndex) :+ WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentenceIndex)
+    }
+    outputAccumulator
   }
 
   def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
