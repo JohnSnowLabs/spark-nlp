@@ -24,7 +24,10 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     *
     * @group getParam
     * */
-  def getBatchSize: Int = $(batchSize)
+  def getBatchSize: Int = {
+    val recommended = $(batchSize) / 8
+    if (recommended < 2) 2 else if (recommended > 32) 32 else recommended
+  }
 
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
     println(s"Batch processing $this with batch size $getBatchSize")
