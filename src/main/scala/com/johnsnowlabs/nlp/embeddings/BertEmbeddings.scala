@@ -201,10 +201,8 @@ class BertEmbeddings(override val uid: String)
     * @return any number of annotations processed for every batch of input annotations. Not necessary one to one relationship
     */
   def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    // FixMe: There was an if statement cleaning up here
     val tokenizedSentences = batchedAnnotations
       .map(annotations => TokenizedWithSentence.unpack(annotations))
-    /*Return empty if the real tokens are empty*/
 
     val tokenized = tokenizedSentences.map(group => tokenizeWithAlignment(group))
 
