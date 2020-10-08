@@ -2937,8 +2937,16 @@ class SentenceDetectorDLModel(AnnotatorModel):
     modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
                               typeConverter=TypeConverters.toString)
 
+    explodeSentences = Param(Params._dummy(),
+                             "explodeSentences",
+                             "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+                             TypeConverters.toBoolean)
+
     def setModel(self, modelArchitecture):
         return self._set(modelArchitecture=modelArchitecture)
+
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel",
                  java_model=None):
@@ -2983,6 +2991,11 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
                            "Path to folder where logs will be saved. If no path is specified, no logs are generated",
                            TypeConverters.toString)
 
+    explodeSentences = Param(Params._dummy(),
+                             "explodeSentences",
+                             "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+                             TypeConverters.toBoolean)
+
     def setModel(self, model_architecture):
         return self._set(modelArchitecture=model_architecture)
 
@@ -2997,6 +3010,9 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
     def setImpossiblePenultimates(self, impossible_penultimates):
         return self._set(impossiblePenultimates=impossible_penultimates)
+
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
 
     def _create_model(self, java_model):
         return SentenceDetectorDLModel(java_model=java_model)
