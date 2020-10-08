@@ -372,9 +372,9 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_ES.ipynb
         - title: Recognize entities in Danish text
           image: 
-              src: /assets/images/Recognize_entities_in_Danish_text.svg
+              src: /assets/images/Flag_of_Denmark.png
           image2: 
-              src: /assets/images/Recognize_entities_in_Danish_text_f.svg
+              src: /assets/images/Flag_of_Denmark.png
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
           - text: Live Demo
@@ -385,9 +385,9 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Swedish text
           image: 
-              src: /assets/images/Recognize_entities_in_Swedish_text.svg
+              src: /assets/images/Flag_of_Sweden.jpg
           image2: 
-              src: /assets/images/Recognize_entities_in_Swedish_text_f.svg
+              src: /assets/images/Flag_of_Sweden.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
           - text: Live Demo
@@ -398,9 +398,9 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Finnish text
           image: 
-              src: /assets/images/Recognize_entities_in_Finnish_text.svg
+              src: /assets/images/flag-of-finland.jpg
           image2: 
-              src: /assets/images/Recognize_entities_in_Finnish_text_f.svg
+              src: /assets/images/flag-of-finland.jpg
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
           actions:
           - text: Live Demo
