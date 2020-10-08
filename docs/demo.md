@@ -370,6 +370,84 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_ES.ipynb
+        - title: Recognize entities in Danish text
+          image: 
+              src: /assets/images/Flag_of_Denmark.png
+          image2: 
+              src: /assets/images/Flag_of_Denmark.png
+          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_DA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Swedish text
+          image: 
+              src: /assets/images/Flag_of_Sweden.jpg
+          image2: 
+              src: /assets/images/Flag_of_Sweden.jpg
+          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_SV/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Finnish text
+          image: 
+              src: /assets/images/flag-of-finland.jpg
+          image2: 
+              src: /assets/images/flag-of-finland.jpg
+          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_FI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Prebuilt pipeline for entity recognition in Danish
+          image: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish.svg
+          image2: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish_f.svg
+          excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Danish text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_DA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
+        - title: Prebuilt pipeline for entity recognition in Swedish
+          image: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish.svg
+          image2: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish_f.svg
+          excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Swedish text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_SV/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
+        - title: Prebuilt pipeline for entity recognition in Finnish
+          image: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish.svg
+          image2: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish_f.svg
+          excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Finnish text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_FI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
@@ -738,6 +816,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
+        - title: Extract tables from PDFs
+          image: 
+              src: /assets/images/Extract_tables_from_PDFs.svg
+          image2: 
+              src: /assets/images/Extract_tables_from_PDFs_f.svg
+          excerpt: Extract tables from selectable PDF documents with the new features offered by Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_TABLE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_TABLE.ipynb
       deidentification: yes
       deidentification: 
         - title: Deidentify structured data
