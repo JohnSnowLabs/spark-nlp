@@ -28,13 +28,13 @@ Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model. 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = DeepSentenceDetector.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
+model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
 	.setInputCols("document") \
 	.setOutputCol("sentence") 
 ```
 
 ```scala
-val model = DeepSentenceDetector.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
 	.setInputCols("document")
 	.setOutputCol("sentence")
 ```
