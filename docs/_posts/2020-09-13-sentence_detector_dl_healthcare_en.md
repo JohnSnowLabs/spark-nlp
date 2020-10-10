@@ -15,7 +15,11 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model. The Chunk column should be generated via the NER Converter annotator from the outputs of a NER annotator
+SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for sentence boundary detection. The task of sentence boundary detection is to identify sentences within a text. Many natural language processing tasks take a sentence as an input unit, such as part-of-speech tagging, dependency parsing, named entity recognition or machine translation.
+
+In this model, we treated the sentence boundary detection task as a classification problem based on a paper {Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed) using CNN architecture. We also modified the original implemenation a little bit to cover broken sentences and some impossible end of line chars.
+
+Healthcare SDDL model is trained on domain (healthcare) specific text to generalize further on clinical notes.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
