@@ -123,7 +123,7 @@ class TensorflowNer
     }
   }
 
-  def train(trainDataset: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
+  def train(trainDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
             lr: Float,
             po: Float,
             batchSize: Int,
@@ -131,7 +131,7 @@ class TensorflowNer
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
-            test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
+            test: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             validationSplit: Float = 0.0f,
             evaluationLogExtended: Boolean = false,
@@ -148,8 +148,9 @@ class TensorflowNer
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
-    val sample: Int = (trainDataset.length*validationSplit).toInt
+    //val sample: Int = (trainDataset.length*validationSplit).toInt
 
+    /* TODO: validation not used now, we can create it earlier at DF level
     val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
       (trainingSet, trainingSample.toArray)
@@ -157,8 +158,11 @@ class TensorflowNer
       // No validationSplit has been set so just use the entire training Dataset
       val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
       (trainDataset.toSeq, emptyValid)
-    }
+    } */
 
+
+    // TODO we can get these lens as parameters to this method
+    /*
     println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
       s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}"
     )
@@ -166,20 +170,26 @@ class TensorflowNer
     outputLog(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
       s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}", uuid, enableOutputLogs, outputLogsPath)
 
+    */
+
+
+
     // Train
     for (epoch <- startEpoch until endEpoch) {
 
-      val epochDataset = Random.shuffle(trainDatasetSeq)
+      // TODO we're already doing this earlier in the dataframe
+      //val epochDataset = Random.shuffle(trainDatasetSeq)
+
       val learningRate = lr / (1 + po * epoch)
 
-      println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}")
+      //println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}")
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
-      outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs, outputLogsPath)
+      //outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs, outputLogsPath)
 
       val time = System.nanoTime()
       var batches = 0
       var loss = 0f
-      for (batch <- slice(epochDataset, batchSize)) {
+      for (batch <- trainDataset) {
         val sentences = batch.map(r => r._2)
         val tags = getPiecesTags(batch.map(r => r._1), sentences)
 
@@ -213,11 +223,14 @@ class TensorflowNer
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
       outputLog(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
 
+
+      /* TODO restore this later
       if (validationSplit > 0.0) {
         println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample")
         outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample", uuid, enableOutputLogs, outputLogsPath)
         measure(validateDatasetSample, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
       }
+      */
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
@@ -253,9 +266,9 @@ class TensorflowNer
       .map{case (l, p) => tagsForTokens(l, p)}
   }
 
-  def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
+  def measure(labeled: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
               extended: Boolean = false,
-              batchSize: Int = 100,
+              batchSize: Int = 100, //TODO:not used!
               includeConfidence: Boolean = false,
               enableOutputLogs: Boolean = false,
               outputLogsPath: String,
@@ -271,7 +284,7 @@ class TensorflowNer
     val falsePositives = mutable.Map[String, Int]()
     val falseNegatives = mutable.Map[String, Int]()
 
-    for (batch <- slice(labeled, batchSize)) {
+    for (batch <- labeled) {
 
       val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence)
 
