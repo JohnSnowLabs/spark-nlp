@@ -19,7 +19,6 @@ SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for
 
 In this model, we treated the sentence boundary detection task as a classification problem based on a paper {Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed) using CNN architecture. We also modified the original implemenation a little bit to cover broken sentences and some impossible end of line chars.
 
-Healthcare SDDL model is trained on domain (healthcare) specific text to generalize further on clinical notes.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -33,13 +32,13 @@ Healthcare SDDL model is trained on domain (healthcare) specific text to general
 
 ```python
 model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
-	.setInputCols("document") \
+	.setInputCols(["document"]) \
 	.setOutputCol("sentence") 
 ```
 
 ```scala
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-	.setInputCols("document")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 ```
 </div>
@@ -56,12 +55,11 @@ val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare"
 | Compatibility: | Spark NLP 2.6.0+                                     |
 | License:       | Licensed                                  |
 | Edition:       | Official                                |
-|Input labels:        | [document, token, chunk_from_ner_converter] |
-|Output labels:       | [sentence ]                                 |
+|Input labels:        | [document] |
+|Output labels:       | sentence                                 |
 | Language:      | en                                        |
 
 
 {:.h2_title}
 ## Data Source
-Please visit the [repo](https://github.com/dbmdz/deep-eos) for more information
-https://github.com/dbmdz/deep-eos
+Healthcare SDDL model is trained on domain (healthcare) specific text, annotated internally, to generalize further on clinical notes.
