@@ -287,22 +287,33 @@ class NerDLApproach(override val uid: String)
     val train = dataset.toDF()
 
     val test = if (!isDefined(testDataset)) {
-      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+      val emptyValid: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty
       emptyValid
     }
     else {
       val testDataFrame = ResourceHelper.readParquetSparkDatFrame($(testDataset))
-      NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn))
+      NerTagged.collectTrainingInstances(testDataFrame, getInputCols, $(labelColumn), $(batchSize))
     }
 
     val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
+    val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn), $(batchSize))
 
-    val trainDataset = NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn))
-    val trainSentences = trainDataset.map(r => r._2)
+    var labels = scala.collection.mutable.Set[String]()
+    var chars = scala.collection.mutable.Set[Char]()
+    var embeddingsDim = 1
 
-    val labels = trainDataset.flatMap(r => r._1.labels).distinct
-    val chars = trainDataset.flatMap(r => r._2.tokens.flatMap(token => token.token.toCharArray)).distinct
-    val embeddingsDim = calculateEmbeddingsDim(trainSentences)
+    // try to be frugal with memory and with number of passes thru the iterator
+    for (batch <- trainDataset; datapoint <- batch){
+      for (label <- datapoint._1.labels)
+          labels += label
+
+      for (token <- datapoint._2.tokens; char <- token.token.toCharArray)
+        chars += char
+
+      if(datapoint._2.tokens.nonEmpty)
+        embeddingsDim = datapoint._2.tokens.head.embeddings.length
+    }
+
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList,
       Array.fill(embeddingsDim)(0f).toList, embeddingsDim)
@@ -310,7 +321,7 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.length, embeddingsDim, chars.length + 1, get(graphFolder), getUseContrib)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1, get(graphFolder), getUseContrib)
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -325,10 +336,11 @@ class NerDLApproach(override val uid: String)
         Random.setSeed($(randomSeed))
       }
 
-      model.train(trainDataset,
+      // start the iterator here once again
+      model.train(NerTagged.collectTrainingInstances(train, getInputCols, $(labelColumn)),
         $(lr),
         $(po),
-        $(batchSize),
+        $(batchSize), // TODO not used remove
         $(dropout),
         graphFileName = graphFile,
         test = test,
