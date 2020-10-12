@@ -4,7 +4,7 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2020-08-03"
+modify_date: "2020-10-01"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -55,25 +55,25 @@ You can run these examples using Python or Scala.
 The easiest way to run the python examples is by starting a pyspark jupyter notebook including the spark-nlp package:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.1`
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.2`
 
 **NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
 
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.1`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.6.1`
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.2`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.6.2`
 
 </div><div class="h3-box" markdown="1">
 
@@ -81,12 +81,10 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 
 Spark NLP offers a variety of pretrained pipelines that will help you get started, and get a sense of how the library works. We are constantly
 working on improving the available content. 
-You can checkout a demo application of the Explain Document ML pipeline here: 
-
+You can checkout a demo application of the Explain Document ML pipeline here:
 
 {:.btn-block}
 [View Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button--primary.button--rounded.button--md}
-
 
 </div><div class="h3-box" markdown="1">
 
