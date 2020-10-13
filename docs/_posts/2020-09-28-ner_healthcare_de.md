@@ -11,7 +11,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-This model can be used to detect symptomes, treatments and other entities in medical text in German language.
+This model can be used to detect symptoms, treatments and other entities in medical text in German language.
 
 ## Predicted Entities
 DIAGLAB_PROCEDURE, MEDICAL_SPECIFICATION, MEDICAL_DEVICE, MEASUREMENT, BIOLOGICAL_CHEMISTRY, BODY_FLUID, TIME_INFORMATION, LOCAL_SPECIFICATION, BIOLOGICAL_PARAMETER, PROCESS, MEDICATION, DOSING, DEGREE, MEDICAL_CONDITION, PERSON, TISSUE, STATE_OF_HEALTH, BODY_PART, TREATMENT

@@ -21,6 +21,7 @@ Sets a Part-Of-Speech tag to each word within a sentence.
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/pos_clinical_en_2.0.2_2.4_1556660550177.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
