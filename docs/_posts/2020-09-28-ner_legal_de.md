@@ -29,7 +29,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 
-clinical_ner = NerDLModel.pretrained("ner_legal", "en", "clinical/models") \
+clinical_ner = NerDLModel.pretrained("ner_legal", "de", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
