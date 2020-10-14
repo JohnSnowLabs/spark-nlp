@@ -111,6 +111,10 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_3.jpg)[Spark NLP Walkthrough, powered by TensorFlow](https://medium.com/@saif1988/spark-nlp-walkthrough-powered-by-tensorflow-9965538663fd)</span><span class="video-descr">Saif Addin Ellafi - Nov 19, 2018</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Natural Language Processing with PySpark and Spark-NLP](https://towardsdatascience.com/natural-language-processing-with-pyspark-and-spark-nlp-b5b29f8faba)</span><span class="video-descr">Allison Honold - Feb 5, 2020</span>
+</div></div>
+
 </div></div>
 
 {:.h2_article}
