@@ -15,11 +15,11 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 
 ## Predicted Entities 
-Athena Codes and their normalized definition
+Athena Codes and their normalized definition.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -64,4 +64,4 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_
 
 {:.h2_title}
 ## Data Source
-Trained on Athena dataset
+Trained on Athena dataset.
