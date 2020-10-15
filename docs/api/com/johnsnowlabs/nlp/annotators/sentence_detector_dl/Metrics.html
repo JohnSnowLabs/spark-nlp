@@ -1,22 +1,22 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DeepSentenceDetector - Spark NLP 2.6.1 ScalaDoc - com.johnsnowlabs.nlp.annotator.DeepSentenceDetector</title>
-          <meta name="description" content="DeepSentenceDetector - Spark NLP 2.6.1 ScalaDoc - com.johnsnowlabs.nlp.annotator.DeepSentenceDetector" />
-          <meta name="keywords" content="DeepSentenceDetector Spark NLP 2.6.1 ScalaDoc com.johnsnowlabs.nlp.annotator.DeepSentenceDetector" />
+          <title>Metrics - Spark NLP 2.6.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics</title>
+          <meta name="description" content="Metrics - Spark NLP 2.6.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence detector dl.Metrics" />
+          <meta name="keywords" content="Metrics Spark NLP 2.6.2 ScalaDoc com.johnsnowlabs.nlp.annotators.sentence detector dl.Metrics" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
-      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
-      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
       
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../index.html';
-            var hash = 'com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$';
+            var url = '../../../../../index.html';
+            var hash = 'com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,15 +26,15 @@
    	  </script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img alt="Object" src="../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../package.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="package.html" class="extype" name="com.johnsnowlabs.nlp.annotator">annotator</a></p>
-        <h1>DeepSentenceDetector</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="com.johnsnowlabs.nlp.annotator">package annotator</a>
+        <img alt="Class" src="../../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../../package.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="../package.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a>.<a href="package.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl">sentence_detector_dl</a></p>
+        <h1>Metrics</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl">package sentence_detector_dl</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       </div>
@@ -42,16 +42,16 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">DeepSentenceDetector</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Metrics</span><span class="params">(<span name="accuracy">accuracy: <span class="extype" name="scala.Double">Double</span></span>, <span name="recall">recall: <span class="extype" name="scala.Double">Double</span></span>, <span name="precision">precision: <span class="extype" name="scala.Double">Double</span></span>, <span name="f1">f1: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a>], <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -69,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector"><span>DeepSentenceDetector</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsReadable"><span>DefaultParamsReadable</span></li><li class="in" name="org.apache.spark.ml.util.MLReadable"><span>MLReadable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics"><span>Metrics</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -86,7 +86,27 @@
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(accuracy:Double,recall:Double,precision:Double,f1:Double):com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics"></a>
+      <a id="&lt;init&gt;:Metrics"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Metrics</span><span class="params">(<span name="accuracy">accuracy: <span class="extype" name="scala.Double">Double</span></span>, <span name="recall">recall: <span class="extype" name="scala.Double">Double</span></span>, <span name="precision">precision: <span class="extype" name="scala.Double">Double</span></span>, <span name="f1">f1: <span class="extype" name="scala.Double">Double</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@&lt;init&gt;(accuracy:Double,recall:Double,precision:Double,f1:Double):com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
 
         
 
@@ -106,8 +126,8 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -123,8 +143,8 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@##():Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -140,11 +160,28 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@==(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics#accuracy" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="accuracy:Double"></a>
+      <a id="accuracy:Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">accuracy</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@accuracy:Double" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -157,8 +194,8 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -174,11 +211,11 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@clone():Object" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
@@ -197,28 +234,28 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics#f1" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="f1:Double"></a>
+      <a id="f1:Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">f1</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@f1:Double" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -231,11 +268,11 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@finalize():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -254,25 +291,8 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@hashCode():Int" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -288,34 +308,11 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="org.apache.spark.ml.util.MLReadable#load" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="load(path:String):T"></a>
-      <a id="load(String):DeepSentenceDetector"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">load</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@load(path:String):T" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>MLReadable</dd><dt>Annotations</dt><dd>
-                <span class="name">@Since</span><span class="args">(<span>
-      
-      <span class="symbol">&quot;1.6.0&quot;</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -328,8 +325,8 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -345,8 +342,8 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@notify():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -362,28 +359,45 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@notifyAll():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.apache.spark.ml.util.DefaultParamsReadable#read" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="read:org.apache.spark.ml.util.MLReader[T]"></a>
-      <a id="read:MLReader[DeepSentenceDetector]"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics#precision" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="precision:Double"></a>
+      <a id="precision:Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">read</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLReader">MLReader</span>[<a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a>]</span>
+        <span class="name">precision</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@read:org.apache.spark.ml.util.MLReader[T]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@precision:Double" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DefaultParamsReadable → MLReadable</dd></dl></div>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics#recall" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="recall:Double"></a>
+      <a id="recall:Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">recall</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@recall:Double" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -396,28 +410,11 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@toString():String" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -430,8 +427,8 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@wait():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -453,8 +450,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -476,8 +473,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotator.package$$DeepSentenceDetector$@wait(x$1:Long):Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.Metrics@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -500,10 +497,10 @@
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
-            </div><div class="parent" name="org.apache.spark.ml.util.DefaultParamsReadable">
-              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a>]</h3>
-            </div><div class="parent" name="org.apache.spark.ml.util.MLReadable">
-              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="package.html#DeepSentenceDetector=com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector" class="extmbr" name="com.johnsnowlabs.nlp.annotator.DeepSentenceDetector">DeepSentenceDetector</a>]</h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
