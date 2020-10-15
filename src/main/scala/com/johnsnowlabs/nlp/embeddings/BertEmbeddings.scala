@@ -138,7 +138,8 @@ class BertEmbeddings(override val uid: String) extends
     * @group setParam
     **/
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings")
+    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value >= 1, "The maxSentenceLength must be at least 1")
 
     if (get(maxSentenceLength).isEmpty)
       set(maxSentenceLength, value)
@@ -200,7 +201,7 @@ class BertEmbeddings(override val uid: String) extends
         val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
         if (result.nonEmpty) result.head else IndexedToken("")
       }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token))
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
