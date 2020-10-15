@@ -15,8 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Assertion of Clinical Entities based on Deep Learning
-Deep learning named entity recognition model for assertions 
+Assertion of Clinical Entities based on Deep Learning.  
 
 ## Predicted Entities 
 hypothetical, present, absent, possible, conditional, associated_with_someone_else
