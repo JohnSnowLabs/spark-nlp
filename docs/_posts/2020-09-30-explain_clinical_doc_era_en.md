@@ -41,26 +41,27 @@ annotations.keys()
 ## Results
 The output is a dictionary with the following keys: 'sentences', 'clinical_ner_tags', 'clinical_ner_chunks_re', 'document', 'clinical_ner_chunks', 'assertion', 'clinical_relations', 'tokens', 'embeddings', 'pos_tags', 'dependencies'.
 ```bash
-	chunks							begin	end	entities
-0	admitted						7		14	OCCURRENCE
-1	The John Hopkins Hospital		19		43	CLINICAL_DEPT
-2	2 days ago						45		54	DATE
-3	gestational diabetes mellitus	74		102	PROBLEM
-4	diagnosed						104		112	OCCURRENCE
-5	denied							119		124	EVIDENTIAL
-6	pain							126		129	PROBLEM
-7	any headache					135		146	PROBLEM
-8	seen							157		160	OCCURRENCE
-9	the endocrinology service		165		189	CLINICAL_DEPT
-10	discharged						203		212	OCCURRENCE
-11	03/02/2018						217		226	DATE
-12	insulin glargine				243		258	TREATMENT
-13	insulin lispro					274		287	TREATMENT
-14	metformin						294		302	TREATMENT
-15	two times a day					312		326	FREQUENCY
-16	close follow-up					337		351	OCCURRENCE
-17	endocrinology					358		370	CLINICAL_DEPT
-18	discharge						377		385	OCCURRENCE
+| #  | chunks                        | begin | end | entities      |
+|----|-------------------------------|-------|-----|---------------|
+| 0  | admitted                      | 7     | 14  | OCCURRENCE    |
+| 1  | The John Hopkins Hospital     | 19    | 43  | CLINICAL_DEPT |
+| 2  | 2 days ago                    | 45    | 54  | DATE          |
+| 3  | gestational diabetes mellitus | 74    | 102 | PROBLEM       |
+| 4  | diagnosed                     | 104   | 112 | OCCURRENCE    |
+| 5  | denied                        | 119   | 124 | EVIDENTIAL    |
+| 6  | pain                          | 126   | 129 | PROBLEM       |
+| 7  | any headache                  | 135   | 146 | PROBLEM       |
+| 8  | seen                          | 157   | 160 | OCCURRENCE    |
+| 9  | the endocrinology service     | 165   | 189 | CLINICAL_DEPT |
+| 10 | discharged                    | 203   | 212 | OCCURRENCE    |
+| 11 | 03/02/2018                    | 217   | 226 | DATE          |
+| 12 | insulin glargine              | 243   | 258 | TREATMENT     |
+| 13 | insulin lispro                | 274   | 287 | TREATMENT     |
+| 14 | metformin                     | 294   | 302 | TREATMENT     |
+| 15 | two times a day               | 312   | 326 | FREQUENCY     |
+| 16 | close follow-up               | 337   | 351 | OCCURRENCE    |
+| 17 | endocrinology                 | 358   | 370 | CLINICAL_DEPT |
+| 18 | discharge                     | 377   | 385 | OCCURRENCE    |
 ```
 {:.model-param}
 ## Model Information
