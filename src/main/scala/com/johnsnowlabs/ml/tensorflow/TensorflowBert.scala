@@ -49,14 +49,15 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
           tokenPieceId.take(maxSequenceLength - 2) ++
           Array(sentenceEndTokenId)
       }else if(tokenPieceLength < maxSentenceLength){
-        val diff = if(maxSentenceLength <= maxSequenceLength) maxSentenceLength - tokenPieceLength else maxSequenceLength - tokenPieceLength
-        Array(sentenceStartTokenId) ++
+        val diff = maxSequenceLength - tokenPieceLength
+        (Array(sentenceStartTokenId) ++
           tokenPieceId ++
           Array(sentenceEndTokenId) ++
-          Array.fill(diff - 2)(0)
-      }else{
+          Array.fill(diff - 2)(0)).take(maxSentenceLength)
+      }
+      else{
         Array(sentenceStartTokenId) ++
-          tokenPieceId.take(maxSequenceLength - 2) ++
+          tokenPieceId.take(maxSentenceLength - 2) ++
           Array(sentenceEndTokenId)
       }
     }
@@ -179,7 +180,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap{batch =>
       val encoded = encode(batch, maxSentenceLength)
-
       val vectors = tag(encoded)
 
       /*Combine tokens and calculated embeddings*/
