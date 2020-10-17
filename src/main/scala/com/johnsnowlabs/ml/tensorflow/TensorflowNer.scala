@@ -8,7 +8,7 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
-import scala.util.Random
+
 
 class TensorflowNer
 (
@@ -124,9 +124,11 @@ class TensorflowNer
   }
 
   def train(trainDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
+            trainLength:Long,
+            validDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
+            validLength:Long,
             lr: Float,
             po: Float,
-            batchSize: Int,
             dropout: Float,
             startEpoch: Int = 0,
             endEpoch: Int,
@@ -148,43 +150,21 @@ class TensorflowNer
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
-    //val sample: Int = (trainDataset.length*validationSplit).toInt
-
-    /* TODO: validation not used now, we can create it earlier at DF level
-    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
-      val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
-      (trainingSet, trainingSample.toArray)
-    } else {
-      // No validationSplit has been set so just use the entire training Dataset
-      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
-      (trainDataset.toSeq, emptyValid)
-    } */
-
-
-    // TODO we can get these lens as parameters to this method
-    /*
     println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
-      s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}"
+      s"- chars: ${encoder.chars.length} - training examples: ${trainLength}"
     )
 
     outputLog(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
-      s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}", uuid, enableOutputLogs, outputLogsPath)
-
-    */
-
-
+      s"- chars: ${encoder.chars.length} - training examples: ${trainLength}", uuid, enableOutputLogs, outputLogsPath)
 
     // Train
     for (epoch <- startEpoch until endEpoch) {
 
-      // TODO we're already doing this earlier in the dataframe
-      //val epochDataset = Random.shuffle(trainDatasetSeq)
-
       val learningRate = lr / (1 + po * epoch)
 
-      //println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}")
+      println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength")
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
-      //outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs, outputLogsPath)
+      outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength", uuid, enableOutputLogs, outputLogsPath)
 
       val time = System.nanoTime()
       var batches = 0
@@ -224,13 +204,13 @@ class TensorflowNer
       outputLog(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
 
 
-      /* TODO restore this later
+
       if (validationSplit > 0.0) {
-        println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample")
-        outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample", uuid, enableOutputLogs, outputLogsPath)
-        measure(validateDatasetSample, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
+        println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $validLength")
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
+        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
       }
-      */
+
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
