@@ -171,6 +171,12 @@ class NerDLApproach(override val uid: String)
 
   def getOutputLogsPath: String = $(outputLogsPath)
 
+  /** Memory Optimizer
+    *
+    * @group getParam
+    * */
+  def getEnableMemoryOptimizer: Boolean = $(this.enableMemoryOptimizer)
+
   /** Learning Rate
     *
     * @group setParam
@@ -232,6 +238,8 @@ class NerDLApproach(override val uid: String)
   def setEnableOutputLogs(enableOutputLogs: Boolean): NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
 
   def setOutputLogsPath(path: String): NerDLApproach.this.type = set(this.outputLogsPath, path)
+
+  def setEnableMemoryOptimizer(value:Boolean) = set(this.enableMemoryOptimizer, value)
 
   /** Path to test dataset. If set used to calculate statistic on it during training.
     *
