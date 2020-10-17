@@ -80,13 +80,21 @@ class LanguageDetectorDL(override val uid: String) extends
     *
     * @group setParam
     * */
-  def setLanguage(value: Map[String, Int]): this.type = set(language, value)
+  def setLanguage(value: Map[String, Int]): this.type = {
+    if (get(language).isEmpty)
+      set(this.language, value)
+    this
+  }
 
   /** alphabet used to feed the TensorFlow model for prediction
     *
     * @group setParam
     * */
-  def setAlphabet(value: Map[String, Int]): this.type = set(alphabet, value)
+  def setAlphabet(value: Map[String, Int]): this.type = {
+    if (get(language).isEmpty)
+      set(alphabet, value)
+    this
+  }
 
   /** The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.
     *
