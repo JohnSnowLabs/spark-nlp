@@ -17,6 +17,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
+import org.spark_project.dmg.pmml.False
 import org.tensorflow.Graph
 
 import scala.util.Random
@@ -275,7 +276,8 @@ class NerDLApproach(override val uid: String)
     evaluationLogExtended -> false,
     includeConfidence -> false,
     enableOutputLogs -> false,
-    outputLogsPath -> ""
+    outputLogsPath -> "",
+    enableMemoryOptimizer -> false
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
@@ -413,13 +415,15 @@ class NerDLApproach(override val uid: String)
   def getIteratorFunc(dataset:Dataset[Row]) = {
 
     if ($(enableMemoryOptimizer)) {
+      () => NerTagged.iterateOnDataframe(dataset, getInputCols, $(labelColumn), $(batchSize))
+
+    } else {
       val inMemory = dataset
         .select($(labelColumn), getInputCols.toSeq: _*)
         .collect()
 
       () => NerTagged.interateOnArray(inMemory, getInputCols, $(labelColumn), $(batchSize))
-    } else {
-      () => NerTagged.iterateOnDataframe(dataset, getInputCols, $(labelColumn), $(batchSize))
+
     }
   }
 
