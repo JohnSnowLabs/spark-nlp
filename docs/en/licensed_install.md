@@ -119,11 +119,9 @@ spark = SparkSession.builder \
     SPARK_NLP_LICENSE=zzz
     ```
 
-      -   If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows: 
+      -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows: 
 
     ```bash
-    sc._jsc.hadoopConfiguration().set("fs.s3a.access.key", "xxx")
-    sc._jsc.hadoopConfiguration().set("fs.s3a.secret.key", "yyy")
     %scala
     val script = """
     #!/bin/bash
