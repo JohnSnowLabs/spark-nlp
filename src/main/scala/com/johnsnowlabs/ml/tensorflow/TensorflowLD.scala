@@ -21,7 +21,7 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
                   ) extends Serializable {
 
   private val inputKey = "inputs:0"
-  private val outputKey = "softmax_output_final/Softmax:0"
+  private val outputKey = "output/Sigmoid:0"
 
   def tag(inputs: Array[Array[Float]], inputSize: Int, outputSize: Int): Array[Array[Float]] = {
     val tensors = new TensorResources()
@@ -32,11 +32,9 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     inputs.map { sentence =>
       tokenBuffers.put(sentence)
     }
-
     tokenBuffers.flip()
 
     val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
-
     val tokenTensors = tensors.createFloatBufferTensor(shape, tokenBuffers)
 
     runner
@@ -55,30 +53,40 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
   }
 
   def cleanText(docs: List[String]): List[String] = {
-    val rmChars = "@#,.0123456789()-:;\"$%^&*<>+-_=～۰۱۲۳۴۵۶۷۸۹()＄:;\\}\\{｡｢･\\[\\]\\t\\n\\|\\/\\{"
-    docs.map(_.replaceAll(rmChars, " "))
+    val rmChars = "¿¡!?@#,.0123456789()-:;\"$%^&*<>+-_=～~۰۱۲۳۴۵۶۷۸۹()＄:;\\}\\{｡｢･\\[\\]\\t\\n\\|\\/\\{"
+    docs.map(_.replaceAll(rmChars, " ").toLowerCase())
   }
 
   def calculateLanguageIdentification(
                                        documents: Seq[Sentence],
                                        alphabets: Map[String, Int],
                                        languages: Map[String, Int],
-                                       threshold: Float = 0.6f,
-                                       thresholdLabel: String = "Unknown",
+                                       threshold: Float = 0.01f,
+                                       thresholdLabel: String = "unk",
                                        coalesceSentences: Boolean = false
                                      ): Array[Annotation] = {
 
-    val maxSentenceLength = 240
+    val maxSentenceLength = 400
     val orderedAlphabets = ListMap(alphabets.toSeq.sortBy(_._2):_*)
     val orderedLanguages = ListMap(languages.toSeq.sortBy(_._2):_*)
 
     val sentences = documents.map{ x=>
       val chars = cleanText(x.content.map(_.toString).toList).take(maxSentenceLength)
+      //      chars.map{char=>
+      //        val emptyVector = Array.fill(alphabets.toSeq.length)(0f)
+      //        val charID = orderedAlphabets.getOrElse(char, 0)
+      //        if(charID != 0){
+      //          emptyVector(charID) = 1f
+      //        }else{
+      //          emptyVector(orderedAlphabets(UNK_TOKEN)) = 1f
+      //        }
+      //        emptyVector
+      //      }.toArray
       val trueCounts = mutable.LinkedHashMap[String, Float]()
       orderedAlphabets.map(x=>trueCounts.put(x._1, 0f))
       chars.foreach{char =>
-        if(orderedAlphabets.contains(char)) {
-          trueCounts(char) = trueCounts.getOrElse(char, 0f) + 1f
+        if(trueCounts.contains(char)) {
+          trueCounts(char) = trueCounts(char) + 1f
         }
       }
       trueCounts.values.toArray
@@ -94,7 +102,9 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     if (coalesceSentences){
 
       val avgScores = outputs.flatMap(x=>x.toList).groupBy(_._2).mapValues(_.map(_._1).sum/outputs.length)
-      val maxResult = avgScores.maxBy(_._2)
+      val normalized = avgScores.mapValues(x=>x/avgScores.values.sum)
+
+      val maxResult = normalized.maxBy(_._2)
       val finalLabel = if(maxResult._2 >= threshold) maxResult._1 else thresholdLabel
 
       Array(
