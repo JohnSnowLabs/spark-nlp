@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.common
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
+import com.johnsnowlabs.ml.tensorflow.SentenceGrouper
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.{NAMED_ENTITY, POS}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
@@ -8,6 +9,8 @@ import com.johnsnowlabs.nlp.annotators.spell.context.LangModelSentence
 import org.apache.spark.sql.catalyst.encoders.RowEncoder
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
+import scala.collection.mutable.ArrayBuffer
+import scala.reflect.ClassTag
 import scala.util.Random
 
 
@@ -207,6 +210,17 @@ object NerTagged extends Tagged[NerTaggedSentence]{
     DatasetIterator
   }
 
+  // TODO duplicated code from TensorflowNER
+  def doSlice[T: ClassTag](dataset: TraversableOnce[T], getLen: T => Int, batchSize: Int = 32): Iterator[Array[T]] = {
+    val gr = SentenceGrouper[T](getLen)
+    gr.slice(dataset, batchSize)
+  }
+
+  def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
+  Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
+  }
+
 
   /** FIXME: ColNums not always in the given order*/
   def interateOnArray(inputArray: Array[Row],
@@ -215,13 +229,13 @@ object NerTagged extends Tagged[NerTaggedSentence]{
                       batchSize:Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
 
 
-     Random.shuffle(inputArray.toSeq)
+     slice(Random.shuffle(inputArray.toSeq)
       .flatMap { row =>
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
         val labels = getLabelsFromSentences(sentences, labelAnnotations)
         labels.zip(sentences)
-      }.toArray.grouped(batchSize)
+      }, batchSize)
     }
 }
