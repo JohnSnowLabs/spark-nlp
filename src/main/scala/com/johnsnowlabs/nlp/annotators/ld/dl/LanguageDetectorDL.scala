@@ -124,6 +124,13 @@ class LanguageDetectorDL(override val uid: String) extends
     *
     * @group getParam
     **/
+  def getLanguage: Array[String] = {
+    $$(language).keys.toArray
+  }
+  /** threshold
+    *
+    * @group getParam
+    **/
   def getThreshold: Float = $(this.threshold)
 
   /**
