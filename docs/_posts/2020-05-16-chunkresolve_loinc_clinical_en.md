@@ -15,10 +15,10 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 ## Predicted Entities 
-LOINC Codes and ther Standard Name with `clinical_embeddings`
+LOINC Codes and ther Standard Name with *clinical_embeddings*.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -61,5 +61,5 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinical","e
 
 {:.h2_title}
 ## Data Source
-Trained on LOINC dataset with `embeddings_clinical`
+Trained on LOINC dataset with *embeddings_clinical*.
 https://loinc.org/

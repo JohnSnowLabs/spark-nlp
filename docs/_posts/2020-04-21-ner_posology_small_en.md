@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Posology Small
+title: Posology Extractor Small
 author: John Snow Labs
 name: ner_posology_small
 class: NerDLModel

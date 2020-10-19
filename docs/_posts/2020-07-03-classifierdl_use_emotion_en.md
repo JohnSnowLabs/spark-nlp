@@ -2,7 +2,7 @@
 layout: model
 title: Emotion Detection Classifier
 author: John Snow Labs
-name: classifierdl_use_emotion
+name: Emotion Classifier
 class: ClassifierDLModel
 language: en
 repository: public/models
@@ -29,6 +29,10 @@ surprise, sadness, fear, joy
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```nlu
+
+```
+
 ```python
 
 documentAssembler = DocumentAssembler()\
@@ -44,11 +48,7 @@ document_classifier = ClassifierDLModel.pretrained('classifierdl_use_emotion', '
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
-nlpPipeline = Pipeline(stages=[
-                               documentAssembler, 
-                               use,
-                               document_classifier
-                               ])
+nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -79,11 +79,9 @@ annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
 | Spark NLP Compatibility | 2.4                          |
 | License                 | open source                  |
 | Edition                 | public                       |
-| Input Labels            |                              |
-| Output Labels           | surprise, sadness, fear, joy |
+| Input Labels            | [document, sentence_embeddings]|
+| Output Labels           | [class]                        |
 | Language                | en                           |
-| Dimension               |                              |
-| Case Sensitive          |                              |
 | Upstream Dependencies   | tfhub_use                    |
 
 
@@ -91,5 +89,5 @@ annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
 
 {:.h2_title}
 ## Data Source
-This model is trained on multiple datasets inlcuding youtube comments, twitter and ISEAR dataset
+This model is trained on multiple datasets inlcuding youtube comments, twitter and ISEAR dataset.
 

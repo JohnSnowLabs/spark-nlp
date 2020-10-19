@@ -44,11 +44,7 @@ document_classifier = ClassifierDLModel.pretrained('classifierdl_use_spam', 'en'
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
-nlpPipeline = Pipeline(stages=[
-                               documentAssembler, 
-                               use,
-                               document_classifier
-                               ])
+nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -79,11 +75,9 @@ annotations = light_pipeline.fullAnnotate('Congratulations! You've won a $1,000 
 | Spark NLP Compatibility | 2.4                   |
 | License                 | open source           |
 | Edition                 | public                |
-| Input Labels            |                       |
-| Output Labels           | spam, ham             |
+| Input Labels            | [document, sentence_embeddings] |
+| Output Labels           | [class]          |
 | Language                | en                    |
-| Dimension               |                       |
-| Case Sensitive          |                       |
 | Upstream Dependencies   | tfhub_use             |
 
 

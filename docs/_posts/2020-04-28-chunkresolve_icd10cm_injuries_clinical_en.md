@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver Icd10cm Injuries Clinical
+title: Icd10cm Injuries Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_injuries_clinical
 class: ChunkEntityResolverModel
@@ -21,8 +21,8 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_injuries_clinical_en_2.4.5_2.4_1588103825347.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 

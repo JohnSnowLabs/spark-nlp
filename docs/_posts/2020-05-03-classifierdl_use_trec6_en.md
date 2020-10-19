@@ -44,11 +44,7 @@ document_classifier = ClassifierDLModel.pretrained('classifierdl_use_trec6', 'en
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
-nlpPipeline = Pipeline(stages=[
-                               documentAssembler, 
-                               use,
-                               document_classifier
-                               ])
+nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -77,11 +73,9 @@ annotations = light_pipeline.fullAnnotate('When did the construction of stone ci
 | Spark NLP Compatibility | 2.4                                  |
 | License                 | open source                          |
 | Edition                 | public                               |
-| Input Labels            |                                      |
-| Output Labels           | ABBR,  DESC,  NUM,  ENTY,  LOC,  HUM |
+| Input Labels            |  [document, sentence_embeddings]     |
+| Output Labels           | [class]                              |
 | Language                | en                                   |
-| Dimension               |                                      |
-| Case Sensitive          |                                      |
 | Upstream Dependencies   | tfhub_use                            |
 
 

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Posology Small
+title: Posology Extractor Small
 author: John Snow Labs
 name: ner_posology_small_en
 date: 2020-04-22
@@ -11,7 +11,6 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-
 Pretrained named entity recognition deep learning model for posology. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 ## Predicted Entities 

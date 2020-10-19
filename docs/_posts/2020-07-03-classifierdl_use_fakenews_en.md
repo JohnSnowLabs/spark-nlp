@@ -44,11 +44,7 @@ document_classifier = ClassifierDLModel.pretrained('classifierdl_use_fakenews', 
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
-nlpPipeline = Pipeline(stages=[
-                               documentAssembler, 
-                               use,
-                               document_classifier
-                               ])
+nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -78,11 +74,9 @@ annotations = light_pipeline.fullAnnotate('Donald Trump a KGB Spy? 11/02/2016 In
 | Spark NLP Compatibility | 2.4                       |
 | License                 | open source               |
 | Edition                 | public                    |
-| Input Labels            |                           |
-| Output Labels           | REAL, FAKE                |
+| Input Labels            | [document, sentence_embeddings] |
+| Output Labels           | [class]               |
 | Language                | en                        |
-| Dimension               |                           |
-| Case Sensitive          |                           |
 | Upstream Dependencies   | with tfhub_use            |
 
 
