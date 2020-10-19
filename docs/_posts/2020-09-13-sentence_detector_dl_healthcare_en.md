@@ -15,7 +15,10 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Finds sentence bounds in raw text. Applies a Named Entity Recognition DL model. The Chunk column should be generated via the NER Converter annotator from the outputs of a NER annotator
+SentenceDetectorDL (SDDL) is based on a general-purpose neural network model for sentence boundary detection. The task of sentence boundary detection is to identify sentences within a text. Many natural language processing tasks take a sentence as an input unit, such as part-of-speech tagging, dependency parsing, named entity recognition or machine translation.
+
+In this model, we treated the sentence boundary detection task as a classification problem based on a paper {Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed) using CNN architecture. We also modified the original implemenation a little bit to cover broken sentences and some impossible end of line chars.
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -39,12 +42,11 @@ sentencerDL = SentenceDetectorDLModel\
 
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
 sd_model.fullAnnotate("""John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.""")
-
 ```
 
 ```scala
-val model = DeepSentenceDetector.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-	.setInputCols("document","token","chunk_from_ner_converter")
+val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 ```
 </div>
@@ -61,12 +63,11 @@ val model = DeepSentenceDetector.pretrained("sentence_detector_dl_healthcare","e
 | Compatibility: | Spark NLP 2.6.0+                                     |
 | License:       | Licensed                                  |
 | Edition:       | Official                                |
-|Input labels:        | [document, token, chunk_from_ner_converter] |
-|Output labels:       | [sentence ]                                 |
+|Input labels:        | [document] |
+|Output labels:       | sentence                                 |
 | Language:      | en                                        |
 
 
 {:.h2_title}
 ## Data Source
-Please visit the [repo](https://github.com/dbmdz/deep-eos) for more information
-https://github.com/dbmdz/deep-eos
+Healthcare SDDL model is trained on domain (healthcare) specific text, annotated internally, to generalize further on clinical notes.
