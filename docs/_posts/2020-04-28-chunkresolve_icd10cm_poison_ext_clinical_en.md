@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver Icd10cm Poison Ext Clinical
+title: Icd10cm Poison Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_poison_ext_clinical
 class: ChunkEntityResolverModel
@@ -15,14 +15,15 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 ## Predicted Entities 
-ICD10-CM Codes and their normalized definition with `clinical_embeddings`
+ICD10-CM Codes and their normalized definition with *clinical_embeddings*.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_poison_ext_clinical_en_2.4.5_2.4_1588106053455.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
 ## How to use 
@@ -33,17 +34,37 @@ ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 ```python
 model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
-	.setOutputCol("entity")
+	.setOutputCol("icd10_code")
+...
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, entity_resolver])
+
+light_pipeline  = LightPipeline(pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+
+light_pipeline.fullAnnotate("""The patient is a 5-month-old infant who presented initially on Monday with a cold, cough, and runny nose for 2 days. She had no difficulty breathing and her cough was described as dry and hacky. At that time, physical exam showed a right TM, which was red. Left TM was okay. She was fairly congested but looked happy and playful. She was started on Amoxil and Aldex and we told to recheck in 2 weeks to recheck her ear. Mom returned to clinic again today because she got much worse overnight. She was having difficulty breathing. She was much more congested and her appetite had decreased significantly today. She also spiked a temperature yesterday of 102.6 and always having trouble sleeping secondary to congestion.""")
+
 ```
 
 ```scala
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
-	.setOutputCol("entity")
+	.setOutputCol("icd10_code")
 ```
 </div>
 
-
+## Result
+```bash
+| # |                chunk | begin | end |  entity |                                 icd10_description | icd10_code |
+|--:|---------------------:|------:|----:|--------:|--------------------------------------------------:|------------|
+| 0 |        a cold, cough |    75 |  87 | PROBLEM | Chronic obstructive pulmonary disease, unspeci... |       J449 |
+| 1 |           runny nose |    94 | 103 | PROBLEM |                                  Nasal congestion |      R0981 |
+| 2 | difficulty breathing |   210 | 229 | PROBLEM |                               Shortness of breath |      R0602 |
+| 3 |            her cough |   235 | 243 | PROBLEM |                                             Cough |        R05 |
+| 4 |     fairly congested |   365 | 380 | PROBLEM |                                Edema, unspecified |       R609 |
+| 5 | difficulty breathing |   590 | 609 | PROBLEM |                               Shortness of breath |      R0602 |
+| 6 |       more congested |   625 | 638 | PROBLEM |                                Edema, unspecified |       R609 |
+| 7 |     trouble sleeping |   759 | 774 | PROBLEM |                                Activity, sleeping |      Y9384 |
+| 8 |           congestion |   789 | 798 | PROBLEM |                                  Nasal congestion |      R0981 |
+```
 
 {:.model-param}
 ## Model Information
@@ -56,7 +77,7 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext
 | License:        | Licensed                                 |
 |Edition:|Official|                               |
 |Input labels:         | [token, chunk_embeddings]                  |
-|Output labels:        | [entity]                                   |
+|Output labels:        | [icd10_code]                                   |
 | Language:       | en                                       |
 | Case sensitive: | True                                     |
 | Dependencies:  | embeddings_clinical                      |

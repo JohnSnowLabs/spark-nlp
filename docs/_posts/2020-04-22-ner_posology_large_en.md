@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Posology Large
+title: Posology Extractor Large
 author: John Snow Labs
 name: ner_posology_large_en
 date: 2020-04-22

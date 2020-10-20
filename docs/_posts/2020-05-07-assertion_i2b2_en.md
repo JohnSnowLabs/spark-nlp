@@ -15,8 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Assertion of Clinical Entities based on Deep Learning
-Deep learning named entity recognition model for assertions 
+Assertion of Clinical Entities based on Deep Learning. Identifies the status of predicted entities based on their context.  
 
 ## Predicted Entities 
 hypothetical, present, absent, possible, conditional, associated_with_someone_else
@@ -62,5 +61,5 @@ val model = AssertionDLModel.pretrained("assertion_i2b2","en","clinical/models")
 
 {:.h2_title}
 ## Data Source
-Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with `embeddings_clinical`
+Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with *embeddings_clinical*
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/

@@ -31,9 +31,17 @@ In this model, we treated the sentence boundary detection task as a classificati
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
-	.setInputCols(["document"]) \
-	.setOutputCol("sentence") 
+documenter = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+    
+sentencerDL = SentenceDetectorDLModel\
+  .pretrained("sentence_detector_dl", "en") \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentences")
+
+sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
+sd_model.fullAnnotate("""John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.""")
 ```
 
 ```scala
