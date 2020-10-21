@@ -9,8 +9,6 @@ import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-import scala.collection.mutable
-
 class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[WordSegmenterModel]{
 
   def this() = this(Identifiable.randomUID("WORD_SEGMENTER"))
@@ -67,9 +65,7 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
       val externalKnowledgeBase = ResourceHelper.parseLines($(knowledgeBase)).mkString(",")
       words = getWords(externalKnowledgeBase)
     } else {
-      val knowledgeBase = dataset.select("document.result").rdd.flatMap( row =>
-        row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      ).collect().mkString(" ")
+      val knowledgeBase = dataset.select("text").collect().mkString(" ")
       words = getWords(knowledgeBase)
    }
 
