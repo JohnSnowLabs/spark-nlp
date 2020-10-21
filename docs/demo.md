@@ -238,6 +238,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
+        - title: Aspect based sentiment analysis for restaurants
+          image: 
+              src: /assets/images/Detect-emotions.svg
+          image2: 
+              src: /assets/images/Detect-emotions-w.svg
+          excerpt: Automatically detect positive, negative and neutral aspects about restaurants from the written feedback given by reviewers.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://#
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://#
       languages: yes
       languages: 
         - title: Detect language
@@ -723,6 +736,58 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
+        - title: Adverse drug events tagger
+          image: 
+              src: /assets/images/Detect_temporal_relations_for_clinical_events.svg
+          image2: 
+              src: /assets/images/Detect_temporal_relations_for_clinical_events_f.svg
+          excerpt: Automatic pipeline that tags documents as containing or not containing adverse events description, then identifies those events.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PP_ADE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb
+        - title: Identify diagnosis and symptoms assertion status
+          image: 
+              src: /assets/images/Detect_anatomical_references.svg
+          image2: 
+              src: /assets/images/Detect_anatomical_references_f.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
+        - title: Detect cell structure, DNA, RNA and protein
+          image: 
+              src: /assets/images/Detect_chemical_compounds_and_genes.svg
+          image2: 
+              src: /assets/images/Detect_chemical_compounds_and_genes_f.svg
+          excerpt: Automatically detect cell type, cell line, DNA and RNA information using our pretrained Spark NLP for Healthcare model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+        - title: Link entities to Wikipedia pages
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: Automatically disambiguate people’s names based on their context and link them to corresponding Wikipedia pages using out of the box Spark NLP pretrained models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DISAMBIGUATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
