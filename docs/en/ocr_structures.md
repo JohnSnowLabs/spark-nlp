@@ -1,14 +1,17 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Structures and helpers
 permalink: /docs/en/ocr_structures
 key: docs-ocr-structures
 modify_date: "2020-04-08"
 ---
 
-# Schemas
+<div class="h3-box" markdown="1">
 
-## Image Schema
+## Schemas
+
+### Image Schema
 
 Images are loaded as a DataFrame with a single column called “image.” 
 
@@ -25,8 +28,11 @@ image: struct (nullable = true)
  |    |-- data: binary (nullable = true)
 ```
 
+</div>
+
 #### Fields
 
+{:.table-model-big}
 | Field name | Type | Description |
 | --- | --- | --- |
 | origin | string | source URI  |
@@ -43,7 +49,6 @@ NOTE: Image `data` stored in a binary format. Image data is represented
       and array values of type t specified by the mode field.
 {:.info}
 
-
 ## Coordinate Schema
 
 ```
@@ -56,6 +61,7 @@ element: struct (containsNull = true)
  |    |    |-- height: float (nullable = false)
 ```
 
+{:.table-model-big}
 | Field name | Type | Description |
 | --- | --- | --- |
 | index | integer | Chunk index |
@@ -65,10 +71,11 @@ element: struct (containsNull = true)
 | width | float |  The width of the rectangle |
 | height | float |  The height of the rectangle |
 
+<div class="h3-box" markdown="1">
 
-# Enums
+## Enums
 
-## PageSegmentationMode
+### PageSegmentationMode
 
   * ***OSD_ONLY***: Orientation and script detection only.
   * ***AUTO_OSD***: Automatic page segmentation with orientation and script detection.
@@ -84,14 +91,18 @@ element: struct (containsNull = true)
   * ***SPARSE_TEXT***: Find as much text as possible in no particular order.
   * ***SPARSE_TEXT_OSD***: Sparse text with orientation and script detection.
 
-## EngineMode
+</div><div class="h3-box" markdown="1">
+
+### EngineMode
 
   *  ***TESSERACT_ONLY***: Legacy engine only.
   *  ***OEM_LSTM_ONLY***: Neural nets LSTM engine only.
   *  ***TESSERACT_LSTM_COMBINED***: Legacy + LSTM engines.
   *  ***DEFAULT***: Default, based on what is available.
   
-## PageIteratorLevel
+</div><div class="h3-box" markdown="1">
+
+### PageIteratorLevel
 
   * ***BLOCK***: Block of text/image/separator line.
   * ***PARAGRAPH***: Paragraph within a block.
@@ -99,19 +110,25 @@ element: struct (containsNull = true)
   * ***WORD***: Word within a text line.
   * ***SYMBOL***: Symbol/character within a word.
 
-## ImageType
+</div><div class="h3-box" markdown="1">
+
+### ImageType
  
  * ***TYPE_BYTE_GRAY***
  * ***TYPE_BYTE_BINARY***
  * ***TYPE_3BYTE_BGR***
  * ***TYPE_4BYTE_ABGR***
- 
-## NoiseMethod
+
+</div><div class="h3-box" markdown="1">
+
+### NoiseMethod
 
  * ***VARIANCE***
  * ***RATIO***
- 
-## KernelShape
+
+</div><div class="h3-box" markdown="1">
+
+### KernelShape
 
  * ***SQUARE***
  * ***DIAMOND***
@@ -120,14 +137,18 @@ element: struct (containsNull = true)
  * ***OCTAGON***
  * ***STAR***
 
-## MorphologyOperationType
+</div><div class="h3-box" markdown="1">
+
+### MorphologyOperationType
     
  * ***OPENING***
  * ***CLOSING***
  * ***EROSION***
  * ***DILATION***
 
-## CropSquareType
+</div><div class="h3-box" markdown="1">
+
+### CropSquareType
 
  * ***TOP_LEFT***
  * ***TOP_CENTER***
@@ -138,24 +159,27 @@ element: struct (containsNull = true)
  * ***BOTTOM_LEFT***
  * ***BOTTOM_CENTER***
  * ***BOTTOM_RIGHT***
- 
-# OCR implicits
 
-## asImage
+</div><div class="h3-box" markdown="1">
+
+## OCR implicits
+
+### asImage
 
 `asImage` transforms binary content to [Image schema](#image-schema).
 
+</div><div class="h3-box" markdown="1">
+
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | outputCol | string | image | output column name |
 | contentCol | string | content | input column name with binary content |
 | pathCol | string | path | input column name with path to original file |
 
-
 **Example:**
-
 
 ```scala
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -171,12 +195,17 @@ val df = spark.read
 df.show()
 ```
 
-## storeImage
+</div><div class="h3-box" markdown="1">
+
+### storeImage
 
 `storeImage` stores the image(s) to tmp location and return Dataset with path(s) to stored image files.
 
+</div><div class="h3-box" markdown="1">
+
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | inputColumn | string | | input column name with image struct |
@@ -200,12 +229,17 @@ val df = spark.read
 df.storeImage("image")
 ```
 
-## showImages
+</div><div class="h3-box" markdown="1">
+
+### showImages
 
 Show images on Databrics notebook.
 
+</div><div class="h3-box" markdown="1">
+
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | field | string | image | input column name with image struct |
@@ -213,15 +247,19 @@ Show images on Databrics notebook.
 | width | string | "800" | width of image |
 | show_meta | boolean | true | enable/disable displaying methadata of image |
 
+</div><div class="h3-box" markdown="1">
 
-# Databricks Python helpers
+## Databricks Python helpers
 
-## display_images
+### display_images
 
 Show images.
 
+</div>
+
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | field | string | image | input column name with image struct |
@@ -229,8 +267,7 @@ Show images.
 | width | string | "800" | width of image |
 | show_meta | boolean | true | enable/disable displaying methadata of image |
 
-Example:
-
+**Example:**
 
 ```python
 from sparkocr.databricks import display_images

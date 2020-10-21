@@ -1,17 +1,20 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Installation
 permalink: /docs/en/ocr_install
 key: docs-ocr-install
 modify_date: "2020-04-08"
 ---
 
-# Requirements
+<div class="h3-box" markdown="1">
+
 
 Spark OCR is built on top of **Apache Spark 2.4.4**. 
 We have custom build for 2.3.*.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
+
 
 Spark OCR required:
  - Scala 2.11
@@ -23,10 +26,16 @@ Before you start, make sure that you have:
 - Spark OCR python wheel file 
 - License key
 
-If not please contact info@johnsnowlabs.com to get the library and free trial license. 
+If you don't have a valid subscription yet and you want to test out the Spark OCR library press the button below:
+
+{:.btn-block}
+[Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
 
 
-# Spark OCR from Scala
+
+</div><div class="h3-box" markdown="1">
+
+## Spark OCR from Scala
 
 You can start a spark REPL with Scala by running in your terminal a spark-shell including the com.johnsnowlabs.nlp:spark-ocr_2.11:1.0.0 package:
 
@@ -36,7 +45,9 @@ spark-shell --jars ####
 
 The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
 
-## Start Spark OCR Session
+</div>
+
+### Start Spark OCR Session
 
 The following code will initialize the spark session in case you have run the jupyter notebook directly. If you have started the notebook using pyspark this cell is just ignored.
 
@@ -58,9 +69,11 @@ val spark = SparkSession
     .getOrCreate()
 ```
 
-# Spark OCR from Python
+<div class="h3-box" markdown="1">
 
-## Install Python package
+## Spark OCR from Python
+
+### Install Python package
 
 Install python package using pip:
 
@@ -70,9 +83,11 @@ pip install spark-ocr==1.1.0 --extra-index-url #### --ignore-installed
 
 The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
 
-## Start Spark OCR Session
+</div><div class="h3-box" markdown="1">
 
-### Manually
+### Start Spark OCR Session
+
+#### Manually
 
 ```python
 from pyspark.sql import SparkSession
@@ -87,13 +102,16 @@ spark = SparkSession \
     .getOrCreate()
 ```
 
-### Using Start function
+</div><div class="h3-box" markdown="1">
+
+#### Using Start function
 
 Another way to initialize SparkSession with Spark OCR to use `start` function in Python.
 
 
 Start function has following params:
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | secret | string | None | Secret for download Spark OCR jar file |
@@ -113,8 +131,9 @@ from sparkocr import start
 spark = start(secret=secret, nlp_version="2.4.4")
 ```
 
+</div>
 
-# Databricks
+## Databricks
 
 The installation process to Databricks includes following steps: 
 

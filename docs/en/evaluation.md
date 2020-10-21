@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Evaluation
 permalink: /docs/en/evaluation
 key: docs-evaluation
@@ -7,6 +8,8 @@ modify_date: "2020-06-05"
 use_language_switcher: "Python-Scala"
 
 ---
+
+<div class="h3-box" markdown="1">
 
 ## Spark NLP Evaluation
 
@@ -16,6 +19,8 @@ The results will display on the console or to an [MLflow tracking UI](https://ml
 - See [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/enterprise/eval) on eval folder if you want to check specific running examples.
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -27,9 +32,11 @@ from sparknlp.eval import *
 import com.johnsnowlabs.nlp.eval._
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Evaluating Norvig Spell Checker
 
-You can evaluate this spell checker either training an annotator or using a pretrained model.
+You can evaluate this spell checker either by training an annotator or by using a pretrained model.
 
 - spark: Spark session.
 - trainFile: A corpus of documents with correctly spell words.
@@ -52,6 +59,9 @@ My sister goes to Munich.
 ```
 
 **Example for annotator:**
+
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
@@ -74,7 +84,11 @@ val norvigSpellEvaluation = new NorvigSpellEvaluation(spark, testFile, groundTru
 norvigSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 ```
 
+</div>
+
 **Example for pretrained model:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -91,9 +105,11 @@ val norvigSpellEvaluation = new NorvigSpellEvaluation(spark, testFile, groundTru
 norvigSpellEvaluation.computeAccuracyModel(spell)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Evaluating Symmetric Spell Checker
 
-You can evaluate this spell checker either training an annotator or using a pretrained model.
+You can evaluate this spell checker either by training an annotator or by using a pretrained model.
 
 - spark: Spark session
 - trainFile: A corpus of documents with correctly spell words.
@@ -120,6 +136,8 @@ My sister goes to Munich.
 
 **Example for annotator:**
 
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 spell = SymmetricDeleteApproach() \
@@ -140,7 +158,12 @@ val symSpellEvaluation = new SymSpellEvaluation(spark, testFile, groundTruthFile
 symSpellEvaluation.computeAccuracyAnnotator(trainFile, spell)
 ```
 
+</div>
+
 **Example for pretrained model:**
+
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 spell = SymmetricDeleteModel.pretrained()
@@ -154,6 +177,9 @@ val spell = SymmetricDeleteModel.pretrained()
 val symSpellEvaluation = new SymSpellEvaluation(spark, testFile, groundTruthFile)
 symSpellEvaluation.computeAccuracyModel(spell)
 ```
+
+</div></div><div class="h3-box" markdown="1">
+
 ### Evaluating NER DL
 
 You can evaluate NER DL when training an annotator.
@@ -165,6 +191,9 @@ You can evaluate NER DL when training an annotator.
 to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 embeddings = WordEmbeddings() \
@@ -198,11 +227,14 @@ val nerApproach = new NerDLApproach()
 
 val nerDLEvaluation = new NerDLEvaluation(spark, testFile, tagLevel)
 nerDLEvaluation.computeAccuracyAnnotator(trainFile, nerApproach, embeddings)
-
 ```
+
+</div>
 
 
 **Example for pretrained model:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
@@ -219,6 +251,8 @@ val nerDlEvaluation = NerDLEvaluation(spark, testFile, tagLevel)
 nerDlEvaluation.computeAccuracyModel(nerDl)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Evaluating NER CRF
 
 You can evaluate NER CRF when training an annotator.
@@ -230,6 +264,9 @@ You can evaluate NER CRF when training an annotator.
 to display accuracy for entity I-PER and B-PER set "IOB" whereas just for entity PER set it as an empty string.
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 embeddings = WordEmbeddings() \
@@ -265,7 +302,12 @@ val nerCrfEvaluation = new NerCrfEvaluation(testFile, format)
 nerCrfEvaluation.computeAccuracyAnnotator(trainFile, nerTagger, embeddings)
 ```
 
+</div>
+
 **Example for pretrained model:**
+
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 ner_crf = NerCrfModel.pretrained()
@@ -281,15 +323,20 @@ nerCrfEvaluation = NerCrfEvaluation(spark, testFile, tagLevel)
 nerCrfEvaluation.computeAccuracyModel(nerCrf)
 ```
 
+</div></div>
+
 ### Evaluating POS Tagger
 
-You can evaluate POS either training an annotator or using a pretrained model.
+You can evaluate POS either by training an annotator or by using a pretrained model.
 
 - spark: Spark session.
 - trainFile: A labeled POS file see and example [here](https://nlp.johnsnowlabs.com/docs/en/annotators#pos-dataset).
 - testFile: A CoNLL-U format file.
 
 **Example for annotator:**
+
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 pos_tagger = PerceptronApproach() \
@@ -310,3 +357,5 @@ val posTagger = new PerceptronApproach()
 val posEvaluation = new POSEvaluation(spark, testFile)
 posEvaluation.computeAccuracyAnnotator(trainFile, posTagger)
 ```
+
+</div>

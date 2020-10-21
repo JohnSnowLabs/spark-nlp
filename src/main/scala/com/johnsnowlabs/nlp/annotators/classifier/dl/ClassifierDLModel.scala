@@ -19,7 +19,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   *
   * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
   *
-  * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+  * NOTE: UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala]] for further reference on how to use this API
   *
