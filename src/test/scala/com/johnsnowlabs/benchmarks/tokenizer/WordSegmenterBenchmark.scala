@@ -19,11 +19,6 @@ class WordSegmenterBenchmark extends FlatSpec {
   private val testingDataSetFile = "test.untokenized.utf8"
   private val groundTruthDataSetFile = "groundtruth.dev.ws.utf8"
 
-  private val testingDataSet = ResourceHelper.spark.read.text(testingDataSetFile)
-    .withColumnRenamed("value", "text")
-  private val trainingDataSet = ResourceHelper.spark.read.text(trainingDataSetFile)
-    .withColumnRenamed("value", "text")
-
   private val minFrequencyList = List(2.05E-5, 1.05E-5, 5.05E-6, 4.05E-6, 3.05E-6, 2.05E-6, 1.05E-6)
   private val minAggregationList = List(1, 2, 3, 4, 5, 6, 7)
   private val maxWordLengthList = List(2, 3, 4, 5)
@@ -37,7 +32,7 @@ class WordSegmenterBenchmark extends FlatSpec {
     .setInputCols("document")
     .setOutputCol("sentence")
 
-  "WordSegmenterBenchmark with a set of parameters" should "output metrics" in {
+  "WordSegmenterBenchmark with a set of parameters" should "output metrics" ignore {
     val file = new File("word_segmenter_metrics.txt")
     val bw = new BufferedWriter(new FileWriter(file))
     minFrequencyList.foreach{ minFrequency =>
@@ -56,7 +51,7 @@ class WordSegmenterBenchmark extends FlatSpec {
     bw.close()
   }
 
-  "WordSegmenterBenchmark with parameters" should "output metrics" in {
+  "WordSegmenterBenchmark with parameters" should "output metrics" ignore {
     val minFrequency = 5.05E-6
     val maxWordLength = 4
     val minEntropy = 0.1
@@ -67,13 +62,13 @@ class WordSegmenterBenchmark extends FlatSpec {
     println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
   }
 
-  it should "benchmark a pipeline pretrained model" in {
+  it should "benchmark a pipeline pretrained model" ignore {
     val tokenizerPipeline = PipelineModel.load("./pipeline_wordsegmenter_model")
     val metrics = evaluateModel(tokenizerPipeline)
     println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
   }
 
-  it should "benchmark a word segmenter pretrained model" in {
+  it should "benchmark a word segmenter pretrained model" ignore {
     val emptyDataset = PipelineModels.dummyDataset
     val modelPath = "./word_segmenter_model"
     val wordSegmenter = WordSegmenterModel.load(modelPath)
@@ -85,6 +80,8 @@ class WordSegmenterBenchmark extends FlatSpec {
 
   private def benchMarkWordSegmenter(minFrequency: Double, maxWordLength: Int, minAggregation: Double,
                                      minEntropy: Double): (Double, Double, Double) = {
+    val trainingDataSet = ResourceHelper.spark.read.text(trainingDataSetFile)
+      .withColumnRenamed("value", "text")
 
     val wordSegmenter = new WordSegmenterApproach()
     .setInputCols("sentence")
@@ -102,6 +99,8 @@ class WordSegmenterBenchmark extends FlatSpec {
   }
 
   private def evaluateModel(pipelineModel: PipelineModel): (Double, Double, Double) = {
+    val testingDataSet = ResourceHelper.spark.read.text(testingDataSetFile)
+      .withColumnRenamed("value", "text")
     val tokenizerDataSet = pipelineModel.transform(testingDataSet)
 
     val predictedTokensBySentences = tokenizerDataSet.select("token.result").rdd.map{ row=>
