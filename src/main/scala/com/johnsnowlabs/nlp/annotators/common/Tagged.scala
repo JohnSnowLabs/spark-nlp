@@ -1,16 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.common
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
-import com.johnsnowlabs.ml.tensorflow.SentenceGrouper
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.{NAMED_ENTITY, POS}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
-import com.johnsnowlabs.nlp.annotators.spell.context.LangModelSentence
-import org.apache.spark.sql.catalyst.encoders.RowEncoder
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-
-import scala.collection.mutable.ArrayBuffer
-import scala.reflect.ClassTag
 import scala.util.Random
 
 
@@ -159,15 +153,6 @@ object NerTagged extends Tagged[NerTaggedSentence]{
   }
 
 
-  // TODO duplicated code taken from ContextSpellChecker
-  implicit class DataFrameHelper(dataset: DataFrame) {
-    def randomize: DataFrame = {
-      implicit val encoder = RowEncoder(dataset.schema)
-      dataset.mapPartitions {
-        new scala.util.Random().shuffle(_).toIterator
-      }
-    }
-  }
 
   /** FIXME: ColNums not always in the given order*/
   def iterateOnDataframe(dataset: Dataset[Row],
@@ -177,7 +162,7 @@ object NerTagged extends Tagged[NerTaggedSentence]{
 
 
     object DatasetIterator extends Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] {
-      import dataset.sparkSession.implicits._
+      import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
       // Send batches, don't collect(), only keeping a single batch in memory anytime
       val it = dataset
@@ -210,16 +195,6 @@ object NerTagged extends Tagged[NerTaggedSentence]{
     DatasetIterator
   }
 
-  // TODO duplicated code from TensorflowNER
-  def doSlice[T: ClassTag](dataset: TraversableOnce[T], getLen: T => Int, batchSize: Int = 32): Iterator[Array[T]] = {
-    val gr = SentenceGrouper[T](getLen)
-    gr.slice(dataset, batchSize)
-  }
-
-  def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
-  Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
-  }
 
 
   /** FIXME: ColNums not always in the given order*/
@@ -227,7 +202,7 @@ object NerTagged extends Tagged[NerTaggedSentence]{
                       sentenceCols: Seq[String],
                       labelColumn: String,
                       batchSize:Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-
+    import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
      slice(Random.shuffle(inputArray.toSeq)
       .flatMap { row =>
