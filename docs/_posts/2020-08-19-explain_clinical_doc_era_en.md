@@ -26,11 +26,9 @@ A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_eve
 
 ```python
 
-pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
+model = PretrainedPipeline("explain_clinical_doc_era","en","clinical/models")
 
-annotations = pipeline.annotate(text)
-
-annotations.keys()
+annotations = model.annotate("This is an example")
 
 ```
 ```scala

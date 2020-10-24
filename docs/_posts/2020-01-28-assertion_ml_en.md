@@ -31,8 +31,8 @@ hypothetical, present, absent, possible, conditional, associated_with_someone_el
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = AssertionLogRegModel.pretrained("assertion_ml","en","clinical/models")
-	.setInputCols("document","chunk","word_embeddings")
+model = AssertionLogRegModel.pretrained("assertion_ml","en","clinical/models")\
+	.setInputCols("document","chunk","word_embeddings")\
 	.setOutputCol("assertion")
 ```
 

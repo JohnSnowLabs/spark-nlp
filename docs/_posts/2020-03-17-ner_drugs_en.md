@@ -31,8 +31,8 @@ DrugChem (Drug and Chemicals)
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_drugs","en","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_drugs","en","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

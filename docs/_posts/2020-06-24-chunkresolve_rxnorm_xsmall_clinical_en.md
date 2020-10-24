@@ -31,8 +31,8 @@ Snomed Codes and their normalized definition with `clinical_embeddings`.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_xsmall_clinical","en","clinical/models")
-	.setInputCols("token","chunk_embeddings")
+model = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_xsmall_clinical","en","clinical/models")\
+	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("entity")
 ```
 

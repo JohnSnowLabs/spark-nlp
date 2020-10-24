@@ -30,8 +30,8 @@ Temporal relations (BEFORE, AFTER, SIMULTANEOUS, BEGUN_BY, ENDED_BY, DURING, BEF
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = RelationExtractionModel.pretrained("re_temporal_events_enriched_clinical","en","clinical/models")
-	.setInputCols("word_embeddings","chunk","pos","dependency")
+model = RelationExtractionModel.pretrained("re_temporal_events_enriched_clinical","en","clinical/models")\
+	.setInputCols("word_embeddings","chunk","pos","dependency")\
 	.setOutputCol("category")
 ```
 

@@ -32,8 +32,8 @@ MORFOLOGIA_NEOPLASIA
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_neoplasms","es","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_neoplasms","es","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

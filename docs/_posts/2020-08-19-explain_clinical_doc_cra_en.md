@@ -28,9 +28,9 @@ A pretrained pipeline with ner_clinical, assertion_dl, re_clinical. It will extr
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PipelineModel.pretrained("explain_clinical_doc_cra","en","clinical/models")
-	.setInputCols("")
-	.setOutputCol("")
+model = PretrainedPipeline("explain_clinical_doc_cra","en","clinical/models")
+
+annotations = model.annotate("This is an example")
 ```
 
 ```scala

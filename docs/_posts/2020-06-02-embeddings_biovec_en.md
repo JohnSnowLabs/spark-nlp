@@ -31,8 +31,8 @@ Word2Vec feature vectors based on embeddings_biovec
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = WordEmbeddingsModel.pretrained("embeddings_biovec","en","clinical/models")
-	.setInputCols("document","token")
+model = WordEmbeddingsModel.pretrained("embeddings_biovec","en","clinical/models")\
+	.setInputCols("document","token")\
 	.setOutputCol("word_embeddings")
 ```
 

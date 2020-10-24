@@ -31,8 +31,8 @@ TrIP (improved), TrWP (worsened), TrCP (caused problem), TrAP (administered), Tr
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = RelationExtractionModel.pretrained("re_temporal_events_clinical","en","clinical/models")
-	.setInputCols("word_embeddings","chunk","pos","dependency")
+model = RelationExtractionModel.pretrained("re_temporal_events_clinical","en","clinical/models")\
+	.setInputCols("word_embeddings","chunk","pos","dependency")\
 	.setOutputCol("category")
 ```
 
