@@ -36,16 +36,6 @@ class TensorflowNer
 
   private val initKey = "training_1/init"
 
-  def doSlice[T: ClassTag](dataset: TraversableOnce[T], getLen: T => Int, batchSize: Int = 32): Iterator[Array[T]] = {
-    val gr = SentenceGrouper[T](getLen)
-    gr.slice(dataset, batchSize)
-  }
-
-  def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
-  Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
-    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
-  }
-
   def predict(
                dataset: Array[WordpieceEmbeddingsSentence],
                configProtoBytes: Option[Array[Byte]] = None,
@@ -248,7 +238,6 @@ class TensorflowNer
 
   def measure(labeled: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
               extended: Boolean = false,
-              batchSize: Int = 100, //TODO:not used!
               includeConfidence: Boolean = false,
               enableOutputLogs: Boolean = false,
               outputLogsPath: String,
