@@ -1422,6 +1422,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
 
+    enableMemoryOptimizer = Param(Params._dummy(), "enableMemoryOptimizer", "Whether to optimize for large datasets or not. Enabling this option can slow down training.", TypeConverters.toBoolean)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1468,6 +1470,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
+
+    def setEnableMemoryOptimizer(self, value):
+        return self._set(enableMemoryOptimizer=value)
 
     def setOutputLogsPath(self, p):
         return self._set(outputLogsPath=p)
