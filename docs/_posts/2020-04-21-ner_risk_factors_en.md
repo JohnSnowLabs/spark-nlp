@@ -31,8 +31,8 @@ CAD, DIABETES, FAMILY_HIST, HYPERLIPIDEMIA, HYPERTENSION, MEDICATION, OBESE, PHI
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_risk_factors","en","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_risk_factors","en","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

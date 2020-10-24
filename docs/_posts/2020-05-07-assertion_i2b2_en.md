@@ -30,8 +30,8 @@ hypothetical, present, absent, possible, conditional, associated_with_someone_el
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = AssertionDLModel.pretrained("assertion_i2b2","en","clinical/models")
-	.setInputCols("document","chunk","word_embeddings")
+model = AssertionDLModel.pretrained("assertion_i2b2","en","clinical/models")\
+	.setInputCols("document","chunk","word_embeddings")\
 	.setOutputCol("assertion")
 ```
 
