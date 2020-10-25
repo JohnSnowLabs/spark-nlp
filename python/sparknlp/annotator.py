@@ -1493,7 +1493,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             validationSplit=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableOutputLogs=False
+            enableOutputLogs=False,
+            enableMemoryOptimizer=False
         )
 
 
