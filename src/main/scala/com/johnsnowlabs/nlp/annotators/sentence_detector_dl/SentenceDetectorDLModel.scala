@@ -320,7 +320,7 @@ trait ReadsSentenceDetectorDLGraph extends ParamsAndFeaturesReadable[SentenceDet
 trait ReadablePretrainedSentenceDetectorDL
   extends ParamsAndFeaturesReadable[SentenceDetectorDLModel] with HasPretrained[SentenceDetectorDLModel] {
 
-  override val defaultModelName = None
+  override val defaultModelName: Some[String] = Some("sentence_detector_dl")
   /** Java compliant-overrides */
   override def pretrained(): SentenceDetectorDLModel = super.pretrained()
   override def pretrained(name: String): SentenceDetectorDLModel = super.pretrained(name)
