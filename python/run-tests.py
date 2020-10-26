@@ -34,6 +34,7 @@ unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(NerDLModelTestSpec())
 unittest.TextTestRunner().run(YakeModelTestSpec())
+unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 # Should be locally tested
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())

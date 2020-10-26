@@ -36,16 +36,17 @@ To overcome this exception message we have to follow these steps:
 
 1. Clone [spark-nlp github repo](https://github.com/JohnSnowLabs/spark-nlp)
 
-2. Go to *python/tensorflow/ner/* path
-
-3. Run python file `create_models` with number of tags, embeddings dimension and number of char values mentioned on your exception message error.
+2. Run python file `create_models` with number of tags, embeddings dimension and number of char values mentioned on your exception message error.
 
     ```bash
+    cd spark-nlp/python/tensorflow
+    export PYTHONPATH=lib/ner
     python create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars] [output_path]
     ```
 
-4. This will generate a graph on the directory defined on `output_path argument.
+3. This will generate a graph on the directory defined on `output_path argument.
 
-5. Retry training with `NerDLApproach` annotator but this time use the parameter `setGraphFolder` with the path of your graph.
+4. Retry training with `NerDLApproach` annotator but this time use the parameter `setGraphFolder` with the path of your graph.
 
 **Note:**  Make sure that you have Python 3 and Tensorflow 1.15.0 installed on your system since `create_models` requires those versions to generate the graph successfully.
+**Note:**  We also have a notebook in the same directory if you prefer Jupyter notebook to cerate your custom graph.
