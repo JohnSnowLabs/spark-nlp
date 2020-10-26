@@ -2956,7 +2956,7 @@ class SentenceDetectorDLModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name, lang="en", remote_loc=None):
+    def pretrained(name="sentence_detector_dl", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SentenceDetectorDLModel, name, lang, remote_loc)
 
