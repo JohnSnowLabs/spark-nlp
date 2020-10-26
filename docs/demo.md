@@ -253,9 +253,9 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ABSA_Inference.ipynb
         - title: Detect sentences in text
           image: 
-              src: /assets/images/Detect-emotions.svg
+              src: /assets/images/Detect_sentences_in_text.svg
           image2: 
-              src: /assets/images/Detect-emotions-w.svg
+              src: /assets/images/Detect_sentences_in_text_f.svg
           excerpt: Detect sentences from general purpose text documents using a deep learning model capable of understanding noisy sentence structures.
           actions:
           - text: Live Demo
@@ -266,9 +266,9 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
         - title: Detect and normalize dates
           image: 
-              src: /assets/images/Detect-emotions.svg
+              src: /assets/images/Detect_and_normalize_dates.svg
           image2: 
-              src: /assets/images/Detect-emotions-w.svg
+              src: /assets/images/Detect_and_normalize_dates_f.svg
           excerpt: Automatically detect key phrases expressing dates and normalize them with respect to a reference date.
           actions:
           - text: Live Demo
@@ -855,9 +855,9 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL.ipynb
         - title: Detect sentences in healthcare documents
           image: 
-              src: /assets/images/Grammar_Analysis.svg
+              src: /assets/images/Detect_sentences_in_healthcare_documents.svg
           image2: 
-              src: /assets/images/Grammar_Analysis_f.svg
+              src: /assets/images/Detect_sentences_in_healthcare_documents_f.svg
           excerpt: Automatically detect sentences in noisy healthcare documents with our pretrained Sentence Splitter DL model.
           actions:
           - text: Live Demo
