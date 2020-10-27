@@ -82,9 +82,9 @@ object NerDLPipeline extends App {
     val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
 
-    val labeled = NerTagged.interateOnArray(transformed, Seq("sentence", "token", "glove"), "label")
+    val labeled = NerTagged.interateOnArray(transformed.collect(), Seq("sentence", "token", "glove"), "label", 2)
 
-    ner.measure(labeled, extended, errorsToPrint, outputLogsPath = "")
+    ner.measure(labeled, extended, outputLogsPath = "")
   }
 
   val spark = SparkAccessor.benchmarkSpark
