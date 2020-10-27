@@ -31,8 +31,8 @@ DOSAGE, DRUG, DURATION, FORM, FREQUENCY, ROUTE,STRENGTH
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_posology","en","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_posology","en","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

@@ -27,15 +27,11 @@ This pipeline can be used to de-identify PHI information from medical texts. The
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PipelineModel.pretrained("clinical_deidentification","en","clinical/models")
-	.setInputCols("")
-	.setOutputCol("")
+model = PretrainedPipeline("clinical_deidentification","en","clinical/models")
 ```
 
 ```scala
-val model = PipelineModel.pretrained("clinical_deidentification","en","clinical/models")
-	.setInputCols("")
-	.setOutputCol("")
+val model = PretrainedPipeline("clinical_deidentification","en","clinical/models")
 ```
 </div>
 

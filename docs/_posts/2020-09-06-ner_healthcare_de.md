@@ -32,8 +32,8 @@ BIOLOGICAL_CHEMISTRY, BIOLOGICAL_PARAMETER, BODY_FLUID, BODY_PART, DEGREE, DIAGL
 
 ```python
 ...
-model = NerDLModel.pretrained("ner_healthcare","de","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_healthcare","de","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 
 clinical_ner_converter = NerConverterInternal().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")

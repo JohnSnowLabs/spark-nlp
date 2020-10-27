@@ -32,8 +32,8 @@ Athena Codes and their normalized definition.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_healthcare","en","clinical/models")
-	.setInputCols("token","chunk_embeddings")
+model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_healthcare","en","clinical/models")\
+	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("entity")
 ```
 

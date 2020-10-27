@@ -32,8 +32,8 @@ ICD10-CM Codes and their normalized definition with *clinical_embeddings*.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")
-	.setInputCols("token","chunk_embeddings")
+model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")\
+	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("icd10_code")
 ...
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, entity_resolver])

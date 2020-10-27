@@ -32,8 +32,8 @@ ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_musculoskeletal_clinical","en","clinical/models")
-	.setInputCols("token","chunk_embeddings")
+model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_musculoskeletal_clinical","en","clinical/models")\
+	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("entity")
 ```
 

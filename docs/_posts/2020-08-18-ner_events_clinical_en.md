@@ -31,8 +31,8 @@ CLINICAL_DEPT, DATE, DURATION, EVIDENTIAL, FREQUENCY, OCCURRENCE, PROBLEM, TEST,
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_events_clinical","en","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_events_clinical","en","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

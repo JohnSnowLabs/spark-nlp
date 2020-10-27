@@ -30,8 +30,8 @@ Age, City, Country, Date, Doctor, Hospital, Idnum, Medicalrecord, Organization, 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_deid_enriched","en","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_deid_enriched","en","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

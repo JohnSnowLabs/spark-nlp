@@ -29,8 +29,8 @@ Sets a Part-Of-Speech tag to each word within a sentence.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
-	.setInputCols("token","sentence")
+model = PerceptronModel.pretrained("pos_clinical","en","clinical/models")\
+	.setInputCols("token","sentence")\
 	.setOutputCol("pos")
 ```
 

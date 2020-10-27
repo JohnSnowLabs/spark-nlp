@@ -27,8 +27,8 @@ Relation Extraction model based on syntactic features using deep learning
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = RelationExtractionModel.pretrained("re_drug_drug_interaction_clinical","en","clinical/models")
-	.setInputCols("word_embeddings","chunk","pos","dependency")
+model = RelationExtractionModel.pretrained("re_drug_drug_interaction_clinical","en","clinical/models")\
+	.setInputCols("word_embeddings","chunk","pos","dependency")\
 	.setOutputCol("category")
 ```
 

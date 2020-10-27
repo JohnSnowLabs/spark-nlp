@@ -38,8 +38,8 @@ Models the set of clinical relations defined in the 2010 i2b2 relation challenge
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")
-	.setInputCols("word_embeddings","chunk","pos","dependency")
+reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
+	.setInputCols("word_embeddings","chunk","pos","dependency")\
 	.setOutput
 
 pipeline = Pipeline(stages=[
