@@ -8,7 +8,7 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
-
+import scala.util.Random
 
 class TensorflowNer
 (
@@ -35,6 +35,16 @@ class TensorflowNer
   private val predictKey = "inference/cond_2/Merge:0"
 
   private val initKey = "training_1/init"
+
+  def doSlice[T: ClassTag](dataset: TraversableOnce[T], getLen: T => Int, batchSize: Int = 32): Iterator[Array[T]] = {
+    val gr = SentenceGrouper[T](getLen)
+    gr.slice(dataset, batchSize)
+  }
+
+  def slice(dataset: TraversableOnce[(TextSentenceLabels, WordpieceEmbeddingsSentence)], batchSize: Int = 32):
+  Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+    doSlice[(TextSentenceLabels, WordpieceEmbeddingsSentence)](dataset, _._2.tokens.length, batchSize)
+  }
 
   def predict(
                dataset: Array[WordpieceEmbeddingsSentence],
@@ -113,17 +123,15 @@ class TensorflowNer
     }
   }
 
-  def train(trainDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
-            trainLength:Long,
-            validDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
-            validLength:Long,
+  def train(trainDataset: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
             lr: Float,
             po: Float,
+            batchSize: Int,
             dropout: Float,
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
-            test: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty,
+            test: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             validationSplit: Float = 0.0f,
             evaluationLogExtended: Boolean = false,
@@ -140,26 +148,38 @@ class TensorflowNer
     if (startEpoch == 0)
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
+    val sample: Int = (trainDataset.length*validationSplit).toInt
+
+    val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
+      val (trainingSample, trainingSet) = Random.shuffle(trainDataset.toSeq).splitAt(sample)
+      (trainingSet, trainingSample.toArray)
+    } else {
+      // No validationSplit has been set so just use the entire training Dataset
+      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
+      (trainDataset.toSeq, emptyValid)
+    }
+
     println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
-      s"- chars: ${encoder.chars.length} - training examples: ${trainLength}"
+      s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}"
     )
 
     outputLog(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
-      s"- chars: ${encoder.chars.length} - training examples: ${trainLength}", uuid, enableOutputLogs, outputLogsPath)
+      s"- chars: ${encoder.chars.length} - training examples: ${trainDatasetSeq.length}", uuid, enableOutputLogs, outputLogsPath)
 
     // Train
     for (epoch <- startEpoch until endEpoch) {
 
+      val epochDataset = Random.shuffle(trainDatasetSeq)
       val learningRate = lr / (1 + po * epoch)
 
-      println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength")
+      println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}")
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
-      outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength", uuid, enableOutputLogs, outputLogsPath)
+      outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: ${epochDataset.length}", uuid, enableOutputLogs, outputLogsPath)
 
       val time = System.nanoTime()
       var batches = 0
       var loss = 0f
-      for (batch <- trainDataset) {
+      for (batch <- slice(epochDataset, batchSize)) {
         val sentences = batch.map(r => r._2)
         val tags = getPiecesTags(batch.map(r => r._1), sentences)
 
@@ -193,14 +213,11 @@ class TensorflowNer
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
       outputLog(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
 
-
-
       if (validationSplit > 0.0) {
-        println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $validLength")
-        outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
-        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
+        println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample")
+        outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $sample", uuid, enableOutputLogs, outputLogsPath)
+        measure(validateDatasetSample, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
       }
-
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
@@ -236,8 +253,9 @@ class TensorflowNer
       .map{case (l, p) => tagsForTokens(l, p)}
   }
 
-  def measure(labeled: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
+  def measure(labeled: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)],
               extended: Boolean = false,
+              batchSize: Int = 100,
               includeConfidence: Boolean = false,
               enableOutputLogs: Boolean = false,
               outputLogsPath: String,
@@ -253,7 +271,7 @@ class TensorflowNer
     val falsePositives = mutable.Map[String, Int]()
     val falseNegatives = mutable.Map[String, Int]()
 
-    for (batch <- labeled) {
+    for (batch <- slice(labeled, batchSize)) {
 
       val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence)
 
