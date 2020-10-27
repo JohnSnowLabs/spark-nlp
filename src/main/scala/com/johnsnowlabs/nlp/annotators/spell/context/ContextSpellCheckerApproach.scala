@@ -335,7 +335,6 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     object DatasetIterator extends Iterator[Array[LangModelSentence]] {
       import corpus.sparkSession.implicits._
-      import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
       // Send batches, don't collect(), only keeping a single batch in memory anytime
       val it = corpus.select(getInputCols.head)
@@ -407,6 +406,15 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         array.padTo(maxLen, 0)
       else
         array.dropRight(array.length - maxLen)
+    }
+  }
+
+  implicit class DataFrameHelper(dataset: DataFrame) {
+    def randomize: DataFrame = {
+      implicit val encoder = RowEncoder(dataset.schema)
+      dataset.mapPartitions {
+        new scala.util.Random().shuffle(_).toIterator
+      }
     }
   }
 
