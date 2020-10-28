@@ -4,7 +4,8 @@
 ---------------
 New Features
 ---------------
-* Added option to explode sentences in SentenceDetectorDL
+* Add enableMemoryOptimizer to allow training NerDLApproach on a dataset larger than the memory
+* Add option to explode sentences in SentenceDetectorDL
 
 ----------------
 Enhancements
