@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.util
 
 import org.slf4j.LoggerFactory
 
+import scala.collection.mutable.ArrayBuffer
 import scala.math.min
 import scala.util.Random
 
@@ -77,28 +78,27 @@ object Utilities {
   }
 
   /** Possibilities analysis */
-  def variants(targetWord: String): Set[String] = {
+  def variants(targetWord: String): List[String] = {
     val splits = (0 to targetWord.length).map(i => (targetWord.take(i), targetWord.drop(i)))
-    val deletes = splits.collect {
-      case (a,b) if b.length > 0 => a + b.tail
+    val vars = scala.collection.mutable.Set.empty[String]
+    splits.foreach{case (a,b) =>
+      if (b.length > 0) {
+        vars.add(a + b.tail)
+      }
+      if (b.length > 1) {
+        vars.add(a + b(1) + b(0) + b.drop(2))
+      }
+      if (b.length > 0) {
+        alphabet.foreach(c => vars.add(a + c + b.tail))
+      }
+      alphabet.foreach(c => vars.add(a + c + b))
     }
-    val transposes = splits.collect {
-      case (a,b) if b.length > 1 => a + b(1) + b(0) + b.drop(2)
-    }
-    val replaces = splits.collect {
-      case (a, b) if b.length > 0 => alphabet.map(c => a + c + b.tail)
-    }.flatten
-    val inserts = splits.collect {
-      case (a, b) => alphabet.map(c => a + c + b)
-    }.flatten
-    val vars = Set(deletes ++ transposes ++ replaces ++ inserts :_ *)
-    logger.debug("variants proposed: " + vars.size)
-    vars
+    vars.toList
   }
 
   /** possible variations of the word by removing duplicate letters */
   /* ToDo: convert logic into an iterator, probably faster */
-  def reductions(word: String, reductionsLimit: Int): Set[String] = {
+  def reductions(word: String, reductionsLimit: Int): List[String] = {
     val flatWord: List[List[String]] = word.toCharArray.toList.zipWithIndex.collect {
       case (c, i) =>
         val n = Utilities.numberOfDuplicates(word, i)
@@ -108,14 +108,14 @@ object Utilities {
           List(c.toString)
         }
     }
-    val reds = Utilities.cartesianProduct(flatWord).map(_.mkString("")).toSet
+    val reds = Utilities.cartesianProduct(flatWord).map(_.mkString(""))
     logger.debug("parsed reductions: " + reds.size)
     reds
   }
 
   /** flattens vowel possibilities */
-  def getVowelSwaps(word: String, vowelSwapLimit: Int): Set[String] = {
-    if (word.length > vowelSwapLimit) return Set.empty[String]
+  def getVowelSwaps(word: String, vowelSwapLimit: Int): List[String] = {
+    if (word.length > vowelSwapLimit) return List.empty[String]
     val flatWord: List[List[Char]] = word.toCharArray.collect {
       case c => if (vowels.contains(c)) {
         vowels.toList
@@ -123,7 +123,7 @@ object Utilities {
         List(c)
       }
     }.toList
-    val vowelSwaps = Utilities.cartesianProduct(flatWord).map(_.mkString("")).toSet
+    val vowelSwaps = Utilities.cartesianProduct(flatWord).map(_.mkString(""))
     logger.debug("vowel swaps: " + vowelSwaps.size)
     vowelSwaps
   }

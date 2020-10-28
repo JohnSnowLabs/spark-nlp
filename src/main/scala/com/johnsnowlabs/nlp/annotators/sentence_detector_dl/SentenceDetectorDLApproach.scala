@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{FloatParam, IntParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{FloatParam, IntParam, Param, StringArrayParam, BooleanParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.functions.col
@@ -147,6 +147,27 @@ class SentenceDetectorDLApproach(override val uid: String)
     this
   }
 
+  /** A flag indicating whether to split sentences into different Dataset rows. Useful for higher parallelism in
+    * fat rows. Defaults to false.
+    *
+    * @group getParam
+    **/
+  def explodeSentences = new BooleanParam(this, "explodeSentences", "Split sentences in separate rows")
+
+
+  /** Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+    *
+    * @group setParam
+    **/
+  def setExplodeSentences(value: Boolean): SentenceDetectorDLApproach.this.type = set(this.explodeSentences, value)
+
+
+  /** Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+    *
+    * @group getParam
+    **/
+  def getExplodeSentences: Boolean = $(this.explodeSentences)
+
   setDefault(
     modelArchitecture -> "cnn",
     impossiblePenultimates -> Array(
@@ -159,7 +180,8 @@ class SentenceDetectorDLApproach(override val uid: String)
     ),
     epochsNumber -> 5,
     outputLogsPath -> "",
-    validationSplit -> 0.0f
+    validationSplit -> 0.0f,
+    explodeSentences -> false
   )
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): SentenceDetectorDLModel = {
