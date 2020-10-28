@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>SentenceDetectorDLModel - Spark NLP 2.6.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel</title>
-          <meta name="description" content="SentenceDetectorDLModel - Spark NLP 2.6.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLModel" />
-          <meta name="keywords" content="SentenceDetectorDLModel Spark NLP 2.6.2 ScalaDoc com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLModel" />
+          <title>SentenceDetectorDLModel - Spark NLP 2.6.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel</title>
+          <meta name="description" content="SentenceDetectorDLModel - Spark NLP 2.6.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLModel" />
+          <meta name="keywords" content="SentenceDetectorDLModel Spark NLP 2.6.3 ScalaDoc com.johnsnowlabs.nlp.annotators.sentence detector dl.SentenceDetectorDLModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -327,7 +327,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame"></a>
       <a id="afterAnnotate(DataFrame):DataFrame"></a>
       <h4 class="signature">
@@ -343,7 +343,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel">SentenceDetectorDLModel</a> → <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#annotate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
       <a id="annotate(Seq[Annotation]):Seq[Annotation]"></a>
@@ -622,6 +622,25 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#explodeSentences" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="explodeSentences:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="explodeSentences:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">explodeSentences</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel@explodeSentences:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A flag indicating whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>A flag indicating whether to split sentences into different Dataset rows. Useful for higher parallelism in
+fat rows. Defaults to false.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#extraValidate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="extraValidate(StructType):Boolean"></a>
@@ -866,6 +885,24 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#getExplodeSentences" visbl="pub" data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getExplodeSentences:Boolean"></a>
+      <a id="getExplodeSentences:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getExplodeSentences</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel@getExplodeSentences:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#getImpossiblePenultimates" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getImpossiblePenultimates:Array[String]"></a>
       <a id="getImpossiblePenultimates:Array[String]"></a>
@@ -1943,6 +1980,24 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#setExplodeSentences" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setExplodeSentences(value:Boolean):SentenceDetectorDLModel.this.type"></a>
+      <a id="setExplodeSentences(Boolean):SentenceDetectorDLModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setExplodeSentences</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel">SentenceDetectorDLModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel@setExplodeSentences(value:Boolean):SentenceDetectorDLModel.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Whether to split sentences into different Dataset rows.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel#setImpossiblePenultimates" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setImpossiblePenultimates(impossiblePenultimates:Array[String]):SentenceDetectorDLModel.this.type"></a>
       <a id="setImpossiblePenultimates(Array[String]):SentenceDetectorDLModel.this.type"></a>
