@@ -44,7 +44,7 @@ annotations = light_pipeline.fullAnnotate("Another disease that shares two of th
 
 {:.h2_title}
 ## Results
-
+ 
 ```bash
 +----+--------------------------+---------+-------+----------+
 |    | chunk                    |   begin |   end | entity   |
@@ -68,4 +68,17 @@ annotations = light_pipeline.fullAnnotate("Another disease that shares two of th
 |Output Labels:|[ner]|
 |Language:|[en]|
 |Case sensitive:|false|
+| Dependencies:  | embeddings_clinical                     |
 
+
+## Benchmarking
+```bash
+|    | label         |    tp |   fp |   fn |     prec |      rec |       f1 |
+|---:|:--------------|------:|-----:|-----:|---------:|---------:|---------:|
+|  0 | B-GO          |  1530 |  129 |   57 | 0.922242 | 0.964083 | 0.942699 |
+|  1 | B-HP          |   950 |  133 |  130 | 0.877193 | 0.87963  | 0.87841  |
+|  2 | I-HP          |   253 |   46 |   68 | 0.846154 | 0.788162 | 0.816129 |
+|  3 | I-GO          |  4550 |  344 |  154 | 0.92971  | 0.967262 | 0.948114 |
+|  4 | Macro-average | 7283  | 652  |  409 | 0.893825 | 0.899784 | 0.896795 |
+|  5 | Micro-average | 7283  | 652  |  409 | 0.917832 | 0.946828 | 0.932105 |
+```
