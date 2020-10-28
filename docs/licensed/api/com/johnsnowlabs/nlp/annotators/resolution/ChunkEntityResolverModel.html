@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ChunkEntityResolverModel - Spark NLP 2.6.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel</title>
-          <meta name="description" content="ChunkEntityResolverModel - Spark NLP 2.6.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
-          <meta name="keywords" content="ChunkEntityResolverModel Spark NLP 2.6.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
+          <title>ChunkEntityResolverModel - Spark NLP 2.7.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel</title>
+          <meta name="description" content="ChunkEntityResolverModel - Spark NLP 2.7.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
+          <meta name="keywords" content="ChunkEntityResolverModel Spark NLP 2.7.0 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -310,7 +310,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#_transform" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="_transform(dataset:&lt;?&gt;,recursivePipeline:&lt;?&gt;):org.apache.spark.sql.DataFrame"></a>
+      <a id="_transform(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):org.apache.spark.sql.DataFrame"></a>
       <a id="_transform(Dataset[_],Option[PipelineModel]):DataFrame"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -327,7 +327,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AnnotatorModel</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#afterAnnotate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="afterAnnotate(dataset:&lt;?&gt;):org.apache.spark.sql.DataFrame"></a>
+      <a id="afterAnnotate(dataset:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame"></a>
       <a id="afterAnnotate(DataFrame):DataFrame"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -465,7 +465,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasCaseSensitiveProperties</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkSchema(schema:&lt;?&gt;,inputAnnotatorType:&lt;?&gt;):Boolean"></a>
+      <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -643,7 +643,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageModel#deserializeStorage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="deserializeStorage(path:&lt;?&gt;,spark:&lt;?&gt;):Unit"></a>
+      <a id="deserializeStorage(path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a>
       <a id="deserializeStorage(String,SparkSession):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -898,7 +898,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#extraValidate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="extraValidate(structType:&lt;?&gt;):Boolean"></a>
+      <a id="extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="extraValidate(StructType):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2077,7 +2077,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <p class="shortcomment cmt">whether or not to return an empty annotation on unmatched chunks</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to return an empty annotation on unmatched chunks</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="msgHelper(schema:&lt;?&gt;):String"></a>
+      <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a>
       <a id="msgHelper(StructType):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2309,7 +2309,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageModel#saveStorage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="saveStorage(path:&lt;?&gt;,spark:&lt;?&gt;,withinStorage:&lt;?&gt;):Unit"></a>
+      <a id="saveStorage(path:String,spark:org.apache.spark.sql.SparkSession,withinStorage:Boolean):Unit"></a>
       <a id="saveStorage(String,SparkSession,Boolean):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2343,7 +2343,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <p class="shortcomment cmt">Search Tree.</p><div class="fullcomment"><div class="comment cmt"><p>Search Tree. Under the hood encapsulates SerializableKDTree. Used to perform the search</p></div></div>
     </li><li name="com.johnsnowlabs.storage.HasStorageModel#serializeStorage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="serializeStorage(path:&lt;?&gt;,spark:&lt;?&gt;):Unit"></a>
+      <a id="serializeStorage(path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a>
       <a id="serializeStorage(String,SparkSession):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2819,7 +2819,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.storage.HasExcludableStorage#setIncludeStorage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setIncludeStorage(value:&lt;?&gt;):HasExcludableStorage.this.type"></a>
+      <a id="setIncludeStorage(value:Boolean):HasExcludableStorage.this.type"></a>
       <a id="setIncludeStorage(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2870,7 +2870,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setLazyAnnotator(value:&lt;?&gt;):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a>
+      <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a>
       <a id="setLazyAnnotator(Boolean):ChunkEntityResolverModel.this.type"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -2938,7 +2938,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
     </li><li name="org.apache.spark.ml.Model#setParent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setParent(parent:&lt;?&gt;):M"></a>
+      <a id="setParent(parent:org.apache.spark.ml.Estimator[M]):M"></a>
       <a id="setParent(Estimator[ChunkEntityResolverModel]):ChunkEntityResolverModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -3364,7 +3364,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>RawAnnotator</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#wrapEmbeddingsMetadata" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wrapEmbeddingsMetadata(col:&lt;?&gt;,embeddingsDim:&lt;?&gt;,embeddingsRef:&lt;?&gt;):org.apache.spark.sql.Column"></a>
+      <a id="wrapEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column"></a>
       <a id="wrapEmbeddingsMetadata(Column,Int,Option[String]):Column"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -3381,7 +3381,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasEmbeddingsProperties</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties#wrapSentenceEmbeddingsMetadata" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wrapSentenceEmbeddingsMetadata(col:&lt;?&gt;,embeddingsDim:&lt;?&gt;,embeddingsRef:&lt;?&gt;):org.apache.spark.sql.Column"></a>
+      <a id="wrapSentenceEmbeddingsMetadata(col:org.apache.spark.sql.Column,embeddingsDim:Int,embeddingsRef:Option[String]):org.apache.spark.sql.Column"></a>
       <a id="wrapSentenceEmbeddingsMetadata(Column,Int,Option[String]):Column"></a>
       <h4 class="signature">
       <span class="modifier_kind">
