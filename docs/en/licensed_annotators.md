@@ -197,6 +197,7 @@ val resolver = new ChunkEntityResolverApproach()
     .setPoolingStrategy("MAX")
     .setMissAsEmpty(true)
 ```
+</div></div><div class="h3-box" markdown="1">
 
 ### SentenceEntityResolver
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">Estimator scaladocs</a> | 
@@ -363,6 +364,8 @@ val contextualParser = new ContextualParserApproach()
         .setOutputCol("entity_stage")
         .setJsonPath("data/Stage.json")
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### RelationExtraction 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
