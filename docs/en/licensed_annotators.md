@@ -203,8 +203,8 @@ val resolver = new ChunkEntityResolverApproach()
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">Transformer scaladocs</a>
 
-Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models
-This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks  
+Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models.  
+This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks.  
 
 **Input types:** "sentence_embeddings"
 
