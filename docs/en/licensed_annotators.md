@@ -145,7 +145,7 @@ val chunk2Token = new Chunk2Token()
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">Transformer scaladocs</a>
 
-Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings
+Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Models and embeddings pooled by ChunkEmbeddings
 
 **Input types:** "chunk_token", "embeddings"
 
@@ -163,9 +163,9 @@ resolver = ChunkEntityResolverApproach() \
     .setOutputCol("token") \
     .setLabelCol("label") \
     .setNormalizedCol("normalized") \
-    .setNeighbours(200) \
+    .setNeighbours(500) \
     .setAlternatives(25) \
-    .setThreshold(4) \
+    .setThreshold(5) \
     .setExtramassPenalty(1) \
     .setEnableWmd(True) \
     .setEnableTfidf(True) \
@@ -173,8 +173,8 @@ resolver = ChunkEntityResolverApproach() \
     .setEnableSorensenDice(False) \
     .setEnableJaroWinkler(False) \
     .setEnableLevenshtein(False) \
-    .setDistanceWeights([1,3,3,0,0,0]) \
-    .setPoolingStrategy("AVERAGE") \
+    .setDistanceWeights([1,2,2,0,0,0]) \
+    .setPoolingStrategy("MAX") \
     .setMissAsEmpty(True)
 ```
 ```scala
@@ -183,9 +183,9 @@ val resolver = new ChunkEntityResolverApproach()
     .setOutputCol("token")
     .setLabelCol("label")
     .setNormalizedCol("normalized")
-    .setNeighbours(200)
+    .setNeighbours(500)
     .setAlternatives(25)
-    .setThreshold(4)
+    .setThreshold(5)
     .setExtramassPenalty(1)
     .setEnableWmd(true)
     .setEnableTfidf(true)
@@ -193,8 +193,47 @@ val resolver = new ChunkEntityResolverApproach()
     .setEnableSorensenDice(false)
     .setEnableJaroWinkler(false)
     .setEnableLevenshtein(false)
-    .setDistanceWeights(Array(1,3,3,0,0,0))
-    .setPoolingStrategy("AVERAGE")
+    .setDistanceWeights(Array(1,2,2,0,0,0))
+    .setPoolingStrategy("MAX")
+    .setMissAsEmpty(true)
+```
+</div></div><div class="h3-box" markdown="1">
+
+### SentenceEntityResolver
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">Transformer scaladocs</a>
+
+Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models.  
+This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks.  
+
+**Input types:** "sentence_embeddings"
+
+**Output type:** "resolution"
+
+**Example:**
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+resolver = SentenceEntityResolverApproach() \
+    .setInputCols(["sentence_embeddings"]) \
+    .setOutputCol("prediction") \
+    .setLabelCol("label") \
+    .setNormalizedCol("normalized") \
+    .setNeighbours(500) \
+    .setThreshold(5) \
+    .setMissAsEmpty(True)
+```
+```scala
+val resolver = new SentenceEntityResolverApproach()
+    .setInputCols(Array("chunk_token", "chunk_embeddings"))
+    .setOutputCol("prediction")
+    .setLabelCol("label")
+    .setNormalizedCol("normalized")
+    .setNeighbours(500)
+    .setThreshold(5)
     .setMissAsEmpty(true)
 ```
 
@@ -326,6 +365,7 @@ val contextualParser = new ContextualParserApproach()
         .setJsonPath("data/Stage.json")
 ```
 
+</div></div><div class="h3-box" markdown="1">
 
 ### RelationExtraction 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
