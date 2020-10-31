@@ -43,24 +43,24 @@ trait PerceptronUtils  {
                                        prev2: String
                                      ): Map[String, Int] = {
     val features = MMap[String, Int]().withDefaultValue(0)
-    def add(name: String, args: Array[String] = Array()): Unit = {
-      features((name +: args).mkString(" ")) += 1
+    def add(keyName: String): Unit = {
+      features(keyName) += 1
     }
     val i = init + START.length
     add("bias")
-    add("i suffix", Array(word.takeRight(3)))
-    add("i pref1", Array(word.head.toString))
-    add("i-1 tag", Array(prev))
-    add("i-2 tag", Array(prev2))
-    add("i tag+i-2 tag", Array(prev, prev2))
-    add("i word", Array(context(i)))
-    add("i-1 tag+i word", Array(prev, context(i)))
-    add("i-1 word", Array(context(i-1)))
-    add("i-1 suffix", Array(context(i-1).takeRight(3)))
-    add("i-2 word", Array(context(i-2)))
-    add("i+1 word", Array(context(i+1)))
-    add("i+1 suffix", Array(context(i+1).takeRight(3)))
-    add("i+2 word", Array(context(i+2)))
+    add("i suffix" + " " + word.takeRight(3))
+    add("i pref1" + " " + word.head)
+    add("i-1 tag" + " " + prev)
+    add("i-2 tag" + " " + prev2)
+    add("i tag+i-2 tag" + " " + prev + " " + prev2)
+    add("i word" + " " + context(i))
+    add("i-1 tag+i word" + " " + prev + " " + context(i))
+    add("i-1 word" + " " + context(i-1))
+    add("i-1 suffix" + " " + context(i-1).takeRight(3))
+    add("i-2 word" + " " + context(i-2))
+    add("i+1 word" + " " + context(i+1))
+    add("i+1 suffix" + " " + context(i+1).takeRight(3))
+    add("i+2 word" + " " + context(i+2))
     features.toMap
   }
 }

@@ -1422,6 +1422,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     outputLogsPath = Param(Params._dummy(), "outputLogsPath", "Folder path to save training logs", TypeConverters.toString)
 
+    enableMemoryOptimizer = Param(Params._dummy(), "enableMemoryOptimizer", "Whether to optimize for large datasets or not. Enabling this option can slow down training.", TypeConverters.toBoolean)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -1469,6 +1471,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
+    def setEnableMemoryOptimizer(self, value):
+        return self._set(enableMemoryOptimizer=value)
+
     def setOutputLogsPath(self, p):
         return self._set(outputLogsPath=p)
 
@@ -1488,7 +1493,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             validationSplit=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
-            enableOutputLogs=False
+            enableOutputLogs=False,
+            enableMemoryOptimizer=False
         )
 
 
@@ -2893,7 +2899,7 @@ class YakeModel(AnnotatorModel):
 
     minNGrams = Param(Params._dummy(), "minNGrams", "Minimum N-grams a keyword should have", typeConverter=TypeConverters.toInt)
     maxNGrams = Param(Params._dummy(), "maxNGrams", "Maximum N-grams a keyword should have", typeConverter=TypeConverters.toInt)
-    threshold = Param(Params._dummy(), "maxNGrams", "Keyword Score threshold", typeConverter=TypeConverters.toInt)
+    threshold = Param(Params._dummy(), "threshold", "Keyword Score threshold", typeConverter=TypeConverters.toFloat)
     windowSize = Param(Params._dummy(), "windowSize", "Window size for Co-Occurrence", typeConverter=TypeConverters.toInt)
     nKeywords = Param(Params._dummy(), "nKeywords", "Number of Keywords to extract", typeConverter=TypeConverters.toInt)
     stopWords = Param(Params._dummy(), "stopWords", "the words to be filtered out. by default it's english stop words from Spark ML",typeConverter=TypeConverters.toListString)
@@ -2937,8 +2943,16 @@ class SentenceDetectorDLModel(AnnotatorModel):
     modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
                               typeConverter=TypeConverters.toString)
 
+    explodeSentences = Param(Params._dummy(),
+                             "explodeSentences",
+                             "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+                             TypeConverters.toBoolean)
+
     def setModel(self, modelArchitecture):
         return self._set(modelArchitecture=modelArchitecture)
+
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel",
                  java_model=None):
@@ -2983,6 +2997,11 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
                            "Path to folder where logs will be saved. If no path is specified, no logs are generated",
                            TypeConverters.toString)
 
+    explodeSentences = Param(Params._dummy(),
+                             "explodeSentences",
+                             "whether to explode each sentence into a different row, for better parallelization. Defaults to false.",
+                             TypeConverters.toBoolean)
+
     def setModel(self, model_architecture):
         return self._set(modelArchitecture=model_architecture)
 
@@ -2997,6 +3016,9 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
     def setImpossiblePenultimates(self, impossible_penultimates):
         return self._set(impossiblePenultimates=impossible_penultimates)
+
+    def setExplodeSentences(self, value):
+        return self._set(explodeSentences=value)
 
     def _create_model(self, java_model):
         return SentenceDetectorDLModel(java_model=java_model)
