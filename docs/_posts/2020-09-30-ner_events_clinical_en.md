@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect clinical events
+title: Clinical events NER
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-09-30
@@ -12,6 +12,7 @@ use_language_switcher: "Python"
 
 ## Description
 This model can be used to detect clinical events in medical text.
+
 ## Predicted Entities
 Date,Time,Problem,Test,Treatment,Occurence,Clinical_Dept,Evidential,Duration,Frequency,Admission,Discharge
 
@@ -19,7 +20,6 @@ Date,Time,Problem,Test,Treatment,Occurence,Clinical_Dept,Evidential,Duration,Fre
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_EVENTS_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_events_clinical_en_2.5.5_2.4_1597775531760.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 ## How to use
-
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
@@ -72,3 +72,6 @@ annotations = light_pipeline.fullAnnotate("The patient presented to the emergenc
 |Language:|[en]|
 |Case sensitive:|false|
 
+{:.h2_title}
+## Data Source
+Trained on i2b2 events data with *clinical_embeddings*.

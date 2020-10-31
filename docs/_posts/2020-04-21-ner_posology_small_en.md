@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Posology Small
+title: Posology Extractor Small
 author: John Snow Labs
 name: ner_posology_small
 class: NerDLModel
@@ -32,8 +32,8 @@ DOSAGE,DRUG,DURATION,FORM,FREQUENCY,ROUTE,STRENGTH
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = NerDLModel.pretrained("ner_posology_small","en","clinical/models")
-	.setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_posology_small","en","clinical/models")\
+	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
 ```
 

@@ -238,6 +238,45 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
+        - title: Aspect based sentiment analysis for restaurants
+          image: 
+              src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants.svg
+          image2: 
+              src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants_f.svg
+          excerpt: Automatically detect positive, negative and neutral aspects about restaurants from the written feedback given by reviewers.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/ASPECT_BASED_SENTIMENT_RESTAURANT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ABSA_Inference.ipynb
+        - title: Detect sentences in text
+          image: 
+              src: /assets/images/Detect_sentences_in_text.svg
+          image2: 
+              src: /assets/images/Detect_sentences_in_text_f.svg
+          excerpt: Detect sentences from general purpose text documents using a deep learning model capable of understanding noisy sentence structures.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTENCE_DETECTOR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
+        - title: Detect and normalize dates
+          image: 
+              src: /assets/images/Detect_and_normalize_dates.svg
+          image2: 
+              src: /assets/images/Detect_and_normalize_dates_f.svg
+          excerpt: Automatically detect key phrases expressing dates and normalize them with respect to a reference date.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/DATE_MATCHER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb
       languages: yes
       languages: 
         - title: Detect language
@@ -370,6 +409,84 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_ES.ipynb
+        - title: Recognize entities in Danish text
+          image: 
+              src: /assets/images/Flag_of_Denmark.png
+          image2: 
+              src: /assets/images/Flag_of_Denmark.png
+          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_DA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Swedish text
+          image: 
+              src: /assets/images/Flag_of_Sweden.jpg
+          image2: 
+              src: /assets/images/Flag_of_Sweden.jpg
+          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_SV/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Finnish text
+          image: 
+              src: /assets/images/flag-of-finland.jpg
+          image2: 
+              src: /assets/images/flag-of-finland.jpg
+          excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_FI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Prebuilt pipeline for entity recognition in Danish
+          image: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish.svg
+          image2: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish_f.svg
+          excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Danish text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_DA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
+        - title: Prebuilt pipeline for entity recognition in Swedish
+          image: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish.svg
+          image2: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish_f.svg
+          excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Swedish text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_SV/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
+        - title: Prebuilt pipeline for entity recognition in Finnish
+          image: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish.svg
+          image2: 
+              src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish_f.svg
+          excerpt: This SparkNLP out-of-the-box pipeline returns tokens, lemmas, pos, embeddings and NERs in one line of code. It automatically recognizes <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities in Finnish text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_FI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
@@ -645,6 +762,110 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
+        - title: Adverse drug events tagger
+          image: 
+              src: /assets/images/Adverse_drug_events_tagger.svg
+          image2: 
+              src: /assets/images/Adverse_drug_events_tagger_f.svg
+          excerpt: Automatic pipeline that tags documents as containing or not containing adverse events description, then identifies those events.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PP_ADE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb
+        - title: Identify diagnosis and symptoms assertion status
+          image: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+          image2: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
+        - title: Detect cell structure, DNA, RNA and protein
+          image: 
+              src: /assets/images/Detect_cell_structure_DNA_RNA_and_protein.svg
+          image2: 
+              src: /assets/images/Detect_cell_structure_DNA_RNA_and_protein_f.svg
+          excerpt: Automatically detect cell type, cell line, DNA and RNA information using our pretrained Spark NLP for Healthcare model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+        - title: Link entities to Wikipedia pages
+          image: 
+              src: /assets/images/Link_entities_to_Wikipedia_pages.svg
+          image2: 
+              src: /assets/images/Link_entities_to_Wikipedia_pages_f.svg
+          excerpt: Automatically disambiguate people’s names based on their context and link them to corresponding Wikipedia pages using out of the box Spark NLP pretrained models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DISAMBIGUATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb
+        - title: Detect posology relations
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: Automatically identify relations between drugs, dosage, duration, frequency and strength using our pretrained clinical Relation Extraction (RE) model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_POSOLOGY/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_POSOLOGY.ipynb
+        - title: Detect temporal relations for clinical events
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: 'Automatically identify three types of relations between clinical events: After, Before and Overlap using our pretrained clinical Relation Extraction (RE) model.'
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_EVENTS.ipynb
+        - title: Detect causality between symptoms and treatment
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: Automatically identify relations between symptoms and treatment using our pretrained clinical Relation Extraction (RE) model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL.ipynb
+        - title: Detect sentences in healthcare documents
+          image: 
+              src: /assets/images/Detect_sentences_in_healthcare_documents.svg
+          image2: 
+              src: /assets/images/Detect_sentences_in_healthcare_documents_f.svg
+          excerpt: Automatically detect sentences in noisy healthcare documents with our pretrained Sentence Splitter DL model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/SENTENCE_DETECTOR_HC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
@@ -738,6 +959,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
+        - title: Extract tables from PDFs
+          image: 
+              src: /assets/images/Extract_tables_from_PDFs.svg
+          image2: 
+              src: /assets/images/Extract_tables_from_PDFs_f.svg
+          excerpt: Extract tables from selectable PDF documents with the new features offered by Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_TABLE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_TABLE.ipynb
       deidentification: yes
       deidentification: 
         - title: Deidentify structured data

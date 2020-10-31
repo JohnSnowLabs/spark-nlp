@@ -4,6 +4,7 @@ title: Assertion DL Healthcare Embeddings
 author: John Snow Labs
 name: assertion_dl_healthcare
 class: AssertionDLModel
+reference embedding: healthcare_embeddings
 language: en
 repository: clinical/models
 date: 2020-09-23
@@ -15,8 +16,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Assertion of Clinical Entities based on Deep Learning
-Deep learning named entity recognition model for assertions 
+Assertion of Clinical Entities based on Deep Learning.  
 
 ## Predicted Entities 
 hypothetical, present, absent, possible, conditional, associated_with_someone_else
@@ -31,8 +31,8 @@ hypothetical, present, absent, possible, conditional, associated_with_someone_el
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical/models")
-	.setInputCols("document","chunk","word_embeddings")
+model = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical/models")\
+	.setInputCols("document","chunk","word_embeddings")\
 	.setOutputCol("assertion")
 ```
 

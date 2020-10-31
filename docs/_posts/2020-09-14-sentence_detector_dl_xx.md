@@ -33,9 +33,18 @@ We are releasing two pretrained SDDL models: english and multilanguage that are 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-	.setInputCols("document")
-	.setOutputCol("sentence")
+documenter = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+    
+sentencerDL = SentenceDetectorDLModel\
+  .pretrained("sentence_detector_dl", "en") \
+  .setInputCols(["document"]) \
+  .setOutputCol("sentences")
+
+sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
+sd_model.fullAnnotate("""John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.""")
+
 ```
 
 ```scala
@@ -45,6 +54,21 @@ val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
 ```
 </div>
 
+## Results 
+
+```bash
++---+----+----+------------------------------+
+| 0 | 0  | 15 | John loves Mary.             |
++---+----+----+------------------------------+
+| 1 | 16 | 32 | Mary loves Peter             |
++---+----+----+------------------------------+
+| 2 | 33 | 51 | Peter loves Helen .          |
++---+----+----+------------------------------+
+| 3 | 52 | 68 | Helen loves John;            |
++---+----+----+------------------------------+
+| 4 | 71 | 98 | Total: four people involved. |
++---+----+----+------------------------------+
+```
 
 {:.model-param}
 ## Model Information

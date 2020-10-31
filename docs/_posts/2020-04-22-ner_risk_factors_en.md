@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Risk Factors
+title: Risk Factors Extractor
 author: John Snow Labs
 name: ner_risk_factors_en
 date: 2020-04-22

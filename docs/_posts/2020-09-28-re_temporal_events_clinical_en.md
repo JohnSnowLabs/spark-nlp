@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect temporal relations for clinical events
+title: Temporal relations for clinical events
 author: John Snow Labs
 name: re_temporal_events_clinical
 date: 2020-09-28
