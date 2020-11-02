@@ -1,0 +1,68 @@
+---
+layout: model
+title: 
+author: John Snow Labs
+name: swedish_ner_6B_300
+class: NerDLModel
+language: sv
+repository: public/models
+date: 2020-08-30
+tags: [ner]
+article_header:
+   type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+{:.h2_title}
+## Description 
+
+
+
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button><br/><button class="button button-orange" disabled>Open in Colab</button><br/>[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/swedish_ner_6B_300_sv_2.6.0_2.4_1598810268071.zip){:.button.button-orange.button-orange-trans.arr.button-icon}<br/>
+
+## How to use 
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+model = NerDLModel.pretrained("swedish_ner_6B_300","sv","public/models")\
+	.setInputCols("sentence","token","word_embeddings")\
+	.setOutputCol("ner")
+```
+
+```scala
+val model = NerDLModel.pretrained("swedish_ner_6B_300","sv","public/models")
+	.setInputCols("sentence","token","word_embeddings")
+	.setOutputCol("ner")
+```
+</div>
+
+
+
+{:.model-param}
+## Model Information
+{:.table-model}
+|----------------|----------------------------------|
+| Model Name     | swedish_ner_6B_300               |
+| Model Class    | NerDLModel                       |
+| Dimension      | 2.4                              |
+| Compatibility  | 2.6.0                            |
+| License        | open source                      |
+| Edition        | public                           |
+| Inputs         | sentence, token, word_embeddings |
+| Output         | ner                              |
+| Language       | sv                               |
+| Case Sensitive | True                             |
+| Dependencies   | glove_6B_300                     |
+
+
+
+
+{:.h2_title}
+## Data Source
+  
+Visit [this](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala) link to get more information
+
