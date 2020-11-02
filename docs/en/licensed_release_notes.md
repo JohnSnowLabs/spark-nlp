@@ -124,33 +124,29 @@ against by `sparknlp_jsl.start(secret, public="x.x.x")` for extreme cases.
 
 #### 5. Biomedical NERs
 
-We are releasing 3 new biomedical NER models trained with clinical embeddings (all one single entity models)
+We are releasing 3 new biomedical NER models trained with clinical embeddings (all one single entity models)  
 
-ner_bacterial_species (comprising
-of Linneaus and Species800 datasets)
-ner_chemicals (general purpose and
-bio chemicals, comprising of BC4Chem and BN5CDR-Chem)
-ner_diseases_large (comprising
-of ner_disease, NCBI_Disease and BN5CDR-Disease)
+`ner_bacterial_species` (comprising of Linneaus and Species800 datasets)  
+`ner_chemicals` (general purpose and bio chemicals, comprising of BC4Chem and BN5CDR-Chem)  
+`ner_diseases_large` (comprising of ner_disease, NCBI_Disease and BN5CDR-Disease)  
 
-We are also releasing the biobert versions of the several clinical NER models stated below:
-ner_clinical_biobert
-ner_anatomy_biobert
-ner_bionlp_biobert
-ner_cellular_biobert
-ner_deid_biobert
-ner_diseases_biobert
-ner_events_biobert
-ner_jsl_biobert
-ner_chemprot_biobert
-ner_human_phenotype_gene_biobert
-ner_human_phenotype_go_biobert
-ner_posology_biobert
-ner_risk_factors_biobert
+We are also releasing the biobert versions of the several clinical NER models stated below:  
+`ner_clinical_biobert`  
+`ner_anatomy_biobert`  
+`ner_bionlp_biobert`  
+`ner_cellular_biobert`  
+`ner_deid_biobert`  
+`ner_diseases_biobert`  
+`ner_events_biobert`  
+`ner_jsl_biobert`  
+`ner_chemprot_biobert`  
+`ner_human_phenotype_gene_biobert`  
+`ner_human_phenotype_go_biobert`  
+`ner_posology_biobert`  
+`ner_risk_factors_biobert`  
 
 
-Metrics (micro averages excluding
-O’s):
+Metrics (micro averages excluding O’s):
 
 |    | model_name                        |   clinical_glove_micro |   biobert_micro |
 |---:|:----------------------------------|-----------------------:|----------------:|
@@ -174,11 +170,8 @@ O’s):
 
 In addition to these, we release two new German NER models:
 
-ner_healthcare_slim 
- ('TIME_INFORMATION', 'MEDICAL_CONDITION',  'BODY_PART',  'TREATMENT', 
-'PERSON', 'BODY_PART')
-ner_traffic
- (extract entities regarding traffic accidents e.g. date, trigger, location etc.)
+`ner_healthcare_slim` ('TIME_INFORMATION', 'MEDICAL_CONDITION',  'BODY_PART',  'TREATMENT', 'PERSON', 'BODY_PART')  
+`ner_traffic` (extract entities regarding traffic accidents e.g. date, trigger, location etc.)  
 
 #### 6. PICO Classifier
 
