@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver RxNorm Branded and Clinical Drug BioBert
+title: Biobert Entity Resolver RxNorm Branded and Clinical Drug BioBert
 author: John Snow Labs
 name: biobertresolve_rxnorm_bdcd
 class: SentenceEntityResolverModel
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description 
-
+Entity Resolution model Based on KNN using Sentence Embeddings, ideally coming from BertSentenceEmbeddings Trained on RxNorm Clinical Drugs and Branded Drugs
 
  {:.h2_title}
 ## Predicted Entities
@@ -46,19 +46,21 @@ val model = SentenceEntityResolverModel.pretrained("biobertresolve_rxnorm_bdcd",
 
 {:.model-param}
 ## Model Information
+
 {:.table-model}
-|----------------|--------------------------------|
-| Model Name     | biobertresolve_rxnorm_bdcd     |
-| Model Class    | SentenceEntityResolverModel    |
-| Dimension      | 2.4                            |
-| Compatibility  | 2.6.3                          |
-| License        | Licensed                       |
-| Edition        | Healthcare                     |
-| Inputs         | sentence_embeddings            |
-| Output         | entity                         |
-| Language       | en                             |
-| Case Sensitive | True                           |
-| Dependencies   | sent_biobert_pubmed_base_cased |
+|---|---|
+|Model Name:|biobertresolve_rxnorm_bdcd|
+|Model Class:|SentenceEntityResolverModel|
+|Dimension:|2.4|
+|Compatibility:|2.6.3|
+|License:|Licensed |
+|Edition:|Healthcare|
+|Inputs:|sentence_embeddings|
+|Output:|entity|
+|Language:|en|
+|Case Sensitive:|True|
+|Dependencies:|sent_biobert_pubmed_base_cased|
+
 
 
 

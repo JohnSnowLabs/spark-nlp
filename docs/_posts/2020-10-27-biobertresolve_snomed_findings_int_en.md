@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Sentence Entity Resolver SNOMED International Findings BioBert
+title: Biobert Entity Resolver SNOMED International Findings BioBert
 author: John Snow Labs
 name: biobertresolve_snomed_findings_int
 class: SentenceEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-10-27
-tags: [clinical,entity_resolver]
+tags: [clinical,entity_resolver,snomed]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description 
-
+Entity Resolution model Based on KNN using Sentence Embeddings, ideally coming from BertSentenceEmbeddings Trained on SNOMED International Findings
 
  {:.h2_title}
 ## Predicted Entities
@@ -46,19 +46,21 @@ val model = SentenceEntityResolverModel.pretrained("biobertresolve_snomed_findin
 
 {:.model-param}
 ## Model Information
+
 {:.table-model}
-|----------------|------------------------------------|
-| Model Name     | biobertresolve_snomed_findings_int |
-| Model Class    | SentenceEntityResolverModel        |
-| Dimension      | 2.4                                |
-| Compatibility  | 2.6.3                              |
-| License        | Licensed                           |
-| Edition        | Healthcare                         |
-| Inputs         | sentence_embeddings                |
-| Output         | entity                             |
-| Language       | en                                 |
-| Case Sensitive | True                               |
-| Dependencies   | sent_biobert_pubmed_base_cased     |
+|---|---|
+|Model Name:|biobertresolve_snomed_findings_int|
+|Model Class:|SentenceEntityResolverModel|
+|Dimension:|2.4|
+|Compatibility:|2.6.3|
+|License:|Licensed |
+|Edition:|Healthcare|
+|Inputs:|sentence_embeddings|
+|Output:|entity|
+|Language:|en|
+|Case Sensitive:|True|
+|Dependencies:|sent_biobert_pubmed_base_cased|
+
 
 
 
