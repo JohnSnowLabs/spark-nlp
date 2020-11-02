@@ -81,14 +81,14 @@ In addition to ChunkEntityResolvers, we now release our first BioBert-based enti
 annotator. It’s
 fully trainable and comes with several pretrained entity resolvers for the following medical terminologies:
 
-CPT: biobertresolve_cpt
-ICDO: biobertresolve_icdo
-ICD10CM: biobertresolve_icd10cm
-ICD10PCS: biobertresolve_icd10pcs
-LOINC: biobertresolve_loinc
-SNOMED_CT (findings): biobertresolve_snomed_findings
-SNOMED_INT (clinical_findings): biobertresolve_snomed_findings_int
-RXNORM (branded and clinical drugs): biobertresolve_rxnorm_bdcd
+CPT: `biobertresolve_cpt`  
+ICDO: `biobertresolve_icdo`  
+ICD10CM: `biobertresolve_icd10cm`  
+ICD10PCS: `biobertresolve_icd10pcs`  
+LOINC: `biobertresolve_loinc`  
+SNOMED_CT (findings): `biobertresolve_snomed_findings`  
+SNOMED_INT (clinical_findings): `biobertresolve_snomed_findings_int`    
+RXNORM (branded and clinical drugs): `biobertresolve_rxnorm_bdcd`  
 
 Example: 
 ```python
