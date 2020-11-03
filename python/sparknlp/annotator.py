@@ -3026,3 +3026,68 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach"):
         super(SentenceDetectorDLApproach, self).__init__(classname=classname)
+
+
+class WordSegmenterApproach(AnnotatorApproach):
+    name = "WordSegmenterApproach"
+
+    posCol = Param(Params._dummy(),
+                   "posCol",
+                   "column of Array of POS tags that match tokens",
+                   typeConverter=TypeConverters.toString)
+
+    nIterations = Param(Params._dummy(),
+                        "nIterations",
+                        "Number of iterations in training, converges to better accuracy",
+                        typeConverter=TypeConverters.toInt)
+
+    frequencyThreshold = Param(Params._dummy(),
+                        "frequencyThreshold",
+                        "How many times at least a tag on a word to be marked as frequent",
+                        typeConverter=TypeConverters.toInt)
+
+    ambiguityThreshold = Param(Params._dummy(),
+                               "ambiguityThreshold",
+                               "How much percentage of total amount of words are covered to be marked as frequent",
+                               typeConverter=TypeConverters.toFloat)
+
+    @keyword_only
+    def __init__(self):
+        super(WordSegmenterApproach, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach")
+        self._setDefault(
+            nIterations=5, frequencyThreshold=20, ambiguityThreshold=0.97
+        )
+
+    def setPosCol(self, value):
+        return self._set(posCol=value)
+
+    def setIterations(self, value):
+        return self._set(nIterations=value)
+
+    def setFrequencyThreshold(self):
+        return self.getOrDefault(self.frequencyThreshold)
+
+    def setAmbiguityThreshold(self):
+        return self.getOrDefault(self.ambiguityThreshold)
+
+    def getNIterations(self):
+        return self.getOrDefault(self.nIterations)
+
+    def _create_model(self, java_model):
+        return WordSegmenterModel(java_model=java_model)
+
+
+class WordSegmenterModel(AnnotatorModel):
+    name = "PerceptronModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ws.PerceptronModel", java_model=None):
+        super(WordSegmenterModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name="word_segmenter", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
