@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Entity Resolver CPT BioBert
+title: Biobert Entity Resolver CPT
 author: John Snow Labs
 name: biobertresolve_cpt
 class: SentenceEntityResolverModel

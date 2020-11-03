@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Entity Resolver ICD10CM BioBert
+title: Biobert Entity Resolver ICD10CM
 author: John Snow Labs
 name: biobertresolve_icd10cm
 class: SentenceEntityResolverModel

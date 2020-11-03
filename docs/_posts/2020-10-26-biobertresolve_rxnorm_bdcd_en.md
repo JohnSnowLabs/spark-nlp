@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Entity Resolver RxNorm Branded and Clinical Drug BioBert
+title: Biobert Entity Resolver RxNorm Branded and Clinical Drug
 author: John Snow Labs
 name: biobertresolve_rxnorm_bdcd
 class: SentenceEntityResolverModel

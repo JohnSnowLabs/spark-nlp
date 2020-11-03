@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Entity Resolver ICDO BioBert
+title: Biobert Entity Resolver ICDO
 author: John Snow Labs
 name: biobertresolve_icdo
 class: SentenceEntityResolverModel

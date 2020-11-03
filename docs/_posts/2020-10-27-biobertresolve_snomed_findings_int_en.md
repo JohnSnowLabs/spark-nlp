@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Entity Resolver SNOMED International Findings BioBert
+title: Biobert Entity Resolver SNOMED International Findings
 author: John Snow Labs
 name: biobertresolve_snomed_findings_int
 class: SentenceEntityResolverModel

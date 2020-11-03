@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Entity Resolver LOINC BioBert
+title: Biobert Entity Resolver LOINC
 author: John Snow Labs
 name: biobertresolve_loinc
 class: SentenceEntityResolverModel
