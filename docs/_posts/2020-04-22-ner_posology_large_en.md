@@ -37,13 +37,19 @@ clinical_ner = NerDLModel.pretrained("ner_posology_large", "en", "clinical/model
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[clinical_ner])
+nlp_pipeline = Pipeline(stages=[
+    document_assembler, 
+    sentence_detector,
+    tokenizer,
+    embeddings_clinical,
+    clinical_ner,
+    ner_converter])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
+model = LightPipeline(nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
 
-model = nlpPipeline.fit(empty_data)
-
-results = model.transform(data)
+results = model.transform(spark.createDataFrame(pd.DataFrame({"text": [
+    """The patient is a 30-year-old female with a long history of insulin dependent diabetes, type 2; coronary artery disease; chronic renal insufficiency; peripheral vascular disease, also secondary to diabetes; who was originally admitted to an outside hospital for what appeared to be acute paraplegia, lower extremities. She did receive a course of Bactrim for 14 days for UTI. Evidently, at some point in time, the patient was noted to develop a pressure-type wound on the sole of her left foot and left great toe. She was also noted to have a large sacral wound; this is in a similar location with her previous laminectomy, and this continues to receive daily care. The patient was transferred secondary to inability to participate in full physical and occupational therapy and continue medical management of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., Lantus 40 units subcutaneously at bedtime, OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, Norvasc 10 mg daily, Lexapro 20 mg daily, aspirin 81 mg daily, Senna 2 tablets p.o. q.a.m., Neurontin 400 mg p.o. t.i.d., Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily, and Bactrim DS b.i.d."""
+]})))
 
 ```
 
@@ -66,22 +72,49 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ## Results
 The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
 
-![image](/assets/images/ner_posology.png)
+```bash
++--------------+---------+
+|chunk         |ner      |
++--------------+---------+
+|insulin       |DRUG     |
+|Bactrim       |DRUG     |
+|for 14 days   |DURATION |
+|Fragmin       |DRUG     |
+|5000 units    |DOSAGE   |
+|subcutaneously|ROUTE    |
+|daily         |FREQUENCY|
+|Xenaderm      |DRUG     |
+|topically     |ROUTE    |
+|b.i.d         |FREQUENCY|
+|Lantus        |DRUG     |
+|40 units      |DOSAGE   |
+|subcutaneously|ROUTE    |
+|at bedtime    |FREQUENCY|
+|OxyContin     |DRUG     |
+|30 mg         |STRENGTH |
+|p.o           |ROUTE    |
+|q.12 h        |FREQUENCY|
+|folic acid    |DRUG     |
+|1 mg          |STRENGTH |
++--------------+---------+
+only showing top 20 rows
+```
 
 {:.model-param}
 ## Model Information
 
 {:.table-model}
 |---|---|
-|Model Name:|ner_posology_large_en_2.4.2_2.4|
+|Model Name:|ner_posology_large_en|
 |Type:|ner|
-|Compatibility:|Spark NLP 2.4.2|
+|Compatibility:|Spark NLP 2.4.2+|
 |Edition:|Official|
 |License:|Licensed|
 |Input Labels:|[sentence,token, embeddings]|
 |Output Labels:|[ner]|
 |Language:|[en]|
 |Case sensitive:|false|
+| Dependencies:  | embeddings_clinical              |
 
 {:.h2_title}
 ## Data Source
