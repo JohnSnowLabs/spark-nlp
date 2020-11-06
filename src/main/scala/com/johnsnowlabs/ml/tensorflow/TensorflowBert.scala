@@ -63,6 +63,29 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }
   }
 
+
+  def encodeSentence(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+
+    val sentencesLength = sentences.map(x => x._1.tokens.length).toArray
+
+    sentences.map { sentence =>
+
+      val tokenPieceId = sentence._1.tokens.map(t => t.pieceId)
+      val tokenPieceLength = tokenPieceId.length
+
+      if(tokenPieceLength > (maxSequenceLength - 2)){
+        Array(sentenceStartTokenId) ++
+          tokenPieceId.take(maxSequenceLength - 2) ++
+          Array(sentenceEndTokenId)
+      } else {
+        Array(sentenceStartTokenId) ++
+          tokenPieceId ++
+          Array(sentenceEndTokenId) ++
+          Array.fill(maxSequenceLength - tokenPieceLength - 2)(0)
+      }
+    }
+  }
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
@@ -234,7 +257,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     /*Run embeddings calculation by batches*/
     tokens.zipWithIndex.grouped(batchSize).flatMap{batch =>
-      val encoded = encode(batch, maxSentenceLength)
+      val encoded = encodeSentence(batch, maxSentenceLength)
       val embeddings = tagSentence(encoded)
 
       sentences.zip(embeddings).map { case (sentence, vectors) =>
