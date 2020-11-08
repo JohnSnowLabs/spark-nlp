@@ -4,13 +4,10 @@ import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions.{udf, col}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
-/**
-  * Created by saif on 06/07/17.
-  */
 
 class DocumentAssembler(override val uid: String)
   extends Transformer
@@ -139,35 +136,37 @@ class DocumentAssembler(override val uid: String)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+    val filteredDataset = dataset.filter(dataset(getInputCol) =!= null)
+
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
-      if (dataset.schema.fields.find(_.name == getInputCol)
+      if (filteredDataset.schema.fields.find(_.name == getInputCol)
           .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
           .dataType == ArrayType(StringType, containsNull = false))
         dfAssemblyFromArray(
-          dataset.col(getInputCol)
+          filteredDataset.col(getInputCol)
         )
       else if (get(idCol).isDefined && get(metadataCol).isDefined)
         dfAssemble(
-          dataset.col(getInputCol),
-          dataset.col(getIdCol),
-          dataset.col(getMetadataCol)
+          filteredDataset.col(getInputCol),
+          filteredDataset.col(getIdCol),
+          filteredDataset.col(getMetadataCol)
         )
       else if (get(idCol).isDefined)
         dfAssembleOnlyId(
-          dataset.col(getInputCol),
-          dataset.col(getIdCol)
+          filteredDataset.col(getInputCol),
+          filteredDataset.col(getIdCol)
         )
       else if (get(metadataCol).isDefined)
         dfAssembleNoId(
-          dataset.col(getInputCol),
-          dataset.col(getMetadataCol)
+          filteredDataset.col(getInputCol),
+          filteredDataset.col(getMetadataCol)
         )
       else
         dfAssembleNoExtras(
-          dataset.col(getInputCol)
+          filteredDataset.col(getInputCol)
         )
-    dataset.withColumn(
+    filteredDataset.withColumn(
       getOutputCol,
       documentAnnotations.as(getOutputCol, metadataBuilder.build)
     )
