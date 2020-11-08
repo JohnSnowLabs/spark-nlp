@@ -136,7 +136,7 @@ class DocumentAssembler(override val uid: String)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    val filteredDataset = dataset.filter(dataset(getInputCol) =!= null)
+    val filteredDataset = dataset.filter(dataset(getInputCol) =!= "null")
 
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
