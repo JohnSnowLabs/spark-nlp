@@ -1,10 +1,10 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
+import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{udf, col}
+import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
@@ -92,7 +92,16 @@ class DocumentAssembler(override val uid: String)
       case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
         s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
-    Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+    try {
+      Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+    } catch { case _: Exception =>
+      /*
+      * when there is a null in the row
+      * it outputs an empty Annotation
+      * */
+      Seq.empty[Annotation]
+    }
+
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
@@ -136,37 +145,35 @@ class DocumentAssembler(override val uid: String)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    val filteredDataset = dataset.filter(dataset(getInputCol) =!= "null")
-
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
-      if (filteredDataset.schema.fields.find(_.name == getInputCol)
-          .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
-          .dataType == ArrayType(StringType, containsNull = false))
+      if (dataset.schema.fields.find(_.name == getInputCol)
+        .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
+        .dataType == ArrayType(StringType, containsNull = false))
         dfAssemblyFromArray(
-          filteredDataset.col(getInputCol)
+          dataset.col(getInputCol)
         )
       else if (get(idCol).isDefined && get(metadataCol).isDefined)
         dfAssemble(
-          filteredDataset.col(getInputCol),
-          filteredDataset.col(getIdCol),
-          filteredDataset.col(getMetadataCol)
+          dataset.col(getInputCol),
+          dataset.col(getIdCol),
+          dataset.col(getMetadataCol)
         )
       else if (get(idCol).isDefined)
         dfAssembleOnlyId(
-          filteredDataset.col(getInputCol),
-          filteredDataset.col(getIdCol)
+          dataset.col(getInputCol),
+          dataset.col(getIdCol)
         )
       else if (get(metadataCol).isDefined)
         dfAssembleNoId(
-          filteredDataset.col(getInputCol),
-          filteredDataset.col(getMetadataCol)
+          dataset.col(getInputCol),
+          dataset.col(getMetadataCol)
         )
       else
         dfAssembleNoExtras(
-          filteredDataset.col(getInputCol)
+          dataset.col(getInputCol)
         )
-    filteredDataset.withColumn(
+    dataset.withColumn(
       getOutputCol,
       documentAnnotations.as(getOutputCol, metadataBuilder.build)
     )
