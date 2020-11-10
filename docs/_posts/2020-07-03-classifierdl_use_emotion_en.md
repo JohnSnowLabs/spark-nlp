@@ -53,23 +53,26 @@ annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
 ```
 ```scala
 ```
+
 </div>
 
 {:.h2_title}
 ## Results
-{:.table-model}
+
+```bash
 +------------------------------------------------------------------------------------------------+------------+
 |document                                                                                        |class       |
 +------------------------------------------------------------------------------------------------+------------+
 |@Mira I just saw you on live t.v!!                                                              | joy        |
 +------------------------------------------------------------------------------------------------+------------+
-
+```
 
 
 {:.model-param}
 ## Model Information
+
 {:.table-model}
-|-------------------------|------------------------------|
+|---|---|
 | Model Name              | classifierdl_use_emotion     |
 | Model Class             | ClassifierDLModel            |
 | Spark Compatibility     | 2.5.3                        |

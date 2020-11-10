@@ -58,18 +58,19 @@ annotations = light_pipeline.fullAnnotate('If I could put into words how much I 
 
 {:.h2_title}
 ## Results
-{:.table-model}
+```bash
 +--------------------------------------------------------------------------------------------------------+------------+
 |document                                                                                                |class       |
 +--------------------------------------------------------------------------------------------------------+------------+
 |If I could put into words how much I love waking up at am on Tuesdays I would                           | sarcasm    |
 +--------------------------------------------------------------------------------------------------------+------------+
-
+```
 
 {:.model-param}
 ## Model Information
+
 {:.table-model}
-|-------------------------|--------------------------|
+|---|---|
 | Model Name              | classifierdl_use_sarcasm |
 | Model Class             | ClassifierDLModel        |
 | Spark Compatibility     | 2.5.3                    |
