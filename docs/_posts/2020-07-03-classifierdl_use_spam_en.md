@@ -58,19 +58,20 @@ annotations = light_pipeline.fullAnnotate('Congratulations! You've won a $1,000 
 
 {:.h2_title}
 ## Results
-{:.table-model}
+```bash
 +------------------------------------------------------------------------------------------------+------------+
 |document                                                                                        |class       |
 +------------------------------------------------------------------------------------------------+------------+
 |Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now.  | spam       |
 +------------------------------------------------------------------------------------------------+------------+
-
+```
 
 
 {:.model-param}
 ## Model Information
+
 {:.table-model}
-|-------------------------|-----------------------|
+|---|---|
 | Model Name              | classifierdl_use_spam |
 | Model Class             | ClassifierDLModel     |
 | Spark Compatibility     | 2.5.3                 |

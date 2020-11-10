@@ -58,18 +58,18 @@ annotations = light_pipeline.fullAnnotate('Donald Trump a KGB Spy? 11/02/2016 In
 
 {:.h2_title}
 ## Results
-{:.table-model}
+```bash
 +--------------------------------------------------------------------------------------------------------+------------+
 |document                                                                                                |class       |
 +--------------------------------------------------------------------------------------------------------+------------+
 |Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton | FAKE       |
 +--------------------------------------------------------------------------------------------------------+------------+
-
-
+```
 {:.model-param}
 ## Model Information
+
 {:.table-model}
-|-------------------------|---------------------------|
+|---|---|
 | Model Name              | classifierdl_use_fakenews |
 | Model Class             | ClassifierDLModel         |
 | Spark Compatibility     | 2.5.3                     |
