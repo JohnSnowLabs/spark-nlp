@@ -51,6 +51,8 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate('If I could put into words how much I love waking up at am on Tuesdays I would')
 
 ```
+```scala
+```
 
 </div>
 

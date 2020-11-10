@@ -29,10 +29,6 @@ surprise, sadness, fear, joy
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```nlu
-
-```
-
 ```python
 
 documentAssembler = DocumentAssembler()\
@@ -55,7 +51,8 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
 
 ```
-
+```scala
+```
 </div>
 
 {:.h2_title}
