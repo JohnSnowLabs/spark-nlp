@@ -4,7 +4,8 @@ import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.{NAMED_ENTITY, POS}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import scala.util.Random
 
 
 trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
@@ -151,24 +152,65 @@ object NerTagged extends Tagged[NerTaggedSentence]{
       }
   }
 
-  /** FIXME: ColNums not always in the given order*/
-  def collectTrainingInstances(dataset: Dataset[Row],
-                               sentenceCols: Seq[String],
-                               labelColumn: String): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
-    val result = dataset
-      .select(labelColumn, sentenceCols:_*)
-      .collect()
-      .flatMap{row =>
+
+  /** FIXME: ColNums not always in the given order*/
+  def iterateOnDataframe(dataset: Dataset[Row],
+                         sentenceCols: Seq[String],
+                         labelColumn: String,
+                         batchSize:Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+
+
+    object DatasetIterator extends Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] {
+      import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
+
+      // Send batches, don't collect(), only keeping a single batch in memory anytime
+      val it = dataset
+        .select(labelColumn, sentenceCols:_*)
+        .randomize // to improve training
+        .toLocalIterator()
+
+      // create a batch
+      override def next(): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
+        var count = 0
+        var thisBatch = Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
+
+        while (it.hasNext && count < batchSize) {
+          count += 1
+          val nextRow = it.next
+
+          val labelAnnotations = getAnnotations(nextRow, 0)
+          val sentenceAnnotations  = (1 to sentenceCols.length).flatMap(idx => getAnnotations(nextRow, idx))
+          val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
+          val labels = getLabelsFromSentences(sentences, labelAnnotations)
+          val thisOne = labels.zip(sentences)
+
+          thisBatch = thisBatch ++ thisOne
+        }
+        thisBatch
+      }
+
+      override def hasNext: Boolean = it.hasNext
+    }
+    DatasetIterator
+  }
+
+
+
+  /** FIXME: ColNums not always in the given order*/
+  def interateOnArray(inputArray: Array[Row],
+                      sentenceCols: Seq[String],
+                      labelColumn: String,
+                      batchSize:Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+    import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
+
+     slice(Random.shuffle(inputArray.toSeq)
+      .flatMap { row =>
         val labelAnnotations = this.getAnnotations(row, 0)
-        val sentenceAnnotations  = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
+        val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
         val labels = getLabelsFromSentences(sentences, labelAnnotations)
         labels.zip(sentences)
-      }
-    System.gc()
-
-    result
-  }
-
+      }, batchSize)
+    }
 }

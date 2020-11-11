@@ -6,9 +6,10 @@ import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{Param, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.mutable.{ArrayBuffer, Map}
 import scala.util.Random
@@ -78,9 +79,31 @@ class SentenceDetectorDLModel(override val uid: String)
   **/
   def getImpossiblePenultimates: Array[String] = $(this.impossiblePenultimates)
 
+  /** A flag indicating whether to split sentences into different Dataset rows. Useful for higher parallelism in
+    * fat rows. Defaults to false.
+    *
+    * @group getParam
+    **/
+  def explodeSentences = new BooleanParam(this, "explodeSentences", "Split sentences in separate rows")
+
+
+  /** Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+    *
+    * @group setParam
+    **/
+  def setExplodeSentences(value: Boolean): SentenceDetectorDLModel.this.type = set(this.explodeSentences, value)
+
+
+  /** Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
+    *
+    * @group getParam
+    **/
+  def getExplodeSentences: Boolean = $(this.explodeSentences)
+
   setDefault(
     modelArchitecture -> "cnn",
-    impossiblePenultimates -> Array()
+    impossiblePenultimates -> Array(),
+    explodeSentences -> false
   )
 
   private var _tfClassifier: Option[Broadcast[TensorflowSentenceDetectorDL]] = None
@@ -252,6 +275,25 @@ class SentenceDetectorDLModel(override val uid: String)
     })
 
     outputAnnotations
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+
+    import org.apache.spark.sql.functions.{array, col, explode}
+
+    if ($(explodeSentences)) {
+      dataset
+        .select(
+          dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(col(getOutputCol)).as("_tmp"):_*)
+        .withColumn(
+          getOutputCol,
+          array(col("_tmp")).as(
+            getOutputCol,
+            dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
+        .drop("_tmp")
+    }
+
+    else dataset
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
