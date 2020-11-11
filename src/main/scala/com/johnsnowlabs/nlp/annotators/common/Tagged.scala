@@ -161,38 +161,39 @@ object NerTagged extends Tagged[NerTaggedSentence]{
                          batchSize:Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
 
 
-    object DatasetIterator extends Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] {
-      import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
+      new Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] {
 
-      // Send batches, don't collect(), only keeping a single batch in memory anytime
-      val it = dataset
-        .select(labelColumn, sentenceCols:_*)
-        .randomize // to improve training
-        .toLocalIterator()
+        import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
-      // create a batch
-      override def next(): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
-        var count = 0
-        var thisBatch = Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
+        // Send batches, don't collect(), only keeping a single batch in memory anytime
+        val it = dataset
+          .select(labelColumn, sentenceCols: _*)
+          .randomize // to improve training
+          .toLocalIterator()
 
-        while (it.hasNext && count < batchSize) {
-          count += 1
-          val nextRow = it.next
+        // create a batch
+        override def next(): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
+          var count = 0
+          var thisBatch = Array.empty[(TextSentenceLabels, WordpieceEmbeddingsSentence)]
 
-          val labelAnnotations = getAnnotations(nextRow, 0)
-          val sentenceAnnotations  = (1 to sentenceCols.length).flatMap(idx => getAnnotations(nextRow, idx))
-          val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
-          val labels = getLabelsFromSentences(sentences, labelAnnotations)
-          val thisOne = labels.zip(sentences)
+          while (it.hasNext && count < batchSize) {
+            count += 1
+            val nextRow = it.next
 
-          thisBatch = thisBatch ++ thisOne
+            val labelAnnotations = getAnnotations(nextRow, 0)
+            val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(nextRow, idx))
+            val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
+            val labels = getLabelsFromSentences(sentences, labelAnnotations)
+            val thisOne = labels.zip(sentences)
+
+            thisBatch = thisBatch ++ thisOne
+          }
+          thisBatch
         }
-        thisBatch
+
+        override def hasNext: Boolean = it.hasNext
       }
 
-      override def hasNext: Boolean = it.hasNext
-    }
-    DatasetIterator
   }
 
 

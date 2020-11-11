@@ -300,8 +300,7 @@ class NerDLApproach(override val uid: String)
     val train = dataset.toDF()
 
     val test = if (!isDefined(testDataset)) {
-      val emptyValid: Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = Array.empty
-      dataset.sparkSession.createDataFrame(emptyValid)
+      train.limit(0) // keep the schema only
     }
     else {
       ResourceHelper.readParquetSparkDatFrame($(testDataset))
