@@ -276,59 +276,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/DATE_MATCHER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb
-        - title: Classify medical text according to PICO framework
-          image: 
-              src: /assets/images/Classify_medical_text_according_to_PICO_framework.svg
-          image2: 
-              src: /assets/images/Classify_medical_text_according_to_PICO_framework_f.svg
-          excerpt: 'Automatically classify medical text in PICO components: Participants/Problem, Intervention, Comparison, and Outcome.'
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_PICO/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_CLASSIFICATION.ipynb
-        - title: Detect chemical compounds
-          image: 
-              src: /assets/images/Detect_chemical_compounds.svg
-          image2: 
-              src: /assets/images/Detect_chemical_compounds_f.svg
-          excerpt: Automatically detect all types of chemical compounds using our pretrained Spark NLP for Healthcare model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMICALS/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
-        - title: Detect bacteria, plants, animals or general species
-          image: 
-              src: /assets/images/Detect_bacteria_plants_animals_or_general_species.svg
-          image2: 
-              src: /assets/images/Detect_bacteria_plants_animals_or_general_species_f.svg
-          excerpt: Automatically detect bacteria, plants, animals, and other species using our pretrained Spark NLP for Healthcare model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_BACTERIAL_SPECIES/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb        
-        - title: Detect traffic information in text
-          image: 
-              src: /assets/images/Detect_traffic_information_in_text.svg
-          image2: 
-              src: /assets/images/Detect_traffic_information_in_text_f.svg
-          excerpt: Automatically extract geographical location, postal codes, and traffic routes in German text using our pretrained Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb        
       languages: yes
       languages: 
         - title: Detect language
@@ -931,6 +879,58 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
+        - title: Classify medical text according to PICO framework
+          image: 
+              src: /assets/images/Classify_medical_text_according_to_PICO_framework.svg
+          image2: 
+              src: /assets/images/Classify_medical_text_according_to_PICO_framework_f.svg
+          excerpt: 'Automatically classify medical text in PICO components: Participants/Problem, Intervention, Comparison, and Outcome.'
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_PICO/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_CLASSIFICATION.ipynb
+        - title: Detect chemical compounds
+          image: 
+              src: /assets/images/Detect_chemical_compounds.svg
+          image2: 
+              src: /assets/images/Detect_chemical_compounds_f.svg
+          excerpt: Automatically detect all types of chemical compounds using our pretrained Spark NLP for Healthcare model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMICALS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+        - title: Detect bacteria, plants, animals or general species
+          image: 
+              src: /assets/images/Detect_bacteria_plants_animals_or_general_species.svg
+          image2: 
+              src: /assets/images/Detect_bacteria_plants_animals_or_general_species_f.svg
+          excerpt: Automatically detect bacteria, plants, animals, and other species using our pretrained Spark NLP for Healthcare model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_BACTERIAL_SPECIES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb        
+        - title: Detect traffic information in text
+          image: 
+              src: /assets/images/Detect_traffic_information_in_text.svg
+          image2: 
+              src: /assets/images/Detect_traffic_information_in_text_f.svg
+          excerpt: Automatically extract geographical location, postal codes, and traffic routes in German text using our pretrained Spark NLP model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
