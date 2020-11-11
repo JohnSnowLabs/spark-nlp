@@ -119,12 +119,32 @@ spark = SparkSession.builder \
     SPARK_NLP_LICENSE=zzz
     ```
 
+      -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows: 
+
+    ```bash
+    %scala
+    val script = """
+    #!/bin/bash
+
+    echo "******** Inject Spark NLP AWS Profile Credentials ******** "
+
+    mkdir ~/.aws/
+
+    cat << EOF > ~/.aws/credentials
+    [spark_nlp]
+    aws_access_key_id=<YOUR_AWS_ACCESS_KEY>
+    aws_secret_access_key=<YOUR_AWS_SECRET_KEY>
+    EOF
+
+    echo "******** End Inject Spark NLP AWS Profile Credentials  ******** "
+
+    """
+    ```
+
 3. In `Libraries` tab inside your cluster you need to follow these steps:
  - Install New -> PyPI -> `spark-nlp` -> Install
  - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1` -> Install
  - Please add following jars:
-        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark_nlp_jsl-${version}-py3-none-any.whl`
+        - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl`
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
-
-</div>

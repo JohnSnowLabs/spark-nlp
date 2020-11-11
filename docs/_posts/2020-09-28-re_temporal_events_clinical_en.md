@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect temporal relations for clinical events
+title: Temporal relations for clinical events
 author: John Snow Labs
 name: re_temporal_events_clinical
 date: 2020-09-28
@@ -9,7 +9,7 @@ article_header:
 type: cover
 use_language_switcher: "Python"
 ---
-
+ 
 ## Description
 This model can be used to identify temporal relationships among clinical events.
 ## Included Relations
@@ -72,4 +72,10 @@ annotations = light_pipeline.fullAnnotate("""The patient is a 56-year-old right-
 |Output Labels:|[relations]|
 |Language:|[en]|
 |Case sensitive:|false|
+| Dependencies:  | embeddings_clinical                     |
 
+
+{:.h2_title}
+## Data Source
+Trained on data gathered and manually annotated by John Snow Labs
+https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/

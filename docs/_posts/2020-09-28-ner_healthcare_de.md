@@ -9,9 +9,9 @@ article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
+ 
 ## Description
-This model can be used to detect symptomes, treatments and other entities in medical text in German language.
+This model can be used to detect symptoms, treatments and other entities in medical text in German language.
 
 ## Predicted Entities
 DIAGLAB_PROCEDURE, MEDICAL_SPECIFICATION, MEDICAL_DEVICE, MEASUREMENT, BIOLOGICAL_CHEMISTRY, BODY_FLUID, TIME_INFORMATION, LOCAL_SPECIFICATION, BIOLOGICAL_PARAMETER, PROCESS, MEDICATION, DOSING, DEGREE, MEDICAL_CONDITION, PERSON, TISSUE, STATE_OF_HEALTH, BODY_PART, TREATMENT
@@ -33,7 +33,9 @@ clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") 
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+clinical_ner_converter = NerConverterInternal().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
+
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, clinical_ner_converter])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -81,4 +83,8 @@ annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (K
 |Output Labels:|[ner]|
 |Language:|[de]|
 |Case sensitive:|false|
+| Dependencies:  | w2v_cc_300d                           |
 
+{:.h2_title}
+## Data Source
+Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with *w2v_cc_300d*.

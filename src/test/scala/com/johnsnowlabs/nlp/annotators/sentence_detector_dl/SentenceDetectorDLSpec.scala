@@ -96,4 +96,38 @@ class SentenceDetectorDLSpec  extends FlatSpec {
     })
   }
 
+  "Sentence Detector DL" should "download and run pretrained model" in {
+
+    val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetectorDL = SentenceDetectorDLModel.pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetectorDL))
+
+    case class textOnly(text: String)
+
+    import spark.implicits._
+
+    val emptyDataset = spark.emptyDataset[String]
+
+    val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
+
+    lightModel.fullAnnotate(text).foreach(anno => {
+      if (anno._1 == "sentences"){
+        anno._2.foreach(s => {
+          println(s.result)
+          println("\n")
+        })
+      }
+
+    })
+  }
+
 }

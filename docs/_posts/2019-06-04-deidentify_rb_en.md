@@ -32,8 +32,8 @@ Personal Information in order to deidentify
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")
-	.setInputCols("document","token","chunk")
+model = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")\
+	.setInputCols("document","token","chunk")\
 	.setOutputCol("document")
 ```
 

@@ -1,4 +1,27 @@
 ========
+2.6.3
+========
+---------------
+New Features
+---------------
+* Add enableMemoryOptimizer to allow training NerDLApproach on a dataset larger than the memory
+* Add option to explode sentences in SentenceDetectorDL
+
+----------------
+Enhancements
+----------------
+* Improve POS (AveragedPerceptron) performance
+* Improve Norvig Spell Checker performance
+
+----------------
+Bugfixes
+----------------
+* Fix SentenceDetectorDL unsupported model error in pretrained function
+* Fix a race condition in Lru that can cause NullPointerException during a LightPipeline operations with embeddings
+* Fix max sequence length calculation in BertEmbeddings and BertSentenceEmbeddings
+* Fix threshold in YakeModel on Python side
+
+========
 2.6.2
 ========
 ---------------

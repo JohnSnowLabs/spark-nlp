@@ -32,8 +32,8 @@ Word2Vec feature vectors based on embeddings_sciwiki_50d
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = WordEmbeddingsModel.pretrained("embeddings_sciwiki_50d","es","clinical/models")
-	.setInputCols("document","token")
+model = WordEmbeddingsModel.pretrained("embeddings_sciwiki_50d","es","clinical/models")\
+	.setInputCols("document","token")\
 	.setOutputCol("word_embeddings")
 ```
 

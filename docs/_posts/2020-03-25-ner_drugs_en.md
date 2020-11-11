@@ -34,16 +34,20 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
-
+...
 clinical_ner = NerDLModel.pretrained("ner_drugs", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[clinical_ner])
+nlp_pipeline = Pipeline(stages=[
+    document_assembler, 
+    sentence_detector,
+    tokenizer,
+    word_embeddings,
+    clinical_ner,
+    ner_converter])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(data)
 
@@ -66,9 +70,29 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
+The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata.
 
-![image](/assets/images/ner_drugs.png)
+```bash
++-----------------+---------+
+|chunk            |ner_label|
++-----------------+---------+
+|Bactrim          |DrugChem |
+|Fragmin 5000     |DrugChem |
+|Xenaderm         |DrugChem |
+|OxyContin        |DrugChem |
+|folic acid       |DrugChem |
+|levothyroxine    |DrugChem |
+|Prevacid         |DrugChem |
+|Norvasc          |DrugChem |
+|Lexapro          |DrugChem |
+|aspirin          |DrugChem |
+|Neurontin        |DrugChem |
+|Percocet         |DrugChem |
+|magnesium citrate|DrugChem |
+|Wellbutrin       |DrugChem |
+|Bactrim          |DrugChem |
++-----------------+---------+
+```
 
 {:.model-param}
 ## Model Information

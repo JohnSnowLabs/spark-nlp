@@ -522,14 +522,16 @@ Refer to the [DateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowla
 
 ```python
 date_matcher = DateMatcher() \
+    .setInputCols('document')
     .setOutputCol("date") \
-    .setDateFormat("yyyyMM")
+    .setDateFormat("yyyy/MM/dd")
 ```
 
 ```scala
 val dateMatcher = new DateMatcher()
-    .setFormat("yyyyMM")
+    .setInputCols('document')
     .setOutputCol("date")
+    .setFormat("yyyyMM")
 ```
 
 </div></div><div class="h3-box" markdown="1">
@@ -824,7 +826,7 @@ How to use pretrained BertEmbeddings:
 
 ```python
 
-bert = BertESentencembeddings.pretrained() \
+bert = BertSentencembeddings.pretrained() \
       .setInputCols("document") \
       .setOutputCol("bert_sentence_embeddings")
 ```
