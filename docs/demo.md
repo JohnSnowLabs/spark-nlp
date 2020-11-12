@@ -496,10 +496,10 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: #
+            url: https://demo.johnsnowlabs.com/public/NER_TR/
           - text: Colab Netbook
             type: blue_btn
-            url: #
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_TR.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
