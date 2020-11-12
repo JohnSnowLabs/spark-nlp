@@ -884,7 +884,7 @@ data:
               src: /assets/images/Classify_medical_text_according_to_PICO_framework.svg
           image2: 
               src: /assets/images/Classify_medical_text_according_to_PICO_framework_f.svg
-          excerpt: 'Automatically classify medical text in PICO components: Participants/Problem, Intervention, Comparison, and Outcome.'
+          excerpt: 'Automatically classify medical text against PICO classes: CONCLUSIONS, DESIGN_SETTING, INTERVENTION, PARTICIPANTS, FINDINGS, MEASUREMENTS and AIMS.'
           actions:
           - text: Live Demo
             type: normal
