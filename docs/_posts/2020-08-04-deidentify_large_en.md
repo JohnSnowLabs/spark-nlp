@@ -9,7 +9,7 @@ article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
+ 
 ## Description
 Deidentify (Large) is a deidentification model. It identifies instances of protected health information in text documents, and it can either obfuscate them (e.g., replacing names with different, fake names) or mask them (e.g., replacing "2020-06-04" with "<DATE>"). This model is useful for maintaining HIPAA compliance when dealing with text documents that contain protected health information.
 
@@ -25,11 +25,15 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
+...
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["""Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D."""]})))
 
-deid = DeIdentificationModel.pretrained("deidentify_large", "en") \
-        .setInputCols(["sentence", "token", "ner_chunk"]) \
-        .setOutputCol("obfuscated") \
-          .setMode("obfuscate")
+obfuscation = DeIdentificationModel.pretrained(DEID_MODEL_NAME, "en", "clinical/models") \
+      .setInputCols(["sentence", "token", "ner_chunk"]) \
+      .setOutputCol("obfuscated") \
+      .setMode("obfuscate")
+
+deid_text = obfuscation.transform(result)
 ```
 
 ```scala
@@ -39,8 +43,23 @@ val deid = DeIdentificationModel.pretrained("deidentify_large", "en")
         .setOutputCol("obfuscated") \
           .setMode("obfuscate")
 ```
-
 </div>
+
+## Results
+```bash
+|   |                                          sentence |                                      deidentified |
+|--:|--------------------------------------------------:|--------------------------------------------------:|
+| 0 | Patient AIQING, 25 month years-old , born in B... | Patient CAM, <AGE> month years-old , born in M... |
+| 1 |                     Phone number: (541) 754-3010. |                      Phone number: (603)531-7148. |
+| 2 |          MSW 100009632582 for his colonic polyps. |                  MSW <ID> for his colonic polyps. |
+| 3 |           He wants to know the results from them. |           He wants to know the results from them. |
+| 4 | He is not taking hydrochlorothiazide and is cu... | He is not taking hydrochlorothiazide and is cu... |
+| 5 | He said he has cut his alcohol back to 6 pack ... | He said he has cut his alcohol back to 6 pack ... |
+| 6 | He \nhas cut back his cigarettes to one time p... | He \nhas cut back his cigarettes to one time p... |
+| 7 |          P: Follow up with Dr. Hobbs in 3 months. |        P: Follow up with Dr. RODOLPH in 3 months. |
+| 8 |                            Gilbert P. Perez, M.D. |                                      Gertie, M.D. |
+```
+
 
 {:.model-param}
 ## Model Information

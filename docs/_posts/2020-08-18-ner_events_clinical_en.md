@@ -12,10 +12,9 @@ article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
+ 
 {:.h2_title}
 ## Description
-Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
 Pretrained named entity recognition deep learning model for clinical events.
 
 ## Predicted Entities 

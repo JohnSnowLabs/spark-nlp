@@ -32,9 +32,18 @@ PROBLEM,TEST,TREATMENT
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
+...
 model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models")\
 	.setInputCols("sentence","token","word_embeddings")\
 	.setOutputCol("ner")
+
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": [
+    """This is the case of a very pleasant 46-year-old Caucasian female with subarachnoid hemorrhage secondary to ruptured left posteroinferior cerebellar artery aneurysm, which was clipped. The patient last underwent a right frontal ventricular peritoneal shunt on 10/12/07. This resulted in relief of left chest pain, but the patient continued to complaint of persistent pain to the left shoulder and left elbow. She was seen in clinic on 12/11/07 during which time MRI of the left shoulder showed no evidence of rotator cuff tear. She did have a previous MRI of the cervical spine that did show an osteophyte on the left C6-C7 level. Based on this, negative MRI of the shoulder, the patient was recommended to have anterior cervical discectomy with anterior interbody fusion at C6-C7 level. Operation, expected outcome, risks, and benefits were discussed with her. Risks include, but not exclusive of bleeding and infection, bleeding could be soft tissue bleeding, which may compromise airway and may result in return to the operating room emergently for evacuation of said hematoma. There is also the possibility of bleeding into the epidural space, which can compress the spinal cord and result in weakness and numbness of all four extremities as well as impairment of bowel and bladder function. Should this occur, the patient understands that she needs to be brought emergently back to the operating room for evacuation of said hematoma. There is also the risk of infection, which can be superficial and can be managed with p.o. antibiotics. However, the patient may develop deeper-seated infection, which may require return to the operating room. Should the infection be in the area of the spinal instrumentation, this will cause a dilemma since there might be a need to remove the spinal instrumentation and/or allograft. There is also the possibility of potential injury to the esophageus, the trachea, and the carotid artery. There is also the risks of stroke on the right cerebral circulation should an undiagnosed plaque be propelled from the right carotid. There is also the possibility hoarseness of the voice secondary to injury to the recurrent laryngeal nerve. There is also the risk of pseudoarthrosis and hardware failure. She understood all of these risks and agreed to have the procedure performed."""
+]})))
 ```
 
 ```scala
@@ -43,6 +52,35 @@ val model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models")
 	.setOutputCol("ner")
 ```
 </div>
+
+## Results
+```bash
++--------------------------------------------------------+---------+
+|chunk                                                   |ner_label|
++--------------------------------------------------------+---------+
+|subarachnoid hemorrhage                                 |PROBLEM  |
+|ruptured left posteroinferior cerebellar artery aneurysm|PROBLEM  |
+|clipped                                                 |TREATMENT|
+|a right frontal ventricular peritoneal shunt            |TREATMENT|
+|left chest pain                                         |PROBLEM  |
+|persistent pain to the left shoulder and left elbow     |PROBLEM  |
+|MRI of the left shoulder                                |TEST     |
+|rotator cuff tear                                       |PROBLEM  |
+|a previous MRI of the cervical spine                    |TEST     |
+|an osteophyte on the left C6-C7 level                   |PROBLEM  |
+|MRI of the shoulder                                     |TEST     |
+|anterior cervical discectomy                            |TREATMENT|
+|anterior interbody fusion                               |TREATMENT|
+|bleeding                                                |PROBLEM  |
+|infection                                               |PROBLEM  |
+|bleeding                                                |PROBLEM  |
+|soft tissue bleeding                                    |PROBLEM  |
+|evacuation                                              |TREATMENT|
+|hematoma                                                |PROBLEM  |
+|bleeding into the epidural space                        |PROBLEM  |
++--------------------------------------------------------+---------+
+only showing top 20 rows
+```
 
 {:.model-param}
 ## Model Information
