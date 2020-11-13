@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This model can be used to detect normalized mentions of genes (go) and human phenotypes (hp) in medical text.
 ## Predicted Entities: 
-Go, Hp
+GO, HP
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL/){:.button.button-orange}
@@ -36,12 +36,7 @@ clinical_ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "c
 
 ...
 
-nlp_pipeline = Pipeline(stages=[document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                clinical_ner,
-                                ner_converter])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
                                 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -58,13 +53,7 @@ val ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinic
 
 ...
 
-val pipeline = new Pipeline().setStages(Array(
-                                document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                ner,
-                                ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val result = pipeline.fit(Seq.empty["Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad."].toDS.toDF("text")).transform(data)
 
@@ -103,11 +92,11 @@ val result = pipeline.fit(Seq.empty["Another disease that shares two of the tumo
 ## Benchmarking
 ```bash
 |    | label         |    tp |   fp |   fn |     prec |      rec |       f1 |
-|---:|:--------------|------:|-----:|-----:|---------:|---------:|---------:|
-|  0 | B-GO          |  1530 |  129 |   57 | 0.922242 | 0.964083 | 0.942699 |
-|  1 | B-HP          |   950 |  133 |  130 | 0.877193 | 0.87963  | 0.87841  |
-|  2 | I-HP          |   253 |   46 |   68 | 0.846154 | 0.788162 | 0.816129 |
-|  3 | I-GO          |  4550 |  344 |  154 | 0.92971  | 0.967262 | 0.948114 |
-|  4 | Macro-average | 7283  | 652  |  409 | 0.893825 | 0.899784 | 0.896795 |
-|  5 | Micro-average | 7283  | 652  |  409 | 0.917832 | 0.946828 | 0.932105 |
+|---:|--------------:|------:|-----:|-----:|---------:|---------:|---------:|
+|  0 | B-GO          | 1530  |  129 |   57 | 0.922242 | 0.964083 | 0.942699 |
+|  1 | B-HP          |  950  |  133 |  130 | 0.877193 |  0.87963 |  0.87841 |
+|  2 | I-HP          |  253  |   46 |   68 | 0.846154 | 0.788162 | 0.816129 |
+|  3 | I-GO          | 4550  |  344 |  154 |  0.92971 | 0.967262 | 0.948114 |
+|  4 | Macro-average | 7283  |  652 |  409 | 0.893825 | 0.899784 | 0.896795 |
+|  5 | Micro-average | 7283  |  652 |  409 | 0.917832 | 0.946828 | 0.932105 |
 ```

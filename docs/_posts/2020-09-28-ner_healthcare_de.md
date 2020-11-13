@@ -14,7 +14,7 @@ use_language_switcher: "Python-Scala-Java"
 This model can be used to detect symptoms, treatments and other entities in medical text in German language.
 
 ## Predicted Entities
-Diaglab_Procedure, Medical_Specification, Medical_Device, Measurement, Biological_Chemistry, Body_Fluid, Time_Information, Local_Specification, Biological_Parameter, Process, Medication, Dosing, Degree, Medical_Condition, Person, Tissue, State_Of_Health, Body_Part, Treatment
+DIAGLAB_PROCEDURE, MEDICAL_SPECIFICATION, MEDICAL_DEVICE, MEASUREMENT, BIOLOGICAL_CHEMISTRY, BODY_FLUID, TIME_INFORMATION, LOCAL_SPECIFICATION, BIOLOGICAL_PARAMETER, PROCESS, MEDICATION, DOSING, DEGREE, MEDICAL_CONDITION, PERSON, TISSUE, STATE_OF_HEALTH, BODY_PART, TREATMENT
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/){:.button.button-orange}
@@ -53,13 +53,7 @@ val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models")
   
 val ner_converter = NerCoverterInternal().setInputCols("sentence", "token", "ner").setOutputCol("ner_chunk")
 
-val pipeline = new Pipeline().setStages(Array(
-                                        document_assembler,
-                                        sentence_detector,
-                                        tokenizer,
-                                        word_embeddings,
-                                        ner,
-                                        ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, clinical_ner_converter))
 
 val result = pipeline.fit(Seq.empty["Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom"].toDS.toDF("text")).transform(data)
 

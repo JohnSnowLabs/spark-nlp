@@ -14,7 +14,7 @@ use_language_switcher: "Python-Scala-Java"
 This model can be used to detect clinical events in medical text.
 
 ## Predicted Entities
-Date, Time, Problem, Test, Treatment, Occurence, Clinical_Dept, Evidential, Duration, Frequency, Admission, Discharge.
+DATE, TIME, PROBLEM, TEST, TREATMENT, OCCURENCE, CLINICAL_DEPT, EVIDENTIAL, DURATION, FREQUENCY, ADMISSION, DISCHARGE.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange}
@@ -38,12 +38,7 @@ clinical_ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/mode
 
 ...
 
-nlp_pipeline = Pipeline(stages=[document_assembler,
-                                sentence_detector, 
-                                tokenizer, 
-                                word_embeddings, 
-                                clinical_ner, 
-                                ner_converter])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -60,12 +55,7 @@ val ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/models")
 
 ...
 
-val pipeline = new Pipeline().setStages(Array(document_assembler,
-                                sentence_detector, 
-                                tokenizer, 
-                                word_embeddings, 
-                                ner, 
-                                ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val result = pipeline.fit(Seq.empty["The patient presented to the emergency room last evening"].toDS.toDF("text")).transform(data)
 

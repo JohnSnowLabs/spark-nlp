@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 Deidentification NER (Large) is a Named Entity Recognition model that annotates text to find protected health information that may need to be deidentified. The entities it annotates are Age, Contact, Date, Id, Location, Name, and Profession. This model is trained with the `'embeddings_clinical'` word embeddings model, so be sure to use the same embeddings in the pipeline.
 
 ## Predicted Entities 
-Age, Contact, Date, Id, Location, Name, Profession
+`AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, ``NAME``, ``PROFESSION``
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_large_en_2.5.3_2.4_1595427435246.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -39,12 +39,7 @@ model = NerDLModel.pretrained("ner_deid_large","en","clinical/models")
 
 ...
 
-nlp_pipeline = Pipeline(stages=[document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                model,
-                                ner_converter])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter])
                                 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -65,13 +60,7 @@ val model = NerDLModel.pretrained("ner_deid_large","en","clinical/models")
     
 ...
 
-val pipeline = new Pipeline().setStages(Array(
-                                document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                model,
-                                ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter))
 
 val result = pipeline.fit(Seq.empty["""HISTORY OF PRESENT ILLNESS: Mr. Smith is a 60-year-old white male veteran with multiple comorbidities, who has a history of bladder cancer diagnosed approximately two years ago by the VA Hospital. He underwent a resection there. He was to be admitted to the Day Hospital for cystectomy. He was seen in Urology Clinic and Radiology Clinic on 02/04/2003.
 
@@ -124,26 +113,23 @@ https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/
 
 ## Benchmarking
 ```bash
-|    | label           |     tp |    fp |   fn |     prec |      rec |        f1 |
-|---:|----------------:|-------:|------:|-----:|---------:|---------:|----------:|
-|  0 | I-TIME          |     82 |    12 |   45 | 0.87234  | 0.645669 | 0.742081  |
-|  1 | I-TREATMENT     |   2580 |   439 |  535 | 0.854588 | 0.82825  | 0.841213  |
-|  2 | B-OCCURRENCE    |   1548 |   680 |  945 | 0.694793 | 0.620939 | 0.655793  |
-|  3 | I-DURATION      |    366 |   183 |   99 | 0.666667 | 0.787097 | 0.721893  |
-|  4 | B-DATE          |    847 |   151 |  138 | 0.848697 | 0.859898 | 0.854261  |
-|  5 | I-DATE          |    921 |   191 |  196 | 0.828237 | 0.82453  | 0.82638   |
-|  6 | B-ADMISSION     |    105 |   102 |   15 | 0.507246 | 0.875    | 0.642202  |
-|  7 | I-PROBLEM       |   5238 |   902 |  823 | 0.853094 | 0.864214 | 0.858618  |
-|  8 | B-CLINICAL_DEPT |    613 |   130 |  119 | 0.825034 | 0.837432 | 0.831187  |
-|  9 | B-TIME          |     36 |     8 |   24 | 0.818182 | 0.6      | 0.692308  |
-| 10 | I-CLINICAL_DEPT |   1273 |   210 |  137 | 0.858395 | 0.902837 | 0.880055  |
-| 11 | B-PROBLEM       |   3717 |   608 |  591 | 0.859422 | 0.862813 | 0.861114  |
-| 12 | I-TEST          |   2304 |   384 |  361 | 0.857143 | 0.86454  | 0.860826  |
-| 13 | B-TEST          |   1870 |   372 |  300 | 0.834077 | 0.861751 | 0.847688  |
-| 14 | B-TREATMENT     |   2767 |   437 |  513 | 0.863608 | 0.843598 | 0.853485  |
-| 15 | B-EVIDENTIAL    |    394 |   109 |  201 | 0.7833   | 0.662185 | 0.717669  |
-| 16 | B-DURATION      |    236 |   119 |  105 | 0.664789 | 0.692082 | 0.678161  |
-| 17 | B-FREQUENCY     |    117 |    20 |   79 | 0.854015 | 0.596939 | 0.702703  |
-| 18 | Macro-average   | 25806  | 5821  | 6342 | 0.735285 | 0.677034 | 0.704959  |
-| 19 | Micro-average   | 25806  | 5821  | 6342 | 0.815948 | 0.802725 | 0.809283  |
+|    | label         |    tp |    fp |    fn |     prec |      rec |       f1 |
+|---:|--------------:|------:|------:|------:|---------:|---------:|---------:|
+|  0 | I-NAME        |  1096 |    47 |    80 | 0.95888  | 0.931973 | 0.945235 |
+|  1 | I-CONTACT     |    93 |     0 |     4 | 1        | 0.958763 | 0.978947 |
+|  2 | I-AGE         |     3 |     1 |     6 | 0.75     | 0.333333 | 0.461538 |
+|  3 | B-DATE        |  2078 |    42 |    52 | 0.980189 | 0.975587 | 0.977882 |
+|  4 | I-DATE        |   474 |    39 |    25 | 0.923977 | 0.9499   | 0.936759 |
+|  5 | I-LOCATION    |   755 |    68 |    76 | 0.917375 | 0.908544 | 0.912938 |
+|  6 | I-PROFESSION  |    78 |     8 |     9 | 0.906977 | 0.896552 | 0.901734 |
+|  7 | B-NAME        |  1182 |   101 |    36 | 0.921278 | 0.970443 | 0.945222 |
+|  8 | B-AGE         |   259 |    10 |    11 | 0.962825 | 0.959259 | 0.961039 |
+|  9 | B-ID          |   146 |     8 |    11 | 0.948052 | 0.929936 | 0.938907 |
+| 10 | B-PROFESSION  |    76 |     9 |    21 | 0.894118 | 0.783505 | 0.835165 |
+| 11 | B-LOCATION    |   556 |    87 |    71 | 0.864697 | 0.886762 | 0.875591 |
+| 12 | I-ID          |    64 |     8 |     3 | 0.888889 | 0.955224 | 0.920863 |
+| 13 | B-CONTACT     |    40 |     7 |     5 | 0.851064 | 0.888889 | 0.869565 |
+| 14 | Macro-average |  6900 |   435 |   410 | 0.912023 | 0.880619 | 0.896046 |
+| 15 | Micro-average |  6900 |   435 |   410 | 0.940695 | 0.943912 | 0.942301 |
+
 ```

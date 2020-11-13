@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This model detects mentions of genes and human phenotypes (hp) in medical text. 
 ## Predicted Entities: 
-Gene, Hp
+GENE, HP
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL/){:.button.button-orange}
@@ -36,12 +36,7 @@ clinical_ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", 
 
 ...
 
-nlp_pipeline = Pipeline(stages=[document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                clinical_ner,
-                                ner_converter])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -57,13 +52,7 @@ val ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", "clin
 
 ...
 
-val pipeline = new Pipeline().setStages(Array(
-                                document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                ner,
-                                ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val result = pipeline.fit(Seq.empty["Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3)."].toDS.toDF("text")).transform(data)
 

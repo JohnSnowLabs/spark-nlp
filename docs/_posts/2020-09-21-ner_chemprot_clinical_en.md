@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This is a pre-trained model that can be used to automatically detect all chemical compounds and gene mentions from medical texts. 
 ## Predicted Entities: 
-Chemical, Gene-Y, Gene-N
+CHEMICAL, GENE-Y, GENE-N
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}
@@ -35,12 +35,7 @@ clinical_ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/mo
 
 ...
 
-nlp_pipeline = Pipeline(stages=[document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                clinical_ner,
-                                ner_converter])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -57,13 +52,7 @@ val ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models"
 
 ...
 
-val pipeline = new Pipeline().setStages(Array(
-                                document_assembler,
-                                sentence_detector,
-                                tokenizer,
-                                word_embeddings,
-                                ner,
-                                ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val result = pipeline.fit(Seq.empty["Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."].toDS.toDF("text")).transform(data)
 

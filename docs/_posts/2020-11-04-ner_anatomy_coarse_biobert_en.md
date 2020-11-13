@@ -40,14 +40,7 @@ clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinic
 
 ...
 
-nlpPipeline = Pipeline(stages=[
-                       DocumentAssembler,
-                       SentenceDetector,
-                       Tokenizer,
-                       WordEmbeddingsModel,
-                       NerDLModel,
-                       clinical_ner,
-                       NerConverter])
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
 empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")
 
@@ -66,14 +59,7 @@ val ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/mo
 
 ...
 
-val pipeline = new Pipeline().setStages(Array(
-                                        DocumentAssembler,
-                                        SentenceDetector,
-                                        Tokenizer,
-                                        WordEmbeddingsModel,
-                                        NerDLModel,
-                                        ner,
-                                        NerConverter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
 
