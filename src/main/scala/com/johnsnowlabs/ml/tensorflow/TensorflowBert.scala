@@ -35,32 +35,18 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   private val senteneEmbeddingsKey = "pooled_output:0"
 
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+    val maxSentenceLength = Array(maxSequenceLength - 2, sentences.map(_._1.tokens.length).max).min
 
-    val sentencesLength = sentences.map(x => x._1.tokens.length).toArray
-    val maxSentenceLength = sentencesLength.max
 
-    sentences.map { sentence =>
+    sentences.map(sentence => {
+      val tokenPieceIds = sentence._1.tokens.map(t => t.pieceId)
+      val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
 
-      val tokenPieceId = sentence._1.tokens.map(t => t.pieceId)
-      val tokenPieceLength = tokenPieceId.length
-
-      if(tokenPieceLength > maxSequenceLength){
-        Array(sentenceStartTokenId) ++
-          tokenPieceId.take(maxSequenceLength - 2) ++
-          Array(sentenceEndTokenId)
-      }else if(tokenPieceLength < maxSentenceLength){
-        val diff = maxSequenceLength - tokenPieceLength
-        (Array(sentenceStartTokenId) ++
-          tokenPieceId ++
-          Array(sentenceEndTokenId) ++
-          Array.fill(diff - 2)(0)).take(maxSentenceLength)
-      }
-      else{
-        Array(sentenceStartTokenId) ++
-          tokenPieceId.take(maxSentenceLength - 2) ++
-          Array(sentenceEndTokenId)
-      }
-    }
+      Array(sentenceStartTokenId) ++
+        tokenPieceIds.take(maxSentenceLength) ++
+        Array(sentenceEndTokenId) ++
+        padding
+    })
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
