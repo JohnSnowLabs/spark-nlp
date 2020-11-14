@@ -9,7 +9,7 @@ article_header:
   type: cover
 use_language_switcher: "Python"
 ---
-
+ 
 ## Description
 A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical trained with embeddings_healthcare_100d. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
 

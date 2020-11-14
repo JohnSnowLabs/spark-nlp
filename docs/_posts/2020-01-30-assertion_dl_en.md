@@ -9,7 +9,7 @@ article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
+ 
 ## Description
 
 Deep learning named entity recognition model for assertions. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.
@@ -33,15 +33,17 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
+...
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[clinical_assertion])
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-model = nlpPipeline.fit(empty_data)
+light_result = LightPipeline(model).fullAnnotate('Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain')[0]
+
 ```
 
 ```scala
@@ -60,14 +62,21 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ## Results
 The output is a dataframe with a sentence per row and an "assertion" column containing all of the assertion labels in the sentence. The assertion column also contains assertion character indices, and other metadata. To get only the entity chunks and assertion labels, without the metadata, select "ner_chunk.result" and "assertion.result" from your output dataframe.
 
-![image](/assets/images/assertiondl.png)
+```bash
+|   | chunks     | entities | assertion   |
+|---|------------|----------|-------------|
+| 0 | a headache | PROBLEM  | present     |
+| 1 | anxious    | PROBLEM  | conditional |
+| 2 | alopecia   | PROBLEM  | absent      |
+| 3 | pain       | PROBLEM  | absent      |
+```
 
 {:.model-param}
 ## Model Information
 
 {:.table-model}
 |---|---|
-|Model Name:|assertion_dl_en_2.4.0_2.4|
+|Model Name:|assertion_dl_en|
 |Type:|ner|
 |Compatibility:|Spark NLP 2.4.0|
 |Edition:|Official|
