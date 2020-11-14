@@ -637,7 +637,7 @@ Spark NLP offers more than `250 pre-trained models` in `46 languages`.
 **Embeddings:**
 
 | Model    | Name                      | Build            | Lang 
-|:--------------|:--------------------------|:-----------------|:------------|:------|
+|:--------------|:--------------------------|:-----------------|:------------|
 | WordEmbeddings (GloVe)            | `glove_100d`              | 2.4.0 |      `en`  
 | BertEmbeddings                    | `bert_base_uncased`       | 2.4.0 |      `en`  
 | BertEmbeddings                    | `bert_base_cased`         | 2.4.0 |      `en`  
@@ -656,7 +656,7 @@ Spark NLP offers more than `250 pre-trained models` in `46 languages`.
 **Classification:**
 
 | Model    | Name                      | Build            | Lang 
-|:--------------|:--------------------------|:-----------------|:------------|:------|
+|:--------------|:--------------------------|:-----------------|:------------|
 | ClassifierDL (with tfhub_use)          | `classifierdl_use_trec6`        | 2.5.0 |      `en`
 | ClassifierDL (with tfhub_use)          | `classifierdl_use_trec50`       | 2.5.0 |      `en`
 | SentimentDL (with tfhub_use)           | `sentimentdl_use_imdb`          | 2.5.0 |      `en`
