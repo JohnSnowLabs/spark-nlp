@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, BooleanParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -79,6 +79,28 @@ class BertSentenceEmbeddings(override val uid: String) extends
     * @group param
     **/
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+
+  /** Use SBert
+    *
+    * @group param
+    **/
+  val isSBert = new BooleanParam(parent = this, name = "isSBert", "Use SBert model")
+
+  /** Use SBert or not
+    *
+    * @group setParam
+    * */
+  def setIsSBert(value: Boolean): this.type = {
+    set(this.isSBert, value)
+    this
+  }
+
+  /** Check whetehr the model is SBert or not
+    *
+    * @group getParam
+    **/
+
+  def getIsSBert: Boolean = $(isSBert)
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
@@ -161,7 +183,8 @@ class BertSentenceEmbeddings(override val uid: String) extends
     dimension -> 768,
     batchSize -> 32,
     maxSentenceLength -> 128,
-    caseSensitive -> false
+    caseSensitive -> false,
+    isSBert -> false
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
@@ -172,16 +195,13 @@ class BertSentenceEmbeddings(override val uid: String) extends
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
-      _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowBert(
-            tensorflow,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            configProtoBytes = getConfigProtoBytes
-          )
-        )
-      )
+      _model = Some(spark.sparkContext.broadcast(
+        new TensorflowBert(
+          tensorflow,
+          sentenceStartTokenId,
+          sentenceEndTokenId,
+          configProtoBytes = getConfigProtoBytes
+        )))
     }
 
     this
@@ -213,7 +233,8 @@ class BertSentenceEmbeddings(override val uid: String) extends
         sentences,
         $(batchSize),
         $(maxSentenceLength),
-        $(caseSensitive)
+        $(caseSensitive),
+        isSBert = getIsSBert
       )
     } else {
       Seq.empty[Annotation]
