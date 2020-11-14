@@ -11,7 +11,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-This model detects mentions of genes and human phenotypes (hp) in medical text.
+This model detects mentions of genes and human phenotypes (hp) in medical text. 
 ## Predicted Entities: 
 GENE, HP
 
@@ -76,6 +76,10 @@ annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of
 |Language:|[en]|
 |Case sensitive:|false|
 
+## Data source
+This model was trained with data from https://github.com/lasigeBioTM/PGR
+
+For further details please refer to https://aclweb.org/anthology/papers/N/N19/N19-1152/
 
 ## Benchmarking
 ```bash
