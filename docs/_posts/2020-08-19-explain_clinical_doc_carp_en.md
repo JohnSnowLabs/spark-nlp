@@ -11,7 +11,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
+A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical`` and ``ner_posology``. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -25,34 +25,40 @@ A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posol
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
 
-annotations = pipeline.annotate("This is an example")
+carp_pipeline = PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
+
+annotations =  carp_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")[0]
+
+annotations.keys()
 
 ```
 
-{:.noactive}
 ```scala
+
+val carp_pipeline = new PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
+
+val result = carp_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")(0)
+
 ```
 </div>
 
 {:.h2_title}
 ## Results
+This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner_posology` and `assertion_dl` models. Here is the result of `ner_clinical` and `ner_posology`:
 ```bash
-{'sentences': ['This is an example'],
- 'clinical_ner_tags': ['O', 'O', 'O', 'O'],
- 'document': ['This is an example'],
- 'ner_chunks': [],
- 'clinical_ner_chunks': [],
- 'ner_tags': ['O', 'O', 'O', 'O'],
- 'assertion': [],
- 'clinical_relations': [],
- 'tokens': ['This', 'is', 'an', 'example'],
- 'embeddings': ['This', 'is', 'an', 'example'],
- 'pos_tags': ['PND', 'VBZ', 'DD', 'NN'],
- 'dependencies': ['example', 'example', 'example', 'ROOT']}
+|      tokens  | clinical_ner_tags | posology_ner_tags | dependencies |
+|--------------|-------------------|-------------------|--------------|
+| gestational  | B-PROBLEM         | O                 | of           |
+| diabetes     | I-PROBLEM         | O                 | mellitus     |
+| mellitus     | I-PROBLEM         | O                 | gestational  |
+| metformin    | B-TREATMENT       | B-Drug            | take         |
+| 1000         | O                 | B-Strength        | metformin    |
+| mg           | O                 | I-Strength        | 1000         |
+| two          | O                 | B-Frequency       | times        |
+| times        | O                 | I-Frequency       | mg           |
+| a            | O                 | I-Frequency       | day          |
 ```
-
 
 {:.model-param}
 ## Model Information

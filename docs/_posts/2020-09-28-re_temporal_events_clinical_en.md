@@ -7,7 +7,7 @@ date: 2020-09-28
 tags: [re, en, licensed]
 article_header:
 type: cover
-use_language_switcher: "Python"
+use_language_switcher: "Python-Scala-Java"
 ---
  
 ## Description
@@ -44,6 +44,22 @@ annotations = light_pipeline.fullAnnotate("""The patient is a 56-year-old right-
 
 ```
 
+```scala
+...
+
+val clinical_re_Model = RelationExtractionModel()
+    .pretrained("re_temporal_events_clinical", "en", 'clinical/models')
+    .setInputCols("embeddings", "pos_tags", "ner_chunks", "dependencies")
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(4)  
+    .setPredictionThreshold(0.9)  
+    .setRelationPairs("date-problem", "occurrence-date")
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model))
+
+val result = pipeline.fit(Seq.empty["""The patient is a 56-year-old right-handed female with longstanding intermittent right low back pain, who was involved in a motor vehicle accident in September of 2005. At that time, she did not notice any specific injury, but five days later, she started getting abnormal right low back pain."""].toDS.toDF("text")).transform(data)
+
+```
 </div>
 
 {:.h2_title}
@@ -79,3 +95,13 @@ annotations = light_pipeline.fullAnnotate("""The patient is a 56-year-old right-
 ## Data Source
 Trained on data gathered and manually annotated by John Snow Labs
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
+
+{:.h2_title}
+## Benchmarking
+```bash
+|Relation  | Recall  | Precision | F1   |
+|---------:|--------:|----------:|-----:|
+| OVERLAP  |  0.81   |  0.73     | 0.77 |
+| BEFORE   |  0.85   |  0.88     | 0.86 |
+| AFTER    |  0.38   |  0.46     | 0.43 |
+```
