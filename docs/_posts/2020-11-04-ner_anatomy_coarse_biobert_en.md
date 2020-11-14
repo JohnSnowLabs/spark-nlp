@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Anatomy
+title: Ner Anatomy (Single Entity - biobert)
 author: John Snow Labs
 name: ner_anatomy_coarse_biobert_en
 date: 2020-11-04
@@ -77,7 +77,7 @@ The output is a dataframe with a sentence per row and a "ner" column containing 
 {:.table-model}
 |---|---|
 |Model Name:|ner_anatomy_coarse_biobert|
-|Type:|ner|
+|Type:|NerDLModel|
 |Compatibility:|Spark NLP 2.6.1 +|
 |Edition:|Official|
 |License:|Licensed|
