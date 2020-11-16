@@ -64,29 +64,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }
   }
 
-
-  def encodeSentence(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
-
-    val sentencesLength = sentences.map(x => x._1.tokens.length).toArray
-
-    sentences.map { sentence =>
-
-      val tokenPieceId = sentence._1.tokens.map(t => t.pieceId)
-      val tokenPieceLength = tokenPieceId.length
-
-      if(tokenPieceLength > (maxSequenceLength - 2)){
-        Array(sentenceStartTokenId) ++
-          tokenPieceId.take(maxSequenceLength - 2) ++
-          Array(sentenceEndTokenId)
-      } else {
-        Array(sentenceStartTokenId) ++
-          tokenPieceId ++
-          Array(sentenceEndTokenId) ++
-          Array.fill(maxSequenceLength - tokenPieceLength - 2)(0)
-      }
-    }
-  }
-
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
@@ -130,7 +107,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     tensors.clearTensors()
     tokenBuffers.clear()
 
-    val dim = embeddings.length / (batch.length * maxSentenceLength)
+    val dim = embeddings.length / (batchLength * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
@@ -153,12 +130,13 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
+    val batchLength = batch.length
 
-    val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createIntBuffer(batch.length*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batch.length*maxSentenceLength)
+    val tokenBuffers = tensors.createIntBuffer(batchLength*maxSentenceLength)
+    val maskBuffers = tensorsMasks.createIntBuffer(batchLength*maxSentenceLength)
+    val segmentBuffers = tensorsSegments.createIntBuffer(batchLength*maxSentenceLength)
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
+    val shape = Array(batchLength.toLong, maxSentenceLength)
 
     batch.map { sentence =>
       tokenBuffers.put(sentence)
@@ -189,7 +167,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     tensors.clearTensors()
     tokenBuffers.clear()
 
-    val dim = embeddings.length / batch.length
+    val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
 
   }
@@ -200,17 +178,18 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
+    val batchLength = batch.length
 
-    val tokenBuffers = tensors.createLongBuffer(batch.length*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createLongBuffer(batch.length*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createLongBuffer(batch.length*maxSentenceLength)
+    val tokenBuffers = tensors.createLongBuffer(batchLength*maxSentenceLength)
+    val maskBuffers = tensorsMasks.createLongBuffer(batchLength*maxSentenceLength)
+    val segmentBuffers = tensorsSegments.createLongBuffer(batchLength*maxSentenceLength)
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
+    val shape = Array(batchLength.toLong, maxSentenceLength)
 
     batch.map { sentence =>
       tokenBuffers.put(sentence.map(_.toLong))
-      maskBuffers.put(sentence.map(x=> if (x == 0l) 0l else 1l))
-      segmentBuffers.put(Array.fill(maxSentenceLength)(0l))
+      maskBuffers.put(sentence.map(x=> if (x == 0L) 0L else 1L))
+      segmentBuffers.put(Array.fill(maxSentenceLength)(0L))
     }
 
     tokenBuffers.flip()
@@ -236,7 +215,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     tensors.clearTensors()
     tokenBuffers.clear()
 
-    val dim = embeddings.length / batch.length
+    val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
 
   }
@@ -306,7 +285,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     /*Run embeddings calculation by batches*/
     tokens.zipWithIndex.grouped(batchSize).flatMap{batch =>
-      val encoded = encodeSentence(batch, maxSentenceLength)
+      val encoded = encode(batch, maxSentenceLength)
       val embeddings = if (isSBert) {
         tagSentenceSBert(encoded)
       } else {
