@@ -13,12 +13,12 @@ import scala.collection.mutable
 
 class BertSentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "BertSentenceEmbeddings" should "produce consistent embeddings" in {
+  "BertSentenceEmbeddings" should "produce consistent embeddings" ignore {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-//      (1, "John loves apples."),
-//      (2, "Mary loves oranges."),
-//      (3, "John loves Mary.")
+      //      (1, "John loves apples."),
+      //      (2, "Mary loves oranges."),
+      //      (3, "John loves Mary.")
 
       (1, "John loves apples."),
       (2, "Mary loves oranges. John loves Mary.")
@@ -29,16 +29,13 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentence = SentenceDetectorDLModel
-      .load("/home/i/cache_pretrained/sentence_detector_dl_healthcare_en_2.6.0_2.4_1600001082565")
+    val sentence = SentenceDetectorDLModel.pretrained()
       .setInputCols("document")
       .setOutputCol("sentence")
 
     val embeddings = BertSentenceEmbeddings
       .loadSavedModel("/models/sbert", ResourceHelper.spark)
       .setCaseSensitive(true)
-      //.load("/models/sbiobert")
-//      .load("/home/i/cache_pretrained/sent_bert_base_cased_en_2.6.0_2.4_1598346030732")
       .setIsSBert(true)
       .setInputCols(Array("sentence"))
       .setOutputCol("bert")
