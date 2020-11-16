@@ -503,13 +503,15 @@ spark.kryoserializer.buffer.max 1000M
 spark.serializer org.apache.spark.serializer.KryoSerializer
 ```
 
-3. In `Libraries` tab inside your cluster you need to follow these steps:
+3. Check `Enable autoscaling local storage` box to have persistent local storage
+    
+4. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
+    4.1. Insatll New -> PyPI -> `spark-nlp` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3` -> Install
+    4.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3` -> Install
 
-4. Now you can attach your notebook to the cluster and use Spark NLP!
+5. Now you can attach your notebook to the cluster and use Spark NLP!
 
 ## S3 Cluster
 
