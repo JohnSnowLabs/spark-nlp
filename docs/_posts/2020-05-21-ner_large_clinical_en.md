@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner DL Model Clinical (Large)
+title: Detect problems, tests and treatments (ner_large_clinical)
 author: John Snow Labs
 name: ner_large_clinical
 class: NerDLModel
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.
 
 ## Predicted Entities 
-PROBLEM, TEST, TREATMENT.
+`PROBLEM`, `TEST`, `TREATMENT`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
@@ -37,9 +37,7 @@ PROBLEM, TEST, TREATMENT.
 model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models")\
 	.setInputCols(["sentence","token","word_embeddings"])\
 	.setOutputCol("ner")
-
 ...
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -55,7 +53,6 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": [
 val model = NerDLModel.pretrained("ner_large_clinical","en","clinical/models")
 	.setInputCols("sentence","token","word_embeddings")
 	.setOutputCol("ner")
-    
 ...
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter))

@@ -15,14 +15,16 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description 
-Classify if a text contains sarcasm.
+Detects if a given text contains or not sarcasm.
 
  {:.h2_title}
 ## Predicted Entities
-normal, sarcasm.
+`normal`, `sarcasm`.
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_SARCASM/){:.button.button-orange}<br/>[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}<br/>[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sarcasm_en_2.5.3_2.4_1593783319298.zip){:.button.button-orange.button-orange-trans.arr.button-icon}<br/>
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_SARCASM/){:.button.button-orange}<br/>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}<br/>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sarcasm_en_2.5.3_2.4_1593783319298.zip){:.button.button-orange.button-orange-trans.arr.button-icon}<br/>
 
 ## How to use 
 <div class="tabs-box" markdown="1">

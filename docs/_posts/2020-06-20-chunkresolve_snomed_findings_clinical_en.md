@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver Snomed Findings Clinical
+title: SNOMED ChunkResolver
 author: John Snow Labs
 name: chunkresolve_snomed_findings_clinical
 class: ChunkEntityResolverModel
@@ -39,9 +39,7 @@ snomed_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_findi
     
 pipeline_snomed = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, snomed_ner_converter, chunk_embeddings, snomed_resolver])
 
-empty_data = spark.createDataFrame([['']]).toDF("text")
-
-model = pipeline_snomed.fit(empty_data)
+model = pipeline_snomed.fit(spark.createDataFrame([['']]).toDF("text"))
 
 results = model.transform(data)
 ```

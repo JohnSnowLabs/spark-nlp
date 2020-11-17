@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Clinical Large
+title: Detect problems, tests and treatments (ner_clinical_large)
 author: John Snow Labs
 name: ner_clinical_large_en
 date: 2020-05-23
@@ -16,7 +16,7 @@ Pretrained named entity recognition deep learning model for clinical terms. The 
 
 {:.h2_title}
 ## Predicted Entities  
-PROBLEM, TEST, TREATMENT.
+`PROBLEM`, `TEST`, `TREATMENT`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
@@ -43,9 +43,7 @@ clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/model
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(data)
 

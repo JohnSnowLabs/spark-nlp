@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Icd10cm Diseases Entity Resolver
+title: ICD-10CM ChunkResolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_diseases_clinical
 class: ChunkEntityResolverModel

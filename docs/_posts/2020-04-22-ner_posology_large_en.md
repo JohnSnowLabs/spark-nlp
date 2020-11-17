@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Posology Extractor Large
+title: Detect Drug Informatin (Large)
 author: John Snow Labs
 name: ner_posology_large_en
 date: 2020-04-22
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for posology. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 ## Predicted Entities 
-DOSAGE, DRUG, DURATION, FORM, FREQUENCY, ROUTE, STRENGTH.
+`DOSAGE`, `DRUG`, `DURATION`, `FORM`, `FREQUENCY`, `ROUTE`, `STRENGTH`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange}{:target="_blank"}
@@ -33,13 +33,10 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-
 clinical_ner = NerDLModel.pretrained("ner_posology_large", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 
 model = LightPipeline(nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
