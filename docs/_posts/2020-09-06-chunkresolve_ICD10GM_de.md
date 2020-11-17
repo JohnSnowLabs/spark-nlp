@@ -33,7 +33,6 @@ Codes and their normalized definition with `clinical_embeddings`.
 
 ```python
 ...
-
 icd10_resolution = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM",'de','clinical/models') \
   .setInputCols(["token", "chunk_embeddings"]) \
   .setOutputCol("icd10_de_code")\
