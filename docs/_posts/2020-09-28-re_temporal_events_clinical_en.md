@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Temporal relations for clinical events
+title: Detect Temporal Relations for Clinical Events
 author: John Snow Labs
 name: re_temporal_events_clinical
 date: 2020-09-28
@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This model can be used to identify temporal relationships among clinical events.
 ## Included Relations
-AFTER, BEFORE, OVERLAP
+`AFTER`, `BEFORE`, `OVERLAP`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/){:.button.button-orange}

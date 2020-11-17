@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Clinical Doc CARP
+title: Explain Document Pipeline - CARP
 author: John Snow Labs
 name: explain_clinical_doc_carp
 date: 2020-08-19
@@ -25,7 +25,6 @@ A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical`` a
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
 carp_pipeline = PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
 
 annotations =  carp_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")[0]
@@ -45,7 +44,7 @@ val result = carp_pipeline.fullAnnotate("""Patient has a headache for the last 2
 
 {:.h2_title}
 ## Results
-This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner_posology` and `assertion_dl` models. Here is the result of `ner_clinical` and `ner_posology`:
+This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner_posology` and `assertion_dl` models. Here are the result returned by `ner_clinical` and `ner_posology`:
 ```bash
 |      tokens  | clinical_ner_tags | posology_ner_tags | dependencies |
 |--------------|-------------------|-------------------|--------------|

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Clinical Doc Clinical Relation Assertion
+title: Explain Document Pipeline - CRA
 author: John Snow Labs
 name: explain_clinical_doc_cra
 class: PipelineModel
@@ -29,7 +29,6 @@ A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical``. 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
 cra_pipeline = PretrainedPipeline("explain_clinical_doc_cra","en","clinical/models")
 
 annotations =  cra_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")[0]
@@ -42,7 +41,7 @@ annotations.keys()
 
 val cra_pipeline = new PretrainedPipeline("explain_clinical_doc_cra","en","clinical/models")
 
-val result = cra_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")(0)
+val result = cra_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain.""")(0)
 
 ```
 </div>

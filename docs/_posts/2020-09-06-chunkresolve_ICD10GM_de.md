@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver ICD10GM
+title: ICD10GM ChunkResolver
 author: John Snow Labs
 name: chunkresolve_ICD10GM
 class: ChunkEntityResolverModel
