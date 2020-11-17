@@ -45,6 +45,8 @@ docs-en:
         url:  /docs/en/developers
       - title: Release Notes
         url: /docs/en/release_notes
+      - title: Spark NLP Display
+        url: /docs/en/display
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
