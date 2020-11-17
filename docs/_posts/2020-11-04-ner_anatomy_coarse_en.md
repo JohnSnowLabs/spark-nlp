@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Anatomy References
+title: Detect anatomical references (embeddings_clinical)
 author: John Snow Labs
 name: ner_anatomy_coarse_en
 date: 2020-11-04
@@ -40,7 +40,7 @@ clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/model
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")
+empty_data = spark.createDataFrame([["Although he was assumed to have difficult airway due to short neck, macroglossia, and disturbance of neck flexion, tracheal intubation was not difficult."]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
 
@@ -59,7 +59,7 @@ val ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["Although he was assumed to have difficult airway due to short neck, macroglossia, and disturbance of neck flexion, tracheal intubation was not difficult."].toDS.toDF("text")).transform(data)
 
 
 ```
@@ -68,11 +68,14 @@ val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("tex
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and a `"ner"` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
+The output is a dataframe with a sentence per row and an `"ner"` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
 ```bash
-|    | ner_chunk         | entity    |
-|---:|------------------:|----------:|
-|  0 | lung tissue       | Anatomy   |
+|    | ner_chunk         |  start |  end |  ner       |
+|---:|:------------------|-------:|-----:|:-----------|
+|  0 | airway            |     42 |   48 | Anatomy    |
+|  1 | neck              |     62 |   66 | Anatomy    |
+|  2 | neck              |    101 |  105 | Anatomy    |
+|  3 | tracheal          |    115 |  123 | Anatomy    |
 ```
 
 {:.model-param}
