@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Anatomy
+title: Detect Anatomy References
 author: John Snow Labs
 name: ner_anatomy_coarse_en
 date: 2020-11-04
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 An NER model to extract all types of anatomical references in text using "embeddings_clinical" embeddings. It is a single entity model and generalizes all anatomical references to a single entity.
 
 ## Predicted Entities 
-Anatomy
+`Anatomy`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}{:target="_blank"}
@@ -37,9 +37,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
-
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
 empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")

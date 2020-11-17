@@ -14,7 +14,7 @@ use_language_switcher: "Python-Scala-Java"
 This model can be used to detect symptoms, treatments and other entities in medical text in German language.
 
 ## Predicted Entities
-DIAGLAB_PROCEDURE, MEDICAL_SPECIFICATION, MEDICAL_DEVICE, MEASUREMENT, BIOLOGICAL_CHEMISTRY, BODY_FLUID, TIME_INFORMATION, LOCAL_SPECIFICATION, BIOLOGICAL_PARAMETER, PROCESS, MEDICATION, DOSING, DEGREE, MEDICAL_CONDITION, PERSON, TISSUE, STATE_OF_HEALTH, BODY_PART, TREATMENT
+`DIAGLAB_PROCEDURE`, `MEDICAL_SPECIFICATION`, `MEDICAL_DEVICE`, `MEASUREMENT`, `BIOLOGICAL_CHEMISTRY`, `BODY_FLUID`, `TIME_INFORMATION`, `LOCAL_SPECIFICATION`, `BIOLOGICAL_PARAMETER`, `PROCESS`, `MEDICATION`, `DOSING`, `DEGREE`, `MEDICAL_CONDITION`, `PERSON`, `TISSUE`, `STATE_OF_HEALTH`, `BODY_PART`, `TREATMENT`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/){:.button.button-orange}
@@ -29,7 +29,6 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-
 clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
@@ -46,7 +45,6 @@ annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (K
 
 ```scala
 ...
-
 val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Anatomy
+title: Detect anatomical references
 author: John Snow Labs
 name: ner_anatomy_coarse_biobert_en
 date: 2020-11-04
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 An NER model to extract all types of anatomical references in text using `"biobert_pubmed_base_cased"` embeddings. It is a single entity model and generalizes all anatomical references to a single entity.
 
 ## Predicted Entities 
-Anatomy
+`Anatomy`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}{:target="_blank"}
