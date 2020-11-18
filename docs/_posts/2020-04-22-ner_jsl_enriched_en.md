@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner DL Model Enriched
+title: Detect diagnosis, symptoms, drugs, labs and demographics (ner_jsl_enriched)
 author: John Snow Labs
 name: ner_jsl_enriched_en
 date: 2020-04-22
@@ -15,10 +15,10 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 ## Predicted Entities 
-Age, Diagnosis, Dosage, Drug_name, Frequency, Gender, Lab_name, Lab_result, Symptom_name.
+`Age`, `Diagnosis`, `Dosage`, `Drug_name`, `Frequency`, `Gender`, `Lab_name`, `Lab_result`, `Symptom_name`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_enriched_en_2.4.2_2.4_1587513303751.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -33,30 +33,21 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-
 clinical_ner = NerDLModel.pretrained("ner_jsl_enriched", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
-
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
-
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
-
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 results = model.transform(data)
 
 ```
 
 ```scala
 ...
-
 val ner = NerDLModel.pretrained("ner_jsl_enriched", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
-
 ...
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))

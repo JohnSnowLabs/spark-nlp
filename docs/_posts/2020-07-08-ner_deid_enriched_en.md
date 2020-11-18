@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Deidentification NER (Enriched)
+title: Detech PHI for Deidentification (Enriched)
 author: John Snow Labs
 name: ner_deid_enriched
 class: NerDLModel
@@ -22,7 +22,10 @@ Deidentification NER (Enriched) is a Named Entity Recognition model that annotat
 ``Age``, ``City``, ``Country``, ``Date``, ``Doctor``, ``Hospital``, ``Idnum``, ``Medicalrecord``, ``Organization``, ``Patient``, ``Phone``, ``Profession``, ``State``, ``Street``, ``Username``, ``Zip``
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_enriched_en_2.5.3_2.4_1594170530497.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_enriched_en_2.5.3_2.4_1594170530497.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -34,9 +37,7 @@ Deidentification NER (Enriched) is a Named Entity Recognition model that annotat
 model = NerDLModel.pretrained("ner_deid_enriched","en","clinical/models")\
 	.setInputCols(["sentence","token","word_embeddings"])\
 	.setOutputCol("ner")
-
 ...
-
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -50,7 +51,6 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""HISTOR
 val model = NerDLModel.pretrained("ner_deid_enriched","en","clinical/models")
 	.setInputCols("sentence","token","word_embeddings")
 	.setOutputCol("ner")
-
 ...
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, model, ner_converter))

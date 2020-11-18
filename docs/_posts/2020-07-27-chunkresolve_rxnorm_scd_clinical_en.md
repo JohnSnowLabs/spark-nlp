@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver Rxnorm Scd Clinical
+title: RxNorm Scd ChunkResolver
 author: John Snow Labs
 name: chunkresolve_rxnorm_scd_clinical
 class: ChunkEntityResolverModel
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 ## Predicted Entities 
 RxNorm Codes and their normalized definition with `clinical_embeddings`.
@@ -43,9 +43,7 @@ rxnormResolver = ChunkEntityResolverModel()\
     
 pipeline_rxnorm = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, jslNer, drugNer, jslConverter, drugConverter, jslChunkEmbeddings, drugChunkEmbeddings, rxnormResolver])
 
-empty_data = spark.createDataFrame([['']]).toDF("text")
-
-model = pipeline_rxnorm.fit(empty_data)
+model = pipeline_rxnorm.fit(spark.createDataFrame([['']]).toDF("text"))
 
 results = model.transform(data)
 

@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This model can be used to detect normalized mentions of genes (go) and human phenotypes (hp) in medical text.
 ## Predicted Entities: 
-GO, HP
+`GO`, `HP`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL/){:.button.button-orange}
@@ -29,15 +29,12 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-
 clinical_ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-                                
+                               
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.")
@@ -46,13 +43,10 @@ annotations = light_pipeline.fullAnnotate("Another disease that shares two of th
 
 ```scala
 ...
-
 val ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
-
 ...
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
 val result = pipeline.fit(Seq.empty["Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad."].toDS.toDF("text")).transform(data)

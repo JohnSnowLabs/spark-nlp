@@ -14,7 +14,7 @@ use_language_switcher: "Python-Scala-Java"
 This model can be used to detect clinical events in medical text.
 
 ## Predicted Entities
-DATE, TIME, PROBLEM, TEST, TREATMENT, OCCURENCE, CLINICAL_DEPT, EVIDENTIAL, DURATION, FREQUENCY, ADMISSION, DISCHARGE.
+`DATE`, `TIME`, `PROBLEM`, `TEST`, `TREATMENT`, `OCCURENCE`, `CLINICAL_DEPT`, `EVIDENTIAL`, `DURATION`, `FREQUENCY`, `ADMISSION`, `DISCHARGE`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange}
@@ -31,11 +31,9 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-
 clinical_ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner DL Model Events
+title: Detect Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 class: NerDLModel
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for clinical events.
 
 ## Predicted Entities 
-CLINICAL_DEPT, DATE, DURATION, EVIDENTIAL, FREQUENCY, OCCURRENCE, PROBLEM, TEST, TIME, TREATMENT
+`CLINICAL_DEPT`, `DATE`, `DURATION`, `EVIDENTIAL`, `FREQUENCY`, `OCCURRENCE`, `PROBLEM`, `TEST`, `TIME`, `TREATMENT`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange.button-orange-trans.co.button-icon}
@@ -37,11 +37,8 @@ CLINICAL_DEPT, DATE, DURATION, EVIDENTIAL, FREQUENCY, OCCURRENCE, PROBLEM, TEST,
 model = NerDLModel.pretrained("ner_events_clinical","en","clinical/models")\
     .setInputCols("sentence","token","word_embeddings")\
     .setOutputCol("ner")
-
 ...
-
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, model, ner_converter])
-
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 

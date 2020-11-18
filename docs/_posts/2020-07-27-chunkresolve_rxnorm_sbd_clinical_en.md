@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver Rxnorm Sbd Clinical
+title: RxNorm Sbd ChunkResolver
 author: John Snow Labs
 name: chunkresolve_rxnorm_sbd_clinical
 class: ChunkEntityResolverModel
@@ -15,10 +15,10 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 ## Predicted Entities 
-RxNorm Codes and their normalized definition with `clinical_embeddings`
+RxNorm Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -33,7 +33,6 @@ RxNorm Codes and their normalized definition with `clinical_embeddings`
 
 ```python
 ...
-
 rxnorm_resolver = ChunkEntityResolverModel()\
     .pretrained('chunkresolve_rxnorm_sbd_clinical', 'en', "clinical/models")\
     .setEnableLevenshtein(True)\
@@ -44,16 +43,13 @@ rxnorm_resolver = ChunkEntityResolverModel()\
     
 pipeline_rxnorm = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, rxnorm_resolver])
 
-empty_data = spark.createDataFrame([['']]).toDF("text")
-
-model = pipeline_rxnorm.fit(empty_data)
+model = pipeline_rxnorm.fit(spark.createDataFrame([['']]).toDF("text"))
 
 results = model.transform(data)
 ```
 
 ```scala
 ...
-
 val rxnorm_resolver = ChunkEntityResolverModel()
     .pretrained('chunkresolve_rxnorm_sbd_clinical', 'en', "clinical/models")
     .setEnableLevenshtein(True)

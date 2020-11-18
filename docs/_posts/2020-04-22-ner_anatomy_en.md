@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Anatomy
+title: Detect anatomical regions
 author: John Snow Labs
 name: ner_anatomy_en
 date: 2020-04-22
