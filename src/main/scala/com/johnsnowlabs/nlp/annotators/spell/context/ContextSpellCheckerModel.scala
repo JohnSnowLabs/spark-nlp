@@ -113,7 +113,6 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     classes.filter(_.label.equals(label)).head match {
       case r:RegexParser =>
         r.regex = regex
-        r.generateTransducer
         r.transducer = r.generateTransducer
       case _ => require(false, s"Class $label is not a regex class.")
     }

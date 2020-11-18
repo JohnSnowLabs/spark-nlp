@@ -15,6 +15,8 @@ import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
+import scala.collection.mutable
+
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
 
@@ -68,7 +70,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "UnitClass" should "serilize/deserialize properly" in {
+  "UnitClass" should "serilize/deserialize properly - disk" in {
 
       import SparkAccessor.spark
       val dataPathTrans = "./tmp/transducer"
@@ -105,6 +107,30 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       sc.setTransducer(trans)
 
   }
+
+  "Medication class" should "serilize/deserialize properly - memory" in {
+    import java.io.FileOutputStream
+    import java.io.ObjectOutputStream
+    import java.io.FileInputStream
+    import java.io.ObjectInputStream
+
+    // write to disk
+    val fileOut: FileOutputStream = new FileOutputStream("medication.ser")
+    val out: ObjectOutputStream = new ObjectOutputStream(fileOut)
+    val medClass = new MedicationClass("../spark-nlp-training/data/meds_wcase.txt")
+
+    out.writeObject(medClass)
+    out.close()
+
+    // read from disk
+    val fileIn: FileInputStream = new FileInputStream("medication.ser")
+    val in: ObjectInputStream = new ObjectInputStream(fileIn)
+    val deserializedMed = in.readObject.asInstanceOf[MedicationClass]
+    in.close()
+
+
+  }
+
 
   "weighted Levenshtein distance" should "work from file" in new distFile {
     assert(wLevenshteinDist("water", "Water", weights) < 1.0f)

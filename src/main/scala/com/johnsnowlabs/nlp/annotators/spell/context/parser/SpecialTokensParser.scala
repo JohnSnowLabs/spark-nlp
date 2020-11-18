@@ -233,7 +233,7 @@ object NumberToken extends RegexParser with Serializable {
 
 }
 
-// TODO too much repeated code here
+
 class LocationClass extends VocabParser with Serializable {
 
   override var vocab = Set.empty[String]
@@ -247,10 +247,34 @@ class LocationClass extends VocabParser with Serializable {
     transducer = generateTransducer
   }
 
+
+  import java.io.IOException
+  import java.io.ObjectInputStream
+  import java.io.ObjectOutputStream
+
+  @throws[IOException]
+  private def readObject(aInputStream: ObjectInputStream): Unit = {
+    aInputStream.defaultReadObject()
+    val serializer = new PlainTextSerializer
+    val size = aInputStream.readInt()
+    val bytes = new Array[Byte](size)
+    val read = aInputStream.readFully(bytes)
+    transducer = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+  }
+
+  @throws[IOException]
+  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
+    aOutputStream.defaultWriteObject()
+    val serializer = new PlainTextSerializer
+    val transBytes = serializer.serialize(transducer)
+    aOutputStream.writeInt(transBytes.length)
+    aOutputStream.write(transBytes)
+  }
+
 }
 
 
-class NamesClass extends VocabParser with Serializable {
+class NamesClass extends VocabParser  {
 
   override var vocab = Set.empty[String]
   var transducer: ITransducer[Candidate] = null
@@ -261,6 +285,30 @@ class NamesClass extends VocabParser with Serializable {
     this()
     vocab = loadDataset(path)
     transducer = generateTransducer
+  }
+
+
+  import java.io.IOException
+  import java.io.ObjectInputStream
+  import java.io.ObjectOutputStream
+
+  @throws[IOException]
+  private def readObject(aInputStream: ObjectInputStream): Unit = {
+    aInputStream.defaultReadObject()
+    val serializer = new PlainTextSerializer
+    val size = aInputStream.readInt()
+    val bytes = new Array[Byte](size)
+    val read = aInputStream.readFully(bytes)
+    transducer = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+  }
+
+  @throws[IOException]
+  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
+    aOutputStream.defaultWriteObject()
+    val serializer = new PlainTextSerializer
+    val transBytes = serializer.serialize(transducer)
+    aOutputStream.writeInt(transBytes.length)
+    aOutputStream.write(transBytes)
   }
 }
 
@@ -280,10 +328,11 @@ class PossessiveClass extends VocabParser with Serializable {
 
 }
 
-
+@SerialVersionUID(100L)
 class MedicationClass extends VocabParser with Serializable {
 
   override var vocab = Set.empty[String]
+  @transient
   override var transducer: ITransducer[Candidate] = null
   override val label: String = "_MED_"
   override val maxDist: Int = 3
@@ -292,6 +341,30 @@ class MedicationClass extends VocabParser with Serializable {
     this()
     vocab = loadDataset(path)
     transducer = generateTransducer
+  }
+
+
+  import java.io.IOException
+  import java.io.ObjectInputStream
+  import java.io.ObjectOutputStream
+
+  @throws[IOException]
+  private def readObject(aInputStream: ObjectInputStream): Unit = {
+    aInputStream.defaultReadObject()
+    val serializer = new PlainTextSerializer
+    val size = aInputStream.readInt()
+    val bytes = new Array[Byte](size)
+    val read = aInputStream.readFully(bytes)
+    transducer = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+  }
+
+  @throws[IOException]
+  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
+    aOutputStream.defaultWriteObject()
+    val serializer = new PlainTextSerializer
+    val transBytes = serializer.serialize(transducer)
+    aOutputStream.writeInt(transBytes.length)
+    aOutputStream.write(transBytes)
   }
 
 }
