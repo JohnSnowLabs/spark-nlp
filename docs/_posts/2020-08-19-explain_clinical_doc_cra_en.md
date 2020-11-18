@@ -31,7 +31,8 @@ A pretrained pipeline with `ner_clinical`, `assertion_dl`, `re_clinical`. It wil
 ```python
 cra_pipeline = PretrainedPipeline("explain_clinical_doc_cra","en","clinical/models")
 
-annotations =  cra_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")[0]
+annotations =  cra_pipeline.fullAnnotate("""She is admitted to The John Hopkins Hospital 2 days ago with a history of gestational diabetes mellitus diagnosed. She denied pain and any headache.She was seen by the endocrinology service and she was discharged on 03/02/2018 on 40 units of insulin glargine, 12 units of insulin lispro, and metformin 1000 mg two times a day. She had close follow-up with endocrinology post discharge. 
+""")[0]
 
 annotations.keys()
 
@@ -41,7 +42,8 @@ annotations.keys()
 
 val cra_pipeline = new PretrainedPipeline("explain_clinical_doc_cra","en","clinical/models")
 
-val result = cra_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain.""")(0)
+val result = cra_pipeline.fullAnnotate("""She is admitted to The John Hopkins Hospital 2 days ago with a history of gestational diabetes mellitus diagnosed. She denied pain and any headache.She was seen by the endocrinology service and she was discharged on 03/02/2018 on 40 units of insulin glargine, 12 units of insulin lispro, and metformin 1000 mg two times a day. She had close follow-up with endocrinology post discharge. 
+""")(0)
 
 ```
 </div>
@@ -51,13 +53,12 @@ val result = cra_pipeline.fullAnnotate("""Patient has a headache for the last 2 
 This pretrained pipeline gives the result of `ner_clinical`, `re_clinical` and `assertion_dl` models. Here is the result of `clinical_ner_chunks` and `assertion`:
 
 ```bash
-
-| chunks     | entities | assertion |
-|------------|----------|-----------|
-| a headache | PROBLEM  | present   |
-| anxious    | PROBLEM  | present   |
-| alopecia   | PROBLEM  | absent    |
-| pain       | PROBLEM  | absent    |
+|   | chunk                         | ner_clinical | assertion | relation |
+|---|-------------------------------|--------------|-----------|----------|
+| 0 | gestational diabetes mellitus | PROBLEM      | present   | BEFORE   |
+| 1 | pain                          | PROBLEM      | absent    | OVERLAP  |
+| 2 | insulin glargine              | TREATMENT    | present   | OVERLAP  |
+| 3 | metformin                     | TREATMENT    | present   | OVERLAP  |
 
 ```
 
