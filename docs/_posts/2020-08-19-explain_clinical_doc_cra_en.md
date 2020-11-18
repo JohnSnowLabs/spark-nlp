@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical``. It will extract clinical entities, assign assertion status and find relationships between clinical entities.
+A pretrained pipeline with `ner_clinical`, `assertion_dl`, `re_clinical`. It will extract clinical entities, assign assertion status and find relationships between clinical entities.
 
 
 {:.btn-box}
