@@ -8,15 +8,16 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
+import scala.collection.immutable.ListMap
+
 /**
-  * Language Identification by using Deep Neural Network in TensowrFlow and Keras
-  * LanguageDetectorDL is an annotator that detects the language of documents or sentenccecs depending on the inputCols
+  * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow  * LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols
   *
-  * The models are trained on large datasets from Wikipedia
+  * The models are trained on large datasets such as Wikipedia and Tatoeba
   * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
   *
   *
@@ -76,7 +77,9 @@ class LanguageDetectorDL(override val uid: String) extends
     **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  /** language used to map prediction to two-letter (ISO 639-1) language codes
+  val languages = new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
+
+  /** language used to map prediction to ISO 639-1 language codes
     *
     * @group setParam
     * */
@@ -120,12 +123,14 @@ class LanguageDetectorDL(override val uid: String) extends
     * */
   def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type = set(this.configProtoBytes, bytes)
 
-  /** threshold
+  /** languages
     *
     * @group getParam
     **/
   def getLanguage: Array[String] = {
-    $$(language).keys.toArray
+    val langs = $$(language).keys.toArray
+    set(languages, langs)
+    langs
   }
   /** threshold
     *
@@ -171,7 +176,9 @@ class LanguageDetectorDL(override val uid: String) extends
         spark.sparkContext.broadcast(
           new TensorflowLD(
             tensorflow,
-            configProtoBytes = getConfigProtoBytes
+            configProtoBytes = getConfigProtoBytes,
+            ListMap($$(language).toSeq.sortBy(_._2):_*),
+            ListMap($$(alphabet).toSeq.sortBy(_._2):_*)
           )
         )
       )
@@ -192,8 +199,6 @@ class LanguageDetectorDL(override val uid: String) extends
     if (nonEmptySentences.nonEmpty) {
       getModelIfNotSet.calculateLanguageIdentification(
         nonEmptySentences,
-        $$(alphabet),
-        $$(language),
         $(threshold),
         $(thresholdLabel),
         $(coalesceSentences)
@@ -234,6 +239,10 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
     val tf = readTensorflowModel(path, spark, "_ld_tf")
     instance.setModelIfNotSet(spark, tf)
+    // This allows for Python to access getLanguages function
+    val t = instance.language.get.toArray
+    val r = t(0).keys.toArray
+    instance.set(instance.languages, r)
   }
 
   addReader(readTensorflow)
