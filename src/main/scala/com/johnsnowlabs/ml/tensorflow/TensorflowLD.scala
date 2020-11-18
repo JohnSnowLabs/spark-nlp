@@ -8,20 +8,50 @@ import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
 /**
-  * Language Identification by using Deep Neural Network
-  * Total params: 247,607
-  * Trainable params: 247,607
+  * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
+  *
+  * The models are trained on large datasets such as Wikipedia and Tatoeba
+  * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+  *
   *
   * @param tensorflow           LanguageDetectorDL Model wrapper with TensorFlow Wrapper
   * @param configProtoBytes     Configuration for TensorFlow session
+  * @param orderedLanguages     ordered ListMap of language codes detectable by this trained model
+  * @param orderedAlphabets     ordered ListMap of alphabets to be used to encode the inputs
   *
   **/
 class TensorflowLD(val tensorflow: TensorflowWrapper,
-                   configProtoBytes: Option[Array[Byte]] = None
+                   configProtoBytes: Option[Array[Byte]] = None,
+                   orderedLanguages: ListMap[String, Int],
+                   orderedAlphabets: ListMap[String, Int]
                   ) extends Serializable {
 
   private val inputKey = "inputs:0"
-  private val outputKey = "output/Sigmoid:0"
+  private val outputKey = "output/Softmax:0"
+  private val maxSentenceLength = 150
+
+  def cleanText(docs: List[String]): List[String] = {
+    val rmChars = "!\"#$%&()*+,-./:;<=>?@[\\\\]^_`\\{|\\}~\\t\\n"
+    docs.map(_.replaceAll(rmChars, "").toLowerCase())
+  }
+
+  def encode(docs: Seq[Sentence]): Array[Array[Float]] = {
+    val charsArr = orderedAlphabets.keys.toArray
+
+    docs.map{ x =>
+      val chars = cleanText(x.content.map(_.toString).toList).take(maxSentenceLength)
+      val tokens = mutable.ArrayBuffer[Float]()
+
+      chars.foreach{char =>
+        val charID = charsArr.indexOf(char).toFloat
+        if(charID >= 0){
+          tokens.append(charID + 1.0f)
+        }
+      }
+      val diff = maxSentenceLength - tokens.length
+      tokens.toArray ++ Array.fill(diff)(0.0f)
+    }.toArray
+  }
 
   def tag(inputs: Array[Array[Float]], inputSize: Int, outputSize: Int): Array[Array[Float]] = {
     val tensors = new TensorResources()
@@ -52,59 +82,26 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
   }
 
-  def cleanText(docs: List[String]): List[String] = {
-    val rmChars = "¿¡!?@#,.0123456789()-:;\"$%^&*<>+-_=～~۰۱۲۳۴۵۶۷۸۹()＄:;\\}\\{｡｢･\\[\\]\\t\\n\\|\\/\\{"
-    docs.map(_.replaceAll(rmChars, " ").toLowerCase())
-  }
-
   def calculateLanguageIdentification(
                                        documents: Seq[Sentence],
-                                       alphabets: Map[String, Int],
-                                       languages: Map[String, Int],
                                        threshold: Float = 0.01f,
                                        thresholdLabel: String = "unk",
                                        coalesceSentences: Boolean = false
                                      ): Array[Annotation] = {
 
-    val maxSentenceLength = 400
-    val orderedAlphabets = ListMap(alphabets.toSeq.sortBy(_._2):_*)
-    val orderedLanguages = ListMap(languages.toSeq.sortBy(_._2):_*)
 
-    val sentences = documents.map{ x=>
-      val chars = cleanText(x.content.map(_.toString).toList).take(maxSentenceLength)
-      //      chars.map{char=>
-      //        val emptyVector = Array.fill(alphabets.toSeq.length)(0f)
-      //        val charID = orderedAlphabets.getOrElse(char, 0)
-      //        if(charID != 0){
-      //          emptyVector(charID) = 1f
-      //        }else{
-      //          emptyVector(orderedAlphabets(UNK_TOKEN)) = 1f
-      //        }
-      //        emptyVector
-      //      }.toArray
-      val trueCounts = mutable.LinkedHashMap[String, Float]()
-      orderedAlphabets.map(x=>trueCounts.put(x._1, 0f))
-      chars.foreach{char =>
-        if(trueCounts.contains(char)) {
-          trueCounts(char) = trueCounts(char) + 1f
-        }
-      }
-      trueCounts.values.toArray
-    }.toArray
+    val sentences = encode(documents)
 
-    val inputDimension = orderedAlphabets.toArray.length
     val outputDimension = orderedLanguages.toArray.length
 
-    val scores = tag(sentences, inputDimension, outputDimension)
+    val scores = tag(sentences, maxSentenceLength, outputDimension)
     val langLabels = orderedLanguages.map(x=>x._1.mkString).toArray
     val outputs = scores.map(x=>x.zip(langLabels))
 
     if (coalesceSentences){
-
       val avgScores = outputs.flatMap(x=>x.toList).groupBy(_._2).mapValues(_.map(_._1).sum/outputs.length)
-      val normalized = avgScores.mapValues(x=>x/avgScores.values.sum)
-
-      val maxResult = normalized.maxBy(_._2)
+      //      val normalized = avgScores.mapValues(x=>x/avgScores.values.sum)
+      val maxResult = avgScores.maxBy(_._2)
       val finalLabel = if(maxResult._2 >= threshold) maxResult._1 else thresholdLabel
 
       Array(
