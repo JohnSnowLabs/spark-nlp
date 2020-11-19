@@ -95,12 +95,22 @@ object Annotation {
       row.getSeq[Float](5).toArray
     )
   }
+
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,
     rawText.length - 1,
     rawText,
     Map.empty[String, String],
+    Array.emptyFloatArray
+  )
+  // FIXME propagate metadata in case the DocumentNormalizer is used after a DocumentAssembler
+  def apply(rawText: String, metadata: Map[String, String]): Annotation = Annotation(
+    AnnotatorType.DOCUMENT,
+    0,
+    rawText.length - 1,
+    rawText,
+    metadata,
     Array.emptyFloatArray
   )
 
