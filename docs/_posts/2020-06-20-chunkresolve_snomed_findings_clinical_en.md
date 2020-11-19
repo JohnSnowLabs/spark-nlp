@@ -39,9 +39,15 @@ snomed_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_findi
     
 pipeline_snomed = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, snomed_ner_converter, chunk_embeddings, snomed_resolver])
 
+data = ["""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 60 mg per 6 ml of sterile water q.d . , voriconazole 200 mg p.o . b.i.d . , acyclovir 400 mg p.o . b.i.d . , cyclosporine 50 mg p.o . b.i.d . , prednisone 60 mg p.o . q.d . , GCSF 480 mcg IV q.d . , Epogen 40,000 units subcu q . week , Protonix 40 mg q.d . , Simethicone 80 mg p.o . q . 8 , nitroglycerin paste 1 " ; q . 4 h . p.r.n . , flunisolide nasal inhaler , 2 puffs q . 8 , OxyCodone 10-15 mg p.o . q . 6 p.r.n . , Sudafed 30 mg q . 6 p.o . p.r.n . , Fluconazole 2% cream b.i.d . to erythematous skin lesions , Ditropan 5 mg p.o . b.i.d . , Tylenol 650 mg p.o . q . 4 h . p.r.n . , Ambien 5-10 mg p.o . q . h.s . p.r.n . , Neurontin 100 mg q . a.m . , 200 mg q . p.m . , Aquaphor cream b.i.d . p.r.n . , Lotrimin 1% cream b.i.d . to feet , Dulcolax 5-10 mg p.o . q.d . p.r.n . , Phoslo 667 mg p.o . t.i.d . , Peridex 0.12% , 15 ml p.o . b.i.d . mouthwash , Benadryl 25-50 mg q . 4-6 h . p.r.n . pruritus , Sarna cream q.d . p.r.n . pruritus , Nystatin 5 ml p.o . q.i.d . swish and !""",
+
+"""Albuterol nebulizers 2.5 mg q.4h . and Atrovent nebulizers 0.5 mg q.4h . , please alternate albuterol and Atrovent ; Rocaltrol 0.25 mcg per NG tube q.d .; calcium carbonate 1250 mg per NG tube q.i.d .; vitamin B12 1000 mcg IM q . month , next dose is due Nov 18 ; diltiazem 60 mg per NG tube t.i.d .; ferrous sulfate 300 mg per NG t.i.d .; Haldol 5 mg IV q.h.s .; hydralazine 10 mg IV q.6h . p.r.n . hypertension ; lisinopril 10 mg per NG tube q.d .; Ativan 1 mg per NG tube q.h.s .; Lopressor 25 mg per NG tube t.i.d .; Zantac 150 mg per NG tube b.i.d .; multivitamin 10 ml per NG tube q.d .; Macrodantin 100 mg per NG tube q.i.d . x 10 days beginning on 11/3/00 .""",
+
+"""Tylenol 650 mg p.o . q . 4-6h p.r.n . headache or pain ; acyclovir 400 mg p.o . t.i.d .; acyclovir topical t.i.d . to be applied to lesion on corner of mouth ; Peridex 15 ml p.o . b.i.d .; Mycelex 1 troche p.o . t.i.d .; g-csf 404 mcg subcu q.d .; folic acid 1 mg p.o . q.d .; lorazepam 1-2 mg p.o . q . 4-6h p.r.n . nausea and vomiting ; Miracle Cream topical q.d . p.r.n . perianal irritation ; Eucerin Cream topical b.i.d .; Zantac 150 mg p.o . b.i.d .; Restoril 15-30 mg p.o . q . h.s . p.r.n . insomnia ; multivitamin 1 tablet p.o . q.d .; viscous lidocaine 15 ml p.o . q . 3h can be applied to corner of mouth or lips p.r.n . pain control ."""]
+
 model = pipeline_snomed.fit(spark.createDataFrame([['']]).toDF("text"))
 
-results = model.transform(data)
+results = model.transform(spark.createDataFrame(pd.DataFrame({"text": data})))
 ```
 
 ```scala
@@ -52,6 +58,12 @@ val snomed_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_f
 	.setOutputCol("snomed_resolution")
     
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, snomed_ner_converter, chunk_embeddings, snomed_resolver))
+
+val data = Array("""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 60 mg per 6 ml of sterile water q.d . , voriconazole 200 mg p.o . b.i.d . , acyclovir 400 mg p.o . b.i.d . , cyclosporine 50 mg p.o . b.i.d . , prednisone 60 mg p.o . q.d . , GCSF 480 mcg IV q.d . , Epogen 40,000 units subcu q . week , Protonix 40 mg q.d . , Simethicone 80 mg p.o . q . 8 , nitroglycerin paste 1 " ; q . 4 h . p.r.n . , flunisolide nasal inhaler , 2 puffs q . 8 , OxyCodone 10-15 mg p.o . q . 6 p.r.n . , Sudafed 30 mg q . 6 p.o . p.r.n . , Fluconazole 2% cream b.i.d . to erythematous skin lesions , Ditropan 5 mg p.o . b.i.d . , Tylenol 650 mg p.o . q . 4 h . p.r.n . , Ambien 5-10 mg p.o . q . h.s . p.r.n . , Neurontin 100 mg q . a.m . , 200 mg q . p.m . , Aquaphor cream b.i.d . p.r.n . , Lotrimin 1% cream b.i.d . to feet , Dulcolax 5-10 mg p.o . q.d . p.r.n . , Phoslo 667 mg p.o . t.i.d . , Peridex 0.12% , 15 ml p.o . b.i.d . mouthwash , Benadryl 25-50 mg q . 4-6 h . p.r.n . pruritus , Sarna cream q.d . p.r.n . pruritus , Nystatin 5 ml p.o . q.i.d . swish and !""",
+
+"""Albuterol nebulizers 2.5 mg q.4h . and Atrovent nebulizers 0.5 mg q.4h . , please alternate albuterol and Atrovent ; Rocaltrol 0.25 mcg per NG tube q.d .; calcium carbonate 1250 mg per NG tube q.i.d .; vitamin B12 1000 mcg IM q . month , next dose is due Nov 18 ; diltiazem 60 mg per NG tube t.i.d .; ferrous sulfate 300 mg per NG t.i.d .; Haldol 5 mg IV q.h.s .; hydralazine 10 mg IV q.6h . p.r.n . hypertension ; lisinopril 10 mg per NG tube q.d .; Ativan 1 mg per NG tube q.h.s .; Lopressor 25 mg per NG tube t.i.d .; Zantac 150 mg per NG tube b.i.d .; multivitamin 10 ml per NG tube q.d .; Macrodantin 100 mg per NG tube q.i.d . x 10 days beginning on 11/3/00 .""",
+
+"""Tylenol 650 mg p.o . q . 4-6h p.r.n . headache or pain ; acyclovir 400 mg p.o . t.i.d .; acyclovir topical t.i.d . to be applied to lesion on corner of mouth ; Peridex 15 ml p.o . b.i.d .; Mycelex 1 troche p.o . t.i.d .; g-csf 404 mcg subcu q.d .; folic acid 1 mg p.o . q.d .; lorazepam 1-2 mg p.o . q . 4-6h p.r.n . nausea and vomiting ; Miracle Cream topical q.d . p.r.n . perianal irritation ; Eucerin Cream topical b.i.d .; Zantac 150 mg p.o . b.i.d .; Restoril 15-30 mg p.o . q . h.s . p.r.n . insomnia ; multivitamin 1 tablet p.o . q.d .; viscous lidocaine 15 ml p.o . q . 3h can be applied to corner of mouth or lips p.r.n . pain control .""")
 
 val result = pipeline.fit(Seq.empty[''].toDS.toDF("text")).transform(data)    
 
@@ -74,17 +86,6 @@ val result = pipeline.fit(Seq.empty[''].toDS.toDF("text")).transform(data)
 |                                                          nausea and vomiting|PROBLEM|Nausea and vomiting:::Vomiting without nausea:::Nausea:::Intractable nausea and vomiting:::Vomiti...|         16932000|    0.0995|
 |                                                          perianal irritation|PROBLEM|Perineal irritation:::Vulval irritation:::Skin irritation:::Perianal pain:::Perianal itch:::Vagin...|        281639001|    0.0764|
 |                                                                     insomnia|PROBLEM|Insomnia:::Mood insomnia:::Nonorganic insomnia:::Persistent insomnia:::Psychophysiologic insomnia...|        193462001|    0.1198|
-|                                    patient's incisions sternal and right leg|PROBLEM|Laceration of right lower leg:::Varicose veins of right leg:::Stab wound of right lower leg:::Clo...|10963831000119103|    0.0526|
-|                                                               blood pressure|   TEST|Elevated blood pressure:::Abnormal blood pressure:::High blood pressure:::Low blood pressure:::No...|         24184005|    0.0480|
-|                                                                   hematocrit|   TEST|Hematocrit:::Stable hematocrit:::Precipitous drop in hematocrit:::Hematocrit - borderline high:::...|        365616005|    0.5722|
-|                                                           bun and creatinine|   TEST|Micropunctum lacrimale:::Creatinine in sample:::Serum creatinine normal:::Serum creatinine low:::...|         95505003|    0.1501|
-|                                                       prothrombin time level|   TEST|Prothrombin time low:::Prothrombin time increased:::Prothrombin time finding:::Prothrombin time n...|        165569003|    0.1356|
-|                                                                  chest x-ray|   TEST|Flat chest:::Rigid chest:::Chest hyperinflated:::Chest percussion tympanitic:::Chest mass:::Chest...|          3274008|    0.0560|
-|small bilateral effusions with mild cardiomegaly and subsegmental atelectasis|PROBLEM|Bilateral pleural effusion (disorder):::Effusion of joint of bilateral ankles:::Effusion of joint...|        425802001|    0.0501|
-|                                              bibasilar and electrocardiogram|   TEST|Electrocardiogram abnormal:::Electrocardiogram normal:::Electrocardiogram finding:::Electrocardio...|        102594003|    0.0703|
-|                                  acute ischemic changes on electrocardiogram|PROBLEM|Postoperative electrocardiogram changes:::Acute ischemic renal failure:::Potential for acute isch...|        251144001|    0.1238|
-|                                                                 hypertension|PROBLEM|Hypertension:::Renovascular hypertension:::Idiopathic hypertension:::Venous hypertension:::Resist...|         38341003|    0.1019|
-|                                                  chronic renal insufficiency|PROBLEM|Chronic progressive renal insufficiency:::Renal insufficiency:::Chronic insufficiency:::Anemia of...|        425369003|    0.1171|
 +-----------------------------------------------------------------------------+-------+----------------------------------------------------------------------------------------------------+-----------------+----------+
 ```
 
