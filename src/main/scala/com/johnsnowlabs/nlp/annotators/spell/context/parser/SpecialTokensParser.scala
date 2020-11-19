@@ -328,7 +328,6 @@ class PossessiveClass extends VocabParser with Serializable {
 
 }
 
-@SerialVersionUID(100L)
 class MedicationClass extends VocabParser with Serializable {
 
   override var vocab = Set.empty[String]
