@@ -50,16 +50,19 @@ val result = cra_pipeline.fullAnnotate("""She is admitted to The John Hopkins Ho
 
 {:.h2_title}
 ## Results
-This pretrained pipeline gives the result of `ner_clinical`, `re_clinical` and `assertion_dl` models. Here is the result of `clinical_ner_chunks` and `assertion`:
+This pretrained pipeline gives the result of `ner_clinical`, `re_clinical` and `assertion_dl` models.
 
 ```bash
-|   | chunk                         | ner_clinical | assertion | relation |
-|---|-------------------------------|--------------|-----------|----------|
-| 0 | gestational diabetes mellitus | PROBLEM      | present   | BEFORE   |
-| 1 | pain                          | PROBLEM      | absent    | OVERLAP  |
-| 2 | insulin glargine              | TREATMENT    | present   | OVERLAP  |
-| 3 | metformin                     | TREATMENT    | present   | OVERLAP  |
-
+|   | chunk1                        | ner_clinical1 | assertion  | relation | chunk2        | ner_clinical2 |
+|---|-------------------------------|---------------|------------|----------|---------------|---------------|
+| 0 | gestational diabetes mellitus | PROBLEM       | present    | TrAP     | metformin     | TREATMENT     |
+| 1 | gestational diabetes mellitus | PROBLEM       | present    | TrAP     | polyuria      | PROBLEM       |
+| 2 | gestational diabetes mellitus | PROBLEM       | present    | TrCP     | polydipsia    | PROBLEM       |
+| 3 | gestational diabetes mellitus | PROBLEM       | present    | TrCP     | poor appetite | PROBLEM       |
+| 4 | metformin                     | TREATMENT     | present    | TrAP     | polyuria      | PROBLEM       |
+| 5 | metformin                     | TREATMENT     | present    | TrAP     | polydipsia    | PROBLEM       |
+| 6 | metformin                     | TREATMENT     | present    | TrAP     | poor appetite | PROBLEM       |
+| 7 | polydipsia                    | PROBLEM       | present    | TrAP     | vomiting      | PROBLEM       |
 ```
 
 {:.model-param}
