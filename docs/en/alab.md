@@ -9,6 +9,9 @@ modify_date: "2020-11-19"
 header: true
 ---
 
+<img class="image image--xl" src="/assets/images/annotation_lab/AnnotationLab.png" style="width:50%; align:right; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
 <div class="main-docs" markdown="1">
 
 <div class="block-wrapper">
@@ -25,7 +28,7 @@ A highly efficient annotation tool for all enterprise teams who need to:
 All that **without writing a line of code**!
 
 
-The **Annotation Lab** is included with every Spark NLP subscription, or can be purchased on its own.  
+Included with every Spark NLP subscription, or can be purchased on its own.  
 {:.btn-block}
 [Try Free](https://aws.amazon.com/marketplace/pp/John-Snow-Labs-John-Snow-Labs-Annotation-Lab/B08JV9R384){:.button.button--primary.button--rounded.button--md}
 
@@ -36,20 +39,24 @@ The **Annotation Lab** is included with every Spark NLP subscription, or can be 
 <div class="block-wrapper">
 
 <div class="block-box" markdown="1">
-## Productivity
+## Productivity <img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 </div>
 
 <div class="block-box" markdown="1">
-## Auto NLP
+## Auto NLP <img class="image image--xl" src="/assets/images/annotation_lab/AutoNLP.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 </div>
 
 </div>
 
 <div class="block-wrapper">
 <div class="block-box" markdown="1">
-## Teamwork
+## Teamwork <img class="image image--xl" src="/assets/images/annotation_lab/Teamwork.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 </div>
 <div class="block-box" markdown="1">
-## Training & Support
+## Help <img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 </div>
 </div>
