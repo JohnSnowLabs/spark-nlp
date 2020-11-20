@@ -44,12 +44,21 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 ## Productivity 
 <img class="image image--xl" src="/assets/images/annotation_lab/Productivity.svg"/>
 
+<br/><br/>
+
+- Bootstrap annotations with Spark NLP models
+- Keep Annotators in the zone
+- Reach agreement quickly
 </div>
 
 <div class="block-box has_i" markdown="1">
 ## Auto NLP 
 <img class="image image--xl" src="/assets/images/annotation_lab/AutoNLP.svg"/>
 
+
+- Active learning - no data scientist required
+- Deliver a model not just annotations
+- Build for high compliance environments
 </div>
 
 </div>
@@ -59,10 +68,19 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 ## Teamwork 
 <img class="image image--xl" src="/assets/images/annotation_lab/Teamwork.svg"/>
 
+
+- Projects & teams
+- Customizable workflows
+- High security
+- 
 </div>
 <div class="block-box has_i" markdown="1">
-## Help 
+## Resources
 <img class="image image--xl" src="/assets/images/annotation_lab/Productivity.svg"/>
 
+
+- General tutorials
+- Annotation best practices
+- Tips and tricks
 </div>
 </div>
