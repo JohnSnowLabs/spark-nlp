@@ -1617,7 +1617,25 @@ code {
 		border: none;
 		text-align: left !important;
 	}
+	.image {
+		width: 50px;
+		margin: 0;
+	}
+	&.has_i {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row !important;
+		p,
+		h2 {
+			margin: 0 !important;
+		}
+	}
+	&.with_i {
+		flex-direction: row !important;
+	}
 }
+
 
 
 .list3 {
@@ -2416,6 +2434,15 @@ code {
 	.header__title {
 		width: 100%;
 		margin: 0;
+	}
+	.block-box.with_i {
+		flex-direction: column !important;
+	}
+	.block-box.with_i img {
+		width: 60% !important;
+		float: none !important;
+		margin: 20px auto 0;
+		display: block;
 	}
 	.layout--page--sidebar .main .grid--container {
 		width: 100%;

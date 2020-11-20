@@ -9,14 +9,12 @@ modify_date: "2020-11-19"
 header: true
 ---
 
-<img class="image image--xl" src="/assets/images/annotation_lab/AnnotationLab.png" style="width:50%; align:right; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-
 <div class="main-docs" markdown="1">
 
 <div class="block-wrapper">
 
-<div class="block-box" style="width: 100%!important" markdown="1">
+<div class="block-box with_i" style="width: 100%!important" markdown="1">
+<div class="block-box-inner" style="width: 100%!important" markdown="1">
 
 ## Lightning fast annotation
 
@@ -33,30 +31,38 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 [Try Free](https://aws.amazon.com/marketplace/pp/John-Snow-Labs-John-Snow-Labs-Annotation-Lab/B08JV9R384){:.button.button--primary.button--rounded.button--md}
 
 </div>
+
+<img class="image image--xl" src="/assets/images/annotation_lab/AnnotationLab.png" style="width:84%; float:right;"/>
+
+</div>
 </div>
 </div>
 
 <div class="block-wrapper">
 
-<div class="block-box" markdown="1">
-## Productivity <img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<div class="block-box has_i" markdown="1">
+## Productivity 
+<img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg"/>
 
 </div>
 
-<div class="block-box" markdown="1">
-## Auto NLP <img class="image image--xl" src="/assets/images/annotation_lab/AutoNLP.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<div class="block-box has_i" markdown="1">
+## Auto NLP 
+<img class="image image--xl" src="/assets/images/annotation_lab/AutoNLP.svg"/>
 
 </div>
 
 </div>
 
 <div class="block-wrapper">
-<div class="block-box" markdown="1">
-## Teamwork <img class="image image--xl" src="/assets/images/annotation_lab/Teamwork.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<div class="block-box has_i" markdown="1">
+## Teamwork 
+<img class="image image--xl" src="/assets/images/annotation_lab/Teamwork.svg"/>
 
 </div>
-<div class="block-box" markdown="1">
-## Help <img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg" style="width:15%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<div class="block-box has_i" markdown="1">
+## Help 
+<img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg"/>
 
 </div>
 </div>
