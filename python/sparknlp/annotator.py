@@ -38,6 +38,8 @@ ld.dl = sys.modules[__name__]
 keyword = sys.modules[__name__]
 keyword.yake = sys.modules[__name__]
 sentence_detector_dl = sys.modules[__name__]
+ws = sys.modules[__name__]
+
 
 class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
@@ -3079,9 +3081,9 @@ class WordSegmenterApproach(AnnotatorApproach):
 
 
 class WordSegmenterModel(AnnotatorModel):
-    name = "PerceptronModel"
+    name = "WordSegmenterModel"
 
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ws.PerceptronModel", java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel", java_model=None):
         super(WordSegmenterModel, self).__init__(
             classname=classname,
             java_model=java_model
@@ -3091,3 +3093,4 @@ class WordSegmenterModel(AnnotatorModel):
     def pretrained(name="word_segmenter", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
+
