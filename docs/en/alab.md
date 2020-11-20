@@ -38,31 +38,53 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 </div>
 </div>
 
-<div class="block-wrapper">
+<div class="block-wrapper block-wrapper-top">
 
-<div class="block-box has_i" markdown="1">
+<div class="block-box" markdown="1">
+<div class="has_i" markdown="1">
 ## Productivity 
 <img class="image image--xl" src="/assets/images/annotation_lab/Productivity.svg"/>
-
 </div>
 
-<div class="block-box has_i" markdown="1">
+- Bootstrap annotations with Spark NLP models
+- Keep Annotators in the zone
+- Reach agreement quickly
+</div>
+
+<div class="block-box" markdown="1">
+<div class="has_i" markdown="1">
 ## Auto NLP 
 <img class="image image--xl" src="/assets/images/annotation_lab/AutoNLP.svg"/>
+</div>
 
+- Active learning - no data scientist required
+- Deliver a model not just annotations
+- Build for high compliance environments
 </div>
 
 </div>
 
-<div class="block-wrapper">
-<div class="block-box has_i" markdown="1">
+<div class="block-wrapper block-wrapper-top">
+<div class="block-box" markdown="1">
+<div class="has_i" markdown="1">
 ## Teamwork 
 <img class="image image--xl" src="/assets/images/annotation_lab/Teamwork.svg"/>
+</div>
+
+- Projects & teams
+- Customizable workflows
+- High security
 
 </div>
-<div class="block-box has_i" markdown="1">
-## Help 
-<img class="image image--xl" src="/assets/images/annotation_lab/Productivity.svg"/>
+<div class="block-box" markdown="1">
+<div class="has_i" markdown="1">
+## Resources
+<img class="image image--xl" src="/assets/images/annotation_lab/best_practices.svg"/>
+</div>
+
+- <a href="https://www.johnsnowlabs.com/john-snow-labs-data-annotator-for-human-in-the-loop-ai-is-now-included-with-all-subscriptions/">General tutorials</a>
+- <a href="https://www.nlpsummit.org/auto-nlp-pretrain-tune-deploy-state-of-the-art-models/">Annotation best practices</a>
+- <a href="http://localhost:4000/learn#data-annotator--active-learning">Tips and tricks</a>
 
 </div>
 </div>
