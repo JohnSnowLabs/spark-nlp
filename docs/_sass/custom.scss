@@ -753,7 +753,9 @@ ul.list1 {
 	}
 }
 
-
+.page__main-inner {
+	min-height: calc(100vh - 70px);
+}
 
 .layout--page--sidebar {	 
 	.page__main-inner {
@@ -2257,6 +2259,9 @@ code {
 	header.header nav.top_navigation ul li .search-button {
 		margin-left: 20px !important;
 	}
+	.docs-wrapper {
+		width: 100%;
+	}
 	#aside_menu {
 		position: absolute;
 		right: 0;
@@ -2717,8 +2722,8 @@ code {
 		margin: 28px 0 35px;
 	}
 	.article__header h1 {
-		font-size: 35px;
-		line-height: 40px;
+		font-size: 30px;
+		line-height: 35px;
 	}
 	.tabs-box .top_tab_li .tab-li {
 		min-width: 100px;
