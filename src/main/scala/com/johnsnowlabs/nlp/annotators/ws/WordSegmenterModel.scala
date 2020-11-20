@@ -80,7 +80,7 @@ class WordSegmenterModel(override val uid: String) extends AnnotatorModel[WordSe
     val singleTaggedWords = getSingleIndexedTaggedWords(wordIndexesByMatchedGroups, taggedSentence)
     val multipleTaggedWords = getMultipleTaggedWords(wordIndexesByMatchedGroups, taggedSentence)
     val segmentedTaggedWords = (singleTaggedWords ++ multipleTaggedWords)
-      .sortWith(_.metadata.getOrElse("index", "-1") < _.metadata.getOrElse("index", "-1"))
+      .sortWith(_.metadata.getOrElse("index", "-1").toInt < _.metadata.getOrElse("index", "-1").toInt)
     segmentedTaggedWords.map(segmentedTaggedWord =>
       Annotation(TOKEN, segmentedTaggedWord.begin, segmentedTaggedWord.end, segmentedTaggedWord.word,
         Map("sentence" -> sentenceIndex.toString)))
