@@ -30,7 +30,12 @@ Next section describes the transformers that deal with PDF files with the purpos
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | splitPage | bool | true | whether it needed to split document to pages |
-
+| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | 
+| sort | bool | false | Sort text during extraction with TextStripperType.PDF_LAYOUT_STRIPPER |
+| partitionNum | int| 0 | Force repartition dataframe if set to value more than 0. |
+| onlyPageNum | bool | false | Extract only page numbers. |
+| extractCoordinates | bool | false | Extract coordinates and store to the `positions` column |
+| storeSplittedPdf | bool | false | Store one page pdf's for process it using PdfToImage. |
 
 ##### Output Columns
 
@@ -107,6 +112,9 @@ data.select("pagenum", "text").show()
 ### PdfToImage
 
 `PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
+Output dataframe contains `total_pages` field with total number of pages.
+For process pdf with big number of pages prefer to split pdf by setting `splitNumBatch` param.
+Number of partitions should be equal number of cores/executors.
 
 ##### Input Columns
 
@@ -128,7 +136,13 @@ data.select("pagenum", "text").show()
 | imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_GRAY` | type of the image |
 | resolution | int | 300 | Output image resolution in dpi |
 | keepInput | boolean | false | Keep input column in dataframe. By default it is dropping. |
-| partitionNum | int | 0 | Number of partitions (0 value - without repartition) |
+| partitionNum | int | 0 | Number of Spark RDD partitions (0 value - without repartition) |
+| binarization | boolean | false | Enable/Disable binarization image after extract image. |
+| binarizationParams | Array[String] | null | Array of Binarization params in key=value format. |
+| splitNumBatch | int | 0 | Number of partitions or size of partitions, related to the splitting strategy. |
+| partitionNumAfterSplit | int| 0 | Number of Spark RDD partitions after splitting pdf document (0 value - without repartition).|
+| splittingStategy | [SplittingStrategy](ocr_structures#splittingstrategy)| SplittingStrategy.FIXED_SIZE_OF_PARTITION | Splitting strategy. |
+
 
 ##### Output Columns
 
@@ -973,6 +987,118 @@ data.show()
 
 ![binarized](/assets/images/ocr/binarized.png)
 
+### ImageAdaptiveBinarizer
+
+Supported Methods:
+- OTSU
+- Gaussian local thresholding. Thresholds the image using a locally adaptive threshold that is computed
+ using a local square region centered on each pixel.  The threshold is equal to the gaussian weighted sum 
+ of the surrounding pixels times the scale.
+- Sauvola
+
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| width | float | 90 | Width of square region. |
+| method | [TresholdingMethod](ocr_structures#tresholdingmethod) | `TresholdingMethod.GAUSSIAN` | Method used to determine adaptive threshold. |
+| scale | float | 1.1f | Scale factor used to adjust threshold. |
+| imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_BINARY` | Type of the output image |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | binarized_image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val binirizer = new ImageAdaptiveBinarizer()
+  .setInputCol("image")
+  .setOutputCol("binary_image")
+  .setWidth(100)
+  .setScale(1.1)
+
+val data = binirizer.transform(df)
+
+data.storeImage("binary_image")
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+from sparkocr.utils import display_image
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+adaptive_thresholding = ImageAdaptiveBinarizer() \
+    .setInputCol("image") \
+    .setOutputCol("binarized_image") \
+    .setWidth(100) \
+    .setScale(1.1)
+
+pipeline = PipelineModel(stages=[
+            binary_to_image,
+            adaptive_thresholding
+        ])
+
+result = pipeline.transform(df)
+
+for r in result.select("image", "corrected_image").collect():
+    display_image(r.image)
+    display_image(r.corrected_image)
+```
+
+</div>
 
 ### ImageAdaptiveThresholding
 
@@ -2030,6 +2156,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | confidenceThreshold | int | 0 | Confidence threshold. |
 | ignoreResolution | bool | true | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
+| pdfCoordinates | bool | false | Transform coordinates in positions to PDF points. |
 
 #### Output Columns
 
