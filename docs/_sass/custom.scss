@@ -1602,6 +1602,12 @@ code {
 
 /***Docs***/
 
+.block-wrapper-top {
+	.block-box {		
+		justify-content: flex-start;
+	}
+}
+
 .block-box {
 	padding: 55px;
 	box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);
@@ -1621,11 +1627,12 @@ code {
 		width: 50px;
 		margin: 0;
 	}
-	&.has_i {
+	.has_i {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		flex-direction: row !important;
+		padding-bottom: 20px;
 		p,
 		h2 {
 			margin: 0 !important;
