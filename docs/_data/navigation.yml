@@ -45,6 +45,24 @@ docs-en:
         url:  /docs/en/developers
       - title: Release Notes
         url: /docs/en/release_notes
+  - title: Annotation Lab
+    children:
+      - title:  Getting Started
+        url:    /docs/en/alab
+      - title:  Start Page 
+        url:    /docs/en/start_page
+      - title:  Project Setup
+        url:    /docs/en/project_setup
+      - title:  Import Documents 
+        url:    /docs/en/import
+      - title:  Tasks
+        url:    /docs/en/tasks
+      - title:  Annotate
+        url:    /docs/en/annotation
+      - title:  Export Data  
+        url:    /docs/en/export
+      - title:  Workflow Setup   
+        url:    /docs/en/workflow        
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
