@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators._
+import com.johnsnowlabs.nlp.annotators.{DocumentNormalizer, _}
 import com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
 import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
@@ -22,6 +22,24 @@ import org.scalatest._
   * Place to add different annotator constructions
   */
 object AnnotatorBuilder extends FlatSpec { this: Suite =>
+
+  def withDocumentNormalizerPipeline(dataset: Dataset[Row], cleanupMode: String = "disabled") = {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setCleanupMode(cleanupMode)
+
+    val cleanUpPatterns = Array("<[^>]*>", "w3")
+
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("normalizedDocument")
+      .setCleanupPatterns(cleanUpPatterns)
+      .setRemovalPolicy("pretty_all")
+
+    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+
+    docPatternRemoverPipeline.fit(dataset).transform(dataset)
+  }
 
   def withDocumentAssembler(dataset: Dataset[Row], cleanupMode: String = "disabled"): Dataset[Row] = {
     val documentAssembler = new DocumentAssembler()

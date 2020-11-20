@@ -109,20 +109,18 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[Doc
     **/
   def setRemovalPolicy(value: String): this.type = set(removalPolicy, value)
 
-  /** pattern to grab from text as token candidates. Defaults "all"
+  /** pattern to grab from text as token candidates. Defaults "pretty_all"
     *
     * @group getParam
     **/
   def getRemovalPolicy: String = $(removalPolicy)
 
   /**
-    *  Clears out rules and constructs a new rule for every combination of rules provided.
-    *  The strategy is to catch one token per regex group.
-    *  User may add its own groups if needs targets to be tokenized separately from the rest.
+    *  Clears out text using a DocumentNormalizer applying clean up patterns with a removal policy
     *
     *  @param dataset
     *  @param recursivePipeline
-    *  @return TokenizedModel
+    *  @return DocumentNormalizerModel
     *
     */
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentNormalizerModel = {
