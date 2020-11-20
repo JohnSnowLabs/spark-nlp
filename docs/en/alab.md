@@ -42,7 +42,7 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 
 <div class="block-box has_i" markdown="1">
 ## Productivity 
-<img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/Productivity.svg"/>
 
 </div>
 
@@ -62,7 +62,7 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 </div>
 <div class="block-box has_i" markdown="1">
 ## Help 
-<img class="image image--xl" src="/assets/images/annotation_lab/productivity.svg"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/Productivity.svg"/>
 
 </div>
 </div>
