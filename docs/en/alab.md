@@ -84,7 +84,7 @@ Included with every Spark NLP subscription, or can be purchased on its own.
 
 - <a href="https://www.johnsnowlabs.com/john-snow-labs-data-annotator-for-human-in-the-loop-ai-is-now-included-with-all-subscriptions/">General tutorials</a>
 - <a href="https://www.nlpsummit.org/auto-nlp-pretrain-tune-deploy-state-of-the-art-models/">Annotation best practices</a>
-- <a href="http://localhost:4000/learn#data-annotator--active-learning">Tips and tricks</a>
+- <a href="https://nlp.johnsnowlabs.com/learn#data-annotator--active-learning">Tips and tricks</a>
 
 </div>
 </div>
