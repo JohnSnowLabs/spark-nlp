@@ -75,41 +75,51 @@ class DocumentNormalizerModel(override val uid: String) extends AnnotatorModel[D
   def getRemovalPolicy: String = $(removalPolicy)
 
   private def withAllFormatter(text: String, replacement: String = EmptyStr): String ={
-    val normalizedDocument = {
-      get(cleanupPatterns).map(_.foldLeft(text)((currentText, compositeText) => {
-        currentText.replaceAll(compositeText, replacement)
-      })).getOrElse(text)
-    }
-    normalizedDocument
+    val patternsStr: String = $(cleanupPatterns).mkString("|")
+    text.replaceAll(patternsStr, replacement)
   }
 
+  /** pattern to grab from text as token candidates. Defaults \\S+
+    *
+    * @group getParam
+    **/
   private def withPrettyAllFormatter(text: String) = {
     withAllFormatter(text).split("\\s+").map(_.trim).mkString(" ")
   }
 
+  /** pattern to grab from text as token candidates. Defaults \\S+
+    *
+    * @group getParam
+    **/
   private def withFirstFormatter(text: String, replacement: String = EmptyStr): String = {
-    val normalizedDocument = {
-      get(cleanupPatterns).map(_.foldLeft(text)((currentText, compositeText) => {
-        currentText.replaceFirst(compositeText, replacement)
-      })).getOrElse(text)
-    }
-    normalizedDocument
+    val patternsStr = $(cleanupPatterns).mkString("|")
+    text.replaceFirst(patternsStr, replacement)
   }
 
+  /** pattern to grab from text as token candidates. Defaults \\S+
+    *
+    * @group getParam
+    **/
   private def withPrettyFirstFormatter(text: String) = {
     withFirstFormatter(text).split("\\s+").map(_.trim).mkString(" ")
   }
 
-  private def applyRegexPatterns(text: String, patterns: Array[String])(policy: String) = {
+  /** Apply patterns and removal policy
+    *
+    * @group getParam
+    **/
+  private def applyRegexPatterns(text: String, patterns: Array[String])(policy: String): String = {
     require(!text.isEmpty && patterns.length > 0 && !patterns(0).isEmpty && !policy.isEmpty)
 
-    policy match {
+    val cleaned: String = policy match {
       case "all" => withAllFormatter(text)
       case "pretty_all" => withPrettyAllFormatter(text)
       case "first" => withFirstFormatter(text)
       case "pretty_first" => withPrettyFirstFormatter(text)
       case _ => throw new Exception("Unknown policy parameter in DocumentNormalizer annotation.")
     }
+
+    if ($(lowercase)) cleaned.toLowerCase else cleaned
   }
 
   /**
