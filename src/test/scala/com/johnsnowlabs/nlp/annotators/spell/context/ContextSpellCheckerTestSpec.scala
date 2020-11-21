@@ -68,7 +68,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "UnitClass" should "serilize/deserialize properly" in {
+  "UnitClass" should "serilize/deserialize properly" ignore {
 
       import SparkAccessor.spark
       val dataPathTrans = "./tmp/transducer"
