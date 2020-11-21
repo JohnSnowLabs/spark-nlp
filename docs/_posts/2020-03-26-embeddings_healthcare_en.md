@@ -37,8 +37,8 @@ https://www.nlm.nih.gov/databases/download/pubmed_medline.html
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinical/models")
-	.setInputCols("document","token")
+model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinical/models")\
+	.setInputCols("document","token")\
 	.setOutputCol("word_embeddings")
 ```
 

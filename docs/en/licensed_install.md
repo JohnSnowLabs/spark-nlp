@@ -119,11 +119,26 @@ spark = SparkSession.builder \
     SPARK_NLP_LICENSE=zzz
     ```
 
-      -   If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you can also set AWS keys inside the notebook by injecting the keys into Spark session as follows: 
+      -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows: 
 
     ```bash
-    sc._jsc.hadoopConfiguration().set("fs.s3a.access.key", "xxx")
-    sc._jsc.hadoopConfiguration().set("fs.s3a.secret.key", "yyy")
+    %scala
+    val script = """
+    #!/bin/bash
+
+    echo "******** Inject Spark NLP AWS Profile Credentials ******** "
+
+    mkdir ~/.aws/
+
+    cat << EOF > ~/.aws/credentials
+    [spark_nlp]
+    aws_access_key_id=<YOUR_AWS_ACCESS_KEY>
+    aws_secret_access_key=<YOUR_AWS_SECRET_KEY>
+    EOF
+
+    echo "******** End Inject Spark NLP AWS Profile Credentials  ******** "
+
+    """
     ```
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:

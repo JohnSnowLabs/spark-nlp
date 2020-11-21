@@ -26,15 +26,11 @@ use_language_switcher: "Python-Scala-Java"
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PipelineModel.pretrained("clinical_analysis","en","clinical/models")
-	.setInputCols("")
-	.setOutputCol("")
+model = PretrainedPipeline("clinical_analysis","en","clinical/models")
 ```
 
 ```scala
 val model = PipelineModel.pretrained("clinical_analysis","en","clinical/models")
-	.setInputCols("")
-	.setOutputCol("")
 ```
 </div>
 

@@ -32,8 +32,8 @@ Contextual feature vectors based on biobert_pmc_base_cased.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = BertEmbeddings.pretrained("biobert_pmc_base_cased","en","clinical/models")
-	.setInputCols("document","sentence","token")
+model = BertEmbeddings.pretrained("biobert_pmc_base_cased","en","clinical/models")\
+	.setInputCols("document","sentence","token")\
 	.setOutputCol("word_embeddings")
 ```
 

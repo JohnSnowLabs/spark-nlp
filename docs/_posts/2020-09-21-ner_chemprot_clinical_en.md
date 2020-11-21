@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This is a pre-trained model that can be used to automatically detect all chemical compounds and gene mentions from medical texts. 
 ## Predicted Entities: 
-CHEMICAL, GENE-Y, GENE-N
+`CHEMICAL`, `GENE-Y`, `GENE-N`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}
@@ -27,17 +27,26 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
 clinical_ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
+...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 results = light_pipeline.fullAnnotate("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.")
     
+```
+
+```scala
+...
+val ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings") 
+  .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+val result = pipeline.fit(Seq.empty["Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."].toDS.toDF("text")).transform(data)
+
 ```
 </div>
 
@@ -72,4 +81,20 @@ results = light_pipeline.fullAnnotate("Keratinocyte growth factor and acidic fib
 {:.h2_title}
 ## Data Source
 This model was trained on the <a href="https://biocreative.bioinformatics.udel.edu/"> ChemProt corpus</a> using 'embeddings_clinical' embeddings. Make sure you use the same embeddings when running the model. 
+
+
+{:.h2_title}
+## Benchmarking
+```bash
+|    | label         |     tp |    fp |   fn |     prec |      rec |       f1 |
+|---:|:--------------|-------:|------:|-----:|---------:|---------:|---------:|
+|  0 | B-GENE-Y      |   4650 |  1090 |  838 | 0.810105 | 0.847303 | 0.828286 |
+|  1 | B-GENE-N      |   1732 |   981 | 1019 | 0.638408 | 0.629589 | 0.633968 |
+|  2 | I-GENE-Y      |   1846 |   571 |  573 | 0.763757 | 0.763125 | 0.763441 |
+|  3 | B-CHEMICAL    |   7512 |   804 | 1136 | 0.903319 | 0.86864  | 0.88564  |
+|  4 | I-CHEMICAL    |   1059 |   169 |  253 | 0.862378 | 0.807165 | 0.833858 |
+|  5 | I-GENE-N      |   1393 |   853 |  598 | 0.620214 | 0.699648 | 0.657541 |
+|  6 | Macro-average | 18192  | 4468  | 4417 | 0.766363 | 0.769245 | 0.767801 |
+|  7 | Micro-average | 18192  | 4468  | 4417 | 0.802824 | 0.804635 | 0.803729 |
+```
 

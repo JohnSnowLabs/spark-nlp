@@ -11,9 +11,9 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-This model detects mentions of genes and human phenotypes (hp) in medical text.
+This model detects mentions of genes and human phenotypes (hp) in medical text. 
 ## Predicted Entities: 
-GENE, HP
+`GENE`, `HP`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL/){:.button.button-orange}
@@ -28,19 +28,24 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
-
+...
 clinical_ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
+...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).")
-
 ```
-
+```scala
+...
+val ner = NerDLModel.pretrained("ner_human_phenotype_gene_clinical", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings") 
+  .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+val result = pipeline.fit(Seq.empty["Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3)."].toDS.toDF("text")).transform(data)
+```
 </div>
 
 {:.h2_title}
@@ -76,4 +81,18 @@ annotations = light_pipeline.fullAnnotate("Here we presented a case (BS type) of
 |Language:|[en]|
 |Case sensitive:|false|
 
+## Data source
+This model was trained with data from https://github.com/lasigeBioTM/PGR
 
+For further details please refer to https://aclweb.org/anthology/papers/N/N19/N19-1152/
+
+## Benchmarking
+```bash
+|    | label         |    tp |   fp |   fn |     prec |      rec |       f1 |
+|---:|--------------:|------:|-----:|-----:|---------:|---------:|---------:|
+|  0 | I-HP          |   303 |   56 |   64 | 0.844011 | 0.825613 | 0.834711 |
+|  1 | B-GENE        |  1176 |  158 |  252 | 0.881559 | 0.823529 | 0.851557 |
+|  2 | B-HP          |  1078 |  133 |   96 | 0.890173 | 0.918228 | 0.903983 |
+|  3 | Macro-average | 2557  | 347  |  412 | 0.871915 | 0.85579  | 0.863777 |
+|  4 | Micro-average | 2557  | 347  |  412 | 0.88051  | 0.861233 | 0.870765 |
+```

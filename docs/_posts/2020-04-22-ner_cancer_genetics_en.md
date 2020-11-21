@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner DL Model Cancer Genetics
+title: Cancer Genetics Entity Extracter
 author: John Snow Labs
 name: ner_cancer_genetics
 class: NerDLModel
