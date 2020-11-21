@@ -8,7 +8,7 @@ on:
 
 jobs:
   spark24:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,7 +46,7 @@ jobs:
         python3.7 -m run-tests
 
   spark32: 
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
