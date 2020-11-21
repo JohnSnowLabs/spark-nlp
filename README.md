@@ -1,6 +1,6 @@
 # Spark NLP: State of the Art Natural Language Processing
 
-[![Build Status](https://travis-ci.org/JohnSnowLabs/spark-nlp.svg?branch=master)](https://travis-ci.org/JohnSnowLabs/spark-nlp) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
+[![build](https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg)](https://github.com/JohnSnowLabs/spark-nlp/actions) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.11/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.11) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
 Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **330+** pretrained **pipelines** and **models** in more than **46+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class text classification, Multi-class sentiment analysis, and many more [NLP tasks](#features).
 
@@ -503,13 +503,15 @@ spark.kryoserializer.buffer.max 1000M
 spark.serializer org.apache.spark.serializer.KryoSerializer
 ```
 
-3. In `Libraries` tab inside your cluster you need to follow these steps:
+3. Check `Enable autoscaling local storage` box to have persistent local storage
+    
+4. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
+    4.1. Insatll New -> PyPI -> `spark-nlp` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3` -> Install
+    4.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3` -> Install
 
-4. Now you can attach your notebook to the cluster and use Spark NLP!
+5. Now you can attach your notebook to the cluster and use Spark NLP!
 
 ## S3 Cluster
 
@@ -637,7 +639,7 @@ Spark NLP offers more than `250 pre-trained models` in `46 languages`.
 **Embeddings:**
 
 | Model    | Name                      | Build            | Lang 
-|:--------------|:--------------------------|:-----------------|:------------|:------|
+|:--------------|:--------------------------|:-----------------|:------------|
 | WordEmbeddings (GloVe)            | `glove_100d`              | 2.4.0 |      `en`  
 | BertEmbeddings                    | `bert_base_uncased`       | 2.4.0 |      `en`  
 | BertEmbeddings                    | `bert_base_cased`         | 2.4.0 |      `en`  
@@ -656,7 +658,7 @@ Spark NLP offers more than `250 pre-trained models` in `46 languages`.
 **Classification:**
 
 | Model    | Name                      | Build            | Lang 
-|:--------------|:--------------------------|:-----------------|:------------|:------|
+|:--------------|:--------------------------|:-----------------|:------------|
 | ClassifierDL (with tfhub_use)          | `classifierdl_use_trec6`        | 2.5.0 |      `en`
 | ClassifierDL (with tfhub_use)          | `classifierdl_use_trec50`       | 2.5.0 |      `en`
 | SentimentDL (with tfhub_use)           | `sentimentdl_use_imdb`          | 2.5.0 |      `en`
