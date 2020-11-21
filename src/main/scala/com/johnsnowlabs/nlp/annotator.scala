@@ -46,6 +46,9 @@ package object annotator {
   type DateMatcher = com.johnsnowlabs.nlp.annotators.DateMatcher
   object DateMatcher extends DefaultParamsReadable[DateMatcher]
 
+  type MultiDateMatcher = com.johnsnowlabs.nlp.annotators.MultiDateMatcher
+  object MultiDateMatcher extends DefaultParamsReadable[MultiDateMatcher]
+
   type TextMatcher = com.johnsnowlabs.nlp.annotators.TextMatcher
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
   type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
@@ -188,4 +191,6 @@ package object annotator {
   type SentenceDetectorDLModel  = com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
   object SentenceDetectorDLModel extends ReadsSentenceDetectorDLGraph with ReadablePretrainedSentenceDetectorDL
 
+  type DocumentNormalizer = com.johnsnowlabs.nlp.annotators.DocumentNormalizer
+  object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
 }
