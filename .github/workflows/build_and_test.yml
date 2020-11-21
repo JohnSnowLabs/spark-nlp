@@ -1,6 +1,14 @@
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - 'master'
+      - '*release-cnadidate'
+  pull_request:
+    branches: 
+      - 'master'
+      - '*release-cnadidate'
 
 jobs:
   spark24:
