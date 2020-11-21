@@ -83,7 +83,7 @@ class DocumentNormalizerModel(override val uid: String) extends AnnotatorModel[D
     *
     * @group getParam
     **/
-  private def withPrettyAllFormatter(text: String) = {
+  private def withPrettyAllFormatter(text: String): String = {
     withAllFormatter(text).split("\\s+").map(_.trim).mkString(" ")
   }
 
@@ -100,7 +100,7 @@ class DocumentNormalizerModel(override val uid: String) extends AnnotatorModel[D
     *
     * @group getParam
     **/
-  private def withPrettyFirstFormatter(text: String) = {
+  private def withPrettyFirstFormatter(text: String): String = {
     withFirstFormatter(text).split("\\s+").map(_.trim).mkString(" ")
   }
 
@@ -116,7 +116,8 @@ class DocumentNormalizerModel(override val uid: String) extends AnnotatorModel[D
       case "pretty_all" => withPrettyAllFormatter(text)
       case "first" => withFirstFormatter(text)
       case "pretty_first" => withPrettyFirstFormatter(text)
-      case _ => throw new Exception("Unknown policy parameter in DocumentNormalizer annotation.")
+      case _ => throw new Exception("Unknown policy parameter in DocumentNormalizer annotation." +
+        "Please select either: all, pretty_all, first, or pretty_first")
     }
 
     if ($(lowercase)) cleaned.toLowerCase else cleaned
