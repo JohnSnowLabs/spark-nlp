@@ -2,9 +2,13 @@ name: build
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
+      - '*-release-cnadidate'
   pull_request:
-    branches: [ master ]
+    branches: 
+      - 'master'
+      - '*-release-cnadidate'
 
 jobs:
   spark24:
