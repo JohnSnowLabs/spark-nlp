@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 
 /**
@@ -71,7 +71,8 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     removalPolicy -> "pretty_all"
   )
 
-  val EmptyStr = ""
+  private val EMPTY_STR = ""
+  private val BREAK_STR = "|##|"
 
   /** Regular expressions list for normalization
     * @group getParam
@@ -110,8 +111,8 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def setRemovalPolicy(value: String): this.type = set(removalPolicy, value)
 
-  private def withAllFormatter(text: String, replacement: String = EmptyStr): String ={
-    val patternsStr: String = $(cleanupPatterns).mkString("|")
+  private def withAllFormatter(text: String, replacement: String = EMPTY_STR): String ={
+    val patternsStr: String = $(cleanupPatterns).mkString(BREAK_STR)
     text.replaceAll(patternsStr, replacement)
   }
 
@@ -125,8 +126,8 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
   /** pattern to grab from text as token candidates. Defaults \\S+
     *
     **/
-  private def withFirstFormatter(text: String, replacement: String = EmptyStr): String = {
-    val patternsStr = $(cleanupPatterns).mkString("|")
+  private def withFirstFormatter(text: String, replacement: String = EMPTY_STR): String = {
+    val patternsStr = $(cleanupPatterns).mkString(BREAK_STR)
     text.replaceFirst(patternsStr, replacement)
   }
 
@@ -169,3 +170,5 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
       }
   }
 }
+
+object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
