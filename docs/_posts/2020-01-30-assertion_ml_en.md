@@ -11,7 +11,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-
+ 
 Logistic regression based named entity recognition model for assertions. 
 
 ## Predicted Labels
@@ -34,16 +34,16 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
-
-clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en", "clinical/models") \
+...
+clinical_assertion = AssertionDLModel.pretrained("assertion_ml", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[clinical_assertion_ml])
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
 
-empty_data = spark.createDataFrame([[""]]).toDF("text")
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-model = nlpPipeline.fit(empty_data)
+light_result = LightPipeline(model).fullAnnotate('Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain')[0]
 
 ```
 
@@ -63,7 +63,16 @@ val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ## Results
 The output is a dataframe with a sentence per row and an "assertion" column containing all of the assertion labels in the sentence. The assertion column also contains assertion character indices, and other metadata. To get only the entity chunks and assertion labels, without the metadata, select "ner_chunk.result" and "assertion.result" from your output dataframe.
 
-![image](/assets/images/assertiondl.png) 
+```bash
+|   | chunks     | entities | assertion   |
+|---|------------|----------|-------------|
+| 0 | a headache | PROBLEM  | present     |
+| 1 | anxious    | PROBLEM  | conditional |
+| 2 | alopecia   | PROBLEM  | absent      |
+| 3 | pain       | PROBLEM  | absent      |
+```
+
+
 {:.model-param}
 ## Model Information
 

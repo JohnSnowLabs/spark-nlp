@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Relation Extraction Model Clinical
+title: Detect Clinical Relations 
 author: John Snow Labs
 name: re_clinical
 class: RelationExtractionModel
@@ -15,55 +15,54 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Relation Extraction model based on syntactic features using deep learning
-Models the set of clinical relations defined in the 2010 i2b2 relation challenge.
+Relation Extraction model based on syntactic features using deep learning. Models the set of clinical relations defined in the 2010 ``i2b2`` relation challenge.
 
 ## Predicted Entities 
-*TrIP*: A certain treatment has improved or cured a medical problem (eg, ‘infection resolved with antibiotic course’)
-*TrWP*: A patient's medical problem has deteriorated or worsened because of or in spite of a treatment being administered (eg, ‘the tumor was growing despite the drain’)
-*TrCP*: A treatment caused a medical problem (eg, ‘penicillin causes a rash’)
-*TrAP*: A treatment administered for a medical problem (eg, ‘Dexamphetamine for narcolepsy’)
-*TrNAP*: The administration of a treatment was avoided because of a medical problem (eg, ‘Ralafen which is contra-indicated because of ulcers’)
-*TeRP*: A test has revealed some medical problem (eg, ‘an echocardiogram revealed a pericardial effusion’)
-*TeCP*: A test was performed to investigate a medical problem (eg, ‘chest x-ray done to rule out pneumonia’)
-*PIP*: Two problems are related to each other (eg, ‘Azotemia presumed secondary to sepsis’)
+`TrIP`: A certain treatment has improved or cured a medical problem (eg, ‘infection resolved with antibiotic course’)
+`TrWP`: A patient's medical problem has deteriorated or worsened because of or in spite of a treatment being administered (eg, ‘the tumor was growing despite the drain’)
+`TrCP`: A treatment caused a medical problem (eg, ‘penicillin causes a rash’)
+`TrAP`: A treatment administered for a medical problem (eg, ‘Dexamphetamine for narcolepsy’)
+`TrNAP`: The administration of a treatment was avoided because of a medical problem (eg, ‘Ralafen which is contra-indicated because of ulcers’)
+`TeRP`: A test has revealed some medical problem (eg, ‘an echocardiogram revealed a pericardial effusion’)
+`TeCP`: A test was performed to investigate a medical problem (eg, ‘chest x-ray done to rule out pneumonia’)
+`PIP`: Two problems are related to each other (eg, ‘Azotemia presumed secondary to sepsis’)
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_clinical_en_2.5.5_2.4_1600987935304.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_clinical_en_2.5.5_2.4_1600987935304.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
-	.setInputCols("word_embeddings","chunk","pos","dependency")\
-	.setOutput
+...
 
-pipeline = Pipeline(stages=[
-    documenter,
-    sentencer,
-    tokenizer, 
-    words_embedder, 
-    pos_tagger, 
-    ner_tagger,
-    ner_chunker,
-    dependency_parser,
-    reModel
-])
+reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
+    .setInputCols(["word_embeddings","chunk","pos","dependency"])\
+    .setOutput("relations")
+
+pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-results = sparknlp.base.LightPipeline(model).fullAnnotate("""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also 
-given 1 unit of Metformin daily.He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 
-12 units of insulin lispro with meals , and metformin 1000 mg two times a day.""")
+results = LightPipeline(model).fullAnnotate("""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also given 1 unit of Metformin daily.He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals , and metformin 1000 mg two times a day.""")
 ```
 
 ```scala
+...
+
 val model = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")
-	.setInputCols("word_embeddings","chunk","pos","dependency")
-	.setOutputCol("category")
+    .setInputCols("word_embeddings","chunk","pos","dependency")
+    .setOutputCol("relations")
+    
+val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel))
+
+val result = pipeline.fit(Seq.empty["""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also given 1 unit of Metformin daily.He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals , and metformin 1000 mg two times a day."""].toDS.toDF("text")).transform(data)
+
 ```
 </div>
 
