@@ -14,8 +14,6 @@ import org.apache.spark.sql.Dataset
   * Can apply non wanted character removal which a specific policy.
   * Can apply lower case normalization.
   *
-  * Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
-  *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizerTestSpec.scala DocumentNormalizer test class]] for examples examples of usage.
   *
   * @param uid required uid for storing annotator to disk
@@ -72,7 +70,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[Doc
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
     cleanupPatterns -> Array("<[^>]*>"),
-    lowercase -> true,
+    lowercase -> false,
     removalPolicy -> "pretty_all"
   )
 
