@@ -14,7 +14,7 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest._
 
 /**
@@ -23,7 +23,7 @@ import org.scalatest._
   */
 object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
-  def withDocumentNormalizerPipeline(dataset: Dataset[Row], cleanupMode: String = "disabled") = {
+  def withDocumentNormalizerPipeline(dataset: Dataset[Row], cleanupMode: String = "disabled"): DataFrame = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setCleanupMode(cleanupMode)
