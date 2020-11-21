@@ -31,6 +31,11 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   */
 class DocumentNormalizer(override val uid: String) extends AnnotatorModel[DocumentNormalizer] {
 
+  private val EMPTY_STR = ""
+  private val BREAK_STR = "|##|"
+  private val SPACE_STR = " "
+  private val GENERIC_TAGS_REMOVAL_PATTERN = "<[^>]*>"
+
   /** Input annotator type : DOCUMENT
     *
     * @group anno
@@ -65,14 +70,11 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
 
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
-    inputCols -> Array("document"),
-    cleanupPatterns -> Array("<[^>]*>"),
+    inputCols -> Array(AnnotatorType.DOCUMENT),
+    cleanupPatterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
     lowercase -> false,
     removalPolicy -> "pretty_all"
   )
-
-  private val EMPTY_STR = ""
-  private val BREAK_STR = "|##|"
 
   /** Regular expressions list for normalization
     * @group getParam
@@ -120,7 +122,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     **/
   private def withPrettyAllFormatter(text: String): String = {
-    withAllFormatter(text).split("\\s+").map(_.trim).mkString(" ")
+    withAllFormatter(text).split("\\s+").map(_.trim).mkString(SPACE_STR)
   }
 
   /** pattern to grab from text as token candidates. Defaults \\S+
@@ -135,7 +137,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     **/
   private def withPrettyFirstFormatter(text: String): String = {
-    withFirstFormatter(text).split("\\s+").map(_.trim).mkString(" ")
+    withFirstFormatter(text).split("\\s+").map(_.trim).mkString(SPACE_STR)
   }
 
   /** Apply patterns and removal policy
