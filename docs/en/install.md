@@ -182,18 +182,23 @@ Spark NLP 2.6.3 has been tested and is compatible with the following runtimes: 6
 ### Install Spark NLP on Databricks
 
 1. Create a cluster if you don't have one already
-2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
 
-    ```bash
-    spark.kryoserializer.buffer.max 1000M
-    spark.serializer org.apache.spark.serializer.KryoSerializer
-    ```
+2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
 
-3. In `Libraries` tab inside your cluster you need to follow these steps:
- - Install New -> PyPI -> `spark-nlp` -> Install
- - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3` -> Install
+```bash
+spark.kryoserializer.buffer.max 1000M
+spark.serializer org.apache.spark.serializer.KryoSerializer
+```
 
-4. Now you can attach your notebook to the cluster and use Spark NLP!
+3. Check `Enable autoscaling local storage` box to have persistent local storage
+    
+4. In `Libraries` tab inside your cluster you need to follow these steps:
+
+    4.1. Insatll New -> PyPI -> `spark-nlp` -> Install
+
+    4.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3` -> Install
+
+5. Now you can attach your notebook to the cluster and use Spark NLP!
 
 </div>
 
