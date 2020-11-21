@@ -1,6 +1,6 @@
 ---
 layout: model
-title: NerDLModel Anatomy
+title: Detect anatomical references (biobert_pubmed_base_cased)
 author: John Snow Labs
 name: ner_anatomy_coarse_biobert_en
 date: 2020-11-04
@@ -12,10 +12,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-An NER model to extract all types of anatomical references in text using "biobert_pubmed_base_cased" embeddings. It is a single entity model and generalizes all anatomical references to a single entity.
+An NER model to extract all types of anatomical references in text using `"biobert_pubmed_base_cased"` embeddings. It is a single entity model and generalizes all anatomical references to a single entity.
 
 ## Predicted Entities 
-Anatomy
+`Anatomy`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}{:target="_blank"}
@@ -32,14 +32,17 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
+...
 
 clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[clinical_ner])
+...
 
-empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+
+empty_data = spark.createDataFrame([["Although he was assumed to have difficult airway due to short neck, macroglossia, and disturbance of neck flexion, tracheal intubation was not difficult."]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
 
@@ -48,14 +51,17 @@ results = model.transform(data)
 ```
 
 ```scala
+...
 
-val ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+val ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(ner))
+...
 
-val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+
+val result = pipeline.fit(Seq.empty["Although he was assumed to have difficult airway due to short neck, macroglossia, and disturbance of neck flexion, tracheal intubation was not difficult."].toDS.toDF("text")).transform(data)
 
 
 ```
@@ -64,11 +70,14 @@ val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("tex
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.me:
+The output is a dataframe with a sentence per row and a `"ner"` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
 ```bash
-|    | ner_chunk         | entity    |
-|---:|:------------------|:----------|
-|  0 | lung tissue       | Anatomy   |
+|    | ner_chunk         |  start |  end |  ner       |
+|---:|:------------------|-------:|-----:|:-----------|
+|  0 | airway            |     42 |   48 | Anatomy    |
+|  1 | neck              |     62 |   66 | Anatomy    |
+|  2 | neck              |    101 |  105 | Anatomy    |
+|  3 | tracheal          |    115 |  123 | Anatomy    |
 ```
 
 {:.model-param}
@@ -88,14 +97,14 @@ The output is a dataframe with a sentence per row and a "ner" column containing 
 
 {:.h2_title}
 ## Data Source
-Trained on a custom dataset using 'biobert_pubmed_base_cased'.
+Trained on a custom dataset using `'biobert_pubmed_base_cased'`.
 
 
 {:.h2_title}
 ## Benchmarking
 ```bash
 |    | label         |    tp |    fp |    fn |     prec |      rec |       f1 |
-|---:|:--------------|------:|------:|------:|---------:|---------:|---------:|
+|---:|--------------:|------:|------:|------:|---------:|---------:|---------:|
 |  0 | B-Anatomy     |  2499 |   155 |   162 | 0.941598 | 0.939121 | 0.940357 |
 |  1 | I-Anatomy     |  1695 |   116 |   158 | 0.935947 | 0.914733 | 0.925218 |
 |  2 | Macro-average | 4194  |  271  |   320 | 0.938772 | 0.926927 | 0.932812 |

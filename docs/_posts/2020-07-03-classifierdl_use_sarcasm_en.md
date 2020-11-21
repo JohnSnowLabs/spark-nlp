@@ -15,14 +15,16 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description 
-Classify if a text contains sarcasm.
+Detects if a given text contains or not sarcasm.
 
  {:.h2_title}
 ## Predicted Entities
-normal, sarcasm 
+`normal`, `sarcasm`.
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_SARCASM/){:.button.button-orange}<br/>[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}<br/>[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sarcasm_en_2.5.3_2.4_1593783319298.zip){:.button.button-orange.button-orange-trans.arr.button-icon}<br/>
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_SARCASM/){:.button.button-orange}<br/>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}<br/>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sarcasm_en_2.5.3_2.4_1593783319298.zip){:.button.button-orange.button-orange-trans.arr.button-icon}<br/>
 
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -39,7 +41,6 @@ use = UniversalSentenceEncoder.pretrained(lang="en") \
   .setInputCols(["document"])\
   .setOutputCol("sentence_embeddings")
 
-
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_sarcasm', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
@@ -52,6 +53,22 @@ annotations = light_pipeline.fullAnnotate('If I could put into words how much I 
 
 ```
 ```scala
+
+val documentAssembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val use = UniversalSentenceEncoder.pretrained(lang="en") 
+  .setInputCols("document")
+  .setOutputCol("sentence_embeddings")
+
+val document_classifier = ClassifierDLModel.pretrained('classifierdl_use_sarcasm', 'en')
+  .setInputCols(Array("document", "sentence_embeddings"))
+  .setOutputCol("class")
+
+val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
+
+val result = pipeline.fit(Seq.empty['If I could put into words how much I love waking up at am on Tuesdays I would'].toDS.toDF("text")).transform(data)
 ```
 
 </div>
@@ -59,11 +76,11 @@ annotations = light_pipeline.fullAnnotate('If I could put into words how much I 
 {:.h2_title}
 ## Results
 ```bash
-+--------------------------------------------------------------------------------------------------------+------------+
-|document                                                                                                |class       |
-+--------------------------------------------------------------------------------------------------------+------------+
-|If I could put into words how much I love waking up at am on Tuesdays I would                           | sarcasm    |
-+--------------------------------------------------------------------------------------------------------+------------+
++-------------------------------------------------------------------------------+------------+
+|document                                                                       | class      |
++-------------------------------------------------------------------------------+------------+
+|If I could put into words how much I love waking up at am on Tuesdays I would  | sarcasm    |
++-------------------------------------------------------------------------------+------------+
 ```
 
 {:.model-param}
@@ -82,10 +99,17 @@ annotations = light_pipeline.fullAnnotate('If I could put into words how much I 
 | Language                | en                       |
 | Upstream Dependencies   | with tfhub_use           |
 
-
-
-
 {:.h2_title}
 ## Data Source
-This model is trained on the sarcam detection dataset. https://github.com/MirunaPislar/Sarcasm-Detection/tree/master/res/datasets/riloff
+This model is trained on the sarcasm detection dataset. https://github.com/MirunaPislar/Sarcasm-Detection/tree/master/res/datasets/riloff
 
+{:.h2_title}
+## Benchmarking
+DL model (CNNs) has the following f1-score :
+
+```bash
+|    | label    |    f1 |
+|---:|---------:|------:|
+|  0 | sarcasm  | 0.841 |
+
+```
