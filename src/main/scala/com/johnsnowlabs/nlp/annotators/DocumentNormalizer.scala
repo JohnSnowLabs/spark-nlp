@@ -1,11 +1,9 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.Dataset
+import org.apache.spark.ml.util.Identifiable
 
 
 /**
@@ -31,9 +29,7 @@ import org.apache.spark.sql.Dataset
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[DocumentNormalizerModel] {
-
-  override val description: String = "Annotator that cleans out text tag contents from documents"
+class DocumentNormalizer(override val uid: String) extends AnnotatorModel[DocumentNormalizer] {
 
   /** Input annotator type : DOCUMENT
     *
@@ -53,7 +49,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[Doc
     *
     * @group Parameters
     **/
-  val cleanupPatterns: StringArrayParam = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from document")
+  val cleanupPatterns: StringArrayParam = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
 
   /** whether to convert strings to lowercase
     *
@@ -69,19 +65,32 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[Doc
 
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
+    inputCols -> Array("document"),
     cleanupPatterns -> Array("<[^>]*>"),
     lowercase -> false,
     removalPolicy -> "pretty_all"
   )
 
-  /** Regular expressions list for normalization, defaults "<[^>]*>".
-    *
-    *
+  val EmptyStr = ""
+
+  /** Regular expressions list for normalization
     * @group getParam
     **/
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
-  /** Regular expressions list for normalization, defaults "<[^>]*>".
+  /** Lowercase tokens, default true
+    *
+    * @group getParam
+    **/
+  def getLowercase: Boolean = $(lowercase)
+
+  /** pattern to grab from text as token candidates. Defaults "pretty_all"
+    *
+    * @group getParam
+    **/
+  def getRemovalPolicy: String = $(removalPolicy)
+
+  /** Regular expressions list for normalization,
     *
     *
     * @group setParam
@@ -94,12 +103,6 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[Doc
     **/
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /** Lowercase tokens, default true
-    *
-    * @group getParam
-    **/
-  def getLowercase: Boolean = $(lowercase)
-
   /** removal policy to apply
     * Valid policy values are: "all", "pretty_all", "first", "pretty_first"
     *
@@ -107,27 +110,62 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorApproach[Doc
     **/
   def setRemovalPolicy(value: String): this.type = set(removalPolicy, value)
 
-  /** pattern to grab from text as token candidates. Defaults "pretty_all"
-    *
-    * @group getParam
-    **/
-  def getRemovalPolicy: String = $(removalPolicy)
+  private def withAllFormatter(text: String, replacement: String = EmptyStr): String ={
+    val patternsStr: String = $(cleanupPatterns).mkString("|")
+    text.replaceAll(patternsStr, replacement)
+  }
 
-  /**
-    *  Clears out text using a DocumentNormalizer applying clean up patterns with a removal policy
+  /** pattern to grab from text as token candidates. Defaults \\S+
     *
-    *  @param dataset
-    *  @param recursivePipeline
-    *  @return DocumentNormalizerModel
+    **/
+  private def withPrettyAllFormatter(text: String): String = {
+    withAllFormatter(text).split("\\s+").map(_.trim).mkString(" ")
+  }
+
+  /** pattern to grab from text as token candidates. Defaults \\S+
     *
-    */
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentNormalizerModel = {
-    new DocumentNormalizerModel()
-      .setCleanUpPatterns($(cleanupPatterns))
-      .setLowercase($(lowercase))
-      .setRemovalPolicy($(removalPolicy))
+    **/
+  private def withFirstFormatter(text: String, replacement: String = EmptyStr): String = {
+    val patternsStr = $(cleanupPatterns).mkString("|")
+    text.replaceFirst(patternsStr, replacement)
+  }
+
+  /** pattern to grab from text as token candidates. Defaults \\S+
+    *
+    **/
+  private def withPrettyFirstFormatter(text: String): String = {
+    withFirstFormatter(text).split("\\s+").map(_.trim).mkString(" ")
+  }
+
+  /** Apply patterns and removal policy
+    *
+    **/
+  private def applyRegexPatterns(text: String, patterns: Array[String])(policy: String): String = {
+    require(!text.isEmpty && patterns.length > 0 && !patterns(0).isEmpty && !policy.isEmpty)
+
+    val cleaned: String = policy match {
+      case "all" => withAllFormatter(text)
+      case "pretty_all" => withPrettyAllFormatter(text)
+      case "first" => withFirstFormatter(text)
+      case "pretty_first" => withPrettyFirstFormatter(text)
+      case _ => throw new Exception("Unknown policy parameter in DocumentNormalizer annotation." +
+        "Please select either: all, pretty_all, first, or pretty_first")
+    }
+
+    if ($(lowercase)) cleaned.toLowerCase else cleaned
+  }
+
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    annotations.
+      map { annotation =>
+        val cleanedDoc = applyRegexPatterns(annotation.result, getCleanupPatterns)(getRemovalPolicy)
+        Annotation(
+          DOCUMENT,
+          annotation.begin,
+          cleanedDoc.length - 1,
+          cleanedDoc,
+          annotation.metadata
+        )
+      }
   }
 }
-
-
-object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
