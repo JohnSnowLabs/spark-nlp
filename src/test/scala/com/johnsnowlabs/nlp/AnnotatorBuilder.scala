@@ -1,15 +1,6 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators.{DocumentNormalizer, _}
-import com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
-import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
-import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
-import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
