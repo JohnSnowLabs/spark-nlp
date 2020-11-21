@@ -30,7 +30,8 @@ jobs:
         architecture: x64
     - name: Install Python packages (Python 3.7)
       run: |
-        python3.7 -m pip install numpy pyspark==2.4.4
+        python -m pip install --upgrade pip
+        pip install numpy pyspark==2.4.4
     - name: Build Spark NLP on Apache Spark 2.4.x
       run: |
         sbt clean
@@ -66,7 +67,8 @@ jobs:
         architecture: x64
     - name: Install Python packages (Python 3.7)
       run: |
-        python3.7 -m pip install numpy pyspark==2.3.4
+        python -m pip install --upgrade pip
+        pip install numpy pyspark==2.3.4
     - name: Build Spark NLP on Apache Spark 2.3.x
       run: |
         sbt -Dis_spark23=true clean
