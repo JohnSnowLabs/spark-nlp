@@ -14,6 +14,24 @@ import org.scalatest._
   */
 object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
+  def withDocumentNormalizerPipelineForHTML(dataset: Dataset[Row], cleanupMode: String = "disabled"): DataFrame = {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setCleanupMode(cleanupMode)
+
+    val cleanUpPatterns = Array("<[^>]*>")
+
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("normalizedDocument")
+      .setCleanupPatterns(cleanUpPatterns)
+      .setRemovalPolicy("pretty_all")
+
+    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+
+    docPatternRemoverPipeline.fit(dataset).transform(dataset)
+  }
+
   def withDocumentNormalizerPipeline(dataset: Dataset[Row], cleanupMode: String = "disabled"): DataFrame = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
