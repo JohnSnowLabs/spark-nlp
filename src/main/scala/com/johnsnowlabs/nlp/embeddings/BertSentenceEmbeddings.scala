@@ -80,27 +80,28 @@ class BertSentenceEmbeddings(override val uid: String) extends
     **/
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
-  /** Use SBert
+  /** Use Long type instead of Int type for inputs
     *
     * @group param
     **/
-  val isSBert = new BooleanParam(parent = this, name = "isSBert", "Use SBert model")
+  val isLong = new BooleanParam(parent = this, name = "isLong", "Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.")
 
-  /** Use SBert or not
+  /** set isLong
     *
     * @group setParam
     * */
-  def setIsSBert(value: Boolean): this.type = {
-    set(this.isSBert, value)
+  def setIsLong(value: Boolean): this.type = {
+    if (get(isLong).isEmpty)
+      set(this.isLong, value)
     this
   }
 
-  /** Check whetehr the model is SBert or not
+  /** get isLong
     *
     * @group getParam
     **/
 
-  def getIsSBert: Boolean = $(isSBert)
+  def getIsLong: Boolean = $(isLong)
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
@@ -112,8 +113,9 @@ class BertSentenceEmbeddings(override val uid: String) extends
     $$(vocabulary)("[SEP]")
   }
 
-  /**
-    * Defines the output layer of BERT when calculating Embeddings. See extractPoolingLayer() in TensorflowBert for further reference.
+  /** Set Embeddings dimensions for the BERT model
+    * Only possible to set this when the first time is saved
+    * dimension is not changeable, it comes from BERT config file
     *
     * @group setParam
     **/
@@ -184,7 +186,7 @@ class BertSentenceEmbeddings(override val uid: String) extends
     batchSize -> 32,
     maxSentenceLength -> 128,
     caseSensitive -> false,
-    isSBert -> false
+    isLong -> false
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
@@ -233,8 +235,7 @@ class BertSentenceEmbeddings(override val uid: String) extends
         sentences,
         $(batchSize),
         $(maxSentenceLength),
-        $(caseSensitive),
-        isSBert = getIsSBert
+        getIsLong
       )
     } else {
       Seq.empty[Annotation]
@@ -276,7 +277,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
+    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf")
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -301,7 +302,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
 
     new BertSentenceEmbeddings()
       .setVocabulary(words)

@@ -915,9 +915,9 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     # this one is exclusive to this detector
     detectLists = Param(Params._dummy(),
-                             "detectLists",
-                             "whether detect lists during sentence detection",
-                             typeConverter=TypeConverters.toBoolean)
+                        "detectLists",
+                        "whether detect lists during sentence detection",
+                        typeConverter=TypeConverters.toBoolean)
 
     def setCustomBounds(self, value):
         return self._set(customBounds=value)
@@ -1819,10 +1819,10 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
                       "Batch size. Large values allows faster processing but requires more memory.",
                       typeConverter=TypeConverters.toInt)
 
-    isSBert = Param(Params._dummy(),
-                      "isSBert",
-                      "Specify whether the model is SBert or not.",
-                      typeConverter=TypeConverters.toBoolean)
+    isLong = Param(Params._dummy(),
+                   "isLong",
+                   "Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.",
+                   typeConverter=TypeConverters.toBoolean)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -1838,8 +1838,8 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
     def setBatchSize(self, value):
         return self._set(batchSize=value)
 
-    def setSBert(self, value):
-        return self._set(isSBert=value)
+    def setIsLong(self, value):
+        return self._set(isLong=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings", java_model=None):
