@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         scala: ['2.11']
-    name: Build and Test on Apache Spark 2.4.x - ${{ matrix.scala }} 
+    name: Build and Test on Apache Spark 2.4.x
 
     env:
       SCALA_VERSION: ${{ matrix.scala }}
@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         scala: ['2.11']
-    name: Build and Test on Apache Spark 2.3.x - ${{ matrix.scala }} 
+    name: Build and Test on Apache Spark 2.3.x
 
     env:
       SCALA_VERSION: ${{ matrix.scala }}
