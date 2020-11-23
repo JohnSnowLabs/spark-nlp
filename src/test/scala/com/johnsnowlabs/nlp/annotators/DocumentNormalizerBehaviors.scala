@@ -22,7 +22,9 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     val scrapedTextDS: Dataset[Row] =
       loadDocNormalizerDataset(s"$DOC_NORMALIZER_BASE_DIR/scraped_text_small.txt")
 
-    val annotated = AnnotatorBuilder.withDocumentNormalizerPipeline(scrapedTextDS)
+    val annotated =
+      AnnotatorBuilder
+        .withDocumentNormalizer(scrapedTextDS, cleanUpPatterns = Array("<[^>]*>", "w3"))
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -39,7 +41,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
         .toDF("filename", "text")
         .select("text")
 
-    val annotated = AnnotatorBuilder.withDocumentNormalizerPipelineForHTML(dataset)
+    val annotated = AnnotatorBuilder.withDocumentNormalizer(dataset)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
