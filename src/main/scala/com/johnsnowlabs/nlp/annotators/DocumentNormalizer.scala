@@ -60,7 +60,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group param
     **/
-  val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
+  val lowerCase = new BooleanParam(this, "lowerCase", "whether to convert strings to lowercase")
 
   /** removalPolicy to remove patterns from text with a given policy
     *
@@ -72,7 +72,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
   setDefault(
     inputCols -> Array(AnnotatorType.DOCUMENT),
     cleanupPatterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
-    lowercase -> false,
+    lowerCase -> false,
     removalPolicy -> "pretty_all"
   )
 
@@ -85,7 +85,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group getParam
     **/
-  def getLowercase: Boolean = $(lowercase)
+  def getLowerCase: Boolean = $(lowerCase)
 
   /** pattern to grab from text as token candidates. Defaults "pretty_all"
     *
@@ -100,11 +100,11 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /** Lowercase tokens, default true
+  /** Lower case tokens, default False
     *
     * @group setParam
     **/
-  def setLowercase(value: Boolean): this.type = set(lowercase, value)
+  def setLowerCase(value: Boolean): this.type = set(lowerCase, value)
 
   /** removal policy to apply
     * Valid policy values are: "all", "pretty_all", "first", "pretty_first"
@@ -155,7 +155,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         "Please select either: all, pretty_all, first, or pretty_first")
     }
 
-    if ($(lowercase)) cleaned.toLowerCase else cleaned
+    if ($(lowerCase)) cleaned.toLowerCase else cleaned
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
