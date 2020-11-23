@@ -31,7 +31,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
   private val tokenIdsKey = "input_ids:0"
   private val maskIdsKey = "input_mask:0"
   private val segmentIdsKey = "segment_ids:0"
-  private val segmentIdsKeySBert = "token_type_ids:0"
   private val embeddingsKey = "sequence_output:0"
   private val senteneEmbeddingsKey = "pooled_output:0"
 
@@ -191,7 +190,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     runner
       .feed(tokenIdsKey, tokenTensors)
       .feed(maskIdsKey, maskTensors)
-      .feed(segmentIdsKeySBert, segmentTensors)
+      .feed(segmentIdsKey, segmentTensors)
       .fetch(senteneEmbeddingsKey)
 
     val outs = runner.run().asScala
@@ -265,14 +264,13 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                                   sentences: Seq[Sentence],
                                   batchSize: Int,
                                   maxSentenceLength: Int,
-                                  caseSensitive: Boolean,
-                                  isSBert: Boolean = false
+                                  isLong: Boolean = false
                                  ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     tokens.zipWithIndex.grouped(batchSize).flatMap{batch =>
       val encoded = encode(batch, maxSentenceLength)
-      val embeddings = if (isSBert) {
+      val embeddings = if (isLong) {
         tagSentenceSBert(encoded)
       } else {
         tagSentence(encoded)
@@ -295,17 +293,5 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }.toSeq
   }
 
-  class TensorflowSBert(tensorflow: TensorflowWrapper,
-                        sentenceStartTokenId: Int,
-                        sentenceEndTokenId: Int,
-                        configProtoBytes: Option[Array[Byte]] = None
-                       )
-    extends TensorflowBert(tensorflow, sentenceStartTokenId, sentenceEndTokenId, configProtoBytes) {
-
-    private val segmentIdsKey = "token_type_id:0"
-
-
-
-  }
 }
 
