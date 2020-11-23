@@ -60,7 +60,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group param
     **/
-  val lowerCase = new BooleanParam(this, "lowerCase", "whether to convert strings to lowercase")
+  val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
   /** removalPolicy to remove patterns from text with a given policy
     *
@@ -72,7 +72,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
   setDefault(
     inputCols -> Array(AnnotatorType.DOCUMENT),
     cleanupPatterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
-    lowerCase -> false,
+    lowercase -> false,
     removalPolicy -> "pretty_all"
   )
 
@@ -81,13 +81,13 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
-  /** Lowercase tokens, default true
+  /** Lowercase tokens, default false
     *
     * @group getParam
     **/
-  def getLowerCase: Boolean = $(lowerCase)
+  def getLowercase: Boolean = $(lowercase)
 
-  /** pattern to grab from text as token candidates. Defaults "pretty_all"
+  /** Policy to remove patterns from text. Defaults "pretty_all"
     *
     * @group getParam
     **/
@@ -100,13 +100,13 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /** Lower case tokens, default False
+  /** Lower case tokens, default false
     *
     * @group setParam
     **/
-  def setLowerCase(value: Boolean): this.type = set(lowerCase, value)
+  def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /** removal policy to apply
+  /** Removal policy to apply.
     * Valid policy values are: "all", "pretty_all", "first", "pretty_first"
     *
     * @group setParam
@@ -155,7 +155,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         "Please select either: all, pretty_all, first, or pretty_first")
     }
 
-    if ($(lowerCase)) cleaned.toLowerCase else cleaned
+    if ($(lowercase)) cleaned.toLowerCase else cleaned
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
