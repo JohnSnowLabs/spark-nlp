@@ -90,8 +90,9 @@ class BertEmbeddings(override val uid: String) extends
     $$(vocabulary)("[SEP]")
   }
 
-  /**
-    * Defines the output layer of BERT when calculating Embeddings. See extractPoolingLayer() in TensorflowBert for further reference.
+  /** Set Embeddings dimensions for the BERT model
+    * Only possible to set this when the first time is saved
+    * dimension is not changeable, it comes from BERT config file
     *
     * @group setParam
     **/
