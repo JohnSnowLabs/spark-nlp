@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -13,12 +12,9 @@ import scala.collection.mutable
 
 class BertSentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "BertSentenceEmbeddings" should "produce consistent embeddings" ignore {
+  "BertSentenceEmbeddings" should "produce consistent embeddings" in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-      //      (1, "John loves apples."),
-      //      (2, "Mary loves oranges."),
-      //      (3, "John loves Mary.")
 
       (1, "John loves apples."),
       (2, "Mary loves oranges. John loves Mary.")
@@ -33,15 +29,10 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val embeddings = BertSentenceEmbeddings
-      .loadSavedModel("/models/sbert", ResourceHelper.spark)
-      .setCaseSensitive(true)
-      .setIsSBert(true)
+    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
       .setInputCols(Array("sentence"))
       .setOutputCol("bert")
-      .setCaseSensitive(false)
-      .setMaxSentenceLength(64)
-
+      .setMaxSentenceLength(32)
 
     val pipeline = new Pipeline().setStages(Array(document, sentence, embeddings))
 
@@ -56,10 +47,10 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
       })
     })
 
-    model.stages(2).asInstanceOf[BertSentenceEmbeddings].write.overwrite().save("/models/sbiobert")
+    model.stages(2).asInstanceOf[BertSentenceEmbeddings].write.overwrite().save("./tmp_bert_sentence_embed")
   }
 
-  "BertSentenceEmbeddings" should "correctly work with empty tokens" ignore {
+  "BertSentenceEmbeddings" should "correctly work with empty tokens" in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -75,10 +66,10 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
       .setOutputCol("sentence")
 
     val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
-      .setInputCols("document")
+      .setInputCols("sentence")
       .setOutputCol("bert")
       .setCaseSensitive(false)
-      .setMaxSentenceLength(64)
+      .setMaxSentenceLength(32)
 
 
     val pipeline = new Pipeline().setStages(Array(document, sentence, embeddings))
