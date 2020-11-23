@@ -443,9 +443,9 @@ class DocumentNormalizer(AnnotatorModel):
                             "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
                             typeConverter=TypeConverters.toListString)
 
-    lowerCase = Param(Params._dummy(),
-                      "lowerCase",
-                      "whether to convert strings to lowerCase",
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase",
                       typeConverter=TypeConverters.toBoolean)
 
     removalPolicy = Param(Params._dummy(),
@@ -458,7 +458,7 @@ class DocumentNormalizer(AnnotatorModel):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
         self._setDefault(
             cleanupPatterns=["<[^>]*>"],
-            lowerCase=False,
+            lowercase=False,
             removalPolicy="pretty_all"
         )
 
