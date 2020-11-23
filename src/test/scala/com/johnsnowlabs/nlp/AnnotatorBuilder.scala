@@ -24,7 +24,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   def withDocumentNormalizer(dataset: Dataset[Row],
                              cleanupMode: String = "disabled",
                              cleanUpPatterns: Array[String] = Array("<[^>]*>"),
-                             removalPolicy: String = "pretty_all"): DataFrame = {
+                             removalPolicy: String = "pretty_all",
+                             encoding: String = "UTF-8"): DataFrame = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setCleanupMode(cleanupMode)
@@ -34,6 +35,8 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("normalizedDocument")
       .setCleanupPatterns(cleanUpPatterns)
       .setRemovalPolicy(removalPolicy)
+      // TODO encoding
+      //.setEncoding(encoding)
 
     val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
 
