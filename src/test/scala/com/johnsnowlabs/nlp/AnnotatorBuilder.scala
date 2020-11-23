@@ -14,47 +14,30 @@ import org.scalatest._
   */
 object AnnotatorBuilder extends FlatSpec { this: Suite =>
 
-  def withDocumentNormalizerPipelineForHTML(dataset: Dataset[Row], cleanupMode: String = "disabled"): DataFrame = {
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setCleanupMode(cleanupMode)
-
-    val cleanUpPatterns = Array("<[^>]*>")
-
-    val documentNormalizer = new DocumentNormalizer()
-      .setInputCols("document")
-      .setOutputCol("normalizedDocument")
-      .setCleanupPatterns(cleanUpPatterns)
-      .setRemovalPolicy("pretty_all")
-
-    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
-
-    docPatternRemoverPipeline.fit(dataset).transform(dataset)
-  }
-
-  def withDocumentNormalizerPipeline(dataset: Dataset[Row], cleanupMode: String = "disabled"): DataFrame = {
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setCleanupMode(cleanupMode)
-
-    val cleanUpPatterns = Array("<[^>]*>", "w3")
-
-    val documentNormalizer = new DocumentNormalizer()
-      .setInputCols("document")
-      .setOutputCol("normalizedDocument")
-      .setCleanupPatterns(cleanUpPatterns)
-      .setRemovalPolicy("pretty_all")
-
-    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
-
-    docPatternRemoverPipeline.fit(dataset).transform(dataset)
-  }
-
   def withDocumentAssembler(dataset: Dataset[Row], cleanupMode: String = "disabled"): Dataset[Row] = {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setCleanupMode(cleanupMode)
     documentAssembler.transform(dataset)
+  }
+
+  def withDocumentNormalizer(dataset: Dataset[Row],
+                             cleanupMode: String = "disabled",
+                             cleanUpPatterns: Array[String] = Array("<[^>]*>"),
+                             removalPolicy: String = "pretty_all"): DataFrame = {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setCleanupMode(cleanupMode)
+
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("normalizedDocument")
+      .setCleanupPatterns(cleanUpPatterns)
+      .setRemovalPolicy(removalPolicy)
+
+    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+
+    docPatternRemoverPipeline.fit(dataset).transform(dataset)
   }
 
   def withTokenizer(dataset: Dataset[Row], sbd: Boolean = true): Dataset[Row] = {
