@@ -4,23 +4,17 @@ on:
   push:
     branches:
       - 'master'
-      - '*release-cnadidate'
+      - '*release*'
   pull_request:
     branches: 
       - 'master'
-      - '*release-cnadidate'
 
 jobs:
   spark24:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        scala: ['2.11']
     name: Build and Test on Apache Spark 2.4.x
 
-    env:
-      SCALA_VERSION: ${{ matrix.scala }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 8
@@ -52,13 +46,8 @@ jobs:
   spark32: 
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        scala: ['2.11']
     name: Build and Test on Apache Spark 2.3.x
 
-    env:
-      SCALA_VERSION: ${{ matrix.scala }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 8
