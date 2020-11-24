@@ -453,13 +453,19 @@ class DocumentNormalizer(AnnotatorModel):
                           "removalPolicy to remove pattern from text",
                           typeConverter=TypeConverters.toString)
 
+    encoding = Param(Params._dummy(),
+                     "encoding",
+                     "file encoding to apply on normalized documents",
+                     typeConverter=TypeConverters.toString)
+
     @keyword_only
     def __init__(self):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
         self._setDefault(
             cleanupPatterns=["<[^>]*>"],
             lowercase=False,
-            removalPolicy="pretty_all"
+            removalPolicy="pretty_all",
+            encoding="UTF-8"
         )
 
     def setCleanupPatterns(self, value):
@@ -470,6 +476,9 @@ class DocumentNormalizer(AnnotatorModel):
 
     def setRemovalPolicy(self, value):
         return self._set(removalPolicy=value)
+
+    def setEncoding(self, value):
+        return self._set(encoding=value)
 
 
 class Normalizer(AnnotatorApproach):
@@ -951,9 +960,9 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     # this one is exclusive to this detector
     detectLists = Param(Params._dummy(),
-                             "detectLists",
-                             "whether detect lists during sentence detection",
-                             typeConverter=TypeConverters.toBoolean)
+                        "detectLists",
+                        "whether detect lists during sentence detection",
+                        typeConverter=TypeConverters.toBoolean)
 
     def setCustomBounds(self, value):
         return self._set(customBounds=value)

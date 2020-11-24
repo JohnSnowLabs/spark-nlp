@@ -1,7 +1,10 @@
 package com.johnsnowlabs.nlp.annotators
 
+import java.nio.charset.{Charset, StandardCharsets}
+
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import javax.sound.sampled.AudioFormat.Encoding
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -68,15 +71,23 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   val removalPolicy: Param[String] = new Param(this, "removalPolicy", "removalPolicy to remove pattern from text")
 
+  /** file encoding to apply on normalized documents
+    *
+    * @group param
+    **/
+  val encoding: Param[String] = new Param(this, name = "encoding", "file encoding to apply on normalized documents")
+
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
     inputCols -> Array(AnnotatorType.DOCUMENT),
     cleanupPatterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
     lowercase -> false,
-    removalPolicy -> "pretty_all"
+    removalPolicy -> "pretty_all",
+    encoding -> "UTF-8"
   )
 
-  /** Regular expressions list for normalization
+  /** Regular expressions list for normalization.
+    *
     * @group getParam
     **/
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
@@ -87,14 +98,19 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def getLowercase: Boolean = $(lowercase)
 
-  /** Policy to remove patterns from text. Defaults "pretty_all"
+  /** Policy to remove patterns from text. Defaults "pretty_all".
     *
     * @group getParam
     **/
   def getRemovalPolicy: String = $(removalPolicy)
 
-  /** Regular expressions list for normalization,
+  /** Encoding to apply to normalized documents.
     *
+    * @group getParam
+    **/
+  def getEncoding: String = $(encoding)
+
+  /** Regular expressions list for normalization.
     *
     * @group setParam
     **/
@@ -112,6 +128,13 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     * @group setParam
     **/
   def setRemovalPolicy(value: String): this.type = set(removalPolicy, value)
+
+  /** Encoding to apply. Default is UTF-8.
+    * Valid encoding are values are: UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE
+    *
+    * @group setParam
+    **/
+  def setEncoding(value: String): this.type = set(encoding, value)
 
   private def withAllFormatter(text: String, replacement: String = EMPTY_STR): String ={
     val patternsStr: String = $(cleanupPatterns).mkString(BREAK_STR)
@@ -140,10 +163,43 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     withFirstFormatter(text).split("\\s+").map(_.trim).mkString(SPACE_STR)
   }
 
-  /** Apply patterns and removal policy
+  /** Apply a given encoding to the processed text
     *
+    * US-ASCII
+    * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the Unicode character set
+    *
+    * ISO-8859-1
+    * ISO Latin Alphabet No. 1, a.k.a. ISO-LATIN-1
+    *
+    * UTF-8
+    * Eight-bit UCS Transformation Format
+    *
+    * UTF-16BE
+    * Sixteen-bit UCS Transformation Format, big-endian byte order
+    *
+    * UTF-16LE
+    * Sixteen-bit UCS Transformation Format, little-endian byte order
+    *
+    * UTF-16
+    * Sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order mark
     **/
-  private def applyRegexPatterns(text: String, patterns: Array[String])(policy: String): String = {
+  private def withEncoding(text: String, encoding: Charset = StandardCharsets.UTF_8): String ={
+    val defaultCharset: Charset = Charset.defaultCharset
+    if(!Charset.defaultCharset.equals(encoding)){
+      log.warn("Requested encoding parameter is different from the default charset.")
+    }
+    new String(text.getBytes(defaultCharset), encoding)
+  }
+
+  /** Apply document normalization on text using patterns, policy, lowercase and encoding  parameters.
+    *
+    */
+  private def applyDocumentNormalization(text: String,
+                                         patterns: Array[String],
+                                         policy: String,
+                                         lowercase: Boolean,
+                                         encoding: String): String = {
+
     require(!text.isEmpty && patterns.length > 0 && !patterns(0).isEmpty && !policy.isEmpty)
 
     val cleaned: String = policy match {
@@ -155,13 +211,26 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         "Please select either: all, pretty_all, first, or pretty_first")
     }
 
-    if ($(lowercase)) cleaned.toLowerCase else cleaned
+    val cased = if (lowercase) cleaned.toLowerCase else cleaned
+
+    encoding match {
+      case "UTF-8" => withEncoding(cased, StandardCharsets.UTF_8)
+      case "UTF-16" => withEncoding(cased, StandardCharsets.UTF_16)
+      case "US-ASCII" => withEncoding(cased, StandardCharsets.US_ASCII)
+      case "ISO-8859-1" => withEncoding(cased, StandardCharsets.ISO_8859_1)
+      case "UTF-16BE" => withEncoding(cased, StandardCharsets.UTF_16BE)
+      case "UTF-16LE" => withEncoding(cased, StandardCharsets.UTF_16LE)
+      case _ => throw new Exception("Unknown encoding parameter in DocumentNormalizer annotation." +
+        "Please select either: UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE")
+    }
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.
       map { annotation =>
-        val cleanedDoc = applyRegexPatterns(annotation.result, getCleanupPatterns)(getRemovalPolicy)
+        val cleanedDoc =
+          applyDocumentNormalization(annotation.result, getCleanupPatterns, getRemovalPolicy, getLowercase, getEncoding)
+
         Annotation(
           DOCUMENT,
           annotation.begin,
