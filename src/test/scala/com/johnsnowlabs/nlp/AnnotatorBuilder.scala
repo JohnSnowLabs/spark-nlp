@@ -35,6 +35,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setOutputCol("normalizedDocument")
       .setCleanupPatterns(cleanUpPatterns)
       .setRemovalPolicy(removalPolicy)
+      .setEncoding(encoding)
 
     val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
 
