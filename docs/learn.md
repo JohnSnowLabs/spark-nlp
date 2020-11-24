@@ -10,6 +10,38 @@ show_date: true
 modify_date: "2019-05-16"
 ---
 
+<div class="docs-wrapper border">
+<table class="table-model-big">
+    <tbody>
+        <tr>
+            <td>
+                <a href="/learn#introductions-to-spark-nlp">Introducing Spark NLP</a>
+            </td>
+            <td>
+                <a href="/learn#named-entity-recognition">Named Entity Recognition</a>
+            </td>
+            <td>
+                <a href="/learn#document-classification">Document Classification</a>   
+            </td>
+            <td><a href="/learn#pythons-nlu-library">Python’s NLU Library</a></td>
+        </tr>
+        <tr>
+            <td><a href="/learn#spark-nlp-for-healthcare">Spark NLP for Healthcare</a></td>
+            <td><a href="/learn#document-classification">Spark NLP for Life Science</a></td>
+            <td><a href="/learn#spark-ocr--de-identification">Spark OCR &amp; De-Identification</a></td>
+            <td><a href="/learn#data-annotator--active-learning">Annotation Lab</a></td>
+        </tr>
+        <tr>
+            <td><a href="/learn#spark-nlp-benchmarks">Spark NLP Benchmarks</a></td>
+            <td><a href="/learn#spark-nlp-awards">Spark NLP Awards</a></td>
+            <td><a href="/learn#spark-nlp-at-scale">Spark NLP at Scale</a></td>
+            <td><a href="/learn#spark-nlp-tasks--pipelines">Spark NLP Tasks & Pipelines</a></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+
 {:.h2_article}
 ## Introductions to Spark NLP
 
