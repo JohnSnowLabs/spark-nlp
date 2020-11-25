@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Assertion DL I2B2
+title: Detect Assertion Status (DL I2B2)
 author: John Snow Labs
 name: assertion_i2b2
 class: AssertionDLModel

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ChunkResolver Cpt Clinical
+title: Chunk Resolver (Cpt Clinical)
 author: John Snow Labs
 name: chunkresolve_cpt_clinical
 class: ChunkEntityResolverModel

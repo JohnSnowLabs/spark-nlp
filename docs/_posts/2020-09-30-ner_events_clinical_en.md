@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Clinical events NER
+title: Detect Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-09-30

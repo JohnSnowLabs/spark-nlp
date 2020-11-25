@@ -1,6 +1,6 @@
 ---
 layout: model
-title:  Icd10cm Puerile Entity Resolver
+title:  ICD10CM Puerile Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_puerile_clinical
 class: ChunkEntityResolverModel

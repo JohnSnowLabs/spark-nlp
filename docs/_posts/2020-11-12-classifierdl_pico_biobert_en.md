@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Classifier PICO
+title: PICO Classifier
 author: John Snow Labs
 name: classifierdl_pico_biobert
 date: 2020-11-12

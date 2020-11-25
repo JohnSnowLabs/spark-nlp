@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ALBERT Large Uncase
+title: ALBERT Embeddings (Large Uncase)
 author: John Snow Labs
 name: albert_large_uncased
 date: 2020-04-28

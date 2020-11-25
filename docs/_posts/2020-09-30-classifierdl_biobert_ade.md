@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Classifier for adverse drug events
+title: Classifier for Adverse Drug Events
 author: John Snow Labs
 name: classifierdl_biobert_ade
 date: 2020-09-30

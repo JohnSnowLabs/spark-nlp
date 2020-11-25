@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Large Cased
+title: BERT Embeddings (Large Cased)
 author: John Snow Labs
 name: bert_large_cased
 date: 2020-01-02
