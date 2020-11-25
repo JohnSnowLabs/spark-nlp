@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Stop Words Cleaner
+title: Stop Words Cleaner for Arabic
 author: John Snow Labs
 name: stopwords_ar
 date: 2020-07-14 19:03:00 +0800
@@ -10,6 +10,7 @@ article_header:
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
 This model removes 'stop words' from text. Stop words are words so common that they can removed without significantly altering the meaning of a text. Removing stop words is useful when one wants to deal with only the most semantically important words in a text, and ignore words that are rarely semantically relevant, such as articles and prepositions.
 
@@ -18,6 +19,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_ar_ar_2.5.4_2.4_1594742440256.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+{:.h2_title}
 ## How to use
 
 <div class="tabs-box" markdown="1">
@@ -25,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
 stop_words = StopWordsCleaner.pretrained("stopwords_ar", "ar") \
         .setInputCols(["token"]) \
         .setOutputCol("cleanTokens")
@@ -35,10 +37,12 @@ results = light_pipeline.fullAnnotate("بخلاف كونه ملك الشمال �
 ```
 
 ```scala
-
+...
 val stopWords = StopWordsCleaner.pretrained("stopwords_ar", "ar")
         .setInputCols(Array("token"))
         .setOutputCol("cleanTokens")
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
+val result = pipeline.fit(Seq.empty["بخلاف كونه ملك الشمال ، فإن جون سنو طبيب إنجليزي ورائد في تطوير التخدير والنظافة الطبية."].toDS.toDF("text")).transform(data)
 ```
 
 {:.h2_title}
