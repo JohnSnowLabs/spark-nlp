@@ -27,7 +27,7 @@ A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical`` a
 ```python
 carp_pipeline = PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
 
-annotations =  carp_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")[0]
+annotations =  carp_pipeline.fullAnnotate("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.""")[0]
 
 annotations.keys()
 
@@ -37,26 +37,24 @@ annotations.keys()
 
 val carp_pipeline = new PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
 
-val result = carp_pipeline.fullAnnotate("""Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain""")(0)
+val result = carp_pipeline.fullAnnotate("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.""")(0)
 
 ```
 </div>
 
 {:.h2_title}
 ## Results
-This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner_posology` and `assertion_dl` models. Here are the result returned by `ner_clinical` and `ner_posology`:
+This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner_posology` and `assertion_dl` models. 
 ```bash
-|      tokens  | clinical_ner_tags | posology_ner_tags | dependencies |
-|--------------|-------------------|-------------------|--------------|
-| gestational  | B-PROBLEM         | O                 | of           |
-| diabetes     | I-PROBLEM         | O                 | mellitus     |
-| mellitus     | I-PROBLEM         | O                 | gestational  |
-| metformin    | B-TREATMENT       | B-Drug            | take         |
-| 1000         | O                 | B-Strength        | metformin    |
-| mg           | O                 | I-Strength        | 1000         |
-| two          | O                 | B-Frequency       | times        |
-| times        | O                 | I-Frequency       | mg           |
-| a            | O                 | I-Frequency       | day          |
+|   | chunks                        | ner_clinical | assertion | posology_chunk   | ner_posology | relations |
+|---|-------------------------------|--------------|-----------|------------------|--------------|-----------|
+| 0 | gestational diabetes mellitus | PROBLEM      | present   | metformin        | Drug         | TrAP      |
+| 1 | metformin                     | TREATMENT    | present   | 1000 mg          | Strength     | TrCP      |
+| 2 | polyuria                      | PROBLEM      | present   | two times a day  | Frequency    | TrCP      |
+| 3 | polydipsia                    | PROBLEM      | present   | 40 units         | Dosage       | TrWP      |
+| 4 | poor appetite                 | PROBLEM      | present   | insulin glargine | Drug         | TrCP      |
+| 5 | vomiting                      | PROBLEM      | present   | at night         | Frequency    | TrAP      |
+| 6 | insulin glargine              | TREATMENT    | present   | 12 units         | Dosage       | TrAP      |
 ```
 
 {:.model-param}
@@ -77,4 +75,3 @@ This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner
  - assertion_dl
  - re_clinical
  - ner_posology
- 
