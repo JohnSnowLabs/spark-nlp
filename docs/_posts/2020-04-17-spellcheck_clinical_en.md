@@ -7,7 +7,7 @@ class: ContextSpellCheckerModel
 language: en
 repository: clinical/models
 date: 2020-04-17
-tags: [clinical,en]
+tags: [clinical,licensed,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

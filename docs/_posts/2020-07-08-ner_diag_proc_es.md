@@ -7,7 +7,7 @@ class: NerDLModel
 language: es
 repository: clinical/models
 date: 2020-07-08
-tags: [clinical,ner,es]
+tags: [clinical,licensed,ner,es]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

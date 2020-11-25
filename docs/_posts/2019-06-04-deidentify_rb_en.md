@@ -7,7 +7,7 @@ class: DeIdentificationModel
 language: en
 repository: clinical/models
 date: 2019-06-04
-tags: [clinical,en]
+tags: [clinical,licensed,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

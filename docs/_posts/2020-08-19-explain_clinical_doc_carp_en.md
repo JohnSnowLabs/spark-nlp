@@ -4,7 +4,7 @@ title: Explain Document Pipeline - CARP
 author: John Snow Labs
 name: explain_clinical_doc_carp
 date: 2020-08-19
-tags: [pipeline, en, licensed]
+tags: [pipeline, en, clinical, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
