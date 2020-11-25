@@ -49,6 +49,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Some selected Transformers:
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings                    | `electra_small_uncased`       | 2.6.0 |      `en`
@@ -126,6 +127,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Danish pipelines
 
+{:.table-model-big}
 | Pipeline                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `da` 
@@ -137,6 +139,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Finnish pipelines
 
+{:.table-model-big}
 | Pipeline                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `fi` 
@@ -148,6 +151,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Swedish pipelines
 
+{:.table-model-big}
 | Pipeline                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `sv` 
@@ -301,6 +305,7 @@ Models
 
 * We have added 28 new pretrained models for Lemma and POS in 14 languages:
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `br`    
