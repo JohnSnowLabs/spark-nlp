@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect diagnosis, symptoms, drugs, labs and demographics (ner_jsl_enriched)
+title: Detect Diagnosis, Symptoms, Drugs, Labs and Demographics (ner_jsl_enriched)
 author: John Snow Labs
 name: ner_jsl_enriched_en
 date: 2020-04-22

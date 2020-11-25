@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Cellular/Molecular Biology entities
+title: Detect Cellular/Molecular Biology Entities
 author: John Snow Labs
 name: ner_cellular_en
 date: 2020-04-22

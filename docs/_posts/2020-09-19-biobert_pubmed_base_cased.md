@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT Pubmed
+title: BioBERT Embeddings (Pubmed)
 author: John Snow Labs
 name: biobert_pubmed_base_cased
 date: 2020-09-19

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Icd10cm Injuries Entity Resolver
+title: ICD10CM Injuries Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_injuries_clinical
 class: ChunkEntityResolverModel

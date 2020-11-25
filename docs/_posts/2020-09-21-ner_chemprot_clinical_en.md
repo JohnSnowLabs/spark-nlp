@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect chemical compounds and genes
+title: Detect Chemical Compounds and Genes
 author: John Snow Labs
 name: ner_chemprot_clinical
 date: 2020-09-21

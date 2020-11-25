@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Icd10cm Neoplasms Entity Resolver
+title: ICD10CM Neoplasms Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_neoplasms_clinical
 class: ChunkEntityResolverModel

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Assertion DL
+title: Detect Assertion Status (assertion_dl_en)
 author: John Snow Labs
 name: assertion_dl_en
 date: 2020-01-30

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Assertion ML
+title: Detect Assertion Status (assertion_ml_en)
 author: John Snow Labs
 name: assertion_ml_en
 date: 2020-01-30

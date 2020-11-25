@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner Anatomy (Single Entity - embeddings_clinical)
+title: Detect Anatomical Structures (Single Entity - embeddings_clinical)
 author: John Snow Labs
 name: ner_anatomy_coarse_en
 date: 2020-11-04

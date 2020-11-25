@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Discharge Base Cased
+title: Biobert Embeddings (Discharge Base Cased)
 author: John Snow Labs
 name: biobert_discharge_base_cased
 class: BertEmbeddings

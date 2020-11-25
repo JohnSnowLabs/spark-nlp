@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect genes and human phenotypes
+title: Detect Genes and Human Phenotypes
 author: John Snow Labs
 name: ner_human_phenotype_gene_clinical
 date: 2020-09-21

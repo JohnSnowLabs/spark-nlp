@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect anatomical regions
+title: Detect Anatomical Regions
 author: John Snow Labs
 name: ner_anatomy_en
 date: 2020-04-22

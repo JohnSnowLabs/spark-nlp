@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner Anatomy (Single Entity - biobert)
+title: Detect Anatomical Structures (Single Entity - biobert)
 author: John Snow Labs
 name: ner_anatomy_coarse_biobert_en
 date: 2020-11-04

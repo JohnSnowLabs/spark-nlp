@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detech PHI for Deidentification (Enriched)
+title: Detect PHI for Deidentification (Enriched)
 author: John Snow Labs
 name: ner_deid_enriched
 class: NerDLModel

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ALBERT Base Uncase
+title: ALBERT Embeddings (Base Uncase)
 author: John Snow Labs
 name: albert_base_uncased
 date: 2020-04-28

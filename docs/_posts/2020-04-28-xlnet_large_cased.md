@@ -1,6 +1,6 @@
 ---
 layout: model
-title: XLNet Large
+title: XLNet Embeddings (Large)
 author: John Snow Labs
 name: xlnet_large_cased
 date: 2020-04-28

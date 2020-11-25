@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Contextual Spellchecker Clinical
+title: Contextual SpellChecker Clinical
 author: John Snow Labs
 name: spellcheck_clinical
 class: ContextSpellCheckerModel

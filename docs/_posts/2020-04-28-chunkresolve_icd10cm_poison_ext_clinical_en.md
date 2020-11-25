@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ICD-10CM Poison Entity Resolver
+title: ICD10CM Poison Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_poison_ext_clinical
 class: ChunkEntityResolverModel

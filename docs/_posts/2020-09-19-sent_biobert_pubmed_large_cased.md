@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT Pubmed Large
+title: BioBERT Sentence Embeddings (Pubmed Large)
 author: John Snow Labs
 name: sent_biobert_pubmed_large_cased
 date: 2020-09-19

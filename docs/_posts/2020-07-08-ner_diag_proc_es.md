@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Ner DL Model Clinical
+title: Detect Diagnosis and Procedures (Spanish)
 author: John Snow Labs
 name: ner_diag_proc
 class: NerDLModel
@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Pretrained named entity recognition deep learning model for diagnostics and procedures in spanish
 
 ## Predicted Entities 
-Diagnostico, Procedimiento
+``Diagnostico``, ``Procedimiento``
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Deidentify (Large)
+title: Deidentify PHI (Large)
 author: John Snow Labs
 name: deidentify_large
 date: 2020-08-04
