@@ -52,8 +52,6 @@ annotations = light_pipeline.fullAnnotate(text)
 
 ```
 
-</div>
-
 
 </div>
 
