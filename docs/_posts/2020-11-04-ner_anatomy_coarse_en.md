@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Detect anatomical references (embeddings_clinical)
+title: Detect Anatomical Structures (Single Entity - embeddings_clinical)
 author: John Snow Labs
 name: ner_anatomy_coarse_en
 date: 2020-11-04
-tags: [ner, en, licensed]
+tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 An NER model to extract all types of anatomical references in text using "embeddings_clinical" embeddings. It is a single entity model and generalizes all anatomical references to a single entity.
 
 ## Predicted Entities 
-`Anatomy`
+Anatomy
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}{:target="_blank"}
@@ -32,15 +32,14 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-...
 
 clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-...
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
-empty_data = spark.createDataFrame([["Although he was assumed to have difficult airway due to short neck, macroglossia, and disturbance of neck flexion, tracheal intubation was not difficult."]]).toDF("text")
+nlpPipeline = Pipeline(stages=[clinical_ner])
+
+empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
 
@@ -49,17 +48,14 @@ results = model.transform(data)
 ```
 
 ```scala
-...
 
-val ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models")
-  .setInputCols("sentence", "token", "embeddings")
+val ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
+  .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
-...
+val pipeline = new Pipeline().setStages(Array(ner))
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-
-val result = pipeline.fit(Seq.empty["Although he was assumed to have difficult airway due to short neck, macroglossia, and disturbance of neck flexion, tracheal intubation was not difficult."].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
 
 
 ```
@@ -68,14 +64,11 @@ val result = pipeline.fit(Seq.empty["Although he was assumed to have difficult a
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and an `"ner"` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
+The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.me:
 ```bash
-|    | ner_chunk         |  start |  end |  ner       |
-|---:|:------------------|-------:|-----:|:-----------|
-|  0 | airway            |     42 |   48 | Anatomy    |
-|  1 | neck              |     62 |   66 | Anatomy    |
-|  2 | neck              |    101 |  105 | Anatomy    |
-|  3 | tracheal          |    115 |  123 | Anatomy    |
+|    | ner_chunk         | entity    |
+|---:|:------------------|:----------|
+|  0 | lung tissue       | Anatomy   |
 ```
 
 {:.model-param}
@@ -84,7 +77,7 @@ The output is a dataframe with a sentence per row and an `"ner"` column containi
 {:.table-model}
 |---|---|
 |Model Name:|ner_anatomy_coarse|
-|Type:|ner|
+|Type:|NerDLModel|
 |Compatibility:|Spark NLP 2.6.1 +|
 |Edition:|Official|
 |License:|Licensed|
@@ -95,13 +88,13 @@ The output is a dataframe with a sentence per row and an `"ner"` column containi
 
 {:.h2_title}
 ## Data Source
-Trained on a custom dataset using `'embeddings_clinical'`.
+Trained on a custom dataset using 'embeddings_clinical'.
 
 {:.h2_title}
 ## Benchmarking
 ```bash
 |    | label         |    tp |    fp |    fn |     prec |      rec |       f1 |
-|---:|--------------:|------:|------:|------:|---------:|---------:|---------:|
+|---:|:--------------|------:|------:|------:|---------:|---------:|---------:|
 |  0 | B-Anatomy     |  2568 |   165 |   158 | 0.939627 | 0.94204  | 0.940832 |
 |  1 | I-Anatomy     |  1692 |    89 |   169 | 0.950028 | 0.909189 | 0.92916  |
 |  2 | Macro-average | 4260  |  254  |   327 | 0.944827 | 0.925614 | 0.935122 |

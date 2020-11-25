@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Detect problems, tests and treatments (ner_clinical_large)
+title: Detect Problems, Tests and Treatments (ner_clinical_large)
 author: John Snow Labs
 name: ner_clinical_large_en
 date: 2020-05-23
-tags: [ner, en, licensed]
+tags: [ner, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

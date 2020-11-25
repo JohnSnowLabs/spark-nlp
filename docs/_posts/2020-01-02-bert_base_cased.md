@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Base Cased
+title: BERT Embeddings (Base Cased)
 author: John Snow Labs
 name: bert_base_cased
 date: 2020-01-02

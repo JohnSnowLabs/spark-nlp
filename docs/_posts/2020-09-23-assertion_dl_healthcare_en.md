@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Assertion DL Healthcare Embeddings
+title: Detect Assertion Status for Healthcare Entities
 author: John Snow Labs
 name: assertion_dl_healthcare
 class: AssertionDLModel
@@ -8,7 +8,7 @@ reference embedding: healthcare_embeddings
 language: en
 repository: clinical/models
 date: 2020-09-23
-tags: [clinical,assertion,en]
+tags: [clinical,licensed,assertion,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 Assertion of Clinical Entities based on Deep Learning.  
 
 ## Predicted Entities 
-hypothetical, present, absent, possible, conditional, associated_with_someone_else
+`hypothetical`, `present`, `absent`, `possible`, `conditional`, `associated_with_someone_else`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

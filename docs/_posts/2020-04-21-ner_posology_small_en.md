@@ -7,7 +7,7 @@ class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-04-21
-tags: [clinical,ner,en]
+tags: [clinical,licensed,ner,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -39,7 +39,7 @@ clinical_ner = NerDLModel.pretrained("ner_posology_small","en","clinical/models"
 	.setInputCols(["sentence","token","word_embeddings"])\
 	.setOutputCol("ner")
 ...
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, licensed,clinical_ner, ner_converter])
 
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 

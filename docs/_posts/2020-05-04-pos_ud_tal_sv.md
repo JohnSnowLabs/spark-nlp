@@ -4,7 +4,7 @@ title: Part of Speech for Spanish (Venezuela)
 author: John Snow Labs
 name: pos_ud_tal
 date: 2020-05-04 23:32:00 +0800
-tags: [pos, sv]
+tags: [pos, es]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

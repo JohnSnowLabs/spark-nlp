@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT Discharge
+title: BioBERT Embeddings (Discharge)
 author: John Snow Labs
 name: biobert_discharge_base_cased
 date: 2020-09-19

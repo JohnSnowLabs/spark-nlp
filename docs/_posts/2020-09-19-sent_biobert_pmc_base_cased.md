@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT PMC
+title: BioBERT Sentence Embeddings (PMC)
 author: John Snow Labs
 name: sent_biobert_pmc_base_cased
 date: 2020-09-19
