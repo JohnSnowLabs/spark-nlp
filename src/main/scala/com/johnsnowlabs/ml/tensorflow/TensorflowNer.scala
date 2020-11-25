@@ -123,7 +123,7 @@ class TensorflowNer
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
-            test: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty,
+            test: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty,
             configProtoBytes: Option[Array[Byte]] = None,
             validationSplit: Float = 0.0f,
             evaluationLogExtended: Boolean = false,

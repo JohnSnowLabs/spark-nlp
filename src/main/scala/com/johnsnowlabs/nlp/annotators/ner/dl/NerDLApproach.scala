@@ -300,13 +300,12 @@ class NerDLApproach(override val uid: String)
     val train = dataset.toDF()
 
     val test = if (!isDefined(testDataset)) {
-      val emptyValid: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = Iterator.empty
-      emptyValid
+      train.limit(0) // keep the schema only
     }
     else {
-      val testDataFrame = ResourceHelper.readParquetSparkDatFrame($(testDataset))
-      getIteratorFunc(testDataFrame)()
+      ResourceHelper.readParquetSparkDatFrame($(testDataset))
     }
+
 
     val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
 
@@ -314,11 +313,10 @@ class NerDLApproach(override val uid: String)
 
     val trainIteratorFunc = getIteratorFunc(trainSplit)
     val validIteratorFunc = getIteratorFunc(validSplit)
-
+    val testIteratorFunc = getIteratorFunc(test)
 
 
     val (labels, chars, embeddingsDim, dsLen) = getDataSetParams(trainIteratorFunc())
-
 
     val settings = DatasetEncoderParams(labels.toList, chars.toList,
       Array.fill(embeddingsDim)(0f).toList, embeddingsDim)
@@ -350,7 +348,7 @@ class NerDLApproach(override val uid: String)
           $(po),
           $(dropout),
           graphFileName = graphFile,
-          test = test,
+          test = testIteratorFunc(),
           endEpoch = $(maxEpochs),
           configProtoBytes = getConfigProtoBytes,
           validationSplit = $(validationSplit),
