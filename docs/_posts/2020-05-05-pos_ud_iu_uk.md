@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Part of Speech for English(UK)
+title: Part of Speech for Ukrainian (UK)
 author: John Snow Labs
 name: pos_ud_iu
 date: 2020-05-05 11:59:00 +0800
