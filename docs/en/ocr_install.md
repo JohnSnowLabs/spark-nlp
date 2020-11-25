@@ -10,8 +10,8 @@ modify_date: "2020-04-08"
 <div class="h3-box" markdown="1">
 
 
-Spark OCR is built on top of **Apache Spark 2.4.4**. 
-We have custom build for 2.3.*.
+Spark OCR is built on top of **Apache Spark**. 
+Currently, it supports 2.4.* and 2.3.* versions of Spark.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
@@ -19,7 +19,7 @@ It is recommended to have basic knowledge of the framework and a working environ
 Spark OCR required:
  - Scala 2.11
  - Python 3.+ (in case using PySpark)
- - Spark 2.4.4
+ - Spark 2.4.* or 2.3.*
 
 Before you start, make sure that you have: 
 - Spark OCR jar file (or secret for download it)
@@ -78,7 +78,7 @@ val spark = SparkSession
 Install python package using pip:
 
 ```bash
-pip install spark-ocr==1.1.0 --extra-index-url #### --ignore-installed
+pip install spark-ocr==1.8.0.spark24 --extra-index-url #### --ignore-installed
 ```
 
 The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
@@ -117,9 +117,11 @@ Start function has following params:
 | secret | string | None | Secret for download Spark OCR jar file |
 | jar_path | string | None | Path to jar file in case you need to run spark session offline |
 | extra_conf | SparkConf | None | Extra spark configuration |
+| master_url | string | local[*] | Spark master url |
 | nlp_version | string | None | Spark NLP version for add it Jar to session |
 | nlp_internal | boolean/string | None | Run Spark session with Spark NLP Internal if set to 'True' or specify version |
 | nlp_secret| string | None| Secret for get Spark NLP Internal jar |
+| keys_file | string | `keys.json`| Name of the json file with license, secret and aws keys |
 
 For start Spark session with Spark NLP please specify version of it in `nlp_version` param.
 
