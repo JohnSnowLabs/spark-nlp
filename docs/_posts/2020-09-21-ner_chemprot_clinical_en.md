@@ -4,7 +4,7 @@ title: Detect Chemical Compounds and Genes
 author: John Snow Labs
 name: ner_chemprot_clinical
 date: 2020-09-21
-tags: [ner, en, licensed]
+tags: [ner, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

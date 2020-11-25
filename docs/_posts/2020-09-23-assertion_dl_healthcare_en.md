@@ -8,7 +8,7 @@ reference embedding: healthcare_embeddings
 language: en
 repository: clinical/models
 date: 2020-09-23
-tags: [clinical,assertion,en]
+tags: [clinical,licensed,assertion,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

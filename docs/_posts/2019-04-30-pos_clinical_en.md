@@ -7,7 +7,7 @@ class: PerceptronModel
 language: en
 repository: clinical/models
 date: 2019-04-30
-tags: [clinical,pos,en]
+tags: [clinical, licensed, pos,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

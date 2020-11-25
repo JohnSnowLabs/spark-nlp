@@ -4,7 +4,7 @@ title: Classifier for Adverse Drug Events
 author: John Snow Labs
 name: classifierdl_biobert_ade
 date: 2020-09-30
-tags: [classifier, en, licensed]
+tags: [classifier, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python"

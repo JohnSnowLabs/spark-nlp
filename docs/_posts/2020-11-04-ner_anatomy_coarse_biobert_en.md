@@ -4,7 +4,7 @@ title: Detect Anatomical Structures (Single Entity - biobert)
 author: John Snow Labs
 name: ner_anatomy_coarse_biobert_en
 date: 2020-11-04
-tags: [ner, en, licensed]
+tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -4,7 +4,7 @@ title: Detect Problems, Tests and Treatments (ner_healthcare)
 author: John Snow Labs
 name: ner_healthcare_en
 date: 2020-03-26
-tags: [ner, en, licensed]
+tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

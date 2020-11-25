@@ -4,7 +4,7 @@ title: Detect Anatomical Regions
 author: John Snow Labs
 name: ner_anatomy_en
 date: 2020-04-22
-tags: [ner, en, licensed]
+tags: [ner, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

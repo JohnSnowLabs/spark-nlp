@@ -4,7 +4,7 @@ title: PICO Classifier
 author: John Snow Labs
 name: classifierdl_pico_biobert
 date: 2020-11-12
-tags: [classifier, en, licensed]
+tags: [classifier, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
