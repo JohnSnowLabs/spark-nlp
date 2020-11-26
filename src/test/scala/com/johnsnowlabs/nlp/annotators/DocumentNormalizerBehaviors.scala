@@ -24,7 +24,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
     val annotated =
       AnnotatorBuilder
-        .withDocumentNormalizer(scrapedTextDS, cleanUpPatterns = Array("<[^>]*>", "w3"))
+        .withDocumentNormalizer(scrapedTextDS, patterns = Array("<[^>]*>", "w3"))
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -48,6 +48,35 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
       .collect
       .flatMap { _.getSeq[Row](0) }
       .map { Annotation(_) }
+  }
+
+  def fixtureMultipleDocsWithExtractAction = new {
+    import SparkAccessor.spark.implicits._
+    val dataset =
+      SparkAccessor.spark.sparkContext
+        .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/webpage-samples")
+        .toDF("filename", "text")
+        .select("text")
+
+    val extractionPatterns = Array("<[^>]*>")
+
+    val annotated =
+      AnnotatorBuilder
+        .withDocumentNormalizer(
+          dataset = dataset,
+          action = "extract",
+          patterns = extractionPatterns)
+
+    val normalizedDoc: Array[Annotation] = annotated
+      .select("normalizedDocument")
+      .collect
+      .flatMap { _.getSeq[Row](0) }
+      .map { Annotation(_) }
+  }
+
+  "A DocumentNormalizer" should "annotate the correct number of sample documents with extract action" in {
+    val f = fixtureMultipleDocsWithExtractAction
+    //TODO add samples and tests for extraction tests
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes" in {
@@ -83,4 +112,6 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
     3 should equal (f.annotated.count)
   }
+
+
 }

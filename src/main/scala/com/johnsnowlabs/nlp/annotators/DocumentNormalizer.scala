@@ -53,11 +53,23 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
 
   def this() = this(Identifiable.randomUID("DOCUMENT_NORMALIZER"))
 
+  /** action to perform applying regex patterns on text
+    *
+    * @group param
+    **/
+  val action: Param[String] = new Param(this, "action", "action to perform applying regex patterns on text")
+
   /** normalization regex patterns which match will be removed from document
     *
     * @group Parameters
     **/
   val cleanupPatterns: StringArrayParam = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
+
+  /** replacement string to apply when regexes match
+    *
+    * @group param
+    **/
+  val replacement: Param[String] = new Param(this, "replacement", "replacement string to apply when regexes match")
 
   /** whether to convert strings to lowercase
     *
@@ -80,17 +92,31 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
     inputCols -> Array(AnnotatorType.DOCUMENT),
+    action -> "clean_up",
     cleanupPatterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
+    replacement -> SPACE_STR,
     lowercase -> false,
     removalPolicy -> "pretty_all",
     encoding -> "UTF-8"
   )
+
+  /** Action to perform on text. Default "clean_up".
+    *
+    * @group getParam
+    **/
+  def getAction: String = $(action)
 
   /** Regular expressions list for normalization.
     *
     * @group getParam
     **/
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
+
+  /** Replacement string to apply when regexes match
+    *
+    * @group getParam
+    **/
+  def getReplacement: String = $(replacement)
 
   /** Lowercase tokens, default false
     *
@@ -110,11 +136,23 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def getEncoding: String = $(encoding)
 
+  /** Action to perform on text. Default "clean_up".
+    *
+    * @group getParam
+    **/
+  def setAction(value: String): this.type = set(action, value)
+
   /** Regular expressions list for normalization.
     *
     * @group setParam
     **/
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
+
+  /** Replacement string to apply when regexes match
+    *
+    * @group getParam
+    **/
+  def setReplacement(value: String): this.type = set(replacement, value)
 
   /** Lower case tokens, default false
     *
@@ -136,31 +174,83 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def setEncoding(value: String): this.type = set(encoding, value)
 
-  private def withAllFormatter(text: String, replacement: String = EMPTY_STR): String ={
-    val patternsStr: String = $(cleanupPatterns).mkString(BREAK_STR)
-    text.replaceAll(patternsStr, replacement)
+  /** Applying document normalization without pretty formatting (removing multiple spaces)
+    *
+    **/
+  private def withAllFormatter(text: String,
+                               action: String,
+                               patterns: Array[String],
+                               replacement: String): String = {
+    action match {
+      case "clean_up" => {
+        val patternsStr: String = patterns.mkString(BREAK_STR)
+        text.replaceAll(patternsStr, replacement)
+      }
+      case "extract" => {
+        val patternsStr: String = patterns.mkString(BREAK_STR)
+        text.replaceAll(patternsStr, EMPTY_STR)
+      }
+      case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
+        "Please select either: clean_up or extract")
+    }
   }
 
   /** pattern to grab from text as token candidates. Defaults \\S+
     *
     **/
-  private def withPrettyAllFormatter(text: String): String = {
-    withAllFormatter(text).split("\\s+").map(_.trim).mkString(SPACE_STR)
+  private def withPrettyAllFormatter(text: String,
+                                     action: String,
+                                     patterns: Array[String],
+                                     replacement: String): String = {
+    action match {
+      case "clean_up" =>
+        withAllFormatter(text, action, patterns, replacement)
+          .split("\\s+").map(_.trim).mkString(SPACE_STR)
+      case "extract" =>
+        withAllFormatter(text, action, patterns, replacement)
+      case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
+        "Please select either: clean_up or extract")
+    }
+  }
+
+  /** Applying document normalization without pretty formatting (removing multiple spaces) retrieving first element only
+    *
+    **/
+  private def withFirstFormatter(text: String,
+                                 action: String,
+                                 patterns: Array[String],
+                                 replacement: String): String = {
+    action match {
+      case "clean_up" => {
+        val patternsStr = patterns.mkString(BREAK_STR)
+        text.replaceFirst(patternsStr, replacement)
+      }
+      case "extract" => {
+        val patternsStr = patterns.mkString(BREAK_STR)
+        text.replaceFirst(patternsStr, EMPTY_STR)
+      }
+      case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
+        "Please select either: clean_up or extract")
+    }
   }
 
   /** pattern to grab from text as token candidates. Defaults \\S+
     *
     **/
-  private def withFirstFormatter(text: String, replacement: String = EMPTY_STR): String = {
-    val patternsStr = $(cleanupPatterns).mkString(BREAK_STR)
-    text.replaceFirst(patternsStr, replacement)
-  }
+  private def withPrettyFirstFormatter(text: String,
+                                       action: String,
+                                       patterns: Array[String],
+                                       replacement: String): String = {
 
-  /** pattern to grab from text as token candidates. Defaults \\S+
-    *
-    **/
-  private def withPrettyFirstFormatter(text: String): String = {
-    withFirstFormatter(text).split("\\s+").map(_.trim).mkString(SPACE_STR)
+    action match {
+      case "clean_up" =>
+        withFirstFormatter(text, action, patterns, replacement)
+          .split("\\s+").map(_.trim).mkString(SPACE_STR)
+      case "extract" =>
+        withFirstFormatter(text, action, patterns, replacement)
+      case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
+        "Please select either: clean_up or extract")
+    }
   }
 
   /** Apply a given encoding to the processed text
@@ -191,27 +281,33 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     new String(text.getBytes(defaultCharset), encoding)
   }
 
-  /** Apply document normalization on text using patterns, policy, lowercase and encoding  parameters.
+  /** Apply document normalization on text using action, patterns, policy, lowercase and encoding parameters.
     *
     */
   private def applyDocumentNormalization(text: String,
+                                         action: String,
                                          patterns: Array[String],
+                                         replacement: String,
                                          policy: String,
                                          lowercase: Boolean,
                                          encoding: String): String = {
+    require(
+      !text.isEmpty &&
+      !action.isEmpty &&
+      patterns.length > 0 &&
+      !patterns(0).isEmpty &&
+      !policy.isEmpty)
 
-    require(!text.isEmpty && patterns.length > 0 && !patterns(0).isEmpty && !policy.isEmpty)
-
-    val cleaned: String = policy match {
-      case "all" => withAllFormatter(text)
-      case "pretty_all" => withPrettyAllFormatter(text)
-      case "first" => withFirstFormatter(text)
-      case "pretty_first" => withPrettyFirstFormatter(text)
+    val processedWithActionPatterns: String = policy match {
+      case "all" => withAllFormatter(text, action, patterns, replacement)
+      case "pretty_all" => withPrettyAllFormatter(text, action, patterns, replacement)
+      case "first" => withFirstFormatter(text, action, patterns, replacement)
+      case "pretty_first" => withPrettyFirstFormatter(text, action, patterns, replacement)
       case _ => throw new Exception("Unknown policy parameter in DocumentNormalizer annotation." +
         "Please select either: all, pretty_all, first, or pretty_first")
     }
 
-    val cased = if (lowercase) cleaned.toLowerCase else cleaned
+    val cased = if (lowercase) processedWithActionPatterns.toLowerCase else processedWithActionPatterns
 
     encoding match {
       case "UTF-8" => withEncoding(cased, StandardCharsets.UTF_8)
@@ -229,7 +325,14 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     annotations.
       map { annotation =>
         val cleanedDoc =
-          applyDocumentNormalization(annotation.result, getCleanupPatterns, getRemovalPolicy, getLowercase, getEncoding)
+          applyDocumentNormalization(
+            annotation.result,
+            getAction,
+            getCleanupPatterns,
+            getReplacement,
+            getRemovalPolicy,
+            getLowercase,
+            getEncoding)
 
         Annotation(
           DOCUMENT,
