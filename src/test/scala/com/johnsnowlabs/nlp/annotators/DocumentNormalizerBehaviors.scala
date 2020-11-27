@@ -1,117 +1,154 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, DataBuilder, SparkAccessor}
-import org.apache.spark.sql.{Dataset, Row}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, SparkAccessor}
+import org.apache.spark.sql.Row
 import org.scalatest.Matchers.{convertToAnyShouldWrapper, equal}
 import org.scalatest._
 
-import scala.io.Source
 import scala.language.reflectiveCalls
 
 trait DocumentNormalizerBehaviors extends FlatSpec {
 
   val DOC_NORMALIZER_BASE_DIR = "src/test/resources/doc-normalizer"
 
-  private def loadDocNormalizerDataset(path: String): Dataset[Row] = {
-    DataBuilder
-      .basicDataBuild(
-        Source.fromFile(path).getLines().mkString)
-  }
+  def fixtureFilesHTML(action: String, patterns: Array[String]) = {
 
-  def fixture = new {
-    val scrapedTextDS: Dataset[Row] =
-      loadDocNormalizerDataset(s"$DOC_NORMALIZER_BASE_DIR/scraped_text_small.txt")
-
-    val annotated =
-      AnnotatorBuilder
-        .withDocumentNormalizer(scrapedTextDS, patterns = Array("<[^>]*>", "w3"))
-
-    val normalizedDoc: Array[Annotation] = annotated
-      .select("normalizedDocument")
-      .collect
-      .flatMap { _.getSeq[Row](0) }
-      .map { Annotation(_) }
-  }
-
-  def fixtureMultipleDocs = new {
     import SparkAccessor.spark.implicits._
+
     val dataset =
       SparkAccessor.spark.sparkContext
-        .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/webpage-samples")
+        .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/html-docs")
         .toDF("filename", "text")
         .select("text")
-
-    val annotated = AnnotatorBuilder.withDocumentNormalizer(dataset)
-
-    val normalizedDoc: Array[Annotation] = annotated
-      .select("normalizedDocument")
-      .collect
-      .flatMap { _.getSeq[Row](0) }
-      .map { Annotation(_) }
-  }
-
-  def fixtureMultipleDocsWithExtractAction = new {
-    import SparkAccessor.spark.implicits._
-    val dataset =
-      SparkAccessor.spark.sparkContext
-        .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/webpage-samples")
-        .toDF("filename", "text")
-        .select("text")
-
-    val extractionPatterns = Array("<[^>]*>")
 
     val annotated =
       AnnotatorBuilder
         .withDocumentNormalizer(
           dataset = dataset,
-          action = "extract",
-          patterns = extractionPatterns)
+          action = action,
+          actionPatterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
       .collect
       .flatMap { _.getSeq[Row](0) }
       .map { Annotation(_) }
+
+    normalizedDoc
   }
 
-  "A DocumentNormalizer" should "annotate the correct number of sample documents with extract action" in {
-    val f = fixtureMultipleDocsWithExtractAction
-    //TODO add samples and tests for extraction tests
+  def fixtureFilesXML(action: String, patterns: Array[String]) = {
+
+    import SparkAccessor.spark.implicits._
+
+    val dataset =
+      SparkAccessor.spark.sparkContext
+        .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/xml-docs")
+        .toDF("filename", "text")
+        .select("text")
+
+    val annotated = AnnotatorBuilder.withDocumentNormalizer(dataset = dataset, actionPatterns = Array("<[^>]*>"))
+
+    val normalizedDoc: Array[Annotation] = annotated
+      .select("normalizedDocument")
+      .collect
+      .flatMap { _.getSeq[Row](0) }
+      .map { Annotation(_) }
+
+    normalizedDoc
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes" in {
-    val f = fixture
+  "A DocumentNormalizer" should "annotate with the correct indexes removing all tags" in {
 
-    0 should equal (f.normalizedDoc.head.begin)
+    val action = "clean_up"
+    val patterns = Array("<[^>]*>") // all tags
 
-    57 should equal (f.normalizedDoc.head.end)
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+
+    674 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct metadata" in {
-    val f = fixture
+  "A DocumentNormalizer" should "annotate with the correct indexes removing all specified p tags content" in {
 
-    Map("sentence" -> "0") should equal (f.normalizedDoc.head.metadata)
+    val action = "clean_up"
+    val tag = "p"
+    val patterns = Array("<"+tag+"(.+?)>(.+?)<\\/"+tag+">")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+    605 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate multiple tagged documents with the correct indexes" in {
-    val f = fixtureMultipleDocs
+  "A DocumentNormalizer" should "annotate with the correct indexes removing all specified h1 tags content" in {
 
-    0 should equal (f.normalizedDoc.head.begin)
+    val action = "clean_up"
+    val tag = "h1"
+    val patterns = Array("<"+tag+"(.*?)>(.*?)<\\/"+tag+">")
 
-    13410 should equal (f.normalizedDoc.head.end)
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+    1140 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate multiple tagged documents with the correct metadata" in {
-    val f = fixtureMultipleDocs
+  "A DocumentNormalizer" should "annotate with the correct indexes removing emails" in {
 
-    Map("sentence" -> "0") should equal (f.normalizedDoc.head.metadata)
+    val action = "clean_up"
+    val patterns = Array("([^.@\\s]+)(\\.[^.@\\s]+)*@([^.@\\s]+\\.)+([^.@\\s]+)")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+    1212 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate the correct number of sample documents" in {
-    val f = fixtureMultipleDocs
+  "A DocumentNormalizer" should "annotate with the correct indexes removing ages" in {
 
-    3 should equal (f.annotated.count)
+    val action = "clean_up"
+    val patterns = Array("\\d+(?=[\\s]?year)", "(aged)[\\s]?\\d+")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.last.begin)
+    409 should equal (f.last.end)
   }
 
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting all a tags content" in {
 
+    val action = "extract"
+    val tag = "a"
+    val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+    869 should equal (f.head.end)
+  }
+
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting all div tags content" in {
+
+    val action = "extract"
+    val tag = "div"
+    val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+    925 should equal (f.head.end)
+  }
+
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting all b tags content" in {
+
+    val action = "extract"
+    val tag = "b"
+    val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.head.begin)
+    674 should equal (f.head.end)
+  }
 }
