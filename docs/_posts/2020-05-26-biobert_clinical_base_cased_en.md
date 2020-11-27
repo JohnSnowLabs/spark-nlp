@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Clinical Base Cased
+title: Biobert Embeddings (Clinical Base Cased)
 author: John Snow Labs
 name: biobert_clinical_base_cased
 class: BertEmbeddings

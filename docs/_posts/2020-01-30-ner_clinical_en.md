@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Ner DL Model Clinical
+title: Detect Problem, Test and Treatment (ner_clinical_en)
 author: John Snow Labs
 name: ner_clinical_en
 date: 2020-01-30
-tags: [licensed, ner, en]
+tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for clinical terms. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.
 
 ## Predicted Entities 
-PROBLEM, TEST, TREATMENT.
+``PROBLEM``, ``TEST``, ``TREATMENT``.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}

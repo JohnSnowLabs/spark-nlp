@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Cancer Genetics Entity Extracter
+title: Detect Cancer Genetics Entities
 author: John Snow Labs
 name: ner_cancer_genetics
 class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-04-22
-tags: [clinical,ner,en]
+tags: [clinical,licensed,ner,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

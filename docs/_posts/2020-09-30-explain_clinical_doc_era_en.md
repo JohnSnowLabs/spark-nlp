@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Extract clinical entities, assign assertion, and find relations.
+title: Detect Clinical Entities, Assign Assertion and Find Relations.
 author: John Snow Labs
 name: explain_clinical_doc_era
 date: 2020-09-30
-tags: [pipeline, en, licensed]
+tags: [pipeline, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

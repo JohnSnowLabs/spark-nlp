@@ -4,7 +4,7 @@ title: Detect Cancer Genetics
 author: John Snow Labs
 name: ner_bionlp_en
 date: 2020-01-30
-tags: [licensed, ner, en]
+tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
