@@ -1,22 +1,22 @@
 ---
 layout: model
-title: NerDLModel Drugs
+title: Detect Drugs 
 author: John Snow Labs
 name: ner_drugs_en
 date: 2020-03-25
-tags: [ner, en, licensed]
+tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
+{:.h2_title}
 ## Description
 
 Pretrained named entity recognition deep learning model for Drugs. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 {:.h2_title}
 ## Predicted Entities 
- - DrugChem
+ ``DrugChem``
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

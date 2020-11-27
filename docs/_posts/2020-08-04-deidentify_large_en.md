@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Deidentify (Large)
+title: Deidentify PHI (Large)
 author: John Snow Labs
 name: deidentify_large
 date: 2020-08-04
-tags: [deidentify, en, licensed]
+tags: [deidentify, en, clinical, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

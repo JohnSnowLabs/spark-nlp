@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Detect chemical compounds and genes
+title: Detect Chemical Compounds and Genes
 author: John Snow Labs
 name: ner_chemprot_clinical
 date: 2020-09-21
-tags: [ner, en, licensed]
+tags: [ner, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -13,7 +13,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This is a pre-trained model that can be used to automatically detect all chemical compounds and gene mentions from medical texts. 
 ## Predicted Entities: 
-CHEMICAL, GENE-Y, GENE-N
+`CHEMICAL`, `GENE-Y`, `GENE-N`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CHEMPROT_CLINICAL/){:.button.button-orange}
@@ -27,17 +27,26 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
 clinical_ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
+...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 results = light_pipeline.fullAnnotate("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.")
     
+```
+
+```scala
+...
+val ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings") 
+  .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+val result = pipeline.fit(Seq.empty["Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."].toDS.toDF("text")).transform(data)
+
 ```
 </div>
 

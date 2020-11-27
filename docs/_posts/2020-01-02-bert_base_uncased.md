@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Base Uncased
+title: BERT Embeddings (Base Uncased)
 author: John Snow Labs
 name: bert_base_uncased
 date: 2020-01-02

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Large Uncased
+title: BERT Embeddings (Large Uncased)
 author: John Snow Labs
 name: bert_large_uncased
 date: 2020-01-02
