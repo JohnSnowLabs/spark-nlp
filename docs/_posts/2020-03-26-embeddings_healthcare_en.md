@@ -7,7 +7,7 @@ class: WordEmbeddingsModel
 language: en
 repository: clinical/models
 date: 2020-03-26
-tags: [clinical,embeddings,en]
+tags: [licensed,clinical,embeddings,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

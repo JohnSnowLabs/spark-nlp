@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT Discharge
+title: BioBERT Sentence Embeddings (Discharge)
 author: John Snow Labs
 name: sent_biobert_discharge_base_cased
 date: 2020-09-19

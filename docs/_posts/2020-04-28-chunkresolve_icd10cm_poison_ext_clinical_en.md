@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Icd10cm Poison Entity Resolver
+title: ICD10CM Poison Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_poison_ext_clinical
 class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-04-28
-tags: [clinical,entity_resolution,en]
+tags: [clinical,licensed,entity_resolution,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 ## Predicted Entities 
-ICD10-CM Codes and their normalized definition with *clinical_embeddings*.
+ICD10-CM Codes and their normalized definition with ``clinical_embeddings``.
 
 {:.btn-box}
 
@@ -32,11 +32,12 @@ ICD10-CM Codes and their normalized definition with *clinical_embeddings*.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
+...
 model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")\
 	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("icd10_code")
-...
-pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, entity_resolver])
+    
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, model])
 
 light_pipeline  = LightPipeline(pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
@@ -45,9 +46,14 @@ light_pipeline.fullAnnotate("""The patient is a 5-month-old infant who presented
 ```
 
 ```scala
+...
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("icd10_code")
+    
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, model))
+
+val result = pipeline.fit(Seq.empty["""The patient is a 5-month-old infant who presented initially on Monday with a cold, cough, and runny nose for 2 days. She had no difficulty breathing and her cough was described as dry and hacky. At that time, physical exam showed a right TM, which was red. Left TM was okay. She was fairly congested but looked happy and playful. She was started on Amoxil and Aldex and we told to recheck in 2 weeks to recheck her ear. Mom returned to clinic again today because she got much worse overnight. She was having difficulty breathing. She was much more congested and her appetite had decreased significantly today. She also spiked a temperature yesterday of 102.6 and always having trouble sleeping secondary to congestion."""].toDS.toDF("text")).transform(data)
 ```
 </div>
 

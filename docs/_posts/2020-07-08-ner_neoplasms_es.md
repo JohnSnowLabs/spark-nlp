@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Neoplasms NER
+title: Detect Neoplasms 
 author: John Snow Labs
 name: ner_neoplasms
 class: NerDLModel
 language: es
 repository: clinical/models
 date: 2020-07-08
-tags: [clinical,ner,es]
+tags: [clinical,licensed,ner,es]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -19,7 +19,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 Neoplasms NER is a Named Entity Recognition model that annotates text to find references to tumors. The only entity it annotates is MalignantNeoplasm. Neoplasms NER is trained with the 'embeddings_scielowiki_300d' word embeddings model, so be sure to use the same embeddings in the pipeline.
 
 ## Predicted Entities 
-MORFOLOGIA_NEOPLASIA
+``MORFOLOGIA_NEOPLASIA``
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

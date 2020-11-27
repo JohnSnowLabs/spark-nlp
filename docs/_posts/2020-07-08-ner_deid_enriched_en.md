@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Detech PHI for Deidentification (Enriched)
+title: Detect PHI for Deidentification (Enriched)
 author: John Snow Labs
 name: ner_deid_enriched
 class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-07-08
-tags: [clinical,ner,deidentify,en]
+tags: [clinical,licensed,ner,deidentify,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -7,7 +7,7 @@ class: RelationExtractionModel
 language: en
 repository: clinical/models
 date: 2020-09-24
-tags: [clinical,relation extraction,en]
+tags: [clinical,licensed,relation extraction,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
