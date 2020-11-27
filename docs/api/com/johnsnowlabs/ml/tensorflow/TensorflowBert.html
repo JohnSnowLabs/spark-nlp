@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TensorflowBert - Spark NLP 2.6.3 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert</title>
-          <meta name="description" content="TensorflowBert - Spark NLP 2.6.3 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
-          <meta name="keywords" content="TensorflowBert Spark NLP 2.6.3 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
+          <title>TensorflowBert - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert</title>
+          <meta name="description" content="TensorflowBert - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
+          <meta name="keywords" content="TensorflowBert Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBert" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -203,7 +203,7 @@ Sources:</p></div><div class="toggleContainer block">
     </span>
       
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#calculateSentenceEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="calculateSentenceEmbeddings(tokens:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="calculateSentenceEmbeddings(tokens:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int,maxSentenceLength:Int,isLong:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
       <a id="calculateSentenceEmbeddings(Seq[WordpieceTokenizedSentence],Seq[Sentence],Int,Int,Boolean):Seq[Annotation]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -211,10 +211,10 @@ Sources:</p></div><div class="toggleContainer block">
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">calculateSentenceEmbeddings</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">calculateSentenceEmbeddings</span><span class="params">(<span name="tokens">tokens: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>, <span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="isLong">isLong: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@calculateSentenceEmbeddings(tokens:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@calculateSentenceEmbeddings(tokens:Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence],sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],batchSize:Int,maxSentenceLength:Int,isLong:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -465,6 +465,23 @@ Sources:</p></div><div class="toggleContainer block">
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@tagSentence(batch:Seq[Array[Int]]):Array[Array[Float]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBert#tagSentenceSBert" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tagSentenceSBert(batch:Seq[Array[Int]]):Array[Array[Float]]"></a>
+      <a id="tagSentenceSBert(Seq[Array[Int]]):Array[Array[Float]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tagSentenceSBert</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowBert@tagSentenceSBert(batch:Seq[Array[Int]]):Array[Array[Float]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
