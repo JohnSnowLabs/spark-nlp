@@ -181,15 +181,10 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                action: String,
                                patterns: Array[String],
                                replacement: String): String = {
+    val patternsStr: String = patterns.mkString(BREAK_STR)
     action match {
-      case "clean_up" => {
-        val patternsStr: String = patterns.mkString(BREAK_STR)
-        text.replaceAll(patternsStr, replacement)
-      }
-      case "extract" => {
-        val patternsStr: String = patterns.mkString(BREAK_STR)
-        text.replaceAll(patternsStr, EMPTY_STR)
-      }
+      case "clean_up" => text.replaceAll(patternsStr, replacement)
+      case "extract" => text.replaceAll(patternsStr, EMPTY_STR)
       case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
         "Please select either: clean_up or extract")
     }
@@ -202,15 +197,8 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                      action: String,
                                      patterns: Array[String],
                                      replacement: String): String = {
-    action match {
-      case "clean_up" =>
-        withAllFormatter(text, action, patterns, replacement)
-          .split("\\s+").map(_.trim).mkString(SPACE_STR)
-      case "extract" =>
-        withAllFormatter(text, action, patterns, replacement)
-      case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
-        "Please select either: clean_up or extract")
-    }
+    withAllFormatter(text, action, patterns, replacement)
+      .split("\\s+").map(_.trim).mkString(SPACE_STR)
   }
 
   /** Applying document normalization without pretty formatting (removing multiple spaces) retrieving first element only
@@ -220,15 +208,10 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                  action: String,
                                  patterns: Array[String],
                                  replacement: String): String = {
+    val patternsStr = patterns.mkString(BREAK_STR)
     action match {
-      case "clean_up" => {
-        val patternsStr = patterns.mkString(BREAK_STR)
-        text.replaceFirst(patternsStr, replacement)
-      }
-      case "extract" => {
-        val patternsStr = patterns.mkString(BREAK_STR)
-        text.replaceFirst(patternsStr, EMPTY_STR)
-      }
+      case "clean_up" => text.replaceFirst(patternsStr, replacement)
+      case "extract" => text.replaceFirst(patternsStr, EMPTY_STR)
       case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
         "Please select either: clean_up or extract")
     }
@@ -241,16 +224,8 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                        action: String,
                                        patterns: Array[String],
                                        replacement: String): String = {
-
-    action match {
-      case "clean_up" =>
-        withFirstFormatter(text, action, patterns, replacement)
-          .split("\\s+").map(_.trim).mkString(SPACE_STR)
-      case "extract" =>
-        withFirstFormatter(text, action, patterns, replacement)
-      case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
-        "Please select either: clean_up or extract")
-    }
+    withFirstFormatter(text, action, patterns, replacement)
+      .split("\\s+").map(_.trim).mkString(SPACE_STR)
   }
 
   /** Apply a given encoding to the processed text
@@ -291,12 +266,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                          policy: String,
                                          lowercase: Boolean,
                                          encoding: String): String = {
-    require(
-      !text.isEmpty &&
-      !action.isEmpty &&
-      patterns.length > 0 &&
-      !patterns(0).isEmpty &&
-      !policy.isEmpty)
+    require(!text.isEmpty && !action.isEmpty && patterns.length > 0 && !patterns(0).isEmpty && !policy.isEmpty)
 
     val processedWithActionPatterns: String = policy match {
       case "all" => withAllFormatter(text, action, patterns, replacement)
@@ -307,7 +277,11 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         "Please select either: all, pretty_all, first, or pretty_first")
     }
 
-    val cased = if (lowercase) processedWithActionPatterns.toLowerCase else processedWithActionPatterns
+    val cased =
+      if (lowercase)
+        processedWithActionPatterns.toLowerCase
+      else
+        processedWithActionPatterns
 
     encoding match {
       case "UTF-8" => withEncoding(cased, StandardCharsets.UTF_8)

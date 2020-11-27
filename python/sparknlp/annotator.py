@@ -438,10 +438,20 @@ class Chunker(AnnotatorModel):
 
 class DocumentNormalizer(AnnotatorModel):
 
+    action = Param(Params._dummy(),
+                   "action",
+                   "action to perform applying regex patterns on text",
+                   typeConverter=TypeConverters.toString)
+
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",
                             "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
                             typeConverter=TypeConverters.toListString)
+
+    replacement = Param(Params._dummy(),
+                        "replacement",
+                        "replacement string to apply when regexes match",
+                        typeConverter=TypeConverters.toString)
 
     lowercase = Param(Params._dummy(),
                       "lowercase",
@@ -462,17 +472,25 @@ class DocumentNormalizer(AnnotatorModel):
     def __init__(self):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
         self._setDefault(
+            action="clean_up",
             cleanupPatterns=["<[^>]*>"],
+            replacement=" ",
             lowercase=False,
             removalPolicy="pretty_all",
             encoding="UTF-8"
         )
 
+    def setAction(self, value):
+        return self._set(action=value)
+
     def setCleanupPatterns(self, value):
         return self._set(cleanupPatterns=value)
 
-    def setLowerCase(self, value):
-        return self._set(lowerCase=value)
+    def setReplacement(self, value):
+        return self._set(replacement=value)
+
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
 
     def setRemovalPolicy(self, value):
         return self._set(removalPolicy=value)
