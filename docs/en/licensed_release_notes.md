@@ -9,7 +9,7 @@ modify_date: "2020-11-26"
 
 <div class="h3-box" markdown="1">
 
-###2.7.1
+### 2.7.1
 
 We are glad to announce that Spark NLP for Healthcare 2.7.1 has been released !
 
@@ -53,15 +53,13 @@ Code sample:
 
 (after getting the chunk from ChunkConverter)
  
-c2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 ```python 
+c2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
-```
 
-```python
 snomed_ct_resolver = SentenceEntityResolverModel
  .pretrained("sbiobertresolve_snomed_findings","en", "clinical/models") \
  .setInputCols(["ner_chunk", "sbert_embeddings"]) \
@@ -178,7 +176,7 @@ ICD10PCS: `biobertresolve_icd10pcs`
 LOINC: `biobertresolve_loinc`  
 SNOMED_CT (findings): `biobertresolve_snomed_findings`  
 SNOMED_INT (clinical_findings): `biobertresolve_snomed_findings_int`    
-RXNORM (branded and clinical drugs): `biobertresolve_rxnorm_bdcd`  git 
+RXNORM (branded and clinical drugs): `biobertresolve_rxnorm_bdcd`  
 
 Example: 
 ```python
