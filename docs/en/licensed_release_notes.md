@@ -9,7 +9,7 @@ modify_date: "2020-11-26"
 
 <div class="h3-box" markdown="1">
 
-###2.7.1
+### 2.7.1
 
 We are glad to announce that Spark NLP for Healthcare 2.7.1 has been released !
 
