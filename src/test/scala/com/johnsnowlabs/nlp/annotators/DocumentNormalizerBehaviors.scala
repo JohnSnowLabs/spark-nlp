@@ -11,7 +11,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   val DOC_NORMALIZER_BASE_DIR = "src/test/resources/doc-normalizer"
 
-  def fixtureFilesHTML(action: String, patterns: Array[String]) = {
+  def fixtureFilesHTML(action: String, patterns: Array[String], replacement: String = " ") = {
 
     import SparkAccessor.spark.implicits._
 
@@ -26,7 +26,10 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
         .withDocumentNormalizer(
           dataset = dataset,
           action = action,
-          actionPatterns = patterns)
+          actionPatterns = patterns,
+          replacement = replacement)
+
+    annotated.select("normalizedDocument").show(false)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -61,13 +64,13 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
   "A DocumentNormalizer" should "annotate with the correct indexes removing all tags" in {
 
     val action = "clean_up"
-    val patterns = Array("<[^>]*>") // all tags
+    val patterns = Array("<[^>]*>")
 
     val f = fixtureFilesHTML(action, patterns)
 
     0 should equal (f.head.begin)
 
-    674 should equal (f.head.end)
+    675 should equal (f.head.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes removing all specified p tags content" in {
@@ -94,15 +97,28 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     1140 should equal (f.head.end)
   }
 
+  "A DocumentNormalizer" should "annotate with the correct indexes removing all specified br tags content" in {
+
+    val action = "clean_up"
+    val tag = "br"
+    val patterns = Array("<"+tag+"(.*?)>")
+
+    val f = fixtureFilesHTML(action, patterns)
+
+    0 should equal (f.last.begin)
+    409 should equal (f.last.end)
+  }
+
   "A DocumentNormalizer" should "annotate with the correct indexes removing emails" in {
 
     val action = "clean_up"
     val patterns = Array("([^.@\\s]+)(\\.[^.@\\s]+)*@([^.@\\s]+\\.)+([^.@\\s]+)")
+    val replacement = "***OBFUSCATED PII***"
 
-    val f = fixtureFilesHTML(action, patterns)
+    val f = fixtureFilesHTML(action, patterns, replacement)
 
-    0 should equal (f.head.begin)
-    1212 should equal (f.head.end)
+    0 should equal (f.last.begin)
+    410 should equal (f.last.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes removing ages" in {
@@ -113,42 +129,42 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     val f = fixtureFilesHTML(action, patterns)
 
     0 should equal (f.last.begin)
-    409 should equal (f.last.end)
+    399 should equal (f.last.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes extracting all a tags content" in {
 
-    val action = "extract"
+    val action = "clean_up"
     val tag = "a"
     val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
 
     val f = fixtureFilesHTML(action, patterns)
 
     0 should equal (f.head.begin)
-    869 should equal (f.head.end)
+    871 should equal (f.head.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes extracting all div tags content" in {
 
-    val action = "extract"
+    val action = "clean_up"
     val tag = "div"
     val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
 
     val f = fixtureFilesHTML(action, patterns)
 
     0 should equal (f.head.begin)
-    925 should equal (f.head.end)
+    926 should equal (f.head.end)
   }
 
   "A DocumentNormalizer" should "annotate with the correct indexes extracting all b tags content" in {
 
-    val action = "extract"
+    val action = "clean_up"
     val tag = "b"
     val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
 
     val f = fixtureFilesHTML(action, patterns)
 
     0 should equal (f.head.begin)
-    674 should equal (f.head.end)
+    675 should equal (f.head.end)
   }
 }
