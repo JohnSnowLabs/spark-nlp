@@ -181,10 +181,16 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                action: String,
                                patterns: Array[String],
                                replacement: String): String = {
-    val patternsStr: String = patterns.mkString(BREAK_STR)
     action match {
-      case "clean_up" => text.replaceAll(patternsStr, replacement)
-      case "extract" => text.replaceAll(patternsStr, EMPTY_STR)
+      case "clean_up" =>
+        val patternsStr: String = patterns.mkString(BREAK_STR)
+        text.replaceAll(patternsStr, replacement)
+      case "extract" => {
+        import scala.xml.XML
+        val htmlXml = XML.loadString(text)
+        val textareaContents = (htmlXml \\ patterns.mkString).text
+        textareaContents
+      }
       case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
         "Please select either: clean_up or extract")
     }
