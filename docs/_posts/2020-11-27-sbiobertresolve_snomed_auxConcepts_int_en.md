@@ -1,14 +1,14 @@
 ---
 layout: model
-title: Sentence Entity Resolver for Snomed Aux Concepts (using sbiobert_base_cased_mli embeddings)
+title: Sentence Entity Resolver for Snomed Aux Concepts (int) (using sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
-name: sbiobertresolve_snomed_auxConcepts
+name: sbiobertresolve_snomed_auxConcepts_int
 language: en
 repository: clinical/models
 date: 2020-11-27
 tags: [clinical,entity_resolution,en]
 article_header:
-type: cover
+    type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -19,7 +19,7 @@ This model maps extracted medical entities to Snomed codes using chunk embedding
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_snomed_auxConcepts_en_2.6.4_2.4_1606235765319.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_snomed_auxConcepts_int_en_2.6.4_2.4_1606235764318.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
 ## How to use 
@@ -35,7 +35,7 @@ sbert_embedder = BertSentenceEmbeddings\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
  
-snomed_ct_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_auxConcepts","en", "clinical/models") \
+snomed_ct_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_auxConcepts_int","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
@@ -59,7 +59,7 @@ results = model.transform(data)
 
 {:.table-model}
 |---------------|---------------------|
-| Name:         | sbiobertresolve_snomed_auxConcepts        |
+| Name:         | sbiobertresolve_snomed_auxConcepts_int        |
 | Type:          | SentenceEntityResolverModel     |
 | Compatibility: | Spark NLP 2.6.4 +               |
 | License:       | Licensed            |
