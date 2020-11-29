@@ -64,6 +64,32 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     normalizedDoc
   }
 
+  def fixtureFilesJSON(action: String, patterns: Array[String]) = {
+
+    import SparkAccessor.spark.implicits._
+
+    val dataset =
+      SparkAccessor.spark.sparkContext
+        .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/json-docs")
+        .toDF("filename", "text")
+        .select("text")
+
+    val annotated =
+      AnnotatorBuilder
+        .withDocumentNormalizer(
+          dataset = dataset,
+          action = action,
+          actionPatterns = patterns)
+
+    val normalizedDoc: Array[Annotation] = annotated
+      .select("normalizedDocument")
+      .collect
+      .flatMap { _.getSeq[Row](0) }
+      .map { Annotation(_) }
+
+    normalizedDoc
+  }
+
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all HTML tags" in {
 
     val action = "clean_up"
@@ -241,5 +267,17 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
     0 should equal (f.head.begin)
     59 should equal (f.head.end)
+  }
+
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up JSON author field contents" in {
+
+    val action = "clean_up"
+    val tag = "author"
+    val patterns = Array(s""""$tag": "([^"]+)",""")
+
+    val f = fixtureFilesJSON(action, patterns)
+
+    0 should equal (f.head.begin)
+    396 should equal (f.head.end)
   }
 }
