@@ -2,11 +2,13 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.nio.charset.{Charset, StandardCharsets}
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import javax.sound.sampled.AudioFormat.Encoding
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
+import scala.util.parsing.json.JSONObject
+import scala.xml.XML
 
 
 /**
@@ -186,7 +188,6 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         val patternsStr: String = patterns.mkString(BREAK_STR)
         text.replaceAll(patternsStr, replacement)
       case "extract" => {
-        import scala.xml.XML
         val htmlXml = XML.loadString(text)
         val textareaContents = (htmlXml \\ patterns.mkString).text
         textareaContents
@@ -214,10 +215,15 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                  action: String,
                                  patterns: Array[String],
                                  replacement: String): String = {
-    val patternsStr = patterns.mkString(BREAK_STR)
     action match {
-      case "clean_up" => text.replaceFirst(patternsStr, replacement)
-      case "extract" => text.replaceFirst(patternsStr, EMPTY_STR)
+      case "clean_up" =>
+        val patternsStr: String = patterns.mkString(BREAK_STR)
+        text.replaceFirst(patternsStr, replacement)
+      case "extract" => {
+        val htmlXml = XML.loadString(text)
+        val textareaContents = htmlXml \\ patterns.mkString
+        textareaContents.head.mkString
+      }
       case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
         "Please select either: clean_up or extract")
     }
