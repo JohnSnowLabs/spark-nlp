@@ -28,6 +28,7 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
   private val inputKey = "inputs:0"
   private val outputKey = "output/Softmax:0"
+  // LD models from 2.7.0 must be 150 sequences
   private val maxSentenceLength = 150
 
   def cleanText(docs: List[String]): List[String] = {
@@ -100,7 +101,6 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
     if (coalesceSentences){
       val avgScores = outputs.flatMap(x=>x.toList).groupBy(_._2).mapValues(_.map(_._1).sum/outputs.length)
-      //      val normalized = avgScores.mapValues(x=>x/avgScores.values.sum)
       val maxResult = avgScores.maxBy(_._2)
       val finalLabel = if(maxResult._2 >= threshold) maxResult._1 else thresholdLabel
 
