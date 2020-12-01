@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Biobert Pmc Base Cased
+title: Biobert Embeddings (Pmc Base Cased)
 author: John Snow Labs
 name: biobert_pmc_base_cased
 class: BertEmbeddings
 language: en
 repository: clinical/models
 date: 2020-05-26
-tags: [clinical,embeddings,en]
+tags: [clinical,licensed,embeddings,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

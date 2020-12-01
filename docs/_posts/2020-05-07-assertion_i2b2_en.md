@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Assertion DL I2B2
+title: Detect Assertion Status (DL I2B2)
 author: John Snow Labs
 name: assertion_i2b2
 class: AssertionDLModel
 language: en
 repository: clinical/models
 date: 2020-05-07
-tags: [clinical,assertion,en]
+tags: [clinical,licensed,assertion,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

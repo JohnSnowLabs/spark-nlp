@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Biobert Pubmed Pmc Base Cased
+title: Biobert Embeddings (Pubmed Pmc Base Cased)
 author: John Snow Labs
 name: biobert_pubmed_pmc_base_cased
 class: BertEmbeddings

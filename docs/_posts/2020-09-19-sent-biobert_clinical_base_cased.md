@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT Clinical
+title: BioBERT Sentence Embeddings (Clinical)
 author: John Snow Labs
 name: sent_biobert_clinical_base_cased
 date: 2020-09-19
