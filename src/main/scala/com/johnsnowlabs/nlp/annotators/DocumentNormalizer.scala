@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-import scala.util.parsing.json.JSONObject
 import scala.xml.XML
 
 
@@ -65,7 +64,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group Parameters
     **/
-  val cleanupPatterns: StringArrayParam = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
+  val patterns: StringArrayParam = new StringArrayParam(this, "patterns", "normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
 
   /** replacement string to apply when regexes match
     *
@@ -83,7 +82,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group param
     **/
-  val removalPolicy: Param[String] = new Param(this, "removalPolicy", "removalPolicy to remove pattern from text")
+  val policy: Param[String] = new Param(this, "policy", "removalPolicy to remove pattern from text")
 
   /** file encoding to apply on normalized documents
     *
@@ -94,15 +93,15 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
     inputCols -> Array(AnnotatorType.DOCUMENT),
-    action -> "clean_up",
-    cleanupPatterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
+    action -> "clean",
+    patterns -> Array(GENERIC_TAGS_REMOVAL_PATTERN),
     replacement -> SPACE_STR,
     lowercase -> false,
-    removalPolicy -> "pretty_all",
+    policy -> "pretty_all",
     encoding -> "UTF-8"
   )
 
-  /** Action to perform on text. Default "clean_up".
+  /** Action to perform on text. Default "clean".
     *
     * @group getParam
     **/
@@ -112,7 +111,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group getParam
     **/
-  def getCleanupPatterns: Array[String] = $(cleanupPatterns)
+  def getPatterns: Array[String] = $(patterns)
 
   /** Replacement string to apply when regexes match
     *
@@ -130,7 +129,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group getParam
     **/
-  def getRemovalPolicy: String = $(removalPolicy)
+  def getPolicy: String = $(policy)
 
   /** Encoding to apply to normalized documents.
     *
@@ -138,7 +137,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     **/
   def getEncoding: String = $(encoding)
 
-  /** Action to perform on text. Default "clean_up".
+  /** Action to perform on text. Default "clean".
     *
     * @group getParam
     **/
@@ -148,7 +147,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group setParam
     **/
-  def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
+  def setPatterns(value: Array[String]): this.type = set(patterns, value)
 
   /** Replacement string to apply when regexes match
     *
@@ -167,7 +166,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     *
     * @group setParam
     **/
-  def setRemovalPolicy(value: String): this.type = set(removalPolicy, value)
+  def setPolicy(value: String): this.type = set(policy, value)
 
   /** Encoding to apply. Default is UTF-8.
     * Valid encoding are values are: UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE
@@ -184,7 +183,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                patterns: Array[String],
                                replacement: String): String = {
     action match {
-      case "clean_up" =>
+      case "clean" =>
         val patternsStr: String = patterns.mkString(BREAK_STR)
         text.replaceAll(patternsStr, replacement)
       case "extract" => {
@@ -193,7 +192,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         textareaContents
       }
       case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
-        "Please select either: clean_up or extract")
+        "Please select either: clean or extract")
     }
   }
 
@@ -216,7 +215,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
                                  patterns: Array[String],
                                  replacement: String): String = {
     action match {
-      case "clean_up" =>
+      case "clean" =>
         val patternsStr: String = patterns.mkString(BREAK_STR)
         text.replaceFirst(patternsStr, replacement)
       case "extract" => {
@@ -225,7 +224,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         textareaContents.head.mkString
       }
       case _ => throw new Exception("Unknown action parameter in DocumentNormalizer annotation." +
-        "Please select either: clean_up or extract")
+        "Please select either: clean or extract")
     }
   }
 
@@ -314,9 +313,9 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
           applyDocumentNormalization(
             annotation.result,
             getAction,
-            getCleanupPatterns,
+            getPatterns,
             getReplacement,
-            getRemovalPolicy,
+            getPolicy,
             getLowercase,
             getEncoding)
 

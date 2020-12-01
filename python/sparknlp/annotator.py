@@ -443,8 +443,8 @@ class DocumentNormalizer(AnnotatorModel):
                    "action to perform applying regex patterns on text",
                    typeConverter=TypeConverters.toString)
 
-    cleanupPatterns = Param(Params._dummy(),
-                            "cleanupPatterns",
+    patterns = Param(Params._dummy(),
+                            "patterns",
                             "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
                             typeConverter=TypeConverters.toListString)
 
@@ -458,9 +458,9 @@ class DocumentNormalizer(AnnotatorModel):
                       "whether to convert strings to lowercase",
                       typeConverter=TypeConverters.toBoolean)
 
-    removalPolicy = Param(Params._dummy(),
-                          "removalPolicy",
-                          "removalPolicy to remove pattern from text",
+    policy = Param(Params._dummy(),
+                          "policy",
+                          "policy to remove pattern from text",
                           typeConverter=TypeConverters.toString)
 
     encoding = Param(Params._dummy(),
@@ -473,18 +473,18 @@ class DocumentNormalizer(AnnotatorModel):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
         self._setDefault(
             action="clean_up",
-            cleanupPatterns=["<[^>]*>"],
+            patterns=["<[^>]*>"],
             replacement=" ",
             lowercase=False,
-            removalPolicy="pretty_all",
+            policy="pretty_all",
             encoding="UTF-8"
         )
 
     def setAction(self, value):
         return self._set(action=value)
 
-    def setCleanupPatterns(self, value):
-        return self._set(cleanupPatterns=value)
+    def setPatterns(self, value):
+        return self._set(patterns=value)
 
     def setReplacement(self, value):
         return self._set(replacement=value)
@@ -492,8 +492,8 @@ class DocumentNormalizer(AnnotatorModel):
     def setLowercase(self, value):
         return self._set(lowercase=value)
 
-    def setRemovalPolicy(self, value):
-        return self._set(removalPolicy=value)
+    def setPolicy(self, value):
+        return self._set(policy=value)
 
     def setEncoding(self, value):
         return self._set(encoding=value)
