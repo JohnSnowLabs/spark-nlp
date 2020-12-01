@@ -17,7 +17,6 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
-import org.spark_project.dmg.pmml.False
 import org.tensorflow.Graph
 
 import scala.util.Random
@@ -240,7 +239,7 @@ class NerDLApproach(override val uid: String)
 
   def setOutputLogsPath(path: String): NerDLApproach.this.type = set(this.outputLogsPath, path)
 
-  def setEnableMemoryOptimizer(value:Boolean) = set(this.enableMemoryOptimizer, value)
+  def setEnableMemoryOptimizer(value:Boolean):NerDLApproach.this.type = set(this.enableMemoryOptimizer, value)
 
   /** Path to test dataset. If set used to calculate statistic on it during training.
     *
