@@ -26,7 +26,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
         .withDocumentNormalizer(
           dataset = dataset,
           action = action,
-          actionPatterns = patterns,
+          patterns = patterns,
           replacement = replacement)
 
     val normalizedDoc: Array[Annotation] = annotated
@@ -53,7 +53,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
         .withDocumentNormalizer(
           dataset = dataset,
           action = action,
-          actionPatterns = patterns)
+          patterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -79,7 +79,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
         .withDocumentNormalizer(
           dataset = dataset,
           action = action,
-          actionPatterns = patterns)
+          patterns = patterns)
 
     val normalizedDoc: Array[Annotation] = annotated
       .select("normalizedDocument")
@@ -92,7 +92,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all HTML tags" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val patterns = Array("<[^>]*>")
 
     val f = fixtureFilesHTML(action, patterns)
@@ -104,7 +104,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified p HTML tags content" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "p"
     val patterns = Array("<"+tag+"(.+?)>(.+?)<\\/"+tag+">")
 
@@ -116,7 +116,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified h1 HTML tags content" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "h1"
     val patterns = Array("<"+tag+"(.*?)>(.*?)<\\/"+tag+">")
 
@@ -128,7 +128,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified br HTML tags content" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "br"
     val patterns = Array("<"+tag+"(.*?)>")
 
@@ -140,7 +140,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up emails" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val patterns = Array("([^.@\\s]+)(\\.[^.@\\s]+)*@([^.@\\s]+\\.)+([^.@\\s]+)")
     val replacement = "***OBFUSCATED PII***"
 
@@ -152,7 +152,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up ages" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val patterns = Array("\\d+(?=[\\s]?year)", "(aged)[\\s]?\\d+")
 
     val f = fixtureFilesHTML(action, patterns)
@@ -163,7 +163,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all a HTML tags content" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "a"
     val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
 
@@ -175,7 +175,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all div HTML tags" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "div"
     val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
 
@@ -187,7 +187,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all b HTML tags content" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "b"
     val patterns = Array(s"<(?!\\/?$tag(?=>|\\s.*>))\\/?.*?>")
 
@@ -271,7 +271,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
 
   "A DocumentNormalizer" should "annotate with the correct indexes cleaning up JSON author field contents" in {
 
-    val action = "clean_up"
+    val action = "clean"
     val tag = "author"
     val patterns = Array(s""""$tag": "([^"]+)",""")
 
