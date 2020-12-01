@@ -2753,7 +2753,9 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     coalesceSentences = Param(Params._dummy(), "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.", TypeConverters.toBoolean)
-
+    languages = Param(Params._dummy(), "languages",
+                    "get the languages used to trained the model",
+                    TypeConverters.toListString)
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -2768,7 +2770,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self._set(coalesceSentences=value)
 
     @staticmethod
-    def pretrained(name="ld_wiki_20", lang="xx", remote_loc=None):
+    def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
 

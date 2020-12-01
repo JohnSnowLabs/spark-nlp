@@ -1751,6 +1751,13 @@ code {
 	margin: 0 auto;
 	width: 850px;
 	padding: 0 15px;
+	&.border {
+		border: 1px solid #E1F6FF;
+		padding: 0;
+		.table-model-big {
+			margin: 0;
+		}
+	}
 	img {
 		margin-bottom: 15px;
 	}
@@ -1765,7 +1772,7 @@ code {
 	.table-model-big {
 		margin: 0 auto 50px;
 		display: table;
-		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);
+		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);		
 		&.w7 {
 			width: 750px;
 		}
@@ -1981,7 +1988,7 @@ code {
 				max-width: 1070px;
 			}
 		}
-	}
+	}	
 }
 
 @media (max-width: 1600px) {
@@ -2224,10 +2231,17 @@ code {
 		padding: 0 15px;
 	}
 }
+
+@media (min-width: 1024px) and (max-width: 1700px) {	
+	.video-item iframe[title="vimeo-player"] {
+		height: 249px !important;
+	}
+}
+
 @media (max-width: 1023px) {
 	.show-sidebar .page__mask {
 		opacity: 0.5;
-	}	
+	}		
 	.layout--page--sidebar {		
 		.page__content,
 		header.header {
