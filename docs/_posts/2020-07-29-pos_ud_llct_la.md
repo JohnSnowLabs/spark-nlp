@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Alius est esse regem Aquilonis, et de Angli
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=4, result='PROPN', metadata={'word': 'Alius'}, embeddings=[]),
-Row(annotatorType='pos', begin=6, end=8, result='AUX', metadata={'word': 'est'}, embeddings=[]),
-Row(annotatorType='pos', begin=10, end=13, result='VERB', metadata={'word': 'esse'}, embeddings=[]),
-Row(annotatorType='pos', begin=15, end=19, result='VERB', metadata={'word': 'regem'}, embeddings=[]),
-Row(annotatorType='pos', begin=21, end=29, result='PROPN', metadata={'word': 'Aquilonis'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=4, result='PROPN', metadata={'word': 'Alius'}),
+Row(annotatorType='pos', begin=6, end=8, result='AUX', metadata={'word': 'est'}),
+Row(annotatorType='pos', begin=10, end=13, result='VERB', metadata={'word': 'esse'}),
+Row(annotatorType='pos', begin=15, end=19, result='VERB', metadata={'word': 'regem'}),
+Row(annotatorType='pos', begin=21, end=29, result='PROPN', metadata={'word': 'Aquilonis'}),
 ...]
 ```
 

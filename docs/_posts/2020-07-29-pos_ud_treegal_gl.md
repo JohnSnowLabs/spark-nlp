@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Ademais de ser o rei do norte, John Snow é
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=6, result='ADV', metadata={'word': 'Ademais'}, embeddings=[]),
-Row(annotatorType='pos', begin=8, end=9, result='ADP', metadata={'word': 'de'}, embeddings=[]),
-Row(annotatorType='pos', begin=11, end=13, result='AUX', metadata={'word': 'ser'}, embeddings=[]),
-Row(annotatorType='pos', begin=15, end=15, result='DET', metadata={'word': 'o'}, embeddings=[]),
-Row(annotatorType='pos', begin=17, end=19, result='NOUN', metadata={'word': 'rei'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=6, result='ADV', metadata={'word': 'Ademais'}),
+Row(annotatorType='pos', begin=8, end=9, result='ADP', metadata={'word': 'de'}),
+Row(annotatorType='pos', begin=11, end=13, result='AUX', metadata={'word': 'ser'}),
+Row(annotatorType='pos', begin=15, end=15, result='DET', metadata={'word': 'o'}),
+Row(annotatorType='pos', begin=17, end=19, result='NOUN', metadata={'word': 'rei'}),
 ...]
 ```
 

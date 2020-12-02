@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Yato si jijẹ ọba ariwa, John Snow jẹ 
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=3, result='NOUN', metadata={'word': 'Yato'}, embeddings=[]),
-Row(annotatorType='pos', begin=5, end=6, result='VERB', metadata={'word': 'si'}, embeddings=[]),
-Row(annotatorType='pos', begin=8, end=11, result='VERB', metadata={'word': 'jijẹ'}, embeddings=[]),
-Row(annotatorType='pos', begin=13, end=15, result='NOUN', metadata={'word': 'ọba'}, embeddings=[]),
-Row(annotatorType='pos', begin=17, end=21, result='NOUN', metadata={'word': 'ariwa'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=3, result='NOUN', metadata={'word': 'Yato'}),
+Row(annotatorType='pos', begin=5, end=6, result='VERB', metadata={'word': 'si'}),
+Row(annotatorType='pos', begin=8, end=11, result='VERB', metadata={'word': 'jijẹ'}),
+Row(annotatorType='pos', begin=13, end=15, result='NOUN', metadata={'word': 'ọba'}),
+Row(annotatorType='pos', begin=17, end=21, result='NOUN', metadata={'word': 'ariwa'}),
 ...]
 ```
 

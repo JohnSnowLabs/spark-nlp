@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["उत्तर के राजा हो�
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=4, result='PROPN', metadata={'word': 'उत्तर'}, embeddings=[]),
-Row(annotatorType='pos', begin=6, end=7, result='ADP', metadata={'word': 'के'}, embeddings=[]),
-Row(annotatorType='pos', begin=9, end=12, result='NOUN', metadata={'word': 'राजा'}, embeddings=[]),
-Row(annotatorType='pos', begin=14, end=17, result='VERB', metadata={'word': 'होने'}, embeddings=[]),
-Row(annotatorType='pos', begin=19, end=20, result='ADP', metadata={'word': 'के'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=4, result='PROPN', metadata={'word': 'उत्तर'}),
+Row(annotatorType='pos', begin=6, end=7, result='ADP', metadata={'word': 'के'}),
+Row(annotatorType='pos', begin=9, end=12, result='NOUN', metadata={'word': 'राजा'}),
+Row(annotatorType='pos', begin=14, end=17, result='VERB', metadata={'word': 'होने'}),
+Row(annotatorType='pos', begin=19, end=20, result='ADP', metadata={'word': 'के'}),
 ...]
 ```
 

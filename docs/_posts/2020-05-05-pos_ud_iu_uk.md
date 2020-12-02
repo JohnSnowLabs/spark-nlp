@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["За винятком того, що є к�
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=1, result='ADP', metadata={'word': 'За'}, embeddings=[]),
-Row(annotatorType='pos', begin=3, end=10, result='NOUN', metadata={'word': 'винятком'}, embeddings=[]),
-Row(annotatorType='pos', begin=12, end=15, result='PRON', metadata={'word': 'того'}, embeddings=[]),
-Row(annotatorType='pos', begin=16, end=16, result='PUNCT', metadata={'word': ','}, embeddings=[]),
-Row(annotatorType='pos', begin=18, end=19, result='SCONJ', metadata={'word': 'що'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=1, result='ADP', metadata={'word': 'За'}),
+Row(annotatorType='pos', begin=3, end=10, result='NOUN', metadata={'word': 'винятком'}),
+Row(annotatorType='pos', begin=12, end=15, result='PRON', metadata={'word': 'того'}),
+Row(annotatorType='pos', begin=16, end=16, result='PUNCT', metadata={'word': ','}),
+Row(annotatorType='pos', begin=18, end=19, result='SCONJ', metadata={'word': 'що'}),
 ...]
 ```
 
