@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Ban da kasancewarsa sarkin arewa, John Snow
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=7, end=18, result='kasancewarsa', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=20, end=25, result='sarkin', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=27, end=31, result='arewa', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=32, end=32, result=',', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=34, end=37, result='John', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=7, end=18, result='kasancewarsa', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=20, end=25, result='sarkin', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=27, end=31, result='arewa', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=32, end=32, result=',', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=34, end=37, result='John', metadata={'sentence': '0'}),
 ...]
 ```
 

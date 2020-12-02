@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Seachas a bheith ina rí ar an tuaisceart, 
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=6, result='Seachas', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=10, end=15, result='bheith', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=21, end=22, result='rí', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=30, end=39, result='tuaisceart', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=40, end=40, result=',', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=6, result='Seachas', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=10, end=15, result='bheith', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=21, end=22, result='rí', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=30, end=39, result='tuaisceart', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=40, end=40, result=',', metadata={'sentence': '0'}),
 ...]
 ```
 

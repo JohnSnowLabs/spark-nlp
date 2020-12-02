@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Sen lisäksi, että hän on pohjoisen kunin
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=11, end=11, result=',', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=25, end=33, result='pohjoisen', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=35, end=42, result='kuningas', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=43, end=43, result=',', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=45, end=48, result='John', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=11, end=11, result=',', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=25, end=33, result='pohjoisen', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=35, end=42, result='kuningas', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=43, end=43, result=',', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=45, end=48, result='John', metadata={'sentence': '0'}),
 ...]
 ```
 

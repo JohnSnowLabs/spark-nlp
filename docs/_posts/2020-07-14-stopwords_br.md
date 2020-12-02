@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Distaolit dimp hon dleoù evel m'hor bo ive
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=8, result='Distaolit', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=10, end=13, result='dimp', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=15, end=17, result='hon', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=19, end=23, result='dleoù', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=25, end=28, result='evel', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=8, result='Distaolit', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=10, end=13, result='dimp', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=15, end=17, result='hon', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=19, end=23, result='dleoù', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=25, end=28, result='evel', metadata={'sentence': '0'}),
 ...]
 ```
 

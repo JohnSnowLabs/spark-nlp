@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Other than being the king of the north, Joh
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=21, end=24, result='king', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=33, end=37, result='north', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=38, end=38, result=',', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=40, end=43, result='John', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=45, end=48, result='Snow', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=21, end=24, result='king', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=33, end=37, result='north', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=38, end=38, result=',', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=40, end=43, result='John', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=45, end=48, result='Snow', metadata={'sentence': '0'}),
 ...]
 ```
 

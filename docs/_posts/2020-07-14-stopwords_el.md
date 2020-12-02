@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["Εκτός από το ότι είναι ο
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=4, result='Εκτός', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=6, end=8, result='από', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=13, end=15, result='ότι', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=17, end=21, result='είναι', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=25, end=32, result='βασιλιάς', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=4, result='Εκτός', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=6, end=8, result='από', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=13, end=15, result='ότι', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=17, end=21, result='είναι', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=25, end=32, result='βασιλιάς', metadata={'sentence': '0'}),
 ...]
 ```
 

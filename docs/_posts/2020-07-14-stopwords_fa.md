@@ -49,11 +49,11 @@ val result = pipeline.fit(Seq.empty["جان اسنو غیر از سلطان شم
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=2, result='جان', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=4, end=7, result='اسنو', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=9, end=11, result='غیر', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=16, end=20, result='سلطان', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=22, end=25, result='شمال', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=2, result='جان', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=4, end=7, result='اسنو', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=9, end=11, result='غیر', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=16, end=20, result='سلطان', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=22, end=25, result='شمال', metadata={'sentence': '0'}),
 ...]
 ```
 
