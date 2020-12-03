@@ -495,4 +495,34 @@ object TensorflowWrapper {
     vars
   }
 
+  def extractVariablesSavedModel(session: Session): Variables = {
+    val t = new TensorResources()
+
+    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
+      .toAbsolutePath.toString
+    val variablesFile = Paths.get(folder, "variables").toString
+
+    session.runner.addTarget("save/control_dependency")
+      .feed("save/Const", t.createTensor(variablesFile))
+      .run()
+
+    val tfChkPointsVars = FileUtils.listFilesAndDirs(
+      new File(folder),
+      new WildcardFileFilter("part*"),
+      new WildcardFileFilter("variables*")
+    ).toArray()
+
+    val variablesDir = tfChkPointsVars(1).toString
+    val variablseData = Paths.get(tfChkPointsVars(2).toString)
+    val variablesIndex = Paths.get(tfChkPointsVars(3).toString)
+
+    val varBytes = Files.readAllBytes(variablseData)
+    val idxBytes = Files.readAllBytes(variablesIndex)
+    val vars = Variables(varBytes, idxBytes)
+
+    FileHelper.delete(folder)
+
+    vars
+  }
+
 }
