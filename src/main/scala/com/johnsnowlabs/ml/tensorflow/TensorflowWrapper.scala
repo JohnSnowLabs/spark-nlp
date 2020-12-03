@@ -198,12 +198,16 @@ class TensorflowWrapper(
     // This makes sure they are compatible with V1
     if(tfChkPointsVars.length > 3){
       val variablesDir = tfChkPointsVars(1).toString
+
+      val varData = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(varData, variables.variables)
+
+      val varIdx = Paths.get(folder, "variables.index")
+      Files.write(varIdx, variables.index)
+
       FileHelper.delete(variablesDir)
     }
-    val varData = Paths.get(folder, "variables.data-00000-of-00001")
-    Files.write(varData, variables.variables)
-    val varIdx = Paths.get(folder, "variables.index")
-    Files.write(varIdx, variables.index)
+
     // 4. Zip folder
     ZipArchiveUtil.zip(folder, file)
 
