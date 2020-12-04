@@ -152,7 +152,7 @@ class ClassifierDLModel(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
+    writeTensorflowModel(
       path,
       spark,
       getModelIfNotSet.tensorflow,
@@ -186,7 +186,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: ClassifierDLModel, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_classifierdl_tf", initAllTables = true)
+    val tf = readTensorflowChkPoints(path, spark, "_classifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
     // This allows for Python to access getClasses function
     val encoder = new ClassifierDatasetEncoder(instance.datasetParams.get.get)
