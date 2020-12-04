@@ -515,7 +515,7 @@ object TensorflowWrapper {
     val variablesDir = tfChkPointsVars(1).toString
     val variablseData = Paths.get(tfChkPointsVars(2).toString)
     val variablesIndex = Paths.get(tfChkPointsVars(3).toString)
-
+// read from vriables
     val varBytes = Files.readAllBytes(variablseData)
     val idxBytes = Files.readAllBytes(variablesIndex)
     val vars = Variables(varBytes, idxBytes)
