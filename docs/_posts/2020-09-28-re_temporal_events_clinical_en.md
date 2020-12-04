@@ -4,7 +4,7 @@ title: Detect Temporal Relations for Clinical Events
 author: John Snow Labs
 name: re_temporal_events_clinical
 date: 2020-09-28
-tags: [re, en, licensed]
+tags: [re, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

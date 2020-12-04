@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect legal entities in German
+title: Detect Legal Entities in German
 author: John Snow Labs
 name: ner_legal
 date: 2020-09-28

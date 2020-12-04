@@ -7,7 +7,7 @@ class: WordEmbeddingsModel
 language: en
 repository: clinical/models
 date: 2020-01-28
-tags: [clinical,embeddings,en]
+tags: [clinical,licensed,embeddings,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,15 +15,13 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Word Embeddings lookup annotator that maps tokens to vectors
-
-## Predicted Entities 
-Word2Vec feature vectors based on embeddings_clinical.
+Word Embeddings lookup annotator that maps tokens to vectors.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_clinical_en_2.4.0_2.4_1580237286004.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">

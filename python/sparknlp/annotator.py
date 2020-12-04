@@ -915,9 +915,9 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     # this one is exclusive to this detector
     detectLists = Param(Params._dummy(),
-                             "detectLists",
-                             "whether detect lists during sentence detection",
-                             typeConverter=TypeConverters.toBoolean)
+                        "detectLists",
+                        "whether detect lists during sentence detection",
+                        typeConverter=TypeConverters.toBoolean)
 
     def setCustomBounds(self, value):
         return self._set(customBounds=value)
@@ -1819,6 +1819,11 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
                       "Batch size. Large values allows faster processing but requires more memory.",
                       typeConverter=TypeConverters.toInt)
 
+    isLong = Param(Params._dummy(),
+                   "isLong",
+                   "Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.",
+                   typeConverter=TypeConverters.toBoolean)
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -1832,6 +1837,9 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
+
+    def setIsLong(self, value):
+        return self._set(isLong=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings", java_model=None):
@@ -2745,7 +2753,9 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     coalesceSentences = Param(Params._dummy(), "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.", TypeConverters.toBoolean)
-
+    languages = Param(Params._dummy(), "languages",
+                    "get the languages used to trained the model",
+                    TypeConverters.toListString)
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -2760,7 +2770,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self._set(coalesceSentences=value)
 
     @staticmethod
-    def pretrained(name="ld_wiki_20", lang="xx", remote_loc=None):
+    def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
 

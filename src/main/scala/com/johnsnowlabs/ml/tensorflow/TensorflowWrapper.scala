@@ -185,7 +185,6 @@ class TensorflowWrapper(
       .run()
 
     // 3. Save Graph
-    // val graphDef = graph.toGraphDef
     val graphFile = Paths.get(folder, "saved_model.pb").toString
     FileUtils.writeByteArrayToFile(new File(graphFile), graph)
 
@@ -199,14 +198,12 @@ class TensorflowWrapper(
     // This makes sure they are compatible with V1
     if(tfChkPointsVars.length > 3){
       val variablesDir = tfChkPointsVars(1).toString
-      val variablseDataPath = tfChkPointsVars(2).toString
-      val variablesIndexPath = tfChkPointsVars(3).toString
 
-      val varDataPath = Paths.get(folder, "variables.data-00000-of-00001").toString
-      val varInedxPath = Paths.get(folder, "variables.index").toString
+      val varData = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(varData, variables.variables)
 
-      FileUtils.moveFile(new File(variablseDataPath), new File(varDataPath))
-      FileUtils.moveFile(new File(variablesIndexPath), new File(varInedxPath))
+      val varIdx = Paths.get(folder, "variables.index")
+      Files.write(varIdx, variables.index)
 
       FileHelper.delete(variablesDir)
     }

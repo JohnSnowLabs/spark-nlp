@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Icd10cm Musculoskeletal Entity Resolver
+title: ICD10CM Musculoskeletal Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10cm_musculoskeletal_clinical
 class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-04-28
-tags: [clinical,entity_resolution,en]
+tags: [clinical,licensed,entity_resolution,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

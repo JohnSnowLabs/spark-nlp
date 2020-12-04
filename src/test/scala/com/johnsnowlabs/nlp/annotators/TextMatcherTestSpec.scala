@@ -45,7 +45,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     assert(extractedNoSentenceNoCase == expectedNoSentenceNoCase)
   }
 
-  "An Entity Extractor" should "search inside sentences" in {
+  "An Entity Extractor" should "search inside sentences" ignore {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset, caseSensitive = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq

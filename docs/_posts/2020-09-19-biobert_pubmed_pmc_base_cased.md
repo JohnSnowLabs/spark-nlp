@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BioBERT Pubmed PMC
+title: BioBERT Embeddings (Pubmed PMC)
 author: John Snow Labs
 name: biobert_pubmed_pmc_base_cased
 date: 2020-09-19

@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Detect relations between genes and phenotypes
+title: Detect Relations Between Genes and Phenotypes
 author: John Snow Labs
 name: re_human_phenotype_gene_clinical
 date: 2020-09-30
-tags: [re, en, licensed]
+tags: [re, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python"

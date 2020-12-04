@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Detect symptoms, treatments and other NERs in German
+title: Detect Symptoms, Treatments and Other Entities in German
 author: John Snow Labs
 name: ner_healthcare
 date: 2020-09-28
-tags: [ner, de, licensed]
+tags: [ner, clinical, de, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

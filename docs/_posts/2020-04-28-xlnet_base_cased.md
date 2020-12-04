@@ -1,6 +1,6 @@
 ---
 layout: model
-title: XLNet Base
+title: XLNet Embeddings (Base)
 author: John Snow Labs
 name: xlnet_base_cased
 date: 2020-04-28
