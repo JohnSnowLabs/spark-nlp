@@ -27,7 +27,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
                              patterns: Array[String] = Array("<[^>]*>"),
                              replacement: String = "",
                              policy: String = "pretty_all",
-                             encoding: String = "UTF-8"): DataFrame = {
+                             encoding: String = "disable"): DataFrame = {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
