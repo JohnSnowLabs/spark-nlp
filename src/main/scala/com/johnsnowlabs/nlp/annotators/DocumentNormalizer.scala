@@ -98,7 +98,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
     replacement -> SPACE_STR,
     lowercase -> false,
     policy -> "pretty_all",
-    encoding -> "UTF-8"
+    encoding -> "disable"
   )
 
   /** Action to perform on text. Default "clean".
@@ -295,6 +295,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
         processedWithActionPatterns
 
     encoding match {
+      case "disable" => cased
       case "UTF-8" => withEncoding(cased, StandardCharsets.UTF_8)
       case "UTF-16" => withEncoding(cased, StandardCharsets.UTF_16)
       case "US-ASCII" => withEncoding(cased, StandardCharsets.US_ASCII)
@@ -302,7 +303,7 @@ class DocumentNormalizer(override val uid: String) extends AnnotatorModel[Docume
       case "UTF-16BE" => withEncoding(cased, StandardCharsets.UTF_16BE)
       case "UTF-16LE" => withEncoding(cased, StandardCharsets.UTF_16LE)
       case _ => throw new Exception("Unknown encoding parameter in DocumentNormalizer annotation." +
-        "Please select either: UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE")
+        "Please select either: disable, UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE")
     }
   }
 
