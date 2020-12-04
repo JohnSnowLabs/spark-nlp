@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, SparkAccessor}
 import org.apache.spark.sql.Row
+import org.apache.spark.sql.functions.asc
 import org.scalatest.Matchers.{convertToAnyShouldWrapper, equal}
 import org.scalatest._
 
@@ -19,6 +20,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
       SparkAccessor.spark.sparkContext
         .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/html-docs")
         .toDF("filename", "text")
+        .orderBy(asc("filename"))
         .select("text")
 
     val annotated =
@@ -46,6 +48,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
       SparkAccessor.spark.sparkContext
         .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/xml-docs")
         .toDF("filename", "text")
+        .orderBy(asc("filename"))
         .select("text")
 
     val annotated =
@@ -72,6 +75,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
       SparkAccessor.spark.sparkContext
         .wholeTextFiles(s"$DOC_NORMALIZER_BASE_DIR/json-docs")
         .toDF("filename", "text")
+        .orderBy(asc("filename"))
         .select("text")
 
     val annotated =
