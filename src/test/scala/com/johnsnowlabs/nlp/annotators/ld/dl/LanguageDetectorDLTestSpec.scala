@@ -1,16 +1,20 @@
 package com.johnsnowlabs.nlp.annotators.ld.dl
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.functions.{input_file_name, monotonically_increasing_id, regexp_extract, sum, udf, when}
 import org.scalatest._
 
 class LanguageDetectorDLTestSpec extends FlatSpec {
 
-  "LanguageDetectorDL" should "correctly load saved model" in {
+  val spark = ResourceHelper.spark
 
-    val smallCorpus = ResourceHelper.spark.read
+  "LanguageDetectorDL" should "correctly load pretrained model" in {
+
+    val smallCorpus = spark.read
       .option("header", true)
       .option("delimiter", "|")
       .csv("src/test/resources/language-detector/multilingual_sample.txt")
@@ -19,15 +23,13 @@ class LanguageDetectorDLTestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val sentence = new SentenceDetector()
+    val sentence = SentenceDetectorDLModel.pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("sentence")
 
-    val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_20")
+    val languageDetector = LanguageDetectorDL.pretrained()
       .setInputCols("sentence")
       .setOutputCol("language")
-      .setThreshold(0.3f)
-      .setCoalesceSentences(true)
 
     val pipeline = new Pipeline()
       .setStages(Array(

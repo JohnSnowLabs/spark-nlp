@@ -67,6 +67,7 @@ trait WriteTensorflowModel {
     FileUtils.deleteDirectory(new File(tmpFolder))
   }
 
+
   def writeTensorflowHub(
                           path: String,
                           tfPath: String,
