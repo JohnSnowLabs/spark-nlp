@@ -57,7 +57,6 @@ val ner = NerDLModel.pretrained("onto_bert_large_cased", "en")
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
 |Language:|en|
-|Dependencies:|en.bert|
 
 ## Data Source
 
