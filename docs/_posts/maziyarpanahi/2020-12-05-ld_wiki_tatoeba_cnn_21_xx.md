@@ -23,7 +23,7 @@ This model can detect the following languages:
 
 ## Predicted Entities
 
-\`bg`, `cs`, `da`, `de`, `el`, `en`, `et`, `fi`, `fr`, `hu`, `it`, `lt`, `lv`, `nl`, `pl`, `pt`, `ro`, `sk`, `sl`, `es`, `sv`
+\[`bg`, `cs`, `da`, `de`, `el`, `en`, `et`, `fi`, `fr`, `hu`, `it`, `lt`, `lv`, `nl`, `pl`, `pt`, `ro`, `sk`, `sl`, `es`, `sv`]
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -106,7 +106,6 @@ Wikipedia and Tatoeba
 ```bash
 Evaluated on Europarl dataset which the model has never seen:
 
-```
 +--------+-----+-------+------------------+
 |src_lang|count|correct|         precision|
 +--------+-----+-------+------------------+
@@ -142,5 +141,4 @@ Evaluated on Europarl dataset which the model has never seen:
 |    min|  0.9486899563318777|
 |    max|                 1.0|
 +-------+--------------------+
-```
 ```
