@@ -27,7 +27,7 @@ This model can detect the following languages:
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_tatoeba_cnn_21_xx_2.7.0_2.4_1607177877570.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
