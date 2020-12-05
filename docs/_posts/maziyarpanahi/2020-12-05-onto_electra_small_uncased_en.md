@@ -2,7 +2,7 @@
 layout: model
 title: Named Entity Recognition - ELECTRA Base (OntoNotes)
 author: John Snow Labs
-name: onto_electra_small_uncased
+name: onto_electra_base_uncased
 date: 2020-12-05
 tags: [ner, open_source, en]
 article_header:
@@ -14,7 +14,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Onto is a Named Entity Recognition (or NER) model trained on OntoNotes 5.0. It can extract up to 18 entities such as people, places, organizations, money, time, date, etc.
 
-This model uses the pretrained `electra_small_uncased` model from the `BertEmbeddings` annotator as an input.
+This model uses the pretrained `electra_base_uncased` model from the `BertEmbeddings` annotator as an input.
 
 ## Predicted Entities
 
@@ -32,13 +32,13 @@ This model uses the pretrained `electra_small_uncased` model from the `BertEmbed
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-ner = NerDLModel.pretrained("onto_electra_small_uncased", "en") \
+ner = NerDLModel.pretrained("onto_electra_base_uncased", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
 
 ```
 ```scala
-val ner = NerDLModel.pretrained("onto_electra_small_uncased", "en")
+val ner = NerDLModel.pretrained("onto_electra_base_uncased", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
 
@@ -50,7 +50,7 @@ val ner = NerDLModel.pretrained("onto_electra_small_uncased", "en")
 
 {:.table-model}
 |---|---|
-|Model Name:|onto_electra_small_uncased|
+|Model Name:|onto_electra_base_uncased|
 |Type:|ner|
 |Compatibility:|Spark NLP 2.7.0+|
 |License:|Open Source|
