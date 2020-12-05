@@ -23,7 +23,7 @@ This model uses the pretrained `electra_small_uncased` model from the `BertEmbed
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_electra_small_uncased_en_2.7.0_2.4_1607198855012.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_electra_small_uncased_en_2.7.0_2.4_1607202932422.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -40,7 +40,6 @@ ner = NerDLModel.pretrained("onto_electra_small_uncased", "en") \
 val ner = NerDLModel.pretrained("onto_electra_small_uncased", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
-
 ```
 </div>
 
