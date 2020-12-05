@@ -10,6 +10,7 @@ unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
 unittest.TextTestRunner().run(TextMatcherTestSpec())
+unittest.TextTestRunner().run(DocumentNormalizerSpec())
 
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 unittest.TextTestRunner().run(ChunkerTestSpec())
