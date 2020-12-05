@@ -46,7 +46,7 @@ sentence = SentenceDetectorDLModel\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
 
-language_detector = LanguageDetectorDL.pretrained("ld_tatoeba_bigru_21")\
+language_detector = LanguageDetectorDL.pretrained("ld_tatoeba_cnn_99")\
 .setInputCols(["sentence"])\
 .setOutputCol("language")\
 
@@ -66,7 +66,7 @@ val sentence = SentenceDetectorDLModel
   .setInputCols(Array("document"))
   .setOutputCol("sentence")
 
-val languageDetector = LanguageDetectorDL.pretrained("ld_tatoeba_bigru_21")
+val languageDetector = LanguageDetectorDL.pretrained("ld_tatoeba_cnn_99")
   .setInputCols("sentence")
   .setOutputCol("language")
 
