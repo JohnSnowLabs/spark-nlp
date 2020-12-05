@@ -436,6 +436,69 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
+class DocumentNormalizer(AnnotatorModel):
+
+    action = Param(Params._dummy(),
+                   "action",
+                   "action to perform applying regex patterns on text",
+                   typeConverter=TypeConverters.toString)
+
+    patterns = Param(Params._dummy(),
+                            "patterns",
+                            "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
+                            typeConverter=TypeConverters.toListString)
+
+    replacement = Param(Params._dummy(),
+                        "replacement",
+                        "replacement string to apply when regexes match",
+                        typeConverter=TypeConverters.toString)
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase",
+                      typeConverter=TypeConverters.toBoolean)
+
+    policy = Param(Params._dummy(),
+                          "policy",
+                          "policy to remove pattern from text",
+                          typeConverter=TypeConverters.toString)
+
+    encoding = Param(Params._dummy(),
+                     "encoding",
+                     "file encoding to apply on normalized documents",
+                     typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self):
+        super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
+        self._setDefault(
+            action="clean_up",
+            patterns=["<[^>]*>"],
+            replacement=" ",
+            lowercase=False,
+            policy="pretty_all",
+            encoding="UTF-8"
+        )
+
+    def setAction(self, value):
+        return self._set(action=value)
+
+    def setPatterns(self, value):
+        return self._set(patterns=value)
+
+    def setReplacement(self, value):
+        return self._set(replacement=value)
+
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
+
+    def setPolicy(self, value):
+        return self._set(policy=value)
+
+    def setEncoding(self, value):
+        return self._set(encoding=value)
+
+
 class Normalizer(AnnotatorApproach):
 
     cleanupPatterns = Param(Params._dummy(),
