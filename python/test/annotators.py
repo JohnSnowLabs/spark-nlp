@@ -211,7 +211,7 @@ class TextMatcherTestSpec(unittest.TestCase):
 class DocumentNormalizerSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = SparkSessionForTest.spark.createDataFrame(
+        self.data = SparkSessionForTest.spark.createDataFrame([
             ["""<span style="font-weight: bold; font-size: 8pt">
                      <pre style="font-family: verdana">
                       <b>The Output Y(s) of the fig. is:
@@ -230,7 +230,7 @@ class DocumentNormalizerSpec(unittest.TestCase):
                     
                     </body>
                     </html>"""]
-        ).toDF("text")
+        ]).toDF("text")
 
     def runTest(self):
         df = self.data
