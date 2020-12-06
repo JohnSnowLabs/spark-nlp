@@ -1,4 +1,65 @@
 ========
+2.6.4
+========
+----------------
+Bugfixes
+----------------
+* Fix loading from a local folder with no access to the cache folder 
+* Fix NullPointerException in DocumentAssembler when there are null in the rows
+* Fix dynamic padding in BertSentenceEmbeddings
+
+========
+2.6.3
+========
+---------------
+New Features
+---------------
+* Add enableMemoryOptimizer to allow training NerDLApproach on a dataset larger than the memory
+* Add option to explode sentences in SentenceDetectorDL
+
+----------------
+Enhancements
+----------------
+* Improve POS (AveragedPerceptron) performance
+* Improve Norvig Spell Checker performance
+
+----------------
+Bugfixes
+----------------
+* Fix SentenceDetectorDL unsupported model error in pretrained function
+* Fix a race condition in Lru that can cause NullPointerException during a LightPipeline operations with embeddings
+* Fix max sequence length calculation in BertEmbeddings and BertSentenceEmbeddings
+* Fix threshold in YakeModel on Python side
+
+========
+2.6.2
+========
+---------------
+New Features
+---------------
+* Introducing a new SentenceDetectorDL
+
+----------------
+Enhancements
+----------------
+* Improved BioBERT models quality for BertEmbeddings (it achieves higher accuracy in sequence classification)
+* Improved Sentence BioBERT models quality for BertSentenceEmbeddings (it achieves higher accuracy in text classification)
+* Add unit test to MultiClassifierDL annotator
+* Better error handling in SentimentDLApproach
+* Improve loadSavedModel in BertEmbeddings and BertSentenceEmbeddings
+
+----------------
+Bugfixes
+----------------
+* Fix BERT LaBSE model for BertSentenceEmbeddings
+* Fix loadSavedModel for BertSentenceEmbeddings in Python
+
+---------------
+Deprecations
+---------------
+* DeepSentenceDetector is deprecated in favor of SentenceDetectorDL
+
+========
 2.6.1
 ========
 ----------------

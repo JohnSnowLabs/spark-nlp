@@ -90,8 +90,9 @@ class BertEmbeddings(override val uid: String) extends
     $$(vocabulary)("[SEP]")
   }
 
-  /**
-    * Defines the output layer of BERT when calculating Embeddings. See extractPoolingLayer() in TensorflowBert for further reference.
+  /** Set Embeddings dimensions for the BERT model
+    * Only possible to set this when the first time is saved
+    * dimension is not changeable, it comes from BERT config file
     *
     * @group setParam
     **/
@@ -138,7 +139,8 @@ class BertEmbeddings(override val uid: String) extends
     * @group setParam
     **/
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings")
+    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value >= 1, "The maxSentenceLength must be at least 1")
 
     if (get(maxSentenceLength).isEmpty)
       set(maxSentenceLength, value)
@@ -200,7 +202,7 @@ class BertEmbeddings(override val uid: String) extends
         val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
         if (result.nonEmpty) result.head else IndexedToken("")
       }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token))
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -263,7 +265,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -288,7 +290,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
 
     new BertEmbeddings()
       .setVocabulary(words)

@@ -28,7 +28,7 @@ class LruMap[TKey, TValue](maxCacheSize: Int) {
 
   def foreach: (((TKey, TValue)) => Any) => Unit = cache.foreach
 
-  def update(key: TKey, value: => TValue): TValue = {
+  def update(key: TKey, value: => TValue): TValue = synchronized {
     val isNewKey = !cache.contains(key)
     if (isNewKey && getSize >= maxCacheSize)
       deleteOne()
