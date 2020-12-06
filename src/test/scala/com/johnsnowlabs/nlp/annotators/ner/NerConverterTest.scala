@@ -9,7 +9,7 @@ import org.scalatest._
 
 class NerConverterTest extends FlatSpec {
 
-  "NeConverter" should "correctly use any TOKEN type input" in {
+  "NeConverter" should "correctly use any TOKEN type input" ignore {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
