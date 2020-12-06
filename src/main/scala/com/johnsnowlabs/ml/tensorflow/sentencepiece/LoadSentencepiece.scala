@@ -52,7 +52,7 @@ object LoadSentencepiece {
 
   def loadSPToCluster(spark: SparkSession): Unit = {
     /** NOT thread-safe. DRIVER only*/
-    require(SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
+    require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToCluster && sentencepiecePaths.isDefined) {
       LoadSentencepiece.loadedToCluster = true
@@ -61,7 +61,7 @@ object LoadSentencepiece {
   }
 
   def loadSPToTensorflow(): Unit = {
-    require(SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
+    require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToTensorflow && sentencepiecePaths.isDefined) {
       LoadSentencepiece.loadedToTensorflow = true
@@ -73,7 +73,7 @@ object LoadSentencepiece {
   }
 
   def loadSPToTensorflowLocally(): Unit = {
-    require(SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
+    require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToTensorflow && sentencepiecePaths.isDefined) {
       LoadSentencepiece.loadedToTensorflow = true
