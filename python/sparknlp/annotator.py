@@ -436,6 +436,69 @@ class Chunker(AnnotatorModel):
         return self._set(regexParsers=value)
 
 
+class DocumentNormalizer(AnnotatorModel):
+
+    action = Param(Params._dummy(),
+                   "action",
+                   "action to perform applying regex patterns on text",
+                   typeConverter=TypeConverters.toString)
+
+    patterns = Param(Params._dummy(),
+                            "patterns",
+                            "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
+                            typeConverter=TypeConverters.toListString)
+
+    replacement = Param(Params._dummy(),
+                        "replacement",
+                        "replacement string to apply when regexes match",
+                        typeConverter=TypeConverters.toString)
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase",
+                      typeConverter=TypeConverters.toBoolean)
+
+    policy = Param(Params._dummy(),
+                          "policy",
+                          "policy to remove pattern from text",
+                          typeConverter=TypeConverters.toString)
+
+    encoding = Param(Params._dummy(),
+                     "encoding",
+                     "file encoding to apply on normalized documents",
+                     typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self):
+        super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
+        self._setDefault(
+            action="clean_up",
+            patterns=["<[^>]*>"],
+            replacement=" ",
+            lowercase=False,
+            policy="pretty_all",
+            encoding="UTF-8"
+        )
+
+    def setAction(self, value):
+        return self._set(action=value)
+
+    def setPatterns(self, value):
+        return self._set(patterns=value)
+
+    def setReplacement(self, value):
+        return self._set(replacement=value)
+
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
+
+    def setPolicy(self, value):
+        return self._set(policy=value)
+
+    def setEncoding(self, value):
+        return self._set(encoding=value)
+
+
 class Normalizer(AnnotatorApproach):
 
     cleanupPatterns = Param(Params._dummy(),
@@ -2753,7 +2816,9 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     coalesceSentences = Param(Params._dummy(), "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.", TypeConverters.toBoolean)
-
+    languages = Param(Params._dummy(), "languages",
+                    "get the languages used to trained the model",
+                    TypeConverters.toListString)
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -2768,7 +2833,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self._set(coalesceSentences=value)
 
     @staticmethod
-    def pretrained(name="ld_wiki_20", lang="xx", remote_loc=None):
+    def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
 
