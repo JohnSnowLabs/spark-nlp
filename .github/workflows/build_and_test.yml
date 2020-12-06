@@ -90,31 +90,31 @@ jobs:
         with:
           java-version: 1.8
       - name: Test on macOS
-        if: ${{ matrix.os }} == 'macos-latest'
+        if: ${{ matrix.os }} != 'ubuntu-latest'
         run: |
           brew install sbt
           sbt clean
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
       - name: Test on Ubuntu
-        if: ${{ matrix.os }} == 'ubuntu-latest'
+        if: ${{ matrix.os }} != 'macos-latest'
         run: |
           sbt clean
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
 
-  windows:
-    runs-on: windows-latest
-    name: Build and Run custom unit tests on Windows
-    steps:
-      - name: Configure git
-        run: "git config --global core.autocrlf false"
-        shell: bash
-      - uses: actions/checkout@v2
-      - uses: olafurpg/setup-scala@v10
-      - name: Compile
-        shell: bash
-        run: |
-          sbt clean
-          sbt compile
-          sbt "testOnly *UniversalSentenceEncoderTestSpec"
+#  windows:
+#    runs-on: windows-latest
+#    name: Build and Run custom unit tests on Windows
+#    steps:
+#      - name: Configure git
+#        run: "git config --global core.autocrlf false"
+#        shell: bash
+#      - uses: actions/checkout@v2
+#      - uses: olafurpg/setup-scala@v10
+#      - name: Compile
+#        shell: bash
+#        run: |
+#          sbt clean
+#          sbt compile
+#          sbt "testOnly *UniversalSentenceEncoderTestSpec"
