@@ -294,46 +294,6 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         sentence_detector.transform(assembled).show()
 
 
-class DeepSentenceDetectorTestSpec(unittest.TestCase):
-    def setUp(self):
-        from sparknlp.training import CoNLL
-        self.data = SparkContextForTest.data
-        self.embeddings = os.getcwd() + "/../src/test/resources/ner-corpus/embeddings.100d.test.txt"
-        external_dataset = os.getcwd() + "/../src/test/resources/ner-corpus/sentence-detector/unpunctuated_dataset.txt"
-        self.training_set = CoNLL().readDataset(SparkContextForTest.spark, external_dataset)
-
-    def runTest(self):
-        glove = WordEmbeddings() \
-            .setInputCols(["document", "token"]) \
-            .setOutputCol("glove") \
-            .setStoragePath(self.embeddings, "TEXT") \
-            .setStorageRef('embeddings_100') \
-            .setDimension(100)
-
-        ner_tagger = NerDLApproach() \
-            .setInputCols(["document", "token", "glove"]) \
-            .setLabelColumn("label") \
-            .setOutputCol("ner") \
-            .setMaxEpochs(10) \
-            .setPo(0.01) \
-            .setLr(0.1) \
-            .setBatchSize(9) \
-            .setRandomSeed(0)
-        ner_converter = NerConverter() \
-            .setInputCols(["document", "token", "ner"]) \
-            .setOutputCol("ner_con")
-        deep_sentence_detector = DeepSentenceDetector() \
-            .setInputCols(["document", "token", "ner_con"]) \
-            .setOutputCol("sentence") \
-            .setIncludePragmaticSegmenter(True) \
-            .setEndPunctuation([".", "?"])
-        embedded_training_set = glove.fit(self.training_set).transform(self.training_set)
-        ner_tagged = ner_tagger.fit(embedded_training_set).transform(embedded_training_set)
-        ner_converted = ner_converter.transform(ner_tagged)
-        deep_sentence_detected = deep_sentence_detector.transform(ner_converted)
-        deep_sentence_detected.show()
-
-
 class PragmaticScorerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -365,17 +325,6 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         tokenized = tokenizer.fit(sentenced).transform(sentenced)
         lemmatized = lemmatizer.fit(tokenized).transform(tokenized)
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
-
-
-class DeepSentenceDetectorPipelinePersistenceTestSpec(unittest.TestCase):
-    @staticmethod
-    def runTest():
-        pipeline = Pipeline(stages=[DeepSentenceDetector()])
-        pipe_path = "file:///" + os.getcwd() + "/tmp_pipeline"
-        pipeline.write().overwrite().save(pipe_path)
-        loaded_pipeline = Pipeline.read().load(pipe_path)
-        if loaded_pipeline:
-            assert True
 
 
 class PipelineTestSpec(unittest.TestCase):
@@ -1315,3 +1264,26 @@ class YakeModelTestSpec(unittest.TestCase):
 
         result = pipeline.fit(self.data).transform(self.data)
         result.select("keywords").show(truncate=False)
+
+
+class SentenceDetectorDLTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetectorDLModel.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()

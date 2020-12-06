@@ -1,12 +1,55 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark OCR release notes
 permalink: /docs/en/ocr_release_notes
 key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
-# 1.6.0
+## 1.8.0
+
+#### Overview
+
+Optimisation performance for processing multipage PDF documents.
+Support up to 10k pages per document.
+
+#### New Features
+
+* Added [ImageAdaptiveBinarizer](ocr_pipeline_components#imageadaptivebinarizer) Scala transformer with support:
+    - Gaussian local thresholding
+    - Otsu treshholding
+    - Sauvola local treshholding
+* Added possibility to split pdf to small documents for optimize processing in [PdfToImage](ocr_pipeline_components#pdftoimage).
+
+
+#### Enhancements
+
+* Added applying binarization in [PdfToImage](ocr_pipeline_components#pdftoimage) for optimize memory usage.
+* Added `pdfCoordinates` param to the [ImageToText](ocr_pipeline_components#imagetotext) transformer.
+* Added 'total_pages' field to the [PdfToImage](ocr_pipeline_components#pdftoimage) transformer.
+* Added different splitting strategies to the [PdfToImage](ocr_pipeline_components#pdftoimage) transformer.
+* Simplified paging [PdfToImage](ocr_pipeline_components#pdftoimage) when run it with splitting to small PDF.
+* Added params to the [PdfToText](ocr_pipeline_components#pdftotext) for disable extra functionality.
+* Added `master_url` param to the python [start](ocr_install#using-start-function) function.
+
+
+## 1.7.0
+
+Release date: 22-09-2020
+
+#### Overview
+
+Support Spark 2.3.3.
+
+#### Bugfixes
+
+* Restored read JPEG2000 image
+
+
+## 1.6.0
+
+Release date: 05-09-2020
 
 #### Overview
 
@@ -20,7 +63,7 @@ Support parsing data from tables for selectable PDFs.
 * Added [ImageBrandsToText](ocr_pipeline_components#imagebrandstotext) transformer for detect text in defined areas.
 
 
-# 1.5.0
+## 1.5.0
 
 Release date: 22-07-2020
 
@@ -39,7 +82,7 @@ FoundationOne report parsing support.
 genomic and biomarker findings.
 
 
-# 1.4.0
+## 1.4.0
 
 Release date: 23-06-2020
 
@@ -65,7 +108,7 @@ Added support Dicom format and improved support image morphological operations.
 * Fixed issue in [ImageToText](ocr_pipeline_components#imagetotext) related to extraction coordinates.
 
 
-# 1.3.0
+## 1.3.0
 
 Release date: 22-05-2020
 
@@ -86,7 +129,7 @@ New functionality for de-identification problem.
 * Added [UpdateTextPosition](ocr_pipeline_components#updatetextposition) transformer.
 
 
-# 1.2.0
+## 1.2.0
 
 Release date: 08-04-2020
 
@@ -109,7 +152,7 @@ Improved support Databricks and processing selectable pdfs.
 * Added propagation selectable pdf file in [TextToPdf](ocr_pipeline_components#texttopdf). Added 'inputContent' param to 'TextToPdf'.
 
 
-# 1.1.2
+## 1.1.2
 
 Release date: 09-03-2020
 
@@ -126,7 +169,7 @@ Minor improvements and fixes
 * Fixed dependencies issue
 
 
-# 1.1.1
+## 1.1.1
 
 Release date: 06-03-2020
 
@@ -143,7 +186,7 @@ Integration with license server.
 * Added auto renew license using jsl license server.
 
 
-# 1.1.0
+## 1.1.0
 
 Release date: 03-03-2020
 
@@ -180,7 +223,7 @@ added possibility to store results to PDF for keep original formatting.
    - improving auto-correlation in auto-scaling.
 
 
-# 1.0.0
+## 1.0.0
 
 Release date: 12-02-2020
 

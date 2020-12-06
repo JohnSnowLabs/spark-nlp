@@ -1,10 +1,555 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2020-09-10"
+modify_date: "2020-11-27"
 ---
+
+### 2.6.4
+
+#### John Snow Labs Spark-NLP 2.6.4: A few bug fixes and other improvements!
+
+Overview
+
+We are glad to release Spark NLP 2.6.4! This release comes with a few bug fixes before we move to a new major version.
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+Bugfixes
+
+* Fix loading from a local folder with no access to the cache folder https://github.com/JohnSnowLabs/spark-nlp/pull/1141
+* Fix NullPointerException in DocumentAssembler when there are null in the rows https://github.com/JohnSnowLabs/spark-nlp/pull/1145
+* Fix dynamic padding in BertSentenceEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/1162
+
+Documentation and Notebooks
+
+* [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
+* [Spark NLP training certification notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) for Google Colab and Databricks
+* [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks
+* A brand new [1-hour Spark NLP workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/1hr_workshop)
+* Update [Model Hubs](https://nlp.johnsnowlabs.com/models) with new models
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.6.4
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.6.4
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.4
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.4
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.4
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.4
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.4
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.6.4</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.6.4</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.6.4</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.6.4</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.6.4.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.6.4.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.6.4.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.6.4.jar
+
+### 2.6.3
+
+#### John Snow Labs Spark-NLP 2.6.3: New refactored NerDL with memory optimization, bug fixes, and other improvements!
+
+Overview
+
+We are glad to release Spark NLP 2.6.3! This release comes with a refactored NerDLApproach that allows users to train their NerDL on any size of the CoNLL file regardless of the memory limitations. We also have some bug fixes and improvements in the 2.6.3 release.
+
+Spark NLP has a new and improved [Website](https://nlp.johnsnowlabs.com/) for its documentation and models. We have been moving our 330+ pretrained models and pipelines into [Models Hubs](https://nlp.johnsnowlabs.com/models) and we would appreciate your feedback! :) 
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+New Features
+
+* Add enableMemoryOptimizer to allow training NerDLApproach on a dataset larger than the memory
+* Add option to explode sentences in SentenceDetectorDL
+
+Enhancements
+
+* Improve POS (AveragedPerceptron) performance
+* Improve Norvig Spell Checker performance
+
+Bugfixes
+
+* Fix SentenceDetectorDL unsupported model error in pretrained function
+* Fix a race condition in LRU algorithm that can cause NullPointerException during a LightPipeline operation with embeddings
+* Fix max sequence length calculation in BertEmbeddings and BertSentenceEmbeddings
+* Fix threshold in YakeModel on Python side
+
+Documentation and Notebooks
+
+* [Spark NLP training certification notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) for Google Colab and Databricks
+* A brand new [1-hour Spark NLP workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/1hr_workshop)
+* Update [Model Hubs](https://nlp.johnsnowlabs.com/models) with new models in Spark NLP 2.6.3
+* Update documentation for release of Spark NLP 2.6.3
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.6.3
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.6.3
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.6.3
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.3
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.3
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.3
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.3
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.3
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.3
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.3
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.6.3</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.6.3</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.6.3</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.6.3</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.6.3.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.6.3.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.6.3.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.6.3.jar
+
+### 2.6.2
+
+#### John Snow Labs Spark-NLP 2.6.2: New SentenceDetectorDL, improved BioBERT models, new Models Hub, and other improvements!
+
+Overview
+
+We are glad to release Spark NLP 2.6.2! This release comes with a brand new SentenceDetectorDL (SDDL) that is based on a general-purpose neural network model for sentence boundary detection with higher accuracy. In addition, we are releasing 12 new and improved BioBERT models for BertEmbeddings and BertSentenceEembeddings used for sequence and text classifications.
+
+Spark NLP has a new and improved [Website](https://nlp.johnsnowlabs.com/) for its documentation and models. We have been moving our 330+ pretrained models and pipelines into [Models Hubs](https://nlp.johnsnowlabs.com/models) and we would appreciate your feedback! :) 
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+New Features
+
+* Introducing a new SentenceDetectorDL (trainable) for sentence boundary detection
+* Dedicated [Models Hub](https://nlp.johnsnowlabs.com/models) for all pretrained models & pipelines
+
+Enhancements
+
+* Improved BioBERT models quality for BertEmbeddings (it achieves higher accuracy in sequence classification)
+* Improved Sentence BioBERT models quality for BertSentenceEmbeddings (it achieves higher accuracy in text classification)
+* Improve loadSavedModel in BertEmbeddings and BertSentenceEmbeddings
+* Add unit test to MultiClassifierDL annotator
+* Better error handling in SentimentDLApproach
+
+Bugfixes
+
+* Fix BERT LaBSE model for BertSentenceEmbeddings
+* Fix loadSavedModel for BertSentenceEmbeddings in Python
+
+Deprecations
+
+* DeepSentenceDetector is deprecated in favor of SentenceDetectorDL
+
+Models
+
+| Model                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| BertEmbeddings                    | `biobert_pubmed_base_cased`        | 2.6.2 |      `en`         | 
+| BertEmbeddings                    | `biobert_pubmed_large_cased`        | 2.6.2 |      `en`        |
+| BertEmbeddings                    | `biobert_pmc_base_cased`        | 2.6.2 |      `en`            | 
+| BertEmbeddings                    | `biobert_pubmed_pmc_base_cased`        | 2.6.2 |      `en`     |
+| BertEmbeddings                    | `biobert_clinical_base_cased`        | 2.6.2 |      `en`       | 
+| BertEmbeddings                    | `biobert_discharge_base_cased`        | 2.6.2 |      `en`      |
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_base_cased`        | 2.6.2 |      `en`         | 
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_large_cased`        | 2.6.2 |      `en`        | 
+| BertSentenceEmbeddings   | `sent_biobert_pmc_base_cased`        | 2.6.2 |      `en`            |
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_pmc_base_cased`        | 2.6.0 |      `en`     |
+| BertSentenceEmbeddings   | `sent_biobert_clinical_base_cased`        | 2.6.2 |      `en`       |
+| BertSentenceEmbeddings   | `sent_biobert_discharge_base_cased`        | 2.6.2 |      `en`      |
+
+The complete list of all 330+ models & pipelines in 46+ languages is [available here](https://github.com/JohnSnowLabs/spark-nlp-models/).
+
+Documentation and Notebooks
+
+* New notebook to [use SentenceDetectorDL](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb)
+* Update [Model Hubs](https://nlp.johnsnowlabs.com/models) with new models in Spark NLP 2.6.2
+* Update documentation for release of Spark NLP 2.6.2
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.6.2
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.6.2
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.6.2
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.2
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.2
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.2
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.2
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.2
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.2
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.2
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.6.2</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.6.2</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.6.2</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.6.2</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.6.2.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.6.2.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.6.2.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.6.2.jar
+
+### 2.6.1
+
+#### John Snow Labs Spark-NLP 2.6.1: New Portuguese BERT models, import any BERT models to Spark NLP, and a bug-fix for ClassifierDL
+
+Overview
+
+We are glad to release Spark NLP 2.6.1! This release comes with new Portuguese BERT models, a notebook to demonstrate how to import any BERT models to Spark NLP, and a fix for ClassifierDL which was introduced in the 2.6.0 release that resulted in low accuracy during training.
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+Bugfixes
+
+* Fix lower accuracy in ClassifierDL introduced in 2.6.0 release
+
+Models and Pipelines
+
+| Model                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| BertEmbeddings                    | `bert_portuguese_base_cased`       | 2.6.0 |      `pt`
+| BertEmbeddings                    | `bert_portuguese_large_cased`       | 2.6.0 |      `pt` 
+
+The complete list of all 330+ models & pipelines in 46+ languages is [available here](https://github.com/JohnSnowLabs/spark-nlp-models/).
+
+Documentation and Notebooks
+
+* New notebook to import [BERT checkpoints into Spark NLP](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/portuguese/Export_BERT_model_to_Spark_NLP_BertEmbeddings.ipynb)
+* New notebook to [extract keywords](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/KEYPHRASE_EXTRACTION.ipynb)
+* Update documentation for release of Spark NLP 2.6.1
+* Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks for Spark NLP 2.6.1
+
+Installation
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.6.1
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.6.1
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.1
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.1
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.1
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.1
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.1
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.1
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.6.1</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.6.1</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.6.1</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.6.1</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.6.1.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.6.1.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.6.1.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.6.1.jar
 
 ### 2.6.0
 
@@ -12,9 +557,9 @@ modify_date: "2020-09-10"
 
 Overview
 
-We are very excited to finally release Spark NLP 2.6.0! This has been one of the biggest releases we have ever made and we are so proud to share it with our community! 
+We are very excited to finally release Spark NLP 2.6.0! This has been one of the biggest releases we have ever made and we are so proud to share it with our community!
 
-This release comes with a brand new MultiClassifierDL for multi-label text classification, BertSentenceEmbeddings with 42 models, unsupervised keyword extractions annotator, and adding 28 new pretrained Transformers such as Small BERT, CovidBERT, ELECTRA, and the state-of-the-art language-agnostic BERT Sentence Embedding model(LaBSE). 
+This release comes with a brand new MultiClassifierDL for multi-label text classification, BertSentenceEmbeddings with 42 models, unsupervised keyword extractions annotator, and adding 28 new pretrained Transformers such as Small BERT, CovidBERT, ELECTRA, and the state-of-the-art language-agnostic BERT Sentence Embedding model(LaBSE).
 
 The 2.6.0 release has over 110 new pretrained models, pipelines, and Transformers with extending full support for Danish, Finnish, and Swedish languages.
 
@@ -48,6 +593,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Some selected Transformers:
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings                    | `electra_small_uncased`       | 2.6.0 |      `en`
@@ -125,6 +671,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Danish pipelines
 
+{:.table-model-big}
 | Pipeline                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `da` 
@@ -136,6 +683,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Finnish pipelines
 
+{:.table-model-big}
 | Pipeline                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `fi` 
@@ -147,6 +695,7 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 
 #### Swedish pipelines
 
+{:.table-model-big}
 | Pipeline                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `sv` 
@@ -300,6 +849,7 @@ Models
 
 * We have added 28 new pretrained models for Lemma and POS in 14 languages:
 
+{:.table-model-big}
 | Model                        | Name               | Build            | Lang |  
 |:-----------------------------|:-------------------|:-----------------|:------|
 | LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `br`    
@@ -627,6 +1177,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.5.4
 
 ### 2.5.3
 
+<div class="h3-box" markdown="1">
+
 #### John Snow Labs Spark-NLP 2.5.3: Detect Fake news, emotions, spams, and more classification models, enhancements, and bug fixes
 
 Overview
@@ -655,6 +1207,7 @@ Models
 
 We have added 5 new pre-trained ClassifierDL models for multi-class text classification.
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Description | Offline
 |:--------------|:--------------------------|:-----------------|:-----|:----------|:------|
 | ClassifierDLModel    | `classifierdl_use_spam`        | 2.5.3 |      `en` |  Detect if a message is spam or not    | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_spam_en_2.5.3_2.4_1593783318934.zip) |
@@ -707,6 +1260,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.3
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.3.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.2
 
 #### John Snow Labs Spark-NLP 2.5.2: New Language Detection annotator, enhancements, and bug fixes
@@ -741,11 +1296,13 @@ We have added 4 new LanguageDetectorDL models and pipelines to detect and identi
 * The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak
 * The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | LanguageDetectorDL    | `ld_wiki_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_7_xx_2.5.0_2.4_1591875673486.zip) |
 | LanguageDetectorDL    | `ld_wiki_20`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_20_xx_2.5.0_2.4_1591875680011.zip) |
 
+{:.table-model-big}
 | Pipeline    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | LanguageDetectorDL    | `detect_language_7`        | 2.5.2 |      `xx`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_7_xx_2.5.0_2.4_1591875676774.zip) |
@@ -795,6 +1352,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.2
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.2.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.1
 
 #### John Snow Labs Spark-NLP 2.5.1: Adding support for 6 new BioBERT and ClinicalBERT models
@@ -814,6 +1373,7 @@ Models
 
 We have added 6 new BERT models for medical and clinical purposes. The 4 BERT pre-trained models are from BioBERT and the other 2 are coming from ClinicalBERT models:
 
+{:.table-model-big}
 | Model    | Name                      | Build            | Lang | Offline
 |:--------------|:--------------------------|:-----------------|:------------|:------|
 | BertEmbeddings                    | `biobert_pubmed_base_cased`        | 2.5.0 |      `en`         | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_base_cased_en_2.5.0_2.4_1590487367971.zip) |
@@ -873,6 +1433,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.1
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.1.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.5.0
 
 #### John Snow Labs Spark-NLP 2.5.0: ALBERT & XLNet transformers, state-of-the-art spell checker, multi-class sentiment detector, 80+ new models & pipelines in 14 new languages & more
@@ -916,6 +1478,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Dutch - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `nl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_nl_2.5.0_2.4_1588546621618.zip)  |
@@ -927,6 +1490,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Norwegian - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `no` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_no_2.5.0_2.4_1588784132955.zip)  |
@@ -938,6 +1502,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Polish - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `pl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pl_2.5.0_2.4_1588531081173.zip)  |
@@ -949,6 +1514,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 
 **Portuguese - Pipelines**
 
+{:.table-model-big}
 | Pipeline                 | Name                   | Build  | lang | Description | Offline   |
 |:-------------------------|:-----------------------|:-------|:-------|:----------|:----------|
 | Explain Document Small    | `explain_document_sm`  | 2.5.0 |   `pt` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pt_2.5.0_2.4_1588501423743.zip)  |
@@ -1001,6 +1567,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.5.0
 * CPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.5.0.jar
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.5.0.jar
+
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.5
 
@@ -1075,6 +1643,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.5.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.4
 
 #### John Snow Labs Spark-NLP 2.4.4: The very first native multi-class text classifier and pre-trained models and pipelines in Russian
@@ -1097,6 +1667,7 @@ New Features
 
 **Models:**
 
+{:.table-model-big}
 | Model                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | LemmatizerModel (Lemmatizer) | `lemma `|`ru`|
@@ -1107,6 +1678,7 @@ New Features
 
 **Pipelines:**
 
+{:.table-model-big}
 | Pipeline                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | Explain Document (Small) | `explain_document_sm`|`ru`|
@@ -1118,17 +1690,24 @@ New Features
 
 **Evaluation:**
 
+
 wikiner_6B_100 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 |97.76%|88.85%|  88.55%| 88.70
 
 wikiner_6B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 |97.78%| 89.09% | 88.51%|  88.80
 
 wikiner_840B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 |97.85%|  89.85%|  89.11%|  89.48
@@ -1204,6 +1783,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.4
 
 * GPU: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.4.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.3
 
 #### John Snow Labs Spark-NLP 2.4.3: Minor bug fix in Python
@@ -1264,6 +1845,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.3
 
 **CPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.3.jar
 **GPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.3.jar
+
+</div><div class="h3-box" markdown="1">
 
 ### 2.4.2
 
@@ -1334,6 +1917,8 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.2
 **CPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.4.2.jar
 **GPU**: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.4.2.jar
 
+</div><div class="h3-box" markdown="1">
+
 ### 2.4.1
 
 #### John Snow Labs Spark-NLP 2.4.1: Bug fixes and the very first Spanish models & pipelines
@@ -1350,6 +1935,7 @@ Models & Pipelines
 
 **Models:**
 
+{:.table-model-big}
 | Model                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | LemmatizerModel (Lemmatizer) | `lemma `|`es`|
@@ -1360,6 +1946,7 @@ Models & Pipelines
 
 **Pipelines:**
 
+{:.table-model-big}
 | Pipeline                                  |   name     |   language     |
 |--------------------------|--------------|----------|
 | Explain Document (Small) | `explain_document_sm`|`es`|
@@ -1372,19 +1959,27 @@ Models & Pipelines
 **Evaluation:**
 
 wikiner_6B_100 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 | 98.35% | 88.97% | 88.64% | 88.80 |
 
 wikiner_6B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 | 98.38% | 89.42% | 89.03% | 89.22 |
 
 wikiner_840B_300 with `conlleval.pl`
+
+{:.table-model-big.w7}
 |Accuracy         |Precision         |Recall |F1-Score   |
 |-----------------|------------------|-------|-----------|
 | 98.46% | 89.74% | 89.43% | 89.58 |
+
+</div><div class="h3-box" markdown="1">
 
 #### Example
 
@@ -1419,6 +2014,8 @@ Documentation
 * Add multiple programming languages for demos and examples
 * Update the entire [spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models) repository with new pre-trained models and pipelines
 
+</div>
+
 ### 2.4.0
 
 #### John Snow Labs Spark-NLP 2.4.0: New TensorFlow 1.15, Universal Sentence Encoder, Elmo, faster Word Embeddings & more
@@ -1452,6 +2049,7 @@ Models and Pipelines
 
 Spark NLP `2.4.0` comes with new models including Universal Sentence Encoder, BERT, and Elmo models from TF Hub. In addition, our multilingual pipelines are now available for Windows as same as Linux and macOS users.
 
+{:.table-model-big}
 | Models              |   Name        |
 |------------------------|---------------|
 |UniversalSentenceEncoder|`tf_use`
@@ -1465,6 +2063,7 @@ Spark NLP `2.4.0` comes with new models including Universal Sentence Encoder, BE
 |NerDLModel|`onto_100`
 |NerDLModel|`onto_300`
 
+{:.table-model-big}
 | Pipelines               | Name                   | Language
 | ----------------------- | ---------------------  | ---------|
 | Explain Document Large  | `explain_document_lg`  | fr

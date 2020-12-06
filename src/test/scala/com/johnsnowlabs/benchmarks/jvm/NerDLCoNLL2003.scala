@@ -7,7 +7,7 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
-import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
+import com.johnsnowlabs.nlp.annotators.ner.dl.{LoadsContrib, NerDLApproach}
 import com.johnsnowlabs.nlp.training.{CoNLL, CoNLLDocument}
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsReader, WordEmbeddingsTextIndexer, WordEmbeddingsWriter}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
@@ -60,19 +60,21 @@ object NerDLCoNLL2003 extends App {
 
   val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
 
+
   val ner = try {
     val model = new TensorflowNer(tf, encoder, 32, Verbose.All)
     for (epoch <- 0 until 150) {
-      model.train(trainDataset, 1e-3f, 0.005f, 32, 0.5f, epoch, epoch + 1, outputLogsPath = "")
+      model.train(trainDataset.grouped(32), trainDataset.size, Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]().grouped(32),
+        trainDataset.size, 1e-3f, 0.005f, 0.5f, epoch, epoch + 1, outputLogsPath = "")
 
       System.out.println("\n\nQuality on train data")
-      model.measure(trainDataset, extended = true, outputLogsPath = "")
+      model.measure(trainDataset.grouped(32), extended = true, outputLogsPath = "")
 
       System.out.println("\n\nQuality on test A data")
-      model.measure(testDatasetA, extended = true, outputLogsPath = "")
+      model.measure(testDatasetA.grouped(32), extended = true, outputLogsPath = "")
 
       System.out.println("\n\nQuality on test B data")
-      model.measure(testDatasetB, extended = true, outputLogsPath = "")
+      model.measure(testDatasetB.grouped(32), extended = true, outputLogsPath = "")
     }
     model
   }

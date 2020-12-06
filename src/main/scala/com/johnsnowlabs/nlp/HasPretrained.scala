@@ -13,7 +13,7 @@ trait HasPretrained[M <: PipelineStage] {
 
   val defaultLang: String = "en"
 
-  val defaultLoc: String = ResourceDownloader.publicLoc
+  lazy val defaultLoc: String = ResourceDownloader.publicLoc
 
   implicit private val companion = this.asInstanceOf[DefaultParamsReadable[M]]
 

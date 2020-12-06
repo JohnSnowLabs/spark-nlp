@@ -113,16 +113,16 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
   }
 
   private def getShortCircuitSuggestion(word: String): Option[String] = {
-    if (allWords.intersect(Utilities.reductions(word, $(reductLimit))).nonEmpty) Some(word)
-    else if (allWords.intersect(Utilities.getVowelSwaps(word, $(vowelSwapLimit))).nonEmpty) Some(word)
-    else if (allWords.intersect(Utilities.variants(word)).nonEmpty) Some(word)
-    else if (allWords.intersect(both(word)).nonEmpty) Some(word)
-    else if ($(doubleVariants) && allWords.intersect(computeDoubleVariants(word)).nonEmpty) Some(word)
+    if (Utilities.reductions(word, $(reductLimit)).exists(allWords.contains)) Some(word)
+    else if (Utilities.getVowelSwaps(word, $(vowelSwapLimit)).exists(allWords.contains)) Some(word)
+    else if (Utilities.variants(word).exists(allWords.contains)) Some(word)
+    else if (both(word).exists(allWords.contains)) Some(word)
+    else if ($(doubleVariants) && computeDoubleVariants(word).exists(allWords.contains)) Some(word)
     else None
   }
 
   /** variants of variants of a word */
-  def computeDoubleVariants(word: String): Set[String] = Utilities.variants(word).flatMap(variant =>
+  def computeDoubleVariants(word: String): List[String] = Utilities.variants(word).flatMap(variant =>
     Utilities.variants(variant))
 
   private def getSuggestion(word: String): (Option[String], Double) = {
@@ -163,19 +163,19 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
           Utilities.variants(word) ++
           both(word)
       if ($(doubleVariants)) base ++ computeDoubleVariants(word) else base
-    })
+    }.toSet)
     if (intersectedPossibilities.nonEmpty) intersectedPossibilities.toList
     else List.empty[String]
   }
 
-  private def both(word: String): Set[String] = {
+  private def both(word: String): List[String] = {
     Utilities.reductions(word, $(reductLimit)).flatMap(reduction => Utilities.getVowelSwaps(reduction, $(vowelSwapLimit)))
   }
 
   def getSortedWordsByFrequency(words: List[String], input: String): List[(String, Long)] = {
-    val filteredWords = words.filter(_.length >= input.length)
+    val filteredWords = words.withFilter(_.length >= input.length)
     val sortedWordsByFrequency = filteredWords.map(word => (word, compareFrequencies(word)))
-      .sortBy(_._2).takeRight($(intersections))
+      .sortWith(_._2 > _._2).take($(intersections))
     logger.debug(s"recommended by frequency: ${sortedWordsByFrequency.mkString(", ")}")
     sortedWordsByFrequency
   }

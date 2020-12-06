@@ -1,5 +1,6 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Pipeline components
 permalink: /docs/en/ocr_pipeline_components
 key: docs-ocr-pipeline-components
@@ -7,16 +8,17 @@ modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
 
-# PDF processing
+## PDF processing
 
 Next section describes the transformers that deal with PDF files with the purpose of extracting text and image data from PDF files.
 
-## PdfToText
+### PdfToText
 
 `PDFToText` extracts text from selectable PDF (with text layout).
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | text | binary representation of the PDF document |
@@ -24,13 +26,20 @@ Next section describes the transformers that deal with PDF files with the purpos
 
 ##### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | splitPage | bool | true | whether it needed to split document to pages |
-
+| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | 
+| sort | bool | false | Sort text during extraction with TextStripperType.PDF_LAYOUT_STRIPPER |
+| partitionNum | int| 0 | Force repartition dataframe if set to value more than 0. |
+| onlyPageNum | bool | false | Extract only page numbers. |
+| extractCoordinates | bool | false | Extract coordinates and store to the `positions` column |
+| storeSplittedPdf | bool | false | Store one page pdf's for process it using PdfToImage. |
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | text | extracted text |
@@ -42,6 +51,8 @@ NOTE: For setting parameters use `setParamName` method.
 
 **Example**
 
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -83,6 +94,8 @@ data = transformer.transform(df)
 data.select("pagenum", "text").show()
 ```
 
+</div>
+
 
 **Output:**
 
@@ -96,12 +109,16 @@ data.select("pagenum", "text").show()
 +-------+----------------------+
 ```
 
-## PdfToImage
+### PdfToImage
 
 `PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
+Output dataframe contains `total_pages` field with total number of pages.
+For process pdf with big number of pages prefer to split pdf by setting `splitNumBatch` param.
+Number of partitions should be equal number of cores/executors.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | content | binary representation of the PDF document |
@@ -111,6 +128,7 @@ data.select("pagenum", "text").show()
 
 ##### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | splitPage | bool | true | whether it needed to split document to pages |
@@ -118,10 +136,17 @@ data.select("pagenum", "text").show()
 | imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_GRAY` | type of the image |
 | resolution | int | 300 | Output image resolution in dpi |
 | keepInput | boolean | false | Keep input column in dataframe. By default it is dropping. |
-| partitionNum | int | 0 | Number of partitions (0 value - without repartition) |
+| partitionNum | int | 0 | Number of Spark RDD partitions (0 value - without repartition) |
+| binarization | boolean | false | Enable/Disable binarization image after extract image. |
+| binarizationParams | Array[String] | null | Array of Binarization params in key=value format. |
+| splitNumBatch | int | 0 | Number of partitions or size of partitions, related to the splitting strategy. |
+| partitionNumAfterSplit | int| 0 | Number of Spark RDD partitions after splitting pdf document (0 value - without repartition).|
+| splittingStategy | [SplittingStrategy](ocr_structures#splittingstrategy)| SplittingStrategy.FIXED_SIZE_OF_PARTITION | Splitting strategy. |
+
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | image | extracted image struct ([Image schema](ocr_structures#image-schema)) |
@@ -129,6 +154,8 @@ data.select("pagenum", "text").show()
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -170,7 +197,9 @@ data =  pdfToImage.transform(df)
 data.select("pagenum", "text").show()
 ```
 
-## ImageToPdf
+</div>
+
+### ImageToPdf
 
 `ImageToPdf` transform image to Pdf document.
 If dataframe contains few records for same origin path, it groups image by origin
@@ -178,6 +207,7 @@ column and create multipage PDF document.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema))  |
@@ -186,6 +216,7 @@ column and create multipage PDF document.
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | content | binary representation of the PDF document |
@@ -195,6 +226,8 @@ column and create multipage PDF document.
 
 Read images and store it as single page PDF documents.
 
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -248,7 +281,9 @@ pdf_df =  pdfToImage.transform(image_df)
 pdf_df.select("content").show()
 ```
 
-## TextToPdf
+</div>
+
+### TextToPdf
 
 `TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to same position
 with same font size as in original image or PDF.
@@ -257,6 +292,7 @@ column and create multipage PDF document.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | positions | column with positions struct  |
@@ -268,6 +304,7 @@ column and create multipage PDF document.
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | pdf | binary representation of the PDF document |
@@ -277,6 +314,8 @@ column and create multipage PDF document.
 
 Read PDF document, run OCR and render results to PDF document.
 
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -374,24 +413,17 @@ result = pipeline.transform(df).collect()
 # Store to file for debug
 with open("test.pdf", "wb") as file:
     file.write(result[0].pdf)
-
-
-
-
-
-
-
-
-
-
 ```
 
-## PdfDrawRegions
+</div>
+
+### PdfDrawRegions
 
 `PdfDrawRegions` transformer for drawing regions to Pdf document.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | content | binary representation of the PDF document |
@@ -401,6 +433,7 @@ with open("test.pdf", "wb") as file:
 
 ##### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | lineWidth | integer | 1 | line width for draw regions |
@@ -408,12 +441,15 @@ with open("test.pdf", "wb") as file:
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | pdf_regions | binary representation of the PDF document |
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -551,17 +587,16 @@ pdfContent = pdfWithRegions.select("pdf_regions").collect().head.getAs[Array[Byt
 
 # store to pdf to tmp file
 with open("test.pdf", "wb") as file:
-    file.write(pdfContent[0].pdf_regions)  
-
-
-
+    file.write(pdfContent[0].pdf_regions) 
 ```
+
+</div>
 
 Results:
 
 ![Result with regions](/assets/images/ocr/with_regions.png)
 
-## PdfToTextTable
+### PdfToTextTable
 
 Extract tables from Pdf document page.
 Input is a column with binary representation of PDF document.
@@ -569,6 +604,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | text | binary representation of the PDF document |
@@ -576,6 +612,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 ##### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | pageIndex | integer | -1 | Page index to extract Tables. |
@@ -585,12 +622,15 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | TableContainer | tables | Extracted tables |
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -642,9 +682,9 @@ table = pdf_to_text_table.transform(df)
 
 # Show first row
 table.select(table["table.chunks"].getItem(1)["chunkText"]).show(1, False)
-
-
 ```
+
+</div>
 
 Output:
 
@@ -656,15 +696,15 @@ Output:
 +------------------------------------------------------------------+
 ```
 
+## Dicom processing
 
-# Dicom processing
-
-## DicomToImage
+### DicomToImage
 
 `DicomToImage` transforms dicom object (loaded as binary file) to image struct.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | content | binary dicom object |
@@ -673,6 +713,7 @@ Output:
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | image | extracted image struct ([Image schema](ocr_structures#image-schema)) |
@@ -680,6 +721,8 @@ Output:
 | metadataCol | string | metadata | Output column name for dicom metatdata ( json formatted )  |
 
 **Scala example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -719,12 +762,15 @@ data = dicomToImage.transform(df)
 data.select("image", "pagenum", "meta").show()
 ```
 
-## ImageToDicom
+</div>
+
+### ImageToDicom
 
 `ImageToDicom` transforms image to Dicom document.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
@@ -735,11 +781,14 @@ data.select("image", "pagenum", "meta").show()
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | dicom | binary dicom object  |
 
 **Scala example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -761,9 +810,6 @@ val imageToDicom = new ImageToDicom()
 val data = imageToDicom.transform(df)
 
 data.select("dicom").show()
-
-
-
 ```
 
 ```python
@@ -789,16 +835,19 @@ data = imageToDicom.transform(image_df)
 data.select("dicom").show()
 ```
 
-# Image pre-processing
+</div>
+
+## Image pre-processing
 
 Next section describes the transformers for image pre-processing: scaling, binarization, skew correction, etc.
 
-## BinaryToImage
+### BinaryToImage
 
 `BinaryToImage` transforms image (loaded as binary file) to image struct.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | content | binary representation of the image |
@@ -807,11 +856,14 @@ Next section describes the transformers for image pre-processing: scaling, binar
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | image | extracted image struct ([Image schema](ocr_structures#image-schema)) |
 
 **Scala example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -849,30 +901,36 @@ data = binaryToImage.transform(df)
 data.select("image").show()
 ```
 
+</div>
 
-## ImageBinarizer
+### ImageBinarizer
 
 `ImageBinarizer` transforms image to binary color schema by threshold.
 
 ##### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 ##### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | threshold | int | 170 |
 
 ##### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | binarized_image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -917,8 +975,10 @@ binirizer = ImageBinarizer() \
 data = binirizer.transform(df)
 
 data.show()
-
 ```
+
+</div>
+
 **Original image:**
 
 ![original](/assets/images/ocr/text_with_noise.png)
@@ -927,8 +987,120 @@ data.show()
 
 ![binarized](/assets/images/ocr/binarized.png)
 
+### ImageAdaptiveBinarizer
 
-## ImageAdaptiveThresholding
+Supported Methods:
+- OTSU
+- Gaussian local thresholding. Thresholds the image using a locally adaptive threshold that is computed
+ using a local square region centered on each pixel.  The threshold is equal to the gaussian weighted sum 
+ of the surrounding pixels times the scale.
+- Sauvola
+
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| width | float | 90 | Width of square region. |
+| method | [TresholdingMethod](ocr_structures#tresholdingmethod) | `TresholdingMethod.GAUSSIAN` | Method used to determine adaptive threshold. |
+| scale | float | 1.1f | Scale factor used to adjust threshold. |
+| imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_BINARY` | Type of the output image |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | binarized_image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val binirizer = new ImageAdaptiveBinarizer()
+  .setInputCol("image")
+  .setOutputCol("binary_image")
+  .setWidth(100)
+  .setScale(1.1)
+
+val data = binirizer.transform(df)
+
+data.storeImage("binary_image")
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+from sparkocr.utils import display_image
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+adaptive_thresholding = ImageAdaptiveBinarizer() \
+    .setInputCol("image") \
+    .setOutputCol("binarized_image") \
+    .setWidth(100) \
+    .setScale(1.1)
+
+pipeline = PipelineModel(stages=[
+            binary_to_image,
+            adaptive_thresholding
+        ])
+
+result = pipeline.transform(df)
+
+for r in result.select("image", "corrected_image").collect():
+    display_image(r.image)
+    display_image(r.corrected_image)
+```
+
+</div>
+
+### ImageAdaptiveThresholding
 
 Compute a threshold mask image based on local pixel neighborhood and apply it to image.
 
@@ -937,12 +1109,14 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | blockSize | int | 170 | Odd size of pixel neighborhood which is used to calculate the threshold value (e.g. 3, 5, 7, ..., 21, ...). |
@@ -954,47 +1128,19 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | binarized_image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 **Example:**
 
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 // Implemented only for Python
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```
 
 ```python
@@ -1031,6 +1177,9 @@ for r in result.select("image", "corrected_image").collect():
     display_image(r.image)
     display_image(r.corrected_image)
 ```
+
+</div>
+
 **Original image:**
 
 ![original](/assets/images/ocr/text_with_noise.png)
@@ -1040,30 +1189,35 @@ for r in result.select("image", "corrected_image").collect():
 ![binarized](/assets/images/ocr/adaptive_binarized.png)
 
 
-## ImageScaler
+### ImageScaler
 
 `ImageScaler` scales image by provided scale factor.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | scaleFactor | double | 1.0 | scale factor |
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | scaled_image | scaled image struct ([Image schema](ocr_structures#image-schema)) |
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1106,32 +1260,38 @@ transformer = ImageScaler() \
 
 data = transformer.transform(df)
 data.show()
-
 ```
 
-## ImageAdaptiveScaler
+</div>
+
+### ImageAdaptiveScaler
 
 `ImageAdaptiveScaler` detects font size and scales image for have desired font size.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | desiredSize | int | 34 | desired size of font in pixels |
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | scaled_image | scaled image struct ([Image schema](ocr_structures#image-schema)) |
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1174,21 +1334,24 @@ transformer = ImageAdaptiveScaler() \
 
 data = transformer.transform(df)
 data.show()
-
 ```
 
-## ImageSkewCorrector
+</div>
+
+### ImageSkewCorrector
 
 `ImageSkewCorrector` detects skew of the image and rotates it.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | rotationAngle | double | 0.0 | rotation angle |
@@ -1199,12 +1362,15 @@ data.show()
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | corrected_image | corrected image struct ([Image schema](ocr_structures#image-schema)) |
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1247,8 +1413,9 @@ val transformer = new ImageSkewCorrector()
 
 val data = transformer.transform(df)
 data.show()
-
 ```
+
+</div>
 
 **Original image:**
 
@@ -1258,12 +1425,13 @@ data.show()
 
 ![corrected](/assets/images/ocr/corrected.png)
 
-## ImageNoiseScorer
+### ImageNoiseScorer
 
 `ImageNoiseScorer` computes noise score for each region.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
@@ -1271,18 +1439,22 @@ data.show()
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | method | [NoiseMethod](ocr_structures#noisemethod) string | NoiseMethod.RATIO | method of computation noise score |
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | noisescores | noise score for each region |
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1363,10 +1535,9 @@ pipeline.setStages(Array(
 data = pipeline.transform(df)
 
 data.select("path", "noiselevel").show()
-
-
-
 ```
+
+</div>
 
 **Output:**
 
@@ -1379,7 +1550,7 @@ data.select("path", "noiselevel").show()
 
 ```
 
-## ImageRemoveObjects
+### ImageRemoveObjects
 
 **python only**
 
@@ -1392,12 +1563,14 @@ It support removing:
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | None | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | minSizeFont | int | 10 | Min size font in pt. |
@@ -1412,6 +1585,7 @@ It support removing:
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | None | scaled image struct ([Image schema](ocr_structures#image-schema)) |
@@ -1419,34 +1593,12 @@ It support removing:
 
 **Example:**
 
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 // Implemented only for Python
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```
 
 ```python
@@ -1477,7 +1629,9 @@ pipeline = PipelineModel(stages=[
 data = pipeline.transform(df)
 ```
 
-## ImageMorphologyOperation
+</div>
+
+### ImageMorphologyOperation
 
 **python only**
 
@@ -1491,12 +1645,14 @@ It supports following operation:
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | None | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | operation | [MorphologyOperationType](ocr_structures#morphologyoperationtype) | MorphologyOperationType.OPENING | Operation type |
@@ -1506,6 +1662,7 @@ It supports following operation:
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | None | scaled image struct ([Image schema](ocr_structures#image-schema)) |
@@ -1513,46 +1670,12 @@ It supports following operation:
 
 **Example:**
 
+<div class="tabs-box pt0" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
 // Implemented only for Python
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```
 
 ```python
@@ -1595,6 +1718,8 @@ for r in result.select("image", "corrected_image").collect():
     display_image(r.corrected_image)
 ```
 
+</div>
+
 **Original image:**
 
 ![original](/assets/images/ocr/text_with_noise.png)
@@ -1603,18 +1728,20 @@ for r in result.select("image", "corrected_image").collect():
 
 ![opening](/assets/images/ocr/opening.png)
 
-## ImageCropper
+### ImageCropper
 
 `ImageCropper`is a transformer for cropping image.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | cropRectangle | Rectangle | Rectangle(0,0,0,0) | Image rectangle. |
@@ -1623,12 +1750,15 @@ for r in result.select("image", "corrected_image").collect():
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | cropped_image | scaled image struct ([Image schema](ocr_structures#image-schema)) |
 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1653,16 +1783,6 @@ val cropper: ImageCropper = new ImageCropper()
 
 val data = transformer.transform(df)
 data.storeImage("cropped_image")
-
-
-
-
-
-
-
-
-
-
 ```
 
 ```python
@@ -1698,20 +1818,24 @@ for r in result.select("image", "cropped_image").collect():
     display_image(r.cropped_image)
 ```
 
-# Splitting image to regions
+</div>
 
-## ImageLayoutAnalyzer
+### Splitting image to regions
+
+### ImageLayoutAnalyzer
 
 `ImageLayoutAnalyzer` analyzes the image and determines regions of text.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
@@ -1720,11 +1844,14 @@ for r in result.select("image", "cropped_image").collect():
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | region | array of [Coordinaties]ocr_structures#coordinate-schema)|
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1750,11 +1877,6 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
 val data = layoutAnalyzer.transform(df)
 
 data.show()
-
-
-
-
-
 ```
 
 ```python
@@ -1786,12 +1908,15 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-## ImageSplitRegions
+</div>
+
+### ImageSplitRegions
 
 `ImageSplitRegions` splits image to regions.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
@@ -1800,17 +1925,21 @@ data.show()
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | explodeCols | Array[string] | |Columns which need to explode |
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | region_image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1888,12 +2017,15 @@ data = pipeline.transform(df)
 data.show()
 ```
 
-## ImageDrawRegions
+</div>
+
+### ImageDrawRegions
 
 `ImageDrawRegions` draw regions to image.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
@@ -1902,17 +2034,21 @@ data.show()
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | lineWidth | Int | 4 | Line width for draw rectangles |
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | image_with_regions | image struct ([Image schema](ocr_structures#image-schema)) |
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -1987,14 +2123,15 @@ pipeline = PipelineModel(stages=[
 
 data = pipeline.transform(df)
 data.show()
-
 ```
 
-# Characters recognition
+</div>
+
+## Characters recognition
 
 Next section describes the estimators for OCR
 
-## ImageToText
+### ImageToText
 
 `ImageToText` runs OCR for input image, return recognized text
 to _outputCol_ and positions with font size to 'positionsCol' column.
@@ -2002,12 +2139,14 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
@@ -2017,15 +2156,19 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | confidenceThreshold | int | 0 | Confidence threshold. |
 | ignoreResolution | bool | true | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
+| pdfCoordinates | bool | false | Transform coordinates in positions to PDF points. |
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | text | Recognized text |
 | positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) | 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -2048,15 +2191,6 @@ val transformer = new ImageToText()
 
 val data = transformer.transform(df)
 print(data.select("text").collect()[0].text)
-
-
-
-
-
-
-
-
-
 ```
 
 ```python
@@ -2089,6 +2223,8 @@ data = pipeline.transform(df)
 data.show()
 ```
 
+</div>
+
 **Image:**
 
 ![image](/assets/images/ocr/corrected.png)
@@ -2102,10 +2238,9 @@ Electronic design engineers are the true idea men of the electronic
 industries. They create ideas and use them in their designs, they stimu-
 late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
-
 ```
 
-## ImageBrandsToText
+### ImageBrandsToText
 
 `ImageBrandsToText` runs OCR for specified brands of input image, return recognized text
 to _outputCol_ and positions with font size to 'positionsCol' column.
@@ -2113,12 +2248,14 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
@@ -2132,6 +2269,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | structure | image_brands | Structure with recognized text from brands. |
@@ -2139,6 +2277,8 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) | 
 
 **Example:**
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -2183,12 +2323,6 @@ val transformer = new ImageBrandsToText()
 
 val data = transformer.transform(df)
 print(data.select("text").collect()[0].text)
-
-
-
-
-
-
 ```
 
 ```python
@@ -2240,17 +2374,19 @@ data = pipeline.transform(df)
 data.show()
 ```
 
+</div>
 
-# Other
+## Other
 
 Next section describes the extra transformers
 
-## PositionFinder
+### PositionFinder
 
 `PositionFinder` find position of input text entities in original document.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCols | string | image | Input annotations columns |
@@ -2258,6 +2394,7 @@ Next section describes the extra transformers
 
 #### Parameters
 
+{:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | matchingWindow | int | 10 | Textual range to match in context, applies in both direction |
@@ -2266,12 +2403,15 @@ Next section describes the extra transformers
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | | Name of output column for store coordinates. |
 
 **Example:**
 
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -2384,14 +2524,17 @@ pipeline = Pipeline(stages=[
 
 results = pipeline.fit(df).transform(df)
 results.show()
-
 ```
-## UpdateTextPosition
+
+</div>
+
+### UpdateTextPosition
 
 `UpdateTextPosition` update output text and keep old coordinates of original document.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | positions | Сolumn name with original positions struct |
@@ -2400,12 +2543,15 @@ results.show()
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | output_positions | Name of output column for updated positions struct. |
 
 **Example:**
 
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -2520,11 +2666,11 @@ pipeline = Pipeline(stages=[
 
 results = pipeline.fit(df).transform(df)
 results.show()
-
-
 ```
 
-## FoundationOneReportParser
+</div>
+
+### FoundationOneReportParser
 
 `FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
 Current implementation support parsing patient info, genomic and biomarker findings.
@@ -2532,6 +2678,7 @@ Output format is json.
 
 #### Input Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | text | Сolumn name with text of report |
@@ -2539,12 +2686,15 @@ Output format is json.
 
 #### Output Columns
 
+{:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | report | Name of output column with report in json format. |
 
 **Example:**
 
+
+<div class="tabs-box pt0" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -2576,7 +2726,6 @@ pipeline.setStages(Array(
 val modelPipeline = pipeline.fit(df)
 
 val report =  modelPipeline.transform(df)
-
 ```
 
 ```python
@@ -2601,14 +2750,9 @@ genomic_parser.setInputCol("text")
 genomic_parser.setOutputCol("report")
 
 report = genomic_parser.transform(pdf_to_text.transform(df)).collect()
-
-
-
-
-
-
-
 ```
+
+</div>
 
 Output:
 
@@ -2648,5 +2792,3 @@ Output:
   } ]
 }
 ```
-
-
