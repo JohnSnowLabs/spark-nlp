@@ -91,6 +91,7 @@ jobs:
           java-version: 1.8
       - name: UniversalSentenceEncoderTestSpec test
         run: |
+          brew install sbt
           sbt clean
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
