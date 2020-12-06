@@ -90,14 +90,14 @@ jobs:
         with:
           java-version: 1.8
       - name: Test on macOS
-        if: ${{ matrix.os }} != 'macos-latest'
+        if: ${{ matrix.os }} == 'macos-latest'
         run: |
           brew install sbt
           sbt clean
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
       - name: Test on Ubuntu
-        if: ${{ matrix.os }} != 'ubuntu-latest'
+        if: ${{ matrix.os }} == 'ubuntu-latest'
         run: |
           sbt clean
           sbt compile
