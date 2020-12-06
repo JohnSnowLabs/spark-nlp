@@ -103,18 +103,18 @@ jobs:
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
 
-#  windows:
-#    runs-on: windows-latest
-#    name: Build and Run custom unit tests on Windows
-#    steps:
-#      - name: Configure git
-#        run: "git config --global core.autocrlf false"
-#        shell: bash
-#      - uses: actions/checkout@v2
-#      - uses: olafurpg/setup-scala@v10
-#      - name: Compile
-#        shell: bash
-#        run: |
-#          sbt clean
-#          sbt compile
-#          sbt "testOnly *UniversalSentenceEncoderTestSpec"
+  windows:
+    runs-on: windows-latest
+    name: Build and Run custom unit tests on Windows
+    steps:
+      - name: Configure git
+        run: "git config --global core.autocrlf false"
+        shell: bash
+      - uses: actions/checkout@v2
+      - uses: olafurpg/setup-scala@v10
+      - name: Compile
+        shell: bash
+        run: |
+          sbt clean
+          sbt compile
+          sbt "testOnly *UniversalSentenceEncoderTestSpec"
