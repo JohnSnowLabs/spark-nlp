@@ -172,7 +172,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
     pipelineDF.show(2)
   }
 
-  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" in {
+  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" ignore {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
 
