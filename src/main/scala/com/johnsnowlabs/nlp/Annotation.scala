@@ -95,6 +95,7 @@ object Annotation {
       row.getSeq[Float](5).toArray
     )
   }
+
   def apply(rawText: String): Annotation = Annotation(
     AnnotatorType.DOCUMENT,
     0,

@@ -188,7 +188,6 @@ class TensorflowWrapper(
       .run()
 
     // 3. Save Graph
-    // val graphDef = graph.toGraphDef
     val graphFile = Paths.get(folder, "saved_model.pb").toString
     FileUtils.writeByteArrayToFile(new File(graphFile), graph)
 
@@ -202,14 +201,12 @@ class TensorflowWrapper(
     // This makes sure they are compatible with V1
     if(tfChkPointsVars.length > 3){
       val variablesDir = tfChkPointsVars(1).toString
-      val variablseDataPath = tfChkPointsVars(2).toString
-      val variablesIndexPath = tfChkPointsVars(3).toString
 
-      val varDataPath = Paths.get(folder, "variables.data-00000-of-00001").toString
-      val varInedxPath = Paths.get(folder, "variables.index").toString
+      val varData = Paths.get(folder, "variables.data-00000-of-00001")
+      Files.write(varData, variables.variables)
 
-      FileUtils.moveFile(new File(variablseDataPath), new File(varDataPath))
-      FileUtils.moveFile(new File(variablesIndexPath), new File(varInedxPath))
+      val varIdx = Paths.get(folder, "variables.index")
+      Files.write(varIdx, variables.index)
 
       FileHelper.delete(variablesDir)
     }
@@ -560,6 +557,36 @@ object TensorflowWrapper {
     val idxPath = Paths.get(folder, "variables.index")
     val idxBytes = Files.readAllBytes(idxPath)
 
+    val vars = Variables(varBytes, idxBytes)
+
+    FileHelper.delete(folder)
+
+    vars
+  }
+
+  def extractVariablesSavedModel(session: Session): Variables = {
+    val t = new TensorResources()
+
+    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
+      .toAbsolutePath.toString
+    val variablesFile = Paths.get(folder, "variables").toString
+
+    session.runner.addTarget("save/control_dependency")
+      .feed("save/Const", t.createTensor(variablesFile))
+      .run()
+
+    val tfChkPointsVars = FileUtils.listFilesAndDirs(
+      new File(folder),
+      new WildcardFileFilter("part*"),
+      new WildcardFileFilter("variables*")
+    ).toArray()
+
+    val variablesDir = tfChkPointsVars(1).toString
+    val variablseData = Paths.get(tfChkPointsVars(2).toString)
+    val variablesIndex = Paths.get(tfChkPointsVars(3).toString)
+// read from vriables
+    val varBytes = Files.readAllBytes(variablseData)
+    val idxBytes = Files.readAllBytes(variablesIndex)
     val vars = Variables(varBytes, idxBytes)
 
     FileHelper.delete(folder)
