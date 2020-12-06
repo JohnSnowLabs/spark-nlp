@@ -79,7 +79,7 @@ jobs:
   custom:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     name: Build and Run custom unit tests
 
@@ -96,16 +96,24 @@ jobs:
           sbt clean
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
-      - name: Test on Windows
-        if: ${{ matrix.os }} != 'windows-latest'
-        uses: olafurpg/setup-scala@v10
-        shell: bash
+      - name: Test on Ubuntu
+        if: ${{ matrix.os }} != 'ubuntu-latest'
         run: |
           sbt clean
           sbt compile
           sbt "testOnly *UniversalSentenceEncoderTestSpec"
-      - name: Test on Ubuntu
-        if: ${{ matrix.os }} != 'ubuntu-latest'
+
+  windows:
+    runs-on: windows-latest
+    name: Build and Run custom unit tests on Windows
+    steps:
+      - name: Configure git
+        run: "git config --global core.autocrlf false"
+        shell: bash
+      - uses: actions/checkout@v2
+      - uses: olafurpg/setup-scala@v10
+      - name: Compile
+        shell: bash
         run: |
           sbt clean
           sbt compile
