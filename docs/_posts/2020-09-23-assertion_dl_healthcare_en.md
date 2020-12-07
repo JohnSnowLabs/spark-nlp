@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Assertion Status for Healthcare Entities
+title: Detect Assertion Status (assertion_dl_healthcare)
 author: John Snow Labs
 name: assertion_dl_healthcare
 class: AssertionDLModel
@@ -41,8 +41,8 @@ clinical_assertion = AssertionDLModel.pretrained("assertion_dl_healthcare","en",
     .setOutputCol("assertion")
     
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
-empty_data = spark.createDataFrame([['Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain']]).toDF("text")
-model = nlpPipeline.fit(empty_data)
+ 
+model = nlpPipeline.fit(spark.createDataFrame([['Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain']]).toDF("text"))
 results = model.transform(data)
 ```
 
@@ -54,7 +54,7 @@ val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_healthcare","
     
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
 
-val result = pipeline.fit(Seq.empty['Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain'].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain"].toDS.toDF("text")).transform(data)
 ```
 </div>
 
@@ -90,3 +90,19 @@ val result = pipeline.fit(Seq.empty['Patient has a headache for the last 2 weeks
 {:.h2_title}
 ## Data Source
 Trained using ``embeddings_clinical`` on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text from https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
+
+{:.h2_title}
+## Benchmarking
+```bash
+                       label  prec    rec     f1
+
+                      absent  0.9289  0.9466  0.9377
+                     present  0.9433  0.9559  0.9496
+                 conditional  0.6888  0.5     0.5794
+associated_with_someone_else  0.9285  0.9122  0.9203
+                hypothetical  0.9079  0.8654  0.8862
+                    possible  0.7     0.6146  0.6545
+
+                   macro-avg  0.8496  0.7991  0.8236
+                   micro-avg  0.9245  0.9245  0.9245
+```

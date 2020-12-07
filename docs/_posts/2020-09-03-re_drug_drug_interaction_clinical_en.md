@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 Relation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships among drug entities.
 
 ## Included Relations
-DDI-Advise, DDI-Effect, DDI-Mechanism, DDI-Int, DDI-False
+``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -31,15 +31,12 @@ DDI-Advise, DDI-Effect, DDI-Mechanism, DDI-Int, DDI-False
 
 ```python
 ...
-
 ddi_re_model = RelationExtractionModel.pretrained("re_drug_drug_interaction_clinical","en","clinical/models")\
 	.setInputCols("word_embeddings","chunk","pos","dependency")\
 	.setOutputCol("category")
-
 nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, ddi_re_model])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate("""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated""")
 ```
 
@@ -52,7 +49,7 @@ val ddi_re_model = RelationExtractionModel.pretrained("re_drug_drug_interaction_
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, ddi_re_model))
 
-val result = pipeline.fit(Seq.empty["""When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"].toDS.toDF("text")).transform(data)
 
 ```
 </div>
@@ -84,4 +81,4 @@ val result = pipeline.fit(Seq.empty["""When carbamazepine is withdrawn from the 
 
 {:.h2_title}
 ## Data Source
-Trained on data gathered and manually annotated by John Snow Labs
+Trained on data gathered and manually annotated by John Snow Labs.

@@ -26,7 +26,7 @@ This model classifies if a text is ADE-related (``True``) or not (``False``).
 
 {:.h2_title}
 ## How to use
-Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, BertEmbeddings (biobert_pubmed_base_cased), SentenceEmbeddings, ClassifierDLModel.
+To classify your text if it is ADE-related, you can use this model as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, BertEmbeddings (``biobert_pubmed_base_cased``), SentenceEmbeddings, ClassifierDLModel.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
@@ -92,11 +92,7 @@ val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred
 
 {:.h2_title}
 ## Data Source
-Trained on a custom dataset comprising of CADEC, DRUG-AE, Twimed using 'biobert_pubmed_base_cased' embeddings.
-
-{:.h2_title}
-## Data Source
-Trained on a custom dataset using `"biobert_pubmed_base_cased"`.
+Trained on a custom dataset comprising of CADEC, DRUG-AE, Twimed using ``biobert_pubmed_base_cased`` embeddings.
 
 {:.h2_title}
 ## Benchmarking

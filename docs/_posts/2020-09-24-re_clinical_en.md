@@ -17,7 +17,8 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Relation Extraction model based on syntactic features using deep learning. Models the set of clinical relations defined in the 2010 ``i2b2`` relation challenge.
 
-## Predicted Entities 
+{:.h2_title}
+## Included Relations 
 `TrIP`: A certain treatment has improved or cured a medical problem (eg, ‘infection resolved with antibiotic course’)
 `TrWP`: A patient's medical problem has deteriorated or worsened because of or in spite of a treatment being administered (eg, ‘the tumor was growing despite the drain’)
 `TrCP`: A treatment caused a medical problem (eg, ‘penicillin causes a rash’)
@@ -55,7 +56,7 @@ results = LightPipeline(model).fullAnnotate("""A 28-year-old female with a histo
 ```scala
 ...
 
-val model = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")
+val reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")
     .setInputCols("word_embeddings","chunk","pos","dependency")
     .setOutputCol("relations")
     
@@ -102,7 +103,7 @@ Trained on data gathered and manually annotated by John Snow Labs
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 ## Benchmarking
-The model has been validated agains the posology dataset described in (Magge, Scotch, & Gonzalez-Hernandez, 2018).
+The model has been validated against the posology dataset described in "Magge, Scotch, & Gonzalez-Hernandez, 2018".
 ```bash
        label  precision  recall  f1-score
  
@@ -120,4 +121,4 @@ The model has been validated agains the posology dataset described in (Magge, Sc
    macro avg       0.65    0.59      0.60
 weighted avg       0.87    0.88      0.87 
 ```
-*Magge, Scotch, Gonzalez-Hernandez (2018) collapsed DRUG-FORM and DRUG-ROUTE into a single relation.
+Magge, Scotch, Gonzalez-Hernandez (2018) collapsed DRUG-FORM and DRUG-ROUTE into a single relation.
