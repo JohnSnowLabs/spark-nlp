@@ -148,7 +148,7 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
   }
 
 
-  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" in {
+  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" ignore {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true")
       .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
