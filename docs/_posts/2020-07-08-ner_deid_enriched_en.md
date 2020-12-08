@@ -104,7 +104,7 @@ https://portal.dbmi.hms.harvard.edu/projects/n2c2-2014/
 
 
 {:.h2_title}
-## Banchmarking
+## Benchmarking
 ```bash
 |    | label            |    tp |   fp |   fn |     prec |      rec |       f1 |
 |---:|:-----------------|------:|-----:|-----:|---------:|---------:|---------:|
