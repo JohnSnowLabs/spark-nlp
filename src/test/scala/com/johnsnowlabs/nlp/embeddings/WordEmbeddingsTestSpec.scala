@@ -110,27 +110,23 @@ class WordEmbeddingsTestSpec extends FlatSpec {
     )
     val df = ResourceHelper.spark.createDataFrame(rows).toDF("text")
     val dac = new DocumentAssembler().setInputCol("text").setOutputCol("doc")
-    val sd = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+    val sd = SentenceDetectorDLModel.pretrained("sentence_detector_dl","en")
       .setInputCols("doc").setOutputCol("sentence")
     val tk = new Tokenizer().setInputCols("sentence").setOutputCol("token")
-    val emb = WordEmbeddingsModel.pretrained("embeddings_clinical","en","clinical/models").setOutputCol("embs")
-    val ner = NerDLModel.pretrained("ner_clinical","en","clinical/models").setInputCols("sentence","token","embs").setOutputCol("ner")
+    val emb = WordEmbeddingsModel.pretrained("glove_100d").setOutputCol("embs")
+    val ner = NerDLModel.pretrained("ner_dl").setInputCols("sentence","token","embs").setOutputCol("ner")
     val conv = new NerConverter().setInputCols("sentence","token","ner").setOutputCol("ner_chunk")
     val c2d = new Chunk2Doc().setInputCols("ner_chunk").setOutputCol("chunk_doc")
     val ctk = new ChunkTokenizer().setInputCols("ner_chunk").setOutputCol("chunk_tk") //Optional
-
-
-    val cembs = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d","en","clinical/models")
+    val cembs = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")
       .setInputCols("chunk_doc","chunk_tk").setOutputCol("chunk_tk_embs")
-    val aggembs = new ChunkEmbeddings().setInputCols("ner_chunk","chunk_tk_embs").setOutputCol("chunk_embs")
-      .setPoolingStrategy("AVERAGE").setSkipOOV(false)
-    val embs_pl = new Pipeline().setStages(Array(dac, sd, tk, emb, ner, conv, c2d, ctk, cembs, aggembs)).fit(df)
+    val embs_pl = new Pipeline().setStages(Array(dac, sd, tk, emb, ner, conv, c2d, ctk, cembs)).fit(df)
     val out_df = embs_pl.transform(df)
-    out_df.selectExpr("explode(arrays_zip(ner_chunk.result, chunk_embs.embeddings)) as a").show(100, truncate=50)
-
     val textSent = out_df.selectExpr("explode(arrays_zip(chunk_tk.result,chunk_tk.metadata,chunk_tk_embs.result,chunk_tk_embs.metadata)) as a")
       .selectExpr("(a['0'],a['1'].sentence) as chunk",
-        "(a['2'],a['3'].sentence) as embs").collect().forall(r=>r(0)==r(1))
-    assert(textSent)
+        "(a['2'],a['3'].sentence) as embs")
+    textSent.show(100,false)
+    val assertion = textSent.collect().forall(r=>r(0)==r(1))
+    assert(assertion)
   }
 }
