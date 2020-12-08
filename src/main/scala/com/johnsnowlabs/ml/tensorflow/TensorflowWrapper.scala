@@ -341,12 +341,13 @@ object TensorflowWrapper {
   }
 
   def readWithSP(
-            file: String,
-            zipped: Boolean = true,
-            useBundle: Boolean = false,
-            tags: Array[String] = Array.empty[String],
-            initAllTables: Boolean = false
-          ): TensorflowWrapper = {
+                  file: String,
+                  zipped: Boolean = true,
+                  useBundle: Boolean = false,
+                  tags: Array[String] = Array.empty[String],
+                  initAllTables: Boolean = false,
+                  loadSP: Boolean = false
+                ): TensorflowWrapper = {
     val t = new TensorResources()
 
     // 1. Create tmp folder
@@ -359,9 +360,10 @@ object TensorflowWrapper {
     else
       file
 
-    LoadSentencepiece.loadSPToTensorflowLocally()
-    LoadSentencepiece.loadSPToTensorflow()
-
+    if(loadSP) {
+      LoadSentencepiece.loadSPToTensorflowLocally()
+      LoadSentencepiece.loadSPToTensorflow()
+    }
     // 3. Read file as SavedModelBundle
     val (graph, session, varPath, idxPath) = if (useBundle) {
       val model = SavedModelBundle.load(folder, tags: _*)
@@ -584,7 +586,7 @@ object TensorflowWrapper {
     val variablesDir = tfChkPointsVars(1).toString
     val variablseData = Paths.get(tfChkPointsVars(2).toString)
     val variablesIndex = Paths.get(tfChkPointsVars(3).toString)
-// read from vriables
+    // read from vriables
     val varBytes = Files.readAllBytes(variablseData)
     val idxBytes = Files.readAllBytes(variablesIndex)
     val vars = Variables(varBytes, idxBytes)

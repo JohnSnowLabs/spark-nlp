@@ -42,12 +42,12 @@ trait WriteTensorflowModel {
   }
 
   def writeTensorflowModelV2(
-                            path: String,
-                            spark: SparkSession,
-                            tensorflow: TensorflowWrapper,
-                            suffix: String, filename:String,
-                            configProtoBytes: Option[Array[Byte]] = None
-                          ): Unit = {
+                              path: String,
+                              spark: SparkSession,
+                              tensorflow: TensorflowWrapper,
+                              suffix: String, filename:String,
+                              configProtoBytes: Option[Array[Byte]] = None
+                            ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -133,16 +133,19 @@ trait ReadTensorflowModel {
   }
 
   def readTensorflowWithSPModel(
-                           path: String,
-                           spark: SparkSession,
-                           suffix: String,
-                           zipped:Boolean = true,
-                           useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty,
-                           initAllTables: Boolean = false
-                         ): TensorflowWrapper = {
+                                 path: String,
+                                 spark: SparkSession,
+                                 suffix: String,
+                                 zipped:Boolean = true,
+                                 useBundle:Boolean = false,
+                                 tags:Array[String]=Array.empty,
+                                 initAllTables: Boolean = false,
+                                 loadSP: Boolean = false
+                               ): TensorflowWrapper = {
 
-    LoadSentencepiece.loadSPToCluster(spark)
+    if(loadSP){
+      LoadSentencepiece.loadSPToCluster(spark)
+    }
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -156,7 +159,7 @@ trait ReadTensorflowModel {
 
     // 3. Read Tensorflow state
     val tf = TensorflowWrapper.readWithSP(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables)
+      zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables, loadSP = loadSP)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
