@@ -10,7 +10,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Community support
 
-- [Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I) For live discussion with the Spark NLP community and the team
+- [Slack](https://spark-nlp.slack.com/join/shared_invite/zt-j5ttxh0z-Fn3lQSG1Z0KpOs_SRxjdyw#/) For live discussion with the Spark NLP community and the team
 - [GitHub](https://github.com/JohnSnowLabs/spark-nlp) Bug reports, feature requests, and contributions
 - [Medium](https://medium.com/spark-nlp) Spark NLP articles
 - [YouTube](https://www.youtube.com/channel/UCmFOjlpYEhxf_wJUDuz6xxQ/videos) Spark NLP video tutorials
@@ -77,7 +77,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * Multi-label Sentiment analysis (Deep learning)
 * Multi-class Text Classification (Deep learning)
 * Named entity recognition (Deep learning)
-* Dependency parsing (Labeled/unlabled)
+* Dependency parsing (Labeled/unlabeled)
 * Easy TensorFlow integration
 * GPU Support
 * Full integration with Spark ML functions
@@ -228,7 +228,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 
 ### Maven
 
-**spark-nlp** on Apacahe Spark 2.4.x:
+**spark-nlp** on Apache Spark 2.4.x:
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
@@ -250,7 +250,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 </dependency>
 ```
 
-**spark-nlp** on Apacahe Spark 2.3.x:
+**spark-nlp** on Apache Spark 2.3.x:
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23 -->
@@ -274,7 +274,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 
 ### SBT
 
-**spark-nlp** on Apacahe Spark 2.4.x:
+**spark-nlp** on Apache Spark 2.4.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
@@ -288,7 +288,7 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.6.4"
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "2.6.4"
 ```
 
-**spark-nlp** on Apacahe Spark 2.3.x:
+**spark-nlp** on Apache Spark 2.3.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23
@@ -507,7 +507,7 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
     
 4. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    4.1. Insatll New -> PyPI -> `spark-nlp` -> Install
+    4.1. Install New -> PyPI -> `spark-nlp` -> Install
 
     4.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.4` -> Install
 
@@ -707,7 +707,7 @@ In addition, don't forget to check [Spark NLP in Action](https://demo.johnsnowla
 
 ## Acknowledgments
 
-### Special community acknowledgements
+### Special community acknowledgments
 
 Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
 The community has been key in the last releases with feedback in various Spark-based environments.
