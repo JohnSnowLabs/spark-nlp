@@ -16,7 +16,7 @@ Deep learning named entity recognition model for assertions. The SparkNLP deep l
 
 {:.h2_title}
 ## Included Assertions
-``Hypothetical``, ``Present``, ``Absent``, ``Possible``, ``Conditional``, ``Associated_with_someone_else``.
+``hypothetical``, ``present``, ``absent``, ``possible``, ``conditional``, ``associated_with_someone_else``.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

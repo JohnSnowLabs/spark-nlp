@@ -82,3 +82,17 @@ val result = pipeline.fit(Seq.empty["When carbamazepine is withdrawn from the co
 {:.h2_title}
 ## Data Source
 Trained on data gathered and manually annotated by John Snow Labs.
+
+{:.h2_title}
+## Benchmarking
+```bash
++-------------+------+------+------+
+|     relation|recall| prec |   f1 |
++-------------+------+------+------+
+|      DDI-int|  0.40| 0.41 | 0.40 |
+|DDI-mechanism|  0.77| 0.28 | 0.41 |
+|   DDI-effect|  0.76| 0.38 | 0.51 |
+|    DDI-false|  0.72| 0.97 | 0.83 |
+|   DDI-advise|  0.74| 0.39 | 0.51 |
++-------------+------+------+------+
+```
