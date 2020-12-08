@@ -233,7 +233,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "ChunkEmbeddings new" should "correctly work with empty tokens" in {
+  "ChunkEmbeddings" should "correctly work with multiple chunks per sentence" in {
     val rows = Array(
           Tuple1("""In short, the patient is a 55-year-old entleman with a broken leg. The guy also has long-standing morbid obesity, resistant to nonsurgical methods
       of weight loss with of 69.7 with comorbidities of hypertension, atrial fibrillation,
