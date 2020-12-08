@@ -19,12 +19,12 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
       "Inconsistencies found in pipeline. Tokens in sentences does not match with sentence count")
       */
 
-    sentences.map(sentence => {
+    sentences.flatMap(sentence => {
       val sentenceTokens = tokens.filter(token =>
         token.begin >= sentence.start & token.end <= sentence.end
-      ).map(token => IndexedToken(token.result, token.begin, token.end))
+      ).map(token => IndexedToken(token.result, token.begin, token.end, sentence.index))
       sentenceTokens
-    }).zipWithIndex.map{case (indexedTokens, index) => TokenizedSentence(indexedTokens, index)}.filter(_.indexedTokens.nonEmpty)
+    }).groupBy(_.sentenceIndex).map{case (sentenceIndex, indexedTokens) => TokenizedSentence(indexedTokens.toArray, sentenceIndex)}.filter(_.indexedTokens.nonEmpty).toSeq.sortBy(_.sentenceIndex)
   }
 
   override def pack(sentences: Seq[TokenizedSentence]): Seq[Annotation] = {

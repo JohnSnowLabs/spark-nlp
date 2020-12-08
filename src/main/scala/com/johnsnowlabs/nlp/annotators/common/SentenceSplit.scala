@@ -27,7 +27,7 @@ object SentenceSplit extends Annotated[Sentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .zipWithIndex.map { case (annotation, index) =>
-      Sentence(annotation.result, annotation.begin, annotation.end, index)
+      Sentence(annotation.result, annotation.begin, annotation.end, annotation.metadata.getOrElse("sentence", index.toString).toInt)
     }
   }
 
