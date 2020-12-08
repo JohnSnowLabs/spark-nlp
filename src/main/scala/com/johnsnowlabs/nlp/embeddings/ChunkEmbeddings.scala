@@ -150,12 +150,12 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
       val sentenceIdx = chunk.metadata.getOrElse("sentence", "0").toInt
       val chunkIdx = chunk.metadata.getOrElse("chunk", "0").toInt
 
-      if (sentenceIdx < embeddingsSentences.length) {
 
-        val tokensWithEmbeddings = embeddingsSentences(sentenceIdx).tokens.filter(
+      val embeddingsSentence = embeddingsSentences.find(_.sentenceId==sentenceIdx)
+      if (embeddingsSentence.nonEmpty) {
+        val tokensWithEmbeddings = embeddingsSentence.get.tokens.filter(
           token => token.begin >= chunk.begin && token.end <= chunk.end
         )
-
         val allEmbeddings = tokensWithEmbeddings.flatMap(tokenEmbedding =>
           if (!tokenEmbedding.isOOV || !$(skipOOV))
             Some(tokenEmbedding.embeddings)
