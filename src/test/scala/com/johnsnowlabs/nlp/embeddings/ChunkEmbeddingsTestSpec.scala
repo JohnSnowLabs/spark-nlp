@@ -235,8 +235,8 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
 
   "ChunkEmbeddings new" should "correctly work with empty tokens" in {
     val rows = Array(
-          Tuple1("""In short, the patient is a 55-year-old entleman with a broken leg. The guy also has long-standing morbid obesity, resistant to nonsurgical
-      methods of weight loss with of 69.7 with comorbidities of hypertension, atrial fibrillation,
+          Tuple1("""In short, the patient is a 55-year-old entleman with a broken leg. The guy also has long-standing morbid obesity, resistant to nonsurgical methods
+      of weight loss with of 69.7 with comorbidities of hypertension, atrial fibrillation,
       hyperlipidemia, possible sleep apnea, and also osteoarthritis of the lower extremities.
       He is also an ex-smoker. Does not have diabetes at all. He is currently smoking SMOKER and he is planning to quit and
       at least he should do this six to eight days before for multiple reasons including decreasing the DVT,
@@ -259,7 +259,11 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
     val embs_pl = new Pipeline().setStages(Array(dac, sd, tk, emb, ner, conv, c2d, ctk, cembs, aggembs)).fit(df)
     val out_df = embs_pl.transform(df)
     out_df.selectExpr("explode(arrays_zip(ner_chunk.result, chunk_embs.embeddings)) as a").show(100, truncate=50)
-    //TODO:
+
+    val textSent = out_df.selectExpr("explode(arrays_zip(chunk_tk.result,chunk_tk.metadata,chunk_tk_embs.result,chunk_tk_embs.metadata)) as a")
+    .selectExpr("(a['0'],a['1'].sentence) as chunk",
+      "(a['2'],a['3'].sentence) as embs").collect().forall(r=>r(0)==r(1))
+    assert(textSent)
   }
 
 }
