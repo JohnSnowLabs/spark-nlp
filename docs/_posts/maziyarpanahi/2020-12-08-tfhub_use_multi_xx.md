@@ -4,7 +4,7 @@ title: Universal Sentence Encoder Multilingual
 author: John Snow Labs
 name: tfhub_use_multi
 date: 2020-12-08
-tags: [use, xx, embeddings, open_source]
+tags: [xx, embeddings, open_source]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
