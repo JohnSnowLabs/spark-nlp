@@ -83,7 +83,7 @@ class WordEmbeddingsModel(override val uid: String)
           token.end
         )
       }
-      WordpieceEmbeddingsSentence(tokens, s.sentenceIndex)
+      WordpieceEmbeddingsSentence(tokens, s.indexedTokens.head.sentenceIndex)
     }
 
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
