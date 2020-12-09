@@ -17,6 +17,8 @@ class DocumentAssembler(override val uid: String)
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  val EMPTY_STR = ""
+
   private type DocumentationContent = Row
 
   val inputCol: Param[String] = new Param[String](this, "inputCol", "input text column for processing")
@@ -80,15 +82,18 @@ class DocumentAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
+
+    val _text = Option(text).getOrElse(EMPTY_STR)
+
     val possiblyCleaned = $(cleanupMode) match {
-      case "disabled" => text
-      case "inplace" => text.replaceAll("\\s", " ")
-      case "inplace_full" => text.replaceAll("\\s|(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", " ")
-      case "shrink" => text.trim.replaceAll("\\s+", " ")
-      case "shrink_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
-      case "each" => text.replaceAll("\\s[\\n\\t]", " ")
-      case "each_full" => text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
-      case "delete_full" => text.trim.replaceAll("(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", "")
+      case "disabled" => _text
+      case "inplace" => _text.replaceAll("\\s", " ")
+      case "inplace_full" => _text.replaceAll("\\s|(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", " ")
+      case "shrink" => _text.trim.replaceAll("\\s+", " ")
+      case "shrink_full" => _text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
+      case "each" => _text.replaceAll("\\s[\\n\\t]", " ")
+      case "each_full" => _text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
+      case "delete_full" => _text.trim.replaceAll("(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", "")
       case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
         s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
