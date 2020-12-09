@@ -444,9 +444,9 @@ class DocumentNormalizer(AnnotatorModel):
                    typeConverter=TypeConverters.toString)
 
     patterns = Param(Params._dummy(),
-                            "patterns",
-                            "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
-                            typeConverter=TypeConverters.toListString)
+                     "patterns",
+                     "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
+                     typeConverter=TypeConverters.toListString)
 
     replacement = Param(Params._dummy(),
                         "replacement",
@@ -459,9 +459,9 @@ class DocumentNormalizer(AnnotatorModel):
                       typeConverter=TypeConverters.toBoolean)
 
     policy = Param(Params._dummy(),
-                          "policy",
-                          "policy to remove pattern from text",
-                          typeConverter=TypeConverters.toString)
+                   "policy",
+                   "policy to remove pattern from text",
+                   typeConverter=TypeConverters.toString)
 
     encoding = Param(Params._dummy(),
                      "encoding",
@@ -2105,10 +2105,19 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
     name = "UniversalSentenceEncoder"
 
+    loadSP = Param(Params._dummy(), "loadSP", "Whether to load SentencePiece ops file which is required only by multi-lingual models. "
+                                              "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.", typeConverter=TypeConverters.toBoolean)
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
+
+    def setLoadSP(self, value):
+        """
+        Sets the value of :py:attr:`loadSP`.
+        """
+        return self._set(loadSP=value)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -2119,11 +2128,14 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
             classname=classname,
             java_model=java_model
         )
+        self._setDefault(
+            loadSP=False
+        )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, loadsp=False):
         from sparknlp.internal import _USELoader
-        jModel = _USELoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _USELoader(folder, spark_session._jsparkSession, loadsp)._java_obj
         return UniversalSentenceEncoder(java_model=jModel)
 
 
@@ -2817,8 +2829,8 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     coalesceSentences = Param(Params._dummy(), "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.", TypeConverters.toBoolean)
     languages = Param(Params._dummy(), "languages",
-                    "get the languages used to trained the model",
-                    TypeConverters.toListString)
+                      "get the languages used to trained the model",
+                      TypeConverters.toListString)
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
