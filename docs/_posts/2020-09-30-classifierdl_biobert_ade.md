@@ -34,10 +34,6 @@ To classify your text if it is ADE-related, you can use this model as part of an
 
 ```python
 ...
-classsifierdl = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "en", "clinical/models")\
-      .setInputCols(["sentence", "sentence_embeddings"]) \
-      .setOutputCol("class")
-nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, bert_embeddings, sentence_embeddings, classifierdl])
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
     .setInputCols(["document", 'token'])\
     .setOutputCol("word_embeddings")
@@ -57,10 +53,17 @@ annotations = light_pipeline.fullAnnotate("I feel a bit drowsy & have a little b
 ```
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
+    .setInputCols(Array("document", 'token'))
+    .setOutputCol("word_embeddings")
+val sentence_embeddings = SentenceEmbeddings() 
+      .setInputCols(Array("document", "word_embeddings")) 
+      .setOutputCol("sentence_embeddings") 
+      .setPoolingStrategy("AVERAGE")
 val classsifierADE = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "en", "clinical/models")
       .setInputCols(Array("sentence", "sentence_embeddings")) 
       .setOutputCol("class")
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, bert_embeddings, sentence_embeddings, classifierADE))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifierADE))
 val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred vision after taking an insulin"].toDS.toDF("text")).transform(data)
 ```
 </div>
