@@ -5,8 +5,8 @@ val is_spark23 = System.getProperty("is_spark23","false")
 
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.4"
-val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
-val scalaVer = "2.11.12"
+val sparkVer = "3.0.1"//if(is_spark23=="false") spark24Ver else spark23Ver
+val scalaVer = "2.12.12"
 val scalaTestVersion = "3.0.0"
 
 /** Package attributes */
