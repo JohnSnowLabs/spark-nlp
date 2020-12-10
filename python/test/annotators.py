@@ -3,6 +3,7 @@ import unittest
 import os
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.training import *
 from test.util import SparkContextForTest
 from test.util import SparkSessionForTest
 from pyspark.ml.feature import SQLTransformer
@@ -85,6 +86,29 @@ class LemmatizerTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.fit(assembled).transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
+
+
+class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.conllu_file = "file:///" + os.getcwd() + "/../src/test/resources/conllu/en.test.lemma.conllu"
+
+    def runTest(self):
+        test_dataset = self.spark.createDataFrame([["So what happened?"]]).toDF("text")
+        train_dataset = CoNLLU().readDataset(self.spark, self.conllu_file)
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        lemmatizer = Lemmatizer() \
+            .setInputCols(["token"]) \
+            .setOutputCol("lemma")
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer])
+        pipeline.fit(train_dataset).transform(test_dataset).show()
 
 
 class TokenizerTestSpec(unittest.TestCase):

@@ -1,15 +1,14 @@
 package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
 
-import scala.collection.mutable
+class CoNLLUTestSpec extends FlatSpec {
 
-class CoNLLTestSpec extends FlatSpec {
-
+  val conlluFile = "src/test/resources/conllu/en.test.conllu"
 
   "CoNLLU" should "read documents from CoNLL-U format without explode sentences" in {
 
@@ -19,13 +18,11 @@ class CoNLLTestSpec extends FlatSpec {
         Map("training" -> "true"))),
       Seq(Annotation(DOCUMENT, 0, 37, "Does anybody use it for anything else?", Map("training" -> "true")))
     )
-
     val expectedSentences = Array(
       Seq(Annotation(DOCUMENT, 0, 36, "What if Google Morphed Into GoogleOS?", Map("sentence" -> "0"))),
       Seq(Annotation(DOCUMENT, 0, 30, "Google is a nice search engine.", Map("sentence" -> "0"))),
       Seq(Annotation(DOCUMENT, 0, 37, "Does anybody use it for anything else?", Map("sentence" -> "0")))
     )
-
     val expectedForms = Array(Seq(Annotation(TOKEN, 0, 3, "What", Map("sentence" -> "0")),
       Annotation(TOKEN, 5, 6, "if", Map("sentence" -> "0")),
       Annotation(TOKEN, 8, 13, "Google", Map("sentence" -> "0")),
@@ -52,7 +49,6 @@ class CoNLLTestSpec extends FlatSpec {
         Annotation(TOKEN, 37, 37, "?", Map("sentence" -> "0"))
       )
     )
-
     val expectedLemmas = Array(Seq(Annotation(TOKEN, 0, 3, "what", Map("sentence" -> "0")),
       Annotation(TOKEN, 5, 6, "if", Map("sentence" -> "0")),
       Annotation(TOKEN, 8, 13, "Google", Map("sentence" -> "0")),
@@ -80,9 +76,7 @@ class CoNLLTestSpec extends FlatSpec {
       )
     )
 
-    val conlluFile = "src/test/resources/conllu/en.test.conllu"
-    val conll = CoNLLU()
-    val conllDataSet = conll.readDataset(ResourceHelper.spark, conlluFile)
+    val conllDataSet = CoNLLU().readDataset(ResourceHelper.spark, conlluFile)
 
     assertCoNLLDataSet(conllDataSet, expectedDocuments, "document")
     assertCoNLLDataSet(conllDataSet, expectedSentences, "sentence")
@@ -97,13 +91,11 @@ class CoNLLTestSpec extends FlatSpec {
       Seq(Annotation(DOCUMENT, 0, 70, "Google is a nice search engine.\n\nDoes anybody use it for anything else?",
         Map("training" -> "true")))
     )
-
     val expectedSentences = Array(
       Seq(Annotation(DOCUMENT, 0, 36, "What if Google Morphed Into GoogleOS?", Map("sentence" -> "0"))),
       Seq(Annotation(DOCUMENT, 0, 30, "Google is a nice search engine.", Map("sentence" -> "0")),
           Annotation(DOCUMENT, 33, 70, "Does anybody use it for anything else?", Map("sentence" -> "1")))
     )
-
     val expectedForms = Array(Seq(Annotation(TOKEN, 0, 3, "What", Map("sentence" -> "0")),
       Annotation(TOKEN, 5, 6, "if", Map("sentence" -> "0")),
       Annotation(TOKEN, 8, 13, "Google", Map("sentence" -> "0")),
@@ -129,7 +121,6 @@ class CoNLLTestSpec extends FlatSpec {
         Annotation(TOKEN, 70, 70, "?", Map("sentence" -> "1"))
       )
     )
-
     val expectedLemmas = Array(Seq(Annotation(TOKEN, 0, 3, "what", Map("sentence" -> "0")),
       Annotation(TOKEN, 5, 6, "if", Map("sentence" -> "0")),
       Annotation(TOKEN, 8, 13, "Google", Map("sentence" -> "0")),
@@ -156,9 +147,7 @@ class CoNLLTestSpec extends FlatSpec {
       )
     )
 
-    val conlluFile = "src/test/resources/conllu/en.test.conllu"
-    val conll = CoNLLU(false)
-    val conllDataSet = conll.readDataset(ResourceHelper.spark, conlluFile)
+    val conllDataSet =  CoNLLU(false).readDataset(ResourceHelper.spark, conlluFile)
 
     assertCoNLLDataSet(conllDataSet, expectedDocuments, "document")
     assertCoNLLDataSet(conllDataSet, expectedSentences, "sentence")
@@ -167,37 +156,9 @@ class CoNLLTestSpec extends FlatSpec {
   }
 
   def assertCoNLLDataSet(conllDataSet: Dataset[_], expectedResult: Array[Seq[Annotation]], columnName: String): Unit = {
-    val actualResult = getActualResult(conllDataSet, columnName)
+    val actualResult = AssertAnnotations.getActualResult(conllDataSet, columnName)
     assert(expectedResult.length == actualResult.length)
-    assertAnnotations(expectedResult, actualResult)
-  }
-
-  private def getActualResult(dataSet: Dataset[_], columnName: String): Array[Seq[Annotation]] = {
-    val result = columnName + ".result"
-    val metadata = columnName + ".metadata"
-    val begin = columnName + ".begin"
-    val end = columnName + ".end"
-    dataSet.select(result, metadata, begin,  end).rdd.map{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[mutable.WrappedArray[Int]]
-      resultSeq.zipWithIndex.map{ case (token, index) =>
-        Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
-      }
-    }.collect()
-  }
-
-  private def assertAnnotations(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
-    expectedResult.zipWithIndex.foreach { case (annotationDocument, indexDocument) =>
-      val actualDocument = actualResult(indexDocument)
-      annotationDocument.zipWithIndex.foreach { case (annotation, index) =>
-        assert(actualDocument(index).result == annotation.result)
-        assert(actualDocument(index).begin == annotation.begin)
-        assert(actualDocument(index).end == annotation.end)
-        assert(actualDocument(index).metadata == annotation.metadata)
-      }
-    }
+    AssertAnnotations.assertAnnotations(expectedResult, actualResult)
   }
 
 }
