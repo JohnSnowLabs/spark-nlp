@@ -124,8 +124,7 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
         case "end" =>
           val endIndex = tokenBeginIndex + token.length
           for (i <- Range(0, endIndex)) mask(i) = 1
-          //          log.error(mask.mkString("|"))
-          endIndex
+          endIndex - 1
       }
     }
 
