@@ -40,7 +40,7 @@ case class CoNLLU(explodeSentences: Boolean = true) {
       val xPosTagged = packPosTagged(doc.xPosTagged)
       val lemma = packTokenized(doc.lemma)
 
-      (docs, sentences, tokenized, uPosTagged, xPosTagged, lemma)
+      (text, docs, sentences, tokenized, uPosTagged, xPosTagged, lemma)
     }.toDF.rdd
 
     spark.createDataFrame(rows, schema)
@@ -82,6 +82,7 @@ case class CoNLLU(explodeSentences: Boolean = true) {
   }
 
   def schema: StructType = {
+    val text = StructField("text", StringType)
     val doc = getAnnotationType("document", AnnotatorType.DOCUMENT)
     val sentence = getAnnotationType("sentence", AnnotatorType.DOCUMENT)
     val token = getAnnotationType(CoNLLUCols.FORM.toString.toLowerCase, AnnotatorType.TOKEN)
@@ -89,7 +90,7 @@ case class CoNLLU(explodeSentences: Boolean = true) {
     val xPos = getAnnotationType(CoNLLUCols.XPOS.toString.toLowerCase, AnnotatorType.POS)
     val lemma = getAnnotationType(CoNLLUCols.LEMMA.toString.toLowerCase, AnnotatorType.TOKEN)
 
-    StructType(Seq(doc, sentence, token, uPos, xPos, lemma))
+    StructType(Seq(text, doc, sentence, token, uPos, xPos, lemma))
   }
 
   def getAnnotationType(column: String, annotatorType: String, addMetadata: Boolean = true): StructField = {
