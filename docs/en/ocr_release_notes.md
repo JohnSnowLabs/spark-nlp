@@ -7,7 +7,21 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+## 1.9.0
+
+#### Overview
+
+Extension of  FoundationOne report parser and support HOCR output format.
+
+#### New Features
+
+* Added [ImageToHocr](ocr_pipeline_components#imagetohocr) transformer for recognize text from image and store it to HOCR format.
+* Added parsing gene lists from 'Appendix' in [FoundationOneReportParser](ocr_pipeline_components#foundationonereportparser) transformer.
+
+
 ## 1.8.0
+
+Release date: 20-11-2020
 
 #### Overview
 
@@ -18,8 +32,8 @@ Support up to 10k pages per document.
 
 * Added [ImageAdaptiveBinarizer](ocr_pipeline_components#imageadaptivebinarizer) Scala transformer with support:
     - Gaussian local thresholding
-    - Otsu treshholding
-    - Sauvola local treshholding
+    - Otsu thresholding
+    - Sauvola local thresholding
 * Added possibility to split pdf to small documents for optimize processing in [PdfToImage](ocr_pipeline_components#pdftoimage).
 
 
