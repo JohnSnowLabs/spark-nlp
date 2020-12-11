@@ -7,7 +7,8 @@ import com.johnsnowlabs.util.TrainingHelper.hasColumn
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.functions.{arrays_zip, collect_set, explode}
+import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.functions.{collect_set, explode, udf}
 
 import scala.collection.mutable
 
@@ -123,9 +124,9 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     import dataset.sparkSession.implicits._
 
     val lemmaDataSet = dataset.select($"form.result".as("forms"), $"lemma.result".as("lemmas"))
-      .withColumn("forms_lemmas", explode(arrays_zip($"forms", $"lemmas")))
-      .withColumn("token", $"forms_lemmas.forms")
-      .withColumn("lemma", $"forms_lemmas.lemmas")
+      .withColumn("forms_lemmas", explode(arraysZip($"forms", $"lemmas")))
+      .withColumn("token", $"forms_lemmas._1")
+      .withColumn("lemma", $"forms_lemmas._2")
       .groupBy("lemma")
       .agg(collect_set("token").as("tokens"))
 
@@ -136,6 +137,8 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     }.collect().toMap
     dictionary
   }
+
+  def arraysZip: UserDefinedFunction = udf { (forms: Seq[String], lemmas: Seq[String]) => forms.zip(lemmas) }
 
 }
 
