@@ -1,32 +1,35 @@
 ---
-layout: article
-title: Licensed Annotators
+layout: docs
+header: true
+title: Spark NLP for Healthcare Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
-modify_date: "2020-04-21"
+modify_date: "2020-08-10"
 use_language_switcher: "Python-Scala"
 ---
 
-## Spark-NLP Licensed
+<div class="h3-box" markdown="1">
 
-The following annotators are available by buying a John Snow Labs Spark NLP license.
-They are mostly meant for healthcare applications but other applications have been made with these NLP features.
+A Spark NLP for Healthcare subscription includes access to several pretrained annotators. 
 Check out www.johnsnowlabs.com for more information.
+
+</div><div class="h3-box" markdown="1">
 
 ### AssertionLogReg 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">Transformer scaladocs</a>
 
-It will classify each clinically relevant named entity into its assertion:
+This annotator classifies each clinically relevant named entity into its assertion:
 
-type: "present", "absent", "hypothetical", "conditional",
-"associated_with_other_person", etc.
+type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** `"sentence", "ner_chunk", "embeddings"`
 
 **Output type:** `"assertion"`
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -58,18 +61,21 @@ val logRegAssert = new AssertionLogRegApproach()
     .setEndCol("end")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### AssertionDL 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">Transformer scaladocs</a>
 
-It will classify each clinically relevant named entity into its assertion
-type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
+This annotator classifies each clinically relevant named entity into its assertion type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
 **Input types:** "sentence", "ner_chunk", "embeddings"
 
 **Output type:** "assertion"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -105,6 +111,8 @@ val dlAssert = new AssertionDLApproach()
     .setEndCol("end")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### Chunk2Token
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.Chunk2Token">Transformer scaladocs</a>
 
@@ -115,6 +123,8 @@ Transforms a complete chunk Annotation into a token Annotation without further t
 **Output type:** "token"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -129,17 +139,21 @@ val chunk2Token = new Chunk2Token()
     .setOutputCol("token")
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### ChunkEntityResolver
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">Estimator scaladocs</a> | 
 <a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">Transformer scaladocs</a>
 
-Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings
+Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Models and embeddings pooled by ChunkEmbeddings
 
 **Input types:** "chunk_token", "embeddings"
 
 **Output type:** "resolution"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -149,9 +163,9 @@ resolver = ChunkEntityResolverApproach() \
     .setOutputCol("token") \
     .setLabelCol("label") \
     .setNormalizedCol("normalized") \
-    .setNeighbours(200) \
+    .setNeighbours(500) \
     .setAlternatives(25) \
-    .setThreshold(4) \
+    .setThreshold(5) \
     .setExtramassPenalty(1) \
     .setEnableWmd(True) \
     .setEnableTfidf(True) \
@@ -159,8 +173,8 @@ resolver = ChunkEntityResolverApproach() \
     .setEnableSorensenDice(False) \
     .setEnableJaroWinkler(False) \
     .setEnableLevenshtein(False) \
-    .setDistanceWeights([1,3,3,0,0,0]) \
-    .setPoolingStrategy("AVERAGE") \
+    .setDistanceWeights([1,2,2,0,0,0]) \
+    .setPoolingStrategy("MAX") \
     .setMissAsEmpty(True)
 ```
 ```scala
@@ -169,9 +183,9 @@ val resolver = new ChunkEntityResolverApproach()
     .setOutputCol("token")
     .setLabelCol("label")
     .setNormalizedCol("normalized")
-    .setNeighbours(200)
+    .setNeighbours(500)
     .setAlternatives(25)
-    .setThreshold(4)
+    .setThreshold(5)
     .setExtramassPenalty(1)
     .setEnableWmd(true)
     .setEnableTfidf(true)
@@ -179,68 +193,51 @@ val resolver = new ChunkEntityResolverApproach()
     .setEnableSorensenDice(false)
     .setEnableJaroWinkler(false)
     .setEnableLevenshtein(false)
-    .setDistanceWeights(Array(1,3,3,0,0,0))
-    .setPoolingStrategy("AVERAGE")
+    .setDistanceWeights(Array(1,2,2,0,0,0))
+    .setPoolingStrategy("MAX")
     .setMissAsEmpty(true)
 ```
+</div></div><div class="h3-box" markdown="1">
 
-### EnsembleEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.EnsembleEntityResolverModel">Transformer scaladocs</a>
+### SentenceEntityResolver
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">Transformer scaladocs</a>
 
-Assigns a standard code (RxNorm, SNOMED, UMLS) to chunk tokens identified from TextMatchers or the NER Clinical Models and embeddings pooled by ChunkEmbeddings.
-Designed to scale on a sub-log rate compared to the cardinality of the dataset
+Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models.  
+This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks.  
 
-**Input types:** "chunk_token", "embeddings"
+**Input types:** "sentence_embeddings"
 
 **Output type:** "resolution"
 
 **Example:**
 
+<div class="tabs-box" markdown="1">
+
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-resolver = EnsembleEntityResolverApproach() \
-    .setInputCols(["chunk_token", "chunk_embeddings"]) \
-    .setOutputCol("token") \
-    .setClassifierLabelCol("classifier_label") \
-    .setResolverLabelCol("resolver_label") \
+resolver = SentenceEntityResolverApproach() \
+    .setInputCols(["sentence_embeddings"]) \
+    .setOutputCol("prediction") \
+    .setLabelCol("label") \
     .setNormalizedCol("normalized") \
-    .setNeighbours(200) \
-    .setAlternatives(25) \
-    .setThreshold(4) \
-    .setExtramassPenalty(1) \
-    .setEnableWmd(True) \
-    .vsetEnableTfidf(True) \
-    .setEnableJaccard(True) \
-    .setEnableSorensenDice(False) \
-    .setEnableJaroWinkler(False) \
-    .setEnableLevenshtein(False) \
-    .setDistanceWeights([1,3,3,0,0,0]) \
-    .setPoolingStrategy("AVERAGE") \
+    .setNeighbours(500) \
+    .setThreshold(5) \
     .setMissAsEmpty(True)
 ```
 ```scala
-val resolver = new EnsembleEntityResolverApproach()
+val resolver = new SentenceEntityResolverApproach()
     .setInputCols(Array("chunk_token", "chunk_embeddings"))
-    .setOutputCol("token")
-    .setClassifierLabelCol("classifier_label")
-    .setResolverLabelCol("resolver_label")
+    .setOutputCol("prediction")
+    .setLabelCol("label")
     .setNormalizedCol("normalized")
-    .setNeighbours(200)
-    .setAlternatives(25)
-    .setThreshold(4)
-    .setExtramassPenalty(1)
-    .setEnableWmd(true)
-    .vsetEnableTfidf(true)
-    .setEnableJaccard(true)
-    .setEnableSorensenDice(false)
-    .setEnableJaroWinkler(false)
-    .setEnableLevenshtein(false)
-    .setDistanceWeights(Array(1,3,3,0,0,0))
-    .setPoolingStrategy("AVERAGE")
+    .setNeighbours(500)
+    .setThreshold(5)
     .setMissAsEmpty(true)
 ```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### DocumentLogRegClassifier
 
@@ -251,6 +248,8 @@ A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs
 **Output type:** "category"
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -273,24 +272,63 @@ val logregClassifier = new DocumentLogRegClassifierApproach()
     .setFitIntercept(true)
 ```
 
+</div></div><div class="h3-box" markdown="1">
+
 ### DeIdentificator
 
-Identifies potential pieces of content with personal information about
-patients and remove them by replacing with semantic tags.
+Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.
 
 **Input types:** "sentence", "token", "ner_chunk"
 
-**Output type:** "deidentified"
+**Output type:** "sentence"
 
-**Functions:**
+**Example:**
 
-- setRegexPatternsDictionary(path, read_as, options)
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+deid = DeIdentificationApproach() \
+      .setInputCols("sentence", "token", "ner_chunk") \
+      .setOutputCol("deid_sentence") \
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
+      .setMode("mask") \
+      .setDateTag("DATE") \
+      .setObfuscateDate(False) \
+      .setDays(5) \
+      .setDateToYear(False) \
+      .setMinYear(1900) \
+      .setDateFormats(["MM-dd-yyyy","MM-dd-yy"]) \
+      .setConsistentObfuscation(True) \
+      .setSameEntityThreshold(0.9)
+```
+```scala
+val deid = new DeIdentificationApproach()
+      .setInputCols("sentence", "token", "ner_chunk")
+      .setOutputCol("deid_sentence")
+      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
+      .setMode("mask")
+      .setDateTag("DATE")
+      .setObfuscateDate(false)
+      .setDays(5)
+      .setDateToYear(false)
+      .setMinYear(1900)
+      .setDateFormats(Seq("MM-dd-yyyy","MM-dd-yy"))
+      .setConsistentObfuscation(true)
+      .setSameEntityThreshold(0.9)
+```
+
+</div></div><div class="h3-box" markdown="1">
 
 ### Contextual Parser
 
-This annotator provides RegexMatchering, based on a JSON file.
+This annotator provides Regex + Contextual Matching, based on a JSON file.
+
 **Output type:** "sentence", "token"  
+
 **Input types:** "chunk"  
+
 **JSON format:**
 ```
 {
@@ -303,12 +341,16 @@ This annotator provides RegexMatchering, based on a JSON file.
 
 - setJsonPath() -> Path to json file with rules
 - setCaseSensitive() -> optional: Whether to use case sensitive when matching values, default is false
-- setPrefixAndSuffixMatch() -> optional: Whether to match both prefix and suffix to annotate the hit
-- setContextMatch() -> optional: Whether to include context to annotate the hit
+- setPrefixAndSuffixMatch() -> optional: Whether to force both before AND after the regex match to annotate the hit
+- setContextMatch() -> optional: Whether to include prior and next context to annotate the hit
 - setUpdateTokenizer() -> optional: Whether to update tokenizer from pipeline when detecting multiple words on dictionary values
 - setDictionary() -> optional: Path to dictionary file in tsv or csv format
 
 **Example:**
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
 
 ```python
 contextual_parser = ContextualParserApproach() \
@@ -323,6 +365,53 @@ val contextualParser = new ContextualParserApproach()
         .setJsonPath("data/Stage.json")
 ```
 
-### References
+</div></div><div class="h3-box" markdown="1">
 
-[1] Speech and Language Processing. Daniel Jurafsky & James H. Martin. 2018
+### RelationExtraction 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">Transformer scaladocs</a>
+
+Extracts and classifier instances of relations between named entities.
+
+**Input types:** "pos", "ner_chunk", "embeddings", "dependency"
+
+**Output type:** "category"
+
+**Example:**
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+reApproach = sparknlp_jsl.annotator.RelationExtractionApproach()\
+    .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+    .setOutputCol("relations")\
+    .setLabelColumn("target_rel")\
+    .setEpochsNumber(300)\
+    .setBatchSize(200)\
+    .setLearningRate(0.001)\
+    .setModelFile("RE.in1200D.out20.pb")\
+    .setFixImbalance(True)\
+    .setValidationSplit(0.05)\
+    .setFromEntity("from_begin", "from_end", "from_label")\
+    .setToEntity("to_begin", "to_end", "to_label")
+```
+
+```scala
+val reApproach = new RelationExtractionApproach()
+  .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+  .setOutputCol("relations")
+  .setLabelColumn("target_rel")
+  .setEpochsNumber(300)
+  .setBatchSize(200)
+  .setlearningRate(0.001f)
+  .setModelFile("RE.in1200D.out20.pb")
+  .setFixImbalance(true)
+  .setValidationSplit(0.05f)
+  .setFromEntity("from_begin", "from_end", "from_label")
+  .setToEntity("to_begin", "to_end", "to_label")
+
+```
+
+</div>

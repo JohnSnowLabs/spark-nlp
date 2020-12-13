@@ -31,17 +31,14 @@ class PrefixedToken(prefixes:Array[String]) extends PreprocessingParser {
   private def parse(token:String)  =
     (token.head.toString, token.tail)
 
-  def belongs(token: String): Boolean =
-    if(token.length > 1)
-      prefixes.map(token.head.toString.equals).reduce(_ || _)
-    else
-      false
+  def belongs(token: String): Option[String] =
+      prefixes.find(token.startsWith)
+
 
   override def separate(token:String): String = {
-    if (belongs(token))
-      s"""${token.head} ${separate(token.tail)}"""
-    else
-      token
+    belongs(token).map { prefix =>
+      s"""$prefix ${separate(token.drop(prefix.length))}"""
+    }.getOrElse(token)
   }
 }
 

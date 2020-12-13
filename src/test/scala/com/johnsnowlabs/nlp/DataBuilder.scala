@@ -4,9 +4,7 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
-/**
-  * Created by saif on 02/05/17.
-  */
+
 object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
 
   import SparkAccessor.spark.implicits._

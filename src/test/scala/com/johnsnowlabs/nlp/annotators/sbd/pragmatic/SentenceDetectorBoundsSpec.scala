@@ -8,6 +8,18 @@ import org.scalatest.FlatSpec
 
 class SentenceDetectorBoundsSpec extends FlatSpec {
 
+  "SentenceDetector" should "support disable list detection" in {
+    val model = new DefaultPragmaticMethod(false, false)
+    val text = "His age is 34. He is visiting hospital."
+    val bounds = model.extractBounds(text)
+
+    assert(bounds.length == 2)
+    assert(bounds(0) == Sentence("His age is 34.", 0, 13, 0))
+    assert(bounds(1) == Sentence("He is visiting hospital.", 15, 38, 1))
+
+    checkBounds(text, bounds)
+  }
+
   "SentenceDetector" should "return correct sentence bounds" in {
     val model = new DefaultPragmaticMethod(false)
     val text = "Hello World!! New Sentence"
@@ -34,7 +46,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
   }
 
   "SentenceDetector" should "correct process custom delimiters" in {
-    val model = new MixedPragmaticMethod(false, Array("\n\n"))
+    val model = new MixedPragmaticMethod(false, true, Array("\n\n"))
     val text = " Hello World.\n\nNew Sentence\n\nThird"
     val bounds = model.extractBounds(" Hello World.\n\nNew Sentence\n\nThird")
 
@@ -47,7 +59,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
   }
 
   "SentenceDetector" should "correct process custom delimiters in with dots" in {
-    val model = new MixedPragmaticMethod(false, Array("\n\n"))
+    val model = new MixedPragmaticMethod(false, true, Array("\n\n"))
     val bounds = model.extractBounds(ContentProvider.conllEightSentences)
 
     assert(bounds.length == 8)

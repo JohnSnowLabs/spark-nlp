@@ -2,8 +2,8 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedClassifierDL, ReadablePretrainedSentimentDL}
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadClassifierDLTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedClassifierDL, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -14,6 +14,7 @@ import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
+import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -22,6 +23,9 @@ package object annotator {
   object Tokenizer extends DefaultParamsReadable[Tokenizer]
   type TokenizerModel = com.johnsnowlabs.nlp.annotators.TokenizerModel
   object TokenizerModel extends ReadablePretrainedTokenizer
+
+  type RegexTokenizer = com.johnsnowlabs.nlp.annotators.RegexTokenizer
+  object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]
 
   type RecursiveTokenizer = com.johnsnowlabs.nlp.annotators.RecursiveTokenizer
   object RecursiveTokenizer extends DefaultParamsReadable[RecursiveTokenizer]
@@ -69,7 +73,7 @@ package object annotator {
   object LemmatizerModel extends ReadablePretrainedLemmatizer
 
   type StopWordsCleaner = com.johnsnowlabs.nlp.annotators.StopWordsCleaner
-  object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner]
+  object StopWordsCleaner extends DefaultParamsReadable[StopWordsCleaner] with ReadablePretrainedStopWordsCleanerModel
 
   type NGramGenerator = com.johnsnowlabs.nlp.annotators.NGramGenerator
   object NGramGenerator extends DefaultParamsReadable[NGramGenerator]
@@ -88,9 +92,6 @@ package object annotator {
 
   type SentenceDetector = com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
   object SentenceDetector extends DefaultParamsReadable[SentenceDetector]
-
-  type DeepSentenceDetector = com.johnsnowlabs.nlp.annotators.sbd.deep.DeepSentenceDetector
-  object DeepSentenceDetector extends DefaultParamsReadable[DeepSentenceDetector]
 
   type SentimentDetector = com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
   object SentimentDetector extends DefaultParamsReadable[SentimentDetector]
@@ -171,5 +172,20 @@ package object annotator {
 
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
   object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
+
+  type BertSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+  object BertSentenceEmbeddings extends ReadablePretrainedBertSentenceModel with ReadBertSentenceTensorflowModel
+
+  type MultiClassifierDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach
+  object MultiClassifierDLApproach extends DefaultParamsReadable[MultiClassifierDLApproach]
+
+  type MultiClassifierDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel
+  object MultiClassifierDLModel extends ReadablePretrainedMultiClassifierDL with ReadMultiClassifierDLTensorflowModel
+
+  type SentenceDetectorDLApproach  = com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach
+  object SentenceDetectorDLApproach extends DefaultParamsReadable[SentenceDetectorDLApproach]
+
+  type SentenceDetectorDLModel  = com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+  object SentenceDetectorDLModel extends ReadsSentenceDetectorDLGraph with ReadablePretrainedSentenceDetectorDL
 
 }

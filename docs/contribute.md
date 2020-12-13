@@ -12,7 +12,7 @@ show_edit_on_github: true
 show_date: true
 header:
     theme: light
-    background: "#ecf0f1"
+    background: "#ffffff"
 modify_date: "2019-06-30"
 ---
 

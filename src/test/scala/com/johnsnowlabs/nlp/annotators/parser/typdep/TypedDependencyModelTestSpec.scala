@@ -94,7 +94,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     ).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     //typedDependencyParserDataFrame.collect()
-    typedDependencyParserDataFrame.select("labdep").show(false)
+    //typedDependencyParserDataFrame.select("labdep").show(false)
     assert(typedDependencyParserModel.isInstanceOf[TypedDependencyParserModel])
     assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
@@ -120,7 +120,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     ).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     //typedDependencyParserDataFrame.collect()
-    typedDependencyParserDataFrame.select("labdep").show(false)
+    //typedDependencyParserDataFrame.select("labdep").show(false)
     assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }
@@ -151,7 +151,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
     ).toDS.toDF("text")
     val typedDependencyParserDataFrame = model.transform(testDataSet)
     //typedDependencyParserDataFrame.collect()
-    typedDependencyParserDataFrame.show(false)
+    //typedDependencyParserDataFrame.show(false)
     assert(typedDependencyParserDataFrame.isInstanceOf[DataFrame])
 
   }

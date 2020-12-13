@@ -14,8 +14,6 @@ class ClassifierDLTestSpec extends FlatSpec {
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
 
     println("count of training dataset: ", smallCorpus.count)
-    smallCorpus.show()
-    smallCorpus.printSchema()
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -47,6 +45,11 @@ class ClassifierDLTestSpec extends FlatSpec {
 
     pipelineModel.transform(smallCorpus).select("document").show(1, false)
 
+  }
+
+  "ClassifierDL" should "correctly download and load pre-trained model" in {
+    val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
+    classifierDL.getClasses.foreach(x=>print(x+", "))
   }
 
 }

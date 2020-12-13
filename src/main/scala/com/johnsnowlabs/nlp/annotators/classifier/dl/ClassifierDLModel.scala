@@ -8,17 +8,18 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.IntArrayParam
+import org.apache.spark.ml.param.{IntArrayParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 /**
-  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes
+  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+  * The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes
   *
   * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
   *
-  * NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol
+  * NOTE: UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala]] for further reference on how to use this API
   *
@@ -82,6 +83,8 @@ class ClassifierDLModel(override val uid: String)
     * @group param */
   val datasetParams = new StructFeature[ClassifierDatasetEncoderParams](this, "datasetParams")
 
+  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+
   /**
     * datasetParams
     *
@@ -115,6 +118,16 @@ class ClassifierDLModel(override val uid: String)
 
   /** @group getParam */
   def getModelIfNotSet: TensorflowClassifier = _model.get.value
+
+  /** get the tags used to trained this NerDLModel
+    *
+    * @group getParam
+    **/
+  def getClasses: Array[String] = {
+    val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
+    set(classes, encoder.tags)
+    encoder.tags
+  }
 
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     validateStorageRef(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
@@ -175,6 +188,9 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
 
     val tf = readTensorflowChkPoints(path, spark, "_classifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
+    // This allows for Python to access getClasses function
+    val encoder = new ClassifierDatasetEncoder(instance.datasetParams.get.get)
+    instance.set(instance.classes, encoder.tags)
   }
 
   addReader(readTensorflow)

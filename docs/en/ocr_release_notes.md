@@ -1,12 +1,72 @@
 ---
-layout: article
+layout: docs
+header: true
 title: Spark OCR release notes
 permalink: /docs/en/ocr_release_notes
 key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
-# 1.3.0
+## 1.6.0
+
+#### Overview
+
+Support parsing data from tables for selectable PDFs.
+
+
+#### New Features
+
+* Added [PdfToTextTable](ocr_pipeline_components#pdftotexttable) transformer for extract tables from Pdf document per each page.
+* Added [ImageCropper](ocr_pipeline_components#imagecropper) transformer for crop images.
+* Added [ImageBrandsToText](ocr_pipeline_components#imagebrandstotext) transformer for detect text in defined areas.
+
+
+## 1.5.0
+
+Release date: 22-07-2020
+
+#### Overview
+
+FoundationOne report parsing support.
+
+#### Enhancements
+
+* Optimized memory usage during image processing
+
+
+#### New Features
+
+* Added [FoundationOneReportParser](ocr_pipeline_components#foundationonereportparser) which support parsing patient info,
+genomic and biomarker findings.
+
+
+## 1.4.0
+
+Release date: 23-06-2020
+
+#### Overview
+
+Added support Dicom format and improved support image morphological operations.
+
+#### Enhancements
+
+* Updated [start](ocr_install#using-start-function) function. Improved support Spark NLP internal.
+* `ImageMorphologyOpening` and `ImageErosion` are removed.
+* Improved existing transformers for support de-identification Dicom documents.
+* Added possibility to draw filled rectangles to [ImageDrawRegions](ocr_pipeline_components#imagedrawregions).
+
+#### New Features
+
+* Support reading and writing Dicom documents.
+* Added [ImageMorphologyOperation](ocr_pipeline_components#imagemorphologyoperation) transformer which support:
+ erosion, dilation, opening and closing operations.
+ 
+#### Bugfixes
+
+* Fixed issue in [ImageToText](ocr_pipeline_components#imagetotext) related to extraction coordinates.
+
+
+## 1.3.0
 
 Release date: 22-05-2020
 
@@ -27,7 +87,7 @@ New functionality for de-identification problem.
 * Added [UpdateTextPosition](ocr_pipeline_components#updatetextposition) transformer.
 
 
-# 1.2.0
+## 1.2.0
 
 Release date: 08-04-2020
 
@@ -50,7 +110,7 @@ Improved support Databricks and processing selectable pdfs.
 * Added propagation selectable pdf file in [TextToPdf](ocr_pipeline_components#texttopdf). Added 'inputContent' param to 'TextToPdf'.
 
 
-# 1.1.2
+## 1.1.2
 
 Release date: 09-03-2020
 
@@ -67,7 +127,7 @@ Minor improvements and fixes
 * Fixed dependencies issue
 
 
-# 1.1.1
+## 1.1.1
 
 Release date: 06-03-2020
 
@@ -84,7 +144,7 @@ Integration with license server.
 * Added auto renew license using jsl license server.
 
 
-# 1.1.0
+## 1.1.0
 
 Release date: 03-03-2020
 
@@ -121,7 +181,7 @@ added possibility to store results to PDF for keep original formatting.
    - improving auto-correlation in auto-scaling.
 
 
-# 1.0.0
+## 1.0.0
 
 Release date: 12-02-2020
 

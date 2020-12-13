@@ -123,10 +123,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     errorThreshold -> 10f
   )
 
-  def addVocabClass(label:String, vocabList:util.ArrayList[String], userDist: Int=3) = {
+  def addVocabClass(usrLabel:String, vocabList:util.ArrayList[String], userDist: Int=3) = {
     val newClass = new VocabParser {
       override var vocab: mutable.Set[String] = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
-      override val label: String = label
+      override val label: String = usrLabel
       override var transducer: ITransducer[Candidate] = generateTransducer
       override val maxDist: Int = userDist
     }
@@ -335,6 +335,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     object DatasetIterator extends Iterator[Array[LangModelSentence]] {
       import corpus.sparkSession.implicits._
+      import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
       // Send batches, don't collect(), only keeping a single batch in memory anytime
       val it = corpus.select(getInputCols.head)
@@ -406,15 +407,6 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         array.padTo(maxLen, 0)
       else
         array.dropRight(array.length - maxLen)
-    }
-  }
-
-  implicit class DataFrameHelper(dataset: DataFrame) {
-    def randomize: DataFrame = {
-      implicit val encoder = RowEncoder(dataset.schema)
-      dataset.mapPartitions {
-        new scala.util.Random().shuffle(_).toIterator
-      }
     }
   }
 

@@ -50,11 +50,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     val bertDF2 = pipeline.fit(data2).transform(data2)
     val bertDF3 = pipeline.fit(data3).transform(data3)
 
-    bertDDD.show()
-    bertDF3.show()
-    bertDF2.show()
-    bertDF1.show()
-
   }
 
   "Bert Embeddings" should "correctly work in a pipeline" ignore {
@@ -78,7 +73,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
-      .setPoolingLayer(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -89,9 +83,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    println(pipelineDF.count())
-    pipelineDF.show()
-    pipelineDF.select("token.result", "embeddings.embeddings").show(1)
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
     }
@@ -120,7 +111,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
-      .setPoolingLayer(0)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -131,10 +121,6 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    println(pipelineDF.count())
-    pipelineDF.show()
-    pipelineDF.printSchema()
-    pipelineDF.select("token.result", "embeddings.embeddings").show(1)
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
     }

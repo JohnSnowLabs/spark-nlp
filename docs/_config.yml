@@ -157,10 +157,10 @@ pageview:
     app_class : # LeanCloud App class
 
 
-## => Search
+## => Search 
 ##############################
 search:
-  provider: false # "default" (default), false, "google", "custom"
+  provider: default # "default" (default), false, "google", "custom"
 
   ## Google Custom Search Engine
   google:

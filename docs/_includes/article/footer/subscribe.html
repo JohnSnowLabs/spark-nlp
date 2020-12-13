@@ -3,4 +3,4 @@
 {%- assign _paths_rss = __return -%}
 {%- include snippets/get-locale-string.html key='SUBSCRIBE' -%}
 {%- assign _locale_nav_subscribe = __return -%}
-<div class="subscribe"><i class="fas fa-rss"></i> <a type="application/rss+xml" href="{{ _paths_rss }}">{{ _locale_nav_subscribe }}</a></div>
+<div class="subscribe"> <a class="button button-orange" type="application/rss+xml" href="{{ _paths_rss }}"><i class="fas fa-rss"></i>{{ _locale_nav_subscribe }}</a></div>

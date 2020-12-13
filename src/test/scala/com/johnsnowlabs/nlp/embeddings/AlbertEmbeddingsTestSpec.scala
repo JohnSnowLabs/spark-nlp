@@ -41,14 +41,11 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    println(pipelineDF.count())
-    pipelineDF.show()
-    //    pipelineDF.printSchema()
-    pipelineDF.select("token.result").show(4, false)
-    pipelineDF.select("embeddings.result").show(4, false)
-    pipelineDF.select("embeddings.metadata").show(4, false)
-    pipelineDF.select("embeddings.embeddings").show(4, truncate = 300)
-    pipelineDF.select(size(pipelineDF("embeddings.embeddings")).as("embeddings_size")).show
+    pipelineDF.select("token.result").show(1, false)
+    pipelineDF.select("embeddings.result").show(1, false)
+    pipelineDF.select("embeddings.metadata").show(1, false)
+    pipelineDF.select("embeddings.embeddings").show(1, truncate = 300)
+    pipelineDF.select(size(pipelineDF("embeddings.embeddings")).as("embeddings_size")).show(1)
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.select("embeddings").write.mode("overwrite").parquet("./tmp_albert_embeddings")
     }
