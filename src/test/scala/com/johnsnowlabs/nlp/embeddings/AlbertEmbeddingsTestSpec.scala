@@ -1,17 +1,24 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.size
 import org.scalatest._
 
 
-class AlbertEmbeddingsTestSpec extends FlatSpec {
+class
+AlbertEmbeddingsTestSpec extends FlatSpec {
 
-  "ALBert Embeddings" should "correctly load pretrained model" ignore {
+  "ALBert Embeddings" should "correctly load pretrained model" in {
+
+//    val spark  = SparkSession.builder().appName("Spark NLP").master("local[*]").getOrCreate()
+    println("SCALA VERSION: " + util.Properties.versionString)
+    println("SPARK VERSION: " + SparkNLP.start().version)
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")

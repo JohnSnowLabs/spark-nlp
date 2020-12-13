@@ -1,16 +1,22 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.util.SparkNlpConfigKeys
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions.{size, explode}
+import org.apache.spark.sql.functions.{explode, size}
 import org.scalatest._
 
 class ElmoEmbeddingsTestSpec extends FlatSpec {
-  "Elmo Embeddings" should "generate annotations" ignore {
+  "Elmo Embeddings" should "generate annotations" in {
     System.out.println("Working Directory = " + System.getProperty("user.dir"))
+
+    println("SPARK VERSION: " + SparkNLP.start().version)
+    println("SCALA VERSION: " + util.Properties.versionString)
+
     val data = Seq(
       "I like pancakes in the summer. I hate ice cream in winter.",
       "If I had asked people what they wanted, they would have said faster horses"

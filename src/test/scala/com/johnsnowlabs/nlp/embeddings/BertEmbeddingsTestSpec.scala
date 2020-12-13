@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.SparkNLP
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -11,8 +12,9 @@ import org.scalatest._
 
 class BertEmbeddingsTestSpec extends FlatSpec {
 
-  "Bert Embeddings" should "correctly embed tokens and sentences" ignore {
-
+  "Bert Embeddings" should "correctly embed tokens and sentences" in {
+    println("SCALA VERSION: " + util.Properties.versionString)
+    println("SPARK VERSION: " + SparkNLP.start().version)
     import ResourceHelper.spark.implicits._
 
     val ddd = Seq(
@@ -52,7 +54,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "Bert Embeddings" should "correctly work in a pipeline" ignore {
+  "Bert Embeddings" should "correctly work in a pipeline" in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
