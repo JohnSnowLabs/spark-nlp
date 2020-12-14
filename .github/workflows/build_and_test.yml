@@ -98,13 +98,92 @@ jobs:
           pip install pyspark==3.0.1 numpy
       - name: Build Spark NLP on Apache Spark 3.0.1
         run: |
-          sbt -Dis_spark23=true clean
-          sbt -Dis_spark23=true compile
-          sbt -Dis_spark23=true assemblyAndCopy
-      - name: Test Spark NLP in Scala - Apache Spark 3.0.1
+          sbt clean
+          sbt compile
+          sbt assemblyAndCopy
+      - name: ClassifierDL Test Spark NLP in Scala - Apache Spark 3.0.1
         run: |
-          sbt -Dis_spark23=true test
-      - name: Test Spark NLP in Python - Apache Spark 3.0.1
+          testOnly com.johnsnowlabs.nlp.annotators.classifier.dl.*
+      - name: Big Text Matcher Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.btm.*
+      - name: Keyword Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.keyword.yake
+    - name: Language Detector Test Spark NLP in Scala - Apache Spark 3.0.1
+      run: |
+        testOnly com.johnsnowlabs.nlp.annotators.ld.*
+
+      - name: NER CRF Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.ner.crf.*
+
+      - name: NER DL Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.ner.dl.*
+
+
+      - name: Typed Dependency Parser Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.parser.dep.*
+
+      - name: Untyped Dependency Parser Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.parser.typdep.*
+
+
+      - name: POS Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.pos.perceptron.*
+
+      - name: SBD Pragmatic Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.sbd.pragmatic.*
+
+
+      - name: SDA Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.sda.*
+
+      - name: Sentence Detector DL Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.sentence_detector_dl.*
+
+
+      - name: Spell Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.spell.*
+# TODO non-packacked annotators.X
+      - name: Tokenizer Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.annotators.tokenizer.*
+      - name: Embedding Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.embeddings.*
+      - name: Pretrained Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.pretrained.*
+      - name: NLP Util Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.nlp.util.*
+# Todo test non-packaged nlp.X
+
+      - name: JSL Util Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.util.*
+
+      - name: ML CRF Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.ml.crf.*
+
+      - name: Collection Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.collection.*
+
+      - name: Benchmarks Test NLP in Scala - Apache Spark 3.0.1
+        run: |
+          testOnly com.johnsnowlabs.benchmarks.*
+       - name: Test Spark NLP in Python - Apache Spark 3.0.1
         run: |
           cd python
           python3.7 -m run-tests
