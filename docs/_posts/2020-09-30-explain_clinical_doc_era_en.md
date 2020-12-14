@@ -1,17 +1,17 @@
 ---
 layout: model
-title: Extract clinical entities, assign assertion, and find relations.
+title: Detect Clinical Entities, Assign Assertion and Find Relations.
 author: John Snow Labs
 name: explain_clinical_doc_era
 date: 2020-09-30
-tags: [pipeline, en, licensed]
+tags: [pipeline, en, licensed, clinical]
 article_header:
-  type: cover
-use_language_switcher: "Python"
+type: cover
+use_language_switcher: "Python-Scala-Java"
 ---
  
 ## Description
-A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_events_clinical trained with embeddings_healthcare_100d. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
+A pretrained pipeline with ``ner_clinical_events``, ``assertion_dl`` and ``re_temporal_events_clinical`` trained with ``embeddings_healthcare_100d``. It will extract clinical entities, assign assertion status and find temporal relationships between clinical entities.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -25,7 +25,6 @@ A pretrained pipeline with ner_clinical_events, assertion_dl and re_temporal_eve
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-from sparknlp.pretrained import PretrainedPipeline
 
 era_pipeline = PretrainedPipeline('explain_clinical_doc_era', 'en', 'clinical/models')
 
@@ -35,11 +34,18 @@ annotations.keys()
 
 ```
 
+```scala
+val era_pipeline = new PretrainedPipeline("explain_clinical_doc_era", "en", "clinical/models")
+
+val result = era_pipeline.fullAnnotate("""She is admitted to The John Hopkins Hospital 2 days ago with a history of gestational diabetes mellitus diagnosed. She denied pain and any headache. She was seen by the endocrinology service and she was discharged on 03/02/2018 on 40 units of insulin glargine, 12 units of insulin lispro, and metformin 1000 mg two times a day. She had close follow-up with endocrinology post discharge. """)(0)
+
+```
+
 </div>
 
 {:.h2_title}
 ## Results
-The output is a dictionary with the following keys: 'sentences', 'clinical_ner_tags', 'clinical_ner_chunks_re', 'document', 'clinical_ner_chunks', 'assertion', 'clinical_relations', 'tokens', 'embeddings', 'pos_tags', 'dependencies'.
+The output is a dictionary with the following keys: ``'sentences'``, ``'clinical_ner_tags'``, ``'clinical_ner_chunks_re'``, ``'document'``, ``'clinical_ner_chunks'``, ``'assertion'``, ``'clinical_relations'``, ``'tokens'``, ``'embeddings'``, ``'pos_tags'``, ``'dependencies'``. Here is the result of `clinical_ner_chunks` :
 ```bash
 | #  | chunks                        | begin | end | entities      |
 |----|-------------------------------|-------|-----|---------------|
@@ -77,7 +83,7 @@ The output is a dictionary with the following keys: 'sentences', 'clinical_ner_t
 
 {:.h2_title}
 ## Included Models 
- - ner_clinical_events
- - assertion_dl
- - re_temporal_events_clinical
+ - ``ner_clinical_events``
+ - ``assertion_dl``
+ - ``re_temporal_events_clinical``
  

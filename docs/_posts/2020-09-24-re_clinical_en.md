@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Relation Extraction Model Clinical
+title: Detect Clinical Relations 
 author: John Snow Labs
 name: re_clinical
 class: RelationExtractionModel
 language: en
 repository: clinical/models
 date: 2020-09-24
-tags: [clinical,relation extraction,en]
+tags: [clinical,licensed,relation extraction,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,84 +15,70 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Relation Extraction model based on syntactic features using deep learning
-Models the set of clinical relations defined in the 2010 i2b2 relation challenge.
+Relation Extraction model based on syntactic features using deep learning. Models the set of clinical relations defined in the 2010 ``i2b2`` relation challenge.
 
-## Predicted Entities 
-*TrIP*: A certain treatment has improved or cured a medical problem (eg, ‘infection resolved with antibiotic course’)
-*TrWP*: A patient's medical problem has deteriorated or worsened because of or in spite of a treatment being administered (eg, ‘the tumor was growing despite the drain’)
-*TrCP*: A treatment caused a medical problem (eg, ‘penicillin causes a rash’)
-*TrAP*: A treatment administered for a medical problem (eg, ‘Dexamphetamine for narcolepsy’)
-*TrNAP*: The administration of a treatment was avoided because of a medical problem (eg, ‘Ralafen which is contra-indicated because of ulcers’)
-*TeRP*: A test has revealed some medical problem (eg, ‘an echocardiogram revealed a pericardial effusion’)
-*TeCP*: A test was performed to investigate a medical problem (eg, ‘chest x-ray done to rule out pneumonia’)
-*PIP*: Two problems are related to each other (eg, ‘Azotemia presumed secondary to sepsis’)
+{:.h2_title}
+## Included Relations 
+`TrIP`: A certain treatment has improved or cured a medical problem (eg, ‘infection resolved with antibiotic course’)
+`TrWP`: A patient's medical problem has deteriorated or worsened because of or in spite of a treatment being administered (eg, ‘the tumor was growing despite the drain’)
+`TrCP`: A treatment caused a medical problem (eg, ‘penicillin causes a rash’)
+`TrAP`: A treatment administered for a medical problem (eg, ‘Dexamphetamine for narcolepsy’)
+`TrNAP`: The administration of a treatment was avoided because of a medical problem (eg, ‘Ralafen which is contra-indicated because of ulcers’)
+`TeRP`: A test has revealed some medical problem (eg, ‘an echocardiogram revealed a pericardial effusion’)
+`TeCP`: A test was performed to investigate a medical problem (eg, ‘chest x-ray done to rule out pneumonia’)
+`PIP`: Two problems are related to each other (eg, ‘Azotemia presumed secondary to sepsis’)
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_clinical_en_2.5.5_2.4_1600987935304.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_clinical_en_2.5.5_2.4_1600987935304.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
-	.setInputCols("word_embeddings","chunk","pos","dependency")\
-	.setOutput
+...
 
-pipeline = Pipeline(stages=[
-    documenter,
-    sentencer,
-    tokenizer, 
-    words_embedder, 
-    pos_tagger, 
-    ner_tagger,
-    ner_chunker,
-    dependency_parser,
-    reModel
-])
+reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
+    .setInputCols(["word_embeddings","chunk","pos","dependency"])\
+    .setOutput("relations")
+
+pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-results = sparknlp.base.LightPipeline(model).fullAnnotate("""The patient was prescribed 1 unit of Advil for 5 days after meals. The patient was also 
-given 1 unit of Metformin daily.He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 
-12 units of insulin lispro with meals , and metformin 1000 mg two times a day.""")
+results = LightPipeline(model).fullAnnotate("""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation,  associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG . She had been on dapagliflozin for six months at the time of presentation. Physical examination on presentation was significant for dry oral mucosa ; significantly , her abdominal examination was benign with no tenderness , guarding , or rigidity . Pertinent laboratory findings on admission were : serum glucose 111 mg/dl , bicarbonate 18 mmol/l , anion gap 20 , creatinine 0.4 mg/dL , triglycerides 508 mg/dL , total cholesterol 122 mg/dL , glycated hemoglobin ( HbA1c ) 10% , and venous pH 7.27 . Serum lipase was normal at 43 U/L . Serum acetone levels could not be assessed as blood samples kept hemolyzing due to significant lipemia . The patient was initially admitted for starvation ketosis , as she reported poor oral intake for three days prior to admission . However , serum chemistry obtained six hours after presentation revealed her glucose was 186 mg/dL , the anion gap was still elevated at 21 , serum bicarbonate was 16 mmol/L , triglyceride level peaked at 2050 mg/dL , and lipase was 52 U/L . The β-hydroxybutyrate level was obtained and found to be elevated at 5.29 mmol/L - the original sample was centrifuged and the chylomicron layer removed prior to analysis due to interference from turbidity caused by lipemia again . The patient was treated with an insulin drip for euDKA and HTG with a reduction in the anion gap to 13 and triglycerides to 1400 mg/dL , within 24 hours . Her euDKA was thought to be precipitated by her respiratory tract infection in the setting of SGLT2 inhibitor use . The patient was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day . It was determined that all SGLT2 inhibitors should be discontinued indefinitely . She had close follow-up with endocrinology post discharge .""")
 ```
 
 ```scala
-val model = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")
-	.setInputCols("word_embeddings","chunk","pos","dependency")
-	.setOutputCol("category")
+...
+
+val reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")
+    .setInputCols("word_embeddings","chunk","pos","dependency")
+    .setOutputCol("relations")
+    
+val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel))
+
+val result = pipeline.fit(Seq.empty["A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation,  associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation , she was treated with a five-day course of amoxicillin for a respiratory tract infection . She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG . She had been on dapagliflozin for six months at the time of presentation. Physical examination on presentation was significant for dry oral mucosa ; significantly , her abdominal examination was benign with no tenderness , guarding , or rigidity . Pertinent laboratory findings on admission were : serum glucose 111 mg/dl , bicarbonate 18 mmol/l , anion gap 20 , creatinine 0.4 mg/dL , triglycerides 508 mg/dL , total cholesterol 122 mg/dL , glycated hemoglobin ( HbA1c ) 10% , and venous pH 7.27 . Serum lipase was normal at 43 U/L . Serum acetone levels could not be assessed as blood samples kept hemolyzing due to significant lipemia . The patient was initially admitted for starvation ketosis , as she reported poor oral intake for three days prior to admission . However , serum chemistry obtained six hours after presentation revealed her glucose was 186 mg/dL , the anion gap was still elevated at 21 , serum bicarbonate was 16 mmol/L , triglyceride level peaked at 2050 mg/dL , and lipase was 52 U/L . The β-hydroxybutyrate level was obtained and found to be elevated at 5.29 mmol/L - the original sample was centrifuged and the chylomicron layer removed prior to analysis due to interference from turbidity caused by lipemia again . The patient was treated with an insulin drip for euDKA and HTG with a reduction in the anion gap to 13 and triglycerides to 1400 mg/dL , within 24 hours . Her euDKA was thought to be precipitated by her respiratory tract infection in the setting of SGLT2 inhibitor use . The patient was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day . It was determined that all SGLT2 inhibitors should be discontinued indefinitely . She had close follow-up with endocrinology post discharge ."].toDS.toDF("text")).transform(data)
+
 ```
 </div>
 
 {:.h2_title}
 ## Results
 ```bash
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-|   |       relation | entity1 | entity1_begin | entity1_end |           chunk1 |   entity2 | entity2_begin | entity2_end |           chunk2 | confidence |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 0 |    DOSAGE-DRUG |  DOSAGE |            28 |          33 |           1 unit |      DRUG |            38 |          42 |            Advil |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 1 |  DRUG-DURATION |    DRUG |            38 |          42 |            Advil |  DURATION |            44 |          53 |       for 5 days |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 2 |    DOSAGE-DRUG |  DOSAGE |            96 |         101 |           1 unit |      DRUG |           106 |         114 |        Metformin |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 3 | DRUG-FREQUENCY |    DRUG |           106 |         114 |        Metformin | FREQUENCY |           116 |         120 |            daily |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 4 |    DOSAGE-DRUG |  DOSAGE |           190 |         197 |         40 units |      DRUG |           202 |         217 | insulin glargine |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 5 | DRUG-FREQUENCY |    DRUG |           202 |         217 | insulin glargine | FREQUENCY |           219 |         226 |         at night |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 6 |    DOSAGE-DRUG |  DOSAGE |           231 |         238 |         12 units |      DRUG |           243 |         256 |   insulin lispro |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 7 | DRUG-FREQUENCY |    DRUG |           243 |         256 |   insulin lispro | FREQUENCY |           258 |         267 |       with meals |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 8 |  DRUG-STRENGTH |    DRUG |           275 |         283 |        metformin |  STRENGTH |           285 |         291 |          1000 mg |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
-| 9 | DRUG-FREQUENCY |    DRUG |           275 |         283 |        metformin | FREQUENCY |           293 |         307 |  two times a day |        1.0 |
-+---+----------------+---------+---------------+-------------+------------------+-----------+---------------+-------------+------------------+------------+
+| relation | entity1   | chunk1                          | entity2    | chunk2                        | confidence |
+|----------|-----------|---------------------------------|------------|-------------------------------|------------|
+| TrAP     | PROBLEM   | T2DM                            | TREATMENT  | atorvastatin                  | 0.99955326 |
+| TrWP     | TEST      | blood samples                   | PROBLEM    | significant lipemia           | 0.99998724 |
+| TeRP     | TEST      | the anion gap                   | PROBLEM    | still elevated                | 0.9965193  |
+| TrAP     | TEST      | analysis                        | PROBLEM    | interference from turbidity   | 0.9676019  |
+| TrWP     | TREATMENT | an insulin drip                 | PROBLEM    | a reduction in the anion gap  | 0.94099987 |
+| TeRP     | PROBLEM   | a reduction in the anion gap    | TEST       | triglycerides                 | 0.9956793  |
+| TeRP     | PROBLEM   | her respiratory tract infection | TREATMENT  | SGLT2 inhibitor               | 0.997498   |
 ```
 
 {:.model-param}
@@ -117,26 +103,22 @@ Trained on data gathered and manually annotated by John Snow Labs
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 ## Benchmarking
-The model has been validated agains the posology dataset described in (Magge, Scotch, & Gonzalez-Hernandez, 2018).
+The model has been validated against the posology dataset described in "Magge, Scotch, & Gonzalez-Hernandez, 2018".
 ```bash
-+----------------+--------+-----------+------+------------------------------------------------+
-|    Relation    | Recall | Precision |  F1  | F1 (Magge, Scotch, & Gonzalez-Hernandez, 2018) |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-ADE       | 0.66   | 1.00      | 0.80 | 0.76                                           |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-DOSAGE    | 0.89   | 1.00      | 0.94 | 0.91                                           |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-DURATION  | 0.75   | 1.00      | 0.85 | 0.92                                           |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-FORM      | 0.88   | 1.00      | 0.94 | 0.95*                                          |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-FREQUENCY | 0.79   | 1.00      | 0.88 | 0.90                                           |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-REASON    | 0.60   | 1.00      | 0.75 | 0.70                                           |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-ROUTE     | 0.79   | 1.00      | 0.88 | 0.95*                                          |
-+----------------+--------+-----------+------+------------------------------------------------+
-| DRUG-STRENGTH  | 0.95   | 1.00      | 0.98 | 0.97                                           |
-+----------------+--------+-----------+------+------------------------------------------------+
+       label  precision  recall  f1-score
+ 
+           O       0.96    0.93      0.94
+        TeRP       0.91    0.94      0.92
+         PIP       0.86    0.92      0.89
+        TrAP       0.81    0.92      0.86
+        TrCP       0.56    0.55      0.55
+        TeCP       0.57    0.49      0.53
+        TrWP       0.29    0.02      0.03
+       TrNAP       0.47    0.31      0.37
+        TrIP       0.46    0.28      0.35
+
+    accuracy                         0.88
+   macro avg       0.65    0.59      0.60
+weighted avg       0.87    0.88      0.87 
 ```
-*Magge, Scotch, Gonzalez-Hernandez (2018) collapsed DRUG-FORM and DRUG-ROUTE into a single relation.
+Magge, Scotch, Gonzalez-Hernandez (2018) collapsed DRUG-FORM and DRUG-ROUTE into a single relation.

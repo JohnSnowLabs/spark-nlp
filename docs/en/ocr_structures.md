@@ -162,6 +162,21 @@ element: struct (containsNull = true)
 
 </div><div class="h3-box" markdown="1">
 
+### SplittingStrategy
+
+ * ***FIXED_NUMBER_OF_PARTITIONS***
+ * ***FIXED_SIZE_OF_PARTITION***
+ 
+</div><div class="h3-box" markdown="1">
+
+### TresholdingMethod
+
+ * ***GAUSSIAN***
+ * ***OTSU***
+ * ***SAUVOLA***
+ 
+</div><div class="h3-box" markdown="1">
+
 ## OCR implicits
 
 ### asImage

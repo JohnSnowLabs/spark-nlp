@@ -1,22 +1,23 @@
 ---
 layout: model
-title: NerDLModel Bionlp
+title: Detect Cancer Genetics
 author: John Snow Labs
 name: ner_bionlp_en
 date: 2020-01-30
-tags: [licensed, ner, en]
+tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
 
 Pretrained named entity recognition deep learning model for biology and genetics terms. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
+{:.h2_title}
 ## Predicted Entities 
- Amino_acid, Anatomical_system, Cancer, Cell, Cellular_component, Developing_anatomical_Structure, Gene_or_gene_product, Immaterial_anatomical_entity, Multi-tissue_structure, Organ, Organism, Organism_subdivision, Simple_chemical, Tissue
-
+``Amino_acid``, ``Anatomical_system``, ``Cancer``, ``Cell``, ``Cellular_component``, ``Developing_anatomical_Structure``, ``Gene_or_gene_product``, ``Immaterial_anatomical_entity``, ``Multi-tissue_structure``, ``Organ``, ``Organism``, ``Organism_subdivision``, ``Simple_chemical``, ``Tissue``
 
 
 {:.btn-box}
@@ -24,7 +25,7 @@ Pretrained named entity recognition deep learning model for biology and genetics
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_bionlp_en_2.4.0_2.4_1580237286004.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
-
+{:.h2_title}
 ## How to use
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
@@ -34,19 +35,12 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
-
+..
 clinical_ner = NerDLModel.pretrained("ner_bionlp", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-nlp_pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    word_embeddings,
-    clinical_ner,
-    ner_converter])
-
+...
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(spark.createDataFrame(pd.DataFrame({'text':"The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family. Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population. The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively. We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair (bp) insertion/deletion. Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle. The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes."})))
@@ -54,22 +48,21 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({'text':"The human 
 ```
 
 ```scala
-
-val ner = NerDLModel.pretrained("ner_bionlp", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+...
+val ner = NerDLModel.pretrained("ner_bionlp", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
-val pipeline = new Pipeline().setStages(Array(ner))
-
-val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
-
+val result = pipeline.fit(Seq.empty["The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family. Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population. The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively. We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair (bp) insertion/deletion. Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle. The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes."].toDS.toDF("text")).transform(data)
 
 ```
 
 </div>
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and a "ner_label" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
+The output is a dataframe with a sentence per row and a ``"ner_label"`` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select ``"token.result"`` and ``"ner.result"`` from your output dataframe or add the ``"Finisher"`` to the end of your pipeline.
 
 ```bash
 |id |sentence_id|chunk                 |begin|end|ner_label           |
@@ -114,7 +107,7 @@ The output is a dataframe with a sentence per row and a "ner_label" column conta
 
 {:.h2_title}
 ## Data Source
-Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013 with 'embeddings_clinical'.
+Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013 with ``embeddings_clinical``.
 http://2013.bionlp-st.org/tasks/cancer-genetics
 
 {:.h2_title}
@@ -157,4 +150,3 @@ http://2013.bionlp-st.org/tasks/cancer-genetics
 | 32 | Macro-average                     | 9159  | 1398  | 2948 | 0.76803  | 0.548396 | 0.639891 |
 | 33 | Micro-average                     | 9159  | 1398  | 2948 | 0.867576 | 0.756505 | 0.808242 |
 ```
-
