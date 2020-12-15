@@ -10,6 +10,17 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
 
 class StopWordsCleanerTestSpec extends FlatSpec {
+  val documentAssembler: DocumentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+  val sentence: SentenceDetector = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+  val tokenizer: Tokenizer = new Tokenizer()
+    .setInputCols(Array("sentence"))
+    .setOutputCol("token")
 
   "StopWordsCleaner" should "correctly remove stop words from tokenizer's results" in {
 
@@ -35,18 +46,6 @@ class StopWordsCleanerTestSpec extends FlatSpec {
       Annotation(TOKEN, 38, 42, "forth", Map("sentence" -> "1")),
       Annotation(TOKEN, 43, 43, ".", Map("sentence" -> "1"))
     )
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val sentence = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
 
     val stopWords = new StopWordsCleaner()
       .setInputCols("token")
@@ -79,18 +78,6 @@ class StopWordsCleanerTestSpec extends FlatSpec {
       (1, "This is my first sentence. This is my second."),
       (2, "This is my third sentence. This is my forth.")
     )).toDF("id", "text")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val sentence = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
 
     val stopWords = StopWordsCleaner.pretrained("stopwords_en")
       .setInputCols("token")
