@@ -977,6 +977,10 @@ class EmbeddingsFinisherTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+        # Save model
+        model.write().overwrite().save("./tmp_model")
+        # Load model
+        PipelineModel.load("./tmp_model")
 
 
 class UniversalSentenceEncoderTestSpec(unittest.TestCase):

@@ -1,4 +1,18 @@
 ========
+2.6.5
+========
+----------------
+Bugfixes
+----------------
+* Fix a bug in batching sentences in BertSentenceEmbeddings
+* Fix AttributeError when trying to load a saved EmbeddingsFinisher in Python
+
+----------------
+Enhancements
+----------------
+* Improve handeling exceptions in DocumentAssmbler when user uses a corrupted DataFrame
+
+========
 2.6.4
 ========
 ----------------
