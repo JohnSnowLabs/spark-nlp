@@ -1,7 +1,7 @@
 import sys
 from pyspark.sql import SparkSession
 from sparknlp import annotator
-from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
+from sparknlp.base import DocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
