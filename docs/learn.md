@@ -154,6 +154,8 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='qG_bdbpOM-Y' -%}<div class="video-descr">Spark NLP in Action: Learning to read Life Science research - Saif Addin Ellafi. Saif Addin Ellafi - 1 Aug 2018</div></div></div>
 
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/484128490" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">State of the art emotion and sentiment analysis with Spark NLP (Data science Salon). Dia Trambitas - December 1, 2020</div></div></div>
+
 </div></div>
 
 {:.h4_article}
@@ -193,6 +195,9 @@ modify_date: "2019-05-16"
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='fsS057SNFtg' -%}<div class="video-descr">Spark NLP Annotators, Annotations and Pipelines. John Snow Labs - 23 Oct 2019</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='fEU37G70SFc' -%}<div class="video-descr">Your first Spark NLP Pipeline. John Snow Labs - 23 Oct 2019</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/484128490" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Natural Language Understanding at Scale with Spark NLP | DSS 2020. Veysel Kocaman - December 12, 2020</div></div></div>
+
 </div></div>
 
 {:.h4_article}

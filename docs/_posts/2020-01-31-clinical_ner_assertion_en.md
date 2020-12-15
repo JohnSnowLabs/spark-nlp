@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-
+A pretrained pipeline with ``ner_clinical`` and ``assertion_dl``. It will extract clinical entities and assign assertion status for them.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -27,17 +27,33 @@ use_language_switcher: "Python-Scala-Java"
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PretrainedPipeline("clinical_ner_assertion","en","clinical/models")\
+pipeline = PretrainedPipeline("clinical_ner_assertion","en","clinical/models")
+
+result = pipe_model.fullAnnotate("""She is admitted to The John Hopkins Hospital 2 days ago with a history of gestational diabetes mellitus diagnosed. She denied pain and any headache.She was seen by the endocrinology service and she was discharged on 03/02/2018 on 40 units of insulin glargine, 12 units of insulin lispro, and metformin 1000 mg two times a day. She had close follow-up with endocrinology post discharge.""")[0]
+
+result.keys()
 ```
 
 ```scala
-val model = PretrainedPipeline("clinical_ner_assertion","en","clinical/models")
+val pipeline = new PretrainedPipeline("clinical_ner_assertion","en","clinical/models")
+
+val result = pipeline.fullAnnotate("She is admitted to The John Hopkins Hospital 2 days ago with a history of gestational diabetes mellitus diagnosed. She denied pain and any headache.She was seen by the endocrinology service and she was discharged on 03/02/2018 on 40 units of insulin glargine, 12 units of insulin lispro, and metformin 1000 mg two times a day. She had close follow-up with endocrinology post discharge.")(0)
 ```
 </div>
 
 {:.h2_title}
 ## Results
+```bash
 
+                          chunks  entities  assertion
+
+0  gestational diabetes mellitus   PROBLEM  present
+1                           pain   PROBLEM  absent
+2                       headache   PROBLEM  absent
+3               insulin glargine TREATMENT  present
+4                 insulin lispro TREATMENT  present
+5                      metformin TREATMENT  present
+```
 
 {:.model-param}
 ## Model Information
@@ -53,4 +69,6 @@ val model = PretrainedPipeline("clinical_ner_assertion","en","clinical/models")
 
 
 {:.h2_title}
-## Data Source
+## Included Models 
+ - ner_clinical
+ - assertion_dl
