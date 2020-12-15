@@ -22,7 +22,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  val stopWordsCleaner: StopWordsCleaner = new StopWordsCleaner()
+  val stopWords: StopWordsCleaner = new StopWordsCleaner()
     .setInputCols("token")
     .setOutputCol("cleanTokens")
     .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
@@ -231,12 +231,8 @@ class NGramGeneratorTestSpec extends FlatSpec {
       (2, "This is my third sentence. This is my fourth.")
     )).toDF("id", "text")
 
-    val symSpellChecker = NorvigSweetingModel.pretrained()
-      .setInputCols("cleanTokens")
-      .setOutputCol("checkedTokens")
-
     val nGrams = new NGramGenerator()
-      .setInputCols("checkedTokens")
+      .setInputCols("cleanTokens")
       .setOutputCol("ngrams")
       .setN(2)
       .setEnableCumulative(false)
@@ -246,16 +242,12 @@ class NGramGeneratorTestSpec extends FlatSpec {
         documentAssembler,
         sentence,
         tokenizer,
-        stopWordsCleaner,
-        symSpellChecker,
+        stopWords,
         nGrams
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-    pipelineDF.select("token").show(1)
-    pipelineDF.select("checkedTokens").show(1)
     pipelineDF.select("ngrams").show(1)
-
 
   }
 }

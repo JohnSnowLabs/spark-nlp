@@ -8,15 +8,17 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
+import scala.collection.immutable.ListMap
+
 /**
-  * Language Identification by using Deep Neural Network in TensowrFlow and Keras
-  * LanguageDetectorDL is an annotator that detects the language of documents or sentenccecs depending on the inputCols
+  * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
+  * LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols
   *
-  * The models are trained on large datasets from Wikipedia
+  * The models are trained on large datasets such as Wikipedia and Tatoeba
   * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
   *
   *
@@ -76,19 +78,32 @@ class LanguageDetectorDL(override val uid: String) extends
     **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  /** language used to map prediction to two-letter (ISO 639-1) language codes
+  val languages = new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
+
+  /** language used to map prediction to ISO 639-1 language codes
     *
     * @group setParam
     * */
-  def setLanguage(value: Map[String, Int]): this.type = set(language, value)
+  def setLanguage(value: Map[String, Int]): this.type = {
+    if (get(language).isEmpty)
+      set(this.language, value)
+    this
+  }
 
   /** alphabet used to feed the TensorFlow model for prediction
     *
     * @group setParam
     * */
-  def setAlphabet(value: Map[String, Int]): this.type = set(alphabet, value)
+  def setAlphabet(value: Map[String, Int]): this.type = {
+    if (get(language).isEmpty)
+      set(alphabet, value)
+    this
+  }
 
   /** The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.
+    *
+    * Value is between 0.0 to 1.0
+    * Try to set this lower if your text is hard to predict
     *
     * @group setParam
     * */
@@ -100,7 +115,7 @@ class LanguageDetectorDL(override val uid: String) extends
     * */
   def setThresholdLabel(label: String):this.type = set(this.thresholdLabel, label)
 
-  /** If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.
+  /** If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.
     *
     * @group setParam
     * */
@@ -112,6 +127,15 @@ class LanguageDetectorDL(override val uid: String) extends
     * */
   def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type = set(this.configProtoBytes, bytes)
 
+  /** languages
+    *
+    * @group getParam
+    **/
+  def getLanguage: Array[String] = {
+    val langs = $$(language).keys.toArray
+    set(languages, langs)
+    langs
+  }
   /** threshold
     *
     * @group getParam
@@ -139,8 +163,8 @@ class LanguageDetectorDL(override val uid: String) extends
   setDefault(
     inputCols-> Array("document"),
     outputCol-> "language",
-    threshold -> 0.5f,
-    thresholdLabel -> "Unknown",
+    threshold -> 0.1f,
+    thresholdLabel -> "unk",
     coalesceSentences -> true
   )
 
@@ -156,7 +180,9 @@ class LanguageDetectorDL(override val uid: String) extends
         spark.sparkContext.broadcast(
           new TensorflowLD(
             tensorflow,
-            configProtoBytes = getConfigProtoBytes
+            configProtoBytes = getConfigProtoBytes,
+            ListMap($$(language).toSeq.sortBy(_._2):_*),
+            ListMap($$(alphabet).toSeq.sortBy(_._2):_*)
           )
         )
       )
@@ -177,8 +203,6 @@ class LanguageDetectorDL(override val uid: String) extends
     if (nonEmptySentences.nonEmpty) {
       getModelIfNotSet.calculateLanguageIdentification(
         nonEmptySentences,
-        $$(alphabet),
-        $$(language),
         $(threshold),
         $(thresholdLabel),
         $(coalesceSentences)
@@ -194,13 +218,13 @@ class LanguageDetectorDL(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_ld", LanguageDetectorDL.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_ld", LanguageDetectorDL.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
 trait ReadablePretrainedLanguageDetectorDLModel extends ParamsAndFeaturesReadable[LanguageDetectorDL] with HasPretrained[LanguageDetectorDL] {
-  override val defaultModelName: Some[String] = Some("ld_wiki_20")
+  override val defaultModelName: Some[String] = Some("ld_wiki_tatoeba_cnn_21")
   override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
@@ -219,6 +243,10 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
     val tf = readTensorflowModel(path, spark, "_ld_tf")
     instance.setModelIfNotSet(spark, tf)
+    // This allows for Python to access getLanguages function
+    val t = instance.language.get.toArray
+    val r = t(0).keys.toArray
+    instance.set(instance.languages, r)
   }
 
   addReader(readTensorflow)

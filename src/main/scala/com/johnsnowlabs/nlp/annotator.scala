@@ -47,6 +47,9 @@ package object annotator {
   type DateMatcher = com.johnsnowlabs.nlp.annotators.DateMatcher
   object DateMatcher extends DefaultParamsReadable[DateMatcher]
 
+  type MultiDateMatcher = com.johnsnowlabs.nlp.annotators.MultiDateMatcher
+  object MultiDateMatcher extends DefaultParamsReadable[MultiDateMatcher]
+
   type TextMatcher = com.johnsnowlabs.nlp.annotators.TextMatcher
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
   type TextMatcherModel = com.johnsnowlabs.nlp.annotators.TextMatcherModel
@@ -194,4 +197,6 @@ package object annotator {
   type WordSegmenterModel = com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
   object WordSegmenterModel extends ReadablePretrainedWordSegmenter
 
+  type DocumentNormalizer = com.johnsnowlabs.nlp.annotators.DocumentNormalizer
+  object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
 }
