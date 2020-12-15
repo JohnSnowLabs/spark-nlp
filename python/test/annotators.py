@@ -908,6 +908,7 @@ class StopWordsCleanerModelTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.transform(self.data).select("cleanTokens.result").show()
 
+
 class NGramGeneratorTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([
@@ -1353,6 +1354,34 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
         model.transform(self.data).show()
 
 
+class WordSegmenterTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        from sparknlp.training import POS
+        self.data = SparkContextForTest.spark.createDataFrame([["十四不是四十"]]) \
+            .toDF("text").cache()
+        self.train = POS().readDataset(SparkContextForTest.spark,
+                                       os.getcwd() + "/../src/test/resources/word-segmenter/chinese_train.utf8",
+                                       delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                       outputTextCol="text")
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        word_segmenter = WordSegmenterApproach() \
+            .setInputCols("document") \
+            .setOutputCol("token") \
+            .setPosCol("tags") \
+            .setIterations(1) \
+            .fit(self.train)
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            word_segmenter
+        ])
+
+        model = pipeline.fit(self.train)
+        model.transform(self.data).show(truncate=False)                                   
+
 class LanguageDetectorDLTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -1365,7 +1394,7 @@ class LanguageDetectorDLTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-
+        
         sentence_detector = SentenceDetectorDLModel.pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
