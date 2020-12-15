@@ -1,13 +1,13 @@
 ---
 layout: model
-title: ChunkResolver Cpt Clinical
+title: Chunk Resolver (Cpt Clinical)
 author: John Snow Labs
 name: chunkresolve_cpt_clinical
 class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-04-21
-tags: [clinical,entity_resolution,en]
+tags: [clinical,licensed,entity_resolution,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

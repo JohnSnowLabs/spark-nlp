@@ -1,18 +1,20 @@
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - 'master'
+      - '*release*'
+  pull_request:
+    branches: 
+      - 'master'
 
 jobs:
   spark24:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        scala: ['2.11']
-    name: Build and Test on Apache Spark 2.4.x - ${{ matrix.scala }} 
+    name: Build and Test on Apache Spark 2.4.x
 
-    env:
-      SCALA_VERSION: ${{ matrix.scala }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 8
@@ -35,22 +37,17 @@ jobs:
         sbt assemblyAndCopy
     - name: Test Spark NLP in Scala - Apache Spark 2.4.x
       run: |
-        sbt test    
+        sbt test
     - name: Test Spark NLP in Python - Apache Spark 2.4.x
       run: |
         cd python
         python3.7 -m run-tests
 
-  spark32: 
+  spark32:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        scala: ['2.11']
-    name: Build and Test on Apache Spark 2.3.x - ${{ matrix.scala }} 
+    name: Build and Test on Apache Spark 2.3.x
 
-    env:
-      SCALA_VERSION: ${{ matrix.scala }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 8
@@ -73,7 +70,7 @@ jobs:
         sbt -Dis_spark23=true assemblyAndCopy
     - name: Test Spark NLP in Scala - Apache Spark 2.3.x
       run: |
-        sbt -Dis_spark23=true test    
+        sbt -Dis_spark23=true test
     - name: Test Spark NLP in Python - Apache Spark 2.3.x
       run: |
         cd python

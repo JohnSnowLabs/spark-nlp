@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.EmbeddingsFinisher
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
+import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
@@ -144,6 +144,38 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
     pipelineDF.select("sentence.result").show(false)
     pipelineDF.select("sentence_embeddings.result").show(false)
     pipelineDF.show()
+
+  }
+
+
+  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" ignore {
+
+    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+      .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val useEmbeddings = UniversalSentenceEncoder
+      .pretrained("tfhub_use_multi", "xx")
+      .setInputCols("sentence")
+      .setOutputCol("sentence_embeddings")
+
+    val pipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        useEmbeddings
+      ))
+
+    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    println(pipelineDF.count())
+    pipelineDF.show
 
   }
 

@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Clinical events NER
+title: Detect Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-09-30
-tags: [ner, en, licensed]
+tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

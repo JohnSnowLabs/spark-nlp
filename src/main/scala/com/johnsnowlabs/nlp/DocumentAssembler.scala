@@ -1,16 +1,13 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
+import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
-/**
-  * Created by saif on 06/07/17.
-  */
 
 class DocumentAssembler(override val uid: String)
   extends Transformer
@@ -19,6 +16,8 @@ class DocumentAssembler(override val uid: String)
     with HasOutputAnnotationCol {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
+
+  val EMPTY_STR = ""
 
   private type DocumentationContent = Row
 
@@ -83,19 +82,31 @@ class DocumentAssembler(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   private[nlp] def assemble(text: String, metadata: Map[String, String]): Seq[Annotation] = {
+
+    val _text = Option(text).getOrElse(EMPTY_STR)
+
     val possiblyCleaned = $(cleanupMode) match {
-      case "disabled" => text
-      case "inplace" => text.replaceAll("\\s", " ")
-      case "inplace_full" => text.replaceAll("\\s|(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", " ")
-      case "shrink" => text.trim.replaceAll("\\s+", " ")
-      case "shrink_full" => text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
-      case "each" => text.replaceAll("\\s[\\n\\t]", " ")
-      case "each_full" => text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
-      case "delete_full" => text.trim.replaceAll("(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", "")
+      case "disabled" => _text
+      case "inplace" => _text.replaceAll("\\s", " ")
+      case "inplace_full" => _text.replaceAll("\\s|(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", " ")
+      case "shrink" => _text.trim.replaceAll("\\s+", " ")
+      case "shrink_full" => _text.trim.replaceAll("\\s+|(?:\\\\r)*(?:\\\\n)+|(?:\\\\t)+", " ")
+      case "each" => _text.replaceAll("\\s[\\n\\t]", " ")
+      case "each_full" => _text.replaceAll("\\s(?:\\n|\\t|(?:\\\\r)?(?:\\\\n)|(?:\\\\t))", " ")
+      case "delete_full" => _text.trim.replaceAll("(?:\\\\r)?(?:\\\\n)|(?:\\\\t)", "")
       case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
         s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
-    Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+    try {
+      Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+    } catch { case _: Exception =>
+      /*
+      * when there is a null in the row
+      * it outputs an empty Annotation
+      * */
+      Seq.empty[Annotation]
+    }
+
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
@@ -142,8 +153,8 @@ class DocumentAssembler(override val uid: String)
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
       if (dataset.schema.fields.find(_.name == getInputCol)
-          .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
-          .dataType == ArrayType(StringType, containsNull = false))
+        .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
+        .dataType == ArrayType(StringType, containsNull = false))
         dfAssemblyFromArray(
           dataset.col(getInputCol)
         )
