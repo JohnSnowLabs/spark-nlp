@@ -1,9 +1,9 @@
 ---
 layout: model
-title: Detect Drugs - generalized single entity (ner_drugs_greedy)
+title: Detect Drugs - Generalized Single Entity (ner_drugs_greedy)
 author: John Snow Labs
 name: ner_drugs_greedy
-date: 2020-12-08
+date: 2020-12-14
 tags: [ner, licensed, en, clinical]
 article_header:
   type: cover
@@ -16,7 +16,7 @@ This is a single entity model that generalises all posology concepts into one an
 
 ## Predicted Entities
 
-\``DRUG`
+`DRUG`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -29,22 +29,29 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
+...
 clinical_ner = NerDLModel.pretrained("ner_drugs_greedy", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-nlp_pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    word_embeddings,
-    clinical_ner,
-    ner_converter])
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-data = "DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."
-results = model.transform(spark.createDataFrame([[data]]).toDF("text"))
+...
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+results = model.transform(spark.createDataFrame([["DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."]]).toDF("text"))
 ```
 
+```scala
+...
+val clinical_ner = NerDLModel.pretrained("ner_drugs_greedy", "en", "clinical/models")
+     .setInputCols(Array("sentence", "token", "embeddings"))
+     .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter))
+
+val result = pipeline.fit(Seq.empty["DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results
@@ -55,6 +62,7 @@ results = model.transform(spark.createDataFrame([[data]]).toDF("text"))
 +-----------------------------------+------------+
 | hydrocortisone tablets            | DRUG       |
 | 20 mg to 240 mg of hydrocortisone | DRUG       |
++-----------------------------------+------------+
 ```
 
 {:.model-param}
@@ -64,13 +72,17 @@ results = model.transform(spark.createDataFrame([[data]]).toDF("text"))
 |---|---|
 |Model Name:|ner_drugs_greedy|
 |Type:|ner|
-|Compatibility:|Spark NLP 2.6.4+|
+|Compatibility:|Spark NLP 2.6.5+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
 |Language:|en|
 |Dependencies:|embeddings_clinical|
+
+## Data Source
+
+Trained on augmented i2b2_med7 + FDA dataset with ``embeddings_clinical``, [https://www.i2b2.org/NLP/Medication](https://www.i2b2.org/NLP/Medication).
 
 ## Benchmarking
 

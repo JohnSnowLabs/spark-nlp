@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Drugs and posology entities (ner_posology_greedy)
+title: Detect Drugs and Posology Entities (ner_posology_greedy)
 author: John Snow Labs
 name: ner_posology_greedy
 date: 2020-12-08
@@ -16,7 +16,7 @@ This model detects drugs, dosage, form, frequency, duration, route, and drug str
 
 ## Predicted Entities
 
-\``DRUG` `STRENGTH` `DURATION` `FREQUENCY` `FORM` `DOSAGE` `ROUTE`
+`DRUG`, `STRENGTH`, `DURATION`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -29,37 +29,47 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
+...
 clinical_ner = NerDLModel.pretrained("ner_posology_greedy", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+   .setInputCols(["sentence", "token", "embeddings"]) \
+   .setOutputCol("ner")
+...
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-nlp_pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    word_embeddings,
-    clinical_ner,
-    ner_converter])
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
-data = "DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."
-
-results = model.transform(spark.createDataFrame([[data]]).toDF("text"))
+results = model.transform(spark.createDataFrame([["The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day."]]).toDF("text"))
 ```
 
+```scala
+...
+val clinical_ner = NerDLModel.pretrained("ner_posology_greedy", "en", "clinical/models")
+     .setInputCols(Array("sentence", "token", "embeddings"))
+     .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter))
+
+val result = pipeline.fit(Seq.empty["The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day."].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results
 
 ```bash
-+-----------------------------------+------------+
-| chunk                             | ner_label  |
-+-----------------------------------+------------+
-| hydrocortisone tablets            | DRUG       |
-| 20 mg to 240 mg of hydrocortisone | DRUG       |
-| per day                           | FREQUENCY  |
-
++----+----------------------------------+---------+-------+------------+
+|    | chunks                           |   begin |   end | entities   |
+|---:|---------------------------------:|--------:|------:|-----------:|
+|  0 | 1 capsule of Advil 10 mg         |      27 |    50 | DRUG       |
+|  1 | magnesium hydroxide 100mg/1ml PO |      67 |    98 | DRUG       |
+|  2 | for 5 days                       |      52 |    61 | DURATION   |
+|  3 | 40 units of insulin glargine     |     168 |   195 | DRUG       |
+|  4 | at night                         |     197 |   204 | FREQUENCY  |
+|  5 | 12 units of insulin lispro       |     207 |   232 | DRUG       |
+|  6 | with meals                       |     234 |   243 | FREQUENCY  |
+|  7 | metformin 1000 mg                |     250 |   266 | DRUG       |
+|  8 | two times a day                  |     268 |   282 | FREQUENCY  |
++----+----------------------------------+---------+-------+------------+
 ```
 
 {:.model-param}
@@ -69,7 +79,7 @@ results = model.transform(spark.createDataFrame([[data]]).toDF("text"))
 |---|---|
 |Model Name:|ner_posology_greedy|
 |Type:|ner|
-|Compatibility:|Spark NLP 2.6.4+|
+|Compatibility:|Spark NLP 2.6.5+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
@@ -79,7 +89,7 @@ results = model.transform(spark.createDataFrame([[data]]).toDF("text"))
 
 ## Data Source
 
-Trained on augmented i2b2_med7 + FDA dataset with ‘embeddings_clinical’. https://www.i2b2.org/NLP/Medication
+Trained on augmented i2b2_med7 + FDA dataset with ``embeddings_clinical``, [https://www.i2b2.org/NLP/Medication](https://www.i2b2.org/NLP/Medication).
 
 ## Benchmarking
 
