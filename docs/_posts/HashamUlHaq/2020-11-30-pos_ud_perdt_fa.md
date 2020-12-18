@@ -16,25 +16,31 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_perdt_fa_2.7.0_2.4_1606724821106.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
+...
 pos = PerceptronModel.pretrained("pos_ud_perdt", "fa") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 results = light_pipeline.fullAnnotate(["جان اسنو جدا از سلطنت شمال ، یک پزشک انگلیسی و رهبر توسعه بیهوشی و بهداشت پزشکی است."])
+```
+
+```scala
+...
+val pos = PerceptronModel.pretrained("pos_ud_perdt", "fa")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("pos")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
+val result = pipeline.fit(Seq.empty["جان اسنو جدا از سلطنت شمال ، یک پزشک انگلیسی و رهبر توسعه بیهوشی و بهداشت پزشکی است."].toDS.toDF("text")).transform(data)
 ```
 
 </div>
@@ -77,7 +83,7 @@ results = light_pipeline.fullAnnotate(["جان اسنو جدا از سلطنت �
 
 ## Data Source
 
-The model is trained on data obtained from https://universaldependencies.org
+The model is trained on data obtained from [https://universaldependencies.org](https://universaldependencies.org)
 
 ## Benchmarking
 
