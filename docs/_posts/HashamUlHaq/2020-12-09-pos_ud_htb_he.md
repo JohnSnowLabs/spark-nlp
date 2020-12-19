@@ -16,7 +16,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_htb_he_2.7.0_2.4_1607521333296.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -25,19 +25,25 @@ Use as part of an nlp pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
+...
 pos = PerceptronModel.pretrained("pos_ud_htb", "he") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 results = light_pipeline.fullAnnotate(["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"])
 
 ```
-
+```scala
+...
+val pos = PerceptronModel.pretrained("pos_ud_htb", "he")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("pos")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
+val result = pipeline.fit(Seq.empty["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results
@@ -79,7 +85,7 @@ results = light_pipeline.fullAnnotate(["ב- 25 לאוגוסט עצר השב"כ �
 
 ## Data Source
 
-The model is trained on data obtained from https://universaldependencies.org
+The model is trained on data obtained from [https://universaldependencies.org](https://universaldependencies.org)
 
 ## Benchmarking
 
