@@ -2240,6 +2240,172 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
 
+### ImageToHocr
+
+`ImageToHocr` runs OCR for input image, return recognized text and bounding boxes
+to _outputCol_ column in HOCR format.
+
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
+| pageIteratorLevel | [PageIteratorLevel](ocr_structures#pageiteratorlevel) | BLOCK | page iteration level |
+| ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY| OCR engine mode |
+| language | string | eng | language |
+| ignoreResolution | bool | true | Ignore resolution from metadata of image. |
+| ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | hocr | Recognized text |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.ImageToHocr
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val data = transformer.transform(df)
+print(data.select("hocr").collect()[0].hocr)
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+</div>
+
+**Image:**
+
+![image](/assets/images/ocr/corrected.png)
+
+**Output:**
+
+```html
+  <div class='ocr_page' id='page_1' title='image ""; bbox 0 0 1280 467; ppageno 0'>
+   <div class='ocr_carea' id='block_1_1' title="bbox 516 80 780 114">
+    <p class='ocr_par' id='par_1_1' lang='eng' title="bbox 516 80 780 114">
+     <span class='ocr_line' id='line_1_1' title="bbox 516 80 780 114; baseline 0 -1; x_size 44; x_descenders 11; x_ascenders 11">
+      <span class='ocrx_word' id='word_1_1' title='bbox 516 80 780 114; x_wconf 96'>FOREWORD</span>
+     </span>
+    </p>
+   </div>
+   <div class='ocr_carea' id='block_1_2' title="bbox 40 237 1249 425">
+    <p class='ocr_par' id='par_1_2' lang='eng' title="bbox 40 237 1249 425">
+     <span class='ocr_line' id='line_1_2' title="bbox 122 237 1249 282; baseline 0.001 -12; x_size 45; x_descenders 12; x_ascenders 13">
+      <span class='ocrx_word' id='word_1_2' title='bbox 122 237 296 270; x_wconf 96'>Electronic</span>
+      <span class='ocrx_word' id='word_1_3' title='bbox 308 237 416 281; x_wconf 96'>design</span>
+      <span class='ocrx_word' id='word_1_4' title='bbox 428 243 588 282; x_wconf 96'>engineers</span>
+      <span class='ocrx_word' id='word_1_5' title='bbox 600 250 653 271; x_wconf 96'>are</span>
+      <span class='ocrx_word' id='word_1_6' title='bbox 665 238 718 271; x_wconf 96'>the</span>
+      <span class='ocrx_word' id='word_1_7' title='bbox 731 246 798 272; x_wconf 97'>true</span>
+      <span class='ocrx_word' id='word_1_8' title='bbox 810 238 880 271; x_wconf 96'>idea</span>
+      <span class='ocrx_word' id='word_1_9' title='bbox 892 251 963 271; x_wconf 96'>men</span>
+      <span class='ocrx_word' id='word_1_10' title='bbox 977 238 1010 272; x_wconf 96'>of</span>
+      <span class='ocrx_word' id='word_1_11' title='bbox 1021 238 1074 271; x_wconf 96'>the</span>
+      <span class='ocrx_word' id='word_1_12' title='bbox 1086 239 1249 272; x_wconf 96'>electronic</span>
+     </span>
+     <span class='ocr_line' id='line_1_3' title="bbox 41 284 1248 330; baseline 0.002 -13; x_size 44; x_descenders 11; x_ascenders 12">
+      <span class='ocrx_word' id='word_1_13' title='bbox 41 284 214 318; x_wconf 96'>industries.</span>
+      <span class='ocrx_word' id='word_1_14' title='bbox 227 284 313 328; x_wconf 96'>They</span>
+      <span class='ocrx_word' id='word_1_15' title='bbox 324 292 427 319; x_wconf 96'>create</span>
+      <span class='ocrx_word' id='word_1_16' title='bbox 440 285 525 319; x_wconf 96'>ideas</span>
+      <span class='ocrx_word' id='word_1_17' title='bbox 537 286 599 318; x_wconf 96'>and</span>
+      <span class='ocrx_word' id='word_1_18' title='bbox 611 298 668 319; x_wconf 96'>use</span>
+      <span class='ocrx_word' id='word_1_19' title='bbox 680 286 764 319; x_wconf 96'>them</span>
+      <span class='ocrx_word' id='word_1_20' title='bbox 777 291 808 319; x_wconf 96'>in</span>
+      <span class='ocrx_word' id='word_1_21' title='bbox 821 286 900 319; x_wconf 96'>their</span>
+      <span class='ocrx_word' id='word_1_22' title='bbox 912 286 1044 330; x_wconf 96'>designs,</span>
+      <span class='ocrx_word' id='word_1_23' title='bbox 1058 286 1132 330; x_wconf 93'>they</span>
+      <span class='ocrx_word' id='word_1_24' title='bbox 1144 291 1248 320; x_wconf 92'>stimu-</span>
+     </span>
+     <span class='ocr_line' id='line_1_4' title="bbox 42 332 1247 378; baseline 0.002 -14; x_size 44; x_descenders 12; x_ascenders 12">
+      <span class='ocrx_word' id='word_1_25' title='bbox 42 332 103 364; x_wconf 97'>late</span>
+      <span class='ocrx_word' id='word_1_26' title='bbox 120 332 204 365; x_wconf 96'>ideas</span>
+      <span class='ocrx_word' id='word_1_27' title='bbox 223 337 252 365; x_wconf 96'>in</span>
+      <span class='ocrx_word' id='word_1_28' title='bbox 271 333 359 365; x_wconf 96'>other</span>
+      <span class='ocrx_word' id='word_1_29' title='bbox 376 333 542 377; x_wconf 96'>designers,</span>
+      <span class='ocrx_word' id='word_1_30' title='bbox 561 334 625 366; x_wconf 96'>and</span>
+      <span class='ocrx_word' id='word_1_31' title='bbox 643 334 716 377; x_wconf 96'>they</span>
+      <span class='ocrx_word' id='word_1_32' title='bbox 734 334 855 366; x_wconf 96'>borrow</span>
+      <span class='ocrx_word' id='word_1_33' title='bbox 873 334 934 366; x_wconf 96'>and</span>
+      <span class='ocrx_word' id='word_1_34' title='bbox 954 335 1048 378; x_wconf 96'>adapt</span>
+      <span class='ocrx_word' id='word_1_35' title='bbox 1067 334 1151 367; x_wconf 96'>ideas</span>
+      <span class='ocrx_word' id='word_1_36' title='bbox 1169 334 1247 367; x_wconf 96'>from</span>
+     </span>
+     <span class='ocr_line' id='line_1_5' title="bbox 40 379 1107 425; baseline 0.002 -13; x_size 45; x_descenders 12; x_ascenders 12">
+      <span class='ocrx_word' id='word_1_37' title='bbox 40 380 151 412; x_wconf 96'>others.</span>
+      <span class='ocrx_word' id='word_1_38' title='bbox 168 383 238 412; x_wconf 96'>One</span>
+      <span class='ocrx_word' id='word_1_39' title='bbox 252 379 345 412; x_wconf 96'>could</span>
+      <span class='ocrx_word' id='word_1_40' title='bbox 359 380 469 413; x_wconf 96'>almost</span>
+      <span class='ocrx_word' id='word_1_41' title='bbox 483 392 537 423; x_wconf 96'>say</span>
+      <span class='ocrx_word' id='word_1_42' title='bbox 552 381 626 424; x_wconf 96'>they</span>
+      <span class='ocrx_word' id='word_1_43' title='bbox 641 381 712 414; x_wconf 96'>feed</span>
+      <span class='ocrx_word' id='word_1_44' title='bbox 727 393 767 414; x_wconf 96'>on</span>
+      <span class='ocrx_word' id='word_1_45' title='bbox 783 381 845 414; x_wconf 96'>and</span>
+      <span class='ocrx_word' id='word_1_46' title='bbox 860 392 945 425; x_wconf 97'>grow</span>
+      <span class='ocrx_word' id='word_1_47' title='bbox 959 393 999 414; x_wconf 96'>on</span>
+      <span class='ocrx_word' id='word_1_48' title='bbox 1014 381 1107 414; x_wconf 95'>ideas.</span>
+     </span>
+    </p>
+   </div>
+  </div>
+```
+
 ### ImageBrandsToText
 
 `ImageBrandsToText` runs OCR for specified brands of input image, return recognized text
@@ -2673,7 +2839,8 @@ results.show()
 ### FoundationOneReportParser
 
 `FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
-Current implementation support parsing patient info, genomic and biomarker findings.
+Current implementation support parsing patient info, genomic, biomarker findings and gene lists
+from appendix.
 Output format is json.
 
 #### Input Columns
@@ -2789,6 +2956,12 @@ Output:
     "state" : "amplification",
     "therapies_with_clinical_benefit_in_patient_tumor_type" : [ "none" ],
     "therapies_with_clinical_benefit_in_other_tumor_type" : [ "Sorafenib", "Sunitinib", "Ponatinib" ]
-  } ]
+  }
+ ],
+ "Appendix" : {
+    "dna_gene_list" : [ "ABL1", "ACVR1B", "AKT1", ....  ],
+    "dna_gene_list_rearrangement" : [ "ALK", "BCL2", "BCR", ....  ],
+    "additional_assays" : [ "Tumor Mutation  Burden  (TMB)", "Microsatellite  Status  (MS)" ]
+  }
 }
 ```
