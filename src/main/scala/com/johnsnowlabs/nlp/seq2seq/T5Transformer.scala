@@ -1,14 +1,14 @@
-package com.johnsnowlabs.nlp.annotators.seq2seq
+package com.johnsnowlabs.nlp.seq2seq
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 
 import scala.collection.mutable.Map
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, Param}
+import org.apache.spark.ml.param.{IntArrayParam, Param, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -27,7 +27,7 @@ class T5Transformer(override val uid: String)
     *
     * @group anno
     * */
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Output annotator type : DOCUMENT
     *
@@ -37,7 +37,9 @@ class T5Transformer(override val uid: String)
 
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  var task = new Param[String](this, "task", "Set transformer task, e.g. 'summarize'.")
+  val task = new Param[String](this, "task", "Set transformer task, e.g. 'summarize'")
+
+  val maxOutputLength = new IntParam(this, "maxOutputLength", "Maximum length of output text")
 
   private var _tfModel: Option[Broadcast[TensorflowT5]] = None
 
@@ -45,14 +47,22 @@ class T5Transformer(override val uid: String)
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  def setTask(taskPrefix: String): T5Transformer.this.type = {
+  def setTask(value: String): T5Transformer.this.type = {
     if (get(task).isEmpty)
-      set(task, taskPrefix)
+      set(task, value)
     this
   }
 
+  def setMaxOutputLength(value: Int): T5Transformer.this.type = {
+    set(maxOutputLength, value)
+    this
+  }
+
+  def getMaxOutputLength: Int = $(this.maxOutputLength)
+
   setDefault(
-    task -> ""
+    task -> "",
+    maxOutputLength -> 200
   )
 
   def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {
@@ -70,23 +80,21 @@ class T5Transformer(override val uid: String)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    var sentences: Array[String] = Array()
-    annotations.filter(anno => this.inputAnnotatorTypes.contains(anno.annotatorType)).foreach(anno => {
-      val sentenceNo = anno.metadata("sentence").toInt
-      while (sentenceNo >= sentences.length) {
-        sentences = sentences ++ Array(get(task).getOrElse(""))
-      }
-      sentences(sentenceNo) = sentences.last.concat(" ").concat(anno.result)
-    })
+    if (annotations.nonEmpty){
+      val sentences = annotations.map(
+        x => get(task).getOrElse("").concat(" ").concat(x.result))
 
-    this.getModelIfNotSet.process(sentences).zipWithIndex.map(x => {
-      new Annotation(
-        annotatorType = this.outputAnnotatorType,
-        begin = 0,
-        end = x._1.length,
-        result = x._1,
-        metadata = Map("sentence" -> x._2.toString))
-    })
+      this.getModelIfNotSet.process(sentences, getMaxOutputLength).zipWithIndex.map(x => {
+        new Annotation(
+          annotatorType = this.outputAnnotatorType,
+          begin = 0,
+          end = x._1.length,
+          result = x._1,
+          metadata = Map("sentence" -> x._2.toString))
+      })
+    } else {
+      Seq.empty[Annotation]
+    }
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -113,7 +121,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
   override val sppFile: String = "t5_spp"
 
   def readTensorflow(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_t5_tf", initAllTables = false)
+    val tf = readTensorflowModel(path, spark, "_t5_tf")
     val spp = readSentencePieceModel(path, spark, "_t5_spp" )
     instance.setModelIfNotSet(spark, tf, spp)
   }

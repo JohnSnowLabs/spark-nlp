@@ -31,10 +31,11 @@ sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
+sys.modules['com.johnsnowlabs.nlp.seq2seq'] = annotator
 
 annotators = annotator
 embeddings = annotator
-
+seq2seq = annotator
 
 def start(gpu=False, spark23=False):
     current_version = "2.6.5"
