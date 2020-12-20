@@ -1,9 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.nlp.annotators.common._
-import org.tensorflow.Graph
-
 import scala.collection.JavaConverters._
 
 /**
@@ -23,23 +20,20 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
   // keys representing the input and output tensors of the ALBERT model
 
-  private val encoderInputIdsKey = "encoder/input_ids:0"
-  private val encoderAttentionMaskKey = "encoder/attention_mask:0"
-  private val decoderInputIdsKey = "decoder/input_ids:0"
-  private val decoderEncoderStateKey = "decoder/encoder_hidden_states:0"
-  private val decoderEncoderAttentionMaskKey = "decoder/encoder_attention_mask:0"
+  private val encoderInputIdsKey = "encoder/encoder_input_ids:0"
+  private val encoderAttentionMaskKey = "encoder/encoder_attention_mask:0"
+  private val decoderInputIdsKey = "decoder/decoder_input_ids:0"
+  private val decoderEncoderStateKey = "decoder/encoder_state:0"
+  private val decoderEncoderAttentionMaskKey = "decoder/decoder_encoder_attention_mask:0"
   private val decoderAttentionMaskKey = "decoder/decoder_attention_mask:0"
 
-  private val encoderOutputsKey = "encoder/outputs:0"
-  private val decoderOutputsKey = "decoder/outputs:0"
+  private val encoderOutputsKey = "encoder/encoder_output:0"
+  private val decoderOutputsKey = "decoder/decoder_output:0"
 
   private val paddingTokenId = 0l
   private val eosTokenId = 1l
 
-  //Maximal difference between output and input length
-  private val maxInputOutputLengthDifference = 100
-
-  def process(textInputs: Seq[String]): Seq[String] = {
+  def process(textInputs: Seq[String], maxOutputLength: Int = 200): Seq[String] = {
 
     val batch = textInputs.map(
       x => {
@@ -157,11 +151,10 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       decoderInputBuffers.clear()
       decoderInputTensorResources.clearTensors()
       decoderAttentionBuffers.clear()
-      decoderAttentionTensorResources.clearTensors()
 
       stopDecoder = (
         modelOutputs.filter(o => o.last != this.eosTokenId).isEmpty
-          || ((maxSentenceLength + modelOutputs.head.length) > this.maxInputOutputLengthDifference))
+          || (modelOutputs.head.length > maxOutputLength))
 
     }
 

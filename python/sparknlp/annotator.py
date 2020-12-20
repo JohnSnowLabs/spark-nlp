@@ -38,6 +38,7 @@ ld.dl = sys.modules[__name__]
 keyword = sys.modules[__name__]
 keyword.yake = sys.modules[__name__]
 sentence_detector_dl = sys.modules[__name__]
+seq2seq = sys.modules[__name__]
 
 class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
@@ -3034,3 +3035,43 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach"):
         super(SentenceDetectorDLApproach, self).__init__(classname=classname)
+
+class T5Transformer(AnnotatorModel, HasCaseSensitiveProperties, HasStorageRef):
+
+    name = "T5Transformer"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    task = Param(Params._dummy(), "task", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
+
+    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Set the maximum length of output text", typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setTask(self, value):
+        return self._set(task=value)
+
+    def setMaxOutputLength(self, value):
+        return self._set(maxOutputLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.seq2seq.T5Transformer", java_model=None):
+        super(T5Transformer, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _T5Loader
+        jModel = _T5Loader(folder, spark_session._jsparkSession)._java_obj
+        return T5Transformer(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="t5_small", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
