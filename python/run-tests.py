@@ -11,6 +11,7 @@ unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
 unittest.TextTestRunner().run(TextMatcherTestSpec())
+unittest.TextTestRunner().run(DocumentNormalizerSpec())
 
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 unittest.TextTestRunner().run(ChunkerTestSpec())
@@ -36,6 +37,9 @@ unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(NerDLModelTestSpec())
 unittest.TextTestRunner().run(YakeModelTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
+unittest.TextTestRunner().run(WordSegmenterTestSpec())
+unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
+
 # Should be locally tested
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())

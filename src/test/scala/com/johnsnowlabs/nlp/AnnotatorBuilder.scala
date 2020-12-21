@@ -1,20 +1,11 @@
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.btm.BigTextMatcher
-import com.johnsnowlabs.nlp.annotators.ner.crf.{NerCrfApproach, NerCrfModel}
-import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
-import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector
-import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
-import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
+import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest._
 
 /**
@@ -28,6 +19,32 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
       .setInputCol("text")
       .setCleanupMode(cleanupMode)
     documentAssembler.transform(dataset)
+  }
+
+  def withDocumentNormalizer(dataset: Dataset[Row],
+                             cleanupMode: String = "disabled",
+                             action: String = "clean",
+                             patterns: Array[String] = Array("<[^>]*>"),
+                             replacement: String = "",
+                             policy: String = "pretty_all",
+                             encoding: String = "disable"): DataFrame = {
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setCleanupMode(cleanupMode)
+
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("normalizedDocument")
+      .setAction(action)
+      .setPatterns(patterns)
+      .setReplacement(replacement)
+      .setPolicy(policy)
+      .setEncoding(encoding)
+
+    val docPatternRemoverPipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+
+    docPatternRemoverPipeline.fit(dataset).transform(dataset)
   }
 
   def withTokenizer(dataset: Dataset[Row], sbd: Boolean = true): Dataset[Row] = {
