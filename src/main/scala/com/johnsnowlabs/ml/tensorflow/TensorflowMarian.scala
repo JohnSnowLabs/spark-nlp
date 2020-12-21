@@ -223,14 +223,11 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   }
 
-  def encode(sentences: Seq[Sentence], maxSeqLength: Int):
-  Seq[Array[Long]] = {
+  def encode(sentences: Seq[Sentence], maxSeqLength: Int): Seq[Array[Long]] = {
 
     sentences.map { s =>
-      val shrinkedSentence = s.content.take(maxSeqLength)
-
-      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(shrinkedSentence).toArray.map(x=>x.toString)
-      pieceTokens.map {
+      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(s.content).toArray.map(x=>x.toString)
+      val pieceTokenIds = pieceTokens.map {
         piece =>
           val pieceId = vocabsArray.indexOf(piece).toLong
           if (pieceId > 0L) {
@@ -238,7 +235,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
           } else {
             unknownTokenId
           }
-      } ++ Array(this.eosTokenId)
+      }
+      pieceTokenIds.take(maxSeqLength) ++ Array(this.eosTokenId)
     }
   }
 
