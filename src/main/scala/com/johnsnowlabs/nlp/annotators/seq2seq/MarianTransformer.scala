@@ -287,7 +287,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
       .setVocabulary(words)
       .setModelIfNotSet(spark, wrapper, sppSrc, sppTrg)
 
-     marianMT
+    marianMT
   }
 }
 
