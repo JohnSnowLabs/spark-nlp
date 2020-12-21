@@ -35,7 +35,17 @@ embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") \
         .setOutputCol("embeddings")
 ```
 
+```scala
+val embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") 
+        .setInputCols(Array("document", "token"))
+        .setOutputCol("embeddings")
+```
+
 </div>
+
+{:.h2_title}
+## Results
+The model gives 300 dimensional Word2Vec feature vector outputs per token.
 
 {:.model-param}
 ## Model Information
