@@ -197,10 +197,11 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
       tensorEncoderAttentionMask.clearSession(decoderOuts)
 
-      stopDecoder = !modelOutputs.exists(o => o.last != this.eosTokenId)
+      stopDecoder = !modelOutputs.exists(o => o.last != this.eosTokenId) ||
+        (modelOutputs.head.length > maxSentenceLength)
 
-      // TODO: clean and clear buffers & tensors
     }
+
     tensorEncoderInputIds.clearTensors()
     tensorEncoderAttentionMask.clearTensors()
     tensorDecoderEncoderState.clearTensors()
