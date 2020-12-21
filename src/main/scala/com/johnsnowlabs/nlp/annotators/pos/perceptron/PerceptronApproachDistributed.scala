@@ -36,7 +36,9 @@ import scala.collection.mutable.{ListBuffer, Map => MMap}
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class PerceptronApproachDistributed(override val uid: String) extends AnnotatorApproach[PerceptronModel] with PerceptronUtils {
+class PerceptronApproachDistributed(override val uid: String) extends AnnotatorApproach[PerceptronModel]
+  with PerceptronTrainingUtils
+{
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -113,7 +115,7 @@ class PerceptronApproachDistributed(override val uid: String) extends AnnotatorA
     * @param frequencyThreshold How many times at least a tag on a word to be marked as frequent
     * @param ambiguityThreshold How much percentage of total amount of words are covered to be marked as frequent
     */
-  private def buildTagBook(
+  def buildTagBook(
                             taggedSentences: Dataset[TaggedSentence],
                             frequencyThreshold: Int = 20,
                             ambiguityThreshold: Double = 0.97
