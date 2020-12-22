@@ -159,7 +159,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       val decoderCausalMaskTensors = if(decoderInputLength == 1) {
         tensorDecoderCasualMask.createFloatBufferTensor(Array(1L, 1), decoderCasualMaskBuffers)
       }else {
-        tensorDecoderCasualMask.createFloatBufferTensor(Array(decoderInputLength.toLong, decoderInputLength), decoderCasualMaskBuffers)
+        tensorDecoderCasualMask.createFloatBufferTensor(
+          Array(decoderInputLength.toLong, decoderInputLength), decoderCasualMaskBuffers)
       }
 
       val runner = session.runner
@@ -227,7 +228,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
     sentences.map { s =>
       val pieceTokens = sppSrc.getSppModel.encodeAsPieces(s.content).toArray.map(x=>x.toString)
-      val pieceTokenIds = pieceTokens.map {
+      pieceTokens.map {
         piece =>
           val pieceId = vocabsArray.indexOf(piece).toLong
           if (pieceId > 0L) {
@@ -235,13 +236,15 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
           } else {
             unknownTokenId
           }
-      }
-      pieceTokenIds.take(maxSeqLength) ++ Array(this.eosTokenId)
+      }.take(maxSeqLength) ++ Array(this.eosTokenId)
     }
   }
 
+  /*
+  * batching more than 1 sentence has lower performance
+  * */
   def generateSeq2Seq(sentences: Seq[Sentence],
-                      batchSize: Int,
+                      batchSize: Int = 1,
                       maxSentenceLength: Int
                      ): Seq[String] = {
 
