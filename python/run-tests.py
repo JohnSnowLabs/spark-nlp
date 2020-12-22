@@ -1,6 +1,7 @@
 from test.annotators import *
 from test.misc import *
 from test.base import *
+from test.t5 import *
 
 # Annotator tests
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
@@ -48,6 +49,7 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # unittest.TextTestRunner().run(MultiClassifierDLTestSpec())
 # unittest.TextTestRunner().run(SentimentDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())
+unittest.TextTestRunner().run(T5TransformerTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

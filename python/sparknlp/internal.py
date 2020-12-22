@@ -286,3 +286,9 @@ class _AlbertLoader(ExtendedJavaWrapper):
 class _XlnetLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_XlnetLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings.loadSavedModel", path, jspark)
+
+
+class _T5Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_T5Loader, self).__init__(
+            "com.johnsnowlabs.nlp.seq2seq.T5Transformer.loadSavedModel", path, jspark)
