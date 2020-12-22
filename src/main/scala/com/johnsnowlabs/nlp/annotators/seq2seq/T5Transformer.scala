@@ -1,8 +1,8 @@
-package com.johnsnowlabs.nlp.seq2seq
+package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT}
+import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 
 import scala.collection.mutable.Map
@@ -21,7 +21,7 @@ class T5Transformer(override val uid: String)
     with WriteTensorflowModel
     with WriteSentencePieceModel {
 
-  def this() = this(Identifiable.randomUID("SentenceDetectorDLModel"))
+  def this() = this(Identifiable.randomUID("T5TRANSFORMER"))
 
   /** Output annotator type : TOKEN
     *
@@ -106,7 +106,7 @@ class T5Transformer(override val uid: String)
 }
 
 trait ReadablePretrainedT5TransformerModel extends ParamsAndFeaturesReadable[T5Transformer] with HasPretrained[T5Transformer] {
-  override val defaultModelName: Some[String] = Some("albert_base_uncased")
+  override val defaultModelName: Some[String] = Some("t5_small")
   /** Java compliant-overrides */
   override def pretrained(): T5Transformer = super.pretrained()
   override def pretrained(name: String): T5Transformer = super.pretrained(name)
