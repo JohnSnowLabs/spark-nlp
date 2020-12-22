@@ -15,6 +15,7 @@ import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetr
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadT5TransformerTensorflowModel, ReadablePretrainedT5TransformerModel}
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
 import org.apache.spark.ml.util.DefaultParamsReadable
 
@@ -199,4 +200,8 @@ package object annotator {
 
   type DocumentNormalizer = com.johnsnowlabs.nlp.annotators.DocumentNormalizer
   object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
+
+  type T5Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
+  object T5Transformer extends ReadablePretrainedT5TransformerModel with ReadT5TransformerTensorflowModel with ReadSentencePieceModel
+
 }
