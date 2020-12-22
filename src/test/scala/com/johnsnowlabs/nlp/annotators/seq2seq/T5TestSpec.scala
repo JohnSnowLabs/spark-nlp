@@ -1,4 +1,4 @@
-package com.johnsnowlabs.nlp.seq2seq
+package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.ml.tensorflow.TensorflowT5
@@ -8,9 +8,6 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
-
-import java.nio.file.{Files, Paths}
-import scala.collection.mutable
 
 class T5TestSpec extends FlatSpec {
   "t5-small" should "run SparkNLP pipeline" in {
@@ -42,8 +39,7 @@ class T5TestSpec extends FlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val t5 = T5Transformer
-      .load("/models/sparknlp/t5_small")
+    val t5 = T5Transformer.pretrained()
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setOutputCol("summaries")
@@ -74,8 +70,7 @@ class T5TestSpec extends FlatSpec {
       .setInputCols(Array("documents"))
       .setOutputCol("questions")
 
-    val t5 = T5Transformer
-      .load("/models/sparknlp/google_t5_small_ssm_nq")
+    val t5 = T5Transformer.pretrained("t5-small-ssm-nq")
       .setInputCols(Array("questions"))
       .setOutputCol("answers")
 
@@ -88,7 +83,7 @@ class T5TestSpec extends FlatSpec {
   }
 
 
-  "T5Transformer" should "load and save models" in {
+  "T5Transformer" should "load and save models" ignore {
     val google_t5_small_ssm_nq = T5Transformer.loadSavedModel("/models/t5/google_t5_small_ssm_nq/tf/combined", ResourceHelper.spark)
     google_t5_small_ssm_nq.write.overwrite().save("/models/sparknlp/google_t5_small_ssm_nq")
 
@@ -97,7 +92,7 @@ class T5TestSpec extends FlatSpec {
 
   }
 
-  "T5 TF" should "process text" in {
+  "T5 TF" should "process text" ignore {
     val texts = Array("When was America discovered?", "Which was the first president of USA?")
     val tfw = TensorflowWrapper.read("/models/t5/t5_small/tf/combined", zipped = false, useBundle = true, tags = Array("serve"))
     val spp = SentencePieceWrapper.read("/models/t5/t5_small/tf/combined/assets/spiece.model")
