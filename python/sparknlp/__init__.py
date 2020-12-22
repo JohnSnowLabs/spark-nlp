@@ -31,7 +31,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
-sys.modules['com.johnsnowlabs.nlp.seq2seq'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 
 annotators = annotator
