@@ -4,7 +4,6 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 
 import scala.collection.JavaConverters._
-import scala.collection.immutable
 
 /** MarianTransformer: Fast Neural Machine Translation
   *
@@ -23,16 +22,12 @@ import scala.collection.immutable
   * @param configProtoBytes     Configuration for TensorFlow session
   * @param sppSrc               Contains the vocabulary for the target language.
   * @param sppTrg               Contains the vocabulary for the source language
-  * @param vocabs               List of vocabs for encoding and decoding pieces from SentencePiece
   */
 class TensorflowMarian(val tensorflow: TensorflowWrapper,
                        val sppSrc: SentencePieceWrapper,
                        val sppTrg: SentencePieceWrapper,
-                       val vocabs: immutable.ListMap[String, Int],
                        configProtoBytes: Option[Array[Byte]] = None
                       ) extends Serializable {
-
-  private val vocabsArray = vocabs.map(x=>x._1.mkString).toArray
 
   private val encoderInputIdsKey = "encoder/input_ids:0"
   private val encoderOutputsKey = "encoder/outputs:0"
@@ -43,12 +38,9 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
   private val decoderPaddingMaskKey = "decoder/decoder_padding_mask:0"
   private val decoderCausalMaskKey = "decoder/decoder_causal_mask:0"
   private val decoderOutputsKey = "decoder/outputs:0"
-  private val paddingTokenId = vocabsArray.indexOf("<pad>").toLong
-  private val unknownTokenId = vocabsArray.indexOf("<unk>").toLong
-  private val eosTokenId = vocabsArray.indexOf("</s>").toLong
 
 
-  def process(batch: Seq[Array[Long]]): Array[Array[Long]] = {
+  def process(batch: Seq[Array[Long]], paddingTokenId: Long, eosTokenId: Long, vocabSize: Int): Array[Array[Long]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
@@ -68,9 +60,9 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     batch.foreach(tokenIds => {
       val diff = maxSentenceLength - tokenIds.length
 
-      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(this.paddingTokenId)
+      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(paddingTokenId)
       encoderInputIdsBuffers.put(s)
-      val mask = s.map(x =>  if (x != this.paddingTokenId) 1L else 0L)
+      val mask = s.map(x =>  if (x != paddingTokenId) 1L else 0L)
       encoderAttentionMaskBuffers.put(mask)
       decoderAttentionMaskBuffers.put(mask)
     })
@@ -174,7 +166,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         .fetch(decoderOutputsKey)
 
       val decoderOuts = runner.run().asScala
-      val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(59514).toArray.grouped(decoderInputLength).toArray
+      val decoderOutputs = TensorResources.extractFloats(decoderOuts.head)
+        .grouped(vocabSize).toArray.grouped(decoderInputLength).toArray
 
       val outputIds = decoderOutputs.map(batch => batch.map(input => input.indexOf(input.max)).last).map(_.toLong)
       decoderInputs = decoderInputs.zip(outputIds).map(x => x._1 ++ Array(x._2))
@@ -198,7 +191,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
       tensorEncoderAttentionMask.clearSession(decoderOuts)
 
-      stopDecoder = !modelOutputs.exists(o => o.last != this.eosTokenId) ||
+      stopDecoder = !modelOutputs.exists(o => o.last != eosTokenId) ||
         (modelOutputs.head.length > maxSentenceLength)
 
     }
@@ -211,7 +204,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     modelOutputs.map(x => x.filter(y => y != eosTokenId && y != paddingTokenId))
   }
 
-  def decode(sentences: Array[Array[Long]]): Seq[String] = {
+  def decode(sentences: Array[Array[Long]], vocabsArray: Array[String]): Seq[String] = {
 
     sentences.map { s =>
       val filteredPads = s.filter(x => x != 0L)
@@ -224,7 +217,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   }
 
-  def encode(sentences: Seq[Sentence], maxSeqLength: Int): Seq[Array[Long]] = {
+  def encode(sentences: Seq[Sentence], maxSeqLength: Int, vocabsArray: Array[String],
+             unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
 
     sentences.map { s =>
       val pieceTokens = sppSrc.getSppModel.encodeAsPieces(s.content).toArray.map(x=>x.toString)
@@ -236,7 +230,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
           } else {
             unknownTokenId
           }
-      }.take(maxSeqLength) ++ Array(this.eosTokenId)
+      }.take(maxSeqLength) ++ Array(eosTokenId)
     }
   }
 
@@ -245,15 +239,19 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
   * */
   def generateSeq2Seq(sentences: Seq[Sentence],
                       batchSize: Int = 1,
-                      maxSentenceLength: Int
+                      maxSentenceLength: Int,
+                      vocabs: Array[String]
                      ): Seq[String] = {
 
+    val paddingTokenId = vocabs.indexOf("<pad>").toLong
+    val unknownTokenId = vocabs.indexOf("<unk>").toLong
+    val eosTokenId = vocabs.indexOf("</s>").toLong
+    val vocabSize = vocabs.toSeq.length
+
     sentences.grouped(batchSize).toArray.flatMap { batch =>
-
-      val batchSP = encode(batch, maxSentenceLength)
-      val spIds = process(batchSP)
-      decode(spIds)
-
+      val batchSP = encode(batch, maxSentenceLength, vocabs, unknownTokenId, eosTokenId)
+      val spIds = process(batchSP, paddingTokenId, eosTokenId, vocabSize)
+      decode(spIds, vocabs)
     }
 
   }
