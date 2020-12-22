@@ -54,7 +54,7 @@ results = model.transform(data)
 ```
 ```scala
 ...
-chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 val sbert_embedder = BertSentenceEmbeddings
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')
@@ -98,7 +98,7 @@ val result = pipeline.fit(Seq.empty["This is an 82 - year-old male with a histor
 |---------------|---------------------|
 | Name:         | sbiobertresolve_rxnorm        |
 | Type:          | SentenceEntityResolverModel     |
-| Compatibility: | Spark NLP 2.6.4 +               |
+| Compatibility: | Spark NLP 2.6.5 +               |
 | License:       | Licensed            |
 | Edition:       | Official          |
 |Input labels:        | [ner_chunk, chunk_embeddings]     |

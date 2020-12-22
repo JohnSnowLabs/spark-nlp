@@ -19,7 +19,6 @@ This model classifies if a text is ADE-related (``True``) or not (``False``).
 ``True``, ``False``.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_biobert_ade_en_2.6.0_2.4_1600201949450.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
