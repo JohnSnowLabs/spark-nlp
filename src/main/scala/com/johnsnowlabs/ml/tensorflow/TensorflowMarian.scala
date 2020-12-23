@@ -29,15 +29,15 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
                        configProtoBytes: Option[Array[Byte]] = None
                       ) extends Serializable {
 
-  private val encoderInputIdsKey = "encoder/input_ids:0"
-  private val encoderOutputsKey = "encoder/outputs:0"
-  private val encoderAttentionMaskKey = "encoder/attention_mask:0"
-  private val decoderInputIdsKey = "decoder/input_ids:0"
-  private val decoderEncoderInputKey = "decoder/encoder_hidden_states:0"
-  private val decoderAttentionMaskKey = "decoder/attention_mask:0"
-  private val decoderPaddingMaskKey = "decoder/decoder_padding_mask:0"
-  private val decoderCausalMaskKey = "decoder/decoder_causal_mask:0"
-  private val decoderOutputsKey = "decoder/outputs:0"
+  private val encoderInputIdsKey = "encoder_input_ids:0"
+  private val encoderOutputsKey = "encoder_outputs:0"
+  private val encoderAttentionMaskKey = "encoder_attention_mask:0"
+  private val decoderInputIdsKey = "decoder_input_ids:0"
+  private val decoderEncoderInputKey = "decoder_encoder_state:0"
+  private val decoderAttentionMaskKey = "decoder_attention_mask:0"
+  private val decoderPaddingMaskKey = "decoder_padding_mask:0"
+  private val decoderCausalMaskKey = "decoder_causal_mask:0"
+  private val decoderOutputsKey = "decoder_outputs:0"
 
 
   def process(batch: Seq[Array[Long]], paddingTokenId: Long, eosTokenId: Long, vocabSize: Int): Array[Array[Long]] = {
@@ -240,7 +240,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
   def generateSeq2Seq(sentences: Seq[Sentence],
                       batchSize: Int = 1,
                       maxSentenceLength: Int,
-                      vocabs: Array[String]
+                      vocabs: Array[String],
+                      prefix: String
                      ): Seq[String] = {
 
     val paddingTokenId = vocabs.indexOf("<pad>").toLong
