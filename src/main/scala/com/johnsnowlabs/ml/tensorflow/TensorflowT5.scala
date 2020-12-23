@@ -9,7 +9,6 @@ import scala.collection.JavaConverters._
   *
   * @param tensorflow       Albert Model wrapper with TensorFlowWrapper
   * @param spp              Albert SentencePiece model with SentencePieceWrapper
-  * @param batchSize        size of batch
   * @param configProtoBytes Configuration for TensorFlow session
   */
 
@@ -30,15 +29,16 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private val encoderOutputsKey = "encoder/encoder_output:0"
   private val decoderOutputsKey = "decoder/decoder_output:0"
 
-  private val paddingTokenId = 0l
-  private val eosTokenId = 1l
+  private val paddingTokenId = 0L
+  private val eosTokenId = 1L
 
   def process(textInputs: Seq[String], maxOutputLength: Int = 200): Seq[String] = {
 
     val batch = textInputs.map(
       x => {
         spp.getSppModel.encodeAsIds(x).map(_.toLong) ++ Array(this.eosTokenId)
-      }).asInstanceOf[Seq[Array[Long]]]
+      })
+
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
@@ -56,9 +56,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
         val diff = maxSentenceLength - tokenIds.length
 
-        val s = tokenIds.map(_.toLong).take(maxSentenceLength) ++ Array.fill[Long](diff)(this.paddingTokenId)
+        val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(this.paddingTokenId)
         encoderInputBuffers.put(s)
-        val mask = s.map(x =>  if (x != this.paddingTokenId) 1l else 0l)
+        val mask = s.map(x =>  if (x != this.paddingTokenId) 1L else 0L)
         encoderAttentionMaskBuffers.put(mask)
     })
 
@@ -104,7 +104,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     var stopDecoder = false
 
     while(!stopDecoder){
-      var decoderInputLength = decoderInputs.head.length
+      val decoderInputLength = decoderInputs.head.length
       val decoderInputTensorResources = new TensorResources()
       val decoderAttentionTensorResources = new TensorResources()
       val decoderInputBuffers = decoderInputTensorResources.createLongBuffer(batch.length  * decoderInputLength)
@@ -113,7 +113,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       batch.zipWithIndex.foreach( bi => {
         decoderInputs(bi._2).zipWithIndex.foreach(x => {
           decoderInputBuffers.put(x._1)
-          decoderAttentionBuffers.put(if ((x._2 != 0) && (x._1 == this.paddingTokenId)) 0l else 1l)
+          decoderAttentionBuffers.put(if ((x._2 != 0) && (x._1 == this.paddingTokenId)) 0L else 1L)
         })
       })
 
@@ -153,7 +153,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       decoderAttentionBuffers.clear()
 
       stopDecoder = (
-        modelOutputs.filter(o => o.last != this.eosTokenId).isEmpty
+        !modelOutputs.exists(o => o.last != this.eosTokenId)
           || (modelOutputs.head.length > maxOutputLength))
 
     }
@@ -163,7 +163,6 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
     decoderEncoderStateBuffers.clear()
     decoderEncoderStateTensorResources.clearTensors()
-
 
     modelOutputs.map(x => spp.getSppModel.decodeIds(x.map(_.toInt):_*)) .toSeq
   }
