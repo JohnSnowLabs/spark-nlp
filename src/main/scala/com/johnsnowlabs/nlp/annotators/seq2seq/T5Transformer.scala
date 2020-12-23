@@ -122,7 +122,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
 
   def readTensorflow(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_t5_tf")
-    val spp = readSentencePieceModel(path, spark, "_t5_spp" )
+    val spp = readSentencePieceModel(path, spark, "_t5_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
