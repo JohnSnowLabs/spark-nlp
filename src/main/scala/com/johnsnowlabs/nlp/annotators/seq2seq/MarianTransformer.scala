@@ -148,7 +148,8 @@ class MarianTransformer(override val uid: String) extends
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(
-    maxSentenceLength -> 10
+    maxSentenceLength -> 10,
+    prefix -> ""
   )
 
   /** Sets Marian tensorflow Model
@@ -188,10 +189,14 @@ class MarianTransformer(override val uid: String) extends
     val nonEmptySentences = sentences.filter(_.content.nonEmpty)
 
     if (nonEmptySentences.nonEmpty){
+//      val sentences = nonEmptySentences.map(
+//        x => get(prefix).getOrElse("").concat(" ").concat(x.content))
+
       this.getModelIfNotSet.generateSeq2Seq(
         sentences = nonEmptySentences,
         maxSentenceLength = $(maxSentenceLength),
-        vocabs = $(vocabulary)
+        vocabs = $(vocabulary),
+        prefix = $(prefix)
       ).zipWithIndex.map(x => {
         new Annotation(
           annotatorType = this.outputAnnotatorType,
