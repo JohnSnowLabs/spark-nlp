@@ -10,7 +10,7 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class T5TestSpec extends FlatSpec {
-  "t5-small" should "run SparkNLP pipeline" in {
+  "t5-small" should "run SparkNLP pipeline" ignore {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -52,7 +52,7 @@ class T5TestSpec extends FlatSpec {
     results.select("summaries.result").show(truncate = false)
   }
 
-  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" in {
+  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" ignore {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Which is the capital of France? Who was the first president of USA?"),
