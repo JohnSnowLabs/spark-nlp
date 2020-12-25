@@ -292,3 +292,9 @@ class _T5Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_T5Loader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer.loadSavedModel", path, jspark)
+
+
+class _MarianLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MarianLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer.loadSavedModel", path, jspark)
