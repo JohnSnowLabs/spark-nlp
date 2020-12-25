@@ -11,6 +11,7 @@ unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerWithTrainingDataSetTestSpec())
 unittest.TextTestRunner().run(DateMatcherTestSpec())
 unittest.TextTestRunner().run(TextMatcherTestSpec())
+unittest.TextTestRunner().run(DocumentNormalizerSpec())
 
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 unittest.TextTestRunner().run(ChunkerTestSpec())
@@ -36,6 +37,9 @@ unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(NerDLModelTestSpec())
 unittest.TextTestRunner().run(YakeModelTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
+unittest.TextTestRunner().run(WordSegmenterTestSpec())
+unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
+
 # Should be locally tested
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
@@ -45,6 +49,8 @@ unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 # unittest.TextTestRunner().run(MultiClassifierDLTestSpec())
 # unittest.TextTestRunner().run(SentimentDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())
+# unittest.TextTestRunner().run(T5TransformerQATestSpec())
+# unittest.TextTestRunner().run(T5TransformerSummaryTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

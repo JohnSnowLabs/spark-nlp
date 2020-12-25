@@ -6,7 +6,6 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.explode
 import org.scalatest._
 
 
@@ -74,8 +73,8 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     try {
       perceptronTagger.write.overwrite.save(path)
       val perceptronTaggerRead = PerceptronModel.read.load(path)
-      assert(perceptronTagger.tag(tokenizedSentenceFromWsj).head.tags.head ==
-        perceptronTaggerRead.tag(tokenizedSentenceFromWsj).head.tags.head)
+      assert(perceptronTagger.tag(perceptronTagger.getModel, tokenizedSentenceFromWsj).head.tags.head ==
+        perceptronTaggerRead.tag(perceptronTagger.getModel, tokenizedSentenceFromWsj).head.tags.head)
     } catch {
       case _: java.io.IOException => succeed
     }

@@ -26,7 +26,7 @@ class Annotation:
     @staticmethod
     def dataType():
         return StructType([
-            StructField('annotator_type', StringType(), False),
+            StructField('annotatorType', StringType(), False),
             StructField('begin', IntegerType(), False),
             StructField('end', IntegerType(), False),
             StructField('result', StringType(), False),

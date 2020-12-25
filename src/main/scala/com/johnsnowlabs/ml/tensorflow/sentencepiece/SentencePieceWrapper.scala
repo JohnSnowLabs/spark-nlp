@@ -47,7 +47,8 @@ trait WriteSentencePieceModel {
                                path: String,
                                spark: SparkSession,
                                spp: SentencePieceWrapper,
-                               suffix: String, filename:String
+                               suffix: String,
+                               filename:String
                              ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
@@ -75,7 +76,8 @@ trait ReadSentencePieceModel {
   def readSentencePieceModel(
                               path: String,
                               spark: SparkSession,
-                              suffix: String
+                              suffix: String,
+                              filename: String
                             ): SentencePieceWrapper = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
@@ -86,9 +88,9 @@ trait ReadSentencePieceModel {
       .toAbsolutePath.toString
 
     // 2. Copy to local dir
-    fs.copyToLocalFile(new Path(path, sppFile), new Path(tmpFolder))
+    fs.copyToLocalFile(new Path(path, filename), new Path(tmpFolder))
 
-    val sppModelFilePath = new Path(tmpFolder, sppFile)
+    val sppModelFilePath = new Path(tmpFolder, filename)
 
     val byteArray = Files.readAllBytes(Paths.get(sppModelFilePath.toString))
     val sppWrapper = new SentencePieceWrapper(byteArray)

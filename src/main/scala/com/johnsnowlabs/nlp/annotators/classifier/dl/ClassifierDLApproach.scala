@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowClassifier, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
@@ -309,9 +309,11 @@ class ClassifierDLApproach(override val uid: String)
         throw e
     }
 
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+
     val model = new ClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)
-      .setModelIfNotSet(dataset.sparkSession, tf)
+      .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setStorageRef(embeddingsRef)
 
     if (get(configProtoBytes).isDefined)
