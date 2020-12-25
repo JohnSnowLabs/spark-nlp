@@ -291,4 +291,4 @@ class _XlnetLoader(ExtendedJavaWrapper):
 class _T5Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_T5Loader, self).__init__(
-            "com.johnsnowlabs.nlp.seq2seq.T5Transformer.loadSavedModel", path, jspark)
+            "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer.loadSavedModel", path, jspark)

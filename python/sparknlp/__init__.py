@@ -36,7 +36,6 @@ sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 
 annotators = annotator
 embeddings = annotator
-seq2seq = annotator
 
 def start(gpu=False, spark23=False):
     current_version = "2.7.0"
