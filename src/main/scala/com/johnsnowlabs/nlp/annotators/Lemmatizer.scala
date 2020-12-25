@@ -1,11 +1,16 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.util.TrainingHelper.hasColumn
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.functions.{collect_set, explode, udf}
+
+import scala.collection.mutable
 
 /**
   * Class to find standarized lemmas from words. Uses a user-provided or default dictionary.
@@ -84,10 +89,56 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
                      options: Map[String, String] = Map("format" -> "text")): this.type =
     set(dictionary, ExternalResource(path, readAs, options ++ Map("keyDelimiter" -> keyDelimiter, "valueDelimiter" -> valueDelimiter)))
 
+  setDefault(dictionary, ExternalResource("", ReadAs.TEXT, Map()))
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): LemmatizerModel = {
-    new LemmatizerModel()
-      .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))
+    if (getDictionary.path != "") {
+      new LemmatizerModel()
+        .setLemmaDict(ResourceHelper.flattenRevertValuesAsKeys($(dictionary)))
+    } else {
+      validateColumn(dataset, "form", AnnotatorType.TOKEN)
+      validateColumn(dataset, "lemma", AnnotatorType.TOKEN)
+      val dictionary = computeDictionaryFromCoNLLUDataSet(dataset)
+      new LemmatizerModel()
+        .setLemmaDict(dictionary)
+    }
   }
+
+  private def validateColumn(dataset: Dataset[_], column: String, annotatorType: String): Unit = {
+    val message = "column required. Verify that training dataset was loaded with CoNLLU component"
+    if (!hasColumn(dataset, column)) {
+      throw new IllegalArgumentException(s"$column $message")
+    } else {
+      val datasetSchemaFields = dataset.schema.fields.find(field =>
+        field.name.contains(column) && field.metadata.contains("annotatorType")
+          && field.metadata.getString("annotatorType") == annotatorType)
+
+      if (datasetSchemaFields.isEmpty) {
+        throw new IllegalArgumentException(s"$column is not a $annotatorType annotator type")
+      }
+    }
+  }
+
+  private def computeDictionaryFromCoNLLUDataSet(dataset: Dataset[_]): Map[String, String] = {
+
+    import dataset.sparkSession.implicits._
+
+    val lemmaDataSet = dataset.select($"form.result".as("forms"), $"lemma.result".as("lemmas"))
+      .withColumn("forms_lemmas", explode(arraysZip($"forms", $"lemmas")))
+      .withColumn("token", $"forms_lemmas._1")
+      .withColumn("lemma", $"forms_lemmas._2")
+      .groupBy("lemma")
+      .agg(collect_set("token").as("tokens"))
+
+    val dictionary = lemmaDataSet.select("lemma", "tokens").rdd.flatMap{ row =>
+      val lemma: String = row.get(0).asInstanceOf[String]
+      val tokens: Seq[String] = row.get(1).asInstanceOf[mutable.WrappedArray[String]]
+      tokens.flatMap( t => Map(t -> lemma))
+    }.collect().toMap
+    dictionary
+  }
+
+  def arraysZip: UserDefinedFunction = udf { (forms: Seq[String], lemmas: Seq[String]) => forms.zip(lemmas) }
 
 }
 
