@@ -181,7 +181,8 @@ class MarianTransformer(override val uid: String) extends
 }
 
 trait ReadablePretrainedMarianMTModel extends ParamsAndFeaturesReadable[MarianTransformer] with HasPretrained[MarianTransformer] {
-  override val defaultModelName: Some[String] = Some("opus-mt-en-fr")
+  override val defaultModelName: Some[String] = Some("opus_mt_en_fr")
+  override val defaultLang: String = "xx"
   /** Java compliant-overrides */
   override def pretrained(): MarianTransformer = super.pretrained()
   override def pretrained(name: String): MarianTransformer = super.pretrained(name)

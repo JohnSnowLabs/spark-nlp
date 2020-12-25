@@ -3115,7 +3115,7 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach"):
         super(SentenceDetectorDLApproach, self).__init__(classname=classname)
 
-        
+
 class WordSegmenterApproach(AnnotatorApproach):
     name = "WordSegmenterApproach"
 
@@ -3130,9 +3130,9 @@ class WordSegmenterApproach(AnnotatorApproach):
                         typeConverter=TypeConverters.toInt)
 
     frequencyThreshold = Param(Params._dummy(),
-                        "frequencyThreshold",
-                        "How many times at least a tag on a word to be marked as frequent",
-                        typeConverter=TypeConverters.toInt)
+                               "frequencyThreshold",
+                               "How many times at least a tag on a word to be marked as frequent",
+                               typeConverter=TypeConverters.toInt)
 
     ambiguityThreshold = Param(Params._dummy(),
                                "ambiguityThreshold",
@@ -3217,6 +3217,47 @@ class T5Transformer(AnnotatorModel):
         return T5Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="t5_small", lang="en", remote_loc=None):
+    def pretrained(name="t5_small", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)      
+        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
+
+
+class MarianTransformer(AnnotatorModel):
+
+    name = "MarianTransformer"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    langId = Param(Params._dummy(), "langId", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
+
+    maxInputLength = Param(Params._dummy(), "maxInputLength", "Controls the maximum length for encoder inputs (source language texts)", typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setLangId(self, value):
+        return self._set(langId=value)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxInputLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer", java_model=None):
+        super(MarianTransformer, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _MarianLoader
+        jModel = _MarianLoader(folder, spark_session._jsparkSession)._java_obj
+        return MarianTransformer(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
