@@ -1,7 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.nlp.annotators.common.Sentence
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
 
@@ -217,12 +217,15 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   }
 
-  def encode(sentences: Seq[Sentence], maxSeqLength: Int, vocabsArray: Array[String],
-             unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
+  def encode(sentences: Seq[Annotation], maxSeqLength: Int, vocabsArray: Array[String],
+             langId: String, unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
 
+    val langIdPieceId = if (langId.nonEmpty) vocabsArray.indexOf(langId).toLong else -1L
     sentences.map { s =>
-      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(s.content).toArray.map(x=>x.toString)
-      pieceTokens.map {
+
+      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(s.result).toArray.map(x=>x.toString)
+
+      val pieceIds = pieceTokens.map {
         piece =>
           val pieceId = vocabsArray.indexOf(piece).toLong
           if (pieceId > 0L) {
@@ -230,31 +233,51 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
           } else {
             unknownTokenId
           }
-      }.take(maxSeqLength) ++ Array(eosTokenId)
+      }
+      if(langIdPieceId > 0L)
+        Array(langIdPieceId) ++ pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
+      else
+        pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
     }
   }
 
   /*
-  * batching more than 1 sentence has lower performance
+  * Batch size more than 1 is not performing well on CPU
+  *
   * */
-  def generateSeq2Seq(sentences: Seq[Sentence],
+  def generateSeq2Seq(sentences: Seq[Annotation],
                       batchSize: Int = 1,
                       maxSentenceLength: Int,
                       vocabs: Array[String],
-                      prefix: String
-                     ): Seq[String] = {
+                      langId: String
+                     ): Array[Annotation] = {
 
     val paddingTokenId = vocabs.indexOf("<pad>").toLong
     val unknownTokenId = vocabs.indexOf("<unk>").toLong
     val eosTokenId = vocabs.indexOf("</s>").toLong
     val vocabSize = vocabs.toSeq.length
 
-    sentences.grouped(batchSize).toArray.flatMap { batch =>
-      val batchSP = encode(batch, maxSentenceLength, vocabs, unknownTokenId, eosTokenId)
+    val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
+
+      val batchSP = encode(batch, maxSentenceLength, vocabs, langId, unknownTokenId, eosTokenId)
       val spIds = process(batchSP, paddingTokenId, eosTokenId, vocabSize)
       decode(spIds, vocabs)
+
     }
 
+    var sentBegin, nextSentEnd = 0
+    batchDecoder.zip(sentences).map{
+      case (content, sent) =>
+        nextSentEnd += content.length - 1
+        val annots = new Annotation(
+          annotatorType = AnnotatorType.DOCUMENT,
+          begin = sentBegin,
+          end = nextSentEnd,
+          result = content,
+          metadata = sent.metadata)
+        sentBegin += nextSentEnd + 1
+        annots
+    }
   }
 
 }
