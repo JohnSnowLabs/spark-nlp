@@ -3204,7 +3204,7 @@ class T5Transformer(AnnotatorModel, HasCaseSensitiveProperties, HasStorageRef):
         return self._set(maxOutputLength=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.seq2seq.T5Transformer", java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer", java_model=None):
         super(T5Transformer, self).__init__(
             classname=classname,
             java_model=java_model
