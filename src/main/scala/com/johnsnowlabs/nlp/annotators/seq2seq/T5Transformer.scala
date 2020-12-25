@@ -5,10 +5,8 @@ import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, Tensor
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 
-import scala.collection.mutable.Map
-import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, Param, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -16,7 +14,6 @@ import java.io.File
 
 class T5Transformer(override val uid: String)
   extends AnnotatorModel[T5Transformer]
-    with HasStorageRef
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteSentencePieceModel {

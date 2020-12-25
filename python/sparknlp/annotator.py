@@ -3181,7 +3181,7 @@ class WordSegmenterModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
 
-class T5Transformer(AnnotatorModel, HasCaseSensitiveProperties, HasStorageRef):
+class T5Transformer(AnnotatorModel):
 
     name = "T5Transformer"
 
