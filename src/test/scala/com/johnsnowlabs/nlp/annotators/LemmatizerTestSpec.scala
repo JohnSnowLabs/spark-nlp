@@ -213,4 +213,15 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     AssertAnnotations.assertAnnotations(expectedLemmas, actualLemmas)
   }
 
+  it should "download pretrained model" in {
+    val testDataSet = Seq("So what happened?").toDS.toDF("text")
+    val lemmatizer = LemmatizerModel.pretrained()
+      .setInputCols(Array("token"))
+      .setOutputCol("lemma")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, lemmatizer))
+
+    val model = pipeline.fit(testDataSet)
+    model.transform(testDataSet).show()
+  }
 }
