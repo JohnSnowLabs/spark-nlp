@@ -12,14 +12,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Language detection and identification is the task of automatically detecting the language(s) present in a document based on the content of the document. LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols. In addition, LanguageDetetorDL can accurately detect language from documents with mixed languages by coalescing sentences and select the best candidate.
+Language detection and identification is the task of automatically detecting the language(s) present in a document based on the content of the document. ``LanguageDetectorDL`` is an annotator that detects the language of documents or sentences depending on the ``inputCols``. In addition, ``LanguageDetetorDL`` can accurately detect language from documents with mixed languages by coalescing sentences and select the best candidate.
 
+We have designed and developed Deep Learning models using BiGRU architectures (mentioned in the model's name) in TensorFlow/Keras. The models are trained on large datasets such as Wikipedia and Tatoeba with high accuracy evaluated on the Europarl dataset. The output is a language code in Wiki Code style: [https://en.wikipedia.org/wiki/List_of_Wikipedias](https://en.wikipedia.org/wiki/List_of_Wikipedias).
 
-We have designed and developed Deep Learning models by using CNNs and BiGRU architectures (mentioned in the model's name) in TensorFlow/Keras. The models are trained on large datasets such as Wikipedia and Tatoeba with high accuracy evaluated on the Europarl dataset. The output is a language code in Wiki Code style: [https://en.wikipedia.org/wiki/List_of_Wikipedias](https://en.wikipedia.org/wiki/List_of_Wikipedias)
+This pipeline can detect the following languages:
 
-This model can detect the following languages:
-
-\[`Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Estonian`, `Finnish`, `French`, `Hungarian`, `Italian`, `Lithuanian`, `Latvian`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Slovak`, `Slovenian`, `Spanish`, `Swedish`]
+`Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Estonian`, `Finnish`, `French`, `Hungarian`, `Italian`, `Lithuanian`, `Latvian`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Slovak`, `Slovenian`, `Spanish`, `Swedish`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -28,14 +27,13 @@ This model can detect the following languages:
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
-pipeline = PretrainedPipeline('detect_language_bigru_21')
+pipeline = PretrainedPipeline("detect_language_bigru_21", lang = "xx")
 
 pipeline.annotate("French author who helped pioneer the science-fiction genre.")
 
@@ -43,7 +41,7 @@ pipeline.annotate("French author who helped pioneer the science-fiction genre.")
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-val pipeline = new PretrainedPipeline("detect_language_bigru_21")
+val pipeline = new PretrainedPipeline("detect_language_bigru_21", lang = "xx")
 
 pipeline.annotate("French author who helped pioneer the science-fiction genre.")
 
@@ -70,6 +68,6 @@ pipeline.annotate("French author who helped pioneer the science-fiction genre.")
 
 ## Included Models
 
-\- DocumentAssembler
-\- SentenceDetectorDLModel
-\- LanguageDetectorDL
+ - DocumentAssembler
+ - SentenceDetectorDLModel
+ - LanguageDetectorDL
