@@ -192,7 +192,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       tensorEncoderAttentionMask.clearSession(decoderOuts)
 
       stopDecoder = !modelOutputs.exists(o => o.last != eosTokenId) ||
-        (modelOutputs.head.length > maxOutputLength)
+        (modelOutputs.head.length > math.max(maxOutputLength, maxSentenceLength))
 
     }
 
