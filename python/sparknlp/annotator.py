@@ -3235,14 +3235,19 @@ class MarianTransformer(AnnotatorModel):
 
     maxInputLength = Param(Params._dummy(), "maxInputLength", "Controls the maximum length for encoder inputs (source language texts)", typeConverter=TypeConverters.toInt)
 
+    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Controls the maximum length for decoder outputs (target language texts)", typeConverter=TypeConverters.toInt)
+
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
     def setLangId(self, value):
         return self._set(langId=value)
 
-    def setMaxSentenceLength(self, value):
+    def setMaxInputLength(self, value):
         return self._set(maxInputLength=value)
+
+    def setMaxOutputLength(self, value):
+        return self._set(maxOutputLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer", java_model=None):
