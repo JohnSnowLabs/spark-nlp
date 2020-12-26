@@ -81,18 +81,31 @@ class MarianTransformer(override val uid: String) extends
 
   /**
     * Controls the maximum length for encoder inputs (source language texts)
-    * Default: 20
+    * Default: 40
     * @group param
     **/
   val maxInputLength = new IntParam(this, "maxInputLength", "Controls the maximum length for encoder inputs (source language texts)")
   /** @group setParam **/
-  def setMaxSentenceLength(value: Int): this.type = {
+  def setMaxInputLength(value: Int): this.type = {
     require(value <= 512, "MarianTransformer model does not support sequences longer than 512.")
     set(maxInputLength, value)
     this
   }
   /** @group getParam **/
   def getMaxInputLength: Int = $(maxInputLength)
+
+  /**
+    * Controls the maximum length for decoder outputs (target language texts)
+    * Default: 40
+    * @group param
+    **/
+  val maxOutputLength = new IntParam(this, "maxOutputLength", "Controls the maximum length for decoder outputs (target language texts)")
+  /** @group setParam **/
+  def setMaxOutputLength(value: Int): this.type = {
+    set(maxOutputLength, value)
+  }
+  /** @group getParam **/
+  def getMaxOutputLength: Int = $(maxOutputLength)
 
   /**
     * A string representing the target language in the form of >>id<< (id = valid target language ID)
@@ -144,7 +157,8 @@ class MarianTransformer(override val uid: String) extends
   def getModelIfNotSet: TensorflowMarian = _model.get.value
 
   setDefault(
-    maxInputLength -> 10,
+    maxInputLength -> 40,
+    maxOutputLength -> 40,
     langId -> ""
   )
 
@@ -160,7 +174,8 @@ class MarianTransformer(override val uid: String) extends
     if (nonEmptySentences.nonEmpty){
       this.getModelIfNotSet.generateSeq2Seq(
         sentences = nonEmptySentences,
-        maxSentenceLength = $(maxInputLength),
+        maxInputLength = $(maxInputLength),
+        maxOutputLength = $(maxOutputLength),
         vocabs = $(vocabulary),
         langId = $(langId)
       )
