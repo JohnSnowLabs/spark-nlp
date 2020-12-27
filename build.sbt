@@ -395,7 +395,10 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies++
-        typedDependencyParserDependencies
+        typedDependencyParserDependencies++
+        // SPARK 3.X faster jackson
+        Seq("com.fasterxml.jackson.core" % "jackson-core" % "2.10.0") ++
+        Seq("com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.10.0")
   )
 
 assemblyMergeStrategy in assembly := {
