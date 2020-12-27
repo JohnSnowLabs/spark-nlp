@@ -62,6 +62,9 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     path="src/test/resources/anc-pos-corpus-small/test-training.txt",
     test="src/test/resources/test.txt"
   )
+
+
+
   "A Perceptron Tagger" should "Reload weights onto new object and have same preds" in {
     print("SPARK VERSION : ", SparkNLP.start().sparkContext.version)
     import com.johnsnowlabs.nlp._
@@ -348,7 +351,6 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
 
 
-//BAD BOIchecking K1=i+1 word artemis K2=JJ
 
 
 
@@ -362,6 +364,116 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
 
 
+  "A Perceptron Tagger" should "LOAD WEIGHTS FROM TXT IN SPARK 3 AND GENERATE EQUAL PREDICTIONS" in {
+    print("SPARK VERSION : ", SparkNLP.start().sparkContext.version)
+
+    import scala.io.Source
+
+
+
+    def txtToTaggedWordBook (txtPath : String) : Map[String,String] = {
+      // read TaggedWordBook from file
+      val src = Source.fromFile(txtPath)
+
+      val taggedWordBook = src.
+        getLines
+        .map( l => l.split("~!"))
+        .map{case Array(key, value) => key -> value}
+        .toMap
+
+      src.close()
+
+      taggedWordBook
+
+    }
+    def txtToTags(tagsPath : String):Array[String] = {
+      // Load tags and split on ~
+      val src = Source.fromFile(tagsPath)
+      val res = src.mkString("").split("~")
+      src.close()
+      res
+    }
+    def txtToFeaturesWeight (txtPath : String) : Map[String, Map[String, Double]] = {
+      // read TaggedWordBook from file
+      val src = Source.fromFile(txtPath)
+
+      val taggedWordBook = src.
+        getLines
+        .map{ l => // l1MapKey~@l1MapValue
+          val l1m = l.split("<M1ARROW>")
+          val l1MapKey = l1m(0)
+          val l2MapVal = l1m(1).split("<ENDM1>").map{ l2m => // ~? seperates elements of L1MapValue which are also maps
+            val l2Map = l2m.split("<M2ARROW>") // l2 Maps look like  l2v ~! l2k
+            val l2MapKey = l2Map(0)
+            val l2MapVal = l2Map(1)
+
+            Tuple2(l2MapKey, l2MapVal.toDouble)
+          }.toMap//[String,Double]// Map[String,Double]
+          Tuple2(l1MapKey,l2MapVal)
+        }.toMap  //Map[String, Map[String, Double]]
+      //        .map{case Array(key, value) => key -> value}
+      src.close()
+      taggedWordBook
+    }
+
+
+    // load tags
+    val tagsBack = txtToTags("./pos.txt")
+    // load WordBook
+    val taggedWordBookBack = txtToTaggedWordBook("./taggedWordBook.txt")
+    // load featuresWeight
+    val featuresWeightBack = txtToFeaturesWeight("./featuresWeight.txt")
+
+    import com.johnsnowlabs.nlp._
+    import com.johnsnowlabs.nlp.annotators._
+    import org.apache.spark.ml.Pipeline
+
+    val spark = SparkNLP.start()
+    import spark.implicits._
+
+    val df = List("Hello, this is an example sentence", "And this is a second sentence").toDF("text")
+
+        val documentAssembler = new DocumentAssembler()
+          .setInputCol("text")
+          .setOutputCol("document")
+
+        val token_assembler = new Tokenizer()
+          .setInputCols(Array("document"))
+          .setOutputCol("token")
+
+        val finalModel = AveragedPerceptron(tagsBack, taggedWordBookBack, featuresWeightBack)
+        val perM = new  PerceptronModel().setModel(finalModel)
+        perM.setInputCols("document","token").setOutputCol("pos")
+
+        val pipeline_post = new Pipeline().
+          setStages(Array(
+            documentAssembler,
+            token_assembler,
+            perM
+          ))
+
+        val postDf = pipeline_post.fit(df).transform(df)
+        print("POST DF ")
+        postDf.select("pos").show(false)
+
+// DF's FROM SPARK 2.4.4 RUN:
+//
+//    PRE DF +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//    |pos                                                                                                                                                                                                                                                                          |
+//    +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//    |[[pos, 0, 4, UH, [word -> Hello], []], [pos, 5, 5, ,, [word -> ,], []], [pos, 7, 10, DT, [word -> this], []], [pos, 12, 13, VBZ, [word -> is], []], [pos, 15, 16, DT, [word -> an], []], [pos, 18, 24, NN, [word -> example], []], [pos, 26, 33, NN, [word -> sentence], []]]|
+//    |[[pos, 0, 2, CC, [word -> And], []], [pos, 4, 7, DT, [word -> this], []], [pos, 9, 10, VBZ, [word -> is], []], [pos, 12, 12, DT, [word -> a], []], [pos, 14, 19, JJ, [word -> second], []], [pos, 21, 28, NN, [word -> sentence], []]]                                       |
+//    +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//
+//    POST DF +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//    |pos                                                                                                                                                                                                                                                                          |
+//    +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//    |[[pos, 0, 4, UH, [word -> Hello], []], [pos, 5, 5, ,, [word -> ,], []], [pos, 7, 10, DT, [word -> this], []], [pos, 12, 13, VBZ, [word -> is], []], [pos, 15, 16, DT, [word -> an], []], [pos, 18, 24, NN, [word -> example], []], [pos, 26, 33, NN, [word -> sentence], []]]|
+//    |[[pos, 0, 2, CC, [word -> And], []], [pos, 4, 7, DT, [word -> this], []], [pos, 9, 10, VBZ, [word -> is], []], [pos, 12, 12, DT, [word -> a], []], [pos, 14, 19, JJ, [word -> second], []], [pos, 21, 28, NN, [word -> sentence], []]]                                       |
+//    +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+// DF FROM SPARK 3.0.0 RUN
+  }
 
 
 
