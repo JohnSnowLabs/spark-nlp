@@ -7,7 +7,6 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder, SparkNLP}
 import org.apache.spark.sql.DataFrame
 import org.scalatest._
-import org.spark_project.dmg.pmml.False
 
 
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
