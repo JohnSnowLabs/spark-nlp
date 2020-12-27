@@ -39,6 +39,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
   private val decoderCausalMaskKey = "decoder_causal_mask:0"
   private val decoderOutputsKey = "decoder_outputs:0"
 
+  private val langCodeRe = ">>.+<<".r
 
   def process(batch: Seq[Array[Long]], maxOutputLength: Int, paddingTokenId: Long, eosTokenId: Long, vocabSize: Int): Array[Array[Long]] = {
 
@@ -218,12 +219,12 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
   }
 
   def encode(sentences: Seq[Annotation], maxSeqLength: Int, vocabsArray: Array[String],
-             langId: String, unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
+             langId: Long, unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
 
-    val langIdPieceId = if (langId.nonEmpty) vocabsArray.indexOf(langId).toLong else -1L
     sentences.map { s =>
-
-      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(s.result).toArray.map(x=>x.toString)
+      // remove langauge code from the source text
+      val cleaned = langCodeRe.replaceFirstIn(s.result, "").trim
+      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(cleaned).toArray.map(x=>x.toString)
 
       val pieceIds = pieceTokens.map {
         piece =>
@@ -234,11 +235,13 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
             unknownTokenId
           }
       }
-      if(langIdPieceId > 0L)
-        Array(langIdPieceId) ++ pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
+
+      if(langId > 0L)
+        Array(langId) ++ pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
       else
         pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
     }
+
   }
 
   /*
@@ -258,9 +261,16 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val eosTokenId = vocabs.indexOf("</s>").toLong
     val vocabSize = vocabs.toSeq.length
 
+    val langIdPieceId = if (langId.nonEmpty) {
+      vocabs.indexOf(langId).toLong
+    } else {
+      val lang = langCodeRe.findFirstIn(sentences.head.result.trim).getOrElse(-1L)
+      vocabs.indexOf(lang).toLong
+    }
+
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
-      val batchSP = encode(batch, maxInputLength, vocabs, langId, unknownTokenId, eosTokenId)
+      val batchSP = encode(batch, maxInputLength, vocabs, langIdPieceId, unknownTokenId, eosTokenId)
       val spIds = process(batchSP,maxOutputLength, paddingTokenId, eosTokenId, vocabSize)
       decode(spIds, vocabs)
 
