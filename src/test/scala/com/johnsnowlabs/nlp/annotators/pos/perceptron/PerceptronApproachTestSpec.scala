@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder, SparkNLP}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.explode
 import org.scalatest._
-import org.spark_project.dmg.pmml.False
+//import org.spark_project.dmg.pmml.False
 
 
 class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
@@ -17,13 +17,13 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     "src/test/resources/anc-pos-corpus-small/test-training.txt"
   )
 
-  val trainingPerceptronDF: DataFrame = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")
-
-  val trainedTagger: PerceptronModel =
-    new PerceptronApproach()
-      .setPosColumn("tags")
-      .setNIterations(3)
-      .fit(trainingPerceptronDF)
+//  val trainingPerceptronDF: DataFrame = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")
+//
+//  val trainedTagger: PerceptronModel =
+//    new PerceptronApproach()
+//      .setPosColumn("tags")
+//      .setNIterations(3)
+//      .fit(trainingPerceptronDF)
 
   // Works with high iterations only
   val targetSentencesFromWsjResult = Array("NNP", "NNP", "CD", "JJ", "NNP", "CD", "JJ", "NNP", "CD", "JJ", "NNP", "CD",
@@ -37,23 +37,23 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
       length += text.length + 1
       sentence
     }
-    new Tokenizer().fit(trainingPerceptronDF).tag(sentences).toArray
+//    new Tokenizer().fit(trainingPerceptronDF).tag(sentences).toArray
   }
 
 
-  "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
-    trainedTagger,
-    tokenizedSentenceFromWsj
-  )
-
-  "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
-    new PerceptronApproach()
-      .setPosColumn("tags")
-      .setNIterations(3)
-      .fit(POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")),
-    tokenizedSentenceFromWsj,
-    targetSentencesFromWsjResult
-  )
+//  "an isolated perceptron tagger" should behave like isolatedPerceptronTagging(
+//    trainedTagger,
+//    tokenizedSentenceFromWsj
+//  )
+//
+//  "an isolated perceptron tagger" should behave like isolatedPerceptronTagCheck(
+//    new PerceptronApproach()
+//      .setPosColumn("tags")
+//      .setNIterations(3)
+//      .fit(POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/test-training.txt", "|", "tags")),
+//    tokenizedSentenceFromWsj,
+//    targetSentencesFromWsjResult
+//  )
 
   "a spark based pos detector" should behave like sparkBasedPOSTagger(
     DataBuilder.basicDataBuild(ContentProvider.sbdTestParagraph)
@@ -485,25 +485,25 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
 
 
 
-
-
-  "A Perceptron Tagger" should "be readable and writable" in {
-    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
-
-    val perceptronTagger = new PerceptronApproach()
-      .setPosColumn("tags")
-      .setNIterations(1)
-      .fit(trainingPerceptronDF)
-    val path = "./test-output-tmp/perceptrontagger"
-    try {
-      perceptronTagger.write.overwrite.save(path)
-      val perceptronTaggerRead = PerceptronModel.read.load(path)
-      assert(perceptronTagger.tag(tokenizedSentenceFromWsj).head.tags.head ==
-        perceptronTaggerRead.tag(tokenizedSentenceFromWsj).head.tags.head)
-    } catch {
-      case _: java.io.IOException => succeed
-    }
-  }
+//
+//
+//  "A Perceptron Tagger" should "be readable and writable" in {
+//    val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
+//
+//    val perceptronTagger = new PerceptronApproach()
+//      .setPosColumn("tags")
+//      .setNIterations(1)
+//      .fit(trainingPerceptronDF)
+//    val path = "./test-output-tmp/perceptrontagger"
+//    try {
+//      perceptronTagger.write.overwrite.save(path)
+//      val perceptronTaggerRead = PerceptronModel.read.load(path)
+//      assert(perceptronTagger.tag(tokenizedSentenceFromWsj).head.tags.head ==
+//        perceptronTaggerRead.tag(tokenizedSentenceFromWsj).head.tags.head)
+//    } catch {
+//      case _: java.io.IOException => succeed
+//    }
+//  }
   /*
   * Testing POS() class
   * Making sure it only extracts good token_labels
