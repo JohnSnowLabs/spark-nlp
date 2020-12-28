@@ -62,7 +62,7 @@ val documentAssembler = new DocumentAssembler()
 {:.table-model}
 |---|---|
 |Model Name:|opus_mt_en_fr|
-|Compatibility:|Spark NLP 2.6.2+|
+|Compatibility:|Spark NLP 2.7.0+|
 |Edition:|Official|
 |Input Labels:|[sentence]|
 |Output Labels:|[translation]|
