@@ -14,11 +14,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Onto is a Named Entity Recognition (or NER) model trained on OntoNotes 5.0. It can extract up to 18 entities such as people, places, organizations, money, time, date, etc.
 
-This model uses the pretrained `bert_large_cased` model from the `BertEmbeddings` annotator as an input.
+This model uses the pretrained `bert_large_cased` embeddings model from the `BertEmbeddings` annotator as an input.
 
 ## Predicted Entities
 
-\[`CARDINAL`, `DATE`, `EVENT`, `FAC`, `GPE`, `LANGUAGE`, `LAW`, `LOC`, `MONEY`, `NORP`, `ORDINAL`, `ORG`, `PERCENT`, `PERSON`, `PRODUCT`, `QUANTITY`, `TIME`, `WORK_OF_ART`]
+`CARDINAL`, `DATE`, `EVENT`, `FAC`, `GPE`, `LANGUAGE`, `LAW`, `LOC`, `MONEY`, `NORP`, `ORDINAL`, `ORG`, `PERCENT`, `PERSON`, `PRODUCT`, `QUANTITY`, `TIME`, `WORK_OF_ART`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18){:.button.button-orange}
@@ -28,21 +28,65 @@ This model uses the pretrained `bert_large_cased` model from the `BertEmbeddings
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
-ner = NerDLModel.pretrained("onto_bert_large_cased", "en") \
+...
+ner_onto = NerDLModel.pretrained("onto_bert_large_cased", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
+...        
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
 
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["""William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist. He is best known as the co-founder of Microsoft Corporation. During his career at Microsoft, Gates held the positions of chairman, chief executive officer (CEO), president and chief software architect, while also being the largest individual shareholder until May 2014. He is one of the best-known entrepreneurs and pioneers of the microcomputer revolution of the 1970s and 1980s. Born and raised in Seattle, Washington, Gates co-founded Microsoft with childhood friend Paul Allen in 1975, in Albuquerque, New Mexico; it went on to become the world's largest personal computer software company. Gates led the company as chairman and CEO until stepping down as CEO in January 2000, but he remained chairman and became chief software architect. During the late 1990s, Gates had been criticized for his business tactics, which have been considered anti-competitive. This opinion has been upheld by numerous court rulings. In June 2006, Gates announced that he would be transitioning to a part-time role at Microsoft and full-time work at the Bill & Melinda Gates Foundation, the private charitable foundation that he and his wife, Melinda Gates, established in 2000. He gradually transferred his duties to Ray Ozzie and Craig Mundie. He stepped down as chairman of Microsoft in February 2014 and assumed a new post as technology adviser to support the newly appointed CEO Satya Nadella."""]})))
 ```
+
 ```scala
-val ner = NerDLModel.pretrained("onto_bert_large_cased", "en")
+...
+val ner_onto = NerDLModel.pretrained("onto_bert_large_cased", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter))
+
+val result = pipeline.fit(Seq.empty["William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist. He is best known as the co-founder of Microsoft Corporation. During his career at Microsoft, Gates held the positions of chairman, chief executive officer (CEO), president and chief software architect, while also being the largest individual shareholder until May 2014. He is one of the best-known entrepreneurs and pioneers of the microcomputer revolution of the 1970s and 1980s. Born and raised in Seattle, Washington, Gates co-founded Microsoft with childhood friend Paul Allen in 1975, in Albuquerque, New Mexico; it went on to become the world's largest personal computer software company. Gates led the company as chairman and CEO until stepping down as CEO in January 2000, but he remained chairman and became chief software architect. During the late 1990s, Gates had been criticized for his business tactics, which have been considered anti-competitive. This opinion has been upheld by numerous court rulings. In June 2006, Gates announced that he would be transitioning to a part-time role at Microsoft and full-time work at the Bill & Melinda Gates Foundation, the private charitable foundation that he and his wife, Melinda Gates, established in 2000. He gradually transferred his duties to Ray Ozzie and Craig Mundie. He stepped down as chairman of Microsoft in February 2014 and assumed a new post as technology adviser to support the newly appointed CEO Satya Nadella."].toDS.toDF("text")).transform(data)
 ```
+
 </div>
+
+{:.h2_title}
+## Results
+
+```bash
+
++-----------------------+---------+
+|chunk                  |ner_label|
++-----------------------+---------+
+|William Henry Gates III|PERSON   |
+|October 28, 1955       |DATE     |
+|American               |NORP     |
+|Microsoft Corporation  |ORG      |
+|Microsoft              |ORG      |
+|Gates                  |PERSON   |
+|May 2014               |DATE     |
+|one                    |CARDINAL |
+|the 1970s              |DATE     |
+|1980s                  |DATE     |
+|Seattle                |GPE      |
+|Washington             |GPE      |
+|Gates                  |PERSON   |
+|Microsoft              |PERSON   |
+|Paul Allen             |PERSON   |
+|1975                   |DATE     |
+|Albuquerque            |GPE      |
+|New Mexico             |GPE      |
+|Gates                  |ORG      |
+|January 2000           |DATE     |
++-----------------------+---------+
+
+```
 
 {:.model-param}
 ## Model Information
@@ -60,7 +104,7 @@ val ner = NerDLModel.pretrained("onto_bert_large_cased", "en")
 
 ## Data Source
 
-The model is trained based on data from OntoNotes 5.0 [https://catalog.ldc.upenn.edu/LDC2013T19](https://catalog.ldc.upenn.edu/LDC2013T19)
+The model is trained based on data from [OntoNotes 5.0](https://catalog.ldc.upenn.edu/LDC2013T19)
 
 ## Benchmarking
 
