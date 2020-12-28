@@ -37,7 +37,7 @@ documentAssembler = DocumentAssembler()\
  sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
  .setInputCols(["document"])\ 
  .setOutputCol("sentences")
- marian = MarianTransformer.pretrained("opus_mt_en_es")\ 
+ marian = MarianTransformer.pretrained("opus_mt_en_es", "xx")\ 
  .setInputCols(["sentence"])\ 
  .setOutputCol("translation")
 ```
@@ -50,7 +50,7 @@ val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
       .setInputCols("document")
       .setOutputCol("sentence")
       
-val marian = MarianTransformer.pretrained("opus_mt_en_es")
+val marian = MarianTransformer.pretrained("opus_mt_en_es", "xx")
     .setInputCols(["sentence"])
     .setOutputCol("translation")
 ```
@@ -62,7 +62,7 @@ val marian = MarianTransformer.pretrained("opus_mt_en_es")
 {:.table-model}
 |---|---|
 |Model Name:|opus_mt_en_es|
-|Compatibility:|Spark NLP 2.6.2+|
+|Compatibility:|Spark NLP 2.7.0+|
 |Edition:|Official|
 |Input Labels:|[sentence]|
 |Output Labels:|[translation]|
