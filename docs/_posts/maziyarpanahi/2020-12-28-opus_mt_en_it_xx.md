@@ -29,12 +29,28 @@ undefined
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-marian = MarianTransformer.pretrained("opus_mt_en_it")\ 
+documentAssembler = DocumentAssembler()\ 
+ .setInputCol("text")\ 
+ .setOutputCol("document")
+
+sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
+ .setInputCols(["document"])\ 
+ .setOutputCol("sentences")
+
+marian = MarianTransformer.pretrained("opus_mt_en_it", "xx")\ 
 .setInputCols(["sentence"])\ 
 .setOutputCol("translation")
 ```
 ```scala
-val marian = MarianTransformer.pretrained("opus_mt_en_it")
+val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      
+val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      
+val marian = MarianTransformer.pretrained("opus_mt_en_it", "xx")
 .setInputCols(["sentence"])
 .setOutputCol("translation")
 ```
@@ -46,7 +62,7 @@ val marian = MarianTransformer.pretrained("opus_mt_en_it")
 {:.table-model}
 |---|---|
 |Model Name:|opus_mt_en_it|
-|Compatibility:|Spark NLP 2.6.2+|
+|Compatibility:|Spark NLP 2.7.0+|
 |Edition:|Official|
 |Input Labels:|[sentence]|
 |Output Labels:|[translation]|
