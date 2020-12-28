@@ -2,6 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 
 import scala.collection.JavaConverters._
 
@@ -218,13 +219,14 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   }
 
-  def encode(sentences: Seq[Annotation], maxSeqLength: Int, vocabsArray: Array[String],
+  def encode(sentences: Seq[Annotation], normalizer: MosesPunctNormalizer, maxSeqLength: Int, vocabsArray: Array[String],
              langId: Long, unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
 
     sentences.map { s =>
       // remove langauge code from the source text
-      val cleaned = langCodeRe.replaceFirstIn(s.result, "").trim
-      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(cleaned).toArray.map(x=>x.toString)
+      val sentWithouLangId = langCodeRe.replaceFirstIn(s.result, "").trim
+      val normalizedSent = normalizer.normalize(sentWithouLangId)
+      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(normalizedSent).toArray.map(x=>x.toString)
 
       val pieceIds = pieceTokens.map {
         piece =>
@@ -256,6 +258,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
                       langId: String
                      ): Array[Annotation] = {
 
+    val normalizer = new MosesPunctNormalizer()
+
     val paddingTokenId = vocabs.indexOf("<pad>").toLong
     val unknownTokenId = vocabs.indexOf("<unk>").toLong
     val eosTokenId = vocabs.indexOf("</s>").toLong
@@ -270,7 +274,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
-      val batchSP = encode(batch, maxInputLength, vocabs, langIdPieceId, unknownTokenId, eosTokenId)
+      val batchSP = encode(batch, normalizer, maxInputLength, vocabs, langIdPieceId, unknownTokenId, eosTokenId)
       val spIds = process(batchSP,maxOutputLength, paddingTokenId, eosTokenId, vocabSize)
       decode(spIds, vocabs)
 
