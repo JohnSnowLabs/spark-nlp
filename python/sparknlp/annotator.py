@@ -3265,4 +3265,4 @@ class MarianTransformer(AnnotatorModel):
     @staticmethod
     def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)
