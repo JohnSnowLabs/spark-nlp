@@ -268,15 +268,17 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                                  ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
-    tokens.zipWithIndex.grouped(batchSize).flatMap{batch =>
-      val encoded = encode(batch, maxSentenceLength)
+    tokens.zip(sentences).zipWithIndex.grouped(batchSize).flatMap{batch =>
+      val tokensBatch = batch.map(x => (x._1._1, x._2))
+      val sentencesBatch = batch.map(x => x._1._2)
+      val encoded = encode(tokensBatch, maxSentenceLength)
       val embeddings = if (isLong) {
         tagSentenceSBert(encoded)
       } else {
         tagSentence(encoded)
       }
 
-      sentences.zip(embeddings).map { case (sentence, vectors) =>
+      sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
         Annotation(
           annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
           begin = sentence.start,

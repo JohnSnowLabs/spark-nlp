@@ -10,6 +10,7 @@ type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
 This model annotates the part of speech of tokens in a text. The [parts of speech](https://universaldependencies.org/u/pos/) annotated include PRON (pronoun), CCONJ (coordinating conjunction), and 15 others. The part of speech model is useful for extracting the grammatical structure of a piece of text automatically.
 
@@ -18,6 +19,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_tdt_fi_2.5.0_2.4_1588622348985.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+{:.h2_title}
 ## How to use 
 
 <div class="tabs-box" markdown="1">
@@ -25,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
 pos = PerceptronModel.pretrained("pos_ud_tdt", "fi") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
@@ -35,21 +37,23 @@ results = light_pipeline.fullAnnotate("Sen lisäksi, että hän on pohjoisen kun
 ```
 
 ```scala
-
+...
 val pos = PerceptronModel.pretrained("pos_ud_tdt", "fi")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
+val result = pipeline.fit(Seq.empty["Sen lisäksi, että hän on pohjoisen kuningas, John Snow on englantilainen lääkäri ja johtava anestesian ja lääketieteellisen hygienian kehittämisessä."].toDS.toDF("text")).transform(data)
 ```
 
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=2, result='PRON', metadata={'word': 'Sen'}, embeddings=[]),
-Row(annotatorType='pos', begin=4, end=10, result='ADP', metadata={'word': 'lisäksi'}, embeddings=[]),
-Row(annotatorType='pos', begin=11, end=11, result='PUNCT', metadata={'word': ','}, embeddings=[]),
-Row(annotatorType='pos', begin=13, end=16, result='SCONJ', metadata={'word': 'että'}, embeddings=[]),
-Row(annotatorType='pos', begin=18, end=20, result='PRON', metadata={'word': 'hän'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=2, result='PRON', metadata={'word': 'Sen'}),
+Row(annotatorType='pos', begin=4, end=10, result='ADP', metadata={'word': 'lisäksi'}),
+Row(annotatorType='pos', begin=11, end=11, result='PUNCT', metadata={'word': ','}),
+Row(annotatorType='pos', begin=13, end=16, result='SCONJ', metadata={'word': 'että'}),
+Row(annotatorType='pos', begin=18, end=20, result='PRON', metadata={'word': 'hän'}),
 ...]
 ```
 

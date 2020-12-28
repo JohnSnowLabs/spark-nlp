@@ -17,9 +17,6 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Word Embeddings lookup annotator that maps tokens to vectors.
 
-## Predicted Entities 
-Word2Vec feature vectors based on embeddings_healthcare.
-
 {:.h2_title}
 ## Data Source
 Trained on PubMed + ICD10 + UMLS + MIMIC III corpora
@@ -38,7 +35,7 @@ https://www.nlm.nih.gov/databases/download/pubmed_medline.html
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinical/models")\
-	.setInputCols("document","token")\
+	.setInputCols(["document","token"])\
 	.setOutputCol("word_embeddings")
 ```
 
@@ -49,7 +46,9 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinica
 ```
 </div>
 
-
+{:.h2_title}
+## Results 
+Word2Vec feature vectors based on ``embeddings_healthcare``.
 
 {:.model-param}
 ## Model Information
