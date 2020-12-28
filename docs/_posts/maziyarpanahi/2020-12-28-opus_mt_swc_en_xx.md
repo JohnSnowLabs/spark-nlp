@@ -22,7 +22,7 @@ Marian is an efficient, free Neural Machine Translation framework written in pur
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/opus_mt_swc_en_xx_2.7.0_2.4_1609162361398.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/opus_mt_swc_en_xx_2.7.0_2.4_1609163091895.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -44,15 +44,16 @@ documentAssembler = DocumentAssembler()\
  .setOutputCol("translation")
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+
+            val documentAssembler = new DocumentAssembler()
               .setInputCol("text")
               .setOutputCol("document")
 
-        val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+            val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
               .setInputCols("document")
               .setOutputCol("sentence")
 
-        val marian = MarianTransformer.pretrained("opus_mt_swc_en", "xx")
+            val marian = MarianTransformer.pretrained("opus_mt_swc_en", "xx")
             .setInputCols(["sentence"])
             .setOutputCol("translation")
 ```
@@ -72,4 +73,4 @@ val documentAssembler = new DocumentAssembler()
 
 ## Data Source
 
-(https://huggingface.co/Helsinki-NLP/opus_mt_swc_en)[https://huggingface.co/Helsinki-NLP/opus_mt_swc_en]
+[https://huggingface.co/Helsinki-NLP/opus-mt-swc-en](https://huggingface.co/Helsinki-NLP/opus-mt-swc-en)
