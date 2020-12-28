@@ -37,7 +37,7 @@ documentAssembler = DocumentAssembler()\
  sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\ 
  .setInputCols(["document"])\ 
  .setOutputCol("sentences") 
- marian = MarianTransformer.pretrained("opus_mt_en_fr")\ 
+ marian = MarianTransformer.pretrained("opus_mt_en_fr", "xx")\ 
  .setInputCols(["sentence"])\ 
  .setOutputCol("translation")
 ```
@@ -50,7 +50,7 @@ val documentAssembler = new DocumentAssembler()
       .setInputCols("document")
       .setOutputCol("sentence")
       
-    val marian = MarianTransformer.pretrained("opus_mt_en_fr")
+    val marian = MarianTransformer.pretrained("opus_mt_en_fr", "xx")
     .setInputCols(["sentence"])
     .setOutputCol("translation")
 ```
