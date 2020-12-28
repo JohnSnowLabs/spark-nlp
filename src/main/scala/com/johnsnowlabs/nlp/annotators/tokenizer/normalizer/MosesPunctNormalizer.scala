@@ -1,6 +1,6 @@
-package com.johnsnowlabs.ml.tensorflow.normalizer
+package com.johnsnowlabs.nlp.annotators.tokenizer.normalizer
 
-class MosesPunctNormalizer() {
+private [johnsnowlabs] class MosesPunctNormalizer() {
 
   def normalize(text: String): String = {
 
