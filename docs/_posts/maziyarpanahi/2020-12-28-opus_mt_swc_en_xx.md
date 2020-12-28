@@ -72,4 +72,4 @@ val documentAssembler = new DocumentAssembler()
 
 ## Data Source
 
-(https://huggingface.co/Helsinki-NLP/opus_mt_swc_en)[https://huggingface.co/Helsinki-NLP/opus_mt_swc_en]
+[https://huggingface.co/Helsinki-NLP/opus_mt_swc_en](https://huggingface.co/Helsinki-NLP/opus_mt_swc_en)
