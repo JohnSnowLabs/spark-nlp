@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fast and Accurate Language Identification - 99 Languages
+title: Fast and Accurate Language Identification - 99 Languages (CNN)
 author: John Snow Labs
 name: ld_tatoeba_cnn_99
 date: 2020-12-05
@@ -12,18 +12,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Language detection and identification is the task of automatically detecting the language(s) present in a document based on the content of the document. LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols. In addition, LanguageDetetorDL can accurately detect language from documents with mixed languages by coalescing sentences and select the best candidate.
+Language detection and identification is the task of automatically detecting the language(s) present in a document based on the content of the document. ``LanguageDetectorDL`` is an annotator that detects the language of documents or sentences depending on the ``inputCols``. In addition, ``LanguageDetetorDL`` can accurately detect language from documents with mixed languages by coalescing sentences and select the best candidate.
 
-
-We have designed and developed Deep Learning models by using CNNs and BiGRU architectures (mentioned in the model's name) in TensorFlow/Keras. The models are trained on large datasets such as Wikipedia and Tatoeba with high accuracy evaluated on the Europarl dataset. The output is a language code in Wiki Code style: [https://en.wikipedia.org/wiki/List_of_Wikipedias](https://en.wikipedia.org/wiki/List_of_Wikipedias)
+We have designed and developed Deep Learning models using CNNs in TensorFlow/Keras. The model is trained on Tatoeba dataset with high accuracy evaluated on the Europarl dataset. The output is a language code in Wiki Code style: [https://en.wikipedia.org/wiki/List_of_Wikipedias](https://en.wikipedia.org/wiki/List_of_Wikipedias).
 
 This model can detect the following languages:
 
-\[`Afrikaans`, `Arabic`, `Algerian Arabic`, `Assamese`, `Kotava`, `Azerbaijani`, `Belarusian`, `Bengali`, `Berber`, `Breton`, `Bulgarian`, `Catalan`, `Chavacano`, `Cebuano`, `Czech`, `Chuvash`, `Mandarin Chinese`, `Cornish`, `Danish`, `German`, `Central Dusun`, `Modern Greek (1453-)`, `English`, `Esperanto`, `Estonian`, `Basque`, `Finnish`, `French`, `Guadeloupean Creole French`, `Irish`, `Galician`, `Gronings`, `Guarani`, `Hebrew`, `Hindi`, `Croatian`, `Hungarian`, `Armenian`, `Ido`, `Interlingue`, `Ilocano`, `Interlingua`, `Indonesian`, `Icelandic`, `Italian`, `Lojban`, `Japanese`, `Kabyle`, `Georgian`, `Kazakh`, `Khasi`, `Khmer`, `Korean`, `Coastal Kadazan`, `Latin`, `Lingua Franca Nova`, `Lithuanian`, `Latvian`, `Literary Chinese`, `Marathi`, `Meadow Mari`, `Macedonian`, `Low German (Low Saxon)`, `Dutch`, `Norwegian Nynorsk`, `Norwegian Bokmål`, `Occitan`, `Ottoman Turkish`, `Kapampangan`, `Picard`, `Persian`, `Polish`, `Portuguese`, `Romanian`, `Kirundi`, `Russian`, `Slovak`, `Spanish`, `Albanian`, `Serbian`, `Swedish`, `Swabian`, `Tatar`, `Tagalog`, `Thai`, `Klingon`, `Toki Pona`, `Turkmen`, `Turkish`, `Uyghur`, `Ukrainian`, `Urdu`, `Vietnamese`, `Volapük`, `Waray`, `Shanghainese`, `Yiddish`, `Cantonese`, `Malay`]
+`Afrikaans`, `Arabic`, `Algerian Arabic`, `Assamese`, `Kotava`, `Azerbaijani`, `Belarusian`, `Bengali`, `Berber`, `Breton`, `Bulgarian`, `Catalan`, `Chavacano`, `Cebuano`, `Czech`, `Chuvash`, `Mandarin Chinese`, `Cornish`, `Danish`, `German`, `Central Dusun`, `Modern Greek (1453-)`, `English`, `Esperanto`, `Estonian`, `Basque`, `Finnish`, `French`, `Guadeloupean Creole French`, `Irish`, `Galician`, `Gronings`, `Guarani`, `Hebrew`, `Hindi`, `Croatian`, `Hungarian`, `Armenian`, `Ido`, `Interlingue`, `Ilocano`, `Interlingua`, `Indonesian`, `Icelandic`, `Italian`, `Lojban`, `Japanese`, `Kabyle`, `Georgian`, `Kazakh`, `Khasi`, `Khmer`, `Korean`, `Coastal Kadazan`, `Latin`, `Lingua Franca Nova`, `Lithuanian`, `Latvian`, `Literary Chinese`, `Marathi`, `Meadow Mari`, `Macedonian`, `Low German (Low Saxon)`, `Dutch`, `Norwegian Nynorsk`, `Norwegian Bokmål`, `Occitan`, `Ottoman Turkish`, `Kapampangan`, `Picard`, `Persian`, `Polish`, `Portuguese`, `Romanian`, `Kirundi`, `Russian`, `Slovak`, `Spanish`, `Albanian`, `Serbian`, `Swedish`, `Swabian`, `Tatar`, `Tagalog`, `Thai`, `Klingon`, `Toki Pona`, `Turkmen`, `Turkish`, `Uyghur`, `Ukrainian`, `Urdu`, `Vietnamese`, `Volapük`, `Waray`, `Shanghainese`, `Yiddish`, `Cantonese`, `Malay`.
 
-## Predicted Entities
-
-\[`af`, `ar`, `arq`, `as`, `avk`, `az`, `be`, `bn`, `ber`, `br`, `bg`, `ca`, `cbk`, `ceb`, `cs`, `cv`, `cmn`, `kw`, `da`, `de`, `dtp`, `el`, `en`, `eo`, `et`, `eu`, `fi`, `fr`, `gcf`, `ga`, `gl`, `gos`, `gn`, `he`, `hi`, `hr`, `hu`, `hy`, `io`, `ie`, `ilo`, `ia`, `id`, `is`, `it`, `jbo`, `ja`, `kab`, `ka`, `kk`, `kha`, `km`, `ko`, `kzj`, `la`, `lfn`, `lt`, `lvs`, `lzh`, `mr`, `mhr`, `mk`, `nds`, `nl`, `nn`, `nb`, `oc`, `ota`, `pam`, `pcd`, `pes`, `pl`, `pt`, `ro`, `rn`, `ru`, `sk`, `es`, `sq`, `sr`, `sv`, `swg`, `tt`, `tl`, `th`, `tlh`, `toki`, `tk`, `tr`, `ug`, `uk`, `ur`, `vi`, `vo`, `war`, `wuu`, `yi`, `yue`, `zsm`]
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -32,57 +28,33 @@ This model can detect the following languages:
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
-
-sentence = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "xx")\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
-
-language_detector = LanguageDetectorDL.pretrained("ld_tatoeba_cnn_99")\
-.setInputCols(["sentence"])\
-.setOutputCol("language")\
-
-languagePipeline = Pipeline(stages=[
- documentAssembler,
- sentence
- language_detector
-])
+...
+language_detector = LanguageDetectorDL.pretrained("ld_tatoeba_cnn_99", "xx")\
+   .setInputCols(["sentence"])\
+   .setOutputCol("language")
+languagePipeline = Pipeline(stages=[documentAssembler, sentenceDetector, language_detector])
+light_pipeline = LightPipeline(languagePipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+result = light_pipeline.fullAnnotate("Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.")
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-val sentence = SentenceDetectorDLModel
-  .pretrained("sentence_detector_dl", "xx")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence")
-
-val languageDetector = LanguageDetectorDL.pretrained("ld_tatoeba_cnn_99")
-  .setInputCols("sentence")
-  .setOutputCol("language")
-
-val pipeline = new Pipeline()
-  .setStages(Array(
-    documentAssembler,
-    sentence,
-    languageDetector
-  ))
+...
+val languageDetector = LanguageDetectorDL.pretrained("ld_tatoeba_cnn_99", "xx")
+   .setInputCols("sentence")
+   .setOutputCol("language")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, languageDetector))
+val result = pipeline.fit(Seq.empty["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."].toDS.toDF("text")).transform(data)
 ```
+
 </div>
 
 ## Results
 
 ```bash
-The result is a detected language code from `Predicted Entities`. For instance `en` as the English language.
+'fr'
 ```
 
 {:.model-param}
