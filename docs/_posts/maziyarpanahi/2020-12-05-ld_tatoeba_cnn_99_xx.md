@@ -20,10 +20,13 @@ This model can detect the following languages:
 
 `Afrikaans`, `Arabic`, `Algerian Arabic`, `Assamese`, `Kotava`, `Azerbaijani`, `Belarusian`, `Bengali`, `Berber`, `Breton`, `Bulgarian`, `Catalan`, `Chavacano`, `Cebuano`, `Czech`, `Chuvash`, `Mandarin Chinese`, `Cornish`, `Danish`, `German`, `Central Dusun`, `Modern Greek (1453-)`, `English`, `Esperanto`, `Estonian`, `Basque`, `Finnish`, `French`, `Guadeloupean Creole French`, `Irish`, `Galician`, `Gronings`, `Guarani`, `Hebrew`, `Hindi`, `Croatian`, `Hungarian`, `Armenian`, `Ido`, `Interlingue`, `Ilocano`, `Interlingua`, `Indonesian`, `Icelandic`, `Italian`, `Lojban`, `Japanese`, `Kabyle`, `Georgian`, `Kazakh`, `Khasi`, `Khmer`, `Korean`, `Coastal Kadazan`, `Latin`, `Lingua Franca Nova`, `Lithuanian`, `Latvian`, `Literary Chinese`, `Marathi`, `Meadow Mari`, `Macedonian`, `Low German (Low Saxon)`, `Dutch`, `Norwegian Nynorsk`, `Norwegian Bokmål`, `Occitan`, `Ottoman Turkish`, `Kapampangan`, `Picard`, `Persian`, `Polish`, `Portuguese`, `Romanian`, `Kirundi`, `Russian`, `Slovak`, `Spanish`, `Albanian`, `Serbian`, `Swedish`, `Swabian`, `Tatar`, `Tagalog`, `Thai`, `Klingon`, `Toki Pona`, `Turkmen`, `Turkish`, `Uyghur`, `Ukrainian`, `Urdu`, `Vietnamese`, `Volapük`, `Waray`, `Shanghainese`, `Yiddish`, `Cantonese`, `Malay`.
 
+## Predicted Entities
+
+`af`, `ar`, `arq`, `as`, `avk`, `az`, `be`, `bn`, `ber`, `br`, `bg`, `ca`, `cbk`, `ceb`, `cs`, `cv`, `cmn`, `kw`, `da`, `de`, `dtp`, `el`, `en`, `eo`, `et`, `eu`, `fi`, `fr`, `gcf`, `ga`, `gl`, `gos`, `gn`, `he`, `hi`, `hr`, `hu`, `hy`, `io`, `ie`, `ilo`, `ia`, `id`, `is`, `it`, `jbo`, `ja`, `kab`, `ka`, `kk`, `kha`, `km`, `ko`, `kzj`, `la`, `lfn`, `lt`, `lvs`, `lzh`, `mr`, `mhr`, `mk`, `nds`, `nl`, `nn`, `nb`, `oc`, `ota`, `pam`, `pcd`, `pes`, `pl`, `pt`, `ro`, `rn`, `ru`, `sk`, `es`, `sq`, `sr`, `sv`, `swg`, `tt`, `tl`, `th`, `tlh`, `toki`, `tk`, `tr`, `ug`, `uk`, `ur`, `vi`, `vo`, `war`, `wuu`, `yi`, `yue`, `zsm`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_tatoeba_cnn_99_xx_2.7.0_2.4_1607183215533.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
