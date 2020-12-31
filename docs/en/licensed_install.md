@@ -26,6 +26,7 @@ Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, mod
 - Relation Extraction
 - Spell checking & correction
 
+note: If you are going to use any pretrained licensed NER model, you don't need to install licensed libray. As long as you have the AWS keys and license keys in your environment, you will be able to use licensed NER models with Spark NLP public library. For the other licensed pretrained models like AssertionDL, Deidentification, Entity Resolvers and Relation Extraction models, you will need to install Spark NLP Enterprise as well.
 
 The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities (any many more):
 - Clinical - support Signs, Symptoms, Treatments, Procedures, Tests, Labs, Sections
@@ -43,7 +44,7 @@ The library offers access to several clinical and biomedical transformers: JSL-B
 You can install the Spark NLP for Healthcare package by using:
 
 ```bash
-pip install spark-nlp-jsl==${version} --extra-index-url https://pypi.johnsnowlabs.com/${secret.code} --upgrade
+pip install -q spark-nlp-jsl==${version} --extra-index-url https://pypi.johnsnowlabs.com/${secret.code} --upgrade
 ```
 
 `{version}` is the version part of the `{secret.code}` (`{secret.code}.split('-')[0]`) (i.e. `2.6.0`)
