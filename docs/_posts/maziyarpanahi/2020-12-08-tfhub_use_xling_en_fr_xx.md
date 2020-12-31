@@ -14,7 +14,11 @@ use_language_switcher: "Python-Scala-Java"
 
 The Universal Sentence Encoder Cross-lingual (XLING) module is an extension of the Universal Sentence Encoder that includes training on multiple tasks across languages. The multi-task training setup is based on the paper "Learning Cross-lingual Sentence Representations via a Multi-task Dual Encoder".
 
-This specific module is trained on English and French (en-fr) tasks, and optimized for greater-than-word length text, such as sentences, phrases or short paragraphs. It is trained on a variety of data sources and tasks, with the goal of learning text representations that are useful out-of-the-box for a number of applications. The input to the module is variable length English or French text and the output is a 512 dimensional vector. We note that one does not need to specify the language that the input is in, as the model was trained such that English and French text with similar meanings will have similar (high dot product score) embeddings. We also note that this model can be used for monolingual English (and potentially monolingual French) tasks with comparable or even better performance than the purely English Universal Sentence Encoder.
+This specific module is trained on English and French (en-fr) tasks, and optimized for greater-than-word length text, such as sentences, phrases or short paragraphs. 
+
+It is trained on a variety of data sources and tasks, with the goal of learning text representations that are useful out-of-the-box for a number of applications. The input to the module is variable length English or French text and the output is a 512 dimensional vector. 
+
+We note that one does not need to specify the language that the input is in, as the model was trained such that English and French text with similar meanings will have similar (high dot product score) embeddings. We also note that this model can be used for monolingual English (and potentially monolingual French) tasks with comparable or even better performance than the purely English Universal Sentence Encoder.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -27,6 +31,7 @@ This specific module is trained on English and French (en-fr) tasks, and optimiz
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_xling_en_fr", "xx") \
       .setInputCols("document") \
@@ -38,6 +43,10 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_xling_en_fr", "x
       .setOutputCol("sentence_embeddings")
 ```
 </div>
+
+## Results
+
+It gives a 512-dimensional vector of the sentences.
 
 {:.model-param}
 ## Model Information
@@ -54,4 +63,4 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_xling_en_fr", "x
 
 ## Data Source
 
-https://tfhub.dev/google/universal-sentence-encoder-xling/en-fr/1
+This embeddings model is imported from [https://tfhub.dev/google/universal-sentence-encoder-xling/en-fr/1](https://tfhub.dev/google/universal-sentence-encoder-xling/en-fr/1)

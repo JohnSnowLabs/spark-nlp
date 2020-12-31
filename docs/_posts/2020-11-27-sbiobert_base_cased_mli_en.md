@@ -42,7 +42,7 @@ sbiobert_embeddings = BertSentenceEmbeddings\
 
 val sbiobert_embeddings = BertSentenceEmbeddings
     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')
-    .setInputCols("ner_chunk_doc")
+    .setInputCols(Array("ner_chunk_doc"))
     .setOutputCol("sbert_embeddings")
 
 ```
