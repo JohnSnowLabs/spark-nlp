@@ -14,11 +14,13 @@ use_language_switcher: "Python-Scala-Java"
 
 The Universal Sentence Encoder Cross-lingual (XLING) module is an extension of the Universal Sentence Encoder that includes training on multiple tasks across languages. The multi-task training setup is based on the paper "Learning Cross-lingual Sentence Representations via a Multi-task Dual Encoder".
 
-This specific module is trained on English, French, German, Spanish, Italian, Chinese, Korean, and Japanese tasks, and optimized for greater-than-word length text, such as sentences, phrases or short paragraphs. 
+This specific module is trained on English, French, German, Spanish, Italian, Chinese, Korean, and Japanese tasks, and optimized for greater-than-word length text, such as sentences, phrases or short paragraphs.
 
-It is trained on a variety of data sources and tasks, with the goal of learning text representations that are useful out-of-the-box for a number of applications. The input to the module is variable length text in any of the eight aforementioned languages and the output is a 512 dimensional vector. 
+It is trained on a variety of data sources and tasks, with the goal of learning text representations that are useful out-of-the-box for a number of applications. The input to the module is variable length text in any of the eight aforementioned languages and the output is a 512 dimensional vector.
 
 We note that one does not need to specify the language of the input, as the model was trained such that text across languages with similar meanings will have embeddings with high dot product scores.
+
+Note: This model only works on Linux and macOS operating systems and is not compatible with Windows due to the incompatibility of the SentencePiece library.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
