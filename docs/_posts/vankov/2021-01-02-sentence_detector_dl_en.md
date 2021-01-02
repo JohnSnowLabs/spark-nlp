@@ -4,7 +4,7 @@ title: SentenceDetectorDLModel
 author: John Snow Labs
 name: sentence_detector_dl
 date: 2021-01-02
-tags: [open_source, sentence_detection, en]
+tags: [en]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,8 +20,8 @@ We are releasing two pretrained SDDL models: english and multilanguage that are 
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_en_2.7.0_2.4_1609605888409.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_en_2.7.0_2.4_1609608625363.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -35,47 +35,40 @@ documenter = DocumentAssembler()\
     .setOutputCol("document")
     
 sentencerDL = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "xx") \
+  .pretrained("sentence_detector_dl", "en") \
   .setInputCols(["document"]) \
   .setOutputCol("sentences")
 sd_model = LightPipeline(PipelineModel(stages=[documenter, sentencerDL]))
-sd_model.fullAnnotate("""Όπως ίσως θα γνωρίζει, όταν εγκαθιστάς μια νέα εφαρμογή, θα έχεις διαπιστώσει 
-λίγο μετά, ότι το PC αρχίζει να επιβραδύνεται. Στη συνέχεια, όταν επισκέπτεσαι την οθόνη ή από την διαχείριση εργασιών, θα διαπιστώσεις ότι η εν λόγω εφαρμογή έχει προστεθεί στη 
-λίστα των προγραμμάτων που εκκινούν αυτόματα, όταν ξεκινάς το PC.
-Προφανώς, κάτι τέτοιο δεν αποτελεί μια ιδανική κατάσταση, ιδίως για τους λιγότερο γνώστες, οι 
-οποίοι ίσως δεν θα συνειδητοποιήσουν ότι κάτι τέτοιο συνέβη. Όσο περισσότερες εφαρμογές στη λίστα αυτή, τόσο πιο αργή γίνεται η 
-εκκίνηση, ιδίως αν πρόκειται για απαιτητικές εφαρμογές. Τα ευχάριστα νέα είναι ότι η τελευταία και πιο πρόσφατη preview build της έκδοσης των Windows 10 που θα καταφθάσει στο πρώτο μισό του 2021, οι εφαρμογές θα 
-ενημερώνουν το χρήστη ότι έχουν προστεθεί στη λίστα των εφαρμογών που εκκινούν μόλις ανοίγεις το PC.""")
+sd_model.fullAnnotate("""John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.""")
+
 ```
 ```scala
 val documenter = DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
 	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 val pipeline = new Pipeline().setStages(Array(documenter, model))
-val result = pipeline.fit(Seq.empty["Όπως ίσως θα γνωρίζει, όταν εγκαθιστάς μια νέα εφαρμογή, θα έχεις διαπιστώσει 
-λίγο μετά, ότι το PC αρχίζει να επιβραδύνεται. Στη συνέχεια, όταν επισκέπτεσαι την οθόνη ή από την διαχείριση εργασιών, θα διαπιστώσεις ότι η εν λόγω εφαρμογή έχει προστεθεί στη 
-λίστα των προγραμμάτων που εκκινούν αυτόματα, όταν ξεκινάς το PC.
-Προφανώς, κάτι τέτοιο δεν αποτελεί μια ιδανική κατάσταση, ιδίως για τους λιγότερο γνώστες, οι 
-οποίοι ίσως δεν θα συνειδητοποιήσουν ότι κάτι τέτοιο συνέβη. Όσο περισσότερες εφαρμογές στη λίστα αυτή, τόσο πιο αργή γίνεται η 
-εκκίνηση, ιδίως αν πρόκειται για απαιτητικές εφαρμογές. Τα ευχάριστα νέα είναι ότι η τελευταία και πιο πρόσφατη preview build της έκδοσης των Windows 10 που θα καταφθάσει στο πρώτο μισό του 2021, οι εφαρμογές θα 
-ενημερώνουν το χρήστη ότι έχουν προστεθεί στη λίστα των εφαρμογών που εκκινούν μόλις ανοίγεις το PC."].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved."].toDS.toDF("text")).transform(data)
 ```
 </div>
 
 ## Results
 
 ```bash
-+---+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| 0 | Όπως ίσως θα γνωρίζει, όταν εγκαθιστάς μια νέα εφαρμογή, θα έχεις διαπιστώσει λίγο μετά, ότι το PC αρχίζει να επιβραδύνεται.                                                                                                                                     |
-| 1 | Στη συνέχεια, όταν επισκέπτεσαι την οθόνη ή από την διαχείριση εργασιών, θα διαπιστώσεις ότι η εν λόγω εφαρμογή έχει προστεθεί στη λίστα των προγραμμάτων που εκκινούν αυτόματα, όταν ξεκινάς το PC.                                                             |
-| 2 | Προφανώς, κάτι τέτοιο δεν αποτελεί μια ιδανική κατάσταση, ιδίως για τους λιγότερο γνώστες, οι οποίοι ίσως δεν θα συνειδητοποιήσουν ότι κάτι τέτοιο συνέβη.                                                                                                       |
-| 3 | Όσο περισσότερες εφαρμογές στη λίστα αυτή, τόσο πιο αργή γίνεται η εκκίνηση, ιδίως αν πρόκειται για απαιτητικές εφαρμογές.                                                                                                                                       |
-| 4 | Τα ευχάριστα νέα είναι ότι η τελευταία και πιο πρόσφατη preview build της έκδοσης των Windows 10 που θα καταφθάσει στο πρώτο μισό του 2021, οι εφαρμογές θα ενημερώνουν το χρήστη ότι έχουν προστεθεί στη λίστα των εφαρμογών που εκκινούν μόλις ανοίγεις το PC. |
-+---+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++---+------------------------------+
+| 0 | John loves Mary.             |
++---+--------------------------------------------+
+| 1 | Mary loves Peter                    |
++---+--------------------------------------------+
+| 2 | Peter loves Helen .                 |
++---+--------------------------------------------+
+| 3 | Helen loves John;                   |
++---+---------------------------------------------+
+| 4 | Total: four people involved.   |
++---+---------------------------------------------+
 ```
 
 {:.model-param}
@@ -93,3 +86,12 @@ val result = pipeline.fit(Seq.empty["Όπως ίσως θα γνωρίζει, ό
 ## Data Source
 
 Please visit the repo for more information https://github.com/dbmdz/deep-eos
+
+## Benchmarking
+
+```bash
+Accuracy:    .98
+Recall:        1.00
+Precision:   0.96
+F1:               0.98
+```
