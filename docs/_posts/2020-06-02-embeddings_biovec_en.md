@@ -15,10 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Word Embeddings lookup annotator that maps tokens to vectors
-
-## Predicted Entities 
-Word2Vec feature vectors based on embeddings_biovec
+Word Embeddings lookup annotator that maps tokens to vectors.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -42,6 +39,10 @@ val model = WordEmbeddingsModel.pretrained("embeddings_biovec","en","clinical/mo
 	.setOutputCol("word_embeddings")
 ```
 </div>
+
+{:.h2_title}
+## Results
+Word2Vec feature vectors based on ``embeddings_biovec``.
 
 {:.model-param}
 ## Model Information

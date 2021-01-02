@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect 10 different entities - HE (hebrewner_cc_300d)
+title: Detect 10 Different Entities in Hebrew (hebrewner_cc_300d)
 author: John Snow Labs
 name: hebrewner_cc_300d
 date: 2020-12-09
@@ -12,11 +12,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model uses hebrew word embeddings to find 10 different types of entities in hebrew text. It is trained using `hebrewner_cc_300d` word embeddings - please use the same embeddings in the pipeline.
+This model uses Hebrew word embeddings to find 10 different types of entities in Hebrew text. It is trained using `hebrewner_cc_300d` word embeddings, please use the same embeddings in the pipeline.
 
 ## Predicted Entities
 
-\[ `PERS` `DATE` `ORG` `LOC` `PERCENT` `MONEY` `TIME` `MISC_AFF` `MISC_EVENT` `MISC_ENT` ]
+Persons-`PERS`, Dates-`DATE`, Organizations-`ORG`, Locations-`LOC`, Percentage-`PERCENT`, Money-`MONEY`, Time-`TIME`, Miscellaneous (Affiliation)-`MISC_AFF`, Miscellaneous (Event)-`MISC_EVENT`, Miscellaneous (Entity)-`MISC_ENT`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -31,38 +31,41 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 ...
-
-ner = NerDLModel.pretrained("hebrewner_cc_300d", "he" ) \
-  .setInputCols(["sentence", "token", "word_embeddings"]) \
-  .setOutputCol("ner")
-
+ner = NerDLModel.pretrained("hebrewner_cc_300d", "he") \
+   .setInputCols(["sentence", "token", "word_embeddings"]) \
+   .setOutputCol("ner")
 ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate("ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה. אבו-ג'וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים.")
-
 ```
 
+```scala
+...
+val ner_model = NerDLModel.pretrained("hebrewner_cc_300d", "he")
+        .setInputCols(Array("sentence", "token", "word_embeddings"))
+        .setOutputCol("ner")
+val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
+val result = pipeline.fit(Seq.empty["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה. אבו-ג'וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים."].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results
 
 ```bash
-|    | ner_chunk        | entity_label   |
-|---:|:-----------------|:---------------|
-|  0 | 25 לאוגוסט       | DATE           |
-|  1 | השב"כ            | ORG            |
+|    | ner_chunk         | entity_label   |
+|---:|------------------:|---------------:|
+|  0 | 25 לאוגוסט        | DATE           |
+|  1 | השב"כ             | ORG            |
 |  2 | מוחמד אבו-ג'וייד | PERS           |
-|  3 | ירדני            | MISC_AFF       |
-|  4 | הפת"ח            | ORG            |
+|  3 | ירדני             | MISC_AFF       |
+|  4 | הפת"ח             | ORG            |
 |  5 | חיזבאללה         | ORG            |
 |  6 | אבו-ג'וייד       | PERS           |
-|  7 | בגדה             | LOC            |
-|  8 | ערביי            | MISC_AFF       |
-|  9 | ישראל            | LOC            |
+|  7 | בגדה              | LOC            |
+|  8 | ערביי             | MISC_AFF       |
+|  9 | ישראל             | LOC            |
 | 10 | ברכבת ישראל      | ORG            |
 | 11 | בנהריה           | LOC            |
 | 12 | ישראליות         | MISC_AFF       |
@@ -87,7 +90,7 @@ annotations = light_pipeline.fullAnnotate("ב- 25 לאוגוסט עצר השב"�
 
 ## Data Source
 
-This model is trained on dataset obtained from https://www.cs.bgu.ac.il/~elhadad/nlpproj/naama/
+This model is trained on dataset obtained from [https://www.cs.bgu.ac.il/~elhadad/nlpproj/naama/](https://www.cs.bgu.ac.il/~elhadad/nlpproj/naama/)
 
 ## Benchmarking
 
