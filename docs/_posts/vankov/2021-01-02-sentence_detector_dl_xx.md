@@ -4,7 +4,7 @@ title: SentenceDetectorDLModel
 author: John Snow Labs
 name: sentence_detector_dl
 date: 2021-01-02
-tags: [xx]
+tags: [open_source, xx, sentence_detection]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,7 +21,7 @@ We are releasing two pretrained SDDL models: english and multilanguage that are 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_xx_2.6.2_2.4_1609610192394.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentence_detector_dl_xx_2.7.0_2.4_1609610616998.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -84,7 +84,7 @@ val result = pipeline.fit(Seq.empty["Όπως ίσως θα γνωρίζει, ό
 {:.table-model}
 |---|---|
 |Model Name:|sentence_detector_dl|
-|Compatibility:|Spark NLP 2.6.2+|
+|Compatibility:|Spark NLP 2.7.0+|
 |Edition:|Official|
 |Input Labels:|[document]|
 |Output Labels:|[sentences]|
