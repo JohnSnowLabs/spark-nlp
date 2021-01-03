@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate English to afa Pipeline
+title: Translate English to Afro-Asiatic languages Pipeline
 author: John Snow Labs
 name: translate_en_afa
 date: 2021-01-03

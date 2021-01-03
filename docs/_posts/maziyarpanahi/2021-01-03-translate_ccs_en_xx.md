@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate ccs to English Pipeline
+title: Translate South Caucasian languages to English Pipeline
 author: John Snow Labs
 name: translate_ccs_en
 date: 2021-01-03

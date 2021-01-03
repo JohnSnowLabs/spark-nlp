@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate English to bnt Pipeline
+title: Translate English to Bantu languages Pipeline
 author: John Snow Labs
 name: translate_en_bnt
 date: 2021-01-03

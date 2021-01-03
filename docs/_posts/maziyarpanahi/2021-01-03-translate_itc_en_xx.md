@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate itc to English Pipeline
+title: Translate Italic languages to English Pipeline
 author: John Snow Labs
 name: translate_itc_en
 date: 2021-01-03

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fast Neural Machine Translation Model from gmw to English
+title: Fast Neural Machine Translation Model from West Germanic languages to English
 author: John Snow Labs
 name: opus_mt_gmw_en
 date: 2020-12-28

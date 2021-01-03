@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fast Neural Machine Translation Model from zlw to English
+title: Fast Neural Machine Translation Model from West Slavic languages to English
 author: John Snow Labs
 name: opus_mt_zlw_en
 date: 2020-12-28

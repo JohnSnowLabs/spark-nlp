@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate ine to English Pipeline
+title: Translate Indo-European languages to English Pipeline
 author: John Snow Labs
 name: translate_ine_en
 date: 2021-01-03

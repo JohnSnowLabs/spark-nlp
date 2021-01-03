@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate English to sit Pipeline
+title: Translate English to Sino-Tibetan languages Pipeline
 author: John Snow Labs
 name: translate_en_sit
 date: 2021-01-03
