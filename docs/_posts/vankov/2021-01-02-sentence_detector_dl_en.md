@@ -1,6 +1,6 @@
 ---
 layout: model
-title: SentenceDetectorDLModel
+title: Sentence Detection in English Texts
 author: John Snow Labs
 name: sentence_detector_dl
 date: 2021-01-02
