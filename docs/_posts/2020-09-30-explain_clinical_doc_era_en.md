@@ -15,7 +15,7 @@ A pretrained pipeline with ``ner_clinical_events``, ``assertion_dl`` and ``re_te
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_era_en_2.5.5_2.4_1597845753750.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
