@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Translate aav to English Pipeline
+title: Translate Austro-Asiatic languages to English Pipeline
 author: John Snow Labs
 name: translate_aav_en
 date: 2021-01-03

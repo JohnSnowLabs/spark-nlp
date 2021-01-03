@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fast Neural Machine Translation Model from aav to English
+title: Fast Neural Machine Translation Model from Austro-Asiatic languages to English
 author: John Snow Labs
 name: opus_mt_aav_en
 date: 2020-12-28
