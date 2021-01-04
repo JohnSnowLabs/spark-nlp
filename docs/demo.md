@@ -500,6 +500,58 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_TR.ipynb
+        - title: Recognize entities in Arabic text 
+          image: 
+              src: /assets/images/arab.jpg
+          image2: 
+              src: /assets/images/arab.jpg
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_AR/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+        - title: Recognize entities in Persian text 
+          image: 
+              src: /assets/images/Flag_of_Iran.png
+          image2: 
+              src: /assets/images/Flag_of_Iran.png
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_FA/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+        - title: Recognize entities in Hebrew text 
+          image: 
+              src: /assets/images/Israel.jpg
+          image2: 
+              src: /assets/images/Israel.jpg
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_HE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+        - title: Recognize entities in Japanese text 
+          image: 
+              src: /assets/images/Flag_of_Japan.png
+          image2: 
+              src: /assets/images/Flag_of_Japan.png
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_JA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
