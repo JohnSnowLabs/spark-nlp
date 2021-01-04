@@ -3176,7 +3176,7 @@ class WordSegmenterModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="word_segmenter", lang="en", remote_loc=None):
+    def pretrained(name="word_segmenter", lang="zh", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
@@ -3217,7 +3217,7 @@ class T5Transformer(AnnotatorModel):
         return T5Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="t5_small", lang="xx", remote_loc=None):
+    def pretrained(name="t5_small", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
 
