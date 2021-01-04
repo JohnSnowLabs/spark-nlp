@@ -1,6 +1,6 @@
 ---
 layout: model
-title: WordSegmenterModel for Korean
+title: Korean Word Segmentation
 author: John Snow Labs
 name: wordseg_kaist_ud
 date: 2021-01-03
