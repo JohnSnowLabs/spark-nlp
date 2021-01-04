@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>PerceptronApproach - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach</title>
-          <meta name="description" content="PerceptronApproach - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" />
-          <meta name="keywords" content="PerceptronApproach Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" />
+          <title>PerceptronApproach - Spark NLP 2.7.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach</title>
+          <meta name="description" content="PerceptronApproach - Spark NLP 2.7.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" />
+          <meta name="keywords" content="PerceptronApproach Spark NLP 2.7.0 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -47,14 +47,14 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">PerceptronApproach</span><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></span>
+        <span class="name">PerceptronApproach</span><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Averaged Perceptron model to tag words part-of-speech.</p><p>Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron</a> for further reference on how to use this API.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a>, <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a>, <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a>, <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -72,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach"><span>PerceptronApproach</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils"><span>PerceptronUtils</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorApproach"><span>AnnotatorApproach</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="org.apache.spark.ml.Estimator"><span>Estimator</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach"><span>PerceptronApproach</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils"><span>PerceptronTrainingUtils</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils"><span>PerceptronUtils</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorApproach"><span>AnnotatorApproach</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="org.apache.spark.ml.Estimator"><span>Estimator</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -239,6 +239,24 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach#ambiguityThreshold" visbl="pub" data-isabs="false" fullComment="no" group="param">
+      <a id="ambiguityThreshold:org.apache.spark.ml.param.DoubleParam"></a>
+      <a id="ambiguityThreshold:DoubleParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ambiguityThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@ambiguityThreshold:org.apache.spark.ml.param.DoubleParam" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">How much percentage of total amount of words are covered to be marked as frequent
+</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -273,6 +291,27 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils#buildTagBook" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="buildTagBook(taggedSentences:Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence],frequencyThreshold:Int,ambiguityThreshold:Double):Map[String,String]"></a>
+      <a id="buildTagBook(Array[TaggedSentence],Int,Double):Map[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">buildTagBook</span><span class="params">(<span name="taggedSentences">taggedSentences: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="frequencyThreshold">frequencyThreshold: <span class="extype" name="scala.Int">Int</span></span>, <span name="ambiguityThreshold">ambiguityThreshold: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@buildTagBook(taggedSentences:Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence],frequencyThreshold:Int,ambiguityThreshold:Double):Map[String,String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
+ToDo: Move such parameters to configuration
+</p><div class="fullcomment"><div class="comment cmt"><p>Finds very frequent tags on a word in training, and marks them as non ambiguous based on tune parameters
+ToDo: Move such parameters to configuration
+</p></div><dl class="paramcmts block"><dt class="param">taggedSentences</dt><dd class="cmt"><p>Takes entire tagged sentences to find frequent tags</p></dd><dt class="param">frequencyThreshold</dt><dd class="cmt"><p>How many times at least a tag on a word to be marked as frequent</p></dd><dt class="param">ambiguityThreshold</dt><dd class="cmt"><p>How much percentage of total amount of words are covered to be marked as frequent</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a>
       <a id="checkSchema(StructType,String):Boolean"></a>
@@ -611,6 +650,43 @@
                 <span class="name">@varargs</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach#frequencyThreshold" visbl="pub" data-isabs="false" fullComment="no" group="param">
+      <a id="frequencyThreshold:org.apache.spark.ml.param.IntParam"></a>
+      <a id="frequencyThreshold:IntParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">frequencyThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@frequencyThreshold:org.apache.spark.ml.param.IntParam" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">How many times at least a tag on a word to be marked as frequent
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils#generatesTagBook" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generatesTagBook(dataset:org.apache.spark.sql.Dataset[_]):Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence]"></a>
+      <a id="generatesTagBook(Dataset[_]):Array[TaggedSentence]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generatesTagBook</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@generatesTagBook(dataset:org.apache.spark.sql.Dataset[_]):Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Generates TagBook, which holds all the word to tags mapping that are not ambiguous
+</p><div class="fullcomment"><div class="comment cmt"><p>Generates TagBook, which holds all the word to tags mapping that are not ambiguous
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a>
       <a id="get[T](Param[T]):Option[T]"></a>
@@ -1432,6 +1508,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach#setAmbiguityThreshold" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setAmbiguityThreshold(value:Double):PerceptronApproach.this.type"></a>
+      <a id="setAmbiguityThreshold(Double):PerceptronApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAmbiguityThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@setAmbiguityThreshold(value:Double):PerceptronApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):PerceptronApproach.this.type"></a>
@@ -1466,6 +1559,23 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach#setFrequencyThreshold" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setFrequencyThreshold(value:Int):PerceptronApproach.this.type"></a>
+      <a id="setFrequencyThreshold(Int):PerceptronApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setFrequencyThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@setFrequencyThreshold(value:Int):PerceptronApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
       <a id="setInputCols(String*):PerceptronApproach.this.type"></a>
@@ -1622,6 +1732,25 @@ AnnotatorType is used both as input and output columns if not specified
       <p class="shortcomment cmt">Trains a model based on a provided CORPUS
 </p><div class="fullcomment"><div class="comment cmt"><p>Trains a model based on a provided CORPUS
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>A trained averaged model</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils#trainPerceptron" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="trainPerceptron(nIterations:Int,initialModel:com.johnsnowlabs.nlp.annotators.pos.perceptron.TrainingPerceptronLegacy,taggedSentences:Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence],taggedWordBook:Map[String,String]):com.johnsnowlabs.nlp.annotators.pos.perceptron.AveragedPerceptron"></a>
+      <a id="trainPerceptron(Int,TrainingPerceptronLegacy,Array[TaggedSentence],Map[String,String]):AveragedPerceptron"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">trainPerceptron</span><span class="params">(<span name="nIterations">nIterations: <span class="extype" name="scala.Int">Int</span></span>, <span name="initialModel">initialModel: <a href="TrainingPerceptronLegacy.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.TrainingPerceptronLegacy">TrainingPerceptronLegacy</a></span>, <span name="taggedSentences">taggedSentences: <span class="extype" name="scala.Array">Array</span>[<a href="../../common/TaggedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TaggedSentence">TaggedSentence</a>]</span>, <span name="taggedWordBook">taggedWordBook: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="AveragedPerceptron.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.AveragedPerceptron">AveragedPerceptron</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach@trainPerceptron(nIterations:Int,initialModel:com.johnsnowlabs.nlp.annotators.pos.perceptron.TrainingPerceptronLegacy,taggedSentences:Array[com.johnsnowlabs.nlp.annotators.common.TaggedSentence],taggedWordBook:Map[String,String]):com.johnsnowlabs.nlp.annotators.pos.perceptron.AveragedPerceptron" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Iterates for training
+</p><div class="fullcomment"><div class="comment cmt"><p>Iterates for training
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#transformSchema" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a>
       <a id="transformSchema(StructType):StructType"></a>
@@ -1788,7 +1917,9 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">
+        <div class="parent" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">
+              <h3>Inherited from <a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">
               <h3>Inherited from <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.AnnotatorApproach">
               <h3>Inherited from <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>]</h3>
