@@ -1,14 +1,11 @@
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import org.slf4j.{Logger, LoggerFactory}
 import scala.collection.mutable.{Map => MMap}
 
 trait PerceptronUtils  {
 
   private[perceptron] val START = Array("-START-", "-START2-")
   private[perceptron] val END = Array("-END-", "-END2-")
-
-  private[perceptron] val logger: Logger = LoggerFactory.getLogger("PerceptronTraining")
 
   /**
     * Specific normalization rules for this POS Tagger to avoid unnecessary tagging

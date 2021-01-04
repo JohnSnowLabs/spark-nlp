@@ -7,6 +7,132 @@ key: docs-release-notes
 modify_date: "2020-11-27"
 ---
 
+### 2.6.5
+
+#### John Snow Labs Spark-NLP 2.6.5: A few bug fixes and other improvements!
+
+Overview
+
+We are glad to release Spark NLP 2.6.5! This release comes with a few bug fixes before we move to a new major version.
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+Bugfixes
+
+* Fix a bug in batching sentences in BertSentenceEmbeddings
+* Fix AttributeError when trying to load a saved EmbeddingsFinisher in Python
+
+Enhancements
+
+* Improve handling exceptions in DocumentAssmbler when the user uses a corrupted DataFrame
+
+Documentation and Notebooks
+
+* [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
+* [Spark NLP training certification notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) for Google Colab and Databricks
+* [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks
+* A brand new [1-hour Spark NLP workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/1hr_workshop)
+* Update [Model Hubs](https://nlp.johnsnowlabs.com/models) with new models
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.6.5
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.6.5
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.5
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.5
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.5
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.5
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.6.5
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.6.5</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.6.5</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.6.5</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.6.5</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.6.5.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.6.5.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.6.5.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.6.5.jar
+
 ### 2.6.4
 
 #### John Snow Labs Spark-NLP 2.6.4: A few bug fixes and other improvements!

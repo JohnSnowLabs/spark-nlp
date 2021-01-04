@@ -15,6 +15,8 @@ import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetr
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadablePretrainedMarianMTModel, ReadT5TransformerTensorflowModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -45,6 +47,9 @@ package object annotator {
 
   type DateMatcher = com.johnsnowlabs.nlp.annotators.DateMatcher
   object DateMatcher extends DefaultParamsReadable[DateMatcher]
+
+  type MultiDateMatcher = com.johnsnowlabs.nlp.annotators.MultiDateMatcher
+  object MultiDateMatcher extends DefaultParamsReadable[MultiDateMatcher]
 
   type TextMatcher = com.johnsnowlabs.nlp.annotators.TextMatcher
   object TextMatcher extends DefaultParamsReadable[TextMatcher]
@@ -187,5 +192,19 @@ package object annotator {
 
   type SentenceDetectorDLModel  = com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
   object SentenceDetectorDLModel extends ReadsSentenceDetectorDLGraph with ReadablePretrainedSentenceDetectorDL
+
+  type WordSegmenterApproach = com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach
+  object WordSegmenterApproach extends DefaultParamsReadable[WordSegmenterApproach]
+  type WordSegmenterModel = com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
+  object WordSegmenterModel extends ReadablePretrainedWordSegmenter
+
+  type DocumentNormalizer = com.johnsnowlabs.nlp.annotators.DocumentNormalizer
+  object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]
+
+  type MarianTransformer = com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer
+  object MarianTransformer extends ReadablePretrainedMarianMTModel with ReadMarianMTTensorflowModel with ReadSentencePieceModel
+  
+  type T5Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
+  object T5Transformer extends ReadablePretrainedT5TransformerModel with ReadT5TransformerTensorflowModel with ReadSentencePieceModel
 
 }

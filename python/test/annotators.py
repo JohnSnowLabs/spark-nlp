@@ -1,13 +1,18 @@
 import re
 import unittest
 import os
+
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.training import *
+
 from test.util import SparkContextForTest
 from test.util import SparkSessionForTest
+
 from pyspark.ml.feature import SQLTransformer
 from pyspark.ml.clustering import KMeans
 from pyspark.sql.functions import split
+
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):
 
@@ -85,6 +90,29 @@ class LemmatizerTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.fit(assembled).transform(assembled)
         lemmatizer.fit(tokenized).transform(tokenized).show()
+
+
+class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.conllu_file = "file:///" + os.getcwd() + "/../src/test/resources/conllu/en.test.lemma.conllu"
+
+    def runTest(self):
+        test_dataset = self.spark.createDataFrame([["So what happened?"]]).toDF("text")
+        train_dataset = CoNLLU().readDataset(self.spark, self.conllu_file)
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+        lemmatizer = Lemmatizer() \
+            .setInputCols(["token"]) \
+            .setOutputCol("lemma")
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, lemmatizer])
+        pipeline.fit(train_dataset).transform(test_dataset).show()
 
 
 class TokenizerTestSpec(unittest.TestCase):
@@ -202,6 +230,66 @@ class TextMatcherTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         tokenized = tokenizer.fit(assembled).transform(assembled)
         entity_extractor.fit(tokenized).transform(tokenized).show()
+
+
+class DocumentNormalizerSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkSessionForTest.spark.createDataFrame([
+            ["""<span style="font-weight: bold; font-size: 8pt">
+                     <pre style="font-family: verdana">
+                      <b>The Output Y(s) of the fig. is:
+                       <br /><br />
+                       <img src="http://192.168.5.151/UADP4.0/ItemAuthoring/QuestionBank/Resources/94954.jpeg" />
+                      </b>
+                     </pre>
+                    </span>"""],
+            ["""<!DOCTYPE html>
+                    <html>
+                    <body>
+                    <a class='w3schools-logo notranslate' href='//www.w3schools.com'>w3schools<span class='dotcom'>.com</span></a>
+                    <h1 style="font-size:300%;">This is a heading</h1>
+                    <p style="font-size:160%;">This is a paragraph containing some PII like jonhdoe@myemail.com ! John is now 42 years old.</p>
+                    <p style="font-size:160%;">48% of cardiologists treated patients aged 65+.</p>
+                    
+                    </body>
+                    </html>"""]
+        ]).toDF("text")
+
+    def runTest(self):
+        df = self.data
+
+        document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
+
+        action = "clean"
+        patterns = ["<[^>]*>"]
+        replacement = " "
+        policy = "pretty_all"
+
+        document_normalizer = DocumentNormalizer() \
+            .setInputCols("document") \
+            .setOutputCol("normalizedDocument") \
+            .setAction(action) \
+            .setPatterns(patterns) \
+            .setReplacement(replacement) \
+            .setPolicy(policy) \
+            .setLowercase(True)
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["normalizedDocument"]) \
+            .setOutputCol("sentence")
+
+        regex_tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token") \
+            .fit(df)
+
+        doc_normalizer_pipeline = \
+            Pipeline().setStages([document_assembler, document_normalizer, sentence_detector, regex_tokenizer])
+
+        ds = doc_normalizer_pipeline.fit(df).transform(df)
+
+        ds.select("normalizedDocument").show()
 
 
 class PerceptronApproachTestSpec(unittest.TestCase):
@@ -844,6 +932,7 @@ class StopWordsCleanerModelTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.transform(self.data).select("cleanTokens.result").show()
 
+
 class NGramGeneratorTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([
@@ -1291,3 +1380,134 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
+class WordSegmenterTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        from sparknlp.training import POS
+        self.data = SparkContextForTest.spark.createDataFrame([["十四不是四十"]]) \
+            .toDF("text").cache()
+        self.train = POS().readDataset(SparkContextForTest.spark,
+                                       os.getcwd() + "/../src/test/resources/word-segmenter/chinese_train.utf8",
+                                       delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                                       outputTextCol="text")
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        word_segmenter = WordSegmenterApproach() \
+            .setInputCols("document") \
+            .setOutputCol("token") \
+            .setPosCol("tags") \
+            .setIterations(1) \
+            .fit(self.train)
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            word_segmenter
+        ])
+
+        model = pipeline.fit(self.train)
+        model.transform(self.data).show(truncate=False)                                   
+
+class LanguageDetectorDLTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read \
+            .option("delimiter", "|") \
+            .option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/language-detector/multilingual_sample.txt")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        
+        sentence_detector = SentenceDetectorDLModel.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        ld = LanguageDetectorDL.pretrained()
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            ld
+        ])
+
+        # list all the languages
+        print(ld.getLanguages())
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class T5TransformerQATestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, "Which is the capital of France? Who was the first president of USA?"],
+            [1, "Which is the capital of Bulgaria ?"],
+            [2, "Who is Donald Trump?"]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        sentence_detector = SentenceDetectorDLModel \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("questions")
+
+        t5 = T5Transformer.pretrained() \
+            .setInputCols(["questions"]) \
+            .setOutputCol("answers")
+
+        pipeline = Pipeline().setStages([document_assembler, sentence_detector, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("questions.result", "answers.result").show(truncate=False)
+
+
+class T5TransformerSummaryTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """
+            Heat oven to 200C/180C fan/gas 6. Line each hole of a 12-hole muffin tin with a thin strip of baking 
+            parchment across the middle that’s long enough so the ends stick out a centimetre or two – use a dab of
+             butter to stick in place. Roll out two thirds of the pastry on a lightly floured surface and stamp out 
+             12 x 10cm circles (you may need to re-roll trimmings). Press a circle into each hole to line.
+             
+            Sprinkle 1 tsp of breadcrumbs into the base of each pie. Tip the rest of the crumbs into a mixing bowl. 
+            Squeeze in the sausage meat, discarding the skins, along with the bacon, mace, pepper, sage and just a 
+            little salt. Get your hands in and mash and squish everything together until the breadcrumbs have just 
+            about disappeared. Divide mixture between the holes, packing in firmly and shaping to a dome in the middle.
+             
+            Roll out the remaining pastry and stamp out 12 x 7cm circles. Brush with a little egg and add a top to 
+            each pie, egg-side down to stick, carefully pressing pastry edges together to seal. Brush with more egg 
+            (don’t throw away leftovers) and sprinkle with sesame seeds. Bake for 30 mins until golden then carefully 
+            remove the pies from the tin, using the parchment ends to help you lift them out. Sit on a parchment lined 
+            baking tray, brush all round the sides with more egg and put back in the oven for 8 mins. Cool completely 
+            then eat with piccalilli, or your favourite pickle.             
+            """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained()\
+            .setTask("summarize:") \
+            .setMaxOutputLength(200) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries")
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+

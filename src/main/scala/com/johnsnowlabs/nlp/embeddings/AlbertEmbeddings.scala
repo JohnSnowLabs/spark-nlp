@@ -178,7 +178,7 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
 
   def readTensorflow(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_albert_tf", initAllTables = true)
-    val spp = readSentencePieceModel(path, spark, "_albert_spp" )
+    val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
