@@ -1,6 +1,6 @@
 ---
 layout: model
-title: WordSegmenterModel
+title: Chinese Word Segmentation
 author: John Snow Labs
 name: wordseg_large
 date: 2021-01-03
