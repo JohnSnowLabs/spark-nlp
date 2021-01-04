@@ -1,14 +1,13 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowUSE, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -70,6 +69,26 @@ class UniversalSentenceEncoder(override val uid: String)
     **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
+  val loadSP = new BooleanParam(this, "loadSP", "Whether to load SentencePiece ops file which is required only by multi-lingual models. " +
+    "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.")
+
+  /** set loadSP
+    *
+    * @group setParam
+    * */
+  def setLoadSP(value: Boolean): this.type = {
+    if (get(loadSP).isEmpty)
+      set(this.loadSP, value)
+    this
+  }
+
+  /** get loadSP
+    *
+    * @group getParam
+    **/
+
+  def getLoadSP: Boolean = $(loadSP)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group setParam
@@ -105,7 +124,8 @@ class UniversalSentenceEncoder(override val uid: String)
 
   setDefault(
     dimension -> 512,
-    storageRef -> "tfhub_use"
+    storageRef -> "tfhub_use",
+    loadSP -> false
   )
 
   /**
@@ -164,14 +184,14 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "use_tensorflow"
 
   def readTensorflow(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
-
-    val tf = readTensorflowModel(path, spark, "_use_tf", initAllTables = true)
+    val loadSP = instance.getLoadSP
+    val tf = readTensorflowWithSPModel(path, spark, "_use_tf", initAllTables = true, loadSP = loadSP)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): UniversalSentenceEncoder = {
+  def loadSavedModel(folder: String, spark: SparkSession, loadSP: Boolean = false): UniversalSentenceEncoder = {
     val f = new File(folder)
     val savedModel = new File(folder, "saved_model.pb")
 
@@ -183,10 +203,11 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
     )
 
     val wrapper =
-      TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+      TensorflowWrapper.readWithSP(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true, loadSP = loadSP)
 
     new UniversalSentenceEncoder()
       .setModelIfNotSet(spark, wrapper)
+      .setLoadSP(loadSP)
   }
 }
 

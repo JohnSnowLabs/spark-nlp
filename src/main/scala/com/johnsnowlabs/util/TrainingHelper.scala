@@ -9,6 +9,9 @@ import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.pretrained.{ResourceMetadata, ResourceType}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.util.MLWriter
+import org.apache.spark.sql.Dataset
+
+import scala.util.Try
 
 
 object TrainingHelper {
@@ -56,4 +59,7 @@ object TrainingHelper {
       val metadataFile = Paths.get(folder, "metadata.json").toString
       ResourceMetadata.addMetadataToFile(metadataFile, meta)
     }
+
+  def hasColumn(dataSet: Dataset[_], column: String): Boolean = Try(dataSet(column)).isSuccess
+
 }

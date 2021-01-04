@@ -1,0 +1,75 @@
+# newdoc id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200
+# sent_id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200-0001
+# newpar id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200-p0001
+# text = What if Google Morphed Into GoogleOS?
+1	What	what	PRON	WP	PronType=Int	0	root	0:root	_
+2	if	if	SCONJ	IN	_	4	mark	4:mark	_
+3	Google	Google	PROPN	NNP	Number=Sing	4	nsubj	4:nsubj	_
+4	Morphed	morph	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	1	advcl	1:advcl:if	_
+5	Into	into	ADP	IN	_	6	case	6:case	_
+6	GoogleOS	GoogleOS	PROPN	NNP	Number=Sing	4	obl	4:obl:into	SpaceAfter=No
+7	?	?	PUNCT	.	_	4	punct	4:punct	_
+
+# newdoc id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200
+# sent_id = weblog-blogspot.com_marketview_20050511222700_ENG_20050511_222700-0003
+# text = Google is a nice search engine.
+1	Google	Google	PROPN	NNP	Number=Sing	6	nsubj	6:nsubj	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	6:cop	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	6:det	_
+4	nice	nice	ADJ	JJ	Degree=Pos	6	amod	6:amod	_
+5	search	search	NOUN	NN	Number=Sing	6	compound	6:compound	_
+6	engine	engine	NOUN	NN	Number=Sing	0	root	0:root	SpaceAfter=No
+7	.	.	PUNCT	.	_	6	punct	6:punct	_
+
+# sent_id = weblog-blogspot.com_marketview_20050511222700_ENG_20050511_222700-0004
+# text = Does anybody use it for anything else?
+1	Does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux	3:aux	_
+2	anybody	anybody	PRON	NN	Number=Sing	3	nsubj	3:nsubj	_
+3	use	use	VERB	VB	VerbForm=Inf	0	root	0:root	_
+4	it	it	PRON	PRP	Case=Acc|Gender=Neut|Number=Sing|Person=3|PronType=Prs	3	obj	3:obj	_
+5	for	for	ADP	IN	_	6	case	6:case	_
+6	anything	anything	PRON	NN	Number=Sing	3	obl	3:obl:for	_
+7	else	else	ADJ	JJ	Degree=Pos	6	amod	6:amod	SpaceAfter=No
+8	?	?	PUNCT	.	_	3	punct	3:punct	_
+
+# sent_id = GUM_fiction_beast-56
+# text = No doubt there was, some two things that happened to be making noises at the same time.
+# s_type = decl
+1	No	no	DET	DT	Polarity=Neg	2	det	_	Discourse=evaluation:124->121
+2	doubt	doubt	NOUN	NN	Number=Sing	4	obl:npmod	_	Entity=(abstract-146)
+3	there	there	PRON	EX	_	4	expl	_	_
+4	was	be	VERB	VBD	Mood=Ind|Number=Sing|Tense=Past|VerbForm=Fin	0	root	_	SpaceAfter=No
+5	,	,	PUNCT	,	_	8	punct	_	_
+6	some	some	DET	DT	_	8	det	_	Entity=(abstract-147
+7	two	two	NUM	CD	NumType=Card	8	nummod	_	_
+8	things	thing	NOUN	NNS	Number=Plur	4	obj	_	_
+9	that	that	PRON	WDT	PronType=Rel	10	nsubj	_	Discourse=elaboration:125->124
+10	happened	happen	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	8	acl:relcl	_	_
+11	to	to	PART	TO	_	13	mark	_	_
+12	be	be	AUX	VB	VerbForm=Inf	13	aux	_	_
+13	making	make	VERB	VBG	Tense=Pres|VerbForm=Part	10	xcomp	_	_
+14	noises	noise	NOUN	NNS	Number=Plur	13	obj	_	Entity=(abstract-148)
+15	at	at	ADP	IN	_	18	case	_	_
+16	the	the	DET	DT	Definite=Def|PronType=Art	18	det	_	Entity=(time-149
+17	same	same	ADJ	JJ	Degree=Pos	18	amod	_	_
+18	time	time	NOUN	NN	Number=Sing	13	obl	_	Entity=abstract-147)time-149)|SpaceAfter=No
+19	.	.	PUNCT	.	_	4	punct	_	_
+
+# sent_id = GUM_fiction_beast-42
+# text = I made noises with my heels but they were too loud so I stopped.
+# s_type = decl
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	Discourse=sequence:99->24|Entity=(person-2)
+2	made	make	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+3	noises	noise	NOUN	NNS	Number=Plur	2	obj	_	Entity=(event-127)
+4	with	with	ADP	IN	_	6	case	_	_
+5	my	my	PRON	PRP$	Number=Sing|Person=1|Poss=Yes|PronType=Prs	6	nmod:poss	_	Entity=(object-128(person-2)
+6	heels	heel	NOUN	NNS	Number=Plur	2	obl	_	Entity=object-128)
+7	but	but	CCONJ	CC	_	11	cc	_	Discourse=cause:100->101
+8	they	they	PRON	PRP	Case=Nom|Number=Plur|Person=3|PronType=Prs	11	nsubj	_	Entity=(event-127)
+9	were	be	AUX	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	11	cop	_	_
+10	too	too	ADV	RB	_	11	advmod	_	_
+11	loud	loud	ADJ	JJ	Degree=Pos	2	conj	_	_
+12	so	so	SCONJ	IN	_	14	mark	_	Discourse=contrast:101->99
+13	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	14	nsubj	_	Entity=(person-2)
+14	stopped	stop	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	11	advcl	_	SpaceAfter=No
+15	.	.	PUNCT	.	_	2	punct	_	_
