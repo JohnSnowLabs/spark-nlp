@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotators.seq2seq.{MarianTransformer, T5Transformer
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
+import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
@@ -463,7 +464,8 @@ object PythonResourceDownloader {
     "MultiClassifierDLModel" -> MultiClassifierDLModel,
     "SentenceDetectorDLModel" -> SentenceDetectorDLModel,
     "T5Transformer" -> T5Transformer,
-    "MarianTransformer" -> MarianTransformer
+    "MarianTransformer" -> MarianTransformer,
+    "WordSegmenterModel" -> WordSegmenterModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
