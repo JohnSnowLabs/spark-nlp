@@ -13,7 +13,7 @@ import scala.xml.XML
 /**
   * Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.
   * Removes all dirty characters from text following one or more input regex patterns.
-  * Can apply non wanted character removal which a specific policy.
+  * Can apply not wanted character removal with a specific policy.
   * Can apply lower case normalization.
   *
   * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizerTestSpec.scala DocumentNormalizer test class]] for examples examples of usage.
