@@ -4,8 +4,301 @@ header: true
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2020-11-27"
+modify_date: "2021-01-04"
 ---
+
+### 2.7.0
+
+#### John Snow Labs Spark-NLP 2.7.0: New T5 and MarianMT seq2seq transformers, detect up to 375 languages, word segmentation, over 720+ models and pipelines, support for 192+ languages, and many more!
+
+Overview
+
+We are very excited to release Spark NLP 2.7.0! This has been one of the biggest releases we have ever done that we are so proud to share it with our community! 
+
+In this release, we are bringing support to state-of-the-art Seq2Seq and Text2Text transformers. We have developed annotators for Google T5 (Text-To-Text Transfer Transformer) and MarianMNT for Neural Machine Translation with over 646 pretrained models and pipelines.
+
+This release also comes with a refactored and brand new models for language detection and identification. They are more accurate, faster, and support up to 375 languages.
+
+The 2.7.0 release has over 720+ new pretrained models and pipelines while extending our support of multi-lingual models to 192+ languages such as Chinese, Japanese, Korean, Arabic, Persian, Urdu, and Hebrew.
+
+As always, we would like to thank our community for their feedback and support.
+
+Major features and improvements
+
+* **NEW:** Introducing MarianTransformer annotator for machine translation based on MarianNMT models. Marian is an efficient, free Neural Machine Translation framework mainly being developed by the Microsoft Translator team (646+ pretrained models & pipelines in 192+ languages)
+* **NEW:** Introducing T5Transformer annotator for Text-To-Text Transfer Transformer (Google T5) models to achieve state-of-the-art results on multiple NLP tasks such as Translation, Summarization, Question Answering, Sentence Similarity, and so on
+* **NEW:** Introducing brand new and refactored language detection and identification models. The new LanguageDetectorDL is faster, more accurate, and supports up to 375 languages
+* **NEW:** Introducing WordSegmenter annotator, a trainable annotator for word segmentation of languages without any rule-based tokenization such as Chinese, Japanese, or Korean
+* **NEW:** Introducing DocumentNormalizer annotator cleaning content from HTML or XML documents, applying either data cleansing using an arbitrary number of custom regular expressions either data extraction following the different parameters
+* **NEW:** [Spark NLP Display](https://github.com/JohnSnowLabs/spark-nlp-display) for visualization of different types of annotations
+* Add support for new multi-lingual models in UniversalSentenceEncoder annotator
+* Add support to Lemmatizer to be trained directly from a DataFrame instead of a text file
+* Add training helper to transform CoNLL-U into Spark NLP annotator type columns
+
+
+Bugfixes and Enhancements
+
+* Fix all the known issues in ClassifierDL, SentimentDL, and MultiClassifierDL annotators in a Cluster
+* NerDL enhancements for memory optimization and logging during the training with the test dataset
+* SentenceEmbeddings annotator now reuses the storageRef of any embeddings used in prior
+* Fix dropout in SentenceDetectorDL models for more deterministic results. Both English and Multi-lingual models are retrained for the 2.7.0 release
+* Fix Python dataType Annotation
+* Upgrade to Apache Spark 2.4.7
+
+Models and Pipelines
+
+The 2.7.0 release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users. 
+
+Selected T5 and Marian models
+
+| Model                | Name               | Build            | Lang |  
+|:---------------------|:-------------------|:-----------------|:------|
+| T5Transformer           | `google_t5_small_ssm_nq` | 2.7.0 |      `en`
+| T5Transformer           | `t5_small`         | 2.7.0 |      `en`
+| MarianTransformer       | `opus-mt-en-aav`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-af`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-afa`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-alv`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ar`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-az`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bat`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bcl`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bem`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ber`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bg`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bi`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bnt`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-bzs`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ca`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ceb`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-cel`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-chk`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-cpf`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-cpp`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-crs`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-cs`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-cus`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-cy`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-da`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-de`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-dra`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ee`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-efi`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-el`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-eo`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-es`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-et`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-eu`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-euq`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-fi`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-fiu`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-fj`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-fr`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ga`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gaa`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gem`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gil`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gl`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gmq`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gmw`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-grk`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-guw`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-gv`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ha`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-he`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-hi`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-hil`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ho`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ht`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-hu`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-hy`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-id`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ig`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-iir`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ilo`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-inc`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ine`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-is`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-iso`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-it`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-itc`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-jap`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-kg`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-kj`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-kqn`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-kwn`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-kwy`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-lg`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ln`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-loz`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-lu`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-lua`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-lue`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-lun`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-luo`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-lus`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-map`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mfe`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mg`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mh`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mk`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mkh`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ml`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mos`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mr`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mt`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-mul`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ng`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-nic`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-niu`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-nl`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-nso`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-ny`    | 2.7.0 |      `xx`
+| MarianTransformer       | `opus-mt-en-nyk`    | 2.7.0 |      `xx`
+
+Chinese models
+
+| Models                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+|   WordSegmenterModel  | `wordseg_weibo`  | 2.7.0 |   `zh` 
+|   WordSegmenterModel  | `wordseg_pku`  | 2.7.0 |   `zh` 
+|   WordSegmenterModel  | `wordseg_msra`  | 2.7.0 |   `zh` 
+|   WordSegmenterModel  | `wordseg_large`  | 2.7.0 |   `zh` 
+|   WordSegmenterModel  | `wordseg_ctb9`  | 2.7.0 |   `zh` 
+|   PerceptronModel  | `pos_ud_gsd`  | 2.7.0 |   `zh` 
+|   PerceptronModel  | `pos_ctb9`  | 2.7.0 |   `zh` 
+|   NerDLModel  | `ner_msra_bert_768d`  | 2.7.0 |   `zh` 
+|   NerDLModel  | `ner_weibo_bert_768d`  | 2.7.0 |   `zh` 
+
+Arabic models
+
+| Models                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+|   StopWordsCleaner  | `stopwords_ar`  | 2.7.0 |   `ar` 
+|   LemmatizerModel  | `lemma`  | 2.7.0 |   `ar` 
+|   PerceptronModel  | `pos_ud_padt`  | 2.7.0 |   `ar` 
+|   WordEmbeddingsModel  | `arabic_w2v_cc_300d`  | 2.7.0 |   `ar` 
+|   NerDLModel  | `aner_cc_300d`  | 2.7.0 |   `ar` 
+
+Persian models
+
+| Models                        | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+|   StopWordsCleaner  | `stopwords_fa`  | 2.7.0 |   `fa` 
+|   LemmatizerModel  | `lemma`  | 2.7.0 |   `fa` 
+|   PerceptronModel  | `pos_ud_perdt`  | 2.7.0 |   `fa` 
+|   WordEmbeddingsModel  | `persian_w2v_cc_300d`  | 2.7.0 |   `fa` 
+|   NerDLModel  | `personer_cc_300d`  | 2.7.0 |   `fa` 
+
+The complete list of all 1100+ models & pipelines in 192+ languages is available on [Models Hub](https://nlp.johnsnowlabs.com/models).
+
+Documentation and Notebooks
+
+* [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
+* [Spark NLP training certification notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) for Google Colab and Databricks
+* [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
+* Update the entire [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks
+* Update [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
+* New [Spark NLP Display](https://github.com/JohnSnowLabs/spark-nlp-display) for visualization of different types of annotations
+* [Discussions](https://github.com/JohnSnowLabs/spark-nlp/discussions) Engage with other community members, share ideas, and show off how you use Spark NLP!
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==2.7.0
+
+#Conda
+
+conda install -c johnsnowlabs spark-nlp==2.7.0
+```
+
+**Spark**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.0
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.7.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.7.0
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.11</artifactId>
+    <version>2.7.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>2.7.0</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>2.7.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>2.7.0</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-assembly-2.7.0.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-gpu-assembly-2.7.0.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-assembly-2.7.0.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-spark23-gpu-assembly-2.7.0.jar
 
 ### 2.6.5
 
