@@ -1,6 +1,6 @@
 ---
 layout: model
-title: WordSegmenterModel for Japanese
+title: Japanese Word Segmentation
 author: John Snow Labs
 name: wordseg_gsd_ud
 date: 2021-01-03
