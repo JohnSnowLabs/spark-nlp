@@ -544,7 +544,7 @@ sparknlp {
 
 ### Pipelines
 
-Spark NLP offers more than `90 pre-trained pipelines` in `13 languages`.
+Spark NLP offers more than `450+ pre-trained pipelines` in `192 languages`.
 
 **English pipelines:**
 | Pipeline                     | Name                                  | Build            | lang |
@@ -614,13 +614,13 @@ annotation.select("entities.result").show(false)
 */
 ```
 
-#### Please check our dedicated repository for the full list of 90+ [pre-trained pipelines](https://github.com/JohnSnowLabs/spark-nlp-models)
+#### Please check out our Models Hub for the full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/models) with examples, demos, benchmarks, and more
 
 ### Models
 
-Spark NLP offers more than `250 pre-trained models` in `46 languages`.
+Spark NLP offers more than `710+ pre-trained models` in `192 languages`.
 
-**List of languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
+**Some of the selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
 **English Models:**
 
@@ -695,7 +695,7 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
-#### Please check our dedicated repository for the full list of 250+ [pre-trained models](https://github.com/JohnSnowLabs/spark-nlp-models)
+#### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
 
 ## Examples
 
