@@ -26,7 +26,18 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+    
+word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
+        
 pos = PerceptronModel.pretrained("pos_ud_gsd", "ja") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
@@ -38,16 +49,24 @@ pipeline = Pipeline(stages=[
         posTagger
     ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 example = spark.createDataFrame(pd.DataFrame({'text': ["""院長と話をしたところ、腰痛治療も得意なようです。"""]}))
 
-result = model.transform(example)
+result = pipeline.fit(example).transform(example)
 
 ```
 ```scala
-...
-
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()
+        .setInputCols(["document"])
+        .setOutputCol("sentence")
+        
+val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
+        .setInputCols(["sentence"])
+        .setOutputCol("token")
+        
 val pos = PerceptronModel.pretrained("pos_ud_gsd", "ja")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
