@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>tensorflow - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow</title>
-          <meta name="description" content="tensorflow - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow" />
-          <meta name="keywords" content="tensorflow Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.ml.tensorflow" />
+          <title>tensorflow - Spark NLP 2.7.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow</title>
+          <meta name="description" content="tensorflow - Spark NLP 2.7.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow" />
+          <meta name="keywords" content="tensorflow Spark NLP 2.7.0 ScalaDoc com.johnsnowlabs.ml.tensorflow" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -305,7 +305,7 @@ Sources:</p></div></div>
       <p class="shortcomment cmt">Embeddings from a language model trained on the 1 Billion Word Benchmark.</p><div class="fullcomment"><div class="comment cmt"><p>Embeddings from a language model trained on the 1 Billion Word Benchmark.</p><p>Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
 The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-based word representations with shape [batch_size, max_length, 512].  == word_emb</p><p><b>lstm_outputs1</b>: the first LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs1</p><p><b>lstm_outputs2</b>: the second LSTM hidden state with shape [batch_size, max_length, 1024]. === lstm_outputs2</p><p><b>elmo</b>: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == elmo</p><p>See <span class="extype" name="">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala </span> for further reference on how to use this API.
 </p></div></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TensorflowLDextendsSerializable"></a>
       <a id="TensorflowLD:TensorflowLD"></a>
       <h4 class="signature">
@@ -321,10 +321,29 @@ The use of an accelerator is recommended.</p><p><b>word_emb</b>: the character-b
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Language Identification by using Deep Neural Network
-Total params: 247,607
-Trainable params: 247,607
-</p>
+      <p class="shortcomment cmt">Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow</p><div class="fullcomment"><div class="comment cmt"><p>Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow</p><p>The models are trained on large datasets such as Wikipedia and Tatoeba
+The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias</p></div></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TensorflowMarianextendsSerializable"></a>
+      <a id="TensorflowMarian:TensorflowMarian"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TensorflowMarian.html"><span class="name">TensorflowMarian</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.package@TensorflowMarianextendsSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">MarianTransformer: Fast Neural Machine Translation</p><div class="fullcomment"><div class="comment cmt"><p>MarianTransformer: Fast Neural Machine Translation</p><p>MarianTransformer uses models trained by MarianNMT.</p><p>Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.
+It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.</p><p>It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).</p><p><b>Sources</b> :
+MarianNMT <a href="https://marian-nmt.github.io/" target="_blank">https://marian-nmt.github.io/</a>
+Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/anthology/P18-4020/" target="_blank">https://www.aclweb.org/anthology/P18-4020/</a>
+</p></div></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMultiClassifier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TensorflowMultiClassifierextendsSerializablewithLogging"></a>
       <a id="TensorflowMultiClassifier:TensorflowMultiClassifier"></a>
@@ -410,6 +429,25 @@ Trainable params: 247,607
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TensorflowT5extendsSerializable"></a>
+      <a id="TensorflowT5:TensorflowT5"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="TensorflowT5.html"><span class="name">TensorflowT5</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.package@TensorflowT5extendsSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.</p><div class="fullcomment"><div class="comment cmt"><p>This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
+Input for this model must be tokenzied with a SentencePieceModel,
+</p></div></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowUSE" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TensorflowUSEextendsSerializable"></a>
       <a id="TensorflowUSE:TensorflowUSE"></a>
