@@ -16,7 +16,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 
 ## Predicted Entities
 
-ADJ,ADP,ADV,AUX,CONJ,DET,NOUN,NUM,PART,PRON,PROPN,PUNCT,SYM,VERB,X
+`ADJ`, `ADP`, `ADV`, `AUX`, `CONJ`, `DET`, `NOUN`, `NUM`, `PART`, `PRON`, `PROPN`, `PUNCT`, `SYM`, `VERB`, and `X`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -30,7 +30,18 @@ Use as part of an nlp pipeline after tokenization.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-...
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+    
+sentence_detector = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
+    
+word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")\
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
+        
 pos = PerceptronModel.pretrained("pos_ud_kaist", "ko") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
@@ -42,15 +53,23 @@ pipeline = Pipeline(stages=[
         posTagger
     ])
 
-model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 example = spark.createDataFrame(pd.DataFrame({'text': ["비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."]}))
 
-result = model.transform(example)
+result = pipeline.fit(example).transform(example)
 ```
 ```scala
-...
-
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+        
+val sentence_detector = SentenceDetector()
+        .setInputCols(["document"])
+        .setOutputCol("sentence")
+        
+val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
+        .setInputCols(["sentence"])
+        .setOutputCol("token")
+        
 val pos = PerceptronModel.pretrained("pos_ud_kaist", "ko")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
