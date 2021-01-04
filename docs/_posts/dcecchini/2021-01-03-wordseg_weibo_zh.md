@@ -1,6 +1,6 @@
 ---
 layout: model
-title: WordSegmenterModel for Chinese
+title: Chinese Word Segmentation
 author: John Snow Labs
 name: wordseg_weibo
 date: 2021-01-03
