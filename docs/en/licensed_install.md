@@ -103,6 +103,8 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
+If you want to download the source files (jar and whl files) locally, you can follow the instructions <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/SparkNLP_offline_installation.ipynb">here</a>.
+
 ### Install Spark NLP for Healthcare on Databricks
 
 1. Create a cluster if you don't have one already
@@ -149,3 +151,4 @@ spark = SparkSession.builder \
         - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl`
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
+
