@@ -512,7 +512,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_AR/ 
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Persian text 
           image: 
               src: /assets/images/Flag_of_Iran.png
@@ -525,7 +525,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_FA/ 
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Hebrew text 
           image: 
               src: /assets/images/Israel.jpg
@@ -538,7 +538,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_HE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Japanese text 
           image: 
               src: /assets/images/Flag_of_Japan.png
@@ -551,7 +551,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_JA/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Public_NER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
