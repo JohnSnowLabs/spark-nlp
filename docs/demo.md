@@ -547,7 +547,7 @@ data:
           excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
           actions:
           - text: Live Demo
-            type: normal 
+            type: normal
             url: https://demo.johnsnowlabs.com/public/NER_JA/
           - text: Colab Netbook
             type: blue_btn
