@@ -3176,7 +3176,7 @@ class WordSegmenterModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="word_segmenter", lang="zh", remote_loc=None):
+    def pretrained(name="wordseg_weibo", lang="zh", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
