@@ -2,7 +2,7 @@
 layout: model
 title: Named Entity Recognition for Korean (GloVe 840B 300d)
 author: John Snow Labs
-name: ner_ud_kaist_glove_840B_300d
+name: ner_kmou_glove_840B_300d
 date: 2021-01-03
 tags: [ko, ner, open_source]
 article_header:
@@ -23,7 +23,7 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_ud_kaist_glove_840B_300d_ko_2.7.0_2.4_1609716021199.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_kmou_glove_840B_300d_ko_2.7.0_2.4_1609716021199.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -50,7 +50,7 @@ embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
           .setOutputCol("embeddings")
 
 
-ner = NerDLModel.pretrained("ner_ud_kaist_glove_840B_300d", "ko") \
+ner = NerDLModel.pretrained("ner_kmou_glove_840B_300d", "ko") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
 
@@ -59,8 +59,7 @@ pipeline = Pipeline(stages=[
         sentence_detector,
         word_segmenter,
         embeddings,
-        ner,
-    ])
+        ner])
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미"]}))
 
@@ -84,7 +83,7 @@ val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
           .setOutputCol("embeddings")
 
 
-val ner = NerDLModel.pretrained("ner_ud_kaist_glove_840B_300d", "ko")
+val ner = NerDLModel.pretrained("ner_kmou_glove_840B_300d", "ko")
         .setInputCols(["document", "token", "embeddings"])
         .setOutputCol("ner")
 
@@ -120,7 +119,7 @@ val result = pipeline.fit(Seq.empty["라이프니츠 의 주도 로 베를린 �
 
 {:.table-model}
 |---|---|
-|Model Name:|ner_ud_kaist_glove_840B_300d|
+|Model Name:|ner_kmou_glove_840B_300d|
 |Type:|ner|
 |Compatibility:|Spark NLP 2.7.0+|
 |License:|Open Source|
@@ -131,7 +130,7 @@ val result = pipeline.fit(Seq.empty["라이프니츠 의 주도 로 베를린 �
 
 ## Data Source
 
-The model was trained in the Korea Maritime and Ocean University [NLP data set](https://github.com/kmounlp/NER)
+The model was trained in the Korea Maritime and Ocean University [NLP data set](https://github.com/kmounlp/NER).
 
 ## Benchmarking
 
