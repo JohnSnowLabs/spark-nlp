@@ -1,9 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 import java.io.File
 
-import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
-import com.github.liblevenshtein.serialization.PlainTextSerializer
-import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
+import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
@@ -13,7 +11,6 @@ import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, Spark
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.ml.param.Param
 import org.scalatest._
 
 import scala.collection.mutable
