@@ -17,7 +17,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
                        configProtoBytes: Option[Array[Byte]] = None
                       ) extends Serializable {
 
-  // keys representing the input and output tensors of the ALBERT model
+  // keys representing the input and output tensors of the T5 model
 
   private val encoderInputIdsKey = "encoder/encoder_input_ids:0"
   private val encoderAttentionMaskKey = "encoder/encoder_attention_mask:0"
