@@ -19,15 +19,15 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
   // keys representing the input and output tensors of the ALBERT model
 
-  private val encoderInputIdsKey = "encoder/encoder_input_ids:0"
-  private val encoderAttentionMaskKey = "encoder/encoder_attention_mask:0"
-  private val decoderInputIdsKey = "decoder/decoder_input_ids:0"
-  private val decoderEncoderStateKey = "decoder/encoder_state:0"
-  private val decoderEncoderAttentionMaskKey = "decoder/decoder_encoder_attention_mask:0"
-  private val decoderAttentionMaskKey = "decoder/decoder_attention_mask:0"
+  private val encoderInputIdsKey = "encoder_input_ids:0"
+  private val encoderAttentionMaskKey = "encoder_attention_mask:0"
+  private val decoderInputIdsKey = "decoder_input_ids:0"
+  private val decoderEncoderStateKey = "encoder_state:0"
+  private val decoderEncoderAttentionMaskKey = "decoder_encoder_attention_mask:0"
+  private val decoderAttentionMaskKey = "decoder_attention_mask:0"
 
-  private val encoderOutputsKey = "encoder/encoder_output:0"
-  private val decoderOutputsKey = "decoder/decoder_output:0"
+  private val encoderOutputsKey = "encoder_outputs:0"
+  private val decoderOutputsKey = "decoder_outputs:0"
 
   private val paddingTokenId = 0L
   private val eosTokenId = 1L
