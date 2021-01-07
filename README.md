@@ -10,7 +10,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Community support
 
-- [Slack](https://spark-nlp.slack.com/join/shared_invite/zt-j5ttxh0z-Fn3lQSG1Z0KpOs_SRxjdyw#/) For live discussion with the Spark NLP community and the team
+- [Slack](https://join.slack.com/t/spark-nlp/shared_invite/zt-kqmbf6ms-XMqIa99Vbu3xt~czERSVAQ) For live discussion with the Spark NLP community and the team
 - [GitHub](https://github.com/JohnSnowLabs/spark-nlp) Bug reports, feature requests, and contributions
 - [Discussions](https://github.com/JohnSnowLabs/spark-nlp/discussions) Engage with other community members, share ideas, and show off how you use Spark NLP!
 - [Medium](https://medium.com/spark-nlp) Spark NLP articles
