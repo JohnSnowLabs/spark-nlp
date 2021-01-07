@@ -109,8 +109,7 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
   val positionalMask: BooleanParam =
     new BooleanParam(this,
       "positionalMask",
-      "Indicates whether to apply the regex tokenization using a positional mask to guarantee " +
-        "the incremental progression.\n")
+      "Using a positional mask to guarantee the incremental progression of the tokenization.")
 
   /** @group setParam */
   def setPositionalMask(value: Boolean): this.type = set(positionalMask, value)
@@ -208,7 +207,7 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
-    val tokenized = if($(positionalMask)) tagWithPositionalMask(sentences) else tag(sentences)
+    val tokenized = if(getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
     TokenizedWithSentence.pack(tokenized)
   }
 
