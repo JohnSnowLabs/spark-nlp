@@ -17,7 +17,7 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, SentenceSplit, TokenizedSentence, TokenizedWithSentence}
+import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
@@ -101,13 +101,70 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
   /** @group getParam */
   def getMaxLength: Int = $(maxLength)
 
+  /**
+    * Indicates whether to apply the regex tokenization using a positional mask to guarantee the incremental progression
+    * Default: false
+    * @group param
+    **/
+  val positionalMask: BooleanParam =
+    new BooleanParam(this,
+      "positionalMask",
+      "Using a positional mask to guarantee the incremental progression of the tokenization.")
+
+  /** @group setParam */
+  def setPositionalMask(value: Boolean): this.type = set(positionalMask, value)
+
+  /** @group getParam */
+  def getPositionalMask: Boolean = $(positionalMask)
+
   setDefault(
     inputCols -> Array(DOCUMENT),
     outputCol -> "regexToken",
     toLowercase -> false,
     minLength -> 1,
-    pattern -> "\\s+"
+    pattern -> "\\s+",
+    positionalMask -> false
   )
+
+  /**
+    * This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
+    *
+    * @param sentences to tag
+    * @return Seq of TokenizedSentence objects
+    */
+  def tagWithPositionalMask(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
+
+    log.info("tagWithPositionalMask")
+
+    def calculateIndex(indexType: String, mask: Array[Int], text: String, token: String) = {
+      val tokenBeginIndex: Int = text.substring(mask.indexOf(0), text.length).indexOf(token) + mask.indexOf(0)
+      indexType match {
+        case "begin" => tokenBeginIndex
+        case "end" =>
+          val endIndex = tokenBeginIndex + token.length
+          for (i <- Range(0, endIndex)) mask(i) = 1
+          endIndex - 1
+      }
+    }
+
+    sentences.map { text =>
+      val re = $(pattern).r
+      val _content = if ($(toLowercase)) text.content.toLowerCase() else text.content
+      val _mask = new Array[Int](_content.length)
+
+      val tokens = re.split(_content)
+        .map{ token =>
+          IndexedToken(
+            token,
+            calculateIndex("begin", _mask, _content, token),
+            calculateIndex("end", _mask, _content, token))
+        }
+        .filter(t =>
+          t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m => t.token.length <= m))
+
+      TokenizedSentence(tokens, text.index)
+    }
+  }
 
   /**
     * This func generates a Seq of TokenizedSentences from a Seq of Sentences.
@@ -116,30 +173,42 @@ class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexToken
     * @return Seq of TokenizedSentence objects
     */
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
+    def calculateIndex(indexType: String, mask: Array[Int], text: String, token: String) = {
+      val tokenBeginIndex: Int = text.substring(mask.indexOf(0), text.length).indexOf(token) + mask.indexOf(0)
+
+      indexType match {
+        case "begin" => tokenBeginIndex
+        case "end" =>
+          val endIndex = tokenBeginIndex + token.length
+          for (i <- Range(0, endIndex)) mask(i) = 1
+          endIndex - 1
+      }
+    }
+
     sentences.map { text =>
-      var curPos = 0
-
       val re = $(pattern).r
-      val str = if ($(toLowercase)) text.content.toLowerCase() else text.content
-      val tokens = re.split(str).map{token =>
-        val indexedTokens = IndexedToken(
-          token,
-          text.start + curPos,
-          text.start + curPos + token.length - 1
-        )
-        curPos += token.length + 1
-        indexedTokens
-      }.filter(t => t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m => t.token.length <= m))
-      TokenizedSentence(tokens, text.index)
+      val _content = if ($(toLowercase)) text.content.toLowerCase() else text.content
 
+      var _mask = new Array[Int](_content.length)
+
+      val tokens = re.split(_content)
+        .map{ token =>
+          IndexedToken(
+            token,
+            calculateIndex("begin", _mask, _content, token),
+            calculateIndex("end", _mask, _content, token))
+        }
+        .filter(t =>
+          t.token.nonEmpty && t.token.length >= $(minLength) && get(maxLength).forall(m => t.token.length <= m))
+
+      TokenizedSentence(tokens, text.index)
     }
   }
+
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
     val sentences = SentenceSplit.unpack(annotations)
-    val tokenized = tag(sentences)
+    val tokenized = if(getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
     TokenizedWithSentence.pack(tokenized)
-
   }
 
 }
