@@ -577,18 +577,12 @@ object TensorflowWrapper {
       .feed("save/Const", t.createTensor(variablesFile))
       .run()
 
-    val tfChkPointsVars = FileUtils.listFilesAndDirs(
-      new File(folder),
-      new WildcardFileFilter("part*"),
-      new WildcardFileFilter("variables*")
-    ).toArray()
+    val varPath = Paths.get(folder, "variables.data-00000-of-00001")
+    val varBytes = Files.readAllBytes(varPath)
 
-    val variablesDir = tfChkPointsVars(1).toString
-    val variablseData = Paths.get(tfChkPointsVars(2).toString)
-    val variablesIndex = Paths.get(tfChkPointsVars(3).toString)
-    // read from vriables
-    val varBytes = Files.readAllBytes(variablseData)
-    val idxBytes = Files.readAllBytes(variablesIndex)
+    val idxPath = Paths.get(folder, "variables.index")
+    val idxBytes = Files.readAllBytes(idxPath)
+
     val vars = Variables(varBytes, idxBytes)
 
     FileHelper.delete(folder)
