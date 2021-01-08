@@ -16,9 +16,11 @@ The Universal Sentence Encoder Cross-lingual (XLING) module is an extension of t
 
 This specific module is trained on English and French (en-fr) tasks, and optimized for greater-than-word length text, such as sentences, phrases or short paragraphs. 
 
-It is trained on a variety of data sources and tasks, with the goal of learning text representations that are useful out-of-the-box for a number of applications. The input to the module is variable length English or French text and the output is a 512 dimensional vector. 
+It is trained on a variety of data sources and tasks, with the goal of learning text representations that are useful out-of-the-box for a number of applications. The input to the module is variable length English or French text and the output is a 512 dimensional vector.
 
 We note that one does not need to specify the language that the input is in, as the model was trained such that English and French text with similar meanings will have similar (high dot product score) embeddings. We also note that this model can be used for monolingual English (and potentially monolingual French) tasks with comparable or even better performance than the purely English Universal Sentence Encoder.
+
+Note: This model only works on Linux and macOS operating systems and is not compatible with Windows due to the incompatibility of the SentencePiece library.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

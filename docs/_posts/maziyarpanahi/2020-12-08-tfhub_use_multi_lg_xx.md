@@ -18,7 +18,9 @@ The model is trained and optimized for greater-than-word length text, such as se
 
 This model supports 16 languages (Arabic, Chinese-simplified, Chinese-traditional, English, French, German, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Spanish, Thai, Turkish, Russian) text encoder.
 
-The details are described in the paper "[Universal Sentence Encoder](https://arxiv.org/abs/1803.11175)".
+The details are described in the paper "[Multilingual Universal Sentence Encoder for Semantic Retrieval](https://arxiv.org/abs/1907.04307)".
+
+Note: This model only works on Linux and macOS operating systems and is not compatible with Windows due to the incompatibility of the SentencePiece library.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

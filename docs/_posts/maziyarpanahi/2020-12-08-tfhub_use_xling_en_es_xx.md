@@ -20,6 +20,8 @@ It is trained on a variety of data sources and tasks, with the goal of learning 
 
 We note that one does not need to specify the language that the input is in, as the model was trained such that English and Spanish text with similar meanings will have similar (high dot product score) embeddings. We also note that this model can be used for monolingual English (and potentially monolingual Spanish) tasks with comparable or even better performance than the purely English Universal Sentence Encoder.
 
+Note: This model only works on Linux and macOS operating systems and is not compatible with Windows due to the incompatibility of the SentencePiece library.
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

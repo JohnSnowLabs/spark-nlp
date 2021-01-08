@@ -4,7 +4,7 @@ val is_gpu = System.getProperty("is_gpu","false")
 val is_spark23 = System.getProperty("is_spark23","false")
 
 val spark23Ver = "2.3.4"
-val spark24Ver = "2.4.4"
+val spark24Ver = "2.4.7"
 val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
@@ -24,7 +24,7 @@ if (is_gpu.equals("true") && is_spark23.equals("true")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.6.5"
+version := "2.7.0"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -93,7 +93,8 @@ developers in ThisBuild:= List(
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan")),
-  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq"))
+  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq")),
+  Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov"))
 )
 
 

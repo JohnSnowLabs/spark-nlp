@@ -31,13 +31,15 @@ sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 
 annotators = annotator
 embeddings = annotator
 
-
 def start(gpu=False, spark23=False):
-    current_version = "2.6.5"
+    current_version = "2.7.0"
+
     maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
     maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
     maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
@@ -64,4 +66,4 @@ def start(gpu=False, spark23=False):
 
 
 def version():
-    return '2.6.5'
+    return '2.7.0'
