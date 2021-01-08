@@ -77,7 +77,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       .fetch(encoderOutputsKey)
 
     val encoderOuts = runner.run().asScala
-    val encoderOutputs = TensorResources.extractFloats(encoderOuts.head).grouped(512).toArray.grouped(maxSentenceLength).toArray
+    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
+    val dim = encoderOutsFloats.length / maxSentenceLength
+    val encoderOutsBatch = encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     encoderInputBuffers.clear()
 
@@ -87,15 +89,15 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
     //Run decoder
     val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length*maxSentenceLength*512)
+    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length*maxSentenceLength*dim)
     batch.zipWithIndex.foreach(bi => {
-      encoderOutputs(bi._2).foreach(encoderOutput => {
+      encoderOutsBatch(bi._2).foreach(encoderOutput => {
         decoderEncoderStateBuffers.put(encoderOutput)
       })
     })
     decoderEncoderStateBuffers.flip()
     val decoderEncoderStateTensors = encoderInputTensorResources.createFloatBufferTensor(
-      Array(batch.length.toLong, maxSentenceLength, 512),
+      Array(batch.length.toLong, maxSentenceLength, dim),
       decoderEncoderStateBuffers)
 
     var decoderInputs = batch.map(_ => Array(this.paddingTokenId)).toArray
