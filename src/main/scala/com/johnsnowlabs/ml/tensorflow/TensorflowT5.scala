@@ -47,8 +47,10 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val encoderInputTensorResources = new TensorResources()
     val encoderAttentionMaskTensorResources = new TensorResources()
 
-    val encoderInputBuffers = encoderInputTensorResources.createLongBuffer(batch.length*maxSentenceLength)
-    val encoderAttentionMaskBuffers = encoderAttentionMaskTensorResources.createLongBuffer(batch.length*maxSentenceLength)
+    val inputDim = batch.length * maxSentenceLength
+
+    val encoderInputBuffers = encoderInputTensorResources.createLongBuffer(inputDim)
+    val encoderAttentionMaskBuffers = encoderAttentionMaskTensorResources.createLongBuffer(inputDim)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
@@ -78,14 +80,13 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
     val encoderOuts = runner.run().asScala
     val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
-    val dim = encoderOutsFloats.length / maxSentenceLength
+    val dim = encoderOutsFloats.length / inputDim
     val encoderOutsBatch = encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     encoderInputBuffers.clear()
 
     encoderInputTensorResources.clearTensors()
     encoderInputTensorResources.clearSession(encoderOuts)
-
 
     //Run decoder
     val decoderEncoderStateTensorResources = new TensorResources()
