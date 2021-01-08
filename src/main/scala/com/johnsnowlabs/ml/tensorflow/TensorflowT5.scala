@@ -13,9 +13,9 @@ import scala.collection.JavaConverters._
   */
 
 class TensorflowT5(val tensorflow: TensorflowWrapper,
-                       val spp: SentencePieceWrapper,
-                       configProtoBytes: Option[Array[Byte]] = None
-                      ) extends Serializable {
+                   val spp: SentencePieceWrapper,
+                   configProtoBytes: Option[Array[Byte]] = None
+                  ) extends Serializable {
 
   // keys representing the input and output tensors of the T5 model
 
@@ -31,6 +31,16 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
   private val paddingTokenId = 0L
   private val eosTokenId = 1L
+  private val pieceSize = spp.getSppModel.getPieceSize
+
+  def decode(sentences: Array[Array[Long]]): Seq[String] = {
+
+    sentences.map { s =>
+      val filteredPieceIds = s.filter(x => x <= pieceSize)
+       spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt):_*)
+    }
+
+  }
 
   def process(textInputs: Seq[String], maxOutputLength: Int = 200): Seq[String] = {
 
@@ -56,12 +66,12 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
     batch.foreach(tokenIds => {
 
-        val diff = maxSentenceLength - tokenIds.length
+      val diff = maxSentenceLength - tokenIds.length
 
-        val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(this.paddingTokenId)
-        encoderInputBuffers.put(s)
-        val mask = s.map(x =>  if (x != this.paddingTokenId) 1L else 0L)
-        encoderAttentionMaskBuffers.put(mask)
+      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(this.paddingTokenId)
+      encoderInputBuffers.put(s)
+      val mask = s.map(x =>  if (x != this.paddingTokenId) 1L else 0L)
+      encoderAttentionMaskBuffers.put(mask)
     })
 
     encoderInputBuffers.flip()
@@ -130,11 +140,11 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       val runner = session.runner
 
       runner
-          .feed(decoderInputIdsKey, decoderInputTensors)
-          .feed(decoderEncoderStateKey, decoderEncoderStateTensors)
-          .feed(decoderEncoderAttentionMaskKey, encoderAttentionMaskTensors)
-          .feed(decoderAttentionMaskKey, decoderAttentionMaskTensors)
-          .fetch(decoderOutputsKey)
+        .feed(decoderInputIdsKey, decoderInputTensors)
+        .feed(decoderEncoderStateKey, decoderEncoderStateTensors)
+        .feed(decoderEncoderAttentionMaskKey, encoderAttentionMaskTensors)
+        .feed(decoderAttentionMaskKey, decoderAttentionMaskTensors)
+        .fetch(decoderOutputsKey)
 
       val decoderOuts = runner.run().asScala
       val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(32128).toArray.grouped(decoderInputLength).toArray
@@ -167,7 +177,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     decoderEncoderStateBuffers.clear()
     decoderEncoderStateTensorResources.clearTensors()
 
-    modelOutputs.map(x => spp.getSppModel.decodeIds(x.map(_.toInt):_*)) .toSeq
+    decode(modelOutputs)
+    //    modelOutputs.map(x => spp.getSppModel.decodeIds(x.map(_.toInt):_*)).toSeq
   }
 
 
