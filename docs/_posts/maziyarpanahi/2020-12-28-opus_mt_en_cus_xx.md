@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fast Neural Machine Translation Model from English to Cushitic Languages
+title: Fast Neural Machine Translation Model from English to Cushitic languages
 author: John Snow Labs
 name: opus_mt_en_cus
 date: 2020-12-28
