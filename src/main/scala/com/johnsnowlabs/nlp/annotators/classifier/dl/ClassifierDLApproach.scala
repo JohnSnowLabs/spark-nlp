@@ -164,7 +164,7 @@ class ClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
-  
+
   def setOutputLogsPath(path: String):ClassifierDLApproach.this.type = set(this.outputLogsPath, path)
 
   /** Level of verbosity during training
@@ -208,9 +208,9 @@ class ClassifierDLApproach(override val uid: String)
     * @group getParam
     **/
   def getValidationSplit: Float = $(this.validationSplit)
-  
+
   def getOutputLogsPath: String = $(outputLogsPath)
-  
+
   /** Maximum number of epochs to train
     *
     * @group getParam
@@ -326,6 +326,7 @@ class ClassifierDLApproach(override val uid: String)
 
     val wrapper =
       TensorflowWrapper.readZippedSavedModel("/classifier-dl", tags = Array("serve"), initAllTables = true)
+    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
     wrapper
   }
 }

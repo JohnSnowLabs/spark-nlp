@@ -365,6 +365,7 @@ class MultiClassifierDLApproach(override val uid: String)
 
     val wrapper =
       TensorflowWrapper.readZippedSavedModel("/multi-classifier-dl", fileName = s"multi-label-bilstm-1024", tags = Array("serve"), initAllTables = true)
+    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
     wrapper
   }
 }
