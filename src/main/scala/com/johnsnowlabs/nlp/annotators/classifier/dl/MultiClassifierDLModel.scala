@@ -212,7 +212,7 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: MultiClassifierDLModel, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowChkPoints(path, spark, "_multiclassifierdl_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_multiclassifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
     // This allows for Python to access getClasses function
     val encoder = new ClassifierDatasetEncoder(instance.datasetParams.get.get)
