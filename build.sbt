@@ -55,6 +55,8 @@ resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
 
+resolvers in ThisBuild += "Another Maven" at "https://mvnrepository.com/artifact/"
+
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
@@ -162,13 +164,13 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "libtensorflow" % "1.15.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.15.0"
+      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow" % "1.15.0"
+      "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
     )
+lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
   .settings(
@@ -177,7 +179,10 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies++
-        typedDependencyParserDependencies
+        typedDependencyParserDependencies,
+
+    // TODO potentially improve this?
+    mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
 
 assemblyMergeStrategy in assembly := {
