@@ -1,13 +1,13 @@
 ---
 layout: model
-title: ChunkResolver Icd10pcs Clinical
+title: ICD10PCS Entity Resolver
 author: John Snow Labs
 name: chunkresolve_icd10pcs_clinical
 class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-04-21
-tags: [clinical,entity_resolution,en]
+tags: [clinical,licensed,entity_resolution,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,19 +32,43 @@ ICD10-PCS Codes and their normalized definition with `clinical_embeddings`.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
+...
 model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
+    
+pipeline_icd10pcs = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model])
+
+data = ["""He has a starvation ketosis but nothing found for significant for dry oral mucosa"""]
+
+pipeline_model = pipeline_icd10pcs.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+light_pipeline = LightPipeline(pipeline_model)
+
+result = light_pipeline.annotate(data)
 ```
 
 ```scala
+...
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
+    
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model))
+
+val result = pipeline.fit(Seq.empty["He has a starvation ketosis but nothing found for significant for dry oral mucosa"].toDS.toDF("text")).transform(data)
 ```
 </div>
 
+{:.h2_title}
+## Results
 
+```bash
+|   | chunks               | begin | end | code    | resolutions                                      |
+|---|----------------------|-------|-----|---------|--------------------------------------------------|
+| 0 | a starvation ketosis | 7     | 26  | 6A3Z1ZZ | Hyperthermia, Multiple:::Narcosynthesis:::Hype...|
+| 1 | dry oral mucosa      | 66    | 80  | 8E0ZXY4 | Yoga Therapy:::Release Cecum, Open Approach:::...|
+```
 
 {:.model-param}
 ## Model Information

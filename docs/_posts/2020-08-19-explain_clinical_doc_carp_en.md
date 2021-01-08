@@ -1,17 +1,17 @@
 ---
 layout: model
-title: Explain Clinical Doc CARP
+title: Explain Document Pipeline - CARP
 author: John Snow Labs
 name: explain_clinical_doc_carp
 date: 2020-08-19
-tags: [pipeline, en, licensed]
+tags: [pipeline, en, clinical, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posology. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
+A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical`` and ``ner_posology``. It will extract clinical and medication entities, assign assertion status and find relationships between clinical entities.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -25,34 +25,37 @@ A pretrained pipeline with ner_clinical, assertion_dl, re_clinical and ner_posol
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-pipeline = PretrainedPipeline('explain_clinical_doc_carp', 'en', 'clinical/models')
+carp_pipeline = PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
 
-annotations = pipeline.annotate("This is an example")
+annotations =  carp_pipeline.fullAnnotate("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.""")[0]
+
+annotations.keys()
 
 ```
 
-{:.noactive}
 ```scala
+
+val carp_pipeline = new PretrainedPipeline("explain_clinical_doc_carp","en","clinical/models")
+
+val result = carp_pipeline.fullAnnotate("""A 28-year-old female with a history of gestational diabetes mellitus, used to take metformin 1000 mg two times a day, presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. She was seen by the endocrinology service and discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals.""")(0)
+
 ```
 </div>
 
 {:.h2_title}
 ## Results
+This pretrained pipeline gives the result of `ner_clinical`, `re_clinical`, `ner_posology` and `assertion_dl` models. 
 ```bash
-{'sentences': ['This is an example'],
- 'clinical_ner_tags': ['O', 'O', 'O', 'O'],
- 'document': ['This is an example'],
- 'ner_chunks': [],
- 'clinical_ner_chunks': [],
- 'ner_tags': ['O', 'O', 'O', 'O'],
- 'assertion': [],
- 'clinical_relations': [],
- 'tokens': ['This', 'is', 'an', 'example'],
- 'embeddings': ['This', 'is', 'an', 'example'],
- 'pos_tags': ['PND', 'VBZ', 'DD', 'NN'],
- 'dependencies': ['example', 'example', 'example', 'ROOT']}
+|   | chunks                        | ner_clinical | assertion | posology_chunk   | ner_posology | relations |
+|---|-------------------------------|--------------|-----------|------------------|--------------|-----------|
+| 0 | gestational diabetes mellitus | PROBLEM      | present   | metformin        | Drug         | TrAP      |
+| 1 | metformin                     | TREATMENT    | present   | 1000 mg          | Strength     | TrCP      |
+| 2 | polyuria                      | PROBLEM      | present   | two times a day  | Frequency    | TrCP      |
+| 3 | polydipsia                    | PROBLEM      | present   | 40 units         | Dosage       | TrWP      |
+| 4 | poor appetite                 | PROBLEM      | present   | insulin glargine | Drug         | TrCP      |
+| 5 | vomiting                      | PROBLEM      | present   | at night         | Frequency    | TrAP      |
+| 6 | insulin glargine              | TREATMENT    | present   | 12 units         | Dosage       | TrAP      |
 ```
-
 
 {:.model-param}
 ## Model Information
@@ -72,4 +75,3 @@ annotations = pipeline.annotate("This is an example")
  - assertion_dl
  - re_clinical
  - ner_posology
- 

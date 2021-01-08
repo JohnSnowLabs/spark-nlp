@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>BertSentenceEmbeddings - Spark NLP 2.6.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings</title>
-          <meta name="description" content="BertSentenceEmbeddings - Spark NLP 2.6.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
-          <meta name="keywords" content="BertSentenceEmbeddings Spark NLP 2.6.3 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
+          <title>BertSentenceEmbeddings - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings</title>
+          <meta name="description" content="BertSentenceEmbeddings - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
+          <meta name="keywords" content="BertSentenceEmbeddings Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -976,6 +976,24 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings#getIsLong" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
+      <a id="getIsLong:Boolean"></a>
+      <a id="getIsLong:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIsLong</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings@getIsLong:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">get isLong
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <a id="getLazyAnnotator:Boolean"></a>
@@ -1270,6 +1288,24 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings#isLong" visbl="pub" data-isabs="false" fullComment="no" group="param">
+      <a id="isLong:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="isLong:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isLong</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings@isLong:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Use Long type instead of Int type for inputs
+</p>
     </li><li name="org.apache.spark.ml.param.Params#isSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isSet(param:org.apache.spark.ml.param.Param[_]):Boolean"></a>
       <a id="isSet(Param[_]):Boolean"></a>
@@ -2050,7 +2086,12 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Defines the output layer of BERT when calculating Embeddings.</p><div class="fullcomment"><div class="comment cmt"><p>Defines the output layer of BERT when calculating Embeddings. See extractPoolingLayer() in TensorflowBert for further reference.
+      <p class="shortcomment cmt">Set Embeddings dimensions for the BERT model
+Only possible to set this when the first time is saved
+dimension is not changeable, it comes from BERT config file
+</p><div class="fullcomment"><div class="comment cmt"><p>Set Embeddings dimensions for the BERT model
+Only possible to set this when the first time is saved
+dimension is not changeable, it comes from BERT config file
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a> → <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a>
@@ -2086,6 +2127,24 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings#setIsLong" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
+      <a id="setIsLong(value:Boolean):BertSentenceEmbeddings.this.type"></a>
+      <a id="setIsLong(Boolean):BertSentenceEmbeddings.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setIsLong</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings@setIsLong(value:Boolean):BertSentenceEmbeddings.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">set isLong
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a>
       <a id="setLazyAnnotator(Boolean):BertSentenceEmbeddings.this.type"></a>

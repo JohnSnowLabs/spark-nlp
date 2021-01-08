@@ -7,7 +7,7 @@ class: PipelineModel
 language: en
 repository: clinical/models
 date: 2020-02-01
-tags: [clinical,pipeline,en]
+tags: [clinical,licensed,pipeline,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

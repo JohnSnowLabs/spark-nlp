@@ -7,7 +7,7 @@ class: DeIdentificationModel
 language: en
 repository: clinical/models
 date: 2019-06-04
-tags: [clinical,en]
+tags: [clinical,licensed,en]
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,11 +15,11 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Anonymization and DeIdentification model based on outputs from DeId NERs and Replacement Dictionaries
+Anonymization and DeIdentification model based on outputs from DeId NERs and Replacement Dictionaries.
 
 
 ## Predicted Entities 
-Personal Information in order to deidentify
+Personal Information in order to deidentify.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -32,19 +32,45 @@ Personal Information in order to deidentify
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")\
-	.setInputCols("document","token","chunk")\
-	.setOutputCol("document")
+...
+nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+masker = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")\
+	.setInputCols("sentence","token","chunk")\
+	.setOutputCol("deidentified")\
+    .setMode("mask")
+    
+text = '''A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street'''
+result = model.transform(spark.createDataFrame([[text]]).toDF("text"))    
+deid_text = masker.transform(result)
 ```
 
 ```scala
-val model = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")
-	.setInputCols("document","token","chunk")
-	.setOutputCol("document")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+val result = pipeline.fit(Seq.empty['''A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street'''].toDS.toDF("text")).transform(data)   
+
+val masker = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/models")
+        .setInputCols(Array("sentence", "token", "chunk"))
+        .setOutputCol("deidentified")
+        .setMode("mask")
+val deid_text = new masker.transform(result)
+
 ```
 </div>
 
-
+{:.h2_title}
+## Results
+```bash
+|   | sentence                                                                              | deidentified                                                                |
+|---|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| 0 | A .                                                                                   | A .                                                                         |
+| 1 | Record date : 2093-01-13 , David Hale , M.D .                                         | Record date : <DATE> , David Hale , M.D .                                   |
+| 2 | , Name : Hendrickson , Ora MR .                                                       | , Name : Hendrickson , Ora MR .                                             |
+| 3 | # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 .  | # <ID> Date : <DATE> PCP : Oliveira , 25 years-old , Record date : <DATE> . |
+| 4 | Cocke County Baptist Hospital .                                                       | Cocke County Baptist Hospital .                                             |
+| 5 | 0295 Keats Street                                                                     | <ID> Keats Street                                                           |
+```
 
 {:.model-param}
 ## Model Information
@@ -63,4 +89,4 @@ val model = DeIdentificationModel.pretrained("deidentify_rb","en","clinical/mode
 
 {:.h2_title}
 ## Data Source
-Rule based DeIdentifier based on `ner_deid`
+Rule based DeIdentifier based on `ner_deid`.

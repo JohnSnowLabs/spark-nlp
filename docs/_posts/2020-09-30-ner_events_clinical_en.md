@@ -1,25 +1,27 @@
 ---
 layout: model
-title: Clinical events NER
+title: Detect Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-09-30
-tags: [ner, en, licensed]
+tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
-use_language_switcher: "Python"
+use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 This model can be used to detect clinical events in medical text.
 
 ## Predicted Entities
-Date,Time,Problem,Test,Treatment,Occurence,Clinical_Dept,Evidential,Duration,Frequency,Admission,Discharge
+`DATE`, `TIME`, `PROBLEM`, `TEST`, `TREATMENT`, `OCCURENCE`, `CLINICAL_DEPT`, `EVIDENTIAL`, `DURATION`, `FREQUENCY`, `ADMISSION`, `DISCHARGE`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_EVENTS_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_EVENTS_CLINICAL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_events_clinical_en_2.5.5_2.4_1597775531760.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 ## How to use
+
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
@@ -28,16 +30,32 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
-
+...
 clinical_ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
+...
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate("The patient presented to the emergency room last evening")
+
+```
+
+```scala
+...
+
+val ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings") 
+  .setOutputCol("ner")
+
+...
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+
+val result = pipeline.fit(Seq.empty["The patient presented to the emergency room last evening"].toDS.toDF("text")).transform(data)
 
 ```
 
@@ -79,7 +97,7 @@ Trained on i2b2 events data with *clinical_embeddings*.
 ## Benchmarking
 ```bash
 |    | label           |     tp |    fp |   fn |     prec |      rec |        f1 |
-|---:|:----------------|-------:|------:|-----:|---------:|---------:|----------:|
+|---:|----------------:|-------:|------:|-----:|---------:|---------:|----------:|
 |  0 | I-TIME          |     82 |    12 |   45 | 0.87234  | 0.645669 | 0.742081  |
 |  1 | I-EVIDENTIAL    |      0 |     3 |   18 | 0        | 0        | 0         |
 |  2 | I-TREATMENT     |   2580 |   439 |  535 | 0.854588 | 0.82825  | 0.841213  |

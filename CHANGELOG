@@ -1,4 +1,14 @@
 ========
+2.6.4
+========
+----------------
+Bugfixes
+----------------
+* Fix loading from a local folder with no access to the cache folder 
+* Fix NullPointerException in DocumentAssembler when there are null in the rows
+* Fix dynamic padding in BertSentenceEmbeddings
+
+========
 2.6.3
 ========
 ---------------

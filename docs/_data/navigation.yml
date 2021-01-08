@@ -29,7 +29,7 @@ docs-en:
         url:    /docs/en/transformers
       - title:  Annotators
         url:    /docs/en/annotators
-      - title:  Auxiliary functions
+      - title:  Helpers
         url:    /docs/en/auxiliary
       - title:  Pipelines
         url:    /docs/en/pipelines
@@ -37,14 +37,32 @@ docs-en:
         url:    /models
       - title:  Training
         url:    /docs/en/training
-      - title:  Tensorflow Graph
-        url:  /docs/en/graph
       - title: Scaladoc
         url: /api/
+      - title: Spark NLP Display
+        url: /docs/en/display
       - title:  Developers
         url:  /docs/en/developers
       - title: Release Notes
         url: /docs/en/release_notes
+  - title: Annotation Lab
+    children:
+      - title:  Getting Started
+        url:    /docs/en/alab
+      - title:  Start Page 
+        url:    /docs/en/start_page
+      - title:  Project Setup
+        url:    /docs/en/project_setup
+      - title:  Import Documents 
+        url:    /docs/en/import
+      - title:  Tasks
+        url:    /docs/en/tasks
+      - title:  Annotate
+        url:    /docs/en/annotation
+      - title:  Export Data  
+        url:    /docs/en/export
+      - title:  Workflow Setup   
+        url:    /docs/en/workflow        
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started

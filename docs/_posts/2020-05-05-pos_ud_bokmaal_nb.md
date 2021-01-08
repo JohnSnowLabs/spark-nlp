@@ -10,6 +10,7 @@ type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
 This model annotates the part of speech of tokens in a text. The [parts of speech](https://universaldependencies.org/u/pos/) annotated include PRON (pronoun), CCONJ (coordinating conjunction), and 15 others. The part of speech model is useful for extracting the grammatical structure of a piece of text automatically.
 
@@ -18,6 +19,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_bokmaal_nb_2.5.0_2.4_1588693881973.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+{:.h2_title}
 ## How to use 
 
 <div class="tabs-box" markdown="1">
@@ -25,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
 pos = PerceptronModel.pretrained("pos_ud_bokmaal", "nb") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
@@ -35,21 +37,23 @@ results = light_pipeline.fullAnnotate("Annet enn å være kongen i nord, er John
 ```
 
 ```scala
-
+...
 val pos = PerceptronModel.pretrained("pos_ud_bokmaal", "nb")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
+val result = pipeline.fit(Seq.empty["Annet enn å være kongen i nord, er John Snow en engelsk lege og en leder innen utvikling av anestesi og medisinsk hygiene."].toDS.toDF("text")).transform(data)
 ```
 
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=4, result='DET', metadata={'word': 'Annet'}, embeddings=[]),
-Row(annotatorType='pos', begin=6, end=8, result='SCONJ', metadata={'word': 'enn'}, embeddings=[]),
-Row(annotatorType='pos', begin=10, end=10, result='PART', metadata={'word': 'å'}, embeddings=[]),
-Row(annotatorType='pos', begin=12, end=15, result='AUX', metadata={'word': 'være'}, embeddings=[]),
-Row(annotatorType='pos', begin=17, end=22, result='NOUN', metadata={'word': 'kongen'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=4, result='DET', metadata={'word': 'Annet'}),
+Row(annotatorType='pos', begin=6, end=8, result='SCONJ', metadata={'word': 'enn'}),
+Row(annotatorType='pos', begin=10, end=10, result='PART', metadata={'word': 'å'}),
+Row(annotatorType='pos', begin=12, end=15, result='AUX', metadata={'word': 'være'}),
+Row(annotatorType='pos', begin=17, end=22, result='NOUN', metadata={'word': 'kongen'}),
 ...]
 ```
 

@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Auxiliary functions
+title: Helper functions
 permalink: /docs/en/auxiliary
 key: docs-auxiliary
 modify_date: "2019-11-28"

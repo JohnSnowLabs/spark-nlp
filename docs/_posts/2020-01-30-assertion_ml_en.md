@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Assertion ML
+title: Detect Assertion Status (assertion_ml_en)
 author: John Snow Labs
 name: assertion_ml_en
 date: 2020-01-30
-tags: [licensed, ner, en]
+tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"

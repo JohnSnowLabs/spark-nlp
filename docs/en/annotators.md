@@ -14,11 +14,11 @@ use_language_switcher: "Python-Scala"
 
 All annotators in Spark NLP share a common interface, this is:
 
-- Annotation -> `Annotation(annotatorType, begin, end, result, metadata,
+- Annotation -> `Annotation(annotatorType, begin, end, result, meta-data,
 embeddings)`
 - AnnotatorType -> some annotators share a type. This is not only
 figurative, but also tells about the structure of the `metadata` map in
-the Annotation. This is the one refered in the input and output of
+the Annotation. This is the one referred in the input and output of
 annotators.
 - Inputs -> Represents how many and which annotator types are expected
 in `setInputCols`. These are column names of output of other annotators

@@ -1,10 +1,10 @@
 ---
 layout: model
-title: NerDLModel Cellular
+title: Detect Cellular/Molecular Biology Entities
 author: John Snow Labs
 name: ner_cellular_en
 date: 2020-04-22
-tags: [ner, en, licensed]
+tags: [ner, en, clinical, licensed]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -15,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for molecular biology related terms. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
 
 ## Predicted Entities 
-DNA, Cell_type, Cell_line, RNA, Protein
+`DNA`, `Cell_type`, `Cell_line`, `RNA`, `Protein`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CELLULAR/){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
@@ -31,13 +31,12 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-
 ```python
-
+...
 cellular_ner = NerDLModel.pretrained("ner_cellular", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
+...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, cellular_ner, ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -47,21 +46,22 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""Detect
 ```
 
 ```scala
+...
 
-val ner = NerDLModel.pretrained("ner_cellular", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+val celular_ner = NerDLModel.pretrained("ner_cellular", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, cellular_ner, ner_converter))
 
-val pipeline = new Pipeline().setStages(Array(ner))
-
-val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["""Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive. """].toDS.toDF("text")).transform(data)
 ```
 
 </div>
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.
+The output is a dataframe with a sentence per row and a ``"ner"`` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select ``"token.result"`` and ``"ner.result"`` from your output dataframe or add the ``"Finisher"`` to the end of your pipeline.
 
 ```bash
 |chunk                                                      |ner      |
@@ -106,11 +106,11 @@ The output is a dataframe with a sentence per row and a "ner" column containing 
 
 {:.h2_title}
 ## Data Source
-Trained on the JNLPBA corpus containing more than 2.404 publication abstracts with 'embeddings_clinical'.
+Trained on the JNLPBA corpus containing more than 2.404 publication abstracts with ``'embeddings_clinical'``.
 http://www.geniaproject.org/
 
 {:.h2_title}
-## Banchmarking
+## Benchmarking
 ```bash
 |    | label         |     tp |    fp |   fn |     prec |      rec |       f1 |
 |---:|:--------------|-------:|------:|-----:|---------:|---------:|---------:|
