@@ -69,7 +69,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.6 -y
 $ conda activate sparknlp
-$ pip install spark-nlp== pyspark==2.4.7
+$ pip install spark-nlp pyspark==2.4.7
 ```
 
 In Python console or Jupyter `Python3` kernel:
