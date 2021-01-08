@@ -2,7 +2,10 @@ package com.johnsnowlabs.ml.tensorflow
 
 import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
 
-import org.tensorflow.Tensor
+import org.tensorflow.ndarray.buffer.{DataBuffers, FloatDataBuffer, IntDataBuffer}
+import org.tensorflow.ndarray.{NdArray, NdArrays, Shape, StdArrays}
+import org.tensorflow.types.{TFloat16, TInt32, TString}
+import org.tensorflow.{DataType, Tensor}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -17,25 +20,26 @@ class TensorResources {
   def createTensor[T](obj: T): Tensor[_] = {
     val result = obj match {
       case str: String =>
-        Tensor.create(str.getBytes("UTF-8"), classOf[String])
-      case _ =>
-        Tensor.create(obj)
+        TString.scalarOf(str)
+      case bidimArray:Array[Array[Float]] =>
+        val flatten = bidimArray.flatten
+        // old-style factory method currently discouraged
+        // TODO TFloat16 o 32?
+        TFloat16.tensorOf(StdArrays.ndCopyOf(bidimArray))
     }
-
     tensors.append(result)
     result
   }
 
 
-  def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
+  def createIntBufferTensor(shape: Array[Long], buf: IntDataBuffer): Tensor[TInt32] = {
 
-    val result = Tensor.create(shape, buf)
-
+    val result = TInt32.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }
 
-  def createLongBufferTensor[T](shape: Array[Long], buf: LongBuffer): Tensor[_] = {
+  def createLongBufferTensor(shape: Array[Long], buf: LongBuffer): Tensor[_] = {
 
     val result = Tensor.create(shape, buf)
 
@@ -72,6 +76,7 @@ class TensorResources {
   }
 
   def createIntBuffer(dim: Int): IntBuffer = {
+
     IntBuffer.allocate(dim)
   }
 
