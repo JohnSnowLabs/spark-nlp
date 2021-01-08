@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Question classification of open-domain, fact-based questions Pipeline - TREC6
+title: Question classification of open-domain and fact-based questions Pipeline - TREC6
 author: John Snow Labs
 name: classifierdl_use_trec6_pipeline
 date: 2021-01-08
