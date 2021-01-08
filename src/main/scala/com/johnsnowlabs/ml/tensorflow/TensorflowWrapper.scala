@@ -54,7 +54,9 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      g.importGraphDef(graph)
+
+
+      //g.importGraphDef(graph)
 
       // create the session and load the variables
       val session = new Session(g, config)
@@ -93,10 +95,13 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      g.importGraphDef(graph)
+      // TODO this breaks with newer TF
+      //g.importGraphDef(graph)
 
       // create the session and load the variables
-      val session = new Session(g, config)
+      // TODO this breaks with newer TF
+      //val session = new Session(g, config)
+      val session = new Session(g)
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
       if(initAllTables) {
         session.runner

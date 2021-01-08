@@ -2,6 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp.annotators.common._
+import org.tensorflow.ndarray.buffer.DataBuffers
 
 import scala.collection.JavaConverters._
 
@@ -66,30 +67,30 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
 
-    val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createIntBuffer(batch.length*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batch.length*maxSentenceLength)
+    val tokenBuffers = DataBuffers.ofInts(batch.length*maxSentenceLength)
+    val maskBuffers = DataBuffers.ofInts(batch.length*maxSentenceLength)
+    val segmentBuffers = DataBuffers.ofInts(batch.length*maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.map { tokenIds =>
       val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.put(Array.fill(maxSentenceLength)(0))
+      segmentBuffers.read(Array.fill(maxSentenceLength)(0))
 
       if (tokenIds.length >= maxSentenceLength) {
-        tokenBuffers.put(tokenIds)
-        maskBuffers.put(tokenIds.map(x=> if (x == 0) 0 else 1))
+        tokenBuffers.read(tokenIds)
+        maskBuffers.read(tokenIds.map(x=> if (x == 0) 0 else 1))
       }
       else {
         val newTokenIds = tokenIds ++ Array.fill(1, diff)(0).head
-        tokenBuffers.put(newTokenIds)
-        maskBuffers.put(newTokenIds.map(x=> if (x == 0) 0 else 1))
+        tokenBuffers.read(newTokenIds)
+        maskBuffers.read(newTokenIds.map(x=> if (x == 0) 0 else 1))
       }
     }
 
-    tokenBuffers.flip()
-    maskBuffers.flip()
-    segmentBuffers.flip()
+    //tokenBuffers.flip()
+    //maskBuffers.flip()
+    //segmentBuffers.flip()
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
@@ -106,11 +107,12 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    tensors.clearSession(outs)
+    // TODO restore
+    //tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenBuffers.clear()
-    maskBuffers.clear()
-    segmentBuffers.clear()
+    //tokenBuffers.clear()
+    //maskBuffers.clear()
+    //segmentBuffers.clear()
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
