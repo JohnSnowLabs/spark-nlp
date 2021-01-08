@@ -38,7 +38,7 @@ annotators = annotator
 embeddings = annotator
 
 def start(gpu=False, spark23=False):
-    current_version = "2.7.0"
+    current_version = "2.7.1"
 
     maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
     maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
@@ -66,4 +66,4 @@ def start(gpu=False, spark23=False):
 
 
 def version():
-    return '2.7.0'
+    return '2.7.1'
