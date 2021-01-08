@@ -158,7 +158,7 @@ class CoNLLUTestSpec extends FlatSpec {
   def assertCoNLLDataSet(conllDataSet: Dataset[_], expectedResult: Array[Seq[Annotation]], columnName: String): Unit = {
     val actualResult = AssertAnnotations.getActualResult(conllDataSet, columnName)
     assert(expectedResult.length == actualResult.length)
-    AssertAnnotations.assertAnnotations(expectedResult, actualResult)
+    AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
 }

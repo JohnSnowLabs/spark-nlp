@@ -23,7 +23,7 @@ object AssertAnnotations {
     }.collect()
   }
 
-  def assertAnnotations(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
+  def assertFields(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
     expectedResult.zipWithIndex.foreach { case (annotationDocument, indexDocument) =>
       val actualDocument = actualResult(indexDocument)
       annotationDocument.zipWithIndex.foreach { case (annotation, index) =>
