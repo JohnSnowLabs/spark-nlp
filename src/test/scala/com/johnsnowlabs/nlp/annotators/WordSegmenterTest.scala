@@ -1,18 +1,16 @@
 package com.johnsnowlabs.nlp.annotators
 
-import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotators.ws.{WordSegmenterApproach, WordSegmenterModel}
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.DataFrame
 import org.scalatest.FlatSpec
 
-import scala.collection.mutable
+import java.nio.file.{Files, Paths}
 
 class WordSegmenterTest extends FlatSpec {
 
@@ -47,8 +45,8 @@ class WordSegmenterTest extends FlatSpec {
     val pipelineModel = pipeline.fit(trainingDataSet)
     val wsDataSet = pipelineModel.transform(testDataSet)
 
-    val actualResult = getActualResult(wsDataSet)
-    assertAnnotations(expectedResult, actualResult)
+    val actualResult = AssertAnnotations.getActualResult(wsDataSet, "token")
+    AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
   it should "tokenize Japanese text" in {
@@ -65,8 +63,8 @@ class WordSegmenterTest extends FlatSpec {
     val pipelineModel = pipeline.fit(trainingDataSet)
     val wsDataSet = pipelineModel.transform(testDataSet)
 
-    val actualResult = getActualResult(wsDataSet)
-    assertAnnotations(expectedResult, actualResult)
+    val actualResult = AssertAnnotations.getActualResult(wsDataSet, "token")
+    AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
   it should "tokenize Korean text" in {
@@ -83,8 +81,8 @@ class WordSegmenterTest extends FlatSpec {
     val pipelineModel = pipeline.fit(trainingDataSet)
     val wsDataSet = pipelineModel.transform(testDataSet)
 
-    val actualResult = getActualResult(wsDataSet)
-    assertAnnotations(expectedResult, actualResult)
+    val actualResult = AssertAnnotations.getActualResult(wsDataSet, "token")
+    AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
   it should "serialize a model" in {
@@ -110,32 +108,8 @@ class WordSegmenterTest extends FlatSpec {
     val pipelineModel = pipeline.fit(PipelineModels.dummyDataset)
     val wsDataSet = pipelineModel.transform(testDataSet)
 
-    val actualResult = getActualResult(wsDataSet)
-    assertAnnotations(expectedResult, actualResult)
-  }
-
-  private def getActualResult(dataSet: Dataset[_]): Array[Seq[Annotation]] = {
-    dataSet.select("token.result", "token.metadata", "token.begin",  "token.end").rdd.map{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[mutable.WrappedArray[Int]]
-      resultSeq.zipWithIndex.map{ case (token, index) =>
-        Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
-      }
-    }.collect()
-  }
-
-  private def assertAnnotations(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
-    expectedResult.zipWithIndex.foreach { case (annotationDocument, indexDocument) =>
-      val actualDocument = actualResult(indexDocument)
-      annotationDocument.zipWithIndex.foreach { case (annotation, index) =>
-        assert(annotation.result == actualDocument(index).result)
-        assert(annotation.begin == actualDocument(index).begin)
-        assert(annotation.end == actualDocument(index).end)
-        assert(annotation.metadata == actualDocument(index).metadata)
-      }
-    }
+    val actualResult = AssertAnnotations.getActualResult(wsDataSet, "token")
+    AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
 }

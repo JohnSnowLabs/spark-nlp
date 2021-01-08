@@ -210,7 +210,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
   private def assertLemmas(lemmaDataSet: Dataset[_], expectedLemmas: Array[Seq[Annotation]]): Unit = {
     val actualLemmas = AssertAnnotations.getActualResult(lemmaDataSet, "lemma")
     assert(actualLemmas.length == expectedLemmas.length)
-    AssertAnnotations.assertAnnotations(expectedLemmas, actualLemmas)
+    AssertAnnotations.assertFields(expectedLemmas, actualLemmas)
   }
 
   it should "download pretrained model" in {
