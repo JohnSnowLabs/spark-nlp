@@ -1,16 +1,13 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
+import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
-/**
-  * Created by saif on 06/07/17.
-  */
 
 class DocumentAssembler(override val uid: String)
   extends Transformer
@@ -95,7 +92,16 @@ class DocumentAssembler(override val uid: String)
       case b => throw new IllegalArgumentException(s"Special Character Cleanup supports only: " +
         s"disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full. Received: $b")
     }
-    Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+    try {
+      Seq(Annotation(outputAnnotatorType, 0, possiblyCleaned.length - 1, possiblyCleaned, metadata))
+    } catch { case _: Exception =>
+      /*
+      * when there is a null in the row
+      * it outputs an empty Annotation
+      * */
+      Seq.empty[Annotation]
+    }
+
   }
 
   private[nlp] def assembleFromArray(texts: Seq[String]): Seq[Annotation] = {
@@ -142,8 +148,8 @@ class DocumentAssembler(override val uid: String)
     metadataBuilder.putString("annotatorType", outputAnnotatorType)
     val documentAnnotations =
       if (dataset.schema.fields.find(_.name == getInputCol)
-          .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
-          .dataType == ArrayType(StringType, containsNull = false))
+        .getOrElse(throw new IllegalArgumentException(s"Dataset does not have any '$getInputCol' column"))
+        .dataType == ArrayType(StringType, containsNull = false))
         dfAssemblyFromArray(
           dataset.col(getInputCol)
         )

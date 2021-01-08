@@ -26,7 +26,16 @@ class TensorResources {
     result
   }
 
+
   def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
+
+    val result = Tensor.create(shape, buf)
+
+    tensors.append(result)
+    result
+  }
+
+  def createLongBufferTensor[T](shape: Array[Long], buf: LongBuffer): Tensor[_] = {
 
     val result = Tensor.create(shape, buf)
 
@@ -64,6 +73,10 @@ class TensorResources {
 
   def createIntBuffer(dim: Int): IntBuffer = {
     IntBuffer.allocate(dim)
+  }
+
+  def createLongBuffer(dim: Int): LongBuffer = {
+    LongBuffer.allocate(dim)
   }
 
   def createFloatBuffer(dim: Int): FloatBuffer = {
