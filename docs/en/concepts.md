@@ -4,7 +4,7 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2020-10-28"
+modify_date: "2021-01-08"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -26,7 +26,7 @@ The basic result of a Spark NLP operation is an **annotation**. It's structure i
 - **metadata:** content of matched result and additional information
 - **embeddings:** (new in 2.0) contains vector mappings if required
 
-This object is **automatically generated** by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it. 
+This object is **automatically generated** by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it.
 
 ## Annotators
 
@@ -55,25 +55,25 @@ You can run these examples using Python or Scala.
 The easiest way to run the python examples is by starting a pyspark jupyter notebook including the spark-nlp package:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.1
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.1
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.1
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.0`
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.1`
 
 **NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
 
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.0`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.7.0`
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.1`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.7.1`
 
 </div><div class="h3-box" markdown="1">
 

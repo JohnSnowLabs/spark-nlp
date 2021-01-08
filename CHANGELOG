@@ -1,4 +1,29 @@
 ========
+2.7.1
+========
+----------------
+Bugfixes
+----------------
+* Fix default pretrained model T5Transformer
+* Fix default pretrained model WordSegmenter
+* Fix missing reference to WordSegmenter in ResourceDwonloader
+* Fix T5Transformer models crashing due to unknown task
+* Fix the issue of saving and reading ClassifierDL, SentimentDL, and MultiClassifierDL models introduced in the 2.7.0 release
+
+----------------
+Enhancements
+----------------
+* Export new T5 models with optimized Encoder/Decoder
+* Add support for alternative tagging with the positional parser in RegexTokenizer
+* Refactor AssertAnnotations
+
+----------------
+Backward compatibility
+----------------
+* In order to fix the issue of Classifiers in the clusters, we had to export new TF models and change the read/write functions of these annotators. This caused any model trained prior to the 2.7.0 release not to be compatible with 2.7.1 and require retraining including pre-trained models. (we are re-training all the existing text classification models with 2.7.1)
+
+
+========
 2.7.0
 ========
 ------------------------------

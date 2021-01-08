@@ -343,7 +343,8 @@ class RegexTokenizer(AnnotatorModel):
             outputCol="regexToken",
             toLowercase=False,
             minLength=1,
-            pattern="\\s+"
+            pattern="\\s+",
+            positionalMask=False
         )
 
     minLength = Param(Params._dummy(),
@@ -366,6 +367,11 @@ class RegexTokenizer(AnnotatorModel):
                     "regex pattern used for tokenizing. Defaults \S+",
                     typeConverter=TypeConverters.toString)
 
+    positionalMask = Param(Params._dummy(),
+                           "positionalMask",
+                           "Using a positional mask to guarantee the incremental progression of the tokenization.",
+                           typeConverter=TypeConverters.toBoolean)
+
     def setMinLength(self, value):
         return self._set(minLength=value)
 
@@ -377,6 +383,9 @@ class RegexTokenizer(AnnotatorModel):
 
     def setPattern(self, value):
         return self._set(pattern=value)
+
+    def setPositionalMask(self, value):
+        return self._set(positionalMask=value)
 
 
 class ChunkTokenizer(Tokenizer):
@@ -3176,7 +3185,7 @@ class WordSegmenterModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="word_segmenter", lang="en", remote_loc=None):
+    def pretrained(name="wordseg_weibo", lang="zh", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
@@ -3217,7 +3226,7 @@ class T5Transformer(AnnotatorModel):
         return T5Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="t5_small", lang="xx", remote_loc=None):
+    def pretrained(name="t5_small", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
 
