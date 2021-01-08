@@ -19,8 +19,8 @@ Classify open-domain, fact-based questions into one of the following broad seman
 ``ABBR``,  ``DESC``,  ``NUM``,  ``ENTY``,  ``LOC``,  ``HUM``.
 
 {:.btn-box}
-[Live Demo](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb){:.button.button-orange}
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_TREC/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_trec6_en_2.7.1_2.4_1610118062425.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -104,3 +104,7 @@ val result = pipeline.fit(Seq.empty["When did the construction of stone circles 
    macro avg       0.75      0.76      0.75      1633
 weighted avg       0.88      0.89      0.89      1633
 ```
+
+## Data Source
+
+This model is trained on the 50 class version of the TREC dataset. http://search.r-project.org/library/textdata/html/dataset_trec.html
