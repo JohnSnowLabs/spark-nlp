@@ -178,7 +178,7 @@ trait VocabParser extends SpecialClassParser {
   }
 }
 
-object NumberToken extends RegexParser with SerializableClass {
+class NumberToken extends RegexParser with SerializableClass {
   /* used during candidate generation(correction) - must be finite */
   override var regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
   override val label = "_NUM_"
@@ -287,7 +287,7 @@ class MedicationClass extends VocabParser with SerializableClass {
 
 }
 
-object AgeToken extends RegexParser with SerializableClass {
+class AgeToken extends RegexParser with SerializableClass {
 
   override var regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
   override val label: String = "_AGE_"
@@ -306,7 +306,7 @@ object AgeToken extends RegexParser with SerializableClass {
 }
 
 
-object UnitToken extends VocabParser with SerializableClass {
+class UnitToken extends VocabParser with SerializableClass {
 
   override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
     "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
@@ -328,7 +328,7 @@ object UnitToken extends VocabParser with SerializableClass {
 
 }
 
-object DateToken extends RegexParser with WeightedLevenshtein with SerializableClass {
+class DateToken extends RegexParser with WeightedLevenshtein with SerializableClass {
 
   override var regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
   override val label = "_DATE_"

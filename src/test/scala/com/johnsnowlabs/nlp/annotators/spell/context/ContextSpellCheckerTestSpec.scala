@@ -1,8 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 import java.io.File
-
-import com.github.liblevenshtein.serialization.PlainTextSerializer
-
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
@@ -18,9 +15,6 @@ import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.io.FileInputStream
 import java.io.ObjectInputStream
-
-
-
 
 
 
@@ -79,11 +73,11 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   "Special classes" should "serialize/deserialize properly during model save" in {
     import SparkAccessor.spark
 
-    val specialClasses = Seq(AgeToken, UnitToken, NumberToken,
+    val specialClasses = Seq(new AgeToken, new UnitToken, new NumberToken,
       new LocationClass("./src/test/resources/spell/locations.txt"),
       new NamesClass("./src/test/resources/spell/names.txt"),
       new MedicationClass("./src/test/resources/spell/meds.txt"),
-      DateToken)
+      new DateToken)
 
     specialClasses.foreach { specialClass =>
         val dataPathObject = "/tmp/object"
@@ -105,17 +99,16 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
         }
 
         sc.transducer.transduce("aaa")
-
     }
   }
 
   "Special classes" should "serialize/deserialize properly - during execution" in {
 
-    val specialClasses = Seq(AgeToken, UnitToken, NumberToken,
+    val specialClasses = Seq(new AgeToken, new UnitToken, new NumberToken,
       new LocationClass("./src/test/resources/spell/locations.txt"),
       new NamesClass("./src/test/resources/spell/names.txt"),
       new MedicationClass("./src/test/resources/spell/meds.txt"),
-      DateToken)
+      new DateToken)
 
     specialClasses.foreach{ specialClass =>
 
