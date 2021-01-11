@@ -79,9 +79,8 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   "Special classes" should "serialize/deserialize properly during model save" in {
     import SparkAccessor.spark
 
-    val loc = new LocationClass("./src/test/resources/spell/locations.txt")
-    val specialClasses = Seq(//AgeToken, UnitToken, NumberToken,
-      loc,
+    val specialClasses = Seq(AgeToken, UnitToken, NumberToken,
+      new LocationClass("./src/test/resources/spell/locations.txt"),
       new NamesClass("./src/test/resources/spell/names.txt"),
       new MedicationClass("./src/test/resources/spell/meds.txt"),
       DateToken)
@@ -100,12 +99,17 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
         // load object
         val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
         assert(sc.transducer != null)
+        sc match {
+          case vp:VocabParser => assert(vp.vocab != null)
+          case _ =>
+        }
+
         sc.transducer.transduce("aaa")
 
     }
   }
 
-  "Special classes" should "serialize/deserialize properly - during execution" ignore {
+  "Special classes" should "serialize/deserialize properly - during execution" in {
 
     val specialClasses = Seq(AgeToken, UnitToken, NumberToken,
       new LocationClass("./src/test/resources/spell/locations.txt"),
@@ -117,7 +121,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
       val path = "special_class.ser"
       val f = new File(path)
-      if (f.exists()) FileUtils.deleteDirectory(f)
+      if (f.exists()) FileUtils.forceDelete(f)
 
       // write to disk
       val fileOut: FileOutputStream = new FileOutputStream(path)
@@ -131,9 +135,13 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       val in: ObjectInputStream = new ObjectInputStream(fileIn)
       val deserialized = in.readObject.asInstanceOf[SpecialClassParser]
       assert(deserialized.transducer != null)
+      deserialized match {
+        case vp:VocabParser =>
+          assert(vp.vocab != null)
+        case _ =>
+      }
       deserialized.transducer.transduce("something")
       in.close()
-
     }
   }
 

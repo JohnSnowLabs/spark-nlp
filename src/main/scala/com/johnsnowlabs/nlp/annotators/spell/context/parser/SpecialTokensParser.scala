@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.context.parser
 
 import java.io.{IOException, ObjectInputStream, ObjectOutputStream}
-
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.Algorithm
 import com.github.liblevenshtein.serialization.PlainTextSerializer
@@ -10,7 +9,6 @@ import com.navigamez.greex.GreexGenerator
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.serialization.Feature
 import com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein
-import com.johnsnowlabs.nlp.annotators.spell.context.parser.AgeToken.{generateTransducer, transducer}
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
