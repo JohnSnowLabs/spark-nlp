@@ -104,7 +104,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
 
   setDefault(minCount -> 3.0,
-    specialClasses -> List(DateToken, NumberToken),
+    specialClasses -> List(new DateToken, new NumberToken),
     wordMaxDistance -> 3,
     maxCandidates -> 6,
     languageModelClasses -> 2000,

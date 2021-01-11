@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.context.parser
 
-import java.io.{IOException, ObjectInputStream, ObjectOutputStream}
+import java.io.{ObjectInputStream, ObjectOutputStream}
 import com.esotericsoftware.kryo.KryoSerializable
 import com.esotericsoftware.kryo.io.{Input, Output}
 import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
