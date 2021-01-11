@@ -224,7 +224,7 @@ This can also be used to create a SparkSession manually by using the `spark.jars
 **NOTE**: In case you are using large pretrained models like UniversalSentenceEncoder, you need to have the following set in your SparkSession:
 
 ```sh
-spark-shell --driver-memory 16g --conf spark.kryoserializer.buffer.max 1000M --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.1
+spark-shell --driver-memory 16g --conf spark.kryoserializer.buffer.max=1000M --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.1
 ```
 
 ## Scala
