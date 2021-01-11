@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 import java.io.File
 
-import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, Transducer}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
@@ -16,6 +15,8 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 import scala.collection.mutable
+
+
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
@@ -70,45 +71,42 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
   // This test fails in GitHub Actions
-  "UnitClass" should "serilize/deserialize properly" ignore {
+  "UnitClass" should "serialize/deserialize properly" in {
 
     import SparkAccessor.spark
-    val dataPathTrans = "./tmp/transducer"
-    val dataPathObject = "./tmp/object"
+    val lc = new LocationClass()
 
-    val f1 = new File(dataPathTrans)
-    val f2 = new File(dataPathObject)
-    if (f1.exists()) f1.delete()
-    if (f2.exists()) f2.delete()
+    lc.vocab = lc.loadDataset("./src/test/resources/spell/names.txt")
+    lc.t = lc.generateTransducer
 
-    val serializer = new PlainTextSerializer
+    val tc = new TestClass("./src/test/resources/spell/names.txt")
 
-    val specialClass = UnitToken
-    val transducer = specialClass.transducer
-    specialClass.setTransducer(null)
+    val specialClasses = Seq(//UnitToken, NumberToken,
+      tc,
+      //new NamesClass("./src/test/resources/spell/names.txt"),
+      new MedicationClass("./src/test/resources/spell/meds.txt"),
+      AgeToken, DateToken)
 
-    // the object per se
-    FileUtils.deleteDirectory(new File(dataPathObject))
-    spark.sparkContext.parallelize(Seq(specialClass)).
-      saveAsObjectFile(dataPathObject)
+    specialClasses.foreach { specialClass =>
+        val dataPathObject = "/tmp/object"
 
-    // we handle the transducer separately
-    FileUtils.deleteDirectory(new File(dataPathTrans))
-    val transBytes = serializer.serialize(transducer)
-    spark.sparkContext.parallelize(transBytes.toSeq, 1).
-      saveAsObjectFile(dataPathTrans)
+        val f = new File(dataPathObject)
+        if (f.exists()) FileUtils.deleteDirectory(f)
 
-    // load transducer
-    val bytes = spark.sparkContext.objectFile[Byte](dataPathTrans).collect()
-    val trans = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+        val serializer = new PlainTextSerializer
 
-    // the object
-    val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
-    sc.setTransducer(trans)
+        // persist object
+        FileUtils.deleteDirectory(new File(dataPathObject))
+        spark.sparkContext.parallelize(Seq(specialClass)).
+          saveAsObjectFile(dataPathObject)
 
+        // load object
+        val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
+
+    }
   }
 
-  "Medication class" should "serilize/deserialize properly - memory" in {
+  "Medication class" should "serilize/deserialize properly - memory" ignore {
     import java.io.FileOutputStream
     import java.io.ObjectOutputStream
     import java.io.FileInputStream
