@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.context
 import java.io.File
 
 import com.github.liblevenshtein.serialization.PlainTextSerializer
-import com.github.liblevenshtein.transducer.{Candidate, Transducer}
+
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
@@ -14,7 +14,12 @@ import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
-import scala.collection.mutable
+import java.io.FileOutputStream
+import java.io.ObjectOutputStream
+import java.io.FileInputStream
+import java.io.ObjectInputStream
+
+
 
 
 
@@ -71,29 +76,21 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
   // This test fails in GitHub Actions
-  "UnitClass" should "serialize/deserialize properly" in {
-
+  "Special classes" should "serialize/deserialize properly during model save" in {
     import SparkAccessor.spark
-    val lc = new LocationClass()
 
-    lc.vocab = lc.loadDataset("./src/test/resources/spell/names.txt")
-    lc.t = lc.generateTransducer
-
-    val tc = new TestClass("./src/test/resources/spell/names.txt")
-
-    val specialClasses = Seq(//UnitToken, NumberToken,
-      tc,
-      //new NamesClass("./src/test/resources/spell/names.txt"),
+    val loc = new LocationClass("./src/test/resources/spell/locations.txt")
+    val specialClasses = Seq(//AgeToken, UnitToken, NumberToken,
+      loc,
+      new NamesClass("./src/test/resources/spell/names.txt"),
       new MedicationClass("./src/test/resources/spell/meds.txt"),
-      AgeToken, DateToken)
+      DateToken)
 
     specialClasses.foreach { specialClass =>
         val dataPathObject = "/tmp/object"
 
         val f = new File(dataPathObject)
         if (f.exists()) FileUtils.deleteDirectory(f)
-
-        val serializer = new PlainTextSerializer
 
         // persist object
         FileUtils.deleteDirectory(new File(dataPathObject))
@@ -102,31 +99,42 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
         // load object
         val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
+        assert(sc.transducer != null)
+        sc.transducer.transduce("aaa")
 
     }
   }
 
-  "Medication class" should "serilize/deserialize properly - memory" ignore {
-    import java.io.FileOutputStream
-    import java.io.ObjectOutputStream
-    import java.io.FileInputStream
-    import java.io.ObjectInputStream
+  "Special classes" should "serialize/deserialize properly - during execution" ignore {
 
-    // write to disk
-    val fileOut: FileOutputStream = new FileOutputStream("medication.ser")
-    val out: ObjectOutputStream = new ObjectOutputStream(fileOut)
-    val medClass = new MedicationClass("../spark-nlp-training/data/meds_wcase.txt")
+    val specialClasses = Seq(AgeToken, UnitToken, NumberToken,
+      new LocationClass("./src/test/resources/spell/locations.txt"),
+      new NamesClass("./src/test/resources/spell/names.txt"),
+      new MedicationClass("./src/test/resources/spell/meds.txt"),
+      DateToken)
 
-    out.writeObject(medClass)
-    out.close()
+    specialClasses.foreach{ specialClass =>
 
-    // read from disk
-    val fileIn: FileInputStream = new FileInputStream("medication.ser")
-    val in: ObjectInputStream = new ObjectInputStream(fileIn)
-    val deserializedMed = in.readObject.asInstanceOf[MedicationClass]
-    in.close()
+      val path = "special_class.ser"
+      val f = new File(path)
+      if (f.exists()) FileUtils.deleteDirectory(f)
 
+      // write to disk
+      val fileOut: FileOutputStream = new FileOutputStream(path)
+      val out: ObjectOutputStream = new ObjectOutputStream(fileOut)
 
+      out.writeObject(specialClass)
+      out.close()
+
+      // read from disk
+      val fileIn: FileInputStream = new FileInputStream(path)
+      val in: ObjectInputStream = new ObjectInputStream(fileIn)
+      val deserialized = in.readObject.asInstanceOf[SpecialClassParser]
+      assert(deserialized.transducer != null)
+      deserialized.transducer.transduce("something")
+      in.close()
+
+    }
   }
 
 

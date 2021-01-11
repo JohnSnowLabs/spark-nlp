@@ -10,6 +10,7 @@ import com.navigamez.greex.GreexGenerator
 import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.serialization.Feature
 import com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein
+import com.johnsnowlabs.nlp.annotators.spell.context.parser.AgeToken.{generateTransducer, transducer}
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
@@ -114,6 +115,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
 trait SpecialClassParser {
 
   val label:String
+
   @transient
   var transducer : ITransducer[Candidate] = null
   val maxDist: Int
@@ -179,15 +181,12 @@ trait VocabParser extends SpecialClassParser {
 }
 
 object NumberToken extends RegexParser with SerializableClass {
-
   /* used during candidate generation(correction) - must be finite */
   override var regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
-
-  //override var transducer: ITransducer[Candidate] = generateTransducer
-
   override val label = "_NUM_"
-
   override val maxDist: Int = 2
+
+  transducer = generateTransducer
 
   /* used to parse corpus - potentially infinite */
   private val numRegex =
@@ -217,14 +216,17 @@ object NumberToken extends RegexParser with SerializableClass {
 }
 
 
-class LocationClass extends VocabParser with SerializableClass {
-
+class LocationClass() extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
   override val label: String = "_LOC_"
   override val maxDist: Int = 3
 
-  var t: ITransducer[Candidate] = null
+  def this(path: String) = {
+    this()
+    vocab = loadDataset(path)
+    transducer = generateTransducer
+  }
 
   @throws(classOf[IOException])
   private def readObject(aInputStream: ObjectInputStream): Unit = {
@@ -238,62 +240,12 @@ class LocationClass extends VocabParser with SerializableClass {
 }
 
 
-class TestClass extends Serializable with VocabParser with SerializableClass {
-
-  val str = "ss"
-  def this(path: String) = {
-    this()
-    vocab = loadDataset(path)
-    transducer = generateTransducer
-  }
-
-  @throws(classOf[IOException])
-  private def readObject(aInputStream: ObjectInputStream): Unit = {
-    val dsd = 3232
-  }
-
-  @throws(classOf[IOException])
-  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
-    val dsd = 3232
-  }
-  override var vocab = Set.empty[String]
-  //override var transducer: ITransducer[Candidate] = null
-  override val label: String = "_LOC_"
-  override val maxDist: Int = 3
-}
-
-object NamesClass extends VocabParser with SerializableClass {
+class NamesClass extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
-  //override var transducer: ITransducer[Candidate] = null
   override val label: String = "_NAME_"
   override val maxDist: Int = 3
 
-  def load(path: String) = {
-    
-    vocab = loadDataset(path)
-    transducer = generateTransducer
-  }
-
-  @throws[IOException]
-  private def readObject(aInputStream: ObjectInputStream): Unit = {
-    transducer = deserializeTransducer(aInputStream)
-  }
-
-  @throws[IOException]
-  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
-    serializeTransducer(aOutputStream, transducer)
-  }
-}
-
-
-class PossessiveClass extends VocabParser with SerializableClass {
-
-  override var vocab = Set.empty[String]
-  //var transducer: ITransducer[Candidate] = null
-  override val label: String = "_POSS_"
-  override val maxDist: Int = 3
-
   def this(path: String) = {
     this()
     vocab = loadDataset(path)
@@ -309,14 +261,13 @@ class PossessiveClass extends VocabParser with SerializableClass {
   private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
     serializeTransducer(aOutputStream, transducer)
   }
-
 }
+
+
 
 class MedicationClass extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
-  @transient
-  //override var transducer: ITransducer[Candidate] = null
   override val label: String = "_MED_"
   override val maxDist: Int = 3
 
@@ -341,11 +292,10 @@ class MedicationClass extends VocabParser with SerializableClass {
 object AgeToken extends RegexParser with SerializableClass {
 
   override var regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
-  //override var transducer: ITransducer[Candidate] = generateTransducer
   override val label: String = "_AGE_"
   override val maxDist: Int = 2
 
-
+  transducer = generateTransducer
   @throws[IOException]
   private def readObject(aInputStream: ObjectInputStream): Unit = {
     transducer = deserializeTransducer(aInputStream)
@@ -363,11 +313,10 @@ object UnitToken extends VocabParser with SerializableClass {
   override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
     "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
     "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG", "mcg/inh")
-
-  //override var transducer: ITransducer[Candidate] = generateTransducer
   override val label: String = "_UNIT_"
   override val maxDist: Int = 3
 
+  transducer = generateTransducer
 
   @throws[IOException]
   private def readObject(aInputStream: ObjectInputStream): Unit = {
@@ -384,11 +333,12 @@ object UnitToken extends VocabParser with SerializableClass {
 object DateToken extends RegexParser with WeightedLevenshtein with SerializableClass {
 
   override var regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
-  //override var transducer: ITransducer[Candidate] = generateTransducer
   override val label = "_DATE_"
   override val maxDist: Int = 2
 
   val dateRegex = "(01|02|03|04|05|06|07|08|09|10|11|12)/[0-3][0-9]/(1|2)[0-9]{3}".r
+
+  transducer = generateTransducer
 
   def separate(word: String): String = {
     val matcher = dateRegex.pattern.matcher(word)

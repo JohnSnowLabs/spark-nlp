@@ -127,7 +127,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val newClass = new VocabParser {
       override var vocab: mutable.Set[String] = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
       override val label: String = usrLabel
-      override var transducer: ITransducer[Candidate] = generateTransducer
+      transducer = generateTransducer
       override val maxDist: Int = userDist
     }
     setSpecialClasses(getOrDefault(specialClasses):+newClass)
@@ -137,7 +137,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val newClass = new RegexParser {
       override var regex: String = usrRegex
       override val label: String = usrLabel
-      override var transducer: ITransducer[Candidate] = generateTransducer
+      transducer = generateTransducer
       override val maxDist: Int = userDist
     }
     setSpecialClasses(getOrDefault(specialClasses):+newClass)
