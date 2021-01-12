@@ -1,17 +1,20 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.util
+
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization._
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.spell.context.parser.{RegexParser, SpecialClassParser, TransducerSeqFeature, VocabParser}
+import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
+
+import scala.collection.mutable
 
 
 class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel]
@@ -24,7 +27,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   val transducer = new TransducerFeature(this, "mainVocabularyTransducer")
   def setVocabTransducer(trans:ITransducer[Candidate]): this.type = {
-    set(transducer, trans)
+    val main = new MainVocab()
+    main.transducer = trans
+
+    set(transducer, main)
   }
 
   val specialTransducers = new TransducerSeqFeature(this, "specialClassesTransducers")
@@ -259,7 +265,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   def getVocabCandidates(token: String, maxDist:Int) = {
     import scala.collection.JavaConversions._
-    val trans = $$(transducer)
+    val trans = $$(transducer).transducer
     // we use all case information as it comes
     val plainCandidates = trans.transduce(token, maxDist).
       toList.map(c => (c.term, c.term, c.distance.toFloat))

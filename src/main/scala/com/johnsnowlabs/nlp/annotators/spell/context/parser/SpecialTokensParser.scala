@@ -71,8 +71,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       // hadoop won't see files starting with '_'
       val label = specialClass.label.replaceAll("_", "-")
 
-      val transducer = specialClass.transducer
-      specialClass.setTransducer(null)
+
       // the object per se
       spark.createDataset(Seq(specialClass)).
         write.mode("overwrite").
@@ -86,7 +85,6 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
-    val serializer = new PlainTextSerializer
 
     if (fs.exists(dataPath)) {
       val elements = fs.listFiles(dataPath, false)
@@ -233,6 +231,32 @@ class LocationClass() extends VocabParser with SerializableClass {
     serializeTransducer(aOutputStream, transducer)
   }
 }
+
+
+
+class MainVocab() extends VocabParser with SerializableClass {
+
+  override var vocab = Set.empty[String]
+  override val label: String = "_MAIN_"
+  override val maxDist: Int = 3
+
+  def this(path: String) = {
+    this()
+    vocab = loadDataset(path)
+    transducer = generateTransducer
+  }
+
+  @throws(classOf[IOException])
+  private def readObject(aInputStream: ObjectInputStream): Unit = {
+    transducer = deserializeTransducer(aInputStream)
+  }
+
+  @throws(classOf[IOException])
+  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
+    serializeTransducer(aOutputStream, transducer)
+  }
+}
+
 
 
 class NamesClass extends VocabParser with SerializableClass {
