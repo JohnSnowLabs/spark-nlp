@@ -33,7 +33,9 @@ import scala.xml.XML
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class DocumentNormalizer(override val uid: String) extends AnnotatorModel[DocumentNormalizer] {
+class DocumentNormalizer(override val uid: String)
+  extends AnnotatorModel[DocumentNormalizer]
+    with HasSimpleAnnotate[DocumentNormalizer] {
 
   private val EMPTY_STR = ""
   private val BREAK_STR = "|##|"
