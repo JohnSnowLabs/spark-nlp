@@ -241,6 +241,7 @@ OUTPUT:
 The output of the previous DataFrame was in terms of Annotation objects. This output is not really comfortable to deal with, as you can see by
 running the code:
 
+
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
