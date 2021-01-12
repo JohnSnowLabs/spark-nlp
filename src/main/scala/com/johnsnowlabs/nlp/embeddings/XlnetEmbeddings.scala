@@ -232,7 +232,7 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
 
   def readTensorflow(instance: XlnetEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_xlnet_tf", initAllTables = true)
-    val spp = readSentencePieceModel(path, spark, "_xlnet_spp" )
+    val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 

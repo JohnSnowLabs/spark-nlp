@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 

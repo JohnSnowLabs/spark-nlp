@@ -6,7 +6,6 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
@@ -180,7 +179,7 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
 
   def readTensorflow(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_albert_tf", initAllTables = true)
-    val spp = readSentencePieceModel(path, spark, "_albert_spp" )
+    val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 

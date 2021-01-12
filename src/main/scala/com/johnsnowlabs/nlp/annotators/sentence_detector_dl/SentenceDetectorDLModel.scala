@@ -66,6 +66,13 @@ class SentenceDetectorDLModel(override val uid: String)
    **/
   val impossiblePenultimates = new StringArrayParam(this, "impossiblePenultimates", "Impossible penultimates")
 
+  /** whether to only utilize custom bounds for sentence detection */
+  val useCustomBoundsOnly = new BooleanParam(this, "useCustomBoundsOnly", "whether to only utilize custom bounds for sentence detection")
+
+
+  /** characters used to explicitly mark sentence bounds */
+  val customBounds: StringArrayParam = new StringArrayParam(this, "customBounds", "characters used to explicitly mark sentence bounds")
+
   /** Set impossible penultimates
    *
    * @group setParam

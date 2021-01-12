@@ -37,7 +37,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
                                  targetSentences: Array[TokenizedSentence]
                                ): Unit = {
     s"Average Perceptron tagger" should "successfully tag all word sentences after training" in {
-      val result = trainedTagger.tag(targetSentences)
+      val result = trainedTagger.tag(trainedTagger.getModel, targetSentences)
       assert(result.head.words.length == targetSentences.head.tokens.length, "because tagger returned less than" +
         " the amount of appropriate tagged words")
     }
@@ -49,7 +49,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
                                   expectedTags: Array[String]
                                 ): Unit = {
     s"Average Perceptron tagger" should "successfully return expected tags" in {
-      val resultTags = trainedTagger.tag(targetSentence).head
+      val resultTags = trainedTagger.tag(trainedTagger.getModel, targetSentence).head
       val resultContent = resultTags.taggedWords.zip(expectedTags)
         .filter(rte => rte._1.tag != rte._2)
         .map(rte => (rte._1.word, (rte._1.tag, rte._2)))
