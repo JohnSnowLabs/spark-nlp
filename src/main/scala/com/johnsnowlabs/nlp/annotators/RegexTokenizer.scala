@@ -27,7 +27,9 @@ import org.apache.spark.ml.util.Identifiable
   *
   * @see [[RegexTokenizer]]
   */
-class RegexTokenizer(override val uid: String) extends AnnotatorModel[RegexTokenizer] with HasSimpleAnnotate[RegexTokenizer] {
+class RegexTokenizer(override val uid: String)
+  extends AnnotatorModel[RegexTokenizer]
+    with HasSimpleAnnotate[RegexTokenizer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
