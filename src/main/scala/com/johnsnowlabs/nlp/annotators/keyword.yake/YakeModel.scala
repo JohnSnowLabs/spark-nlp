@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.immutable.ListMap
 import scala.collection.{immutable, mutable}
 import scala.collection.mutable.ListBuffer
-import com.johnsnowlabs.nlp.AnnotatorType.{KEYWORD, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, KEYWORD}
 import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Token
 
 import scala.math.sqrt

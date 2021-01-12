@@ -47,6 +47,7 @@ import java.io.File
   */
 class MarianTransformer(override val uid: String) extends
   AnnotatorModel[MarianTransformer]
+  with HasSimpleAnnotate[MarianTransformer]
   with WriteTensorflowModel
   with WriteSentencePieceModel {
 
