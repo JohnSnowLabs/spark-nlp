@@ -116,6 +116,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         r.transducer = r.generateTransducer
       case _ => require(false, s"Class $label is not a regex class.")
     }
+    this
   }
 
   /* update a vocabulary class */
@@ -123,7 +124,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     val vocab =  scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
     val classes = $$(specialTransducers)
     require(classes.count(_.label == label) == 1,
-      s"Not found regex class $label. You can only update existing classes.")
+      s"Not found vocab class $label. You can only update existing classes.")
 
     classes.filter(_.label.equals(label)).head match {
       case v:VocabParser =>
@@ -132,6 +133,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         v.transducer = v.generateTransducer
       case _ => require(false, s"Class $label is not a vocabulary class.")
     }
+    this
   }
 
   setDefault(tradeoff -> 18.0f,
