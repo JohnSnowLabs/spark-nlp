@@ -14,6 +14,8 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.io.filefilter.WildcardFileFilter
 import org.apache.hadoop.fs.Path
+import org.tensorflow.exceptions.TensorFlowException
+import org.tensorflow.proto.framework.{ConfigProto, GraphDef}
 
 
 case class Variables(variables:Array[Byte], index:Array[Byte])
@@ -54,13 +56,12 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-
-
-      //g.importGraphDef(graph)
+      g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, config)
+      val session = new Session(g, ConfigProto.parseFrom(config))
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
+
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(variablesPath))
         .run()
@@ -136,10 +137,10 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      g.importGraphDef(graph)
+      g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, config)
+      val session = new Session(g)//, config)
 
       msession = session
     }
@@ -269,9 +270,9 @@ object TensorflowWrapper {
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
     try {
-      graph.importGraphDef(graphBytesDef)
+      graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
     } catch {
-      case e: org.tensorflow.TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
+      case e: TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
         throw new UnsupportedOperationException("Spark NLP tried to load a TensorFlow Graph using Contrib module, but" +
           " failed to load it on this system. If you are on Windows, please follow the correct steps for setup: " +
           "https://github.com/JohnSnowLabs/spark-nlp/issues/1022" +

@@ -4,6 +4,7 @@ import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
 
 import org.tensorflow.ndarray.buffer._
 import org.tensorflow.ndarray.{NdArray, NdArrays, Shape, StdArrays}
+import org.tensorflow.types.family.TType
 import org.tensorflow.types.{TFloat16, TInt32, TInt64, TString}
 import org.tensorflow.{DataType, Tensor}
 
@@ -17,7 +18,7 @@ import scala.language.existentials
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
 
-  def createTensor[T](obj: T): Tensor[_] = {
+  def createTensor[T](obj: T): Tensor[_ <: TType] = {
     val result = obj match {
       case str: String =>
         TString.scalarOf(str)
