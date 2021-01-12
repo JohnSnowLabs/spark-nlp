@@ -50,10 +50,8 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       var result = Seq[SpecialClassParser]()
       elements.foreach { element =>
         val path = element.getPath()
-        if (path.getName.contains("transducer")) {
-          val sc = spark.sparkContext.objectFile[SpecialClassParser](path.toString.dropRight(10)).collect().head
-          result = result :+ sc
-        }
+        val sc = spark.sparkContext.objectFile[SpecialClassParser](path.toString).collect().head
+        result = result :+ sc
       }
 
       Some(result)
@@ -96,11 +94,10 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       while (elements.hasNext) {
         val next = elements.next
         val path = next.getPath.toString
-        if (path.contains("transducer")) {
-          // the object
-          val sc = spark.read.parquet(path.dropRight(10)).as[SpecialClassParser].collect.head
-          result = result :+ sc
-        }
+
+        // the object
+        val sc = spark.read.parquet(path).as[SpecialClassParser].collect.head
+        result = result :+ sc
       }
       Some(result)
     } else {
