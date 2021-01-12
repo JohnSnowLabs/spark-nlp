@@ -1,14 +1,10 @@
 package com.johnsnowlabs.nlp.annotators
 
 import java.nio.charset.{Charset, StandardCharsets}
-<<<<<<< HEAD
 
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
-=======
-import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
->>>>>>> 8436061b94de20cd090a240e421358ece8606f1a
+
 import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
