@@ -75,16 +75,16 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
 
     batch.map { tokenIds =>
       val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.read(Array.fill(maxSentenceLength)(0))
+      segmentBuffers.write(Array.fill(maxSentenceLength)(0))
 
       if (tokenIds.length >= maxSentenceLength) {
-        tokenBuffers.read(tokenIds)
-        maskBuffers.read(tokenIds.map(x=> if (x == 0) 0 else 1))
+        tokenBuffers.write(tokenIds)
+        maskBuffers.write(tokenIds.map(x=> if (x == 0) 0 else 1))
       }
       else {
         val newTokenIds = tokenIds ++ Array.fill(1, diff)(0).head
-        tokenBuffers.read(newTokenIds)
-        maskBuffers.read(newTokenIds.map(x=> if (x == 0) 0 else 1))
+        tokenBuffers.write(newTokenIds)
+        maskBuffers.write(newTokenIds.map(x=> if (x == 0) 0 else 1))
       }
     }
 
