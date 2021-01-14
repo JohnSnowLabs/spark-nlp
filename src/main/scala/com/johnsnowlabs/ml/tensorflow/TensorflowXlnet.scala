@@ -92,9 +92,9 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     maskBuffers.flip()
     segmentBuffers.flip()
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createFloatBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
+    val tokenTensors = tensors.createIntBufferTensor(shape, null)
+    val maskTensors = tensorsMasks.createFloatBufferTensor(shape, null)
+    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, null)
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
 
@@ -107,7 +107,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    tensors.clearSession(outs)
+    //tensors.clearSession(outs)
     tensors.clearTensors()
     tokenBuffers.clear()
     maskBuffers.clear()

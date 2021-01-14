@@ -73,24 +73,18 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.map { tokenIds =>
+    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+      // this one marks the beginning of each sentence in the flatten structure
+      val offset = idx * maxSentenceLength
       val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.write(Array.fill(maxSentenceLength)(0))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
 
-      if (tokenIds.length >= maxSentenceLength) {
-        tokenBuffers.write(tokenIds)
-        maskBuffers.write(tokenIds.map(x=> if (x == 0) 0 else 1))
-      }
-      else {
-        val newTokenIds = tokenIds ++ Array.fill(1, diff)(0).head
-        tokenBuffers.write(newTokenIds)
-        maskBuffers.write(newTokenIds.map(x=> if (x == 0) 0 else 1))
-      }
+      val padding = Array.fill(diff)(0)
+      val newTokenIds = tokenIds ++ padding
+
+      tokenBuffers.offset(offset).write(newTokenIds)
+      maskBuffers.offset(offset).write(newTokenIds.map(x=> if (x == 0) 0 else 1))
     }
-
-    //tokenBuffers.flip()
-    //maskBuffers.flip()
-    //segmentBuffers.flip()
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
@@ -107,12 +101,8 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    // TODO restore
-    //tensors.clearSession(outs)
+    tensors.clearSession(outs)
     tensors.clearTensors()
-    //tokenBuffers.clear()
-    //maskBuffers.clear()
-    //segmentBuffers.clear()
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray

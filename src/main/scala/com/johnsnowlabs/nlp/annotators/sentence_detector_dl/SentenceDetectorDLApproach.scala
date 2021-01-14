@@ -209,11 +209,11 @@ class SentenceDetectorDLApproach(override val uid: String)
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(getGraphFilename)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(graphBytesDef)
+    //graph.importGraphDef(graphBytesDef)
 
     val tfWrapper = new TensorflowWrapper(
       Variables(Array.empty[Byte], Array.empty[Byte]),
-      graph.toGraphDef
+      graph.toGraphDef.toByteArray
     )
 
     val tfModel = new TensorflowSentenceDetectorDL(

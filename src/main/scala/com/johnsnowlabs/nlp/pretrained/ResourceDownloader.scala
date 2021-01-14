@@ -5,8 +5,8 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
-import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
+//import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
+//import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
@@ -15,11 +15,11 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
-import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
+//import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+//import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
+//import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -445,22 +445,7 @@ object PythonResourceDownloader {
     "NorvigSweetingModel" -> NorvigSweetingModel,
     "SymmetricDeleteModel" -> SymmetricDeleteModel,
     "NerDLModel" -> NerDLModel,
-    "WordEmbeddingsModel" -> WordEmbeddingsModel,
-    "BertEmbeddings" -> BertEmbeddings,
-    "DependencyParserModel" -> DependencyParserModel,
-    "TypedDependencyParserModel" -> TypedDependencyParserModel,
-    "UniversalSentenceEncoder" -> UniversalSentenceEncoder,
-    "ElmoEmbeddings" -> ElmoEmbeddings,
-    "ClassifierDLModel" -> ClassifierDLModel,
-    "ContextSpellCheckerModel" -> ContextSpellCheckerModel,
-    "AlbertEmbeddings" -> AlbertEmbeddings,
-    "XlnetEmbeddings" -> XlnetEmbeddings,
-    "SentimentDLModel" -> SentimentDLModel,
-    "LanguageDetectorDL" -> LanguageDetectorDL,
-    "StopWordsCleaner" -> StopWordsCleaner,
-    "BertSentenceEmbeddings" -> BertSentenceEmbeddings,
-    "MultiClassifierDLModel" -> MultiClassifierDLModel,
-    "SentenceDetectorDLModel" -> SentenceDetectorDLModel
+
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

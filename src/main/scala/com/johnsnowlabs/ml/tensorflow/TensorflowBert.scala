@@ -75,9 +75,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
+    val tokenTensors = tensors.createIntBufferTensor(shape, null)
+    val maskTensors = tensorsMasks.createIntBufferTensor(shape, null)
+    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, null)
 
     runner
       .feed(tokenIdsKey, tokenTensors)
@@ -135,9 +135,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
+    val tokenTensors = tensors.createIntBufferTensor(shape, null)
+    val maskTensors = tensorsMasks.createIntBufferTensor(shape, null)
+    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, null)
 
     runner
       .feed(tokenIdsKey, tokenTensors)
@@ -183,9 +183,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createLongBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createLongBufferTensor(shape, segmentBuffers)
+    val tokenTensors = tensors.createLongBufferTensor(shape, null)
+    val maskTensors = tensorsMasks.createLongBufferTensor(shape, null)
+    val segmentTensors = tensorsSegments.createLongBufferTensor(shape, null)
 
     runner
       .feed(tokenIdsKey, tokenTensors)

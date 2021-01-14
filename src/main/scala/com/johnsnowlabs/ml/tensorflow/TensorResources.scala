@@ -3,9 +3,9 @@ package com.johnsnowlabs.ml.tensorflow
 import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
 
 import org.tensorflow.ndarray.buffer._
-import org.tensorflow.ndarray.{NdArray, NdArrays, Shape, StdArrays}
+import org.tensorflow.ndarray.{Shape, StdArrays}
 import org.tensorflow.types.family.TType
-import org.tensorflow.types.{TFloat16, TInt32, TInt64, TString}
+import org.tensorflow.types._
 import org.tensorflow.{DataType, Tensor}
 
 import scala.collection.mutable
@@ -23,10 +23,12 @@ class TensorResources {
       case str: String =>
         TString.scalarOf(str)
       case bidimArray:Array[Array[Float]] =>
-        val flatten = bidimArray.flatten
         // old-style factory method currently discouraged
-        // TODO TFloat16 o 32?
-        TFloat16.tensorOf(StdArrays.ndCopyOf(bidimArray))
+        TFloat32.tensorOf(StdArrays.ndCopyOf(bidimArray))
+
+      case array:Array[Int] =>
+        // old-style factory method currently discouraged
+        TInt32.tensorOf(StdArrays.ndCopyOf(array))
     }
     tensors.append(result)
     result
@@ -54,13 +56,6 @@ class TensorResources {
     result
   }
 
-  /* not used anywhere...
-  def createBytesBufferTensor[T](shape: Array[Long], buf: ByteDataBuffer): Tensor[_] = {
-
-    val result = TByte.tensorOf(Shape.of(shape:_*), buf)
-    tensors.append(result)
-    result
-  }*/
   def clearTensors(): Unit = {
     for (tensor <- tensors) {
       tensor.close()
@@ -69,7 +64,7 @@ class TensorResources {
     tensors.clear()
   }
 
-  def clearSession(outs: mutable.Buffer[Tensor[_]]): Unit = {
+  def clearSession(outs: mutable.Buffer[Tensor[_ <:TType]]): Unit = {
     outs.foreach(_.close())
   }
 
@@ -101,7 +96,7 @@ object TensorResources {
   def extractInts(source: Tensor[_], size: Option[Int] = None): Array[Int] = {
     val realSize = calculateTensorSize(source ,size)
     val buffer = Array.fill(realSize)(0)
-    source.rawData.asInts.write(buffer)
+    source.rawData.asInts.read(buffer)
     buffer
   }
 
@@ -111,14 +106,14 @@ object TensorResources {
   def extractLongs(source: Tensor[_], size: Option[Int] = None): Array[Long] = {
     val realSize = calculateTensorSize(source ,size)
     val buffer = Array.fill(realSize)(0L)
-    source.rawData.asLongs.write(buffer)
+    source.rawData.asLongs.read(buffer)
     buffer
   }
 
   def extractFloats(source: Tensor[_], size: Option[Int] = None): Array[Float] = {
     val realSize = calculateTensorSize(source ,size)
     val buffer = Array.fill(realSize)(0f)
-    source.rawData.asFloats.write(buffer)
+    source.rawData.asFloats.read(buffer)
     buffer
   }
 }

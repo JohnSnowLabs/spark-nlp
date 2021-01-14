@@ -13,6 +13,7 @@ import com.johnsnowlabs.nlp.embeddings.{WordEmbeddingsReader, WordEmbeddingsText
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.RocksDBConnection
 import org.tensorflow.Session
+import org.tensorflow.proto.framework.ConfigProto
 
 
 object NerDLCoNLL2003 extends App {
@@ -55,10 +56,11 @@ object NerDLCoNLL2003 extends App {
   val config = Array[Byte](50, 2, 32, 1, 56, 1)
   LoadsContrib.loadContribToTensorflow()
   val graph = TensorflowWrapper.readGraph("src/main/resources/ner-dl/blstm_10_100_128_100.pb")
-  val session = new Session(graph, config)
+
+  val session = new Session(graph, ConfigProto.parseFrom(config))
 
 
-  val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
+  val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
 
 
   val ner = try {

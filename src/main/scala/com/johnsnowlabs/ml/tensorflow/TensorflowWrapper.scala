@@ -315,7 +315,8 @@ object TensorflowWrapper {
       (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
-      val session = new Session(graph, tfSessionConfig)
+
+      val session = new Session(graph, ConfigProto.parseFrom(tfSessionConfig))
       val varPath = Paths.get(folder, "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables.index")
       if(initAllTables) {
@@ -340,8 +341,7 @@ object TensorflowWrapper {
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
     t.clearTensors()
-
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
@@ -414,7 +414,7 @@ object TensorflowWrapper {
     FileHelper.delete(folder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
@@ -451,7 +451,8 @@ object TensorflowWrapper {
 
     // 3. Read file as SavedModelBundle
     val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
-    val session = new Session(graph, tfSessionConfig)
+
+    val session = new Session(graph, ConfigProto.parseFrom(tfSessionConfig))
     val varPath = Paths.get(variablseData)
     val idxPath = Paths.get(variablesIndex)
     if(initAllTables) {
@@ -475,7 +476,7 @@ object TensorflowWrapper {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
