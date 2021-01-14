@@ -29,7 +29,7 @@ class TensorflowSentenceDetectorDL (
 
   private lazy val _graphOperations = {
     val graph = new Graph()
-    graph.importGraphDef(model.graph)
+    //graph.importGraphDef(model.graph)
     graph.operations().asScala.toArray
   }
 

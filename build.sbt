@@ -164,11 +164,14 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
+      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0" exclude("com.fasterxml.jackson.core", "jackson-databind")
     )
   else
     Seq(
       "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
+        exclude("com.fasterxml.jackson.core", "jackson-databind")
+        exclude("com.fasterxml.jackson.core", "jackson-core")
+        exclude("com.fasterxml.jackson.core", "jackson-annotations")
     )
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
