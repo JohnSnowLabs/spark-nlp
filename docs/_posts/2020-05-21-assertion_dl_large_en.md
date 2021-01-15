@@ -14,12 +14,12 @@ use_language_switcher: "Python-Scala-Java"
 
 Deep learning named entity recognition model for assertions. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.
 
-## Assertion Status
+## Predicted Labels
 ``hypothetical``, ``present``, ``absent``, ``possible``, ``conditional``, ``associated_with_someone_else``.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_large_en_2.5.0_2.4_1590022282256.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -82,7 +82,7 @@ The output is a dataframe with a sentence per row and an ``"assertion"`` column 
 
 {:.table-model}
 |---|---|
-|Model Name:|assertion_dl_large|
+|Model Name:|assertion_dl_large_en_2.5.0_2.4|
 |Type:|ner|
 |Compatibility:|Spark NLP 2.5.0+|
 |Edition:|Official|
