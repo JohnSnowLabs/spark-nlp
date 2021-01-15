@@ -31,7 +31,6 @@ if (is_gpu.equals("true") && is_spark23.equals("true")){
   name:="spark-nlp"
 }
 
-
 organization:= "com.johnsnowlabs.nlp"
 
 version := "2.7.1"
