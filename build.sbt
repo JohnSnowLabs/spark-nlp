@@ -22,6 +22,8 @@ val sparkVer = getSparkVersion(is_spark23, is_spark30)
 /** ------- Scala version start ------- */
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.12"
+lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
+
 lazy val supportedScalaVersions = List(scala212, scala211)
 
 val scalaTestVersion = "3.0.0"
@@ -51,7 +53,7 @@ organization:= "com.johnsnowlabs.nlp"
 
 version := "2.7.1"
 
-scalaVersion in ThisBuild := scala211
+scalaVersion in ThisBuild := scalaVer
 
 sparkVersion in ThisBuild := sparkVer
 
@@ -129,18 +131,11 @@ scalacOptions in (Compile, doc) ++= Seq(
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-lazy val analyticsDependencies =
-  if(is_spark23=="false"){
-    Seq(
-      "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-      "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
-    )
-  }else{
-    Seq(
-      "org.apache.spark" %% "spark-core" % spark23Ver % "provided",
-      "org.apache.spark" %% "spark-mllib" % spark23Ver % "provided"
-    )
-  }
+//val suffix = if (scalaVersion.value.startsWith("2.12")) "_2.12" else ""
+lazy val analyticsDependencies = Seq(
+  "org.apache.spark" %% s"spark-core" % sparkVer % Provided,
+  "org.apache.spark" %% s"spark-mllib" % sparkVer % Provided
+)
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
