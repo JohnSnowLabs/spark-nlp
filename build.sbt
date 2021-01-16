@@ -1,5 +1,6 @@
 import sbtassembly.MergeStrategy
 
+/** ------- Spark version start ------- */
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
 val spark301Ver = "3.0.1"
@@ -16,8 +17,20 @@ def getSparkVersion(is_spark23: String, is_spark3: String): String = {
 }
 
 val sparkVer = getSparkVersion(is_spark23, is_spark3)
-val scalaVer = "2.12.12"
+/** ------- Spark version end ------- */
+
+/** ------- Scala version start ------- */
+// lazy val scala211 = "2.11.12" -- support for Scala 2.11 was removed in Spark 3.0.0. Need custom delivery
+lazy val scala212 = "2.12.12"
+
+// lazy val supportedScalaVersions = List(scala212, scala211)
+lazy val supportedScalaVersions = List(scala212)
+
+val scalaVer = scala212
 val scalaTestVersion = "3.0.0"
+
+crossScalaVersions := supportedScalaVersions
+/** ------- Scala version end ------- */
 
 /** Package attributes */
 
