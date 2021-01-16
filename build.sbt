@@ -3,52 +3,55 @@ import sbtassembly.MergeStrategy
 /** ------- Spark version start ------- */
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
-val spark301Ver = "3.0.1"
+val spark30Ver = "3.0.1"
 
 val is_gpu = System.getProperty("is_gpu","false")
 val is_spark23 = System.getProperty("is_spark23","false")
-val is_spark3 = System.getProperty("is_spark3","true")
+val is_spark30 = System.getProperty("is_spark30","false")
 
-def getSparkVersion(is_spark23: String, is_spark3: String): String = {
-  if(is_spark3 == "true") spark301Ver
+def getSparkVersion(is_spark23: String, is_spark30: String): String = {
+  if(is_spark30 == "true") spark30Ver
   else
     if(is_spark23=="false") spark24Ver
     else spark23Ver
 }
 
-val sparkVer = getSparkVersion(is_spark23, is_spark3)
+val sparkVer = getSparkVersion(is_spark23, is_spark30)
 /** ------- Spark version end ------- */
 
 /** ------- Scala version start ------- */
-// lazy val scala211 = "2.11.12" -- support for Scala 2.11 was removed in Spark 3.0.0. Need custom delivery
+lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.12"
+lazy val supportedScalaVersions = List(scala212, scala211)
 
-// lazy val supportedScalaVersions = List(scala212, scala211)
-lazy val supportedScalaVersions = List(scala212)
-
-val scalaVer = scala212
 val scalaTestVersion = "3.0.0"
-
-crossScalaVersions := supportedScalaVersions
 /** ------- Scala version end ------- */
 
 /** Package attributes */
 
-if (is_gpu.equals("true") && is_spark23.equals("true")){
-  name:="spark-nlp-gpu-spark23"
-}else if (is_gpu.equals("true") && is_spark23.equals("false")){
-  name:="spark-nlp-gpu"
-}else if (is_gpu.equals("false") && is_spark23.equals("true")){
-  name:="spark-nlp-spark23"
-}else{
-  name:="spark-nlp"
+def getPackageName(is_spark23: String, is_spark30: String, is_gpu: String): String = {
+  if (is_gpu.equals("true") && is_spark23.equals("true")){
+    "spark-nlp-gpu-spark23"
+  }else if (is_gpu.equals("true") && is_spark30.equals("true")){
+    "spark-nlp-gpu-spark30"
+  }else if (is_gpu.equals("true") && is_spark30.equals("false")){
+    "spark-nlp-gpu"
+  }else if (is_gpu.equals("false") && is_spark23.equals("true")){
+    "spark-nlp-spark23"
+  }else if (is_gpu.equals("false") && is_spark30.equals("true")){
+    "spark-nlp-spark30"
+  }else{
+    "spark-nlp"
+  }
 }
+
+name:= getPackageName(is_spark23, is_spark30, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
 version := "2.7.1"
 
-scalaVersion in ThisBuild := scalaVer
+scalaVersion in ThisBuild := scala211
 
 sparkVersion in ThisBuild := sparkVer
 
@@ -185,6 +188,7 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
 
 lazy val root = (project in file("."))
   .settings(
+    crossScalaVersions := supportedScalaVersions,
     libraryDependencies ++=
       analyticsDependencies ++
         testDependencies ++
