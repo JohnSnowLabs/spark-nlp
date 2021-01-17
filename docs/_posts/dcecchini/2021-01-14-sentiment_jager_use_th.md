@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentiment Analysis for Thai ()
+title: Sentiment Analysis for Thai (sentiment_jager_use)
 author: John Snow Labs
 name: sentiment_jager_use
 date: 2021-01-14
