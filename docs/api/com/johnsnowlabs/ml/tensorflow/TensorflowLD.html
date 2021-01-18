@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TensorflowLD - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowLD</title>
-          <meta name="description" content="TensorflowLD - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
-          <meta name="keywords" content="TensorflowLD Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
+          <title>TensorflowLD - Spark NLP 2.7.1 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowLD</title>
+          <meta name="description" content="TensorflowLD - Spark NLP 2.7.1 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
+          <meta name="keywords" content="TensorflowLD Spark NLP 2.7.1 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -49,10 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification by using Deep Neural Network
-Total params: 247,607
-Trainable params: 247,607
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow</p><p>The models are trained on large datasets such as Wikipedia and Tatoeba
+The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -92,7 +90,7 @@ Trainable params: 247,607
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,configProtoBytes:Option[Array[Byte]]):com.johnsnowlabs.ml.tensorflow.TensorflowLD"></a>
+      <a id="&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,configProtoBytes:Option[Array[Byte]],orderedLanguages:scala.collection.immutable.ListMap[String,Int],orderedAlphabets:scala.collection.immutable.ListMap[String,Int]):com.johnsnowlabs.ml.tensorflow.TensorflowLD"></a>
       <a id="&lt;init&gt;:TensorflowLD"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -100,14 +98,14 @@ Trainable params: 247,607
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">TensorflowLD</span><span class="params">(<span name="tensorflow">tensorflow: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>)</span>
+        <span class="name">TensorflowLD</span><span class="params">(<span name="tensorflow">tensorflow: <a href="TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="orderedLanguages">orderedLanguages: <span class="extype" name="scala.collection.immutable.ListMap">ListMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>, <span name="orderedAlphabets">orderedAlphabets: <span class="extype" name="scala.collection.immutable.ListMap">ListMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowLD@&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,configProtoBytes:Option[Array[Byte]]):com.johnsnowlabs.ml.tensorflow.TensorflowLD" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowLD@&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,configProtoBytes:Option[Array[Byte]],orderedLanguages:scala.collection.immutable.ListMap[String,Int],orderedAlphabets:scala.collection.immutable.ListMap[String,Int]):com.johnsnowlabs.ml.tensorflow.TensorflowLD" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>LanguageDetectorDL Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tensorflow</dt><dd class="cmt"><p>LanguageDetectorDL Model wrapper with TensorFlow Wrapper</p></dd><dt class="param">configProtoBytes</dt><dd class="cmt"><p>Configuration for TensorFlow session</p></dd><dt class="param">orderedLanguages</dt><dd class="cmt"><p>ordered ListMap of language codes detectable by this trained model</p></dd><dt class="param">orderedAlphabets</dt><dd class="cmt"><p>ordered ListMap of alphabets to be used to encode the inputs</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -186,18 +184,18 @@ Trainable params: 247,607
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD#calculateLanguageIdentification" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="calculateLanguageIdentification(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],alphabets:Map[String,Int],languages:Map[String,Int],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]"></a>
-      <a id="calculateLanguageIdentification(Seq[Sentence],Map[String,Int],Map[String,Int],Float,String,Boolean):Array[Annotation]"></a>
+      <a id="calculateLanguageIdentification(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="calculateLanguageIdentification(Seq[Sentence],Float,String,Boolean):Array[Annotation]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">calculateLanguageIdentification</span><span class="params">(<span name="documents">documents: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="alphabets">alphabets: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>, <span name="languages">languages: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.6f</span></span>, <span name="thresholdLabel">thresholdLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;Unknown&quot;</span></span>, <span name="coalesceSentences">coalesceSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">calculateLanguageIdentification</span><span class="params">(<span name="documents">documents: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.01f</span></span>, <span name="thresholdLabel">thresholdLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;unk&quot;</span></span>, <span name="coalesceSentences">coalesceSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowLD@calculateLanguageIdentification(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],alphabets:Map[String,Int],languages:Map[String,Int],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowLD@calculateLanguageIdentification(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -242,6 +240,23 @@ Trainable params: 247,607
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD#encode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encode(docs:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence]):Array[Array[Float]]"></a>
+      <a id="encode(Seq[Sentence]):Array[Array[Float]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encode</span><span class="params">(<span name="docs">docs: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowLD@encode(docs:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence]):Array[Array[Float]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>

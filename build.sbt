@@ -1,40 +1,57 @@
 import sbtassembly.MergeStrategy
 
+/** ------- Spark version start ------- */
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
-val spark301Ver = "3.0.1"
+val spark30Ver = "3.0.1"
 
 val is_gpu = System.getProperty("is_gpu","false")
 val is_spark23 = System.getProperty("is_spark23","false")
-val is_spark3 = System.getProperty("is_spark3","true")
+val is_spark30 = System.getProperty("is_spark30","false")
 
-def getSparkVersion(is_spark23: String, is_spark3: String): String = {
-  if(is_spark3 == "true") spark301Ver
+def getSparkVersion(is_spark23: String, is_spark30: String): String = {
+  if(is_spark30 == "true") spark30Ver
   else
     if(is_spark23=="false") spark24Ver
     else spark23Ver
 }
 
-val sparkVer = getSparkVersion(is_spark23, is_spark3)
-val scalaVer = "2.12.12"
+val sparkVer = getSparkVersion(is_spark23, is_spark30)
+/** ------- Spark version end ------- */
+
+/** ------- Scala version start ------- */
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.12"
+lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
+
+lazy val supportedScalaVersions = List(scala212, scala211)
+
 val scalaTestVersion = "3.0.0"
+/** ------- Scala version end ------- */
 
 /** Package attributes */
 
-if (is_gpu.equals("true") && is_spark23.equals("true")){
-  name:="spark-nlp-gpu-spark23"
-}else if (is_gpu.equals("true") && is_spark23.equals("false")){
-  name:="spark-nlp-gpu"
-}else if (is_gpu.equals("false") && is_spark23.equals("true")){
-  name:="spark-nlp-spark23"
-}else{
-  name:="spark-nlp"
+def getPackageName(is_spark23: String, is_spark30: String, is_gpu: String): String = {
+  if (is_gpu.equals("true") && is_spark23.equals("true")){
+    "spark-nlp-gpu-spark23"
+  }else if (is_gpu.equals("true") && is_spark30.equals("true")){
+    "spark-nlp-gpu-spark30"
+  }else if (is_gpu.equals("true") && is_spark30.equals("false")){
+    "spark-nlp-gpu"
+  }else if (is_gpu.equals("false") && is_spark23.equals("true")){
+    "spark-nlp-spark23"
+  }else if (is_gpu.equals("false") && is_spark30.equals("true")){
+    "spark-nlp-spark30"
+  }else{
+    "spark-nlp"
+  }
 }
 
+name:= getPackageName(is_spark23, is_spark30, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.6.5"
+version := "2.7.1"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -105,7 +122,8 @@ developers in ThisBuild:= List(
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan")),
-  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq"))
+  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq")),
+  Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov"))
 )
 
 
@@ -115,18 +133,11 @@ scalacOptions in (Compile, doc) ++= Seq(
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-lazy val analyticsDependencies =
-  if(is_spark23=="false"){
-    Seq(
-      "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-      "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
-    )
-  }else{
-    Seq(
-      "org.apache.spark" %% "spark-core" % spark23Ver % "provided",
-      "org.apache.spark" %% "spark-mllib" % spark23Ver % "provided"
-    )
-  }
+//val suffix = if (scalaVersion.value.startsWith("2.12")) "_2.12" else ""
+lazy val analyticsDependencies = Seq(
+  "org.apache.spark" %% s"spark-core" % sparkVer % Provided,
+  "org.apache.spark" %% s"spark-mllib" % sparkVer % Provided
+)
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
@@ -177,6 +188,7 @@ lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
   .settings(
+    crossScalaVersions := supportedScalaVersions,
     libraryDependencies ++=
       analyticsDependencies ++
         testDependencies ++

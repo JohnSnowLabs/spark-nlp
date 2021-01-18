@@ -159,6 +159,43 @@ val tokenizer = new Tokenizer()
 
 </div></div><div class="h3-box" markdown="1">
 
+## DocumentNormalizer (Text cleaning)
+Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.  
+**Output type:** Document  
+**Input types:** Document  
+**Reference:** [DocumentNormalizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizer.scala)  
+**Functions:**
+
+- setCleanupPatterns(patterns): normalization regex patterns which match will be removed from document. Defaults is "<[^>]*>".
+- setLowercase(value): whether to convert strings to lowercase, default false
+- setRemovalPolicy(policy): removalPolicy to remove pattern from text
+
+**Example:**
+
+Refer to the [DocumentNormalizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Normalizer) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+documentNormalizer = DocumentNormalizer() \
+      .setInputCols("document") \
+      .setOutputCol("normalizedDocument") \
+      .setCleanupPatterns(cleanUpPatterns) \
+      .setRemovalPolicy(removalPolicy)
+```
+
+```scala
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("normalizedDocument")
+      .setCleanupPatterns(cleanUpPatterns)
+      .setRemovalPolicy(removalPolicy)
+```
+
+</div></div><div class="h3-box" markdown="1">
+
 ## Normalizer (Text cleaning)
 
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary  
