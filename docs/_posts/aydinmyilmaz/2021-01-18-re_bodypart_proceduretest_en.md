@@ -4,7 +4,7 @@ title: Relation extraction between body parts and procedures
 author: John Snow Labs
 name: re_bodypart_proceduretest
 date: 2021-01-18
-tags: [en, relation_extraction, licenced, clinical, licensed]
+tags: [en, relation_extraction, clinical, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -16,7 +16,7 @@ Relation extraction between body parts entites ['Internal_organ_or_component','E
 
 ## Predicted Entities
 
-`1`
+  `1`
   `0`
 
 {:.btn-box}
@@ -38,7 +38,7 @@ ner_tagger = sparknlp.annotators.NerDLModel()\
     .setOutputCol("ner_tags") 
 
 re_model = RelationExtractionModel()\
-    .pretrained("re_temporal_events_clinical", "en", 'clinical/models')\
+    .pretrained("re_bodypart_proceduretest", "en", 'clinical/models')\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setMaxSyntacticDistance(4)\ #default: 0
