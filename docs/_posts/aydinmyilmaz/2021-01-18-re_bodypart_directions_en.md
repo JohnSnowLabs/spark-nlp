@@ -4,7 +4,7 @@ title: Relation extraction between body parts and direction entities
 author: John Snow Labs
 name: re_bodypart_directions
 date: 2021-01-18
-tags: [en, relation_extraction, clinical, licenced, licensed]
+tags: [en, relation_extraction, clinical, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -12,7 +12,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Relation extraction between body parts entites [Internal_organ_or_component, External_body_part_or_region] and direction entity in clinical texts
+Relation extraction between body parts entites [Internal_organ_or_component, External_body_part_or_region] and Direction entity in clinical texts
 
 ## Predicted Entities
 
@@ -25,8 +25,6 @@ Relation extraction between body parts entites [Internal_organ_or_component, Ext
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_bodypart_directions_en_2.7.1_2.4_1610983817042.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
-
-
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
@@ -42,10 +40,6 @@ ner_tagger = sparknlp.annotators.NerDLModel()\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags")    
 
-reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
-    .setInputCols(["word_embeddings","chunk","pos","dependency"])\
-    .setOutput("relations")
-
 pair_list = ['direction-internal_organ_or_component', 'internal_organ_or_component-direction']
 
 re_model = RelationExtractionModel().pretrained("re_bodypart_direction","en","clinical/models")\
@@ -55,15 +49,11 @@ re_model = RelationExtractionModel().pretrained("re_bodypart_direction","en","cl
     .setRelationPairs(pair_list)
 
 
-pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel])
+pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = LightPipeline(model).fullAnnotate(''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia ''')
-
-
 ```
-
-
 </div>
 
 ## Results
