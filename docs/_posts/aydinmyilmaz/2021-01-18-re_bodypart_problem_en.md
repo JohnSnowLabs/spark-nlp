@@ -16,7 +16,7 @@ Relation extraction between body parts and problem entities  in clinical texts
 
 ## Predicted Entities
 
-`1` : Shows that there is a relation between the body part  entity and the entities labeled as problem ( diognosis, symptom etc.)
+ `1` : Shows that there is a relation between the body part  entity and the entities labeled as problem ( diognosis, symptom etc.)
  `0` : Shows that there no  relation between the body part entity and the entities labeled as problem ( diognosis, symptom etc.)
 
 {:.btn-box}
@@ -31,27 +31,18 @@ Relation extraction between body parts and problem entities  in clinical texts
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-pairs_list =  ['bodypart-disease_syndrome_disorder',
- 'bodypart-symptom',
- 'bodypart-oncological',
- 'bodypart-heart_disease',
- 'bodypart-injury_or_poisoning',
- 'bodypart-cerebrovascular_disease',
- 'bodypart-kidney_disease',
- 'disease_syndrome_disorder-bodypart',
- 'symptom-bodypart',
- 'oncological-bodypart',
- 'heart_disease-bodypart',
- 'injury_or_poisoning-bodypart',
- 'cerebrovascular_disease-bodypart',
- 'kidney_disease-bodypart']
+
+ner_tagger = sparknlp.annotators.NerDLModel()\
+    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags") 
 
 reModel = RelationExtractionModel.pretrained("re_bodypart_problem","en","clinical/models")\
     .setInputCols(["word_embeddings","chunk","pos","dependency"])\
     .setOutput("relations")
-    .setRelationPairs(pairs_list)
+    .setRelationPairs(['symptom-external_body_part_or_region'])
 
-pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, clinical_ner_tagger, ner_chunker, dependency_parser, reModel)
+pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel)
 
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -64,10 +55,10 @@ results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than
 ## Results
 
 ```bash
-| index | relations | entity1 | entity1_begin | entity1_end | chunk1              | entity2  | entity2_end | entity2_end | chunk2 | confidence |
-|-------|-----------|---------|---------------|-------------|---------------------|----------|-------------|-------------|--------|------------|
-| 0     | 0         | Symptom | 3             | 21          | neurologic deficits | BodyPart | 60          | 63          | hand   | 0.999998   |
-| 1     | 1         | Symptom | 39            | 46          | numbness            | BodyPart | 60          | 63          | hand   | 1          |
+| index | relations | entity1 | entity1_begin | entity1_end | chunk1              | entity2                      | entity2_end | entity2_end | chunk2 | confidence |
+|-------|-----------|---------|---------------|-------------|---------------------|------------------------------|-------------|-------------|--------|------------|
+| 0     | 0         | Symptom | 3             | 21          | neurologic deficits | external_body_part_or_region | 60          | 63          | hand   | 0.999998   |
+| 1     | 1         | Symptom | 39            | 46          | numbness            | external_body_part_or_region | 60          | 63          | hand   | 1          |
 
 ```
 
