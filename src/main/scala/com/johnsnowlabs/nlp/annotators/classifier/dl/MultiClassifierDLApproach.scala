@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowMultiClassifier, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.{AnnotatorApproach, ParamsAndFeaturesWritable}
@@ -347,9 +347,11 @@ class MultiClassifierDLApproach(override val uid: String)
         throw e
     }
 
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+
     val model = new MultiClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)
-      .setModelIfNotSet(dataset.sparkSession, tf)
+      .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setStorageRef(embeddingsRef)
       .setThreshold($(threshold))
 
@@ -363,6 +365,7 @@ class MultiClassifierDLApproach(override val uid: String)
 
     val wrapper =
       TensorflowWrapper.readZippedSavedModel("/multi-classifier-dl", fileName = s"multi-label-bilstm-1024", tags = Array("serve"), initAllTables = true)
+    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
     wrapper
   }
 }

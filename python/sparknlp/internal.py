@@ -269,8 +269,8 @@ class _BertSentenceLoader(ExtendedJavaWrapper):
 
 
 class _USELoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
-        super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel", path, jspark)
+    def __init__(self, path, jspark, loadsp):
+        super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel", path, jspark, loadsp)
 
 
 class _ElmoLoader(ExtendedJavaWrapper):
@@ -286,3 +286,15 @@ class _AlbertLoader(ExtendedJavaWrapper):
 class _XlnetLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_XlnetLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings.loadSavedModel", path, jspark)
+
+
+class _T5Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_T5Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer.loadSavedModel", path, jspark)
+
+
+class _MarianLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MarianLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer.loadSavedModel", path, jspark)

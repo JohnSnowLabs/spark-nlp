@@ -14,13 +14,14 @@ use_language_switcher: "Python-Scala-Java"
 
 Analyse sentiment in reviews by classifying them as ``positive``, ``negative`` or ``neutral``. This model is trained using ``urduvec_140M_300d`` word embeddings. The word embeddings are then converted to sentence embeddings before feeding to the sentiment classifier which uses a DL architecture to classify sentences.
 
-## Predicted Entities
+{:.h2_title}
+## Classified Labels
 
-\``positive`` , ``negative`` , ``neutral``
+``positive`` , ``negative`` , ``neutral``.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentimentdl_urduvec_imdb_ur_2.7.0_2.4_1606817135630.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -29,38 +30,51 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
+...
 word_embeddings = WordEmbeddingsModel()\
     .pretrained('urduvec_140M_300d', 'ur')\
     .setInputCols(["document",'token'])\
     .setOutputCol("word_embeddings")
-
 embeddings = SentenceEmbeddings() \
       .setInputCols(["document", "word_embeddings"]) \
       .setOutputCol("sentence_embeddings") \
       .setPoolingStrategy("AVERAGE")
-
 classifier = SentimentDLModel.pretrained('sentimentdl_urduvec_imdb', 'ur' )\
     .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('sentiment')
-
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate(["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ",
                                                                           "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"])
 ```
-
+```scala
+...
+val word_embeddings = WordEmbeddingsModel()
+    .pretrained('urduvec_140M_300d', 'ur')
+    .setInputCols(Array("document",'token'))
+    .setOutputCol("word_embeddings")
+val embeddings = SentenceEmbeddings() 
+      .setInputCols(Array("document", "word_embeddings")) 
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+val classifier = SentimentDLModel.pretrained('sentimentdl_urduvec_imdb', 'ur' )
+    .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('sentiment')
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
+val result = pipeline.fit(Seq.empty["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ",
+                                                                          "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results
 
 ```bash
 
-|    | document                                                                                          | sentiment     |
-|---:|:--------------------------------------------------------------------------------------------------|:--------------|
+|    | document                                                                                                 | sentiment     |
+|---:|---------------------------------------------------------------------------------------------------------:|--------------:|
 |  0 |مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک  | positive      |
-|  1 |بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں | negative      |
+|  1 |بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں  | negative      |
+
 ```
 
 {:.model-param}

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fast and Accurate Language Identification - 43 Languages
+title: Fast and Accurate Language Identification - 43 Languages (CNN)
 author: John Snow Labs
 name: ld_wiki_tatoeba_cnn_43
 date: 2020-12-05
@@ -12,77 +12,52 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Language detection and identification is the task of automatically detecting the language(s) present in a document based on the content of the document. LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols. In addition, LanguageDetetorDL can accurately detect language from documents with mixed languages by coalescing sentences and select the best candidate.
+Language detection and identification is the task of automatically detecting the language(s) present in a document based on the content of the document. ``LanguageDetectorDL`` is an annotator that detects the language of documents or sentences depending on the ``inputCols``. In addition, ``LanguageDetetorDL`` can accurately detect language from documents with mixed languages by coalescing sentences and select the best candidate.
 
-
-We have designed and developed Deep Learning models by using CNNs and BiGRU architectures (mentioned in the model's name) in TensorFlow/Keras. The models are trained on large datasets such as Wikipedia and Tatoeba with high accuracy evaluated on the Europarl dataset. The output is a language code in Wiki Code style: [https://en.wikipedia.org/wiki/List_of_Wikipedias](https://en.wikipedia.org/wiki/List_of_Wikipedias)
+We have designed and developed Deep Learning models using CNNs in TensorFlow/Keras. The models are trained on large datasets such as Wikipedia and Tatoeba with high accuracy evaluated on the Europarl dataset. The output is a language code in Wiki Code style: [https://en.wikipedia.org/wiki/List_of_Wikipedias](https://en.wikipedia.org/wiki/List_of_Wikipedias).
 
 This model can detect the following languages:
 
-\[`Arabic`, `Belarusian`, `Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Esperanto`, `Spanish`, `Estonian`, `Persian`, `Finnish`, `French`, `Hebrew`, `Hindi`, `Hungarian`, `Interlingua`, `Indonesian`, `Icelandic`, `Italian`, `Japanese`, `Korean`, `Latin`, `Lithuanian`, `Latvian`, `Macedonian`, `Marathi`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Russian`, `Slovak`, `Slovenian`, `Serbian`, `Swedish`, `Tagalog`, `Turkish`, `Tatar`, `Ukrainian`, `Vietnamese`, `Chinese`]
+`Arabic`, `Belarusian`, `Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Esperanto`, `Spanish`, `Estonian`, `Persian`, `Finnish`, `French`, `Hebrew`, `Hindi`, `Hungarian`, `Interlingua`, `Indonesian`, `Icelandic`, `Italian`, `Japanese`, `Korean`, `Latin`, `Lithuanian`, `Latvian`, `Macedonian`, `Marathi`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Russian`, `Slovak`, `Slovenian`, `Serbian`, `Swedish`, `Tagalog`, `Turkish`, `Tatar`, `Ukrainian`, `Vietnamese`, `Chinese`.
 
 ## Predicted Entities
 
-\[`ar`, `be`, `bg`, `cs`, `da`, `de`, `el`, `en`, `eo`, `es`, `et`, `fa`, `fi`, `fr`, `he`, `hi`, `hu`, `ia`, `id`, `is`, `it`, `ja`, `ko`, `la`, `lt`, `lv`, `mk`, `mr`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sl`, `sr`, `sv`, `tl`, `tr`, `tt`, `uk`, `vi`, `zh`]
+`ar`, `be`, `bg`, `cs`, `da`, `de`, `el`, `en`, `eo`, `es`, `et`, `fa`, `fi`, `fr`, `he`, `hi`, `hu`, `ia`, `id`, `is`, `it`, `ja`, `ko`, `la`, `lt`, `lv`, `mk`, `mr`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sl`, `sr`, `sv`, `tl`, `tr`, `tt`, `uk`, `vi`, `zh`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ld_wiki_tatoeba_cnn_43_xx_2.7.0_2.4_1607184003726.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
-documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
-
-sentence = SentenceDetectorDLModel\
-  .pretrained("sentence_detector_dl", "xx")\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
-
-language_detector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_43")\
-.setInputCols(["sentence"])\
-.setOutputCol("language")\
-
-languagePipeline = Pipeline(stages=[
- documentAssembler,
- sentence
- language_detector
-])
+...
+language_detector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_43", "xx")\
+   .setInputCols(["sentence"])\
+   .setOutputCol("language")
+languagePipeline = Pipeline(stages=[documentAssembler, sentenceDetector, language_detector])
+light_pipeline = LightPipeline(languagePipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+result = light_pipeline.fullAnnotate("Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.")
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-val sentence = SentenceDetectorDLModel
-  .pretrained("sentence_detector_dl", "xx")
-  .setInputCols(Array("document"))
-  .setOutputCol("sentence")
-
-val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_43")
-  .setInputCols("sentence")
-  .setOutputCol("language")
-
-val pipeline = new Pipeline()
-  .setStages(Array(
-    documentAssembler,
-    sentence,
-    languageDetector
-  ))
+...
+val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_43", "xx")
+   .setInputCols("sentence")
+   .setOutputCol("language")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, languageDetector))
+val result = pipeline.fit(Seq.empty["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."].toDS.toDF("text")).transform(data)
 ```
+
 </div>
 
 ## Results
 
 ```bash
-The result is a detected language code from `Predicted Entities`. For instance `en` as the English language.
+'fr'
 ```
 
 {:.model-param}

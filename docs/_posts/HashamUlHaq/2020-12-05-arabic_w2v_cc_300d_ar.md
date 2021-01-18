@@ -29,13 +29,22 @@ Use as part of a pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 ```
-
+```scala
+val embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") 
+        .setInputCols(Array("document", "token"))
+        .setOutputCol("embeddings")
+```
 </div>
+
+{:.h2_title}
+## Results
+The model gives 300 dimensional Word2Vec feature vector outputs per token.
 
 {:.model-param}
 ## Model Information
@@ -55,4 +64,4 @@ embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") \
 
 ## Data Source
 
-This model is imported from https://fasttext.cc/docs/en/crawl-vectors.html
+This model is imported from [https://fasttext.cc/docs/en/crawl-vectors.html](https://fasttext.cc/docs/en/crawl-vectors.html)

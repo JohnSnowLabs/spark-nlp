@@ -14,12 +14,13 @@ use_language_switcher: "Python-Scala-Java"
 
 The Universal Sentence Encoder encodes text into high-dimensional vectors that can be used for text classification, semantic similarity, clustering, and other natural language tasks.
 
-The model is trained and optimized for greater-than-word length text, such as sentences, phrases, or short paragraphs. It is trained on a variety of data sources and a variety of tasks with the aim of dynamically accommodating a wide variety of natural language understanding tasks. The input is the variable-length English text and the output is a 512-dimensional vector. We apply this model to the STS benchmark for semantic similarity, and the results can be seen in the example notebook made available. The universal-sentence-encoder model has trained with a deep averaging network (DAN) encoder.
-
+The model is trained and optimized for greater-than-word length text, such as sentences, phrases, or short paragraphs. It is trained on a variety of data sources and a variety of tasks with the aim of dynamically accommodating a wide variety of natural language understanding tasks. The input is the variable-length text and the output is a 512-dimensional vector. The universal-sentence-encoder model has trained with a deep averaging network (DAN) encoder.
 
 This model supports 16 languages (Arabic, Chinese-simplified, Chinese-traditional, English, French, German, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Spanish, Thai, Turkish, Russian) text encoder.
 
-The details are described in the paper "[Universal Sentence Encoder](https://arxiv.org/abs/1803.11175)".
+The details are described in the paper "[Multilingual Universal Sentence Encoder for Semantic Retrieval](https://arxiv.org/abs/1907.04307)".
+
+Note: This model only works on Linux and macOS operating systems and is not compatible with Windows due to the incompatibility of the SentencePiece library.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -28,10 +29,9 @@ The details are described in the paper "[Universal Sentence Encoder](https://arx
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx") \
       .setInputCols("document") \
@@ -43,6 +43,10 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx")
       .setOutputCol("sentence_embeddings")
 ```
 </div>
+
+## Results
+
+It gives a 512-dimensional vector of the sentences.
 
 {:.model-param}
 ## Model Information
@@ -59,22 +63,30 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx")
 
 ## Data Source
 
-https://tfhub.dev/google/universal-sentence-encoder-multilingual/3
+This embeddings model is imported from [https://tfhub.dev/google/universal-sentence-encoder-multilingual/3](https://tfhub.dev/google/universal-sentence-encoder-multilingual/3)
 
 ## Benchmarking
 
+ - We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the [example notebook](https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb) made available. Results are shown below:
+
 ```bash
-We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the example notebook made available. Results are shown below:
+STSBenchmark                       | dev    | test  |
+-----------------------------------|--------|-------|   
+Correlation coefficient of Pearson | 0.829  | 0.809 |
+```
 
-STSBenchmark	dev	test
-Pearson's correlation coefficient	0.829	0.809
-For semantic similarity retrieval, we evaluate the model on Quora and AskUbuntu retrieval task.
+ - For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
 
-Dataset	Quora	AskUbuntu	Average
-Mean Averge Precision	89.2	39.9	64.6
-For the translation pair retrieval, we evaluate the model on the United Nation Parallal Corpus:
+```bash
+Dataset                | Quora | AskUbuntu | Average |
+-----------------------|-------|-----------|---------|
+Mean Averge Precision  | 89.2  | 39.9      | 64.6    |
+```
 
-Language Pair	en-es	en-fr	en-ru	en-zh
-Precision@1	85.8	82.7	87.4	79.5
+ - For the translation pair retrieval, we evaluate the model on the United Nation Parallal Corpus. Results are shown below:
 
+```bash
+Language Pair  | en-es  | en-fr | en-ru | en-zh |
+---------------|--------|-------|-------|-------|
+Precision@1    | 85.8   | 82.7  | 87.4  | 79.5  |
 ```

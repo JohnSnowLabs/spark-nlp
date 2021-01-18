@@ -1,0 +1,33 @@
+# newdoc id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200
+# sent_id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200-0001
+# newpar id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200-p0001
+# text = What if Google Morphed Into GoogleOS?
+1	What	what	PRON	WP	PronType=Int	0	root	0:root	_
+2	if	if	SCONJ	IN	_	4	mark	4:mark	_
+3	Google	Google	PROPN	NNP	Number=Sing	4	nsubj	4:nsubj	_
+4	Morphed	morph	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	1	advcl	1:advcl:if	_
+5	Into	into	ADP	IN	_	6	case	6:case	_
+6	GoogleOS	GoogleOS	PROPN	NNP	Number=Sing	4	obl	4:obl:into	SpaceAfter=No
+7	?	?	PUNCT	.	_	4	punct	4:punct	_
+
+# newdoc id = weblog-blogspot.com_zentelligence_20040423000200_ENG_20040423_000200
+# sent_id = weblog-blogspot.com_marketview_20050511222700_ENG_20050511_222700-0003
+# text = Google is a nice search engine.
+1	Google	Google	PROPN	NNP	Number=Sing	6	nsubj	6:nsubj	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	6:cop	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	6:det	_
+4	nice	nice	ADJ	JJ	Degree=Pos	6	amod	6:amod	_
+5	search	search	NOUN	NN	Number=Sing	6	compound	6:compound	_
+6	engine	engine	NOUN	NN	Number=Sing	0	root	0:root	SpaceAfter=No
+7	.	.	PUNCT	.	_	6	punct	6:punct	_
+
+# sent_id = weblog-blogspot.com_marketview_20050511222700_ENG_20050511_222700-0004
+# text = Does anybody use it for anything else?
+1	Does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux	3:aux	_
+2	anybody	anybody	PRON	NN	Number=Sing	3	nsubj	3:nsubj	_
+3	use	use	VERB	VB	VerbForm=Inf	0	root	0:root	_
+4	it	it	PRON	PRP	Case=Acc|Gender=Neut|Number=Sing|Person=3|PronType=Prs	3	obj	3:obj	_
+5	for	for	ADP	IN	_	6	case	6:case	_
+6	anything	anything	PRON	NN	Number=Sing	3	obl	3:obl:for	_
+7	else	else	ADJ	JJ	Degree=Pos	6	amod	6:amod	SpaceAfter=No
+8	?	?	PUNCT	.	_	3	punct	3:punct	_

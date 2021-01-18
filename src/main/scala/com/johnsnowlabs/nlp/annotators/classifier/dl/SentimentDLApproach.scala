@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowSentiment, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -154,9 +154,11 @@ class SentimentDLApproach(override val uid: String)
         throw e
     }
 
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+
     val model = new SentimentDLModel()
       .setDatasetParams(classifier.encoder.params)
-      .setModelIfNotSet(dataset.sparkSession, tf)
+      .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setStorageRef(embeddingsRef)
       .setThreshold($(threshold))
       .setThresholdLabel($(thresholdLabel))
@@ -171,6 +173,7 @@ class SentimentDLApproach(override val uid: String)
 
     val wrapper =
       TensorflowWrapper.readZippedSavedModel("/sentiment-dl", tags = Array("serve"), initAllTables = true)
+    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
     wrapper
   }
 }

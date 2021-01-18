@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLApproach, ClassifierDLModel}
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
@@ -171,4 +172,62 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
     pipelineDF.show(2)
   }
 
+  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" ignore {
+
+    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+
+    val embeddingsSentence = new SentenceEmbeddings()
+      .setInputCols(Array("document", "embeddings"))
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+
+    val docClassifier = new ClassifierDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(64)
+      .setMaxEpochs(1)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+
+    val pipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        tokenizer,
+        embeddings,
+        embeddingsSentence,
+        docClassifier
+      ))
+
+    val pipelineModel = pipeline.fit(smallCorpus)
+    val pipelineDF = pipelineModel.transform(smallCorpus)
+
+    val embedStorageRef = embeddings.getStorageRef
+
+    val setnEmbedRef = embeddingsSentence.getStorageRef
+    val setnEmbedRefPipeModel = pipelineModel.stages(4).asInstanceOf[SentenceEmbeddings].getStorageRef
+    val classifierStorageRef = pipelineModel.stages.last.asInstanceOf[ClassifierDLModel].getStorageRef
+
+    assert(setnEmbedRef == embedStorageRef)
+    assert(setnEmbedRefPipeModel == embedStorageRef)
+    assert(classifierStorageRef == embedStorageRef)
+  }
 }
