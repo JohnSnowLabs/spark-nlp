@@ -19,7 +19,6 @@ This model classifies if a text is ADE-related (``True``) or not (``False``).
 ``True``, ``False``.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_biobert_ade_en_2.6.0_2.4_1600201949450.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
@@ -34,10 +33,6 @@ To classify your text if it is ADE-related, you can use this model as part of an
 
 ```python
 ...
-classsifierdl = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "en", "clinical/models")\
-      .setInputCols(["sentence", "sentence_embeddings"]) \
-      .setOutputCol("class")
-nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, bert_embeddings, sentence_embeddings, classifierdl])
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
     .setInputCols(["document", 'token'])\
     .setOutputCol("word_embeddings")
@@ -57,10 +52,17 @@ annotations = light_pipeline.fullAnnotate("I feel a bit drowsy & have a little b
 ```
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
+    .setInputCols(Array("document", 'token'))
+    .setOutputCol("word_embeddings")
+val sentence_embeddings = SentenceEmbeddings() 
+      .setInputCols(Array("document", "word_embeddings")) 
+      .setOutputCol("sentence_embeddings") 
+      .setPoolingStrategy("AVERAGE")
 val classsifierADE = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "en", "clinical/models")
       .setInputCols(Array("sentence", "sentence_embeddings")) 
       .setOutputCol("class")
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, bert_embeddings, sentence_embeddings, classifierADE))
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifierADE))
 val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred vision after taking an insulin"].toDS.toDF("text")).transform(data)
 ```
 </div>

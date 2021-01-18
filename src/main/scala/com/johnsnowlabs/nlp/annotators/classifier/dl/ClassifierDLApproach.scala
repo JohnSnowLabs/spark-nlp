@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, TensorflowClassifier, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
@@ -164,7 +164,7 @@ class ClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setVerbose(verbose: Int): ClassifierDLApproach.this.type = set(this.verbose, verbose)
-  
+
   def setOutputLogsPath(path: String):ClassifierDLApproach.this.type = set(this.outputLogsPath, path)
 
   /** Level of verbosity during training
@@ -208,9 +208,9 @@ class ClassifierDLApproach(override val uid: String)
     * @group getParam
     **/
   def getValidationSplit: Float = $(this.validationSplit)
-  
+
   def getOutputLogsPath: String = $(outputLogsPath)
-  
+
   /** Maximum number of epochs to train
     *
     * @group getParam
@@ -309,9 +309,11 @@ class ClassifierDLApproach(override val uid: String)
         throw e
     }
 
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+
     val model = new ClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)
-      .setModelIfNotSet(dataset.sparkSession, tf)
+      .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setStorageRef(embeddingsRef)
 
     if (get(configProtoBytes).isDefined)
@@ -324,6 +326,7 @@ class ClassifierDLApproach(override val uid: String)
 
     val wrapper =
       TensorflowWrapper.readZippedSavedModel("/classifier-dl", tags = Array("serve"), initAllTables = true)
+    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
     wrapper
   }
 }

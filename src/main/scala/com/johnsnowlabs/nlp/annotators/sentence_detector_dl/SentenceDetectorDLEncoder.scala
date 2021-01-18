@@ -76,9 +76,9 @@ class SentenceDetectorDLEncoder extends Serializable {
         freqMap(ch) += 1
       }
     )
-    //freqMap.foreach(v => println("%s:\t%s".format(v._1.toString, v._2.toString)))
 
-    freqMap = freqMap.retain((ch, n) => (n > minFreq))
+    val boundedMinFreq = scala.math.max(freqMap.values.toArray.sorted.reverse.take(300).min, minFreq)
+    freqMap = freqMap.retain((ch, n) => (n > boundedMinFreq))
 
     val charIds = freqMap.keysIterator.toList
 

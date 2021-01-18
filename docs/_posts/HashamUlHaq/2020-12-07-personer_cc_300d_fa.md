@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect 6 different entities - FA (persian ner)
+title: Detect Person, Organization, Location, Facilitie, Product and Event entities in Persian (persian_w2v_cc_300d)
 author: John Snow Labs
 name: personer_cc_300d
 date: 2020-12-07
@@ -12,18 +12,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model uses persian word embeddings to find 6 different types of entities in persian text. It is trained using `persian_w2v_cc_300d` word embeddings, so please use the same embeddings in the pipeline.
-It can identify:
-    \`Per` -> person
-    \`Org` -> organization (such as banks, ministries, embassies, teams, nationalities, networks and publishers), 
-    \`Loc` -> location (such as cities, villages, rivers, seas, gulfs, deserts and mountains), 
-    \`Fac` -> facility (such as schools, universities, research centers, airports, railways, bridges, roads, harbors, stations, hospitals, parks, zoos and cinemas), 
-    \`Pro` -> product (such as books, newspapers, TV shows, movies, airplanes, ships, cars, theories, laws, agreements and religions), 
-    \`Event` -> event (such as wars, earthquakes, national holidays, festivals and conferences); other are the remaining tokens.
+This model uses Persian word embeddings to find 6 different types of entities in Persian text. It is trained using `persian_w2v_cc_300d` word embeddings, so please use the same embeddings in the pipeline.
+
 
 ## Predicted Entities
 
-\`Per` `Fac` `Pro` `Loc` `Org` `Event`
+Persons-`PER`, Facilities-`FAC`, Products-`PRO`, Locations-`LOC`, Organizations-`ORG`, Events-`EVENT`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -36,36 +30,41 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
 ...
-
-ner = NerDLModel.pretrained("personer_cc_300d", "fa" ) \
+ner = NerDLModel.pretrained("personer_cc_300d", "fa") \
   .setInputCols(["sentence", "token", "word_embeddings"]) \
   .setOutputCol("ner")
-
 ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate("به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند")
 
 ```
 
+```scala
+...
+val ner_model = NerDLModel.pretrained("personer_cc_300d", "fa")
+        .setInputCols(Array("sentence", "token", "word_embeddings"))
+        .setOutputCol("ner")
+val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
+val result = pipeline.fit(Seq.empty["به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند"].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results
 
 ```bash
-|    | ner_chunk                | entity       |
-|---:|:-------------------------|:-------------|
+|    | ner_chunk                 | entity       |
+|---:|--------------------------:|-------------:|
 |  0 | خبرنگار ایرنا            | ORG          |
-|  1 | محمد قمی                 | PER          |
-|  2 | پاکدشت                   | LOC          |
+|  1 | محمد قمی                  | PER          |
+|  2 | پاکدشت                    | LOC          |
 |  3 | علی‌اکبر موسوی خوئینی     | PER          |
-|  4 | شمس‌الدین وهابی           | PER          |
-|  5 | تهران                    | LOC          |
+|  4 | شمس‌الدین وهابی            | PER          |
+|  5 | تهران                      | LOC          |
 
 ```
 
@@ -86,7 +85,7 @@ annotations = light_pipeline.fullAnnotate("به گزارش خبرنگار ایر
 
 ## Data Source
 
-This model is trained on data provided by https://www.aclweb.org/anthology/C16-1319/
+This model is trained on data provided by [https://www.aclweb.org/anthology/C16-1319/](https://www.aclweb.org/anthology/C16-1319/).
 
 ## Benchmarking
 

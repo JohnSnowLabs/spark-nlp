@@ -41,15 +41,9 @@ icd10cm_resolution = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_c
 
 pipeline_icd10cm = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, chunk_tokenizer, icd10cm_resolution])
 
-empty_df = spark.createDataFrame([[""]]).toDF("text")
+pipeline_model = pipeline_icd10cm.fit(spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG."""]]).toDF("text"))
 
-data = ["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG."""]
-
-pipeline_model = pipeline_icd10cm.fit(empty_df)
-
-light_pipeline = LightPipeline(pipeline_model)
-
-result = light_pipeline.annotate(data)
+result = pipeline_model.transform(data)
 ```
 
 ```scala
@@ -100,5 +94,5 @@ val result = pipeline.fit(Seq.empty["""A 28-year-old female with a history of ge
 
 {:.h2_title}
 ## Data Source
-Trained on ICD10 Clinical Modification datasetwith tenths of variations per code
+Trained on ICD10 Clinical Modification dataset with tenths of variations per code.
 https://www.icd10data.com/ICD10CM/Codes/
