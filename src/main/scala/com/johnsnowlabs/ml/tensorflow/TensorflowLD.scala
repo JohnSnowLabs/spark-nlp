@@ -60,15 +60,13 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val tokenBuffers = tensors.createFloatBuffer(inputs.length * inputSize)
     val shape = Array(inputs.length.toLong, inputSize)
 
-    inputs.map { sentence =>
-      tokenBuffers.put(sentence)
+    inputs.zipWithIndex.foreach{ case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
+      tokenBuffers.offset(offset).write(sentence)
     }
-    tokenBuffers.flip()
 
     val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
-    val tokenTensors = tensors.createFloatBufferTensor(shape, null)
-
-//    val tokenTensors = tensors.createFloatBufferTensor(shape, tokenBuffers)
+    val tokenTensors = tensors.createFloatBufferTensor(shape, tokenBuffers)
 
     runner
       .feed(inputKey, tokenTensors)
@@ -79,7 +77,6 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
     tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenBuffers.clear()
 
     predictions
 
