@@ -16,7 +16,7 @@ Pretrained named entity recognition deep learning model for radiology related te
 
 ## Predicted Entities
 
- `ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`,  `Test_Results`, `Symptom`, `Disease_Syndrome_Disorder`,  `Medical_Device`, `Procedure`, `Measurements`, `Units`
+ `ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`, `Symptom`, `Disease_Syndrome_Disorder`,  `Medical_Device`, `Procedure`, `Measurements`, `Units`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -99,12 +99,10 @@ Trained on a custom dataset comprising of  MIMIC-CXR and MT Radiology  texts
 |            BodyPart|1942.0|335.0|290.0|2232.0|   0.8529|0.8701|0.8614|
 |      Medical_Device| 236.0| 75.0| 64.0| 300.0|   0.7588|0.7867|0.7725|
 |                Test| 222.0| 41.0| 48.0| 270.0|   0.8441|0.8222| 0.833|
-|         Test_Result|   1.0|  0.0| 13.0|  14.0|      1.0|0.0714|0.1333|
 |           Procedure| 269.0|117.0|116.0| 385.0|   0.6969|0.6987|0.6978|
 |         ImagingTest| 263.0| 50.0| 43.0| 306.0|   0.8403|0.8595|0.8498|
 |             Symptom| 498.0|101.0|132.0| 630.0|   0.8314|0.7905|0.8104|
 |Disease_Syndrome_...|1180.0|258.0|200.0|1380.0|   0.8206|0.8551|0.8375|
-|           ManualFix|  18.0|  1.0|  2.0|  20.0|   0.9474|   0.9|0.9231|
 |               Units| 269.0| 10.0|  2.0| 271.0|   0.9642|0.9926|0.9782|
 |   Imaging_Technique| 140.0| 38.0| 25.0| 165.0|   0.7865|0.8485|0.8163|
 +--------------------+------+-----+-----+------+---------+------+------+
