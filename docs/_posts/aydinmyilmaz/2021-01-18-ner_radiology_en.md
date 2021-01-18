@@ -16,7 +16,7 @@ Pretrained named entity recognition deep learning model for radiology related te
 
 ## Predicted Entities
 
-`ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings `, BodyPart`, ` Direction `, `Test`,  ``Test_Results, `Symptom`, `Disease_Syndrome_Disorder`, `Medical_Device`, `Procedure`, `Measurements`, `Units`
+`ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`,  `Test_Results`, `Symptom`, `Disease_Syndrome_Disorder`, `Medical_Device`, `Procedure`, `Measurements`, `Units`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -109,15 +109,15 @@ Trained on a custom dataset comprising of  MIMIC-CXR and MT Radiology  texts
 |   Imaging_Technique| 140.0| 38.0| 25.0| 165.0|   0.7865|0.8485|0.8163|
 +--------------------+------+-----+-----+------+---------+------+------+
 
-+------------------+
-|             macro|
-+------------------+
-|0.7524248724038437|
-+------------------+
+                                                    +------------------+
+                                                    |             macro|
+                                                    +------------------+
+                                                    |0.7524248724038437|
+                                                    +------------------+
 
-+------------------+
-|             micro|
-+------------------+
-|0.8315240382681794|
-+------------------+
+                                                    +------------------+
+                                                    |             micro|
+                                                    +------------------+
+                                                    |0.8315240382681794|
+                                                    +------------------+
 ```
