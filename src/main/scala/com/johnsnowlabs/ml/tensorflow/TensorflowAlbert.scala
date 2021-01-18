@@ -132,7 +132,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
       val tokensPiece = tokenize(batch, maxSentenceLength, caseSensitive)
       val tokenIds = tokensPiece.map { sentence =>
         // SentencePiece generates multiple tokenIDs
-        // We need to be sure the maxSenetnceLength is respecetd
+        // We need to be sure the maxSentenceLength is respected
         val tokens = sentence.flatMap(x => x.tokens.map(x => x.pieceId)).take(maxSentenceLength - 3)
         sentenceStartTokenId ++ tokens ++ sentenceEndTokenId
       }

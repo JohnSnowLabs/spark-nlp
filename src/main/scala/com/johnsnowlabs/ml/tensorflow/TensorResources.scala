@@ -68,17 +68,16 @@ class TensorResources {
     outs.foreach(_.close())
   }
 
-  def createIntBuffer(dim: Int): IntBuffer = {
-
-    IntBuffer.allocate(dim)
+  def createIntBuffer(dim: Int): IntDataBuffer = {
+    DataBuffers.ofInts(dim)
   }
 
-  def createLongBuffer(dim: Int): LongBuffer = {
-    LongBuffer.allocate(dim)
+  def createLongBuffer(dim: Int): LongDataBuffer = {
+    DataBuffers.ofLongs(dim)
   }
 
-  def createFloatBuffer(dim: Int): FloatBuffer = {
-    FloatBuffer.allocate(dim)
+  def createFloatBuffer(dim: Int): FloatDataBuffer = {
+    DataBuffers.ofFloats(dim)
   }
 }
 
