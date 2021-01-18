@@ -16,7 +16,7 @@ Pretrained named entity recognition deep learning model for radiology related te
 
 ## Predicted Entities
 
-`ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`,  `Test_Results`, `Symptom`, `Disease_Syndrome_Disorder`, `Medical_Device`, `Procedure`, `Measurements`, `Units`
+ `ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`,  `Test_Results`, `Symptom`, `Disease_Syndrome_Disorder`,  `Medical_Device`, `Procedure`, `Measurements`, `Units`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
