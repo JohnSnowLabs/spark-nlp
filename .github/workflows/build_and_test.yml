@@ -37,13 +37,13 @@ jobs:
         sbt assemblyAndCopy
     - name: Test Spark NLP in Scala - Apache Spark 2.4.x
       run: |
-        sbt test    
+        sbt test
     - name: Test Spark NLP in Python - Apache Spark 2.4.x
       run: |
         cd python
         python3.7 -m run-tests
 
-  spark32: 
+  spark32:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: ubuntu-latest
     name: Build and Test on Apache Spark 2.3.x
@@ -70,8 +70,41 @@ jobs:
         sbt -Dis_spark23=true assemblyAndCopy
     - name: Test Spark NLP in Scala - Apache Spark 2.3.x
       run: |
-        sbt -Dis_spark23=true test    
+        sbt -Dis_spark23=true test
     - name: Test Spark NLP in Python - Apache Spark 2.3.x
       run: |
         cd python
         python3.7 -m run-tests
+
+  spark30:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    runs-on: ubuntu-latest
+    name: Build and Test on Apache Spark 3.0.1
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Install Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7.7
+          architecture: x64
+      - name: Install Python packages (Python 3.7)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyspark==3.0.1 numpy
+      - name: Build Spark NLP on Apache Spark 3.0.1
+        run: |
+          sbt -Dis_spark30=true clean
+          sbt -Dis_spark30=true compile
+          sbt -Dis_spark30=true assemblyAndCopy
+      - name: Test Spark NLP in Scala - Apache Spark 3.0.1
+        run: |
+          sbt -Dis_spark30=true test
+      - name: Test Spark NLP in Python - Apache Spark 3.0.1
+        run: |
+          cd python
+          python3.7 -m run-tests
