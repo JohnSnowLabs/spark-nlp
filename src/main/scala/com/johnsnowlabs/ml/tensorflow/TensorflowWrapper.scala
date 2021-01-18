@@ -10,6 +10,7 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import java.nio.file.Paths
 
+import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.tfSessionConfig
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -99,13 +100,10 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      // TODO this breaks with newer TF
-      //g.importGraphDef(graph)
+      g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      // TODO this breaks with newer TF
-      //val session = new Session(g, config)
-      val session = new Session(g)
+      val session = new Session(g, ConfigProto.parseFrom(tfSessionConfig))
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
       if(initAllTables) {
         session.runner
@@ -383,7 +381,7 @@ object TensorflowWrapper {
       (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
-      val session = new Session(graph, tfSessionConfig)
+      val session = new Session(graph, ConfigProto.parseFrom(tfSessionConfig))
       val varPath = Paths.get(folder, "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables.index")
       if(initAllTables) {
@@ -409,7 +407,7 @@ object TensorflowWrapper {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
