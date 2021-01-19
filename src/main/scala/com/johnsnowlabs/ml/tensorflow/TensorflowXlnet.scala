@@ -66,7 +66,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val maxSentenceLength = sequencesLength.max
 
     val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
-    val maskBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
+    val maskBuffers = tensors.createFloatBuffer(batch.length*maxSentenceLength)
     val segmentBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -80,12 +80,12 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
       val newTokenIds = tokenIds ++ padding
 
       tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers.offset(offset).write(newTokenIds.map(x=> if (x == 0) 0 else 1))
+      maskBuffers.offset(offset).write(newTokenIds.map(x=> if (x == 0) 0f else 1f))
     }
 
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val maskTensors = tensors.createFloatBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
