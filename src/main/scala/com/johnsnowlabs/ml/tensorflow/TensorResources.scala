@@ -1,12 +1,10 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
-
 import org.tensorflow.ndarray.buffer._
 import org.tensorflow.ndarray.{Shape, StdArrays}
 import org.tensorflow.types.family.TType
 import org.tensorflow.types._
-import org.tensorflow.{DataType, Tensor}
+import org.tensorflow.Tensor
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -20,15 +18,36 @@ class TensorResources {
 
   def createTensor[T](obj: T): Tensor[_ <: TType] = {
     val result = obj match {
+      case float: Float =>
+        TFloat32.scalarOf(float)
+
       case str: String =>
         TString.scalarOf(str)
+
+      case array:Array[String] =>
+        TString.tensorOf(StdArrays.ndCopyOf(array))
+
+      case bidimArray:Array[Array[String]] =>
+        TString.tensorOf(StdArrays.ndCopyOf(bidimArray))
+
       case bidimArray:Array[Array[Float]] =>
-        // old-style factory method currently discouraged
         TFloat32.tensorOf(StdArrays.ndCopyOf(bidimArray))
 
+      case tridimArray:Array[Array[Array[Float]]] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(tridimArray))
+
       case array:Array[Int] =>
-        // old-style factory method currently discouraged
         TInt32.tensorOf(StdArrays.ndCopyOf(array))
+
+      case array:Array[Array[Int]] =>
+        TInt32.tensorOf(StdArrays.ndCopyOf(array))
+
+      case array:Array[Array[Array[Int]]] =>
+        TInt32.tensorOf(StdArrays.ndCopyOf(array))
+
+      case array:Array[Array[Array[Byte]]] =>
+        TUint8.tensorOf(StdArrays.ndCopyOf(array))
+
     }
     tensors.append(result)
     result
@@ -36,22 +55,19 @@ class TensorResources {
 
 
   def createIntBufferTensor(shape: Array[Long], buf: IntDataBuffer): Tensor[TInt32] = {
-
     val result = TInt32.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }
 
   def createLongBufferTensor(shape: Array[Long], buf: LongDataBuffer): Tensor[TInt64] = {
-
     val result = TInt64.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }
 
-  def createFloatBufferTensor(shape: Array[Long], buf: FloatDataBuffer): Tensor[TFloat16] = {
-
-    val result = TFloat16.tensorOf(Shape.of(shape:_*), buf)
+  def createFloatBufferTensor(shape: Array[Long], buf: FloatDataBuffer): Tensor[TFloat32] = {
+    val result = TFloat32.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }

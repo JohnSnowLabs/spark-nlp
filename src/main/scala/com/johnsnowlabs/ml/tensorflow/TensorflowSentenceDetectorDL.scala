@@ -5,8 +5,8 @@ import org.tensorflow.Graph
 
 import scala.collection.JavaConverters._
 import scala.util.Random
-
 import org.apache.spark.ml.util.Identifiable
+import org.tensorflow.proto.framework.GraphDef
 
 class TensorflowSentenceDetectorDL (
                                    val model: TensorflowWrapper,
@@ -29,7 +29,7 @@ class TensorflowSentenceDetectorDL (
 
   private lazy val _graphOperations = {
     val graph = new Graph()
-    //graph.importGraphDef(model.graph)
+    graph.importGraphDef(GraphDef.parseFrom(model.graph))
     graph.operations().asScala.toArray
   }
 

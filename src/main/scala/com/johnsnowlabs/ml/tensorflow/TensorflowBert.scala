@@ -70,9 +70,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, null)
-    val maskTensors = tensors.createIntBufferTensor(shape, null)
-    val segmentTensors = tensors.createIntBufferTensor(shape, null)
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(tokenIdsKey, tokenTensors)
@@ -128,9 +128,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, null)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, null)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, null)
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(tokenIdsKey, tokenTensors)
