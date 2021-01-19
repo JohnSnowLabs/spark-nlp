@@ -7,7 +7,7 @@ val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
 val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
 val scalaVer = "2.11.12"
-val scalaTestVersion = "3.0.0"
+val scalaTestVersion = "3.0.1"
 
 /** Package attributes */
 
@@ -182,6 +182,21 @@ assemblyMergeStrategy in assembly := {
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
 }
+
+/** Test tagging */
+
+lazy val FastTest = config("fast") extend Test
+lazy val SlowTest = config("slow") extend Test
+
+configs(FastTest, SlowTest)
+
+testOptions in Test := Seq(Tests.Argument("-l", s"${name.value}.slow")) // exclude
+inConfig(FastTest)(Defaults.testTasks)
+parallelExecution in Test := false
+
+logBuffered in Test := false
+testOptions in FastTest := Seq(Tests.Argument("-n", s"${name.value}.fast")) // include
+parallelExecution in FastTest := false
 
 parallelExecution in Test := false
 
