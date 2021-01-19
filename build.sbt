@@ -7,6 +7,7 @@ val spark30Ver = "3.0.1"
 
 val is_gpu = System.getProperty("is_gpu","false")
 val is_spark23 = System.getProperty("is_spark23","false")
+//TODO breaking with older spark Why???
 val is_spark30 = System.getProperty("is_spark30","false")
 
 def getSparkVersion(is_spark23: String, is_spark30: String): String = {
@@ -56,6 +57,8 @@ version := "2.7.1"
 scalaVersion in ThisBuild := scalaVer
 
 sparkVersion in ThisBuild := sparkVer
+
+scalacOptions in ThisBuild += "-target:jvm-1.8"
 
 /** Spark-Package attributes */
 spName in ThisBuild := "JohnSnowLabs/spark-nlp"
@@ -129,6 +132,7 @@ developers in ThisBuild:= List(
 
 scalacOptions in (Compile, doc) ++= Seq(
   "-doc-title",
+  "-target:jvm-1.8",
   "Spark NLP " + version.value + " ScalaDoc"
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
@@ -175,7 +179,8 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0" exclude("com.fasterxml.jackson.core", "jackson-databind")
+      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
+        exclude("com.fasterxml.jackson.core", "jackson-databind")
     )
   else
     Seq(
@@ -183,6 +188,8 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
         exclude("com.fasterxml.jackson.core", "jackson-databind")
         exclude("com.fasterxml.jackson.core", "jackson-core")
         exclude("com.fasterxml.jackson.core", "jackson-annotations")
+        // TODO need to exclude this one for assembly, it brings conflicts, not sure how to solve.
+        //exclude("org.bytedeco", "javacpp")
     )
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
