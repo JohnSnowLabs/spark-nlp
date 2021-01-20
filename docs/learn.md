@@ -32,6 +32,11 @@ modify_date: "2019-05-16"
 #### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Get started with Machine Learning in Java using Spark NLP](https://medium.com/parito-labs-blog/get-started-with-machine-learning-in-java-using-spark-nlp-9eb8ef2ea2ce)</span><span class="video-descr">Will Price - August 27, 2020</span>
+</div></div>
+
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_4.jpg)[Introducing the Natural Language Processing Library for Apache Spark](https://databricks.com/blog/2017/10/19/introducing-natural-language-processing-library-apache-spark.html)</span><span class="video-descr">David Talby - October 19, 2017</span>
 </div></div>
@@ -80,6 +85,30 @@ modify_date: "2019-05-16"
 #### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[1 line to GLOVE Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-glove-word-embeddings-with-nlu-in-python-baed152fff4d)</span><span class="video-descr">Christian Kasim Loan - January 17, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[1 line to XLNET Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-xlnet-word-embeddings-with-nlu-in-python-5efc57d7ac79)</span><span class="video-descr">Christian Kasim Loan - January 17, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[1 line to ALBERT Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-albert-word-embeddings-with-nlu-in-python-1691bc048ed1)</span><span class="video-descr">Christian Kasim Loan - January 17, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[1 line to COVIDBERT Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-covidbert-word-embeddings-with-nlu-in-python-e67396da2f78)</span><span class="video-descr">Christian Kasim Loan - January 17, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[1 line to ELECTRA Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-electra-word-embeddings-with-nlu-in-python-25f749bf3e92)</span><span class="video-descr">Christian Kasim Loan - January 17, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[1 line to BioBERT Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-biobert-word-embeddings-with-nlu-in-python-7224ab52e131)</span><span class="video-descr">Christian Kasim Loan - January 17, 2021</span>
+</div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[1 Line of Code, 350 + NLP Models with John Snow Labs’ NLU in Python](https://medium.com/spark-nlp/1-line-of-code-350-nlp-models-with-john-snow-labs-nlu-in-python-2f1c55bba619)</span><span class="video-descr">Christian Kasim Loan - September 21, 2020</span>
@@ -164,6 +193,10 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Distributed Topic Modelling using Spark NLP and Spark MLLib(LDA)](https://medium.com/analytics-vidhya/distributed-topic-modelling-using-spark-nlp-and-spark-mllib-lda-6db3f06a4da3)</span><span class="video-descr">Satish Silveri - June 11, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[Text Classification in Spark NLP with Bert and Universal Sentence Encoders](https://towardsdatascience.com/text-classification-in-spark-nlp-with-bert-and-universal-sentence-encoders-e644d618ca32)</span><span class="video-descr">Veysel Kocaman - April 12, 2020</span>
 </div></div>
 
@@ -204,6 +237,10 @@ modify_date: "2019-05-16"
 #### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Cleaning and extracting text from HTML/XML documents by using Spark NLP](https://medium.com/spark-nlp/cleaning-and-extracting-content-from-html-xml-documents-using-spark-nlp-documentnormalizer-913d96b2ee34)</span><span class="video-descr">Stefano Lori - January 13 2021</span>
+</div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_4.jpg)[NER model with ELMo Embeddings in 5 minutes in Spark-NLP](https://medium.com/@christian.kasim.loan/scalable-ner-with-elmo-embeddings-in-5-minutes-in-spark-nlp-154bdaaf17b7)</span><span class="video-descr">Christian Kasim Loan - Jule 2020</span>
@@ -371,6 +408,10 @@ modify_date: "2019-05-16"
 #### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Big Data Analysis of Meetup Events using Spark NLP, Kafka and Vegas Visualization](https://towardsdatascience.com/a-big-data-analysis-of-meetup-events-using-spark-nlp-kafka-and-vegas-visualization-af12c0efed92)</span><span class="video-descr">Andrei Deuşteanu - August 25, 2020</span>
+</div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[Setup Spark NLP on Databricks in 2 Minutes and get the taste of scalable NLP](https://medium.com/spark-nlp/spark-nlp-quickstart-tutorial-with-databricks-5df54853cf0a)</span><span class="video-descr">Christian Kasim Loan - May 25, 2020</span>
