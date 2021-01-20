@@ -12,3 +12,6 @@ addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
 
 /** scoverage */
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % scoverageVersion)
+
+/** Test tag can access build sbt*/
+addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.7.0")
