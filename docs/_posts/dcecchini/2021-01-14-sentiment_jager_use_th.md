@@ -12,7 +12,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Analise sentiment in reviews by classifying them as `positive` and `negative`. When the sentiment probability is below a customizable threshold (default to `0.6`)  then resulting document will be labeled as `neutral`. This model is trained using the multilingual `UniversalSentenceEncoder` sentence embeddings, and uses DL approach to classify the sentiments.
+Analyze sentiment in reviews by classifying them as `positive` and `negative`. When the sentiment probability is below a customizable threshold (default to `0.6`)  then resulting document will be labeled as `neutral`. This model is trained using the multilingual `UniversalSentenceEncoder` sentence embeddings, and uses DL approach to classify the sentiments.
 
 ## Predicted Entities
 
