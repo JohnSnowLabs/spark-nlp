@@ -105,7 +105,7 @@ The model was trained on the custom corpus from [Jager V3](https://github.com/Ja
 |--------------|-----------|--------|----------|---------|
 | negative     | 0.94      | 0.99   | 0.96     | 82      |
 | positive     | 0.97      | 0.87   | 0.92     | 38      |
-| accuracy     | 0.95      | 120    |          |         |
+| accuracy     |           |        | 0.95     | 120     |
 | macro avg    | 0.96      | 0.93   | 0.94     | 120     |
 | weighted avg | 0.95      | 0.95   | 0.95     | 120     |
 ```
