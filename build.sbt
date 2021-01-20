@@ -22,7 +22,7 @@ val sparkVer = getSparkVersion(is_spark23, is_spark30)
 
 /** ------- Scala version start ------- */
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.12"
+lazy val scala212 = "2.12.13"
 lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
 
 lazy val supportedScalaVersions = List(scala212, scala211)
@@ -188,8 +188,6 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
         exclude("com.fasterxml.jackson.core", "jackson-databind")
         exclude("com.fasterxml.jackson.core", "jackson-core")
         exclude("com.fasterxml.jackson.core", "jackson-annotations")
-        // TODO need to exclude this one for assembly, it brings conflicts, not sure how to solve.
-        //exclude("org.bytedeco", "javacpp")
     )
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
@@ -207,7 +205,6 @@ lazy val root = (project in file("."))
   )
 
 assemblyMergeStrategy in assembly := {
-  case PathList("org", "bytedeco",   _ @ _*)  => MergeStrategy.first
   case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
   case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
