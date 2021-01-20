@@ -1,8 +1,9 @@
 package com
 
 import org.scalatest.Tag
+import com.johnsnowlabs.build.BuildInfo
 
 package object johnsnowlabs {
-  object FastTest extends Tag("com.johnsnowlabs.test.tags.fast")
-  object SlowTest extends Tag("com.johnsnowlabs.test.tags.slow")
+  object FastTest extends Tag(s"${BuildInfo.name}.fast")
+  object SlowTest extends Tag(s"${BuildInfo.name}.slow")
 }
