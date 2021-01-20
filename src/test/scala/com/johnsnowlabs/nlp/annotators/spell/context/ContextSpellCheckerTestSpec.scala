@@ -322,13 +322,47 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
+  "a Spell Checker Model" should "correctly correctly update word classes" ignore {
+
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data = Seq("We should take a trup to Supercalifragilisticexpialidoccious Land").toDF("text")
+    val meds: java.util.ArrayList[String] = new java.util.ArrayList[String]()
+    meds.add("Supercalifragilisticexpialidocious")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .load("./spellcheck_dl_en_2.6.0_2.4_1611153919342")//TODO replace with .pretrained()
+      .updateVocabClass("_LOC_", meds, false)
+      .setInputCols("token")
+      .setOutputCol("checked")
+      .setUseNewLines(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    val result = pipeline.transform(data)
+    val checked = result.select("checked").as[Array[Annotation]].collect
+    // check the spell checker was able to correct the word according to the update in the class
+    assert(checked.head.map(_.result).contains("Supercalifragilisticexpialidocious"))
+
+  }
+
+
   "a model" should "serialize properly" ignore {
 
     import scala.collection.JavaConversions._
 
     val ocrSpellModel = ContextSpellCheckerModel.read.load("./context_spell_med_en_2.0.0_2.4_1553552948340")
 
-    ocrSpellModel.setSpecialClassesTransducers(Seq(UnitToken))
+    ocrSpellModel.setSpecialClassesTransducers(Seq(new UnitToken))
 
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
@@ -353,18 +387,20 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   "number classes" should "recognize different number patterns" in {
     import scala.collection.JavaConversions._
-    val transducer = NumberToken.generateTransducer
+    val number = new NumberToken
+    val transducer = number.generateTransducer
 
     assert(transducer.transduce("100.3").toList.exists(_.distance == 0))
-    assert(NumberToken.separate("$40,000").equals(NumberToken.label))
+    assert(number.separate("$40,000").equals(number.label))
   }
 
   "date classes" should "recognize different date and time formats" in {
     import scala.collection.JavaConversions._
-    val transducer = DateToken.generateTransducer
+    val date = new DateToken
+    val transducer = date.generateTransducer
 
     assert(transducer.transduce("10/25/1982").toList.exists(_.distance == 0))
-    assert(DateToken.separate("10/25/1982").equals(DateToken.label))
+    assert(date.separate("10/25/1982").equals(date.label))
   }
 
   "suffixes and prefixes" should "recognized and handled properly" in {
@@ -377,4 +413,5 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     tmp = prefixedToken.separate(suffixedToken.separate("(08/10/1982)"))
     assert(tmp.equals("( 08/10/1982 )"))
   }
+
 }
