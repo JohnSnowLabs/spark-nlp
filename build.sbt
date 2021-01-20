@@ -202,12 +202,13 @@ lazy val root = (project in file("."))
         utilDependencies ++
         tensorflowDependencies++
         typedDependencyParserDependencies,
-
     // TODO potentially improve this?
     mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
 
 assemblyMergeStrategy in assembly := {
+  case PathList("org", "bytedeco",   _ @ _*)  => MergeStrategy.first
+  case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
   case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
   case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
