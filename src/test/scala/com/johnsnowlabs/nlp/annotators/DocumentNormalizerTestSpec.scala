@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.{FastTest, SlowTest}
 import com.johnsnowlabs.nlp.AnnotatorType
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.FlatSpec
 
 
