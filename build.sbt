@@ -162,12 +162,7 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
       "org.tensorflow" % "tensorflow" % "1.15.0"
     )
 
-lazy val root = (project in file(".")).
-  enablePlugins(BuildInfoPlugin).
-  settings(
-    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-    buildInfoPackage := "com.johnsnowlabs.build"
-  )
+lazy val root = (project in file("."))
   .settings(
     libraryDependencies ++=
       analyticsDependencies ++
@@ -190,21 +185,22 @@ assemblyMergeStrategy in assembly := {
 }
 
 /** Test tagging start */
+// Command line fast:test
 lazy val FastTest = config("fast") extend Test
+// Command line slow:test
 lazy val SlowTest = config("slow") extend Test
 
 configs(FastTest, SlowTest)
 
-testOptions in Test := Seq(Tests.Argument("-l", s"${name.value}.slow")) // exclude
-inConfig(FastTest)(Defaults.testTasks)
-
-testOptions in FastTest := Seq(Tests.Argument("-n", s"${name.value}.fast")) // include
-parallelExecution in FastTest := false
-
+// inConfig(FastTest)(Defaults.testTasks)
 parallelExecution in Test := false
-
 logBuffered in Test := false
 
+testOptions in FastTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.FastTest"))
+parallelExecution in FastTest := false
+
+testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.FastTest"))
+parallelExecution in SlowTest := false
 /** Test tagging end */
 
 scalacOptions ++= Seq(
