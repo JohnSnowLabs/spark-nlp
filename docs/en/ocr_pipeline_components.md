@@ -696,6 +696,211 @@ Output:
 +------------------------------------------------------------------+
 ```
 
+
+## DOCX processing
+
+Next section describes the transformers that deal with DOCX files with the purpose of extracting text and table data from it.
+
+### DocToText
+
+`DocToText` extracts text from the DOCX document.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the DOCX document |
+| originCol | string | path | path to the original file |
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | extracted text |
+| pageNumCol | string | pagenum | for compatibility with another transformers |
+
+
+NOTE: For setting parameters use `setParamName` method.
+{:.info}
+
+**Example**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToText
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToText()
+  .setInputCol("content")
+  .setOutputCol("text")
+
+val data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+docPath = "path to docx with text layout"
+
+# Read DOCX file as binary file
+df = spark.read.format("binaryFile").load(docPath)
+
+transformer = DocToText() \
+  .setInputCol("content") \
+  .setOutputCol("text") 
+
+data = transformer.transform(df)
+
+data.select("pagenum", "text").show()
+```
+
+</div>
+
+### DocToTextTable
+
+`DocToTextTable` extracts table data from the DOCX documents.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | TableContainer | tables | Extracted tables |
+
+
+NOTE: For setting parameters use `setParamName` method.
+{:.info}
+
+**Example**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToTextTable
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToTextTable()
+  .setInputCol("content")
+  .setOutputCol("tables")
+
+val data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+docPath = "path to docx with text layout"
+
+# Read DOCX file as binary file
+df = spark.read.format("binaryFile").load(docPath)
+
+transformer = DocToTextTable() \
+  .setInputCol("content") \
+  .setOutputCol("tables") 
+
+data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+</div>
+
+### DocToPdf
+
+`DocToPdf` convert DOCX document to PDF document.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the DOCX document |
+| originCol | string | path | path to the original file |
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | binary representation of the PDF document |
+
+
+NOTE: For setting parameters use `setParamName` method.
+{:.info}
+
+**Example**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.DocToPdf
+
+val docPath = "path to docx with text layout"
+
+// Read DOCX file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new DocToPdf()
+  .setInputCol("content")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+docPath = "path to docx with text layout"
+
+# Read DOCX file as binary file
+df = spark.read.format("binaryFile").load(docPath)
+
+transformer = DocToPdf() \
+  .setInputCol("content") \
+  .setOutputCol("pdf") 
+
+data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+</div>
+
+
 ## Dicom processing
 
 ### DicomToImage
