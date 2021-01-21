@@ -1,16 +1,15 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{AnnotatorType, ContentProvider, DataBuilder}
+import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
+import com.johnsnowlabs.nlp.{AnnotatorType, ContentProvider, DataBuilder, _}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import com.johnsnowlabs.nlp._
 import org.scalatest._
-
-import SparkAccessor.spark.implicits._
 
 
 class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
 
-  "A normalizer" should s"be of type ${AnnotatorType.TOKEN}" in {
+  "A normalizer" should s"be of type ${AnnotatorType.TOKEN}" taggedAs FastTest in {
     val normalizer = new Normalizer
     assert(normalizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }

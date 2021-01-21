@@ -2,13 +2,14 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, Finisher, SparkAccessor}
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
 
 class ChunkTokenizerTestSpec extends FlatSpec {
 
-  "a ChunkTokenizer" should "correctly identify origin source and in correct order" in {
+  "a ChunkTokenizer" should "correctly identify origin source and in correct order" taggedAs FastTest in {
 
     import SparkAccessor.spark.implicits._
 

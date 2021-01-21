@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
 
@@ -28,7 +29,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
     .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
     .setCaseSensitive(false)
 
-  "NGramGenerator" should "correctly generate n-grams from tokenizer's results" in {
+  "NGramGenerator" should "correctly generate n-grams from tokenizer's results" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -77,7 +78,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGenerator" should "correctly generate n-grams with enableCumulative" in {
+  "NGramGenerator" should "correctly generate n-grams with enableCumulative" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -150,7 +151,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGenerator" should "correctly generate n-grams with specified delimiter" in {
+  "NGramGenerator" should "correctly generate n-grams with specified delimiter" taggedAs FastTest in {
     val delimiter = "_"
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
@@ -224,7 +225,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGenerator" should "correctly works with empty tokens" in {
+  "NGramGenerator" should "correctly works with empty tokens" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),

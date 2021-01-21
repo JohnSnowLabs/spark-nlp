@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
-import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
+
 import scala.language.reflectiveCalls
 
 trait RegexMatcherBehaviors { this: FlatSpec =>
@@ -17,19 +19,19 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
   }
 
   def customizedRulesRegexMatcher(dataset: => Dataset[Row], rules: Array[(String, String)], strategy: String): Unit = {
-    "A RegexMatcher Annotator with custom rules" should s"successfuly match ${rules.map(_._1).mkString(",")}" in {
+    "A RegexMatcher Annotator with custom rules" should s"successfuly match ${rules.map(_._1).mkString(",")}" taggedAs FastTest in {
       val f = fixture(dataset, rules, strategy)
       f.regexAnnotations.foreach { a =>
         assert(Seq("followed by 'the'", "ceremony").contains(a.metadata("identifier")))
       }
     }
 
-    it should "create annotations" in {
+    it should "create annotations" taggedAs FastTest in {
       val f = fixture(dataset, rules, strategy)
       assert(f.regexAnnotations.nonEmpty)
     }
 
-    it should "create annotations with the correct tag" in {
+    it should "create annotations with the correct tag" taggedAs FastTest in {
       val f = fixture(dataset, rules, strategy)
       f.regexAnnotations.foreach { a =>
         assert(a.annotatorType == CHUNK)

@@ -1,13 +1,14 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp._
-import org.scalatest._
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions._
-import SparkAccessor.spark.implicits._
-import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.sql.{DataFrame, Dataset}
+import org.scalatest._
 
 
 trait SymmetricDeleteBehaviors { this: FlatSpec =>
@@ -63,7 +64,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testSimpleCheck(wordAnswer: Seq[(String, String)]): Unit ={
-     it should "successfully correct a misspell" in {
+     it should "successfully correct a misspell" taggedAs FastTest in {
        val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
        val spellChecker = new SymmetricDeleteApproach()
          .setInputCols("token")
@@ -77,7 +78,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testSeveralChecks(wordAnswer:  Seq[(String, String)]): Unit = {
-    s"symspell checker " should s"successfully correct several misspells" in {
+    s"symspell checker " should s"successfully correct several misspells" taggedAs FastTest in {
 
       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
       val spellChecker = new SymmetricDeleteApproach()
@@ -94,7 +95,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testAccuracyChecks(wordAnswer: Seq[(String, String)]): Unit = {
-    s"spell checker" should s" correct words with at least a fair accuracy" in {
+    s"spell checker" should s" correct words with at least a fair accuracy" taggedAs FastTest in {
       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
       val spellChecker = new SymmetricDeleteApproach()
         .setInputCols("token")
@@ -111,7 +112,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
 
   def testBigPipeline(): Unit = {
-    s"a SymSpellChecker without dictionary" should "successfully correct words" in {
+    s"a SymSpellChecker without dictionary" should "successfully correct words" taggedAs FastTest in {
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))
@@ -132,7 +133,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testBigPipelineDict(): Unit = {
-    s"a SymSpellChecker annotator with a dictionary" should "successfully correct words" in {
+    s"a SymSpellChecker annotator with a dictionary" should "successfully correct words" taggedAs FastTest in {
 
       val pipeline = new Pipeline()
         .setStages(Array(
@@ -151,7 +152,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   def testIndividualWordsWithDictionary(): Unit = {
     s"a SymSpellChecker annotator with pipeline of individual words with dictionary" should
-      "successfully correct words with good accuracy" in {
+      "successfully correct words with good accuracy" taggedAs FastTest in {
 
       val path = "src/test/resources/spell/misspelled_words.csv"
       val predictionDataSet = SparkAccessor.spark.read.format("csv").option("header", "true").load(path)
@@ -174,7 +175,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
   def testLoadModel(): Unit = {
     s"a SymSpellChecker annotator with load model of" should
-      "successfully correct words" in {
+      "successfully correct words" taggedAs FastTest in {
       val predictionDataSet = Seq("Hello World").toDS.toDF("text")
 
       val spell = new SymmetricDeleteApproach()
@@ -197,7 +198,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testEmptyDataset(): Unit = {
-    it should "rise an error message" in {
+    it should "rise an error message" taggedAs FastTest in {
 
     val spell = new SymmetricDeleteApproach()
       .setInputCols(Array("token"))
@@ -230,7 +231,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def transformCapitalCaseTypeWordIntoCapitalCase(): Unit = {
-    it should "transform a corrected capital case type word into capital case" in {
+    it should "transform a corrected capital case type word into capital case" taggedAs FastTest in {
       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
       val spellChecker = new SymmetricDeleteApproach()
         .setInputCols("token")
@@ -248,7 +249,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def testDefaultTokenCorpusParameter(): Unit = {
-    s"using a corpus with default token parameter" should "successfully correct words" in {
+    s"using a corpus with default token parameter" should "successfully correct words" taggedAs FastTest in {
 
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("token"))

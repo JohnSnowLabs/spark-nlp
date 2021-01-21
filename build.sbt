@@ -192,14 +192,16 @@ lazy val SlowTest = config("slow") extend Test
 
 configs(FastTest, SlowTest)
 
-inConfig(FastTest)(Defaults.testTasks)
 parallelExecution in Test := false
 logBuffered in Test := false
+testOptions in Test := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
 
-testOptions in FastTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.FastTest"))
+inConfig(FastTest)(Defaults.testTasks)
+testOptions in FastTest := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
 parallelExecution in FastTest := false
 
-testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest"))
+inConfig(SlowTest)(Defaults.testTasks)
+testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
 parallelExecution in SlowTest := false
 /** Test tagging end */
 
