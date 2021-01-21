@@ -12,7 +12,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model detects drugs, dosage, form, frequency, duration, route, and drug strength in text. It differs from `ner_posology` in the sense that it chunks together drugs, dosage, form, strength, dosage, and route when they appear together, resulting in a bigger chunk. It is trained using `embeddings_clinical` so please use the same embeddings in the pipeline.
+This model detects drugs, dosage, form, frequency, duration, route, and drug strength in text. It differs from `ner_posology` in the sense that it chunks together drugs, dosage, form, strength, duration, and route when they appear together, resulting in a bigger chunk. It is trained using `embeddings_clinical` so please use the same embeddings in the pipeline.
 
 ## Predicted Entities
 
