@@ -2,19 +2,13 @@ package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 
 import com.johnsnowlabs.nlp.SparkAccessor.spark
-
-import scala.io.Source
-import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.apache.commons.io.IOUtils
-import org.scalatest.FlatSpec
-import org.tensorflow.Graph
-import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
+import org.scalatest.FlatSpec
 
-import scala.util.Random
+import java.nio.file.{Files, Paths}
+import scala.io.Source
 
 class SentenceDetectorDLSpec  extends FlatSpec {
   implicit val session = spark
@@ -24,7 +18,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
   val savedModelPath = "./tmp_sdd_model/new_model"
   val testSampleFreeText = "src/test/resources/sentence_detector_dl/sample.txt"
 
-  "Sentence Detector DL" should "train a new model" in {
+  "Sentence Detector DL" should "train a new model" taggedAs FastTest in {
 
     assert(Files.exists(Paths.get(trainDataFile)))
 
@@ -45,7 +39,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
     model.stages(1).asInstanceOf[SentenceDetectorDLModel].write.overwrite().save(savedModelPath)
   }
 
-  "Sentence Detector DL" should "run test metrics" in {
+  "Sentence Detector DL" should "run test metrics" taggedAs FastTest in {
 
     val text = Source.fromFile(testDataFile).getLines().map(_.trim).mkString("\n")
     val sentenceDetectorDL = SentenceDetectorDLModel.load(savedModelPath)
@@ -61,7 +55,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
       metrics.f1))
   }
 
-  "Sentence Detector DL" should "load and run pretrained model" in {
+  "Sentence Detector DL" should "load and run pretrained model" taggedAs FastTest in {
 
     val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
 
@@ -96,7 +90,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
     })
   }
 
-  "Sentence Detector DL" should "download and run pretrained model" in {
+  "Sentence Detector DL" should "download and run pretrained model" taggedAs FastTest in {
 
     val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
 

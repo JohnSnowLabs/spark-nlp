@@ -1,19 +1,20 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
-import java.io.File
-
 import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, Transducer}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
+
+import java.io.File
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
@@ -27,7 +28,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val weights = loadWeights("src/test/resources/dist.psv")
   }
   // This test fails in GitHub Actions
-  "Spell Checker" should "provide appropriate scores - sentence level" ignore {
+  "Spell Checker" should "provide appropriate scores - sentence level" taggedAs SlowTest in {
 
 
     def time[R](block: => R): R = {
@@ -68,7 +69,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
   // This test fails in GitHub Actions
-  "UnitClass" should "serilize/deserialize properly" ignore {
+  "UnitClass" should "serilize/deserialize properly" taggedAs SlowTest in {
 
     import SparkAccessor.spark
     val dataPathTrans = "./tmp/transducer"
@@ -132,7 +133,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly preprocess training data" in {
+  "a Spell Checker" should "correctly preprocess training data" taggedAs FastTest in {
 
     val path = "src/test/resources/test.txt"
     val dataset = SparkAccessor.spark.sparkContext.textFile(path).
@@ -168,7 +169,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "work in a pipeline with Tokenizer" ignore {
+  "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
       "He wos re1uctant to clange .",
       "he is gane .").toDF("text")
@@ -193,7 +194,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "a Spell Checker" should "work in a light pipeline" ignore {
+  "a Spell Checker" should "work in a light pipeline" taggedAs SlowTest in {
     import SparkAccessor.spark
     import spark.implicits._
 
@@ -220,7 +221,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly handle paragraphs defined by newlines" ignore {
+  "a Spell Checker" should "correctly handle paragraphs defined by newlines" taggedAs SlowTest in {
     import SparkAccessor.spark
     import spark.implicits._
 
@@ -249,7 +250,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly handle multiple sentences" ignore {
+  "a Spell Checker" should "correctly handle multiple sentences" taggedAs SlowTest in {
 
     import SparkAccessor.spark
     import spark.implicits._
@@ -289,7 +290,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a model" should "serialize properly" ignore {
+  "a model" should "serialize properly" taggedAs SlowTest in {
 
     import scala.collection.JavaConversions._
 
@@ -318,7 +319,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "number classes" should "recognize different number patterns" in {
+  "number classes" should "recognize different number patterns" taggedAs FastTest in {
     import scala.collection.JavaConversions._
     val transducer = NumberToken.generateTransducer
 
@@ -326,7 +327,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(NumberToken.separate("$40,000").equals(NumberToken.label))
   }
 
-  "date classes" should "recognize different date and time formats" in {
+  "date classes" should "recognize different date and time formats" taggedAs FastTest in {
     import scala.collection.JavaConversions._
     val transducer = DateToken.generateTransducer
 
@@ -334,7 +335,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     assert(DateToken.separate("10/25/1982").equals(DateToken.label))
   }
 
-  "suffixes and prefixes" should "recognized and handled properly" in {
+  "suffixes and prefixes" should "recognized and handled properly" taggedAs FastTest in {
     val suffixedToken = SuffixedToken(Array(")", ","))
     val prefixedToken = PrefixedToken(Array("("))
 

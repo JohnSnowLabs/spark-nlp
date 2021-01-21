@@ -1,14 +1,16 @@
 package com.johnsnowlabs.nlp.pretrained
 
-import java.sql.Timestamp
+import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Version
 import org.scalatest.FlatSpec
+
+import java.sql.Timestamp
 
 
 class ResourceDownloaderSpec extends FlatSpec {
   val b = CloudTestResources
 
-  "CloudResourceMetadata" should "serialize and deserialize correctly" in {
+  "CloudResourceMetadata" should "serialize and deserialize correctly" taggedAs FastTest in {
     val resource = new ResourceMetadata("name",
       Some("en"),
       Some(Version(1,2,3)),
@@ -22,20 +24,20 @@ class ResourceDownloaderSpec extends FlatSpec {
     assert(deserialized == resource)
   }
 
-  "CloudResourceDownloader" should "choose the newest versions" in {
+  "CloudResourceDownloader" should "choose the newest versions" taggedAs FastTest in {
     val found = ResourceMetadata.resolveResource(b.all, ResourceRequest("name", Some("en"), "", Version(1, 2, 3), Version(3, 4, 5)))
 
     assert(found.isDefined)
     assert(found.get == b.name_en_123_345_new)
   }
 
-  "CloudResourceDownloader" should "filter disabled resources" in {
+  "CloudResourceDownloader" should "filter disabled resources" taggedAs FastTest in {
     val found = ResourceMetadata.resolveResource(List(b.name_en_new_disabled), ResourceRequest("name", Some("en"), "", Version(1, 2, 3), Version(3, 4, 5)))
 
     assert(found.isEmpty)
   }
 
-  "CloudResourceDownloader" should "filter language and allow empty versions" in {
+  "CloudResourceDownloader" should "filter language and allow empty versions" taggedAs FastTest in {
     val found = ResourceMetadata.resolveResource(List(b.name_en_old, b.name_de), ResourceRequest("name", Some("en"), "", Version(1, 2, 3), Version(3, 4, 5)))
 
     assert(found.isDefined)

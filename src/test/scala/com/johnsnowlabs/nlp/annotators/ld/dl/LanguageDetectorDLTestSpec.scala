@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ld.dl
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest._
 
@@ -10,7 +11,7 @@ class LanguageDetectorDLTestSpec extends FlatSpec {
 
   val spark = ResourceHelper.spark
 
-  "LanguageDetectorDL" should "correctly load pretrained model" in {
+  "LanguageDetectorDL" should "correctly load pretrained model" taggedAs FastTest in {
 
     val smallCorpus = spark.read
       .option("header", true)
