@@ -45,7 +45,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
 //      }
 //    }
 
-    it should "respect begin and end based on each sentence" in {
+    it should "respect begin and end based on each sentence" taggedAs FastTest in {
       import ResourceHelper.spark.implicits._
 
       val sampleDataset = ResourceHelper.spark.createDataFrame(Seq(
