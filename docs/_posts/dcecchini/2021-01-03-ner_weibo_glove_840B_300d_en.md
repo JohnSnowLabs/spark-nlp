@@ -29,8 +29,8 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 | ORG.NOM | Generic or collective organization | 文艺公司     |
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_ZH/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_weibo_glove_840B_300d_en_2.6.2_2.4_1609710175876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
