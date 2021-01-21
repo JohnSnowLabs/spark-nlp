@@ -23,6 +23,11 @@ jQuery(document).ready(function($) {
         jQuery('#aside_menu').removeClass('close');  
       }       
   });
+  jQuery('#menu_btn').click(function(e) {
+    e.preventDefault();
+    jQuery(this).toggleClass('replace');
+    jQuery('.menu').slideToggle();
+});
 });
 
 /*TABS*/
