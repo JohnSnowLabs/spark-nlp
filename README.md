@@ -154,6 +154,7 @@ Spark NLP *2.7.1* has been built on top of Apache Spark 2.4.x and fully supports
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x |
 |-------------|-----------------------|--------------------|
+| 2.7.x       |YES                    |YES                 |
 | 2.6.x       |YES                    |YES                 |
 | 2.5.x       |YES                    |YES                 |
 | 2.4.x       |Partially              |YES                 |
