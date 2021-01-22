@@ -7,13 +7,12 @@ import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, IgnoreTest, SlowTest}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 import java.io.File
-
 import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.io.FileInputStream
@@ -343,7 +342,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setOutputCol("token")
 
     val spellChecker = ContextSpellCheckerModel
-      .load("./spellcheck_dl_en_2.6.0_2.4_1611153919342")//TODO replace with .pretrained()
+      .pretrained()
       .updateVocabClass("_LOC_", meds, false)
       .setInputCols("token")
       .setOutputCol("checked")
@@ -353,16 +352,17 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val result = pipeline.transform(data)
     val checked = result.select("checked").as[Array[Annotation]].collect
     // check the spell checker was able to correct the word according to the update in the class
+    pipeline.stages.last.asInstanceOf[ContextSpellCheckerModel].write.overwrite.save("./test_spell_checker")
     assert(checked.head.map(_.result).contains("Supercalifragilisticexpialidocious"))
 
   }
 
 
-  "a model" should "serialize properly" taggedAs FastTest in {
+  "a model" should "serialize properly" taggedAs SlowTest in {
 
     import scala.collection.JavaConversions._
 
-    val ocrSpellModel = ContextSpellCheckerModel.read.load("./context_spell_med_en_2.0.0_2.4_1553552948340")
+    val ocrSpellModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
 
     ocrSpellModel.setSpecialClassesTransducers(Seq(new UnitToken))
 
