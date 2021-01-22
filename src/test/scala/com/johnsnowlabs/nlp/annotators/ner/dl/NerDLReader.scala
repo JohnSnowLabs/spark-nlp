@@ -4,12 +4,13 @@ import com.johnsnowlabs.nlp.LightPipeline
 import com.johnsnowlabs.nlp.annotators.NormalizerModel
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class NerDLReaderTestSpec extends FlatSpec {
 
-  "Tensorflow NerDLReader" should "correctly load and save a ner model" ignore {
+  "Tensorflow NerDLReader" should "correctly load and save a ner model" taggedAs SlowTest in {
 
     val model = NerDLModelPythonReader.read(
       "./source_model",
@@ -22,7 +23,7 @@ class NerDLReaderTestSpec extends FlatSpec {
   }
 
 
-  "NerDLModel" should "correctly read and use a tensorflow originated ner model" ignore {
+  "NerDLModel" should "correctly read and use a tensorflow originated ner model" taggedAs SlowTest in {
     val spark = ResourceHelper.spark
     import spark.implicits._
 

@@ -1,6 +1,8 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
+import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.base._
 import org.apache.spark.sql.{Dataset, Row}
@@ -11,6 +13,7 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 
 import scala.language.reflectiveCalls
+
 
 trait RegexMatcherBehaviors { this: FlatSpec =>
   def fixture(dataset: Dataset[Row], rules: Array[(String, String)], strategy: String) = new {
@@ -42,7 +45,7 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
 //      }
 //    }
 
-    it should "respect begin and end based on each sentence" in {
+    it should "respect begin and end based on each sentence" taggedAs FastTest in {
       import ResourceHelper.spark.implicits._
 
       val sampleDataset = ResourceHelper.spark.createDataFrame(Seq(
@@ -75,7 +78,6 @@ trait RegexMatcherBehaviors { this: FlatSpec =>
         .toArray
 
       assert(regexChunks sameElements expectedChunks)
-
     }
   }
 }

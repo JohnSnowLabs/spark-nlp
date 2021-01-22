@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, SparkAccessor}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions.asc
 import org.scalatest.Matchers.{convertToAnyShouldWrapper, equal}
@@ -94,7 +95,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     normalizedDoc
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all HTML tags" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all HTML tags" taggedAs FastTest in {
 
     val action = "clean"
     val patterns = Array("<[^>]*>")
@@ -106,7 +107,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     675 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified p HTML tags content" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified p HTML tags content" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "p"
@@ -118,7 +119,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     605 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified h1 HTML tags content" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified h1 HTML tags content" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "h1"
@@ -130,7 +131,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     1140 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified br HTML tags content" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all specified br HTML tags content" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "br"
@@ -142,7 +143,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     409 should equal (f.last.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up emails" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up emails" taggedAs FastTest in {
 
     val action = "clean"
     val patterns = Array("([^.@\\s]+)(\\.[^.@\\s]+)*@([^.@\\s]+\\.)+([^.@\\s]+)")
@@ -154,7 +155,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     410 should equal (f.last.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up ages" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up ages" taggedAs FastTest in {
 
     val action = "clean"
     val patterns = Array("\\d+(?=[\\s]?year)", "(aged)[\\s]?\\d+")
@@ -165,7 +166,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     399 should equal (f.last.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all a HTML tags content" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all a HTML tags content" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "a"
@@ -177,7 +178,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     871 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all div HTML tags" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all div HTML tags" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "div"
@@ -189,7 +190,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     926 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all b HTML tags content" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up all b HTML tags content" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "b"
@@ -201,7 +202,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     675 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes extracting all div HTML tags contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting all div HTML tags contents" taggedAs FastTest in {
 
     val action = "extract"
     val tag = "div"
@@ -213,7 +214,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     1335 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes extracting all p HTML tags contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting all p HTML tags contents" taggedAs FastTest in {
 
     val action = "extract"
     val tag = "p"
@@ -225,7 +226,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     574 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes extracting all h1 HTML tags contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting all h1 HTML tags contents" taggedAs FastTest in {
 
     val action = "extract"
     val tag = "h1"
@@ -237,7 +238,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     37 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes extracting XML streetAddressLine tag contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting XML streetAddressLine tag contents" taggedAs FastTest in {
 
     val action = "extract"
     val tag = "streetAddressLine"
@@ -249,7 +250,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     301 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes extracting XML name tag contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting XML name tag contents" taggedAs FastTest in {
 
     val action = "extract"
     val tag = "name"
@@ -261,7 +262,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     638 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes extracting XML family tag contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes extracting XML family tag contents" taggedAs FastTest in {
 
     val action = "extract"
     val tag = "family"
@@ -273,7 +274,7 @@ trait DocumentNormalizerBehaviors extends FlatSpec {
     59 should equal (f.head.end)
   }
 
-  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up JSON author field contents" in {
+  "A DocumentNormalizer" should "annotate with the correct indexes cleaning up JSON author field contents" taggedAs FastTest in {
 
     val action = "clean"
     val tag = "author"

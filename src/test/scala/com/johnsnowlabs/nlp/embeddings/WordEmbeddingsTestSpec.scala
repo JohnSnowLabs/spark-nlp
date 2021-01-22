@@ -3,12 +3,13 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest._
 
 class WordEmbeddingsTestSpec extends FlatSpec {
 
-  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" ignore {
+  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs SlowTest in {
 
     val words = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/clinical_words.txt")
     val notWords = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/not_words.txt")
@@ -55,7 +56,7 @@ class WordEmbeddingsTestSpec extends FlatSpec {
     assert(notWordsOverallCoverage == 0)
   }
 
-  "Word Embeddings" should "store and load from disk" in {
+  "Word Embeddings" should "store and load from disk" taggedAs FastTest in {
 
     val data =
       ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/clinical_words.txt")
