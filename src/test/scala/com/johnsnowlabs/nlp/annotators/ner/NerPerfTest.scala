@@ -4,12 +4,13 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._
 
 class NerPerfTest extends FlatSpec {
 
-  "NerCRF Approach" should "be fast to train" ignore {
+  "NerCRF Approach" should "be fast to train" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -64,7 +65,7 @@ class NerPerfTest extends FlatSpec {
 
   }
 
-  "NerDL Approach" should "be fast to train" ignore {
+  "NerDL Approach" should "be fast to train" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -119,7 +120,7 @@ class NerPerfTest extends FlatSpec {
 
   }
 
-  "NerDL Model" should "label correctly" ignore {
+  "NerDL Model" should "label correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -172,7 +173,7 @@ class NerPerfTest extends FlatSpec {
 
   }
 
-  "NerCRF Model" should "label correctly" ignore {
+  "NerCRF Model" should "label correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 

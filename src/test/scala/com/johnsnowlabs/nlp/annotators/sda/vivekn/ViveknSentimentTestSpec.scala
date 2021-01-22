@@ -2,17 +2,16 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Row
 import org.scalatest._
 
 class ViveknSentimentTestSpec extends FlatSpec {
 
-  "A ViveknSentiment" should "should be trained by DataFrame" in {
+  "A ViveknSentiment" should "should be trained by DataFrame" taggedAs FastTest in {
     import SparkAccessor.spark.implicits._
 
     val trainingDataDF = Seq(
@@ -82,7 +81,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
     succeed
   }
 
-  "A ViveknSentiment" should "work under a pipeline framework" in {
+  "A ViveknSentiment" should "work under a pipeline framework" taggedAs FastTest in {
 
     import SparkAccessor.spark.implicits._
 
@@ -145,7 +144,7 @@ class ViveknSentimentTestSpec extends FlatSpec {
     succeed
   }
 
-  "an spark vivekn sentiment analysis annotator" should "process a dataframe successfully" in {
+  "an spark vivekn sentiment analysis annotator" should "process a dataframe successfully" taggedAs FastTest in {
 
     import SparkAccessor.spark.implicits._
 

@@ -2,6 +2,7 @@ package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.SparkAccessor
 import org.scalatest._
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 class ExportCSVToolTestSpec extends FlatSpec with ExportCSVToolBehaviors {
 

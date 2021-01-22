@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.DataFrame
 import org.scalatest._
 
@@ -62,7 +63,7 @@ class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehavio
     test="src/test/resources/test.txt"
   )
 
-  "A Perceptron Tagger" should "be readable and writable" in {
+  "A Perceptron Tagger" should "be readable and writable" taggedAs FastTest in {
     val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, "src/test/resources/anc-pos-corpus-small/", "|", "tags")
 
     val perceptronTagger = new PerceptronApproach()

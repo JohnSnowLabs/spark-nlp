@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.annotators.ws.{WordSegmenterApproach, WordSegmenterM
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, DocumentAssembler, SparkAccessor}
+import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -32,7 +33,7 @@ class WordSegmenterTest extends FlatSpec {
 
   }
 
-  "A Word Segmenter" should "tokenize Chinese text" in {
+  "A Word Segmenter" should "tokenize Chinese text" taggedAs FastTest in {
     val trainingDataSet = getWordSegmenterDataSet("src/test/resources/word-segmenter/chinese_train.utf8")
     val testDataSet = Seq("十四不是四十").toDS.toDF("text")
     val expectedResult = Array(Seq(
@@ -49,7 +50,7 @@ class WordSegmenterTest extends FlatSpec {
     AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
-  it should "tokenize Japanese text" in {
+  it should "tokenize Japanese text" taggedAs FastTest in {
     val trainingDataSet = getWordSegmenterDataSet("src/test/resources/word-segmenter/japanese_train.utf8")
     val testDataSet = Seq("音楽数学生理学").toDS.toDF("text")
     val expectedResult = Array(Seq(
@@ -67,7 +68,7 @@ class WordSegmenterTest extends FlatSpec {
     AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
-  it should "tokenize Korean text" in {
+  it should "tokenize Korean text" taggedAs FastTest in {
     val trainingDataSet = getWordSegmenterDataSet("src/test/resources/word-segmenter/korean_train.utf8")
     val testDataSet = Seq("피부색성언어종교").toDS.toDF("text")
     val expectedResult = Array(Seq(
@@ -85,7 +86,7 @@ class WordSegmenterTest extends FlatSpec {
     AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
-  it should "serialize a model" in {
+  it should "serialize a model" taggedAs FastTest in {
     val trainingDataSet = getWordSegmenterDataSet("src/test/resources/word-segmenter/chinese_train.utf8")
 
     wordSegmenter.fit(trainingDataSet).write.overwrite().save("./tmp_chinese_tokenizer")
@@ -95,7 +96,7 @@ class WordSegmenterTest extends FlatSpec {
     }
   }
 
-  it should "deserialize a model" in {
+  it should "deserialize a model" taggedAs FastTest in {
     val testDataSet = Seq("十四不是四十").toDS.toDF("text")
     val expectedResult = Array(Seq(
       Annotation(TOKEN, 0, 1, "十四", Map("sentence" -> "0")),

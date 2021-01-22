@@ -9,6 +9,7 @@ val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
 
+
 /** Package attributes */
 
 if (is_gpu.equals("true") && is_spark23.equals("true")){
@@ -183,9 +184,26 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
-parallelExecution in Test := false
+/** Test tagging start */
+// Command line fast:test
+lazy val FastTest = config("fast") extend Test
+// Command line slow:test
+lazy val SlowTest = config("slow") extend Test
 
+configs(FastTest, SlowTest)
+
+parallelExecution in Test := false
 logBuffered in Test := false
+testOptions in Test := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+
+inConfig(FastTest)(Defaults.testTasks)
+testOptions in FastTest := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+parallelExecution in FastTest := false
+
+inConfig(SlowTest)(Defaults.testTasks)
+testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
+parallelExecution in SlowTest := false
+/** Test tagging end */
 
 scalacOptions ++= Seq(
   "-feature",
