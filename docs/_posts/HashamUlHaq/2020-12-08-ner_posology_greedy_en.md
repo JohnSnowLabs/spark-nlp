@@ -12,15 +12,15 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model detects drugs, dosage, form, frequency, duration, route, and drug strength in text. It differs from `ner_posology` in the sense that it chunks together drugs, dosage, form, strength, duration, and route when they appear together, resulting in a bigger chunk. It is trained using `embeddings_clinical` so please use the same embeddings in the pipeline.
+This model detects drugs, dosage, form, frequency, route, and drug strength in text. It differs from `ner_posology` in the sense that it chunks together drugs, dosage, form, strength, and route when they appear together, resulting in a bigger chunk. It is trained using `embeddings_clinical` so please use the same embeddings in the pipeline.
 
 ## Predicted Entities
 
-`DRUG`, `STRENGTH`, `DURATION`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
+`DRUG`, `STRENGTH`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_POSOLOGY.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_greedy_en_2.6.4_2.4_1607422064676.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
