@@ -1,6 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 import java.io.File
 
+
+import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
 import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, Transducer}

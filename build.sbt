@@ -7,6 +7,7 @@ val spark30Ver = "3.0.1"
 
 val is_gpu = System.getProperty("is_gpu","false")
 val is_spark23 = System.getProperty("is_spark23","false")
+//TODO breaking with older spark Why???
 val is_spark30 = System.getProperty("is_spark30","false")
 
 def getSparkVersion(is_spark23: String, is_spark30: String): String = {
@@ -21,7 +22,7 @@ val sparkVer = getSparkVersion(is_spark23, is_spark30)
 
 /** ------- Scala version start ------- */
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.12"
+lazy val scala212 = "2.12.13"
 lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
 
 lazy val supportedScalaVersions = List(scala212, scala211)
@@ -57,6 +58,8 @@ scalaVersion in ThisBuild := scalaVer
 
 sparkVersion in ThisBuild := sparkVer
 
+scalacOptions in ThisBuild += "-target:jvm-1.8"
+
 /** Spark-Package attributes */
 spName in ThisBuild := "JohnSnowLabs/spark-nlp"
 
@@ -71,6 +74,8 @@ spAppendScalaVersion := false
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
+
+resolvers in ThisBuild += "Another Maven" at "https://mvnrepository.com/artifact/"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
@@ -127,6 +132,7 @@ developers in ThisBuild:= List(
 
 scalacOptions in (Compile, doc) ++= Seq(
   "-doc-title",
+  "-target:jvm-1.8",
   "Spark NLP " + version.value + " ScalaDoc"
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
@@ -173,13 +179,17 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "libtensorflow" % "1.15.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.15.0"
+      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
+        exclude("com.fasterxml.jackson.core", "jackson-databind")
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow" % "1.15.0"
+      "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
+        exclude("com.fasterxml.jackson.core", "jackson-databind")
+        exclude("com.fasterxml.jackson.core", "jackson-core")
+        exclude("com.fasterxml.jackson.core", "jackson-annotations")
     )
+lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
   .settings(
@@ -189,10 +199,13 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies++
-        typedDependencyParserDependencies
+        typedDependencyParserDependencies,
+    // TODO potentially improve this?
+    mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
 
 assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
   case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
   case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
