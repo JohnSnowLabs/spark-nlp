@@ -105,11 +105,11 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
         /* Padding by adding extra empty tokens to smaller sentences */
         val newTokens = tokens ++ Array.fill(1, diff)(" ").head
         newTokens.map { token =>
-          token.getBytes("UTF-8")
+          token
         }
       }else {
         tokensArray.map { token =>
-          token.token.getBytes("UTF-8")
+          token.token
         }
       }
 

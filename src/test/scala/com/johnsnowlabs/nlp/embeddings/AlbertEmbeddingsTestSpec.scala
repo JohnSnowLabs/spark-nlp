@@ -11,7 +11,7 @@ import org.scalatest._
 
 class AlbertEmbeddingsTestSpec extends FlatSpec {
 
-  "ALBert Embeddings" should "correctly load pretrained model" ignore {
+  "ALBert Embeddings" should "correctly load pretrained model" in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")

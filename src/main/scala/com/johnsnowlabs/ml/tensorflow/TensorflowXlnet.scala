@@ -60,41 +60,33 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
 
     val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createFloatBuffer(batch.length*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batch.length*maxSentenceLength)
+    val maskBuffers = tensors.createFloatBuffer(batch.length*maxSentenceLength)
+    val segmentBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.map { tokenIds =>
+    batch.zipWithIndex.foreach { case(tokenIds, idx) =>
+      val offset = idx * maxSentenceLength
       val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.put(Array.fill(maxSentenceLength-1)(0) ++ Array(2))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
 
-      if (tokenIds.length >= maxSentenceLength) {
-        tokenBuffers.put(tokenIds)
-        maskBuffers.put(tokenIds.map(x=> if (x == 0) 0.0f else 1.0f))
-      }
-      else {
-        val newTokenIds = tokenIds ++ Array.fill(1, diff)(0).head
-        tokenBuffers.put(newTokenIds)
-        maskBuffers.put(newTokenIds.map(x=> if (x == 0) 0.0f else 1.0f))
-      }
+      val padding = Array.fill(diff)(0)
+      val newTokenIds = tokenIds ++ padding
+
+      tokenBuffers.offset(offset).write(newTokenIds)
+      maskBuffers.offset(offset).write(newTokenIds.map(x=> if (x == 0) 0f else 1f))
     }
 
-    tokenBuffers.flip()
-    maskBuffers.flip()
-    segmentBuffers.flip()
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createFloatBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
+    val maskTensors = tensors.createFloatBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
 
@@ -107,11 +99,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenBuffers.clear()
-    maskBuffers.clear()
-    segmentBuffers.clear()
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray

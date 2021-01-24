@@ -51,33 +51,28 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
     val batchLength = batch.length
 
     val tokenBuffers = tensors.createIntBuffer(batchLength*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createIntBuffer(batchLength*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batchLength*maxSentenceLength)
+    val maskBuffers = tensors.createIntBuffer(batchLength*maxSentenceLength)
+    val segmentBuffers = tensors.createIntBuffer(batchLength*maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.map { sentence =>
-      tokenBuffers.put(sentence)
-      maskBuffers.put(sentence.map(x=> if (x == 0) 0 else 1))
-      segmentBuffers.put(Array.fill(maxSentenceLength)(0))
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
+      tokenBuffers.offset(offset).write(sentence)
+      maskBuffers.offset(offset).write(sentence.map(x=> if (x == 0) 0 else 1))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
     }
-
-    tokenBuffers.flip()
-    maskBuffers.flip()
-    segmentBuffers.flip()
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(tokenIdsKey, tokenTensors)
@@ -90,7 +85,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenBuffers.clear()
 
     val dim = embeddings.length / (batchLength * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
@@ -121,17 +115,16 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val maskBuffers = tensorsMasks.createIntBuffer(batchLength*maxSentenceLength)
     val segmentBuffers = tensorsSegments.createIntBuffer(batchLength*maxSentenceLength)
 
+
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    batch.map { sentence =>
-      tokenBuffers.put(sentence)
-      maskBuffers.put(sentence.map(x=> if (x == 0) 0 else 1))
-      segmentBuffers.put(Array.fill(maxSentenceLength)(0))
-    }
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
 
-    tokenBuffers.flip()
-    maskBuffers.flip()
-    segmentBuffers.flip()
+      tokenBuffers.offset(offset).write(sentence)
+      maskBuffers.offset(offset).write(sentence.map(x=> if (x == 0) 0 else 1))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+    }
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
@@ -150,7 +143,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenBuffers.clear()
 
     val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
@@ -159,33 +151,29 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
   def tagSentenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
     val batchLength = batch.length
 
     val tokenBuffers = tensors.createLongBuffer(batchLength*maxSentenceLength)
-    val maskBuffers = tensorsMasks.createLongBuffer(batchLength*maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createLongBuffer(batchLength*maxSentenceLength)
+    val maskBuffers = tensors.createLongBuffer(batchLength*maxSentenceLength)
+    val segmentBuffers = tensors.createLongBuffer(batchLength*maxSentenceLength)
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    batch.map { sentence =>
-      tokenBuffers.put(sentence.map(_.toLong))
-      maskBuffers.put(sentence.map(x=> if (x == 0L) 0L else 1L))
-      segmentBuffers.put(Array.fill(maxSentenceLength)(0L))
+    batch.zipWithIndex.foreach { case(sentence, idx) =>
+      val offset = idx * maxSentenceLength
+      tokenBuffers.offset(offset).write(sentence.map(_.toLong))
+      maskBuffers.offset(offset).write(sentence.map(x=> if (x == 0L) 0L else 1L))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
     }
 
-    tokenBuffers.flip()
-    maskBuffers.flip()
-    segmentBuffers.flip()
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createLongBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createLongBufferTensor(shape, segmentBuffers)
+    val tokenTensors = tensors.createLongBufferTensor(shape, null)
+    val maskTensors = tensors.createLongBufferTensor(shape, null)
+    val segmentTensors = tensors.createLongBufferTensor(shape, null)
 
     runner
       .feed(tokenIdsKey, tokenTensors)
@@ -198,7 +186,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenBuffers.clear()
 
     val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
