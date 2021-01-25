@@ -1,0 +1,7 @@
+.model-items.grid--container {
+  margin-top: 50px;
+
+  @media (min-width: 768px) {
+    margin-top: 70px;
+  }
+}

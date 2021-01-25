@@ -8,7 +8,7 @@ header:
     url: /learn
     key: learn
   - title: Models
-    url: /modelmain
+    url: /models
     key: models
   - title: Demo
     url: /demo

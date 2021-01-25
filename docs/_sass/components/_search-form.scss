@@ -1,0 +1,29 @@
+.search-form {
+  display: block;
+  background: #ebf9ff;
+  border-radius: 25px;
+  display: flex;
+}
+
+.search-form__input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  padding: 0 25px;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 12px;
+}
+
+.search-form__input::placeholder {
+  text-align: center;
+}
+
+.search-form__button.button {
+  min-width: 104px !important;
+
+  @media (min-width: 768px) {
+    min-width: 122px;
+  }
+}
