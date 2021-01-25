@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, SparkAccessor}
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.FlatSpec
@@ -77,7 +78,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser model (trained with CoNLL-U) with a sentence input" should
-    "predict a labeled relationship between words in sentences" ignore {
+    "predict a labeled relationship between words in sentences" taggedAs SlowTest in {
     import SparkAccessor.spark.implicits._
 
     val pipeline = new Pipeline()
@@ -106,7 +107,7 @@ class TypedDependencyModelTestSpec extends FlatSpec {
   }
 
   "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" should
-    "predict a labeled relationship between words in each sentence" ignore {
+    "predict a labeled relationship between words in each sentence" taggedAs SlowTest in {
     import SparkAccessor.spark.implicits._
     val pipeline = new Pipeline()
       .setStages(Array(

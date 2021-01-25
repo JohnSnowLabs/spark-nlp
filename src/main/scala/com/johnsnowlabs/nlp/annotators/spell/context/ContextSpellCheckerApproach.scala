@@ -104,7 +104,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
 
   setDefault(minCount -> 3.0,
-    specialClasses -> List(DateToken, NumberToken),
+    specialClasses -> List(new DateToken, new NumberToken),
     wordMaxDistance -> 3,
     maxCandidates -> 6,
     languageModelClasses -> 2000,
@@ -124,20 +124,20 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   )
 
   def addVocabClass(usrLabel:String, vocabList:util.ArrayList[String], userDist: Int=3) = {
-    val newClass = new VocabParser {
+    val newClass = new VocabParser with SerializableClass {
       override var vocab: mutable.Set[String] = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
       override val label: String = usrLabel
-      override var transducer: ITransducer[Candidate] = generateTransducer
+      transducer = generateTransducer
       override val maxDist: Int = userDist
     }
     setSpecialClasses(getOrDefault(specialClasses):+newClass)
   }
 
   def addRegexClass(usrLabel:String, usrRegex:String, userDist: Int=3) = {
-    val newClass = new RegexParser {
+    val newClass = new RegexParser with SerializableClass {
       override var regex: String = usrRegex
       override val label: String = usrLabel
-      override var transducer: ITransducer[Candidate] = generateTransducer
+      transducer = generateTransducer
       override val maxDist: Int = userDist
     }
     setSpecialClasses(getOrDefault(specialClasses):+newClass)

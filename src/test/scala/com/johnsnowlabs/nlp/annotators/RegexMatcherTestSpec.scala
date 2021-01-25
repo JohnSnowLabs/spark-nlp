@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{AnnotatorType, ContentProvider, DataBuilder}
+import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 

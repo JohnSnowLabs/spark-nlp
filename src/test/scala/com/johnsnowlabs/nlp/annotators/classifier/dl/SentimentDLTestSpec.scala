@@ -3,14 +3,14 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-
 import org.scalatest._
 
 class SentimentDLTestSpec extends FlatSpec {
   val spark = ResourceHelper.spark
 
-  "SentimentDL" should "correctly train on a test dataset" ignore {
+  "SentimentDL" should "correctly train on a test dataset" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/classifier/sentiment.csv")
 

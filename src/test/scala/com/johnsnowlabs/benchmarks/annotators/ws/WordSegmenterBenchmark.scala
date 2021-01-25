@@ -8,6 +8,7 @@ import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Encoders}
 import org.scalatest.FlatSpec
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import scala.collection.mutable
 
@@ -25,7 +26,7 @@ class WordSegmenterBenchmark extends FlatSpec {
     .setInputCol("text")
     .setOutputCol("document")
 
-  "WordSegmenterBenchmark with a set of parameters" should "output metrics" ignore {
+  "WordSegmenterBenchmark with a set of parameters" should "output metrics" taggedAs SlowTest in {
     var accuracyByParameters: List[AccuracyByParameter] = List()
     nIterationsList.foreach{ nIterations =>
       frequencyThresholdList.foreach{ frequencyThreshold =>
@@ -43,7 +44,7 @@ class WordSegmenterBenchmark extends FlatSpec {
     exportMetrics(accuracyByParameters)
   }
 
-  "WordSegmenterBenchmark with parameters" should "output metrics" ignore {
+  "WordSegmenterBenchmark with parameters" should "output metrics" taggedAs SlowTest in {
     val nIterations = 7
     val frequencyThreshold = 30
     val ambiguityThreshold = 0.99
@@ -53,13 +54,13 @@ class WordSegmenterBenchmark extends FlatSpec {
     println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
   }
 
-  it should "benchmark a pipeline pretrained model" ignore {
+  it should "benchmark a pipeline pretrained model" taggedAs SlowTest in {
     val tokenizerPipeline = PipelineModel.load("./pipeline_wordsegmenter_model")
     val metrics = evaluateModel(tokenizerPipeline)
     println(s"Precision = ${metrics._1}  Recall = ${metrics._2}  FScore = ${metrics._3}")
   }
 
-  it should "benchmark a word segmenter pretrained model" ignore {
+  it should "benchmark a word segmenter pretrained model" taggedAs SlowTest in {
     val emptyDataset = PipelineModels.dummyDataset
     val modelPath = "./tmp_ontonotes_poc_dev_model"
     val wordSegmenter = WordSegmenterModel.load(modelPath)
