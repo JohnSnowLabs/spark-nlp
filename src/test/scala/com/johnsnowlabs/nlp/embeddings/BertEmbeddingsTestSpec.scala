@@ -5,13 +5,14 @@ import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class BertEmbeddingsTestSpec extends FlatSpec {
 
-  "Bert Embeddings" should "correctly embed tokens and sentences" ignore {
+  "Bert Embeddings" should "correctly embed tokens and sentences" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -52,7 +53,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "Bert Embeddings" should "correctly work in a pipeline" ignore {
+  "Bert Embeddings" should "correctly work in a pipeline" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
@@ -89,7 +90,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "Bert Embeddings" should "correctly work with empty tokens" ignore {
+  "Bert Embeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 

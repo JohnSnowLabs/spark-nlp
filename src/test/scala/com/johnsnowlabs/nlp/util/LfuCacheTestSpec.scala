@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.util
 
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest._
 
 /** Inspired on
@@ -8,7 +9,7 @@ import org.scalatest._
   * */
 class LfuCacheTestSpec extends FlatSpec {
 
-  "A LfuCache" should "automatically adjust to new content" in {
+  "A LfuCache" should "automatically adjust to new content" taggedAs FastTest in {
 
     val size = 10
     val lfu = new LfuCache[Int, Int](size)
@@ -39,7 +40,7 @@ class LfuCacheTestSpec extends FlatSpec {
 
   }
 
-  "A LfuCache" should "Evict correctly" in {
+  "A LfuCache" should "Evict correctly" taggedAs FastTest in {
 
     val lfu = new LfuCache[String, Double](5)
 
