@@ -9,7 +9,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
 
 /**
-  * This class is beeing used to initialize Tensors of different types and shapes for Tensorflow operations
+  * This class is being used to initialize Tensors of different types and shapes for Tensorflow operations
   */
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
