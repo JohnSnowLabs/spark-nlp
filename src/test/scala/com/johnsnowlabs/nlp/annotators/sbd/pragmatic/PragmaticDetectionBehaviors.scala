@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -32,7 +33,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
 
   def isolatedPDReadAndMatchResult(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String]): Unit = {
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
-      s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
+      s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." taggedAs FastTest in {
       val pragmaticApproach = new MixedPragmaticMethod(true, true, customBounds)
       val result = pragmaticApproach.extractBounds(input)
       val diffInResult = result.map(_.content).diff(correctAnswer)
@@ -50,7 +51,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
 
   def isolatedPDReadAndMatchResultTag(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String], splitLength: Option[Int] = None): Unit = {
     s"pragmatic boundaries detector with ${input.take(10)}...:" should
-      s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." in {
+      s"successfully identify sentences as ${correctAnswer.take(1).take(10).mkString}..." taggedAs FastTest in {
       val sentenceDetector = new SentenceDetector()
       if (splitLength.isDefined)
         sentenceDetector.setSplitLength(splitLength.get)
@@ -66,7 +67,7 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   }
 
   def isolatedPDReadScore(input: String, correctAnswer: Array[String], customBounds: Array[String] = Array.empty[String]): Unit = {
-    s"boundaries prediction" should s"have an F1 score higher than 95%" in {
+    s"boundaries prediction" should s"have an F1 score higher than 95%" taggedAs FastTest in {
       val pragmaticApproach = new MixedPragmaticMethod(true, true, customBounds)
       val result = pragmaticApproach.extractBounds(input).map(_.content)
       val f1 = f1Score(result, correctAnswer)
@@ -77,12 +78,12 @@ trait PragmaticDetectionBehaviors { this: FlatSpec =>
   }
 
   def sparkBasedSentenceDetector(dataset: => Dataset[Row]): Unit = {
-    "a Pragmatic Sentence Detection Annotator" should s"successfully annotate documents" in {
+    "a Pragmatic Sentence Detection Annotator" should s"successfully annotate documents" taggedAs FastTest in {
       val f = fixture(dataset)
       assert(f.sentencesAnnotations.nonEmpty, "Annotations should exists")
     }
 
-    it should "add annotators of type sbd" in {
+    it should "add annotators of type sbd" taggedAs FastTest in {
       val f = fixture(dataset)
       f.sentencesAnnotations.foreach { a =>
         assert(a.annotatorType == AnnotatorType.DOCUMENT, "annotatorType should sbd")

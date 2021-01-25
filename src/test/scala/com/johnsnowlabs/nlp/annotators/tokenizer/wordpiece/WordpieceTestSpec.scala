@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
 
 class WordpieceTestSpec extends FlatSpec {
@@ -11,7 +12,7 @@ class WordpieceTestSpec extends FlatSpec {
   val pieces = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "!", "[UNK]", "[CLS]", "[SEP]")
   val vocabulary = pieces.zipWithIndex.toMap
 
-  "isPunctuation" should "detect punctuation chars" in {
+  "isPunctuation" should "detect punctuation chars" taggedAs FastTest in {
     val punctuations = ",:\";~`'-"
     val nonPunctuations = "aA12zZ \n\r\t"
 
@@ -24,7 +25,7 @@ class WordpieceTestSpec extends FlatSpec {
     }
   }
 
-  "isWhitespace" should "detect whitespace chars" in {
+  "isWhitespace" should "detect whitespace chars" taggedAs FastTest in {
     val whitespaces = " \n\r\t"
     val nonWhitespaces = "-=';\""
 
@@ -37,7 +38,7 @@ class WordpieceTestSpec extends FlatSpec {
     }
   }
 
-  "stripAccents" should "work correct" in {
+  "stripAccents" should "work correct" taggedAs FastTest in {
     val test =   "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ ÔÕÖ×ØÙÚÛ ÜÝ Þßàáâãäåæçèéêëìíîïð ñòóôõö÷ø ùúûüýþÿ"
     val result = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿AAAAAAÆCEEEEIIIIÐNOO OOO×ØUUU UY Þßaaaaaaæceeeeiiiið nooooo÷ø uuuuyþy"
 
@@ -45,7 +46,7 @@ class WordpieceTestSpec extends FlatSpec {
     assert(basicTokenizer.normalize(test) == result.toLowerCase)
   }
 
-  "isChinese" should "work correct" in {
+  "isChinese" should "work correct" taggedAs FastTest in {
     val chinese = "转注字轉注形声字形聲字"
     val nonChinese = "¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ ÔÕAa123"
 
@@ -58,7 +59,7 @@ class WordpieceTestSpec extends FlatSpec {
     }
   }
 
-  "tokenization" should "tokenize sentence" in {
+  "tokenization" should "tokenize sentence" taggedAs FastTest in {
     val text = "Hello, I won't be from New York in the U.S.A. (and you know it héroe). " +
       "Give me my horse! or $100\" +\n    \" bucks 'He said', I'll defeat markus-crassus. You understand. Goodbye George E. Bush. www.google.com."
 
@@ -99,7 +100,7 @@ class WordpieceTestSpec extends FlatSpec {
     }
   }
 
-  "tokenization" should "tokenize chinese text correct" in {
+  "tokenization" should "tokenize chinese text correct" taggedAs FastTest in {
     val text = "Hello注形声sd,~ and bye!"
     val sentence = Sentence(text, 0, text.length - 1, 0)
     val result = Array("Hello", "注", "形", "声", "sd", ",", "~", "and", "bye", "!")
@@ -113,7 +114,7 @@ class WordpieceTestSpec extends FlatSpec {
     }
   }
 
-  "wordpiece" should "encode words correct" in {
+  "wordpiece" should "encode words correct" taggedAs FastTest in {
     val text = "I unambigouosly good 3Asd!"
     val sentence = Sentence(text, 0, text.length - 1, 0)
 

@@ -1,15 +1,16 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.util.FileHelper
-import org.scalatest.FlatSpec
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.util.FileHelper
+import org.scalatest.FlatSpec
 
 class NerDLSpec extends FlatSpec {
 
 
-  "NerDLApproach" should "correctly annotate" ignore {
+  "NerDLApproach" should "correctly annotate" taggedAs SlowTest in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     //    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -34,7 +35,7 @@ class NerDLSpec extends FlatSpec {
     }
   }
 
-  "NerDLApproach" should "correctly tag sentences" ignore {
+  "NerDLApproach" should "correctly tag sentences" taggedAs SlowTest in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -51,7 +52,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLModel" should "correctly train using dataset from file" ignore {
+  "NerDLModel" should "correctly train using dataset from file" taggedAs SlowTest in {
     val spark = SparkAccessor.spark
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
@@ -67,7 +68,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLApproach" should "be serializable and deserializable correctly" ignore {
+  "NerDLApproach" should "be serializable and deserializable correctly" taggedAs SlowTest in {
 
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
@@ -95,7 +96,7 @@ class NerDLSpec extends FlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLApproach" should "correct search for suitable graphs" in {
+  "NerDLApproach" should "correct search for suitable graphs" taggedAs FastTest in {
     val smallGraphFile = NerDLApproach.searchForSuitableGraph(10, 100, 120)
     assert(smallGraphFile.endsWith("blstm_10_100_128_120.pb"))
 
@@ -107,7 +108,7 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(40, 512, 101))
   }
 
-  "NerDL Approach" should "validate against part of the training dataset" in {
+  "NerDL Approach" should "validate against part of the training dataset" taggedAs FastTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
@@ -139,7 +140,7 @@ class NerDLSpec extends FlatSpec {
     ner.write.overwrite()save("./tmp_ner_dl_tf115")
   }
 
-  "NerDLModel" should "successfully download pretrained and predict" ignore {
+  "NerDLModel" should "successfully download pretrained and predict" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")

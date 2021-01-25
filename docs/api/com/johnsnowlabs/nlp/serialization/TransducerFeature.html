@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TransducerFeature - Spark NLP 2.7.1 ScalaDoc - com.johnsnowlabs.nlp.serialization.TransducerFeature</title>
-          <meta name="description" content="TransducerFeature - Spark NLP 2.7.1 ScalaDoc - com.johnsnowlabs.nlp.serialization.TransducerFeature" />
-          <meta name="keywords" content="TransducerFeature Spark NLP 2.7.1 ScalaDoc com.johnsnowlabs.nlp.serialization.TransducerFeature" />
+          <title>TransducerFeature - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.serialization.TransducerFeature</title>
+          <meta name="description" content="TransducerFeature - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.serialization.TransducerFeature" />
+          <meta name="keywords" content="TransducerFeature Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.nlp.serialization.TransducerFeature" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -45,13 +45,13 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">TransducerFeature</span><span class="result"> extends <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>], <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>], <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">TransducerFeature</span><span class="result"> extends <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>], <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>], <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]], <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>], <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -184,14 +184,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#broadcastValue" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="broadcastValue:Option[org.apache.spark.broadcast.Broadcast[TComplete]]"></a>
-      <a id="broadcastValue:Option[Broadcast[ITransducer[Candidate]]]"></a>
+      <a id="broadcastValue:Option[Broadcast[VocabParser]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">broadcastValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.broadcast.Broadcast">Broadcast</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]]</span>
+        <span class="name">broadcastValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.broadcast.Broadcast">Broadcast</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@broadcastValue:Option[org.apache.spark.broadcast.Broadcast[TComplete]]" title="Permalink" target="_top">
@@ -240,35 +240,35 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.TransducerFeature#deserializeDataset" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="deserializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]]"></a>
-      <a id="deserializeDataset(SparkSession,String,String):Option[ITransducer[Candidate]]"></a>
+      <a id="deserializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser]"></a>
+      <a id="deserializeDataset(SparkSession,String,String):Option[VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">deserializeDataset</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">deserializeDataset</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@deserializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@deserializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.serialization.TransducerFeature">TransducerFeature</a> → <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.TransducerFeature#deserializeObject" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="deserializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]]"></a>
-      <a id="deserializeObject(SparkSession,String,String):Option[ITransducer[Candidate]]"></a>
+      <a id="deserializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser]"></a>
+      <a id="deserializeObject(SparkSession,String,String):Option[VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">deserializeObject</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">deserializeObject</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@deserializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@deserializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String):Option[com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -309,14 +309,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#fallbackLazyValue" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fallbackLazyValue:Option[()=&gt;TComplete]"></a>
-      <a id="fallbackLazyValue:Option[()⇒ITransducer[Candidate]]"></a>
+      <a id="fallbackLazyValue:Option[()⇒VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">fallbackLazyValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[() ⇒ <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">fallbackLazyValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[() ⇒ <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@fallbackLazyValue:Option[()=&gt;TComplete]" title="Permalink" target="_top">
@@ -326,14 +326,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#fallbackRawValue" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fallbackRawValue:Option[TComplete]"></a>
-      <a id="fallbackRawValue:Option[ITransducer[Candidate]]"></a>
+      <a id="fallbackRawValue:Option[VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">fallbackRawValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">fallbackRawValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@fallbackRawValue:Option[TComplete]" title="Permalink" target="_top">
@@ -366,14 +366,14 @@
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get:Option[TComplete]"></a>
-      <a id="get:Option[ITransducer[Candidate]]"></a>
+      <a id="get:Option[VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">get</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">get</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@get:Option[TComplete]" title="Permalink" target="_top">
@@ -417,14 +417,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#getOrDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault:TComplete"></a>
-      <a id="getOrDefault:ITransducer[Candidate]"></a>
+      <a id="getOrDefault:VocabParser"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getOrDefault</span><span class="result">: <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]</span>
+        <span class="name">getOrDefault</span><span class="result">: <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@getOrDefault:TComplete" title="Permalink" target="_top">
@@ -553,14 +553,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#orDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="orDefault:Option[TComplete]"></a>
-      <a id="orDefault:Option[ITransducer[Candidate]]"></a>
+      <a id="orDefault:Option[VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">orDefault</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">orDefault</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@orDefault:Option[TComplete]" title="Permalink" target="_top">
@@ -570,14 +570,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#rawValue" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rawValue:Option[TComplete]"></a>
-      <a id="rawValue:Option[ITransducer[Candidate]]"></a>
+      <a id="rawValue:Option[VocabParser]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">rawValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>
+        <span class="name">rawValue</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@rawValue:Option[TComplete]" title="Permalink" target="_top">
@@ -604,14 +604,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#serialize" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="serialize(spark:org.apache.spark.sql.SparkSession,path:String,field:String,value:TComplete):Unit"></a>
-      <a id="serialize(SparkSession,String,String,ITransducer[Candidate]):Unit"></a>
+      <a id="serialize(SparkSession,String,String,VocabParser):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">serialize</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">serialize</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@serialize(spark:org.apache.spark.sql.SparkSession,path:String,field:String,value:TComplete):Unit" title="Permalink" target="_top">
@@ -620,18 +620,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.TransducerFeature#serializeDataset" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="serializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):Unit"></a>
-      <a id="serializeDataset(SparkSession,String,String,ITransducer[Candidate]):Unit"></a>
+      <a id="serializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser):Unit"></a>
+      <a id="serializeDataset(SparkSession,String,String,VocabParser):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">serializeDataset</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="trans">trans: <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">serializeDataset</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="trans">trans: <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@serializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@serializeDataset(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -654,32 +654,32 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.TransducerFeature#serializeObject" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="serializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):Unit"></a>
-      <a id="serializeObject(SparkSession,String,String,ITransducer[Candidate]):Unit"></a>
+      <a id="serializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser):Unit"></a>
+      <a id="serializeObject(SparkSession,String,String,VocabParser):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">serializeObject</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="trans">trans: <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">serializeObject</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="trans">trans: <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@serializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@serializeObject(spark:org.apache.spark.sql.SparkSession,path:String,field:String,trans:com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.serialization.TransducerFeature">TransducerFeature</a> → <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#setFallback" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setFallback(v:Option[()=&gt;TComplete]):com.johnsnowlabs.nlp.HasFeatures"></a>
-      <a id="setFallback(Option[()⇒ITransducer[Candidate]]):HasFeatures"></a>
+      <a id="setFallback(Option[()⇒VocabParser]):HasFeatures"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setFallback</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Option">Option</span>[() ⇒ <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</span>)</span><span class="result">: <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></span>
+        <span class="name">setFallback</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Option">Option</span>[() ⇒ <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</span>)</span><span class="result">: <a href="../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.johnsnowlabs.nlp.serialization.TransducerFeature@setFallback(v:Option[()=&gt;TComplete]):com.johnsnowlabs.nlp.HasFeatures" title="Permalink" target="_top">
@@ -834,7 +834,7 @@
 
         <div id="inheritedMembers">
         <div class="parent" name="com.johnsnowlabs.nlp.serialization.Feature">
-              <h3>Inherited from <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[<span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>], <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>], <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]]</h3>
+              <h3>Inherited from <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[<a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="../annotators/spell/context/parser/VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>]</h3>
             </div><div class="parent" name="scala.Serializable">
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">

@@ -9,10 +9,11 @@ import org.apache.spark.ml.evaluation.ClusteringEvaluator
 import org.apache.spark.ml.feature.{Normalizer, SQLTransformer}
 import org.apache.spark.sql.functions.{explode, size}
 import org.scalatest._
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 class EmbeddingsFinisherTestSpec extends FlatSpec {
 
-  "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for Spark ML" in {
+  "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for Spark ML" taggedAs FastTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -75,7 +76,7 @@ class EmbeddingsFinisherTestSpec extends FlatSpec {
     */
   }
 
-  "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" in {
+  "EmbeddingsFinisher" should "correctly transform embeddings into Vectors and normalize it by Spark ML" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
