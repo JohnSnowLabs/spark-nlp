@@ -38,7 +38,7 @@ sentence_detector = SentenceDetector()\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
     
-word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
+word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
         
@@ -66,7 +66,7 @@ val sentence_detector = SentenceDetector()
         .setInputCols(["document"])
         .setOutputCol("sentence")
         
-val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
+val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")
         .setInputCols(["sentence"])
         .setOutputCol("token")
 
