@@ -1,8 +1,9 @@
 package com.johnsnowlabs.ml.crf
 
-import java.io._
-
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
+
+import java.io._
 
 
 class SerializationSpec extends FlatSpec {
@@ -12,7 +13,7 @@ class SerializationSpec extends FlatSpec {
 
   val model = new LinearChainCrfModel(weights, dataset.metadata)
 
-  "LinearChainCrfModel" should "serialize and deserialize correctly" in {
+  "LinearChainCrfModel" should "serialize and deserialize correctly" taggedAs FastTest in {
     val memory = new ByteArrayOutputStream()
 
     val oos = new ObjectOutputStream(memory)

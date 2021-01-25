@@ -1,13 +1,14 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.Row
 import org.scalatest._
-import com.johnsnowlabs.nlp.AnnotatorType._
 
 class CombinedTestSpec extends FlatSpec {
 
-  "Simple combined annotators" should "successfully go through all transformations" in {
+  "Simple combined annotators" should "successfully go through all transformations" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild("This is my first sentence. This is your second list of words")
     val transformation = AnnotatorBuilder.withLemmaTaggedSentences(data)
     transformation

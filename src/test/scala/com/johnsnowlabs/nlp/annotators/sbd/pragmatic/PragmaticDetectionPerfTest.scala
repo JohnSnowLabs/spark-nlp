@@ -3,12 +3,13 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 import com.johnsnowlabs.nlp.ContentProvider
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, LightPipeline, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Benchmark
 import org.scalatest._
 
 class PragmaticDetectionPerfTest extends FlatSpec {
 
-  "sentence detection" should "be fast" in {
+  "sentence detection" should "be fast" taggedAs FastTest in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._

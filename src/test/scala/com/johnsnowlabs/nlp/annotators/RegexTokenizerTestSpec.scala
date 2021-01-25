@@ -5,12 +5,13 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
 
 class RegexTokenizerTestSpec extends FlatSpec {
 
-  "RegexTokenizer" should "correctly tokenize by space" in {
+  "RegexTokenizer" should "correctly tokenize by space" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -72,7 +73,7 @@ class RegexTokenizerTestSpec extends FlatSpec {
 
   }
 
-  "RegexTokenizer" should "correctly tokenize by patterns" in {
+  "RegexTokenizer" should "correctly tokenize by patterns" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "T1-T2 DATE**[12/24/13] 10/12, ph+ 90%"))).toDF("id", "text")
@@ -121,7 +122,7 @@ class RegexTokenizerTestSpec extends FlatSpec {
 
   }
 
-  "a Tokenizer" should "should correctly tokenize a parsed doc" in {
+  "a Tokenizer" should "should correctly tokenize a parsed doc" taggedAs FastTest in {
 
     val content = "1. T1-T2 DATE**[12/24/13] $1.99 () (10/12), ph+ 90%"
     val pattern = "\\s+|(?=[-.:;*+,$&%\\[\\]])|(?<=[-.:;*+,$&%\\[\\]])"
