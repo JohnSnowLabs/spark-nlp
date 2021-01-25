@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.pretrained
 
-import java.sql.Timestamp
 import com.johnsnowlabs.util.Version
+
+import java.sql.Timestamp
 
 
 object CloudTestResources {
