@@ -1,178 +1,154 @@
 ---
-layout: articles
-header: false
-full_width: true
-article_header:
-  type: overlay
-  align: center
-  height: 60vh
+layout: base
 ---
-<div class="layout--landing">
-  <div class="heros">
-  {%- for _section in page.data.sections -%}
-    {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
-    {%- assign _url = __return -%}
-    {%- if _section.theme == 'light' -%}
-      <section class="hero hero--center hero--light" id="hero-{{ forloop.index }}"
-    {%- elsif _section.theme == 'dark' -%}
-      <section class="hero hero--center hero--dark" id="hero-{{ forloop.index }}"
-    {%- else -%}
-      <section class="hero hero--center" id="hero-{{ forloop.index }}"
-    {%- endif -%}
-    {%- if _section.background_color -%}
-        style="background-image: url({{ _url }}); background-color: {{ _section.background_color }};">
-    {%- else -%}
-        style="background-image: url({{ _url }});">
-    {%- endif -%}
 
-        <div class="hero__content">
-          <div class="mb-5">
+<div class="layout--page js-page-root">
+  <div class="cell cell--auto">
+    <div class="page__main-inner">
+      <div class="page__header d-print-none">{%- include header.html -%}</div>
+      <div class="page__content">
+        <div class="article__header--overlay">
+          <div class="hero hero--center hero--dark overlay"
+            style="min-height: 0; padding-top: 50px; padding-bottom: 50px;">
+            <div class="hero__content">
+              <div class="article__header models-hero-header">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <header>
+                  <h1>NLP Models Hub</h1>
+                </header>
+              </div>
+              <p class="overlay__excerpt">
+                A place for sharing and discovering Spark NLP models and
+                pipelines
+              </p>
+              <!-- form here -->
+              <div class="models-hero">
+                <form class="filter-form models-hero__group">
+                  <span class="filter-form__group">
+                    <span class="filter-form__text">Show</span>
+                    <select class="select filter-form__select filter-form__select--task">
+                      <option>Task</option>
+                    </select>
+                  </span>
+                  <span class="filter-form__group">
+                    <span class="filter-form__text">models & pipelines in</span>
+                    <select class="select filter-form__select filter-form__select--language">
+                      <option>Language</option>
+                    </select>
+                  </span>
+                  <span class="filter-form__group">
+                    <span class="filter-form__text">for</span>
+                    <select class="select filter-form__select filter-form__select--edition">
+                      <option>Spark NLP edition</option>
+                    </select>
+                    <button type="submit" class="button filter-form__button">
+                      Go
+                    </button>
+                  </span>
+                </form>
 
-            <h3>{{ _section.title }}</h3>
-              {%- if _section.excerpt-%}
-            <p>{{ _section.excerpt }}</p>
-            {%- endif -%}
-
-            {%- if _section.actions -%}
-              <ul class="menu">
-              {%- for _action in _section.actions -%}
-                {%- include snippets/get-nav-url.html path=_action.url -%}
-                {%- assign _url = __return -%}
-                {%- assign _type = _action.type | default: 'outline-info' -%}
-                <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a></li>
-              {%- endfor -%}
-              </ul>
-            {%- endif -%}
-
-          </div>
-
-          {%- if _section.children -%}
-            {%- assign _size = _section.children | size  -%}
-            <div class="grid--container">
-              <div class="grid grid--p-3">
-
-                {%- for child in _section.children -%}
-
-                  {%- if _size >= 2 -%}
-                    {%- assign _cell_md_col = 6 -%}
-                  {%- else -%}
-                    {%- assign _cell_md_col = 12 | divided_by: _size -%}
-                  {%- endif -%}
-
-                  {%- if _size >= 4 -%}
-                    {%- assign _cell_lg_col = 3 -%}
-                  {%- else -%}
-                    {%- assign _cell_lg_col = 12 | divided_by: _size -%}
-                  {%- endif -%}
-
-                  <div class="cell cell--12 cell--md-{{ _cell_md_col }} cell--lg-{{ _cell_lg_col }} ">
-
-                    <div class="mb-5">
-                      <h4>{{ child.title }}</h4>
-
-                      {%- if child.excerpt-%}
-                        <p>{{ child.excerpt }}</p>
-                      {%- endif -%}
-
-                      {%- if child.actions -%}
-                        <ul class="menu">
-                          {%- for _action in child.actions -%}
-                            {%- include snippets/get-nav-url.html path=_action.url -%}
-                            {%- assign _url = __return -%}
-                            {%- assign _type = _action.type | default: 'outline-info' -%}
-                            <li><a class="button button--{{ _type }} button--pill button--lg" href="{{ _url }}">{{ _action.text }}</a></li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </div>
-
-                    {%- if child.image and child.image.src -%}
-
-                      {%- if child.image.url -%}
-                        {%- include snippets/get-nav-url.html path=child.image.url -%}
-                        {%- assign _item_image_url = __return -%}
-                      {%- else -%}
-                        {%- assign _item_image_url = nil -%}
-                      {%- endif -%}
-
-                      {%- include snippets/get-nav-url.html path=child.image.src -%}
-                      {%- assign _item_image_src = __return -%}
-
-                      {%- if child.image.is_row -%}
-                        <div class="mb-5">
-                      {%- endif -%}
-                          <div class="mx-auto" style="{{ child.image.style }}">
-                      {%- if _item_image_url -%}
-                            <a href="{{ _item_image_url }}">
-                      {%- endif -%}
-                              <img src="{{ _item_image_src }}"/>
-                      {%- if _item_image_url -%}
-                            </a>
-                      {%- endif -%}
-                          </div>
-                      {%- if child.image.is_row -%}
-                        </div>
-                      {%- endif -%}
-                    {%- endif -%}
-
-                    {%- if child.content-%}
-                      <p>{{ child.content }}</p>
-                    {%- endif -%}
-
+                <div class="models-hero__group models-hero__group--search-and-upload">
+                  <div class="models-hero__item models-hero__item--search">
+                    <form class="search-form">
+                      <input type="text" class="search-form__input" placeholder="Search models and pipelines" />
+                      <button class="button search-form__button">Search</button>
+                    </form>
                   </div>
-                {%- endfor-%}
-
+                  <div class="models-hero__item models-hero__item--upload">
+                    <a href="https://modelshub.johnsnowlabs.com/" class="button models-hero__upload-button">
+                      <i class="fa fa-upload"></i>
+                      &nbsp;
+                      Upload Your Model
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          {%- endif -%}
-
-      {%- if _section.image.full_width == true -%}
-        </div> {% comment %} end hero__content {% endcomment %}
-      {%- endif -%}
-
-          {%- if _section.image and _section.image.src -%}
-
-            {%- if _section.image.url -%}
-              {%- include snippets/get-nav-url.html path=_section.image.url -%}
-              {%- assign _section_image_url = __return -%}
-            {%- else -%}
-              {%- assign _section_image_url = nil -%}
-            {%- endif -%}
-
-            {%- include snippets/get-nav-url.html path=_section.image.src -%}
-            {%- assign _section_image_src = __return -%}
-
-            {%- if _section.image.is_row -%}
-              <div class="mb-5">
-            {%- endif -%}
-                <div class="mx-auto" style="{{ _section.image.style }}">
-            {%- if _section_image_url -%}
-                  <a href="{{ _section_image_url }}">
-            {%- endif -%}
-                    {%- if _section.image.full_width == true -%}
-                      <img class="hero__cover hero__cover--full-width" src="{{ _section_image_src }}"/>
-                    {%- else -%}
-                      <img class="hero__cover" src="{{ _section_image_src }}"/>
-                    {%- endif -%}
-            {%- if _section_image_url -%}
-                  </a>
-            {%- endif -%}
+          </div>
+        </div>
+        <div class="grid grid--reverse">
+          <div class="col-aside d-print-none js-col-aside"></div>
+          <div class="col-main cell cell--auto">
+            <div class="js-article-content">
+              <div class="grid--container model-items">
+                <div class="grid">
+                  <div class="cell cell--12 cell--md-6 cell--lg-4">
+                    <div class="model-item">
+                      <div class="model-item__header">Translate Chuukese to English Pipeline</div>
+                      <div class="model-item__content">
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-edit"></i></span>
+                          <span class="model-item__tag-name">Task:</span>
+                          <strong class="model-item__tag-value">Translate</strong>
+                        </div>
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-flag"></i></span>
+                          <span class="model-item__tag-name">Language:</span>
+                          <strong class="model-item__tag-value">Chuukese</strong>
+                        </div>
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-clone"></i></span>
+                          <span class="model-item__tag-name">Edition:</span>
+                          <strong class="model-item__tag-value">Spark NLP 2.4.0</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cell cell--12 cell--md-6 cell--lg-4">
+                    <div class="model-item">
+                      <div class="model-item__header">Translate Chuukese to English Pipeline</div>
+                      <div class="model-item__content">
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-edit"></i></span>
+                          <span class="model-item__tag-name">Task:</span>
+                          <strong class="model-item__tag-value">Translate</strong>
+                        </div>
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-flag"></i></span>
+                          <span class="model-item__tag-name">Language:</span>
+                          <strong class="model-item__tag-value">Chuukese</strong>
+                        </div>
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-clone"></i></span>
+                          <span class="model-item__tag-name">Edition:</span>
+                          <strong class="model-item__tag-value">Spark NLP 2.4.0</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cell cell--12 cell--md-6 cell--lg-4">
+                    <div class="model-item">
+                      <div class="model-item__header">Translate Chuukese to English Pipeline</div>
+                      <div class="model-item__content">
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-edit"></i></span>
+                          <span class="model-item__tag-name">Task:</span>
+                          <strong class="model-item__tag-value">Translate</strong>
+                        </div>
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-flag"></i></span>
+                          <span class="model-item__tag-name">Language:</span>
+                          <strong class="model-item__tag-value">Chuukese</strong>
+                        </div>
+                        <div class="model-item__tag">
+                          <span class="model-item__tag-icon"><i class="far fa-clone"></i></span>
+                          <span class="model-item__tag-name">Edition:</span>
+                          <strong class="model-item__tag-value">Spark NLP 2.4.0</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            {%- if _section.image.is_row -%}
               </div>
-            {%- endif -%}
-          {%- endif -%}
 
-      {%- if _section.image.full_width != true -%}
-        </div> {% comment %} end hero__content {% endcomment %}
-      {%- endif -%}
-
-      {%- if _section.content-%}
-        <p>{{ _section.content }}</p>
-      {%- endif -%}
-      </section>
-  {%- endfor -%}
+              {{ content }}
+            </div>
+          </div>
+        </div>
+        <div class="page__footer d-print-none">{%- include footer.html -%}</div>
+      </div>
+    </div>
   </div>
 </div>
 
-{{ content }}
+{%- include pageview.html -%}
