@@ -35,6 +35,15 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
+clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
+  .setInputCols(["sentence", "token", "embeddings"]) \
+  .setOutputCol("ner")
+ner_converter = NerConverter() \
+  .setInputCols(["sentence", "token", "ner"]) \
+  .setOutputCol("ner_chunk")
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
@@ -48,6 +57,15 @@ light_result = LightPipeline(model).fullAnnotate('Patient has a headache for the
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
+val clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings")) 
+  .setOutputCol("ner")
+val ner_converter = NerConverter()
+  .setInputCols(Array("sentence", "token", "ner"))
+  .setOutputCol("ner_chunk")
 val clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models")
     .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
     .setOutputCol("assertion")
