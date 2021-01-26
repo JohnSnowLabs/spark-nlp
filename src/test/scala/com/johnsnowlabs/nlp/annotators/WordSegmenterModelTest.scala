@@ -5,12 +5,13 @@ import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.annotators.ws.TagsType.{LEFT_BOUNDARY, MIDDLE, RIGHT_BOUNDARY, SINGLE_WORD}
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
 
 
 class WordSegmenterModelTest extends FlatSpec {
 
-  "A Word Segmenter Model that predicts all tags right" should "build a word segment" in {
+  "A Word Segmenter Model that predicts all tags right" should "build a word segment" taggedAs FastTest in {
     val taggedWords = Array(TaggedWord("有", LEFT_BOUNDARY), TaggedWord("限", MIDDLE),
       TaggedWord("公", MIDDLE), TaggedWord("司", RIGHT_BOUNDARY))
     val indexedTaggedWords = Array(IndexedTaggedWord("有", LEFT_BOUNDARY, 0, 0, None, Map("index" -> "0")),
@@ -27,7 +28,7 @@ class WordSegmenterModelTest extends FlatSpec {
     assert(actualWordSegments == expectedWordSegments)
   }
 
-  "A Word Segmenter Model that does not predict any tag right for all elements" should "build only single words" in {
+  "A Word Segmenter Model that does not predict any tag right for all elements" should "build only single words" taggedAs FastTest in {
 
     val taggedWords = Array(TaggedWord("永", MIDDLE), TaggedWord("和", MIDDLE), TaggedWord("服", MIDDLE))
     val indexedTaggedWords = Array(IndexedTaggedWord("永", MIDDLE, 0, 0, None, Map("index" -> "0")),
@@ -43,7 +44,7 @@ class WordSegmenterModelTest extends FlatSpec {
     assert(actualWordSegments == expectedWordSegments)
   }
 
-  "A Word Segmenter Model that predicts only one right word" should "build a word segment" in {
+  "A Word Segmenter Model that predicts only one right word" should "build a word segment" taggedAs FastTest in {
 
     val taggedWords = Array(TaggedWord("永", LEFT_BOUNDARY), TaggedWord("和", RIGHT_BOUNDARY),
       TaggedWord("服", MIDDLE), TaggedWord("服", LEFT_BOUNDARY))
@@ -63,7 +64,7 @@ class WordSegmenterModelTest extends FlatSpec {
     assert(actualWordSegments == expectedWordSegments)
   }
 
-  "A Word Segmenter Model that predicts right words in between a sentence" should "build a word segment" in {
+  "A Word Segmenter Model that predicts right words in between a sentence" should "build a word segment" taggedAs FastTest in {
 
     val taggedWords = Array(TaggedWord("永", LEFT_BOUNDARY), TaggedWord("和", RIGHT_BOUNDARY), TaggedWord("服", MIDDLE),
       TaggedWord("有", LEFT_BOUNDARY), TaggedWord("限", MIDDLE), TaggedWord("公", RIGHT_BOUNDARY),
@@ -92,7 +93,7 @@ class WordSegmenterModelTest extends FlatSpec {
     assert(actualWordSegments == expectedWordSegments)
   }
 
-  "A word segment that predicts wrong words at the beginning of a sentence" should "build a word segment" in {
+  "A word segment that predicts wrong words at the beginning of a sentence" should "build a word segment" taggedAs FastTest in {
     val taggedWords = Array(TaggedWord("永", LEFT_BOUNDARY), TaggedWord("和", MIDDLE), TaggedWord("服", MIDDLE),
       TaggedWord("有", LEFT_BOUNDARY), TaggedWord("限", MIDDLE), TaggedWord("公", RIGHT_BOUNDARY))
     val indexedTaggedWords = Array(
@@ -117,7 +118,7 @@ class WordSegmenterModelTest extends FlatSpec {
 
   }
 
-  "A word segment that predicts wrong words at the end of a sentence" should "build a word segment" in {
+  "A word segment that predicts wrong words at the end of a sentence" should "build a word segment" taggedAs FastTest in {
     val taggedWords = Array(TaggedWord("有", LEFT_BOUNDARY), TaggedWord("限", MIDDLE), TaggedWord("公", RIGHT_BOUNDARY),
       TaggedWord("永", LEFT_BOUNDARY), TaggedWord("和", MIDDLE), TaggedWord("服", MIDDLE))
     val indexedTaggedWords = Array(
@@ -142,7 +143,7 @@ class WordSegmenterModelTest extends FlatSpec {
 
   }
 
-  "A Word Segmenter Model that predicts wrong words in between a sentence" should "build a word segment" in {
+  "A Word Segmenter Model that predicts wrong words in between a sentence" should "build a word segment" taggedAs FastTest in {
     //永和 服 装饰 。品 有限公司
     val taggedWords = Array(TaggedWord("永", LEFT_BOUNDARY), TaggedWord("和", RIGHT_BOUNDARY),
       TaggedWord("服", MIDDLE),

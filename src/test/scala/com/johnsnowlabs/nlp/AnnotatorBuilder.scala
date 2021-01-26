@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.embeddings.{WordEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -314,9 +314,9 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
   *  val embeddingsPath = generateRandomEmbeddings(dataset, "sentence", 4)
   * */
   private def generateRandomEmbeddings(dataset: Dataset[Row], rowText: String, dim: Int) = {
-    import java.io.{File, PrintWriter}
-
     import org.apache.spark.sql.functions._
+
+    import java.io.{File, PrintWriter}
     val random = scala.util.Random
     val filename = s"${rowText}_${dim}.txt"
     val pw = new PrintWriter(new File(filename))

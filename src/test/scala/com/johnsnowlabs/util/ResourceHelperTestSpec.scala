@@ -5,11 +5,12 @@ import java.io.{File, FileNotFoundException}
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.scalatest.FlatSpec
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 
 class ResourceHelperTestSpec extends FlatSpec {
 
-  "Resource helper" should "load a file line by line as an array" in {
+  "Resource helper" should "load a file line by line as an array" taggedAs FastTest in {
     val externalResource = ExternalResource("src/test/resources/resource-helper/gender.tsv", ReadAs.TEXT,
       Map("delimiter" -> "\t"))
     val expectedDictionary = Map("Female" -> List("lady", "women"), "Male" -> List("man", "boy", "male", "son"))
@@ -19,7 +20,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     assert(dictionary == expectedDictionary)
   }
 
-  "List directory" should "correctly list file inside resource directory" in {
+  "List directory" should "correctly list file inside resource directory" taggedAs FastTest in {
     val files = ResourceHelper.listResourceDirectory("ner-dl").toList
     val targetFiles = new File("src/main/resources/ner-dl").list.map{
       f => "ner-dl" + File.separator + f
@@ -27,11 +28,11 @@ class ResourceHelperTestSpec extends FlatSpec {
     assert(files.sorted == targetFiles.sorted)
   }
 
-  "List directory" should "throw file not exists if there is no such file" in {
+  "List directory" should "throw file not exists if there is no such file" taggedAs FastTest in {
     assertThrows[FileNotFoundException](ResourceHelper.listResourceDirectory("not-exists"))
   }
 
-  "Resource helper" should "transform files' content in an array of string representation" in {
+  "Resource helper" should "transform files' content in an array of string representation" taggedAs FastTest in {
 
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.TEXT,
                                             Map.empty[String, String])
@@ -46,7 +47,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   }
 
-  it should "raise an error when SPARK is set in RedAs parameter" in {
+  it should "raise an error when SPARK is set in RedAs parameter" taggedAs FastTest in {
 
     val externalResource = ExternalResource("src/test/resources/resource-helper", ReadAs.SPARK,
       Map("format"->"text"))
@@ -58,7 +59,7 @@ class ResourceHelperTestSpec extends FlatSpec {
     assert(caught.getMessage == "Unsupported readAs")
   }
 
-  it should "raise FileNotFound exception when a wrong path is sent" in {
+  it should "raise FileNotFound exception when a wrong path is sent" taggedAs FastTest in {
 
     val externalResource = ExternalResource("wrong/path/", ReadAs.TEXT,
       Map.empty[String, String])
@@ -76,7 +77,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   }
 
-  "Resource helper" should "valid a file" in {
+  "Resource helper" should "valid a file" taggedAs FastTest in {
     val rightFilePath = "src/test/resources/parser/unlabeled/dependency_treebank/wsj_0001.dp"
     val isValid = ResourceHelper.validFile(rightFilePath)
 
@@ -84,14 +85,14 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   }
 
-  it should "also valid a directory" in {
+  it should "also valid a directory" taggedAs FastTest in {
     val rightDirectoryPath = "src/test/resources/parser/unlabeled/dependency_treebank"
     val isValid = ResourceHelper.validFile(rightDirectoryPath)
 
     assert(isValid)
   }
 
-  it should "raise FileNotFound exception when an invalid file name is used" in {
+  it should "raise FileNotFound exception when an invalid file name is used" taggedAs FastTest in {
     val rightFilePath = "src/test/resources/parser/unlabeled/dependency_treebank/invalid_file_name.dp"
 
     assertThrows[FileNotFoundException]{
@@ -100,7 +101,7 @@ class ResourceHelperTestSpec extends FlatSpec {
 
   }
 
-  it should "raise FileNotFound exception when an invalid directory path is used" in {
+  it should "raise FileNotFound exception when an invalid directory path is used" taggedAs FastTest in {
     val rightFilePath = "wrong/path//wsj_0001.dp"
 
     assertThrows[FileNotFoundException]{
