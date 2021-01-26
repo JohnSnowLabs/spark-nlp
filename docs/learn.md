@@ -539,3 +539,25 @@ modify_date: "2019-05-16"
 </div></div>
 
 </div></div>
+
+{:.h2_article}
+## Tutorials
+
+{:.h4_article}
+#### Videos
+
+<div class="grid--container container-aside"><div class="grid">
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/503267704" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Update Password. Ida Lucente - January, 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/503267684" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Update password from User Profile. Ida Lucente - January, 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/503267657" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Collect the client secret. Ida Lucente - January, 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/503267643" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Add a new user. Ida Lucente - January, 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/503267633" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Setup 2FA. Ida Lucente - January, 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/503267741" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">API usage example. Ida Lucente - January, 2021</div></div></div>
+
+</div></div>
