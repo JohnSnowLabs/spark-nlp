@@ -62,7 +62,9 @@ docs-en:
       - title:  Export Data  
         url:    /docs/en/export
       - title:  Workflow Setup   
-        url:    /docs/en/workflow        
+        url:    /docs/en/workflow
+      - title:  Video Tutorials   
+        url:    /docs/en/tutorials        
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
