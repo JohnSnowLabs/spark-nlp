@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.annotators.ner
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence
 import com.johnsnowlabs.nlp.annotators.common.IndexedTaggedWord
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
 
 import scala.collection.mutable.ArrayBuffer
@@ -51,7 +52,7 @@ class NerSpec extends FlatSpec {
   }
 
 
-  "NerTagsEncoder" should "correct Begin after Begin" in {
+  "NerTagsEncoder" should "correct Begin after Begin" taggedAs FastTest in {
     val tagged = createTagged(doc, "B-PER", "B-PER", "I-PER", "O")
     val parsed = NerTagsEncoding.fromIOB(tagged, Annotation(AnnotatorType.DOCUMENT, 0, doc.length - 1, doc, Map()))
     val target = createEntities(doc, ("PER", 1), ("PER", 2), ("O", 1))
@@ -59,7 +60,7 @@ class NerSpec extends FlatSpec {
     assert(parsed == target)
   }
 
-  "NerTagsEncoder" should "correct process end of the sentence" in {
+  "NerTagsEncoder" should "correct process end of the sentence" taggedAs FastTest in {
     val tagged = createTagged(doc, "B-PER", "O", "B-PER", "I-PER")
     val parsed = NerTagsEncoding.fromIOB(tagged, Annotation(AnnotatorType.DOCUMENT, 0, doc.length - 1, doc, Map()))
     val target = createEntities(doc, ("PER", 1), ("O", 1), ("PER", 2))

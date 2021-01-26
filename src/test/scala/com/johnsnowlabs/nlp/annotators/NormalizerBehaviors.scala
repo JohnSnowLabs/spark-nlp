@@ -1,17 +1,18 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp._
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.tags.FastTest
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
-import SparkAccessor.spark.implicits._
 
 
 trait NormalizerBehaviors { this: FlatSpec =>
 
   def fullNormalizerPipeline(dataset: => Dataset[Row]) {
-    "A Normalizer Annotator" should "successfully transform data" in {
+    "A Normalizer Annotator" should "successfully transform data" taggedAs FastTest in {
     AnnotatorBuilder.withFullNormalizer(dataset)
       .collect().foreach {
       row =>
@@ -27,7 +28,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
   }
 
   def lowercasingNormalizerPipeline(dataset: => Dataset[Row]) {
-    "A case-sensitive Normalizer Annotator" should "successfully transform data" in {
+    "A case-sensitive Normalizer Annotator" should "successfully transform data" taggedAs FastTest in {
     AnnotatorBuilder.withCaseSensitiveNormalizer(dataset)
       .collect().foreach {
       row =>
@@ -47,7 +48,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
   }
 
   def testCorrectSlangs(dataset: Dataset[Row]): Unit = {
-    s"normalizer with slang dictionary " should s"successfully correct several abbreviations" in {
+    s"normalizer with slang dictionary " should s"successfully correct several abbreviations" taggedAs FastTest in {
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
@@ -91,7 +92,7 @@ trait NormalizerBehaviors { this: FlatSpec =>
   }
 
   def testMultipleRegexPatterns(dataset: Dataset[Row]): Unit = {
-    s"normalizer with multiple regex patterns " should s"successfully correct several words" in {
+    s"normalizer with multiple regex patterns " should s"successfully correct several words" taggedAs FastTest in {
 
       val documentAssembler = new DocumentAssembler()
         .setInputCol("text")

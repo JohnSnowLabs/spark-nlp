@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.training
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.Dataset
 import org.scalatest.FlatSpec
 
@@ -10,7 +11,7 @@ class CoNLLUTestSpec extends FlatSpec {
 
   val conlluFile = "src/test/resources/conllu/en.test.conllu"
 
-  "CoNLLU" should "read documents from CoNLL-U format without explode sentences" in {
+  "CoNLLU" should "read documents from CoNLL-U format without explode sentences" taggedAs FastTest in {
 
     val expectedDocuments = Array(
       Seq(Annotation(DOCUMENT, 0, 36, "What if Google Morphed Into GoogleOS?", Map("training" -> "true"))),
@@ -84,7 +85,7 @@ class CoNLLUTestSpec extends FlatSpec {
     assertCoNLLDataSet(conllDataSet, expectedLemmas, "lemma")
   }
 
-  it should "read documents from CoNLL-U format with explode sentences" in {
+  it should "read documents from CoNLL-U format with explode sentences" taggedAs FastTest in {
 
     val expectedDocuments = Array(
       Seq(Annotation(DOCUMENT, 0, 38, "What if Google Morphed Into GoogleOS?\n\n", Map("training" -> "true"))),

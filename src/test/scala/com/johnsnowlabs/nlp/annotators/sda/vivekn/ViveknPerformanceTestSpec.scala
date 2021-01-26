@@ -1,16 +1,17 @@
 package com.johnsnowlabs.nlp.annotators.sda.vivekn
 
-import org.scalatest._
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions.rand
+import org.scalatest._
 
 class ViveknPerformanceTestSpec extends FlatSpec {
 
-  "Vivekn pipeline" should "be fast" ignore {
+  "Vivekn pipeline" should "be fast" taggedAs SlowTest in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
@@ -68,7 +69,7 @@ class ViveknPerformanceTestSpec extends FlatSpec {
 
   }
 
-  "Vivekn pipeline with spell checker" should "be fast" ignore {
+  "Vivekn pipeline with spell checker" should "be fast" taggedAs SlowTest in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._
