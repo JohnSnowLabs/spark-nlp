@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, LightPipeline, RecursivePipeline}
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.PipelineModel
 import org.scalatest._
 
@@ -15,7 +16,7 @@ class NerCrfCustomCase extends FlatSpec {
 
   import spark.implicits._
 
-  "NerCRF" should "read low trained model" ignore {
+  "NerCRF" should "read low trained model" taggedAs SlowTest in {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -67,7 +68,7 @@ class NerCrfCustomCase extends FlatSpec {
 
   }
 
-  "NerCRF" should "read and predict" ignore {
+  "NerCRF" should "read and predict" taggedAs SlowTest in {
     val lp = new LightPipeline(PipelineModel.load("./crfnerconll"))
 
     println(lp.annotate(

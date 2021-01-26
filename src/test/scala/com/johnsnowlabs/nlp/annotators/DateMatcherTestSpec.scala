@@ -1,16 +1,17 @@
 package com.johnsnowlabs.nlp.annotators
 
-import java.util.Calendar
-
 import com.johnsnowlabs.nlp.{AnnotatorType, DataBuilder}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
+
+import java.util.Calendar
 
 
 class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new DateMatcher
-  "a DateMatcher" should s"be of type ${AnnotatorType.DATE}" in {
+  "a DateMatcher" should s"be of type ${AnnotatorType.DATE}" taggedAs FastTest in {
     assert(dateMatcher.outputAnnotatorType == AnnotatorType.DATE)
   }
 
@@ -112,7 +113,7 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
   )
 
   dateSentences.map(date => dateMatcher.extractDate(date._1)).zip(dateSentences).foreach(dateAnswer => {
-    "a DateMatcher" should s"successfully parse ${dateAnswer._2._1} as ${dateAnswer._2._2.map(_.getTime)}" in {
+    "a DateMatcher" should s"successfully parse ${dateAnswer._2._1} as ${dateAnswer._2._2.map(_.getTime)}" taggedAs FastTest in {
       if (dateAnswer._1.isEmpty && dateAnswer._2._2.isEmpty)
         succeed
       else if (dateAnswer._1.nonEmpty && dateAnswer._2._2.isEmpty) {
@@ -133,11 +134,11 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     }
   })
 
-  "a DateMatcher" should "ignore chunks of text with nothing relevant" in {
+  "a DateMatcher" should "ignore chunks of text with nothing relevant" taggedAs FastTest in {
     val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
   }
 
-  "a DateMatcher" should "be writable and readable" in {
+  "a DateMatcher" should "be writable and readable" taggedAs FastTest in {
     val dateMatcher = new DateMatcher().setFormat("YYYY")
     val path = "./test-output-tmp/datematcher"
     dateMatcher.write.overwrite().save(path)

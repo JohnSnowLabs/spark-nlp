@@ -1,15 +1,16 @@
 package com.johnsnowlabs.nlp.annotators
 
-import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.training.CoNLLU
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
+
+import java.nio.file.{Files, Paths}
 
 
 class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
@@ -29,7 +30,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
   require(Some(SparkAccessor).isDefined)
 
   val lemmatizer = new Lemmatizer
-  "a lemmatizer" should s"be of type ${AnnotatorType.TOKEN}" in {
+  "a lemmatizer" should s"be of type ${AnnotatorType.TOKEN}" taggedAs FastTest in {
     assert(lemmatizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
@@ -50,7 +51,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     }
   }
 
-  "A lemmatizer" should "work under a pipeline framework" in {
+  "A lemmatizer" should "work under a pipeline framework" taggedAs FastTest in {
 
     val data = ContentProvider.parquetData.limit(1000)
 
@@ -101,7 +102,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
   import SparkAccessor.spark.implicits._
 
-  it should "lemmatize text from a spark dataset" in {
+  it should "lemmatize text from a spark dataset" taggedAs FastTest in {
     val testDataSet = Seq("So what happened?", "That too was stopped.").toDS.toDF("text")
     val expectedLemmas = Array(Seq(Annotation(TOKEN, 0, 1, "So", Map("sentence" -> "0")),
       Annotation(TOKEN, 3, 6, "what", Map("sentence" -> "0")),
@@ -127,7 +128,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     assertLemmas(lemmaDataSet, expectedLemmas)
   }
 
-  it should "raise error when form column is not present" in {
+  it should "raise error when form column is not present" taggedAs FastTest in {
     val testDataSet = Seq(("text column", "lemma column")).toDS.toDF("text", "lemma")
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
@@ -141,7 +142,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     assert(caught.getMessage == "form column required. Verify that training dataset was loaded with CoNLLU component")
   }
 
-  it should "raise error when lemma column is not present" in {
+  it should "raise error when lemma column is not present" taggedAs FastTest in {
     val testDataSet = Seq("text data").toDS.toDF("text")
     val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
@@ -160,7 +161,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     assert(caught.getMessage == "lemma column required. Verify that training dataset was loaded with CoNLLU component")
   }
 
-  it should "raise error when lemma or form does not have token annotator type" in {
+  it should "raise error when lemma or form does not have token annotator type" taggedAs FastTest in {
     val testDataSet = Seq(("text column", "form column", "lemma column")).toDS.toDF("text", "form", "lemma")
     val lemmatizer = new Lemmatizer()
       .setInputCols(Array("token"))
@@ -174,7 +175,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     assert(caught.getMessage == "form is not a token annotator type")
   }
 
-  it should "serialize a lemmatizer model" in {
+  it should "serialize a lemmatizer model" taggedAs FastTest in {
     val conlluFile = "src/test/resources/conllu/en.test.lemma.conllu"
     val trainDataSet = CoNLLU().readDataset(ResourceHelper.spark, conlluFile)
     val lemmatizerModel = new Lemmatizer()
@@ -189,7 +190,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     }
   }
 
-  it should "deserialize a lemmatizer model" in {
+  it should "deserialize a lemmatizer model" taggedAs FastTest in {
     val testDataSet = Seq("So what happened?").toDS.toDF("text")
     val expectedLemmas = Array(Seq(Annotation(TOKEN, 0, 1, "So", Map("sentence" -> "0")),
       Annotation(TOKEN, 3, 6, "what", Map("sentence" -> "0")),
@@ -213,7 +214,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
     AssertAnnotations.assertFields(expectedLemmas, actualLemmas)
   }
 
-  it should "download pretrained model" in {
+  it should "download pretrained model" taggedAs FastTest in {
     val testDataSet = Seq("So what happened?").toDS.toDF("text")
     val lemmatizer = LemmatizerModel.pretrained()
       .setInputCols(Array("token"))

@@ -1,12 +1,13 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class Doc2ChunkTestSpec extends FlatSpec {
 
-  "a chunk assembler" should "correctly chunk ranges" in {
+  "a chunk assembler" should "correctly chunk ranges" taggedAs FastTest in {
     import ResourceHelper.spark.implicits._
 
     val sampleDataset = Seq[(String, String)](
@@ -39,7 +40,7 @@ class Doc2ChunkTestSpec extends FlatSpec {
 
   }
 
-  "a chunk assembler" should "correctly chunk array ranges" in {
+  "a chunk assembler" should "correctly chunk array ranges" taggedAs FastTest in {
     import ResourceHelper.spark.implicits._
 
     val sampleDataset = Seq[(String, Seq[String])](

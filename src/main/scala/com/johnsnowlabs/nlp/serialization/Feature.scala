@@ -4,6 +4,7 @@ import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.johnsnowlabs.nlp.HasFeatures
+import com.johnsnowlabs.nlp.annotators.spell.context.parser.{SpecialClassParser, VocabParser}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.ConfigHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -263,49 +264,44 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
 }
 
 class TransducerFeature(model: HasFeatures, override val name: String)
-  extends Feature[ITransducer[Candidate], ITransducer[Candidate], ITransducer[Candidate]](model, name) {
+  extends Feature[VocabParser, VocabParser, VocabParser](model, name) {
 
-  override def serializeObject(spark: SparkSession, path: String, field: String, trans: ITransducer[Candidate]): Unit = {
-    val serializer = new PlainTextSerializer
+  override def serializeObject(spark: SparkSession, path: String, field: String, trans: VocabParser): Unit = {
     val dataPath = getFieldPath(path, field)
-    val bytes = serializer.serialize(trans)
-    spark.sparkContext.parallelize(bytes.toSeq, 1).saveAsObjectFile(dataPath.toString)
+    spark.sparkContext.parallelize(Seq(trans), 1).saveAsObjectFile(dataPath.toString)
 
   }
 
-  override def deserializeObject(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
+  override def deserializeObject(spark: SparkSession, path: String, field: String): Option[VocabParser] = {
     val serializer = new PlainTextSerializer
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val bytes = spark.sparkContext.objectFile[Byte](dataPath.toString).collect()
-      val deserialized = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
-      Some(deserialized)
+      val sc = spark.sparkContext.objectFile[VocabParser](dataPath.toString).collect().head
+      Some(sc)
     } else {
       None
     }
   }
 
 
-  override def serializeDataset(spark: SparkSession, path: String, field: String, trans: ITransducer[Candidate]): Unit = {
+  override def serializeDataset(spark: SparkSession, path: String, field: String, trans: VocabParser): Unit = {
+    implicit val encoder: Encoder[VocabParser] = Encoders.kryo[VocabParser]
     val serializer = new PlainTextSerializer
     import spark.implicits._
     val dataPath = getFieldPath(path, field)
-    val bytes = serializer.serialize(trans)
-    spark.createDataset(bytes.toSeq).write.mode("overwrite").parquet(dataPath.toString)
+    spark.createDataset(Seq(trans)).write.mode("overwrite").parquet(dataPath.toString)
   }
 
-  override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[ITransducer[Candidate]] = {
-    val serializer = new PlainTextSerializer
-    implicit val encoder: Encoder[Byte] = Encoders.kryo[Byte]
+  override def deserializeDataset(spark: SparkSession, path: String, field: String): Option[VocabParser] = {
+    implicit val encoder: Encoder[VocabParser] = Encoders.kryo[VocabParser]
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val bytes = spark.read.parquet(dataPath.toString).as[Byte].collect
-      val deserialized = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
-      Some(deserialized)
+      val sc = spark.read.parquet(dataPath.toString).as[VocabParser].collect.head
+      Some(sc)
     } else {
       None
     }
