@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.storage.StorageHelper
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.FlatSpec
 
 class NerCrfApproachTestSpec extends FlatSpec {
@@ -15,7 +15,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
   //  System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
   val nerModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
-  "NerCrfApproach" should "be serializable and deserializable correctly" ignore {
+  "NerCrfApproach" should "be serializable and deserializable correctly" taggedAs SlowTest in {
     nerModel.write.overwrite.save("./test_crf_pipeline")
     val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
 
@@ -24,14 +24,14 @@ class NerCrfApproachTestSpec extends FlatSpec {
   }
 
 
-  it should "have correct set of labels" in {
+  it should "have correct set of labels" taggedAs FastTest in {
     assert(nerModel.model.isSet)
     val metadata = nerModel.model.getOrDefault.metadata
     assert(metadata.labels.toSeq == Seq("@#Start", "PER", "O", "ORG", "LOC"))
   }
 
 
-  it should "correctly store annotations" in {
+  it should "correctly store annotations" taggedAs FastTest in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten.toSeq
     val labels = Annotation.collect(tagged, "label").flatten.toSeq
@@ -47,7 +47,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
   }
 
 
-  it should "correctly tag sentences" in {
+  it should "correctly tag sentences" taggedAs FastTest in {
     val tagged = nerModel.transform(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 
@@ -56,7 +56,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
   }
 
 
-  "NerCrfModel" should "correctly train using dataset from file" ignore {
+  "NerCrfModel" should "correctly train using dataset from file" taggedAs SlowTest in {
     val tagged = AnnotatorBuilder.withNerCrfTagger(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 
@@ -65,7 +65,7 @@ class NerCrfApproachTestSpec extends FlatSpec {
   }
 
 
-  it should "correctly handle entities param" in {
+  it should "correctly handle entities param" taggedAs FastTest in {
 
     val restrictedModel = new NerCrfModel()
       .setEntities(Array("PER", "LOC"))

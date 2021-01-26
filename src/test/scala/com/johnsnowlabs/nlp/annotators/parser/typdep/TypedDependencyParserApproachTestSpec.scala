@@ -1,7 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
-import java.io.FileNotFoundException
-
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.parser.dep.{DependencyParserApproach, DependencyParserModel}
@@ -9,9 +7,12 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, Perce
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
+
+import java.io.FileNotFoundException
 
 class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
@@ -75,7 +76,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
     DependencyParserModel.read.load(path)
   }
 
-  "A typed dependency parser that sets CoNLL-2009 and CoNLL-U format files " should "raise an error" in {
+  "A typed dependency parser that sets CoNLL-2009 and CoNLL-U format files " should "raise an error" taggedAs FastTest in {
 
     val typedDependencyParserApproach = new TypedDependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
@@ -93,7 +94,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   }
 
 
-  "A typed dependency parser that does not set TreeBank or CoNLL-U format files " should "raise an error" in {
+  "A typed dependency parser that does not set TreeBank or CoNLL-U format files " should "raise an error" taggedAs FastTest in {
 
     val pipeline = new TypedDependencyParserApproach()
     val expectedErrorMessage = "Either CoNLL-2009 or CoNLL-U format file is required."
@@ -106,7 +107,7 @@ class TypedDependencyParserApproachTestSpec extends FlatSpec{
   }
 
   "A typed dependency parser approach with an invalid file path or file name" should
-    "raise FileNotFound exception" in {
+    "raise FileNotFound exception" taggedAs FastTest in {
 
     val typedDependencyParser = new TypedDependencyParserApproach()
       .setInputCols(Array("token", "pos", "dependency"))

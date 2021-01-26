@@ -1,7 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -10,8 +11,9 @@ import org.scalatest.tagobjects.Slow
 class PragmaticApproachBigTestSpec extends FlatSpec {
 
   "Parquet based data" should "be sentence bounded properly" taggedAs Slow in {
-    import org.apache.spark.sql.functions._
     import SparkAccessor.spark.implicits._
+    import org.apache.spark.sql.functions._
+
     import java.util.Date
 
     val data = ContentProvider.parquetData
@@ -108,7 +110,7 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
 
   }
 
-  "A Pragmatic SBD" should "successfully explode sentences" in {
+  "A Pragmatic SBD" should "successfully explode sentences" taggedAs FastTest in {
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
     val data = Seq("This is one sentence. This is another sentence. Third sentence.").toDF("text")
     val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")

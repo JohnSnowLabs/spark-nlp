@@ -1,16 +1,16 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.ml.tensorflow.TensorflowT5
+import com.johnsnowlabs.ml.tensorflow.{TensorflowT5, TensorflowWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class T5TestSpec extends FlatSpec {
-  "t5-small" should "run SparkNLP pipeline" ignore {
+  "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -52,7 +52,7 @@ class T5TestSpec extends FlatSpec {
     results.select("summaries.result").show(truncate = false)
   }
 
-  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" ignore {
+  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Which is the capital of France? Who was the first president of USA?"),
@@ -83,7 +83,7 @@ class T5TestSpec extends FlatSpec {
   }
 
 
-  "T5Transformer" should "load and save models" ignore {
+  "T5Transformer" should "load and save models" taggedAs SlowTest in {
     val google_t5_small_ssm_nq = T5Transformer.loadSavedModel("/models/t5/google_t5_small_ssm_nq/tf/combined", ResourceHelper.spark)
     google_t5_small_ssm_nq.write.overwrite().save("/models/sparknlp/google_t5_small_ssm_nq")
 
@@ -92,7 +92,7 @@ class T5TestSpec extends FlatSpec {
 
   }
 
-  "T5 TF" should "process text" ignore {
+  "T5 TF" should "process text" taggedAs SlowTest in {
     val texts = Array("When was America discovered?", "Which was the first president of USA?")
     val tfw = TensorflowWrapper.read("/models/t5/t5_small/tf/combined", zipped = false, useBundle = true, tags = Array("serve"))
     val spp = SentencePieceWrapper.read("/models/t5/t5_small/tf/combined/assets/spiece.model")

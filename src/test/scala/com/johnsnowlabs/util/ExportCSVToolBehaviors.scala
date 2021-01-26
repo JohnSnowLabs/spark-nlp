@@ -9,6 +9,7 @@ import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, SparkAccessor}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -94,7 +95,7 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
   }
 
   def testExportSeveralCoNLLFiles(filesPath: String): Unit = {
-    it should "successfully generate POS tags" ignore {
+    it should "successfully generate POS tags" taggedAs SlowTest in {
       import SparkAccessor.spark.implicits._ //for toDS and toDF
 
       val listOfFiles = getListOfFiles(filesPath)
@@ -132,7 +133,7 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
   }
 
   def testEvaluation(dataset: Dataset[Row]): Unit = {
-    it should "successfully generate POS tags" ignore {
+    it should "successfully generate POS tags" taggedAs SlowTest in {
 
       import SparkAccessor.spark.implicits._ //for .as
 

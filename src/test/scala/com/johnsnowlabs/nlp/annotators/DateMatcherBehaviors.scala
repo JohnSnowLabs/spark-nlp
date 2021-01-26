@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.annotators
 
-import java.util.Date
-
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
-import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
-import org.scalatest.Matchers._
 import com.johnsnowlabs.nlp.AnnotatorType.DATE
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
+import com.johnsnowlabs.tags.FastTest
+import org.apache.spark.sql.{Dataset, Row}
+import org.scalatest.Matchers._
+import org.scalatest._
+
 import scala.language.reflectiveCalls
 
 trait DateMatcherBehaviors extends FlatSpec {
@@ -19,7 +19,7 @@ trait DateMatcherBehaviors extends FlatSpec {
   }
 
   def sparkBasedDateMatcher(dataset: => Dataset[Row]): Unit = {
-    "A DateMatcher Annotator" should s"successfuly parse dates" in {
+    "A DateMatcher Annotator" should s"successfuly parse dates" taggedAs FastTest in {
       val f = fixture(dataset)
       f.dateAnnotations.foreach { a =>
         val d: String = a.result
@@ -27,12 +27,12 @@ trait DateMatcherBehaviors extends FlatSpec {
       }
     }
 
-    it should "create annotations" in {
+    it should "create annotations" taggedAs FastTest in {
       val f = fixture(dataset)
       assert(f.dateAnnotations.size > 0)
     }
 
-    it should "create annotations with the correct type" in {
+    it should "create annotations with the correct type" taggedAs FastTest in {
       val f = fixture(dataset)
       f.dateAnnotations.foreach { a =>
         assert(a.annotatorType == DATE)
