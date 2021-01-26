@@ -1,19 +1,22 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
-import java.io.File
 
-import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
-import com.github.liblevenshtein.serialization.PlainTextSerializer
-import com.github.liblevenshtein.transducer.{Candidate, Transducer}
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
+import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
+
+import java.io.File
+import java.io.FileOutputStream
+import java.io.ObjectOutputStream
+import java.io.FileInputStream
+import java.io.ObjectInputStream
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
@@ -27,7 +30,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val weights = loadWeights("src/test/resources/dist.psv")
   }
   // This test fails in GitHub Actions
-  "Spell Checker" should "provide appropriate scores - sentence level" ignore {
+  "Spell Checker" should "provide appropriate scores - sentence level" taggedAs SlowTest in {
 
 
     def time[R](block: => R): R = {
@@ -68,43 +71,74 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
   // This test fails in GitHub Actions
-  "UnitClass" should "serilize/deserialize properly" ignore {
-
+  "Special classes" should "serialize/deserialize properly during model save" taggedAs SlowTest in {
     import SparkAccessor.spark
-    val dataPathTrans = "./tmp/transducer"
-    val dataPathObject = "./tmp/object"
 
-    val f1 = new File(dataPathTrans)
-    val f2 = new File(dataPathObject)
-    if (f1.exists()) f1.delete()
-    if (f2.exists()) f2.delete()
+    val specialClasses = Seq(new AgeToken, new UnitToken, new NumberToken,
+      new LocationClass("./src/test/resources/spell/locations.txt"),
+      new NamesClass("./src/test/resources/spell/names.txt"),
+      new MedicationClass("./src/test/resources/spell/meds.txt"),
+      new DateToken)
 
-    val serializer = new PlainTextSerializer
+    specialClasses.foreach { specialClass =>
+        val dataPathObject = "/tmp/object"
 
-    val specialClass = UnitToken
-    val transducer = specialClass.transducer
-    specialClass.setTransducer(null)
+        val f = new File(dataPathObject)
+        if (f.exists()) FileUtils.deleteDirectory(f)
 
-    // the object per se
-    FileUtils.deleteDirectory(new File(dataPathObject))
-    spark.sparkContext.parallelize(Seq(specialClass)).
-      saveAsObjectFile(dataPathObject)
+        // persist object
+        FileUtils.deleteDirectory(new File(dataPathObject))
+        spark.sparkContext.parallelize(Seq(specialClass)).
+          saveAsObjectFile(dataPathObject)
 
-    // we handle the transducer separately
-    FileUtils.deleteDirectory(new File(dataPathTrans))
-    val transBytes = serializer.serialize(transducer)
-    spark.sparkContext.parallelize(transBytes.toSeq, 1).
-      saveAsObjectFile(dataPathTrans)
+        // load object
+        val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
+        assert(sc.transducer != null)
+        sc match {
+          case vp:VocabParser => assert(vp.vocab != null)
+          case _ =>
+        }
 
-    // load transducer
-    val bytes = spark.sparkContext.objectFile[Byte](dataPathTrans).collect()
-    val trans = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
-
-    // the object
-    val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
-    sc.setTransducer(trans)
-
+        sc.transducer.transduce("aaa")
+    }
   }
+
+  "Special classes" should "serialize/deserialize properly - during execution" in {
+
+    val specialClasses = Seq(new AgeToken, new UnitToken, new NumberToken,
+      new LocationClass("./src/test/resources/spell/locations.txt"),
+      new NamesClass("./src/test/resources/spell/names.txt"),
+      new MedicationClass("./src/test/resources/spell/meds.txt"),
+      new DateToken)
+
+    specialClasses.foreach{ specialClass =>
+
+      val path = "special_class.ser"
+      val f = new File(path)
+      if (f.exists()) FileUtils.forceDelete(f)
+
+      // write to disk
+      val fileOut: FileOutputStream = new FileOutputStream(path)
+      val out: ObjectOutputStream = new ObjectOutputStream(fileOut)
+
+      out.writeObject(specialClass)
+      out.close()
+
+      // read from disk
+      val fileIn: FileInputStream = new FileInputStream(path)
+      val in: ObjectInputStream = new ObjectInputStream(fileIn)
+      val deserialized = in.readObject.asInstanceOf[SpecialClassParser]
+      assert(deserialized.transducer != null)
+      deserialized match {
+        case vp:VocabParser =>
+          assert(vp.vocab != null)
+        case _ =>
+      }
+      deserialized.transducer.transduce("something")
+      in.close()
+    }
+  }
+
 
   "weighted Levenshtein distance" should "work from file" in new distFile {
     assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
@@ -132,7 +166,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly preprocess training data" in {
+  "a Spell Checker" should "correctly preprocess training data" taggedAs FastTest in {
 
     val path = "src/test/resources/test.txt"
     val dataset = SparkAccessor.spark.sparkContext.textFile(path).
@@ -168,7 +202,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "work in a pipeline with Tokenizer" ignore {
+  "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
       "He wos re1uctant to clange .",
       "he is gane .").toDF("text")
@@ -193,7 +227,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "a Spell Checker" should "work in a light pipeline" ignore {
+  "a Spell Checker" should "work in a light pipeline" taggedAs SlowTest in {
     import SparkAccessor.spark
     import spark.implicits._
 
@@ -220,7 +254,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly handle paragraphs defined by newlines" ignore {
+  "a Spell Checker" should "correctly handle paragraphs defined by newlines" taggedAs SlowTest in {
     import SparkAccessor.spark
     import spark.implicits._
 
@@ -249,7 +283,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a Spell Checker" should "correctly handle multiple sentences" ignore {
+  "a Spell Checker" should "correctly handle multiple sentences" taggedAs SlowTest in {
 
     import SparkAccessor.spark
     import spark.implicits._
@@ -289,13 +323,48 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "a model" should "serialize properly" ignore {
+  "a model" should "correctly update word classes" taggedAs SlowTest in {
+
+    import SparkAccessor.spark
+    import spark.implicits._
+
+    val data = Seq("We should take a trup to Supercalifragilisticexpialidoccious Land").toDF("text")
+    val meds: java.util.ArrayList[String] = new java.util.ArrayList[String]()
+    meds.add("Supercalifragilisticexpialidocious")
+
+    val documentAssembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .updateVocabClass("_LOC_", meds, false)
+      .setInputCols("token")
+      .setOutputCol("checked")
+      .setUseNewLines(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    val result = pipeline.transform(data)
+    val checked = result.select("checked").as[Array[Annotation]].collect
+    // check the spell checker was able to correct the word according to the update in the class
+    pipeline.stages.last.asInstanceOf[ContextSpellCheckerModel].write.overwrite.save("./test_spell_checker")
+    assert(checked.head.map(_.result).contains("Supercalifragilisticexpialidocious"))
+
+  }
+
+
+  "a model" should "serialize properly" taggedAs SlowTest in {
 
     import scala.collection.JavaConversions._
 
-    val ocrSpellModel = ContextSpellCheckerModel.read.load("./context_spell_med_en_2.0.0_2.4_1553552948340")
+    val ocrSpellModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
 
-    ocrSpellModel.setSpecialClassesTransducers(Seq(UnitToken))
+    ocrSpellModel.setSpecialClassesTransducers(Seq(new UnitToken))
 
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
@@ -318,23 +387,25 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
   }
 
-  "number classes" should "recognize different number patterns" in {
+  "number classes" should "recognize different number patterns" taggedAs FastTest in {
     import scala.collection.JavaConversions._
-    val transducer = NumberToken.generateTransducer
+    val number = new NumberToken
+    val transducer = number.generateTransducer
 
     assert(transducer.transduce("100.3").toList.exists(_.distance == 0))
-    assert(NumberToken.separate("$40,000").equals(NumberToken.label))
+    assert(number.separate("$40,000").equals(number.label))
   }
 
-  "date classes" should "recognize different date and time formats" in {
+  "date classes" should "recognize different date and time formats" taggedAs FastTest in {
     import scala.collection.JavaConversions._
-    val transducer = DateToken.generateTransducer
+    val date = new DateToken
+    val transducer = date.generateTransducer
 
     assert(transducer.transduce("10/25/1982").toList.exists(_.distance == 0))
-    assert(DateToken.separate("10/25/1982").equals(DateToken.label))
+    assert(date.separate("10/25/1982").equals(date.label))
   }
 
-  "suffixes and prefixes" should "recognized and handled properly" in {
+  "suffixes and prefixes" should "recognized and handled properly" taggedAs FastTest in {
     val suffixedToken = SuffixedToken(Array(")", ","))
     val prefixedToken = PrefixedToken(Array("("))
 
@@ -344,4 +415,5 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     tmp = prefixedToken.separate(suffixedToken.separate("(08/10/1982)"))
     assert(tmp.equals("( 08/10/1982 )"))
   }
+
 }

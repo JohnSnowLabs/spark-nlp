@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{Sentence, WordData}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
@@ -19,7 +20,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
 
   private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
 
-  "A dependency parser that sets TreeBank and CoNLL-U format files " should "raise an error" in {
+  "A dependency parser that sets TreeBank and CoNLL-U format files " should "raise an error" taggedAs FastTest in {
 
     val dependencyParserApproach = new DependencyParserApproach()
       .setInputCols(Array("sentence", "pos", "token"))
@@ -36,7 +37,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
     assert(caught.getMessage == expectedErrorMessage)
   }
 
-  "A dependency parser that does not set TreeBank or CoNLL-U format files " should "raise an error" in {
+  "A dependency parser that does not set TreeBank or CoNLL-U format files " should "raise an error" taggedAs FastTest in {
 
     val pipeline = new DependencyParserApproach()
     val expectedErrorMessage = "Either TreeBank or CoNLL-U format file is required."
@@ -48,7 +49,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
     assert(caught.getMessage == expectedErrorMessage)
   }
 
-  "A Dependency Parser Approach" should "read CoNLL data from TreeBank format file" in {
+  "A Dependency Parser Approach" should "read CoNLL data from TreeBank format file" taggedAs FastTest in {
 
     val filesContent = s"Pierre\tNNP\t0${System.lineSeparator()}"+
                         s"is\tVBZ\t1${System.lineSeparator()}"+
@@ -67,7 +68,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
     assert(expectedResult == result)
   }
 
-  "A Dependency Parser Approach" should "read CoNLL data from universal dependency format file" in {
+  "A Dependency Parser Approach" should "read CoNLL data from universal dependency format file" taggedAs FastTest in {
 
     val trainingFile = "src/test/resources/parser/labeled/train_small.conllu.txt"
     val externalResource = ExternalResource(trainingFile, ReadAs.TEXT, Map.empty[String, String])

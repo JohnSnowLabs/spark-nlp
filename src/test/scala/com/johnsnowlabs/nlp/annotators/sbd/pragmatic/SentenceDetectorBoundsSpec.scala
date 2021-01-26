@@ -1,14 +1,15 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider, DocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider, DocumentAssembler}
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
 
 
 class SentenceDetectorBoundsSpec extends FlatSpec {
 
-  "SentenceDetector" should "support disable list detection" in {
+  "SentenceDetector" should "support disable list detection" taggedAs FastTest in {
     val model = new DefaultPragmaticMethod(false, false)
     val text = "His age is 34. He is visiting hospital."
     val bounds = model.extractBounds(text)
@@ -20,7 +21,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     checkBounds(text, bounds)
   }
 
-  "SentenceDetector" should "return correct sentence bounds" in {
+  "SentenceDetector" should "return correct sentence bounds" taggedAs FastTest in {
     val model = new DefaultPragmaticMethod(false)
     val text = "Hello World!! New Sentence"
     val bounds = model.extractBounds(text)
@@ -32,7 +33,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     checkBounds(text, bounds)
   }
 
-  "SentenceDetector" should "correct return sentence bounds with whitespaces" in {
+  "SentenceDetector" should "correct return sentence bounds with whitespaces" taggedAs FastTest in {
     val model = new DefaultPragmaticMethod(false)
     val text = " Hello World!! .  New Sentence  "
     val bounds = model.extractBounds(text)
@@ -45,7 +46,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     checkBounds(text, bounds)
   }
 
-  "SentenceDetector" should "correct process custom delimiters" in {
+  "SentenceDetector" should "correct process custom delimiters" taggedAs FastTest in {
     val model = new MixedPragmaticMethod(false, true, Array("\n\n"))
     val text = " Hello World.\n\nNew Sentence\n\nThird"
     val bounds = model.extractBounds(" Hello World.\n\nNew Sentence\n\nThird")
@@ -58,14 +59,14 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
     checkBounds(text, bounds)
   }
 
-  "SentenceDetector" should "correct process custom delimiters in with dots" in {
+  "SentenceDetector" should "correct process custom delimiters in with dots" taggedAs FastTest in {
     val model = new MixedPragmaticMethod(false, true, Array("\n\n"))
     val bounds = model.extractBounds(ContentProvider.conllEightSentences)
 
     assert(bounds.length == 8)
   }
 
-  "SentenceDetector" should "successfully split long sentences" in {
+  "SentenceDetector" should "successfully split long sentences" taggedAs FastTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -103,7 +104,7 @@ class SentenceDetectorBoundsSpec extends FlatSpec {
 
   }
 
-  "SentenceDetector" should "correctly filters out sentences less or greater than maxLength and minLength" in {
+  "SentenceDetector" should "correctly filters out sentences less or greater than maxLength and minLength" taggedAs FastTest in {
     import ResourceHelper.spark.implicits._
 
     val sentence = "Small sentence. This is a normal sentence. This is a long sentence (longer than the maxLength)."

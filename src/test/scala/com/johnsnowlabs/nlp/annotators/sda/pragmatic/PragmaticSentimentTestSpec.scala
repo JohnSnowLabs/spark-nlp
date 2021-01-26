@@ -1,9 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
-import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.storage.StorageLevel
 import org.scalatest._
 import org.scalatest.tagobjects.Slow
@@ -75,7 +76,7 @@ class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehavio
       " I recommend others to avoid.")
   )
 
-  "A SentimentDetector" should "be readable and writable" in {
+  "A SentimentDetector" should "be readable and writable" taggedAs FastTest in {
     val sentimentDetector = new SentimentDetector().setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ","))).fit(DataBuilder.basicDataBuild("dummy"))
     val path = "./test-output-tmp/sentimentdetector"
     try {

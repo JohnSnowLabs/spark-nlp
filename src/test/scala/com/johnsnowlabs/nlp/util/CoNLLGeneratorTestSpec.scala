@@ -1,15 +1,15 @@
 package com.johnsnowlabs.nlp.util
 
-import java.io.File
-
 import com.johnsnowlabs.nlp.Finisher
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util._
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
+import java.io.File
 import scala.io.Source
 import scala.reflect.io.Directory
 
@@ -17,7 +17,7 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
   ResourceHelper.spark
   import ResourceHelper.spark.implicits._ //for toDS and toDF
 
-  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" ignore {
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" taggedAs SlowTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
 
     val finisherNoNER = new Finisher()
@@ -76,7 +76,7 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
   }
 
 
-  "The (dataframe, outputpath) generator" should "make the right file" ignore {
+  "The (dataframe, outputpath) generator" should "make the right file" taggedAs SlowTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
 
     val finisherNoNER = new Finisher()
@@ -135,7 +135,7 @@ class CoNLLGeneratorTestSpec extends FlatSpec{
   }
 
 
-  "The generator" should "make the right file with ners when appropriate" ignore {
+  "The generator" should "make the right file with ners when appropriate" taggedAs SlowTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang="en").model
 
     val finisherNoNER = new Finisher()
