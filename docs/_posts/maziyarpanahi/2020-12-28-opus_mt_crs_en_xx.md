@@ -13,11 +13,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies. It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.
-            It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).
+It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).
 
-            source languages: crs
+- source languages: `crs`
 
-            target languages: en
+- target languages: `en`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -42,20 +42,27 @@ documentAssembler = DocumentAssembler()\
  marian = MarianTransformer.pretrained("opus_mt_crs_en", "xx")\ 
  .setInputCols(["sentence"])\ 
  .setOutputCol("translation")
+
+marian_pipeline = Pipeline(stages=[documentAssembler, sentencerDL, marian])
+light_pipeline = LightPipeline(marian_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
+result = light_pipeline.fullAnnotate(data)
 ```
 ```scala
 
-                val documentAssembler = new DocumentAssembler()
-                  .setInputCol("text")
-                  .setOutputCol("document")
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
 
-                val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-                  .setInputCols("document")
-                  .setOutputCol("sentence")
+val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+  .setInputCols("document")
+  .setOutputCol("sentence")
 
-                val marian = MarianTransformer.pretrained("opus_mt_crs_en", "xx")
-                .setInputCols(["sentence"])
-                .setOutputCol("translation")
+val marian = MarianTransformer.pretrained("opus_mt_crs_en", "xx")
+.setInputCols(["sentence"])
+.setOutputCol("translation")
+
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentence, marian))
+val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ```
 </div>
 
