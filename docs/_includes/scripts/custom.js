@@ -66,11 +66,8 @@ jQuery(document).ready(function(){
 	    }
   });
   
-  //Add noactive class on tabs scala
-  console.log('Hi');
-  jQuery('.language-scala.noactive').prev().prev('.top_tab_li').find('.scala-button').addClass('noactive');
-  jQuery('.language-python.noactive').prev('.top_tab_li').find('.python-button').addClass('noactive').find('.scala-button').addClass('.code-selector-active');
-  jQuery('.language-python.noactive').prev('.top_tab_li').find('.scala-button').removeClass('code-selector-un-active').addClass('code-selector-active');
 
 });
 
+
+ 

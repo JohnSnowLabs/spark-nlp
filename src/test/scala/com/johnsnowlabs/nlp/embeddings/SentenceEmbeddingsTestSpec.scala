@@ -1,17 +1,18 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLApproach, ClassifierDLModel}
-import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
-import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.scalatest._
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.functions.size
+import org.scalatest._
 
 class SentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" in {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -67,7 +68,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
   }
 
   // too large for Travis
-  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" ignore {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -120,7 +121,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "SentenceEmbeddings" should "not crash on empty embeddings" in {
+  "SentenceEmbeddings" should "not crash on empty embeddings" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -172,7 +173,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
     pipelineDF.show(2)
   }
 
-  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" ignore {
+  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
 

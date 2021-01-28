@@ -75,10 +75,10 @@ object Annotation {
     StructField("end", IntegerType, nullable = false),
     StructField("result", StringType, nullable = true),
     StructField("metadata", MapType(StringType, StringType), nullable = true),
-    StructField(EMBEDDINGS, ArrayType(FloatType, containsNull = false), nullable = true)
+    StructField(EMBEDDINGS, ArrayType(FloatType, false), true)
   ))
 
-  val arrayType = new ArrayType(dataType, true)
+  val arrayType = new ArrayType(dataType, false)
 
   /**
     * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]

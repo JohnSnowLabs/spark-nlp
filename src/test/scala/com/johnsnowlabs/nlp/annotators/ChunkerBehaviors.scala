@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronApproachDistributed, PerceptronModel}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.FlatSpec
@@ -15,7 +16,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
                             regexParser: Array[String], correctChunkPhrases: Array[String])
 
   def testChunkingWithTrainedPOS(document: Array[String]): Unit = {
-    it should "successfully transform a trained POS tagger annotator" in {
+    it should "successfully transform a trained POS tagger annotator" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       val data = AnnotatorBuilder.withFullPragmaticSentenceDetector(AnnotatorBuilder.withDocumentAssembler(
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
@@ -46,7 +47,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
   }
 
   def testChunkingWithTrainedPOSUsingPipeline(document: Array[String]): Unit = {
-    it should "successfully transform POS tagger annotator with pipeline" in {
+    it should "successfully transform POS tagger annotator with pipeline" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       val data = AnnotatorBuilder.withDocumentAssembler(
         SparkAccessor.spark.sparkContext.parallelize(document).toDF("text")
@@ -138,7 +139,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
   }
 
   def testUserInputPOSTags(sentence: Array[String], path: String, regexParser: Array[String]): Unit = {
-    it should "successfully generate chunk phrases from a regex parser" in {
+    it should "successfully generate chunk phrases from a regex parser" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       val testData = AnnotatorBuilder.withDocumentAssembler(
         SparkAccessor.spark.sparkContext.parallelize(sentence).toDF("text")
@@ -154,7 +155,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
   }
 
   def testRegexDoesNotMatch(sentence: Array[String], path: String, regexParser: Array[String]): Unit = {
-    it should "successfully generate empty chunk phrases from a regex parser" in {
+    it should "successfully generate empty chunk phrases from a regex parser" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
 
       val testData = AnnotatorBuilder.withDocumentAssembler(
@@ -172,7 +173,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
   }
 
   def testChunksGeneration(phrases: List[SentenceParams]): Unit = {
-    it should "successfully generate correct chunks phrases for each sentence" in {
+    it should "successfully generate correct chunks phrases for each sentence" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       import org.apache.spark.sql.functions._
 
@@ -207,7 +208,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
   }
 
   def testMultipleRegEx(dataset: Dataset[Row], regexParser: Array[String]): Unit = {
-    it should "successfully generate chunks phrases" in {
+    it should "successfully generate chunks phrases" taggedAs FastTest in {
       import SparkAccessor.spark.implicits._
       import org.apache.spark.sql.functions.split
 

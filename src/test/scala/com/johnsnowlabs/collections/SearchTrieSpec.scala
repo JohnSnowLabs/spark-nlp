@@ -1,6 +1,7 @@
 package com.johnsnowlabs.collections
 
 import org.scalatest.FlatSpec
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 
 class SearchTrieSpec extends FlatSpec {
@@ -28,17 +29,17 @@ class SearchTrieSpec extends FlatSpec {
   )
 
 
-  "SearchTrie" should "create correct encode words" in {
+  "SearchTrie" should "create correct encode words" taggedAs FastTest in {
     assert(trie.vocabulary.size == 2)
     assert(trie.vocabulary("a") == 0)
     assert(trie.vocabulary("b") == 1)
   }
 
-  "SearchTrie" should "create correct number of nodes" in {
+  "SearchTrie" should "create correct number of nodes" taggedAs FastTest in {
     assert(trie.nodes.size == 8)
   }
 
-  "SearchTrie" should "correct fill nodes info" in {
+  "SearchTrie" should "correct fill nodes info" taggedAs FastTest in {
     val isLeaf = Seq(false, false, false, false, false, true, false, true)
     val trieIsLeaf = trie.nodes.map(n => n._2)
     assert(trieIsLeaf == isLeaf)
@@ -52,28 +53,28 @@ class SearchTrieSpec extends FlatSpec {
     assert(triePi == pi)
   }
 
-  "SearchTrie" should "correct search" in {
+  "SearchTrie" should "correct search" taggedAs FastTest in {
     val text = "a b a a a b a b a a a a".split(" ")
     val result = trie.search(text)
 
     assert(result == Seq((2, 4), (4, 8), (8, 10), (9, 11)))
   }
 
-  "SearchTrie" should "correct handle out of vocabulary words" in {
+  "SearchTrie" should "correct handle out of vocabulary words" taggedAs FastTest in {
     val text = "a b a c a b a b a c a a a".split(" ")
     val result = trie.search(text)
 
     assert(result == Seq((4, 8), (10, 12)))
   }
 
-  "SearchTrie" should "correctly calculate lastLeaf" in {
+  "SearchTrie" should "correctly calculate lastLeaf" taggedAs FastTest in {
     val lastLeafs = aTrie.nodes.map(n => n._4)
     val expected = Seq(-1, -1, 1, 2, 3, 3)
 
     assert(lastLeafs == expected)
   }
 
-  "SearchTrie" should "correctly find substrings" in {
+  "SearchTrie" should "correctly find substrings" taggedAs FastTest in {
     val text = "a a a a c a a a a a a".split(" ")
     val result = aTrie.search(text)
     val shouldFound =
@@ -89,7 +90,7 @@ class SearchTrieSpec extends FlatSpec {
     assert(result.size == shouldFound.size)
   }
 
-  "SearchTrie" should "correct process something adding nodes for pi in different branch" in {
+  "SearchTrie" should "correct process something adding nodes for pi in different branch" taggedAs FastTest in {
     assert(btrie.nodes.size == 8)
     val pi = (0 until 8).map(i => btrie.pi(i)).toList
     assert(pi == List(0, 0, 5, 6, 2, 0, 1, 1))
