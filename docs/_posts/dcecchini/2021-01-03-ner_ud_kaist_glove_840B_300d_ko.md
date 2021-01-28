@@ -21,8 +21,8 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 `DT` (date), `LC` (location), `OG` (organization), `PS` (person), `TI` (time), and `O` (other)
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_KO/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_kmou_glove_840B_300d_ko_2.7.0_2.4_1609716021199.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

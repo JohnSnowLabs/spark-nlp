@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
@@ -33,12 +34,12 @@ trait TokenizerBehaviors { this: FlatSpec =>
   }
 
   def fullTokenizerPipeline(dataset: => Dataset[Row]) {
-    "A Tokenizer Annotator" should "successfully transform data" in {
+    "A Tokenizer Annotator" should "successfully transform data" taggedAs FastTest in {
       val f = fixture(dataset)
       assert(f.tokensAnnotations.nonEmpty, "Tokenizer should add annotators")
     }
 
-    it should "annotate using the annotatorType of token" in {
+    it should "annotate using the annotatorType of token" taggedAs FastTest in {
       val f = fixture(dataset)
       assert(f.tokensAnnotations.nonEmpty, "Tokenizer should add annotators")
       f.tokensAnnotations.foreach { a =>
@@ -46,7 +47,7 @@ trait TokenizerBehaviors { this: FlatSpec =>
       }
     }
 
-    it should "annotate with the correct word indexes" in {
+    it should "annotate with the correct word indexes" taggedAs FastTest in {
       val f = fixture(dataset)
       f.tokensAnnotations.foreach { a =>
         val token = a.result

@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorModel, AnnotatorType, DocumentAssembler, HasRecursiveFit, HasRecursiveTransform, SparkAccessor, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Dataset
 import org.scalatest._
@@ -36,7 +37,7 @@ class RecursiveTestSpec extends FlatSpec {
 
   val data = Seq("Peter is a good person").toDF("text")
 
-  "Recursive Approach" should "receive previous annotator models in the pipeline" in {
+  "Recursive Approach" should "receive previous annotator models in the pipeline" taggedAs FastTest in {
     import com.johnsnowlabs.nlp.recursive._
 
     val some = new SomeApproach() {
@@ -67,7 +68,7 @@ class RecursiveTestSpec extends FlatSpec {
     succeed
   }
 
-  "Recursive Model" should "receive annotator models in the pipeline" in {
+  "Recursive Model" should "receive annotator models in the pipeline" taggedAs FastTest in {
     import com.johnsnowlabs.nlp.recursive._
 
     val someModel = new SomeModel() with HasSimpleAnnotate[SomeModel] {
@@ -99,7 +100,7 @@ class RecursiveTestSpec extends FlatSpec {
     succeed
   }
 
-  "Lazy Recursive Model" should "be ignored and used correctly once called" in {
+  "Lazy Recursive Model" should "be ignored and used correctly once called" taggedAs FastTest in {
     import com.johnsnowlabs.nlp.recursive._
 
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
@@ -134,7 +135,7 @@ class RecursiveTestSpec extends FlatSpec {
     succeed
   }
 
-  "Lazy Recursive Model" should "work well in LightPipeline" in {
+  "Lazy Recursive Model" should "work well in LightPipeline" taggedAs FastTest in {
     import com.johnsnowlabs.nlp.recursive._
 
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)

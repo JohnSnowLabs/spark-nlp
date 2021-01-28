@@ -203,7 +203,7 @@ biobert_embeddings_avg = SentenceEmbeddings() \
     .setOutputCol("sentence_bert_embeddings") \
     .setPoolingStrategy("AVERAGE")
 
-genderClassifier = ClassifierDLModel.pretrained('classifierdl_gender_sbert', 'en', 'clinical/models') \
+genderClassifier = ClassifierDLModel.pretrained('classifierdl_gender_biobert', 'en', 'clinical/models') \
     .setInputCols(["document", "sentence_bert_embeddings"]) \
     .setOutputCol("gender")
 

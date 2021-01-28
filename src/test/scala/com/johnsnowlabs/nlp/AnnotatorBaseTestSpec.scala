@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.scalatest._
 
@@ -47,33 +48,33 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     .setOutputCol("demanding_dummy")
   val dummyData = DataBuilder.basicDataBuild("Some dummy content")
 
-  "a dummyAnnotator" should "default inputCols should be an empty one" in {
+  "a dummyAnnotator" should "default inputCols should be an empty one" taggedAs FastTest in {
     assert(dummyAnnotator.getInputCols.isEmpty)
   }
 
-  "a dummyAnnotator" should "have annotation type as an output column" in {
+  "a dummyAnnotator" should "have annotation type as an output column" taggedAs FastTest in {
     assert(dummyAnnotator.getOutputCol == "dummy")
   }
 
-  "a demandingDummyAnnotator" should "have input columns as dummy annotator by default" in {
+  "a demandingDummyAnnotator" should "have input columns as dummy annotator by default" taggedAs FastTest in {
     assert(
       demandingDummyAnnotator.getInputCols.length == 1 &&
         demandingDummyAnnotator.getInputCols.head == "dummy"
     )
   }
 
-  "a demandingDummyAnnotator" should "have annotation type as an output column" in {
+  "a demandingDummyAnnotator" should "have annotation type as an output column" taggedAs FastTest in {
     assert(demandingDummyAnnotator.getOutputCol == "demanding_dummy")
   }
 
-  "dummy annotators" should "transform data with default params" in {
+  "dummy annotators" should "transform data with default params" taggedAs FastTest in {
     val result = demandingDummyAnnotator.transform(dummyAnnotator.transform(dummyData))
     assert(result.columns.contains(dummyAnnotator.getOutputCol) &&
       result.columns.contains(demandingDummyAnnotator.getOutputCol)
     )
   }
 
-  "dummy annotators" should "transform data with changed params" in {
+  "dummy annotators" should "transform data with changed params" taggedAs FastTest in {
     dummyAnnotator
       .setOutputCol("demand")
     demandingDummyAnnotator
@@ -85,7 +86,7 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     )
   }
 
-  "dummy annotators" should "transform schema and reflect content metadata as well as schema metadata" in {
+  "dummy annotators" should "transform schema and reflect content metadata as well as schema metadata" taggedAs FastTest in {
     dummyAnnotator
       .setOutputCol("demand")
     demandingDummyAnnotator
@@ -111,7 +112,7 @@ class AnnotatorBaseTestSpec extends FlatSpec {
     assert(demandContentAnnotation.metadata.contains("aa") && demandContentAnnotation.metadata("aa") == "bb")
   }
 
-  "demanding dummy annotator" should "fail if input columns are not found" in {
+  "demanding dummy annotator" should "fail if input columns are not found" taggedAs FastTest in {
     dummyAnnotator
       .setOutputCol("demandTypo")
     demandingDummyAnnotator

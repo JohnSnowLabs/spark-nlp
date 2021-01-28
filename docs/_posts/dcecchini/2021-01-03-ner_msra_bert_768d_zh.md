@@ -21,8 +21,8 @@ This model uses the pre-trained `bert_base_chinese` embeddings model from `BertE
 `Persons`, `Locations`, `Organizations`, `Other`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_ZH/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_msra_bert_768d_zh_2.7.0_2.4_1609703549977.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

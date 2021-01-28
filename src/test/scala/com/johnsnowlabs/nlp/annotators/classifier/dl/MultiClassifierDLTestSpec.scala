@@ -3,15 +3,16 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
 import org.apache.spark.sql.functions.{col, udf}
+import org.scalatest._
 
 class MultiClassifierDLTestSpec extends FlatSpec {
 
   val spark = ResourceHelper.getActiveSparkSession
 
-  "MultiClassifierDL" should "correctly train E2E Challenge" ignore   {
+  "MultiClassifierDL" should "correctly train E2E Challenge" taggedAs SlowTest in {
     def splitAndTrim = udf { labels: String =>
       labels.split(", ").map(x=>x.trim)
     }

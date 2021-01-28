@@ -115,6 +115,6 @@ object TensorResources {
     val realSize = calculateTensorSize(source ,size)
     val buffer = FloatBuffer.allocate(realSize)
     source.writeTo(buffer)
-    buffer.array()
+    buffer.array().map(item => item)
   }
 }
