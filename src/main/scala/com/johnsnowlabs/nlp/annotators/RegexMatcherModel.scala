@@ -104,10 +104,13 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
     annotations.zipWithIndex.flatMap { case (annotation, annotationIndex) =>
       matchFactory
         .findMatch(annotation.result).zipWithIndex.map { case (matched, idx) =>
+        val startingPos = annotation.begin
+        val chunkStartPos = matched.content.start + startingPos
+        val chunkEndPos = matched.content.end + startingPos - 1
           Annotation(
             outputAnnotatorType,
-            matched.content.start,
-            matched.content.end - 1,
+            chunkStartPos,
+            chunkEndPos,
             matched.content.matched,
             Map("identifier" -> matched.identifier, "sentence" -> annotationIndex.toString, "chunk" -> idx.toString)
           )

@@ -1,7 +1,8 @@
 package com.johnsnowlabs.ml.crf
 
+import com.johnsnowlabs.ml.crf.VectorMath._
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
-import VectorMath._
 
 class GradientSpec extends FlatSpec {
   val dataset = TestDatasets.small
@@ -15,7 +16,7 @@ class GradientSpec extends FlatSpec {
   fb.calculate(instance, weights, 1f)
 
 
-  "SGD" should "correctly calculates data estimation" in {
+  "SGD" should "correctly calculates data estimation" taggedAs FastTest in {
     val instance = dataset.instances.head._2
     val labels = dataset.instances.head._1
 
@@ -27,7 +28,7 @@ class GradientSpec extends FlatSpec {
   }
 
 
-  "SGD" should "correctly calculates model estimation" in {
+  "SGD" should "correctly calculates model estimation" taggedAs FastTest in {
 
     // 1. Calculate Model Expectation by Test BruteForce Algo
     val attrExp = metadata.attrFeatures.map{f =>

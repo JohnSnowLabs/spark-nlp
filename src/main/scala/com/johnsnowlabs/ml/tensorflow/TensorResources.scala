@@ -11,7 +11,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.language.existentials
 
 /**
-  * This class is beeing used to initialize Tensors of different types and shapes for Tensorflow operations
+  * This class is being used to initialize Tensors of different types and shapes for Tensorflow operations
   */
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
@@ -24,28 +24,28 @@ class TensorResources {
       case str: String =>
         TString.scalarOf(str)
 
-      case array:Array[String] =>
+      case array: Array[String] =>
         TString.tensorOf(StdArrays.ndCopyOf(array))
 
-      case bidimArray:Array[Array[String]] =>
+      case bidimArray: Array[Array[String]] =>
         TString.tensorOf(StdArrays.ndCopyOf(bidimArray))
 
-      case bidimArray:Array[Array[Float]] =>
+      case bidimArray: Array[Array[Float]] =>
         TFloat32.tensorOf(StdArrays.ndCopyOf(bidimArray))
 
-      case tridimArray:Array[Array[Array[Float]]] =>
+      case tridimArray: Array[Array[Array[Float]]] =>
         TFloat32.tensorOf(StdArrays.ndCopyOf(tridimArray))
 
-      case array:Array[Int] =>
+      case array: Array[Int] =>
         TInt32.tensorOf(StdArrays.ndCopyOf(array))
 
-      case array:Array[Array[Int]] =>
+      case array: Array[Array[Int]] =>
         TInt32.tensorOf(StdArrays.ndCopyOf(array))
 
-      case array:Array[Array[Array[Int]]] =>
+      case array: Array[Array[Array[Int]]] =>
         TInt32.tensorOf(StdArrays.ndCopyOf(array))
 
-      case array:Array[Array[Array[Byte]]] =>
+      case array: Array[Array[Array[Byte]]] =>
         TUint8.tensorOf(StdArrays.ndCopyOf(array))
 
     }

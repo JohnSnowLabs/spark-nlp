@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp.util
 
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest._
 
 class LruMapTestSpec extends FlatSpec {
 
-  "A LruMap" should "Deque and enqueue correctly" in {
+  "A LruMap" should "Deque and enqueue correctly" taggedAs FastTest in {
 
     val lru = new LruMap[String, Double](5)
 

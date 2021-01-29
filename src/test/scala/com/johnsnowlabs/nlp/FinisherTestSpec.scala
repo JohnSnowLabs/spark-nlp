@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.scalatest._
@@ -26,7 +27,7 @@ class FinisherTestSpec extends FlatSpec {
     .setStorageRef("random_4")
     .setDimension(4)
 
-  "A Finisher with default settings" should "return clean results" in {
+  "A Finisher with default settings" should "return clean results" taggedAs FastTest in {
 
     val finisher = new Finisher()
       .setInputCols("token", "embeddings")
@@ -48,7 +49,7 @@ class FinisherTestSpec extends FlatSpec {
     result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
   }
 
-  "A Finisher with custom settings" should "behave accordingly" in {
+  "A Finisher with custom settings" should "behave accordingly" taggedAs FastTest in {
 
     val finisher = new Finisher()
       .setInputCols("token", "embeddings")
@@ -76,7 +77,7 @@ class FinisherTestSpec extends FlatSpec {
 
   }
 
-  "A Finisher with array output" should "behave accordingly with SparkML StopWords" in {
+  "A Finisher with array output" should "behave accordingly with SparkML StopWords" taggedAs FastTest in {
 
     val finisher = new Finisher()
       .setInputCols("token", "embeddings")

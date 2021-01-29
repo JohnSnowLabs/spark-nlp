@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.crf
 
-import VectorMath._
+import com.johnsnowlabs.ml.crf.VectorMath._
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
 
 class ForwardBackwardSpec extends FlatSpec {
@@ -16,7 +17,7 @@ class ForwardBackwardSpec extends FlatSpec {
   val bruteForce = new BruteForceCalculator(metadata, fb)
   fb.calculate(instance, weights, 1f)
 
-  "EdgeCalculator" should "fill matrix correctly for first word" in {
+  "EdgeCalculator" should "fill matrix correctly for first word" taggedAs FastTest in {
     val firstWordFeatures = dataset.instances(0)._2.items(0).values
     val logEdge = Matrix(3, 3)
 
@@ -28,7 +29,7 @@ class ForwardBackwardSpec extends FlatSpec {
   }
 
 
-  "EdgeCalculate" should "fill matrix correctly for second word" in {
+  "EdgeCalculate" should "fill matrix correctly for second word" taggedAs FastTest in {
     val secondWordFeatures = dataset.instances(0)._2.items(1).values
     val logEdge = Matrix(3, 3)
 
@@ -39,7 +40,7 @@ class ForwardBackwardSpec extends FlatSpec {
   }
 
 
-  "EdgeCalculator" should "fill matrix correctly according to scale param" in {
+  "EdgeCalculator" should "fill matrix correctly according to scale param" taggedAs FastTest in {
     val secondWordFeatures = dataset.instances(0)._2.items(1).values
     val logEdge = Matrix(3, 3)
 
@@ -52,7 +53,7 @@ class ForwardBackwardSpec extends FlatSpec {
   }
 
 
-  "FbCalculator" should "calculate c correct" in {
+  "FbCalculator" should "calculate c correct" taggedAs FastTest in {
     // Calculate Z(x) as expected
     val zTest = fb.c.reduce(_*_)
 
@@ -72,14 +73,14 @@ class ForwardBackwardSpec extends FlatSpec {
   }
 
 
-  "FbCalculator" should "calculated alpha and beta should satisfy invariants" in {
+  "FbCalculator" should "calculated alpha and beta should satisfy invariants" taggedAs FastTest in {
     for (i <- 0 until instance.items.size) {
       val fbZ = Range(0, labels).map(label => fb.alpha(i)(label) * fb.beta(i)(label)*fb.c(i)).sum
       assert(fbZ == 1f)
     }
   }
 
-  "FbCalculator" should "calculate phi and logPhi correctly" in {
+  "FbCalculator" should "calculate phi and logPhi correctly" taggedAs FastTest in {
     for (i <- 0 until instance.items.size) {
       for (from <- 0 until labels) {
         for (to <- 0 until labels) {
@@ -90,7 +91,7 @@ class ForwardBackwardSpec extends FlatSpec {
   }
 
 
-  "FbCalculator" should "correctly estimates paths goes through label at time" in {
+  "FbCalculator" should "correctly estimates paths goes through label at time" taggedAs FastTest in {
     for (i <- 0 until instance.items.length) {
       for (label <- 0 until labels) {
         val fBProbe = fb.alpha(i)(label) * fb.beta(i)(label) * fb.c(i)

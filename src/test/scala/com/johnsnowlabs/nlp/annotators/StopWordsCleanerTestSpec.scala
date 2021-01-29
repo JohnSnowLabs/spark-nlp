@@ -1,13 +1,14 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotator._
-import org.scalatest.FlatSpec
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
+import org.scalatest.FlatSpec
 
 class StopWordsCleanerTestSpec extends FlatSpec {
   val documentAssembler: DocumentAssembler = new DocumentAssembler()
@@ -22,7 +23,7 @@ class StopWordsCleanerTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  "StopWordsCleaner" should "correctly remove stop words from tokenizer's results" in {
+  "StopWordsCleaner" should "correctly remove stop words from tokenizer's results" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -72,7 +73,7 @@ class StopWordsCleanerTestSpec extends FlatSpec {
 
   }
 
-  "StopWordsCleaner" should "successfully downloads pretrained models" in {
+  "StopWordsCleaner" should "successfully downloads pretrained models" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),

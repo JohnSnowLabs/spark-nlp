@@ -4,13 +4,14 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class ClassifierDLTestSpec extends FlatSpec {
 
 
-  "ClassifierDL" should "correctly train IMDB train dataset" ignore {
+  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
 
@@ -48,7 +49,7 @@ class ClassifierDLTestSpec extends FlatSpec {
 
   }
 
-  "ClassifierDL" should "correctly download and load pre-trained model" in {
+  "ClassifierDL" should "correctly download and load pre-trained model" taggedAs FastTest in {
     val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
     classifierDL.getClasses.foreach(x=>print(x+", "))
   }

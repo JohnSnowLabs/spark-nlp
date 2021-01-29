@@ -1,17 +1,18 @@
 package com.johnsnowlabs.nlp.annotators.spell
 
-import com.johnsnowlabs.nlp.{AnnotatorBuilder, SparkAccessor}
+import com.johnsnowlabs.nlp.AnnotatorBuilder
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.scalatest._
 
 //ResourceHelper.spark
-import ResourceHelper.spark.implicits._
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
 class SpellCheckersPerfTest extends FlatSpec {
 
@@ -30,7 +31,7 @@ class SpellCheckersPerfTest extends FlatSpec {
   val corpusDataSetInit = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   val corpusDataSet = corpusDataSetInit.as[String].collect()
 
-  "Norvig pipeline" should "be fast" ignore {
+  "Norvig pipeline" should "be fast" taggedAs SlowTest in {
 
     val spell = NorvigSweetingModel.pretrained().
       setInputCols("token").
@@ -54,7 +55,7 @@ class SpellCheckersPerfTest extends FlatSpec {
 
   }
 
-  "Symm pipeline" should "be fast" ignore {
+  "Symm pipeline" should "be fast" taggedAs SlowTest in {
 
     val spell = new SymmetricDeleteApproach()
       .setInputCols("token")
@@ -77,7 +78,7 @@ class SpellCheckersPerfTest extends FlatSpec {
 
   }
 
-  "Context pipeline" should "be fast" ignore {
+  "Context pipeline" should "be fast" taggedAs SlowTest in {
 
     val spell = ContextSpellCheckerModel
       .pretrained()
