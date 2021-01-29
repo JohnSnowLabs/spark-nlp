@@ -137,3 +137,14 @@ The output is a dataframe with a sentence per row and a ``"ner"`` column contain
 ## Data Source
 Trained on i2b2_med7 + FDA with 'embeddings_clinical'.
 https://www.i2b2.org/NLP/Medication
+
+{:.h2_title}
+## Benchmarking
+```bash
+|    | label         |    tp |    fp |    fn |     prec |      rec |       f1 |
+|---:|:--------------|------:|------:|------:|---------:|---------:|---------:|
+|  0 | B-DrugChem    | 32745 |  1738 |   979 | 0.949598 | 0.97097  | 0.960165 |
+|  1 | I-DrugChem    | 35522 |  1551 |   764 | 0.958164 | 0.978945 | 0.968443 |
+|  2 | Macro-average | 68267 |  3289 |  1743 | 0.953881 | 0.974958 | 0.964304 |
+|  3 | Micro-average | 68267 |  3289 |  1743 | 0.954036 | 0.975104 | 0.964455 |
+```
