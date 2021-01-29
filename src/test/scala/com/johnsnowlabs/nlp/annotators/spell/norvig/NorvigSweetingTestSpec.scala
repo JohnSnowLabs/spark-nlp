@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, ContentProvider, DataBuilder}
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest._
 
 class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
@@ -48,7 +49,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   it should behave like raiseErrorWhenWrongColumnIsSent
 
-  "A norvig sweeting approach" should "get result by frequency" in {
+  "A norvig sweeting approach" should "get result by frequency" taggedAs FastTest in {
     val wordsByFrequency = List(("eral", 1.toLong), ("mural" ,1.toLong), ("myal", 1.toLong),
                                 ("kral", 2.toLong), ("oral", 2.toLong), ("maral", 2.toLong),
                                 ("maral", 3.toLong), ("moral", 3.toLong), ("meal", 3.toLong))
@@ -64,7 +65,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   }
 
-  "A norvig sweeting approach" should "get result by hamming" in {
+  "A norvig sweeting approach" should "get result by hamming" taggedAs FastTest in {
     val wordsByHamming = List(("eral", 1.toLong), ("myal" ,1.toLong), ("kral", 1.toLong),
                               ("oral", 1.toLong), ("meal", 1.toLong),
                               ("moral", 4.toLong), ("mural", 4.toLong), ("maral", 4.toLong))
@@ -80,7 +81,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   }
 
-  "A norvig sweeting approach" should "get result by frequency and hamming" in {
+  "A norvig sweeting approach" should "get result by frequency and hamming" taggedAs FastTest in {
     val input = "mral"
     val wordsByFrequency = List(("eral", 1.toLong), ("mural" ,1.toLong), ("myal", 1.toLong),
       ("kral", 2.toLong), ("maral", 2.toLong), ("maral", 2.toLong),
@@ -97,7 +98,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   }
 
-  "A norvig sweeting approach" should "get result by frequency and hamming with frequency priority" in {
+  "A norvig sweeting approach" should "get result by frequency and hamming with frequency priority" taggedAs FastTest in {
     val input = "mral"
     val wordsByFrequency = List(("oral", 4.toLong), ("moral", 3.toLong), ("meal", 3.toLong))
     val wordsByHamming = List(("oral", 2.toLong), ("meal", 1.toLong),
@@ -111,7 +112,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   }
 
-  "A norvig sweeting approach" should "get result by frequency and hamming with hamming priority" in {
+  "A norvig sweeting approach" should "get result by frequency and hamming with hamming priority" taggedAs FastTest in {
     val input = "mral"
     val wordsByFrequency = List(("oral", 4.toLong), ("moral", 3.toLong), ("meal", 3.toLong))
     val wordsByHamming = List(("oral", 2.toLong), ("meal", 1.toLong),
@@ -125,7 +126,7 @@ class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
 
   }
 
-  "A norvig sweeting approach" should "get result by frequency or hamming" in {
+  "A norvig sweeting approach" should "get result by frequency or hamming" taggedAs FastTest in {
     val input = "mral"
     val wordsByFrequency = List(("oral", 4.toLong))
     val wordsByHamming = List(("meal", 1.toLong))

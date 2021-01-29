@@ -1,4 +1,21 @@
 ========
+2.7.2
+========
+----------------
+Bugfixes
+----------------
+* Fix casual mask calculations resulting in bad translation in MarianTransformer
+* Fix Serialization issue in the cluster while training ContextSpellChecker
+* Fix calculating CHUNK spans based on the sentences' boundaries in RegexMatcher
+
+----------------
+Enhancements
+----------------
+* Add GPU support for training ContextSpellChecker
+* Adding Scalatest ability to control tests by tags
+
+
+========
 2.7.1
 ========
 ----------------
