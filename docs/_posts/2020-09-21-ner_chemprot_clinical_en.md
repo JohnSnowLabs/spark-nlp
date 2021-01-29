@@ -12,6 +12,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 This is a pre-trained model that can be used to automatically detect all chemical compounds and gene mentions from medical texts. 
+
 ## Predicted Entities: 
 `CHEMICAL`, `GENE-Y`, `GENE-N`
 
@@ -28,6 +29,9 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
@@ -40,6 +44,9 @@ results = light_pipeline.fullAnnotate("Keratinocyte growth factor and acidic fib
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
