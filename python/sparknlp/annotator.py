@@ -484,7 +484,7 @@ class DocumentNormalizer(AnnotatorModel):
     def __init__(self):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
         self._setDefault(
-            action="clean_up",
+            action="clean",
             patterns=["<[^>]*>"],
             replacement=" ",
             lowercase=False,
