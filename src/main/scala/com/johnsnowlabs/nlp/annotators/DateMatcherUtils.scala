@@ -61,7 +61,7 @@ trait DateMatcherUtils extends Params {
     * Default: -1
     * @group param
     **/
-  val anchorDateYear: Param[Int] = new Param(
+  val anchorDateYear: Param[Int] = new IntParam(
     this,
     "anchorDateYear",
     "Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021"
@@ -83,7 +83,7 @@ trait DateMatcherUtils extends Params {
     * Default: -1
     * @group param
     **/
-  val anchorDateMonth: Param[Int] = new Param(
+  val anchorDateMonth: Param[Int] = new IntParam(
     this,
     "anchorDateMonth",
     "Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January"
@@ -107,7 +107,7 @@ trait DateMatcherUtils extends Params {
     * Default: -1
     * @group param
     **/
-  val anchorDateDay: Param[Int] = new Param(
+  val anchorDateDay: Param[Int] = new IntParam(
     this,
     "anchorDateDay",
     "Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11"
