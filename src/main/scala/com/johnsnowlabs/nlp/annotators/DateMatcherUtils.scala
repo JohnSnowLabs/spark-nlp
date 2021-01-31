@@ -234,7 +234,7 @@ trait DateMatcherUtils extends Params {
 
   protected def relativeDateContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
     val relativeDate = date.content
-    val calendar = Calendar.getInstance()
+    val calendar = calculateAnchorCalendar()
     val amount = if (relativeDate.group(1) == "next") 1 else -1
     relativeDate.group(2) match {
       case "week" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
@@ -276,7 +276,7 @@ trait DateMatcherUtils extends Params {
 
   def relativeExactContentParse(possibleDate: RuleFactory.RuleMatch): MatchedDateTime = {
     val relativeDate = possibleDate.content
-    val calendar = Calendar.getInstance()
+    val calendar = calculateAnchorCalendar()
     val amount = if (relativeDate.group(1) == "next") 1 else -1
     calendar.add(Calendar.DAY_OF_MONTH, amount)
     relativeDate.group(2) match {
