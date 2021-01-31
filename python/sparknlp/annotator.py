@@ -678,6 +678,27 @@ class DateMatcherUtils(Params):
                                   typeConverter=TypeConverters.toInt
                                   )
 
+    anchorDateYear = Param(Params._dummy(),
+                           "anchorDateYear",
+                           "Add an anchor year for the relative dates such as a day after tomorrow. If not set it "
+                           "will use the current year. Example: 2021",
+                           typeConverter=TypeConverters.toInt
+                           )
+
+    anchorDateMonth = Param(Params._dummy(),
+                            "anchorDateMonth",
+                            "Add an anchor month for the relative dates such as a day after tomorrow. If not set it "
+                            "will use the current month. Example: 1 which means January",
+                            typeConverter=TypeConverters.toInt
+                            )
+
+    anchorDateDay = Param(Params._dummy(),
+                          "anchorDateDay",
+                          "Add an anchor day of the day for the relative dates such as a day after tomorrow. If not "
+                          "set it will use the current day. Example: 11",
+                          typeConverter=TypeConverters.toInt
+                          )
+
     def setFormat(self, value):
         return self._set(dateFormat=value)
 
@@ -686,6 +707,15 @@ class DateMatcherUtils(Params):
 
     def setDefaultDayWhenMissing(self, value):
         return self._set(defaultDayWhenMissing=value)
+
+    def setAnchorDateYear(self, value):
+        return self._set(anchorDateYear=value)
+
+    def setAnchorDateMonth(self, value):
+        return self._set(anchorDateMonth=value)
+
+    def setAnchorDateDay(self, value):
+        return self._set(anchorDateDay=value)
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
@@ -698,7 +728,10 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
         self._setDefault(
             dateFormat="yyyy/MM/dd",
             readMonthFirst=True,
-            defaultDayWhenMissing=1
+            defaultDayWhenMissing=1,
+            anchorDateYear=-1,
+            anchorDateMonth=-1,
+            anchorDateDay=-1
         )
 
 
