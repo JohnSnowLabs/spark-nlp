@@ -27,6 +27,9 @@ class TensorResources {
       case array: Array[String] =>
         TString.tensorOf(StdArrays.ndCopyOf(array))
 
+      case floatArray: Array[Float] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(floatArray))
+
       case bidimArray: Array[Array[String]] =>
         TString.tensorOf(StdArrays.ndCopyOf(bidimArray))
 
