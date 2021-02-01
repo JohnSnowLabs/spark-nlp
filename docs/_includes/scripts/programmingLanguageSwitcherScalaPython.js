@@ -47,9 +47,9 @@ function togglePython1() {
 
 
     //toggle language snippets
-    $( ".language-python" ).show() 
-    $( ".nlu-block" ).hide()
-    $( ".language-scala" ).hide()
+    $( ".tabs-box .language-python" ).show() 
+    $( ".tabs-box .nlu-block" ).hide()
+    $( ".tabs-box .language-scala" ).hide()
 }
 
 function defer(method) { //wait until jquery ready
