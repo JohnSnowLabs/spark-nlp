@@ -1098,7 +1098,7 @@ data:
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
           - text: Colab Netbook
-            type: blue_btn
+            type: blue_btn 
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb        
       sparkocr: yes
       sparkocr: 
