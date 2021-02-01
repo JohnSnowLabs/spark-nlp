@@ -308,7 +308,7 @@ data:
               src: /assets/images/Detect_and_normalize_dates.svg
           image2: 
               src: /assets/images/Detect_and_normalize_dates_f.svg
-          excerpt: 
+          excerpt: Recognize Persons, Locations, Organizations and Misc entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_840b_300d).
           actions:
           - text: Live Demo
             type: normal
@@ -1099,20 +1099,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb
-        - title: Detect clinical entities in text
-          image: 
-              src: /assets/images/Detect_risk_factors.svg
-          image2: 
-              src: /assets/images/Detect_risk_factors_f.svg
-          excerpt: Automatically detect more than 50 clinical entities using our NER deep learning model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: 
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb        
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
