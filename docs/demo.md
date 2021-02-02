@@ -302,20 +302,7 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
-        - title: Recognize Entities in Bengali
-          image: 
-              src: /assets/images/Detect_and_normalize_dates.svg
-          image2: 
-              src: /assets/images/Detect_and_normalize_dates_f.svg
-          excerpt: Recognize Persons, Locations, Organizations and Misc entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_840b_300d).
-          actions:
-          - text: Live Demo
-            type: normal
-            url:  https://demo.johnsnowlabs.com/public/NER_BN
-          - text: Colab Netbook
-            type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
       languages: yes
       languages: 
         - title: Detect language
@@ -656,6 +643,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb
+        - title: Recognize Entities in Bengali
+          image: 
+              src: /assets/images/Flag_of_Bangladesh.png
+          image2: 
+              src: /assets/images/Flag_of_Bangladesh.png
+          excerpt: Recognize Persons, Locations, Organizations and Misc entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_840b_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_BN
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
