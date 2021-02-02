@@ -12,11 +12,7 @@ import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
-import java.io.File
-import java.io.FileOutputStream
-import java.io.ObjectOutputStream
-import java.io.FileInputStream
-import java.io.ObjectInputStream
+import java.io._
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
@@ -81,25 +77,25 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       new DateToken)
 
     specialClasses.foreach { specialClass =>
-        val dataPathObject = "/tmp/object"
+      val dataPathObject = "/tmp/object"
 
-        val f = new File(dataPathObject)
-        if (f.exists()) FileUtils.deleteDirectory(f)
+      val f = new File(dataPathObject)
+      if (f.exists()) FileUtils.deleteDirectory(f)
 
-        // persist object
-        FileUtils.deleteDirectory(new File(dataPathObject))
-        spark.sparkContext.parallelize(Seq(specialClass)).
-          saveAsObjectFile(dataPathObject)
+      // persist object
+      FileUtils.deleteDirectory(new File(dataPathObject))
+      spark.sparkContext.parallelize(Seq(specialClass)).
+        saveAsObjectFile(dataPathObject)
 
-        // load object
-        val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
-        assert(sc.transducer != null)
-        sc match {
-          case vp:VocabParser => assert(vp.vocab != null)
-          case _ =>
-        }
+      // load object
+      val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
+      assert(sc.transducer != null)
+      sc match {
+        case vp:VocabParser => assert(vp.vocab != null)
+        case _ =>
+      }
 
-        sc.transducer.transduce("aaa")
+      sc.transducer.transduce("aaa")
     }
   }
 
