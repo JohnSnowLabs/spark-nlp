@@ -148,6 +148,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         Array(decoderInputLength.toLong, decoderInputLength), decoderCasualMaskBuffers)
 
       val runner = session.runner
+
       runner
         .feed(decoderEncoderInputKey, decoderEncoderStateTensors)
         .feed(decoderInputIdsKey, decoderInputTensors)
@@ -177,7 +178,6 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       decoderInputTensors.close()
       decoderCausalMaskTensors.close()
       decoderPaddingMaskTensors.close()
-
 
       stopDecoder = !modelOutputs.exists(o => o.last != eosTokenId) ||
         (modelOutputs.head.length > math.max(maxOutputLength, maxSentenceLength))

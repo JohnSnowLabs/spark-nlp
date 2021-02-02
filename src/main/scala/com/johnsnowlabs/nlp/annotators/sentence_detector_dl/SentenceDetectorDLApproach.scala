@@ -13,6 +13,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.functions.col
 import org.tensorflow.Graph
+import org.tensorflow.proto.framework.GraphDef
 
 import scala.collection.mutable.WrappedArray
 import scala.io.Source
@@ -209,12 +210,15 @@ class SentenceDetectorDLApproach(override val uid: String)
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(getGraphFilename)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
-    //graph.importGraphDef(graphBytesDef)
+    graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
 
     val tfWrapper = new TensorflowWrapper(
       Variables(Array.empty[Byte], Array.empty[Byte]),
-      graph.toGraphDef.toByteArray
+      graphBytesDef
     )
+
+    /**  FIXME inspect ops for init */
+    //graph.operations().foreach(println)
 
     val tfModel = new TensorflowSentenceDetectorDL(
       tfWrapper,
@@ -231,7 +235,6 @@ class SentenceDetectorDLApproach(override val uid: String)
       dropout = 1.0f,
       uuid = "sentence_detector_dl"
     )
-
 
     val model = new SentenceDetectorDLModel
 
