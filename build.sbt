@@ -191,7 +191,7 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow-core-platform-mkl" % "0.2.0"
+      "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
         exclude("com.fasterxml.jackson.core", "jackson-databind")
         exclude("com.fasterxml.jackson.core", "jackson-core")
         exclude("com.fasterxml.jackson.core", "jackson-annotations")
