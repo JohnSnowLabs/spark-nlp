@@ -53,7 +53,6 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val tensorEncoder = new TensorResources()
     val inputDim = batch.length * maxSentenceLength
 
-    // TODO do we really need Long here?
     val encoderInputIdsBuffers = tensorEncoder.createLongBuffer(batch.length * maxSentenceLength)
     val encoderAttentionMaskBuffers = tensorEncoder.createLongBuffer(batch.length * maxSentenceLength)
     val decoderAttentionMaskBuffers = tensorEncoder.createLongBuffer(batch.length  * maxSentenceLength)
@@ -149,7 +148,6 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         Array(decoderInputLength.toLong, decoderInputLength), decoderCasualMaskBuffers)
 
       val runner = session.runner
-
       runner
         .feed(decoderEncoderInputKey, decoderEncoderStateTensors)
         .feed(decoderInputIdsKey, decoderInputTensors)
@@ -180,6 +178,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       decoderCausalMaskTensors.close()
       decoderPaddingMaskTensors.close()
 
+
       stopDecoder = !modelOutputs.exists(o => o.last != eosTokenId) ||
         (modelOutputs.head.length > math.max(maxOutputLength, maxSentenceLength))
 
@@ -188,6 +187,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     decoderAttentionMaskTensors.close()
     decoderEncoderStateTensors.close()
     tensorEncoder.clearTensors()
+
     modelOutputs.map(x => x.filter(y => y != eosTokenId && y != paddingTokenId))
   }
 

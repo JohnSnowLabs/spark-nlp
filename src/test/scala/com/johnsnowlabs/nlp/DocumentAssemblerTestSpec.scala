@@ -4,6 +4,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions.{col, concat, lit}
 import org.scalatest.Matchers._
 import org.scalatest._
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import scala.collection.Map
 import scala.language.reflectiveCalls
@@ -36,13 +37,13 @@ class DocumentAssemblerTestSpec extends FlatSpec {
       .map { Annotation(_) }
   }
 
-  "A DocumentAssembler" should "annotate with the correct indexes" in {
+  "A DocumentAssembler" should "annotate with the correct indexes" taggedAs FastTest in {
     val f = fixture
     f.text.head should equal (f.text(f.assembledDoc.head.begin))
     f.text.last should equal (f.text(f.assembledDoc.head.end))
   }
 
-  "A DocumentAssembler" should "produce an empty annotation in a pipeline of null texts" in {
+  "A DocumentAssembler" should "produce an empty annotation in a pipeline of null texts" taggedAs FastTest in {
     val f = nullFixture
 
     Annotation(AnnotatorType.DOCUMENT, 0, "".length - 1, "", Map.empty[String, String], Array.emptyFloatArray)

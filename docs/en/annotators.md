@@ -4,7 +4,7 @@ header: true
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-10-01"
+modify_date: "2021-01-23"
 use_language_switcher: "Python-Scala"
 ---
 
@@ -41,27 +41,29 @@ The types are:
 
 - DOCUMENT = "document"
 - TOKEN = "token"
-- CHUNK = "chunk"
-- POS = "pos"
+- WORDPIECE = "wordpiece"
 - WORD_EMBEDDINGS = "word_embeddings"
 - SENTENCE_EMBEDDINGS = "sentence_embeddings"
+- CATEGORY = "category"
 - DATE = "date"
 - ENTITY = "entity"
-- CATEGORY = "category"
 - SENTIMENT = "sentiment"
+- POS = "pos"
+- CHUNK = "chunk"
 - NAMED_ENTITY = "named_entity"
+- NEGEX = "negex"
 - DEPENDENCY = "dependency"
 - LABELED_DEPENDENCY = "labeled_dependency"
-
-There are annotators freely available in the Open Source version of
-Spark-NLP. More are available in the licensed version of Spark NLP.
-Visit www.johnsnowlabs.com for more information about getting a license.
+- LANGUAGE = "language"
+- KEYWORD = "keyword"
 
 {:.table-model-big}
 |Annotator|Description|Version |
 |---|---|---|
 |Tokenizer|Identifies tokens with tokenization open standards|Opensource|
+|WordSegmenter|Trainable annotator for word segmentation of languages without any rule-based tokenization such as Chinese, Japanese, or Korean|Opensource|
 |Normalizer|Removes all dirty characters from text|Opensource|
+|DocumentNormalizer|Cleaning content from HTML or XML documents|Opensource|
 |Stemmer|Returns hard-stems out of words with the objective of retrieving the meaningful part of the word|Opensource|
 |Lemmatizer|Retrieves lemmas out of words with the objective of returning a base dictionary word|Opensource|
 |StopWordsCleaner|This annotator excludes from a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences|Opensource|
@@ -86,6 +88,8 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes|Opensource|
 |MultiClassifierDL|Multi-label Text Classification. MultiClassifierDL uses a Bidirectional GRU with Convolution model that we have built inside TensorFlow and supports up to 100 classes.|Opensource|
 |SentimentDL|Multi-class Sentiment Analysis Annotator. SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets|Opensource|
+|T5Transformer|for Text-To-Text Transfer Transformer (Google T5) models to achieve state-of-the-art results on multiple NLP tasks such as Translation, Summarization, Question Answering, Sentence Similarity, and so on|Opensource|
+|MarianTransformer|Neural Machine Translation based on MarianNMT models being developed by the Microsoft Translator team|Opensource|
 |LanguageDetectorDL|State-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks|Opensource|
 |YakeModel|Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction algorithm.|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
@@ -96,10 +100,6 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |DependencyParser|Unlabeled parser that finds a grammatical relation between two words in a sentence|Opensource|
 |TypedDependencyParser|Labeled parser that finds a grammatical relation between two words in a sentence|Opensource|
 |PubTator reader|Converts automatic annotations of the biomedical datasets into Spark DataFrame|Opensource|
-|AssertionLogReg|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
-|AssertionDL|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
-|EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
-|DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
 
 </div>
 
@@ -160,6 +160,7 @@ val tokenizer = new Tokenizer()
 </div></div><div class="h3-box" markdown="1">
 
 ## DocumentNormalizer (Text cleaning)
+
 Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.  
 **Output type:** Document  
 **Input types:** Document  

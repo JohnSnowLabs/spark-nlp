@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.scalatest._
@@ -12,7 +13,7 @@ import scala.collection.mutable
 
 class BertSentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "BertSentenceEmbeddings" should "produce consistent embeddings" in {
+  "BertSentenceEmbeddings" should "produce consistent embeddings" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
@@ -50,7 +51,7 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
     model.stages(2).asInstanceOf[BertSentenceEmbeddings].write.overwrite().save("./tmp_bert_sentence_embed")
   }
 
-  "BertSentenceEmbeddings" should "correctly work with empty tokens" in {
+  "BertSentenceEmbeddings" should "correctly work with empty tokens" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),

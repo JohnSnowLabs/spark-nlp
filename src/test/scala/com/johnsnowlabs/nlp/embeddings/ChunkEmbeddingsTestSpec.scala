@@ -6,13 +6,13 @@ import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokeni
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions.size
 import org.scalatest._
 
 class ChunkEmbeddingsTestSpec extends FlatSpec {
 
-  "ChunkEmbeddings" should "correctly calculate chunk embeddings from Chunker" in {
+  "ChunkEmbeddings" should "correctly calculate chunk embeddings from Chunker" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -93,7 +93,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "ChunkEmbeddings" should "correctly calculate chunk embeddings from NGramGenerator" in {
+  "ChunkEmbeddings" should "correctly calculate chunk embeddings from NGramGenerator" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -164,7 +164,7 @@ class ChunkEmbeddingsTestSpec extends FlatSpec {
     assert(pipelineDF.selectExpr("explode(chunk_embeddings.metadata) as meta").select("meta.chunk").distinct().count() > 1)
   }
 
-  "ChunkEmbeddings" should "correctly work with empty tokens" in {
+  "ChunkEmbeddings" should "correctly work with empty tokens" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
