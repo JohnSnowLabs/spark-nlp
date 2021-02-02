@@ -31,6 +31,7 @@ lazy val supportedScalaVersions = List(scala212, scala211)
 val scalaTestVersion = "3.0.0"
 /** ------- Scala version end ------- */
 
+
 /** Package attributes */
 
 def getPackageName(is_spark23: String, is_spark30: String, is_gpu: String): String = {
@@ -53,7 +54,7 @@ name:= getPackageName(is_spark23, is_spark30, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.7.1"
+version := "2.7.2"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -223,9 +224,26 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
-parallelExecution in Test := false
+/** Test tagging start */
+// Command line fast:test
+lazy val FastTest = config("fast") extend Test
+// Command line slow:test
+lazy val SlowTest = config("slow") extend Test
 
+configs(FastTest, SlowTest)
+
+parallelExecution in Test := false
 logBuffered in Test := false
+testOptions in Test := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+
+inConfig(FastTest)(Defaults.testTasks)
+testOptions in FastTest := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+parallelExecution in FastTest := false
+
+inConfig(SlowTest)(Defaults.testTasks)
+testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
+parallelExecution in SlowTest := false
+/** Test tagging end */
 
 scalacOptions ++= Seq(
   "-feature",

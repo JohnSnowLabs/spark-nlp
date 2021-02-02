@@ -18,79 +18,49 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 
 ## Predicted Entities
 
-`DT` (date), `LC` (location), `OG` (organization), `PS` (person), `TI` (time), and `O` (other)
+Dates-`DT`, Locations-`LC`, Organizations-`OG`, Persons-`PS`, Time-`TI`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_KO/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_kmou_glove_840B_300d_ko_2.7.0_2.4_1609716021199.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-
-document_assembler = DocumentAssembler() \
-        .setInputCol("text") \
-        .setOutputCol("document")
-
-sentence_detector = SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
-
+...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
-
+      .setInputCols(["sentence"])\
+      .setOutputCol("token")
 embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
-          .setInputCols("document", "token") \
-          .setOutputCol("embeddings")
-
-
+      .setInputCols("document", "token") \
+      .setOutputCol("embeddings")
 ner = NerDLModel.pretrained("ner_kmou_glove_840B_300d", "ko") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
-
-pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        word_segmenter,
-        embeddings,
-        ner])
-
+      .setInputCols(["document", "token", "embeddings"]) \
+      .setOutputCol("ner")
+...
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
 example = spark.createDataFrame(pd.DataFrame({'text': ["라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미"]}))
-
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-
+...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
-        .setInputCols(["sentence"])
-        .setOutputCol("token")
-
+     .setInputCols(Array("sentence"))
+     .setOutputCol("token")
 val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
-          .setInputCols("document", "token")
-          .setOutputCol("embeddings")
-
-
+     .setInputCols(Array("document", "token"))
+     .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_kmou_glove_840B_300d", "ko")
-        .setInputCols(["document", "token", "embeddings"])
-        .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner))
-
+     .setInputCols(Array("document", "token", "embeddings"))
+     .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
 val result = pipeline.fit(Seq.empty["라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미"].toDS.toDF("text")).transform(data)
 ```
+
 </div>
 
 ## Results
@@ -130,7 +100,7 @@ val result = pipeline.fit(Seq.empty["라이프니츠 의 주도 로 베를린 �
 
 ## Data Source
 
-The model was trained in the Korea Maritime and Ocean University [NLP data set](https://github.com/kmounlp/NER).
+The model was trained by the Korea Maritime and Ocean University [NLP data set](https://github.com/kmounlp/NER).
 
 ## Benchmarking
 

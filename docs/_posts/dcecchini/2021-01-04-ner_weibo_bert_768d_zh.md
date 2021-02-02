@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Named Entity Recognition for Chinese (BERT)
+title: Named Entity Recognition for Chinese (BERT-Weibo Dataset)
 author: John Snow Labs
 name: ner_weibo_bert_768d
 date: 2021-01-04
@@ -29,69 +29,42 @@ This model uses the pre-trained `bert_base_chinese` embeddings model from `BertE
 | ORG.NOM | Generic or collective organization | 文艺公司     |
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_ZH/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_weibo_bert_768d_zh_2.7.0_2.4_1609719542498.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-document_assembler = DocumentAssembler() \
-        .setInputCol("text") \
-        .setOutputCol("document")
-
-sentence_detector = SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
-
+...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
-
 embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')\
           .setInputCols("document", "token") \
           .setOutputCol("embeddings")
-
 ner = NerDLModel.pretrained("ner_weibo_bert_768d", "zh") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
-
-pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        word_segmenter,
-        embeddings,
-        ner,
-    ])
-
+...
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
 example = spark.createDataFrame(pd.DataFrame({'text': ["""张三去中国山东省泰安市爬中国五岳的泰山了"""]}))
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-
+...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
-        .setInputCols(["sentence"])
-        .setOutputCol("token")
-
+     .setInputCols(Array("sentence"))
+     .setOutputCol("token")
 val embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')
-          .setInputCols("document", "token")
-          .setOutputCol("embeddings")
-
+     .setInputCols(Array("document", "token"))
+     .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_weibo_bert_768d", "zh")
-        .setInputCols(["document", "token", "embeddings"])
-        .setOutputCol("ner")
-
+     .setInputCols(Array("document", "token", "embeddings"))
+     .setOutputCol("ner")
+...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner))
 val result = pipeline.fit(Seq.empty["张三去中国山东省泰安市爬中国五岳的泰山了"].toDS.toDF("text")).transform(data)
 ```
@@ -137,13 +110,12 @@ The model was trained on the [Weibo NER (He and Sun, 2017)](https://www.aclweb.o
 ## Benchmarking
 
 ```bash
-|       ner_tag       | precision | recall | f1-score | support |
+| ner_tag      | precision | recall | f1-score | support |
 |--------------|-----------|--------|----------|---------|
 | GPE.NAM      | 0.73      | 0.66   | 0.69     | 50      |
 | GPE.NOM      | 0.00      | 0.00   | 0.00     | 2       |
 | LOC.NAM      | 0.60      | 0.10   | 0.18     | 29      |
 | LOC.NOM      | 0.20      | 0.10   | 0.13     | 10      |
-| O            | 0.98      | 0.99   | 0.98     | 8605    |
 | ORG.NAM      | 0.53      | 0.15   | 0.23     | 60      |
 | ORG.NOM      | 0.50      | 0.28   | 0.36     | 18      |
 | PER.NAM      | 0.66      | 0.61   | 0.63     | 139     |

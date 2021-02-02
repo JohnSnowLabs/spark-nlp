@@ -18,76 +18,50 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 
 ## Predicted Entities
 
-`DATE`, `EVENT`, `FAC`, `GPE`, `LANGUAGE`, `LAW`, `LOC`, `MONEY`, `MOVEMENT`, `NORP`, `O`, `ORDINAL`, `ORG`, `PERCENT`, `PERSON`, `PRODUCT`, `QUANTITY`, `TIME`, `TITLE_AFFIX`,  and `WORK_OF_ART`
+`DATE`, `EVENT`, `FAC`, `GPE`, `LANGUAGE`, `LAW`, `LOC`, `MONEY`, `MOVEMENT`, `NORP`, `ORDINAL`, `ORG`, `PERCENT`, `PERSON`, `PRODUCT`, `QUANTITY`, `TIME`, `TITLE_AFFIX`,  and `WORK_OF_ART`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_JA/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_ud_gsd_glove_840B_300d_ja_2.7.0_2.4_1609712569080.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
-document_assembler = DocumentAssembler() \
-        .setInputCol("text") \
-        .setOutputCol("document")
-
-sentence_detector = SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
-
+...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
-
 embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
           .setInputCols("document", "token") \
           .setOutputCol("embeddings")
-
 ner = NerDLModel.pretrained("ner_ud_gsd_glove_840B_300d", "ja") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
-
-pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        word_segmenter,
-        embeddings,
-        ner,
-    ])
-
+...
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
 example = spark.createDataFrame(pd.DataFrame({'text': ["""5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。"""]}))
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-
+...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
-        .setInputCols(["sentence"])
+        .setInputCols(Array("sentence"))
         .setOutputCol("token")
-
 val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
-          .setInputCols("document", "token")
+          .setInputCols(Array("document", "token"))
           .setOutputCol("embeddings")
-
 val ner = NerDLModel.pretrained("ner_ud_gsd_glove_840B_300d", "ja")
-        .setInputCols(["document", "token", "embeddings"])
+        .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner))
-
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
 val result = pipeline.fit(Seq.empty["5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。"].toDS.toDF("text")).transform(data)
 ```
+
 </div>
 
 ## Results
@@ -144,8 +118,7 @@ The model was trained on the Universal Dependencies, curated by Google.
 
 Reference:
 
-    > Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., & Murawaki, Y. (2018). 
-    Universal Dependencies Version 2 for Japanese. In LREC-2018.
+> Asahara, M., Kanayama, H., Tanaka, T., Miyao, Y., Uematsu, S., Mori, S., Matsumoto, Y., Omura, M., & Murawaki, Y. (2018). Universal Dependencies Version 2 for Japanese. In LREC-2018.
 
 ## Benchmarking
 
@@ -162,7 +135,6 @@ Reference:
 |     MONEY    |    0.86   |  0.86  |   0.86   |    7    |
 |   MOVEMENT   |    0.00   |  0.00  |   0.00   |    4    |
 |     NORP     |    1.00   |  0.11  |   0.19   |    28   |
-|       O      |    0.97   |  1.00  |   0.99   |  11810  |
 |    ORDINAL   |    0.92   |  0.85  |   0.88   |    13   |
 |      ORG     |    0.44   |  0.35  |   0.39   |    75   |
 |    PERCENT   |    1.00   |  1.00  |   1.00   |    7    |

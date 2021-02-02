@@ -1,7 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
-import java.nio.file.{Files, Paths}
-
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -11,6 +9,7 @@ import org.apache.spark.ml.util.MLWriter
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.FlatSpec
 
+import java.nio.file.{Files, Paths}
 import scala.language.reflectiveCalls
 
 class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehaviors {

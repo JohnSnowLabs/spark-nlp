@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Named Entity Recognition for Chinese (BERT)
+title: Named Entity Recognition for Chinese (BERT-MSRA Dataset)
 author: John Snow Labs
 name: ner_msra_bert_768d
 date: 2021-01-03
@@ -18,80 +18,50 @@ This model uses the pre-trained `bert_base_chinese` embeddings model from `BertE
 
 ## Predicted Entities
 
-`Persons`, `Locations`, `Organizations`, `Other`.
+Persons-`PER`, Locations-`LOC`, Organizations-`ORG`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_ZH/){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_msra_bert_768d_zh_2.7.0_2.4_1609703549977.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
+
 ```python
-document_assembler = DocumentAssembler() \
-        .setInputCol("text") \
-        .setOutputCol("document")
-
-sentence_detector = SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
-
+...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
-
 embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')\
           .setInputCols("document", "token") \
           .setOutputCol("embeddings")
-
-
 ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
-
-pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        word_segmenter,
-        embeddings,
-        ner,
-    ])
-
+...
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
 example = spark.createDataFrame(pd.DataFrame({'text': ["""马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。"""]}))
-
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-
+...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
-        .setInputCols(["sentence"])
+        .setInputCols(Array("sentence"))
         .setOutputCol("token")
-
 val embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')
-          .setInputCols("document", "token")
-          .setOutputCol("embeddings")
-
-
+        .setInputCols(Array("document", "token"))
+        .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh")
         .setInputCols(["document", "token", "embeddings"])
         .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner))
-
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
 val result = pipeline.fit(Seq.empty["马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。"].toDS.toDF("text")).transform(data)
-
 ```
+
 </div>
 
 ## Results
@@ -131,7 +101,7 @@ val result = pipeline.fit(Seq.empty["马云在浙江省杭州市出生，是阿�
 
 ## Data Source
 
-The model was trained on the [MRSA (Levow, 2006)](https://www.aclweb.org/anthology/W06-0115/) data set created by _Microsoft Research Asia_.
+The model was trained on the [MSRA (Levow, 2006)](https://www.aclweb.org/anthology/W06-0115/) data set created by "Microsoft Research Asia".
 
 ## Benchmarking
 

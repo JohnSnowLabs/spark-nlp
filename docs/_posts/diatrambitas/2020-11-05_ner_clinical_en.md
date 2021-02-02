@@ -14,7 +14,7 @@ use_language_switcher: "Python-Scala-Java"
 Pretrained named entity recognition deep learning model for clinical terms. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.
 
 ## Predicted Entities
-Problem, Test, Treatment
+``PROBLEM``, ``TEST``, ``TREATMENT``.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/){:.button.button-orange}
@@ -26,25 +26,30 @@ Problem, Test, Treatment
 
 <div class="tabs-box" markdown="1">
 ```python
+...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
+...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."""]})))
 
 ```
 ```scala
-val ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
+val ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")
+  .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(ner))
-
-val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+val result = pipeline.fit(Seq.empty["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."].toDS.toDF("text")).transform(data)
 ```
 </div>
 

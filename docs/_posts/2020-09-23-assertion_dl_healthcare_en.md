@@ -18,12 +18,12 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Assertion of Clinical Entities based on Deep Learning.  
 
-## Predicted Entities 
+## Assertion Status 
 `hypothetical`, `present`, `absent`, `possible`, `conditional`, `associated_with_someone_else`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_healthcare_en_2.6.0_2.4_1600849811713.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/assertion_dl_healthcare_en_2.6.0_2.4_1600849811713.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
 ## How to use 
@@ -36,8 +36,17 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
+clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
+  .setInputCols(["sentence", "token", "embeddings"]) \
+  .setOutputCol("ner")
+ner_converter = NerConverter() \
+  .setInputCols(["sentence", "token", "ner"]) \
+  .setOutputCol("ner_chunk")
 clinical_assertion = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical/models")\
-    .setInputCols(["document","chunk","word_embeddings"])\
+    .setInputCols(["document","ner_chunk","embeddings"])\
     .setOutputCol("assertion")
     
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion])
@@ -48,8 +57,17 @@ results = model.transform(data)
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
+val clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings")) 
+  .setOutputCol("ner")
+val ner_converter = NerConverter()
+  .setInputCols(Array("sentence", "token", "ner"))
+  .setOutputCol("ner_chunk")
 val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_healthcare","en","clinical/models")
-     .setInputCols("document","chunk","word_embeddings")
+     .setInputCols("document","ner_chunk","embeddings")
      .setOutputCol("assertion")
     
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion))
