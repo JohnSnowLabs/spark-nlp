@@ -276,7 +276,46 @@ data:
             url: https://demo.johnsnowlabs.com/public/DATE_MATCHER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb 
+        - title: Summarize text, compare sentences and answer questions using T5 transformer
+          image: 
+              src: /assets/images/Detect_sentences_in_text.svg
+          image2: 
+              src: /assets/images/Detect_sentences_in_text_f.svg
+          excerpt: This demo uses the T5 transformer model described in the seminal paper “Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer”.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/T5TRANSFORMER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title: Understand questions about Airline Traffic
+          image: 
+              src: /assets/images/Detect_diagnosis_and_procedures.svg
+          image2: 
+              src: /assets/images/Detect_diagnosis_and_procedures.svg
+          excerpt: Automatically detect key entities related to airline traffic, such as departure and arrival times and locations.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize Entities in Bengali
+          image: 
+              src: /assets/images/Detect_and_normalize_dates.svg
+          image2: 
+              src: /assets/images/Detect_and_normalize_dates_f.svg
+          excerpt: Recognize Persons, Locations, Organizations and Misc entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_840b_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_BN
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
       languages: yes
       languages: 
         - title: Detect language
@@ -1059,8 +1098,8 @@ data:
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
           - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb
+            type: blue_btn 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb        
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text

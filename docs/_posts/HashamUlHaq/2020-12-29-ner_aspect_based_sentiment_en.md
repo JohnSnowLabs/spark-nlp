@@ -30,24 +30,30 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
+...
 word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
     .setInputCols(["document", "token"])\
     .setOutputCol("embeddings")
-    
 ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")\
     .setInputCols(["document", "token", "embeddings"])\
     .setOutputCol("ner")
-
-ner_converter = NerConverter()\
-    .setInputCols(['sentence', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
-
+...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter])
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 results = model.transform(spark.createDataFrame([["Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."]]).toDF("text"))
 ```
-
+```scala
+...
+val word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("embeddings")
+val ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")
+    .setInputCols(Array("document", "token", "embeddings"))
+    .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter))
+val result = pipeline.fit(Seq.empty["Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."].toDS.toDF("text")).transform(data)
+```
 </div>
 
 ## Results

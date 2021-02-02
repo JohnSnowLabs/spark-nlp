@@ -6,6 +6,7 @@ val spark24Ver = "2.4.7"
 val spark30Ver = "3.0.1"
 
 val is_gpu = System.getProperty("is_gpu","false")
+val is_opt = System.getProperty("is_opt","false")
 val is_spark23 = System.getProperty("is_spark23","false")
 //TODO breaking with older spark Why???
 val is_spark30 = System.getProperty("is_spark30","false")
@@ -138,10 +139,9 @@ scalacOptions in (Compile, doc) ++= Seq(
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-//val suffix = if (scalaVersion.value.startsWith("2.12")) "_2.12" else ""
 lazy val analyticsDependencies = Seq(
-  "org.apache.spark" %% s"spark-core" % sparkVer % Provided,
-  "org.apache.spark" %% s"spark-mllib" % sparkVer % Provided
+  "org.apache.spark" %% "spark-core" % sparkVer % Provided,
+  "org.apache.spark" %% "spark-mllib" % sparkVer % Provided
 )
 
 lazy val testDependencies = Seq(
@@ -183,9 +183,15 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
       "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
         exclude("com.fasterxml.jackson.core", "jackson-databind")
     )
+  else if(is_opt.equals("true"))
+    Seq("org.tensorflow" % "tensorflow-core-platform-mkl" % "0.2.0"
+      exclude("com.fasterxml.jackson.core", "jackson-databind")
+      exclude("com.fasterxml.jackson.core", "jackson-core")
+      exclude("com.fasterxml.jackson.core", "jackson-annotations")
+    )
   else
     Seq(
-      "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
+      "org.tensorflow" % "tensorflow-core-platform-mkl" % "0.2.0"
         exclude("com.fasterxml.jackson.core", "jackson-databind")
         exclude("com.fasterxml.jackson.core", "jackson-core")
         exclude("com.fasterxml.jackson.core", "jackson-annotations")
@@ -252,7 +258,7 @@ testOptions in Test += Tests.Argument("-oF")
 /** Disables tests in assembly */
 test in assembly := {}
 
-/** Publish test artificat **/
+/** Publish test artifact **/
 publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
