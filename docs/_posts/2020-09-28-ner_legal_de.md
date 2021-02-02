@@ -33,17 +33,11 @@ word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d",'de','clinical/mo
   .setInputCols(["sentence", 'token'])\
   .setOutputCol("embeddings")\
   .setCaseSensitive(False)
-
 legal_ner = NerDLModel.pretrained("ner_legal",'de','clinical/models') \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-legal_ner_converter = NerConverterInternal() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")\
-
-legal_pred_pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokenizer, word_embeddings, legal_ner, legal_ner_converter])
-
+...
+legal_pred_pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokenizer, word_embeddings, legal_ner, ner_converter])
 legal_light_model = LightPipeline(legal_pred_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 result = legal_light_model.fullAnnotate('''Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890) ''')
@@ -51,21 +45,14 @@ result = legal_light_model.fullAnnotate('''Jedoch wird der Verkehr darin nahelie
 
 ```scala
 ...
-
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")
-    .setInputCols("sentence","token")
+    .setInputCols(Array("sentence","token"))
     .setOutputCol("embeddings")
-
 val ner = NerDLModel.pretrained("ner_legal",'de','clinical/models')
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
-  
-val ner_converter = NerCoverterInternal().setInputCols("sentence", "token", "ner").setOutputCol("ner_chunk")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-
 val result = pipeline.fit(Seq.empty['''Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890)'''].toDS.toDF("text")).transform(data)
-
 ```
 </div>
 
