@@ -4,6 +4,9 @@ title: Detect Diseases
 author: John Snow Labs
 name: ner_diseases_en
 date: 2020-03-25
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.4
 tags: [ner, en, licensed, clinical]
 article_header:
   type: cover
