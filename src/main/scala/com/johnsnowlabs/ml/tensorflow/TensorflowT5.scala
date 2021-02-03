@@ -1,11 +1,13 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+
 import scala.collection.JavaConverters._
 
 /**
   * This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
-  * Input for this model must be tokenzied with a SentencePieceModel,
+  * Input for this model must be tokenized with a SentencePieceModel,
   *
   * @param tensorflow       Albert Model wrapper with TensorFlowWrapper
   * @param spp              Albert SentencePiece model with SentencePieceWrapper
@@ -33,21 +35,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private val eosTokenId = 1L
   private val pieceSize = spp.getSppModel.getPieceSize
 
-  def decode(sentences: Array[Array[Long]]): Seq[String] = {
 
-    sentences.map { s =>
-      val filteredPieceIds = s.filter(x => x <= pieceSize)
-       spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt):_*)
-    }
-
-  }
-
-  def process(textInputs: Seq[String], maxOutputLength: Int = 200): Seq[String] = {
-
-    val batch = textInputs.map(
-      x => {
-        spp.getSppModel.encodeAsIds(x).map(_.toLong) ++ Array(this.eosTokenId)
-      })
+  def process(batch: Seq[Array[Long]], maxOutputLength: Int = 200): Array[Array[Long]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
@@ -177,9 +166,53 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     decoderEncoderStateBuffers.clear()
     decoderEncoderStateTensorResources.clearTensors()
 
-    decode(modelOutputs)
-    //    modelOutputs.map(x => spp.getSppModel.decodeIds(x.map(_.toInt):_*)).toSeq
+    modelOutputs
   }
 
+  def decode(sentences: Array[Array[Long]]): Seq[String] = {
+
+    sentences.map { s =>
+      val filteredPieceIds = s.filter(x => x <= pieceSize)
+      spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt):_*)
+    }
+
+  }
+
+  def encode(sentences: Seq[Annotation], task: String): Seq[Array[Long]] = {
+    sentences.map(
+      s => {
+        val sentWithTask = if(task.nonEmpty) task.concat(" ").concat(s.result) else s.result
+        spp.getSppModel.encodeAsIds(sentWithTask).map(_.toLong) ++ Array(this.eosTokenId)
+      })
+  }
+
+  def generateSeq2Seq(sentences: Seq[Annotation],
+                      batchSize: Int = 1,
+                      maxOutputLength: Int,
+                      task: String
+                     ): Seq[Annotation] = {
+
+    val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
+
+      val batchSP = encode(batch, task)
+      val spIds = process(batchSP, maxOutputLength)
+      decode(spIds)
+
+    }
+
+    var sentBegin, nextSentEnd = 0
+    batchDecoder.zip(sentences).map{
+      case (content, sent) =>
+        nextSentEnd += content.length - 1
+        val annots = new Annotation(
+          annotatorType = AnnotatorType.DOCUMENT,
+          begin = sentBegin,
+          end = nextSentEnd,
+          result = content,
+          metadata = sent.metadata)
+        sentBegin += nextSentEnd + 1
+        annots
+    }
+  }
 
 }
