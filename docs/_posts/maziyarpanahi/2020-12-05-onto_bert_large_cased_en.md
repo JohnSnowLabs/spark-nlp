@@ -4,6 +4,9 @@ title: Named Entity Recognition - BERT Large (OntoNotes)
 author: John Snow Labs
 name: onto_bert_large_cased
 date: 2020-12-05
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.7.0
 tags: [ner, open_source, en]
 article_header:
   type: cover
@@ -33,9 +36,12 @@ This model uses the pretrained `bert_large_cased` embeddings model from the `Ber
 
 ```python
 ...
+embeddings = BertEmbeddings.pretrained("bert_large_cased", "en") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("embeddings")
 ner_onto = NerDLModel.pretrained("onto_bert_large_cased", "en") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+      .setInputCols(["document", "token", "embeddings"]) \
+      .setOutputCol("ner")
 ...        
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
@@ -45,9 +51,12 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["
 
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained("bert_large_cased", "en")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
 val ner_onto = NerDLModel.pretrained("onto_bert_large_cased", "en")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+      .setInputCols(Array("document", "token", "embeddings"))
+      .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter))
 
