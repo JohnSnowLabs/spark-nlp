@@ -4,6 +4,9 @@ title: Named Entity Recognition for Chinese (BERT-Weibo Dataset)
 author: John Snow Labs
 name: ner_weibo_bert_768d
 date: 2021-01-04
+task: Named Entity Recognition
+language: zh
+edition: Spark NLP 2.7.0
 tags: [zh, ner, open_source]
 article_header:
   type: cover

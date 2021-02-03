@@ -4,6 +4,9 @@ title: Named Entity Recognition for Korean (GloVe 840B 300d)
 author: John Snow Labs
 name: ner_kmou_glove_840B_300d
 date: 2021-01-03
+task: Named Entity Recognition
+language: ko
+edition: Spark NLP 2.7.0
 tags: [ko, ner, open_source]
 article_header:
   type: cover
