@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Gun to English
 author: John Snow Labs
 name: opus_mt_guw_en
 date: 2020-12-28
+task: Translation
+language: guw
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, guw, en, xx]
 article_header:
   type: cover
