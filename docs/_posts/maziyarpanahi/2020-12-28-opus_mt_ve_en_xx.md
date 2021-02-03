@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Venda to English
 author: John Snow Labs
 name: opus_mt_ve_en
 date: 2020-12-28
+task: Translation
+language: ve
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, ve, en, xx]
 article_header:
   type: cover
