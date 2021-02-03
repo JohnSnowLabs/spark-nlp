@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Ukrainian
 author: John Snow Labs
 name: opus_mt_en_uk
 date: 2020-12-28
+task: Translation
+language: uk
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, uk, xx]
 article_header:
   type: cover
