@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Vietnamese
 author: John Snow Labs
 name: opus_mt_en_vi
 date: 2020-12-28
+task: Translation
+language: vi
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, vi, xx]
 article_header:
   type: cover
