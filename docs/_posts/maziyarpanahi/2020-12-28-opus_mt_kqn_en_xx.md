@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Kaonde to English
 author: John Snow Labs
 name: opus_mt_kqn_en
 date: 2020-12-28
+task: Translation
+language: kqn
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, kqn, en, xx]
 article_header:
   type: cover
