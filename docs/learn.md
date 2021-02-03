@@ -34,11 +34,11 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_3.jpg)[Get started with Machine Learning in Java using Spark NLP](https://medium.com/parito-labs-blog/get-started-with-machine-learning-in-java-using-spark-nlp-9eb8ef2ea2ce)</span><span class="video-descr">Will Price - August 27, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[Introducing the Natural Language Processing Library for Apache Spark](https://databricks.com/blog/2017/10/19/introducing-natural-language-processing-library-apache-spark.html)</span><span class="video-descr">David Talby - October 19, 2017</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_4.jpg)[Introducing the Natural Language Processing Library for Apache Spark](https://databricks.com/blog/2017/10/19/introducing-natural-language-processing-library-apache-spark.html)</span><span class="video-descr">David Talby - October 19, 2017</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Improving Clinical Document Understanding on COVID-19 Research with Spark NLP](https://arxiv.org/abs/2012.04005?__hstc=162627875.7e2e14acbce8f704860db3c9a9f86d5f.1608308444598.1611854965224.1612279175672.32&__hssc=162627875.1.1612279175672&__hsfp=1326107387&hsCtaTracking=5ad1bb2e-ee9e-4ada-97a2-06fabb0f15ac%7C573cdf1c-4538-4a05-ad78-8cf40795d21f)</span><span class="video-descr">Veysel Kocaman, David Talby - 7 December, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
@@ -63,6 +63,10 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[Out of the box Spark NLP models in action](https://www.johnsnowlabs.com/out-of-the-box-spark-nlp-models-in-action/)</span><span class="video-descr">Dia Trambitas - August 14, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Get started with Machine Learning in Java using Spark NLP](https://medium.com/parito-labs-blog/get-started-with-machine-learning-in-java-using-spark-nlp-9eb8ef2ea2ce)</span><span class="video-descr">Will Price - August 27, 2020</span>
 </div></div>
 
 </div></div>
@@ -436,7 +440,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 {:.h2_article}
-## Data Annotator & Active Learning
+## Annotation Lab
 
 {:.h4_article}
 #### Videos
