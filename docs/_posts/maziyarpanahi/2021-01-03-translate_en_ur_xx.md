@@ -4,6 +4,9 @@ title: Translate English to Urdu Pipeline
 author: John Snow Labs
 name: translate_en_ur
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ur
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, ur, xx]
 article_header:
   type: cover
