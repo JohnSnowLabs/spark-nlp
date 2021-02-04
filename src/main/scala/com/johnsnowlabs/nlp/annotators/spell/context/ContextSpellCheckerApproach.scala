@@ -14,9 +14,11 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.slf4j.LoggerFactory
 import org.tensorflow.Graph
-
 import java.io.{BufferedWriter, File, FileWriter}
 import java.util
+
+import org.tensorflow.proto.framework.GraphDef
+
 import scala.collection.mutable
 
 
@@ -393,7 +395,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(bestGraph)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
-    //graph.importGraphDef(graphBytesDef)
+    graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
     graph
   }
 

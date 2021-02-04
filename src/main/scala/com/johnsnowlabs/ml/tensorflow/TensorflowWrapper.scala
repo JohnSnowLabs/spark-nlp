@@ -141,7 +141,7 @@ class TensorflowWrapper(
       g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g)//, config)
+      val session = new Session(g, ConfigProto.parseFrom(config))
 
       msession = session
     }
