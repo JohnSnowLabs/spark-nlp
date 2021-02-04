@@ -4,6 +4,9 @@ title: Translate Indonesian to English Pipeline
 author: John Snow Labs
 name: translate_id_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: id
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, id, en, xx]
 article_header:
   type: cover
