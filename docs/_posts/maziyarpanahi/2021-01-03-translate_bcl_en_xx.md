@@ -4,6 +4,9 @@ title: Translate Central Bikol to English Pipeline
 author: John Snow Labs
 name: translate_bcl_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: bcl
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, bcl, en, xx]
 article_header:
   type: cover
