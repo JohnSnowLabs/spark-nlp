@@ -356,9 +356,9 @@ article_header:
                     <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
-                    <li>30+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
+                    <li>50+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
                     <strong>BERT</strong>, <strong>ELMO</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
-                    <li>Multi-lingual NER models in <strong>Dutch, English, French, German, Italian, Norwegian, Polish, Portuguese, Russian, Spanish</strong></li>
+                    <li>Multi-lingual NER models in <strong>Arabic, Chinese, Danish, Dutch, English, Finnish, French, German, Hewbrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
                   </ul>
                 </div>
               </div>
@@ -370,47 +370,35 @@ article_header:
                     <div class="table-wrapper-inner">
                       <table class="table2">
                         <thead>
-                            <th>System</th>
-                            <th>Year</th>
-                            <th>Language</th>
-                            <th>Accuracy</th>                      
+                            <th>SYSTEM</th>
+                            <th>YEAR</th>
+                            <th>LANGUAGE</th>
+                            <th>CONLL ‘03</th>                      
                         </thead>
                         <tbody>
                           <tr>
-                            <td><strong>Spark NLP v2.4</strong></td>
-                            <td>2020</td>
+                            <td><strong>Spark NLP v2.7</strong></td>
+                            <td>2021</td>
                             <td>Python/Scala/Java/R</td>
-                            <td><strong>93.3 (test F1) - 95.9 (dev F1)</strong></td>
+                            <td><strong>93.3 (test F1) <br> 95.9 (dev F1)</strong></td>
                           </tr>
                           <tr>
-                            <td>Spark NLP v2.x</td>
-                            <td>2019</td>
-                            <td>Python/Scala/Java/R</td>
-                            <td><strong>93</strong></td>
+                            <td>spaCy v3</td>
+                            <td>2021<br></td>
+                            <td>Python</td>
+                            <td>91.6</td>
                           </tr>
                           <tr>
-                            <td>Spark NLP v1.x</td>
+                            <td>Stanza (StanfordNLP)</td>
+                            <td>2020<br></td>
+                            <td>Python</td>
+                            <td>92.1</td>
+                          </tr>
+                          <tr>
+                            <td>Flair</td>
                             <td>2018</td>
-                            <td>Python/Scala/Java/R</td>
-                            <td>92</td>
-                          </tr>
-                          <tr>
-                            <td>spaCy v2.x</td>
-                            <td>2017<br></td>
-                            <td>Python/Cython</td>
-                            <td>92.6</td>
-                          </tr>
-                          <tr>
-                            <td>spaCy v1.x</td>
-                            <td>2015</td>
-                            <td>Python/Cython</td>
-                            <td>91.8</td>
-                          </tr>
-                          <tr>
-                            <td>ClearNLP</td>
-                            <td>2015</td>
-                            <td>Java</td>
-                            <td>91.7</td>
+                            <td>Python</td>
+                            <td>93.1</td>
                           </tr>
                           <tr>
                             <td>CoreNLP</td>
@@ -418,22 +406,50 @@ article_header:
                             <td>Java</td>
                             <td>89.6</td>
                           </tr>
-                          <tr>
-                            <td>MATE</td>
-                            <td>2015</td>
-                            <td>Java</td>
-                            <td>92.5</td>
-                          </tr>
-                          <tr>
-                            <td>Turbo</td>
-                            <td>2015</td>
-                            <td>C++</td>
-                            <td>92.4</td>
-                          </tr>                      
                         </tbody>
                       </table> 
                     </div>                  
-                </div>                             
+                </div>
+                
+                <div class="table-wrapper">
+                  <div class="table-wrapper-inner">
+                    <table class="table2">
+                      <thead>
+                          <th>SYSTEM</th>
+                          <th>YEAR</th>
+                          <th>LANGUAGE</th>
+                          <th>ONTONOTES</th>                      
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><strong>Spark NLP v2.7</strong></td>
+                          <td>2021</td>
+                          <td>Python/Scala/Java/R</td>
+                          <td><strong>90.0 (test F1) <br> 92.5 (dev F1)</strong></td>
+                        </tr>
+                        <tr>
+                          <td>spaCy RoBERTa</td>
+                          <td>2020<br></td>
+                          <td>Python</td>
+                          <td>89.7 (dev F1)</td>
+                        </tr>
+                        <tr>
+                          <td>Stanza (StanfordNLP)</td>
+                          <td>2020<br></td>
+                          <td>Python</td>
+                          <td>88.8 (dev F1)</td>
+                        </tr>
+                        <tr>
+                          <td>Flair</td>
+                          <td>2018</td>
+                          <td>Python</td>
+                          <td>89.7</td>
+                        </tr>
+                      </tbody>
+                    </table> 
+                  </div>                  
+              </div>  
+                
               </div>          
             </div>
           </div>
