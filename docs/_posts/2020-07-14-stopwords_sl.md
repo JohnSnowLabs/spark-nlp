@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Slovenian
 author: John Snow Labs
 name: stopwords_sl
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: sl
+edition: Spark NLP 2.5.4
 tags: [stopwords, sl]
 article_header:
   type: cover
