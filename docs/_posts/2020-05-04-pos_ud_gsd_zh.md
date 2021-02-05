@@ -4,6 +4,9 @@ title: Part of Speech for Chinese
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2020-05-04 20:11:00 +0800
+task: POS
+language: zh
+edition: Spark NLP 2.5.0
 tags: [pos, zh]
 article_header:
 type: cover
