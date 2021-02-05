@@ -4,6 +4,9 @@ title: Part of Speech for Danish
 author: John Snow Labs
 name: pos_ud_ddt
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: da
+edition: Spark NLP 2.5.5
 tags: [pos, da]
 article_header:
 type: cover
