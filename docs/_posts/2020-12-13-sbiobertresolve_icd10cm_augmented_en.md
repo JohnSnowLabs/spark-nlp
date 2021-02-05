@@ -6,6 +6,8 @@ name: sbiobertresolve_icd10cm_augmented
 language: en
 repository: clinical/models
 date: 2020-12-13
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.5
 tags: [clinical,entity_resolution,en]
 article_header:
     type: cover
