@@ -4,6 +4,9 @@ title: Detect Assertion Status (assertion_wip)
 author: John Snow Labs
 name: jsl_assertion_wip
 date: 2021-01-18
+task: Assertion Status
+language: en
+edition: Spark NLP for Healthcare 2.7.0
 tags: [clinical, licensed, assertion, en, ner]
 article_header:
     type: cover
