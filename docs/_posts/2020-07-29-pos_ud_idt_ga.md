@@ -4,6 +4,9 @@ title: Part of Speech for Irish
 author: John Snow Labs
 name: pos_ud_idt
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: ga
+edition: Spark NLP 2.5.5
 tags: [pos, ga]
 article_header:
 type: cover
