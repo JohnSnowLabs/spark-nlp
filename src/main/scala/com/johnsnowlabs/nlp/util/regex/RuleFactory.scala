@@ -5,10 +5,6 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.RuleSymbols
 import scala.util.matching.Regex
 
 /**
-  * Created by Saif Addin on 5/8/2017.
-  */
-
-/**
   * Regular Expressions rule manager. Applies rules based on Matching and Replacement strategies
   * @param matchStrategy How to decide on regex search
   * @param transformStrategy How to decide when replacing or transforming content with Regex

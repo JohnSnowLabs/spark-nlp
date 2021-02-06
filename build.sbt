@@ -54,7 +54,7 @@ name:= getPackageName(is_spark23, is_spark30, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.7.2"
+version := "2.7.3"
 
 scalaVersion in ThisBuild := scalaVer
 

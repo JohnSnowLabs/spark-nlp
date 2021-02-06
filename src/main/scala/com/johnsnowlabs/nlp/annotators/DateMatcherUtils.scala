@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.util.Calendar
 
-import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
 
@@ -42,10 +41,10 @@ trait DateMatcherUtils extends Params {
   private val altTime = new Regex("([0-2]?[0-9])\\.([0-5][0-9])\\.?([0-5][0-9])?", "hour", "minutes", "seconds")
   private val coordTIme = new Regex("([0-2]?[0-9])([0-5][0-9])?\\.?([0-5][0-9])?\\s*(?:h|a\\.?m|p\\.?m)", "hour", "minutes", "seconds")
   private val refTime = new Regex("at\\s+([0-9])\\s*([0-5][0-9])*\\s*([0-5][0-9])*")
-  protected val amDefinition = "(?i)(a\\.?m)".r
+  protected val amDefinition: Regex = "(?i)(a\\.?m)".r
 
   protected val defaultMonthWhenMissing = 0
-  protected val defaultYearWhenMissing = Calendar.getInstance.get(Calendar.YEAR)
+  protected val defaultYearWhenMissing: Int = Calendar.getInstance.get(Calendar.YEAR)
 
   /** Annotator param containing expected output format of parsed date*/
   val dateFormat: Param[String] = new Param(this, "dateFormat", "SimpleDateFormat standard criteria")
@@ -53,6 +52,75 @@ trait DateMatcherUtils extends Params {
   def getFormat: String = $(dateFormat)
 
   def setFormat(value: String): this.type = set(dateFormat, value)
+
+  /**
+    * Add an anchor year for the relative dates such as a day after tomorrow.
+    * If not set it will use the current year.
+    * Example: 2021
+    * By default it will use the current year
+    * Default: -1
+    * @group param
+    **/
+  val anchorDateYear: Param[Int] = new IntParam(
+    this,
+    "anchorDateYear",
+    "Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021"
+  )
+
+  /** @group setParam **/
+  def setAnchorDateYear(value: Int): this.type = {
+    require(value <= 9999 || value >= 999 , "The year must be between 999 and 9999")
+    set(anchorDateYear, value)
+  }
+
+  /** @group getParam **/
+  def getAnchorDateYear: Int = $(anchorDateYear)
+
+  /**
+    * Add an anchor month for the relative dates such as a day after tomorrow.
+    * Month value is 1-based. e.g., 1 for January.
+    * By default it will use the current month
+    * Default: -1
+    * @group param
+    **/
+  val anchorDateMonth: Param[Int] = new IntParam(
+    this,
+    "anchorDateMonth",
+    "Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January"
+  )
+
+  /** @group setParam **/
+  def setAnchorDateMonth(value: Int): this.type = {
+    val normalizedMonth = value - 1
+    require(normalizedMonth <= 11 || normalizedMonth >= 0 , "The month value is 1-based. e.g., 1 for January. The value must be between 1 and 12")
+    set(anchorDateMonth, normalizedMonth)
+  }
+
+  /** @group getParam **/
+  def getAnchorDateMonth: Int = $(anchorDateMonth)
+
+  /**
+    * Add an anchor year for the relative dates such as a day after tomorrow.
+    * The first day of the month has value 1
+    * Example: 11
+    * By default it will use the current day
+    * Default: -1
+    * @group param
+    **/
+  val anchorDateDay: Param[Int] = new IntParam(
+    this,
+    "anchorDateDay",
+    "Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11"
+  )
+
+  /** @group setParam **/
+  def setAnchorDateDay(value: Int): this.type = {
+    require(value <= 31 || value >= 1 , "The day value starts from 1. The value must be between 1 and 31")
+    set(anchorDateDay, value)
+  }
+
+  /** @group getParam **/
+  def getAnchorDateDay: Int = $(anchorDateDay)
 
   val readMonthFirst: BooleanParam = new BooleanParam(this, "readMonthFirst", "Whether to parse july 07/05/2015 or as 05/07/2015")
 
@@ -68,6 +136,9 @@ trait DateMatcherUtils extends Params {
 
   setDefault(
     dateFormat -> "yyyy/MM/dd",
+    anchorDateYear -> -1,
+    anchorDateMonth -> -1,
+    anchorDateDay -> -1,
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1
   )
@@ -97,7 +168,7 @@ trait DateMatcherUtils extends Params {
     * Strategy used is to match first only. any other matches discarded
     * Auto completes short versions of months. Any two digit year is considered to be XX century
     */
-  protected val relaxedFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val relaxedFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
     .addRule(relaxedYear, "relaxed year")
@@ -107,15 +178,15 @@ trait DateMatcherUtils extends Params {
     * Will always assume relative day from current time at processing
     * ToDo: Support relative dates from input date
     */
-  protected val relativeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relativeDate, "relative dates")
 
   /** Searches for relative informal dates such as today or the day after tomorrow */
-  protected val tyFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val tyFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relativeDay, "relative days")
 
   /** Searches for exactly provided days of the week. Always relative from current time at processing */
-  protected val relativeExactFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val relativeExactFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relativeExactDay, "relative precise dates")
 
   /**
@@ -124,11 +195,22 @@ trait DateMatcherUtils extends Params {
     * text target document
     * @return a final possible date if any found
     */
-  protected val timeFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val timeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(clockTime, "standard time extraction")
     .addRule(altTime, "alternative time format")
     .addRule(coordTIme, "coordinate like time")
     .addRule(refTime, "referred time")
+
+  protected def calculateAnchorCalendar(): Calendar = {
+    val calendar = Calendar.getInstance()
+
+    val anchorYear = if ($(anchorDateYear) != -1) $(anchorDateYear) else calendar.get(Calendar.YEAR)
+    val anchorMonth = if ($(anchorDateMonth) != -1) $(anchorDateMonth) else calendar.get(Calendar.MONTH)
+    val anchorDay = if ($(anchorDateDay) != -1) $(anchorDateDay) else calendar.get(Calendar.DAY_OF_MONTH)
+
+    calendar.set(anchorYear, anchorMonth, anchorDay)
+    calendar
+  }
 
   protected def formalDateContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
     val formalDate = date.content
@@ -152,7 +234,7 @@ trait DateMatcherUtils extends Params {
 
   protected def relativeDateContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
     val relativeDate = date.content
-    val calendar = Calendar.getInstance()
+    val calendar = calculateAnchorCalendar()
     val amount = if (relativeDate.group(1) == "next") 1 else -1
     relativeDate.group(2) match {
       case "week" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
@@ -164,36 +246,29 @@ trait DateMatcherUtils extends Params {
 
   def tomorrowYesterdayContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
     val tyDate = date.content
+    val calendar = calculateAnchorCalendar()
     tyDate.matched.toLowerCase match {
       case "today" =>
-        val calendar = Calendar.getInstance()
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "tomorrow" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "past tomorrow" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 2)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "yesterday" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day after" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day before" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day after tomorrow" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 2)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case "day before yesterday" =>
-        val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -2)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
     }
@@ -201,7 +276,7 @@ trait DateMatcherUtils extends Params {
 
   def relativeExactContentParse(possibleDate: RuleFactory.RuleMatch): MatchedDateTime = {
     val relativeDate = possibleDate.content
-    val calendar = Calendar.getInstance()
+    val calendar = calculateAnchorCalendar()
     val amount = if (relativeDate.group(1) == "next") 1 else -1
     calendar.add(Calendar.DAY_OF_MONTH, amount)
     relativeDate.group(2) match {
