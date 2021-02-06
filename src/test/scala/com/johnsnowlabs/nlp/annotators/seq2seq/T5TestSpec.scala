@@ -1,7 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.ml.tensorflow.{TensorflowT5, TensorflowWrapper}
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -82,21 +80,4 @@ class T5TestSpec extends FlatSpec {
     results.select("questions.result", "answers.result").show(truncate = false)
   }
 
-
-  "T5Transformer" should "load and save models" taggedAs SlowTest in {
-    val google_t5_small_ssm_nq = T5Transformer.loadSavedModel("/models/t5/google_t5_small_ssm_nq/tf/combined", ResourceHelper.spark)
-    google_t5_small_ssm_nq.write.overwrite().save("/models/sparknlp/google_t5_small_ssm_nq")
-
-    val t5_small = T5Transformer.loadSavedModel("/models/t5/t5_small/tf/combined", ResourceHelper.spark)
-    t5_small.write.overwrite().save("/models/sparknlp/t5_small")
-
-  }
-
-  "T5 TF" should "process text" taggedAs SlowTest in {
-    val texts = Array("When was America discovered?", "Which was the first president of USA?")
-    val tfw = TensorflowWrapper.read("/models/t5/t5_small/tf/combined", zipped = false, useBundle = true, tags = Array("serve"))
-    val spp = SentencePieceWrapper.read("/models/t5/t5_small/tf/combined/assets/spiece.model")
-    val t5tf = new TensorflowT5(tfw, spp)
-    t5tf.process(texts).foreach(x => println(x))
-  }
 }

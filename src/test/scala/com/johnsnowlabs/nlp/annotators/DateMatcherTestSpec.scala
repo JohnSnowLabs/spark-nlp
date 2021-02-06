@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{AnnotatorType, DataBuilder}
+import com.johnsnowlabs.nlp.AnnotatorType.DATE
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -19,35 +20,35 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
   "A full DateMatcher pipeline with some sentences" should behave like sparkBasedDateMatcher(dateData)
 
-  val currentYear = Calendar.getInstance.get(Calendar.YEAR)
-  val nextThursdayCalendar = {
+  val currentYear: Int = Calendar.getInstance.get(Calendar.YEAR)
+  val nextThursdayCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, 1)
     while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.THURSDAY) calendar.add(Calendar.DAY_OF_MONTH, 1)
     calendar
   }
-  val lastWednesdayCalendar = {
+  val lastWednesdayCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, -1)
     while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.WEDNESDAY) calendar.add(Calendar.DAY_OF_MONTH, -1)
     calendar
   }
-  val tomorrowCalendar = {
+  val tomorrowCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, 1)
     calendar
   }
-  val yesterdayCalendar = {
+  val yesterdayCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, -1)
     calendar
   }
-  def nextCalendar(which: Int) = {
+  def nextCalendar(which: Int): Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(which, 1)
     calendar
   }
-  def setTimeTo(calendar: Calendar, hour: Int, minutes: Int, seconds: Int) = {
+  def setTimeTo(calendar: Calendar, hour: Int, minutes: Int, seconds: Int): Calendar = {
     val calendarBuild = new Calendar.Builder
     calendarBuild.setDate(
       calendar.get(Calendar.YEAR),
@@ -136,6 +137,26 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
   "a DateMatcher" should "ignore chunks of text with nothing relevant" taggedAs FastTest in {
     val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "day after tomorrow"))
+  }
+
+  "a DateMatcher" should "correctly use anchorDate params for relative dates" taggedAs FastTest in {
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array("2014/01/23", "see you a day after"))
+
+    val expectedDates = Seq(
+      Annotation(DATE, 0, 9, "2014/01/23", Map("sentence" -> "0")),
+      Annotation(DATE, 10, 18, "2020/01/12", Map("sentence" -> "0"))
+    )
+
+    val date = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(2020)
+      .setAnchorDateMonth(1)
+      .setAnchorDateDay(11)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq
+    assert(results == expectedDates)
   }
 
   "a DateMatcher" should "be writable and readable" taggedAs FastTest in {

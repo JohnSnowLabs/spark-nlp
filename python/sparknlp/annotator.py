@@ -484,7 +484,7 @@ class DocumentNormalizer(AnnotatorModel):
     def __init__(self):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
         self._setDefault(
-            action="clean_up",
+            action="clean",
             patterns=["<[^>]*>"],
             replacement=" ",
             lowercase=False,
@@ -678,6 +678,27 @@ class DateMatcherUtils(Params):
                                   typeConverter=TypeConverters.toInt
                                   )
 
+    anchorDateYear = Param(Params._dummy(),
+                           "anchorDateYear",
+                           "Add an anchor year for the relative dates such as a day after tomorrow. If not set it "
+                           "will use the current year. Example: 2021",
+                           typeConverter=TypeConverters.toInt
+                           )
+
+    anchorDateMonth = Param(Params._dummy(),
+                            "anchorDateMonth",
+                            "Add an anchor month for the relative dates such as a day after tomorrow. If not set it "
+                            "will use the current month. Example: 1 which means January",
+                            typeConverter=TypeConverters.toInt
+                            )
+
+    anchorDateDay = Param(Params._dummy(),
+                          "anchorDateDay",
+                          "Add an anchor day of the day for the relative dates such as a day after tomorrow. If not "
+                          "set it will use the current day. Example: 11",
+                          typeConverter=TypeConverters.toInt
+                          )
+
     def setFormat(self, value):
         return self._set(dateFormat=value)
 
@@ -686,6 +707,15 @@ class DateMatcherUtils(Params):
 
     def setDefaultDayWhenMissing(self, value):
         return self._set(defaultDayWhenMissing=value)
+
+    def setAnchorDateYear(self, value):
+        return self._set(anchorDateYear=value)
+
+    def setAnchorDateMonth(self, value):
+        return self._set(anchorDateMonth=value)
+
+    def setAnchorDateDay(self, value):
+        return self._set(anchorDateDay=value)
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
@@ -698,7 +728,10 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
         self._setDefault(
             dateFormat="yyyy/MM/dd",
             readMonthFirst=True,
-            defaultDayWhenMissing=1
+            defaultDayWhenMissing=1,
+            anchorDateYear=-1,
+            anchorDateMonth=-1,
+            anchorDateDay=-1
         )
 
 
@@ -2310,7 +2343,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
     classes = Param(Params._dummy(), "classes",
-                    "get the tags used to trained this NerDLModel",
+                    "get the tags used to trained this ClassifierDLModel",
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
@@ -2803,7 +2836,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     classes = Param(Params._dummy(), "classes",
-                    "get the tags used to trained this NerDLModel",
+                    "get the tags used to trained this SentimentDLModel",
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
@@ -2964,7 +2997,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
     classes = Param(Params._dummy(), "classes",
-                    "get the tags used to trained this NerDLModel",
+                    "get the tags used to trained this MultiClassifierDLModel",
                     TypeConverters.toListString)
 
     def setThreshold(self, v):

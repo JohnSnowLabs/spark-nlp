@@ -208,9 +208,9 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
              langId: Long, unknownTokenId: Long, eosTokenId: Long): Seq[Array[Long]] = {
 
     sentences.map { s =>
-      // remove langauge code from the source text
-      val sentWithouLangId = langCodeRe.replaceFirstIn(s.result, "").trim
-      val normalizedSent = normalizer.normalize(sentWithouLangId)
+      // remove language code from the source text
+      val sentWithoutLangId = langCodeRe.replaceFirstIn(s.result, "").trim
+      val normalizedSent = normalizer.normalize(sentWithoutLangId)
       val pieceTokens = sppSrc.getSppModel.encodeAsPieces(normalizedSent).toArray.map(x=>x.toString)
 
       val pieceIds = pieceTokens.map {
