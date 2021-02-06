@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>annotators - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="annotators - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="annotators Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>annotators - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="annotators - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="annotators Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -86,6 +86,27 @@
 array of chunk-based tokens (annotatorType TOKEN).</p><div class="fullcomment"><div class="comment cmt"><p>A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
 array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty, an empty array is returned.</p><p>This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DrugNormalizerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.DrugNormalizer]"></a>
+      <a id="DrugNormalizer:DrugNormalizer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DrugNormalizer.html"><span class="name">DrugNormalizer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DrugNormalizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DrugNormalizer">DrugNormalizer</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@DrugNormalizerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.DrugNormalizer]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Annotator which normalizes raw text from clinical documents, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.
+Removes all dirty characters from text following one or more input regex patterns.
+Can apply non wanted character removal which a specific policy.
+Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizerTestSpec.scala" target="_blank">DocumentNormalizer test class</a> for examples examples of usage.
+</p></div></div>
     </li></ol>
             </div>
 
@@ -93,7 +114,24 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.assertion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DrugNormalizer"></a>
+      <a id="DrugNormalizer:DrugNormalizer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DrugNormalizer$.html"><span class="name">DrugNormalizer</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="DrugNormalizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DrugNormalizer">DrugNormalizer</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.package@DrugNormalizer" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="assertion"></a>
       <a id="assertion:assertion"></a>
       <h4 class="signature">

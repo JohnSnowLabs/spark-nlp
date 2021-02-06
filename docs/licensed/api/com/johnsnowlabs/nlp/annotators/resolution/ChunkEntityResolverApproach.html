@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ChunkEntityResolverApproach - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach</title>
-          <meta name="description" content="ChunkEntityResolverApproach - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
-          <meta name="keywords" content="ChunkEntityResolverApproach Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
+          <title>ChunkEntityResolverApproach - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach</title>
+          <meta name="description" content="ChunkEntityResolverApproach - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
+          <meta name="keywords" content="ChunkEntityResolverApproach Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -355,6 +355,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#auxLabelCol" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="auxLabelCol:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="auxLabelCol:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">auxLabelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@auxLabelCol:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#auxLabelMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="auxLabelMap:com.johnsnowlabs.nlp.serialization.StructFeature[scala.collection.Map[String,String]]"></a>
+      <a id="auxLabelMap:StructFeature[Map[String,String]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">auxLabelMap</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@auxLabelMap:com.johnsnowlabs.nlp.serialization.StructFeature[scala.collection.Map[String,String]]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a>
       <a id="beforeTraining(SparkSession):Unit"></a>
@@ -752,6 +786,24 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#extractAuxLabelMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractAuxLabelMap(dataset:org.apache.spark.sql.Dataset[_]):scala.collection.Map[String,String]"></a>
+      <a id="extractAuxLabelMap(Dataset[_]):Map[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractAuxLabelMap</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@extractAuxLabelMap(dataset:org.apache.spark.sql.Dataset[_]):scala.collection.Map[String,String]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Extracts a Map[String,String] where key=label and value=auxLabel from a dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts a Map[String,String] where key=label and value=auxLabel from a dataset.
+If either of one columns does not exist, it will return an empty map</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>from whichw e extract the column</p></dd><dt>returns</dt><dd class="cmt"><p>a Map[String,String]</p></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a>
       <a id="extractParamMap():ParamMap"></a>
@@ -1050,6 +1102,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#getAuxLabelCol" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getAuxLabelCol():String"></a>
+      <a id="getAuxLabelCol():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAuxLabelCol</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@getAuxLabelCol():String" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#getAuxLabelMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getAuxLabelMap():scala.collection.Map[String,String]"></a>
+      <a id="getAuxLabelMap():Map[String,String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAuxLabelMap</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@getAuxLabelMap():scala.collection.Map[String,String]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#getCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getCaseSensitive:Boolean"></a>
       <a id="getCaseSensitive:Boolean"></a>
@@ -1441,6 +1527,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#getReturnAllKEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getReturnAllKEmbeddings():Boolean"></a>
+      <a id="getReturnAllKEmbeddings():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getReturnAllKEmbeddings</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@getReturnAllKEmbeddings():Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#getReturnCosineDistances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getReturnCosineDistances:Boolean"></a>
+      <a id="getReturnCosineDistances:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getReturnCosineDistances</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@getReturnCosineDistances:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get whether cosine distances should be calculated between a chunk and the k_candidates result embeddings</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#getThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getThreshold:Double"></a>
       <a id="getThreshold:Double"></a>
@@ -1458,6 +1578,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#getUseAuxLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getUseAuxLabel():Boolean"></a>
+      <a id="getUseAuxLabel():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getUseAuxLabel</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@getUseAuxLabel():Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -2138,6 +2275,40 @@
       </a>
     </span>
       <p class="shortcomment cmt">pooling strategy to aggregate distances: AVERAGE or SUM</p><div class="fullcomment"><div class="comment cmt"><p>pooling strategy to aggregate distances: AVERAGE or SUM</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#returnAllKEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="returnAllKEmbeddings:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="returnAllKEmbeddings:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">returnAllKEmbeddings</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@returnAllKEmbeddings:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#returnCosineDistances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="returnCosineDistances:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">returnCosineDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@returnCosineDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -2319,6 +2490,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#setAuxLabelCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setAuxLabelCol(c:String):ChunkEntityResolverApproach.this.type"></a>
+      <a id="setAuxLabelCol(String):ChunkEntityResolverApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAuxLabelCol</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@setAuxLabelCol(c:String):ChunkEntityResolverApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#setAuxLabelMap" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setAuxLabelMap(m:scala.collection.Map[String,String]):ChunkEntityResolverApproach.this.type"></a>
+      <a id="setAuxLabelMap(Map[String,String]):ChunkEntityResolverApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAuxLabelMap</span><span class="params">(<span name="m">m: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@setAuxLabelMap(m:scala.collection.Map[String,String]):ChunkEntityResolverApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#setCaseSensitive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setCaseSensitive(value:Boolean):HasCaseSensitiveProperties.this.type"></a>
       <a id="setCaseSensitive(Boolean):ChunkEntityResolverApproach.this.type"></a>
@@ -2761,6 +2966,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#setReturnAllKEmbeddings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setReturnAllKEmbeddings(b:Boolean):ChunkEntityResolverApproach.this.type"></a>
+      <a id="setReturnAllKEmbeddings(Boolean):ChunkEntityResolverApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setReturnAllKEmbeddings</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@setReturnAllKEmbeddings(b:Boolean):ChunkEntityResolverApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#setReturnCosineDistances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setReturnCosineDistances(value:Boolean):ChunkEntityResolverApproach.this.type"></a>
+      <a id="setReturnCosineDistances(Boolean):ChunkEntityResolverApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setReturnCosineDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@setReturnCosineDistances(value:Boolean):ChunkEntityResolverApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set whether cosine distances should be calculated between a chunk and the k_candidates result embeddings</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams#setThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setThreshold(dist:Double):ResolverParams.this.type"></a>
       <a id="setThreshold(Double):ChunkEntityResolverApproach.this.type"></a>
@@ -2778,6 +3017,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/ResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.ResolverParams">ResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#setUseAuxLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setUseAuxLabel(b:Boolean):ChunkEntityResolverApproach.this.type"></a>
+      <a id="setUseAuxLabel(Boolean):ChunkEntityResolverApproach.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setUseAuxLabel</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@setUseAuxLabel(b:Boolean):ChunkEntityResolverApproach.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -2920,6 +3176,23 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a> → Identifiable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#useAuxLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="useAuxLabel:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="useAuxLabel:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">useAuxLabel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach@useAuxLabel:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a>
       <a id="validate(StructType):Boolean"></a>
