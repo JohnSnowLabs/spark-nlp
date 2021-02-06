@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RelationExtractionModel - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel</title>
-          <meta name="description" content="RelationExtractionModel - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel" />
-          <meta name="keywords" content="RelationExtractionModel Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel" />
+          <title>RelationExtractionDLModel - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionDLModel</title>
+          <meta name="description" content="RelationExtractionDLModel - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionDLModel" />
+          <meta name="keywords" content="RelationExtractionDLModel Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionDLModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../index.html';
-            var hash = 'com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$';
+            var hash = 'com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -30,10 +30,10 @@
       <div id="definition">
         <img alt="Object" src="../../../../../lib/object_big.png" />
         <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../../package.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="../package.html" class="extype" name="com.johnsnowlabs.nlp.jsl">jsl</a>.<a href="package.html" class="extype" name="com.johnsnowlabs.nlp.jsl.annotator">annotator</a></p>
-        <h1>RelationExtractionModel</h1><h3><span class="morelinks"><div>Related Doc:
+        <h1>RelationExtractionDLModel</h1><h3><span class="morelinks"><div>Related Doc:
             <a href="package.html" class="extype" name="com.johnsnowlabs.nlp.jsl.annotator">package annotator</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -45,13 +45,13 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">RelationExtractionModel</span><span class="result"> extends <a href="../../annotators/generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>] with <a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">RelationExtractionDLModel</span><span class="result"> extends <a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> with <a href="../../annotators/re/ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>], <a href="../../annotators/generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>], <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span>, <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>], <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>], <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="../../annotators/re/ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a>, <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span>, <a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a>, <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>], <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>], <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -69,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel"><span>RelationExtractionModel</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier"><span>ReadablePretrainedGenericClassifier</span></li><li class="in" name="com.johnsnowlabs.nlp.HasPretrained"><span>HasPretrained</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph"><span>ReadsGenericClassifierGraph</span></li><li class="in" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel"><span>ReadTensorflowModel</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable"><span>ParamsAndFeaturesReadable</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsReadable"><span>DefaultParamsReadable</span></li><li class="in" name="org.apache.spark.ml.util.MLReadable"><span>MLReadable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionDLModel"><span>RelationExtractionDLModel</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel"><span>ReadRelationExtractionDLModelTensorflowModel</span></li><li class="in" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel"><span>ReadTensorflowModel</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel"><span>ReadablePretrainedRelationExtractionDLModel</span></li><li class="in" name="com.johnsnowlabs.nlp.HasPretrained"><span>HasPretrained</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable"><span>ParamsAndFeaturesReadable</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsReadable"><span>DefaultParamsReadable</span></li><li class="in" name="org.apache.spark.ml.util.MLReadable"><span>MLReadable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -106,7 +106,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -123,7 +123,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@##():Int" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@##():Int" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -140,24 +140,24 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable#addReader" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit"></a>
-      <a id="addReader((RelationExtractionModel,String,SparkSession)⇒Unit):Unit"></a>
+      <a id="addReader((annotators.re.RelationExtractionDLModel,String,SparkSession)⇒Unit):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addReader</span><span class="params">(<span name="reader">reader: (<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">addReader</span><span class="params">(<span name="reader">reader: (<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -174,7 +174,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -191,7 +191,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@clone():Object" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -214,7 +214,7 @@
         <span class="name">defaultLang</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@defaultLang:String" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@defaultLang:String" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -231,12 +231,12 @@
         <span class="name">defaultLoc</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@defaultLoc:String" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@defaultLoc:String" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasPretrained</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier#defaultModelName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel#defaultModelName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultModelName:Some[String]"></a>
       <a id="defaultModelName:Some[String]"></a>
       <h4 class="signature">
@@ -245,14 +245,14 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">defaultModelName</span><span class="result">: <span class="extype" name="scala.Some">Some</span>[<span class="extype" name="java.lang.String">String</span>]</span>
+        <span class="name">defaultModelName</span><span class="result">: <span class="extype" name="scala.Some">Some</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@defaultModelName:Some[String]" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@defaultModelName:Some[String]" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a> → HasPretrained</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> → HasPretrained</dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -265,7 +265,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -282,7 +282,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -299,7 +299,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -322,7 +322,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -339,7 +339,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -356,24 +356,24 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLReadable#load" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="load(path:String):T"></a>
-      <a id="load(String):RelationExtractionModel"></a>
+      <a id="load(String):annotators.re.RelationExtractionDLModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">load</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a></span>
+        <span class="name">load</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@load(path:String):T" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@load(path:String):T" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -384,6 +384,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel#loadSavedModel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="loadSavedModel(folder:String,spark:org.apache.spark.sql.SparkSession):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel"></a>
+      <a id="loadSavedModel(String,SparkSession):annotators.re.RelationExtractionDLModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">loadSavedModel</span><span class="params">(<span name="folder">folder: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@loadSavedModel(folder:String,spark:org.apache.spark.sql.SparkSession):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -396,7 +413,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -413,7 +430,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -430,115 +447,115 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pretrained(name:String,lang:String,remoteLoc:String):T"></a>
-      <a id="pretrained(String,String,String):RelationExtractionModel"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String,lang:String,remoteLoc:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel"></a>
+      <a id="pretrained(String,String,String):annotators.re.RelationExtractionDLModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="remoteLoc">remoteLoc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a></span>
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="remoteLoc">remoteLoc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@pretrained(name:String,lang:String,remoteLoc:String):T" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@pretrained(name:String,lang:String,remoteLoc:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a> → HasPretrained</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pretrained(name:String,lang:String):T"></a>
-      <a id="pretrained(String,String):RelationExtractionModel"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> → HasPretrained</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String,lang:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel"></a>
+      <a id="pretrained(String,String):annotators.re.RelationExtractionDLModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a></span>
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@pretrained(name:String,lang:String):T" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@pretrained(name:String,lang:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a> → HasPretrained</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pretrained(name:String):T"></a>
-      <a id="pretrained(String):RelationExtractionModel"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> → HasPretrained</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel"></a>
+      <a id="pretrained(String):annotators.re.RelationExtractionDLModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a></span>
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@pretrained(name:String):T" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@pretrained(name:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a> → HasPretrained</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pretrained():T"></a>
-      <a id="pretrained():RelationExtractionModel"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> → HasPretrained</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel#pretrained" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained():com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel"></a>
+      <a id="pretrained():annotators.re.RelationExtractionDLModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">pretrained</span><span class="params">()</span><span class="result">: <a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a></span>
+        <span class="name">pretrained</span><span class="params">()</span><span class="result">: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@pretrained():T" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@pretrained():com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Java compliant-overrides</p><div class="fullcomment"><div class="comment cmt"><p>Java compliant-overrides</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a> → HasPretrained</dd></dl></div>
+      <p class="shortcomment cmt">Java compliant-overrides</p><div class="fullcomment"><div class="comment cmt"><p>Java compliant-overrides</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> → HasPretrained</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable#read" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="read:org.apache.spark.ml.util.MLReader[T]"></a>
-      <a id="read:MLReader[RelationExtractionModel]"></a>
+      <a id="read:MLReader[annotators.re.RelationExtractionDLModel]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">read</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLReader">MLReader</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</span>
+        <span class="name">read</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLReader">MLReader</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@read:org.apache.spark.ml.util.MLReader[T]" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@read:org.apache.spark.ml.util.MLReader[T]" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ParamsAndFeaturesReadable → DefaultParamsReadable → MLReadable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph#readGenericClassifierGraph" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readGenericClassifierGraph(instance:com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel,path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a>
-      <a id="readGenericClassifierGraph(annotators.generic_classifier.GenericClassifierModel,String,SparkSession):Unit"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel#readTensorflow" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="readTensorflow(instance:com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel,path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a>
+      <a id="readTensorflow(annotators.re.RelationExtractionDLModel,String,SparkSession):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">readGenericClassifierGraph</span><span class="params">(<span name="instance">instance: <a href="../../annotators/generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">annotators.generic_classifier.GenericClassifierModel</a></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">readTensorflow</span><span class="params">(<span name="instance">instance: <a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@readGenericClassifierGraph(instance:com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel,path:String,spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@readTensorflow(instance:com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel,path:String,spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel#readTensorflowChkPoints" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readTensorflowChkPoints(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
+      <a id="readTensorflowChkPoints(path:&lt;?&gt;,spark:&lt;?&gt;,suffix:&lt;?&gt;,zipped:&lt;?&gt;,tags:&lt;?&gt;,initAllTables:&lt;?&gt;):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
       <a id="readTensorflowChkPoints(String,SparkSession,String,Boolean,Array[String],Boolean):TensorflowWrapper"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -549,13 +566,13 @@
         <span class="name">readTensorflowChkPoints</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="initAllTables">initAllTables: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@readTensorflowChkPoints(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@readTensorflowChkPoints(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ReadTensorflowModel</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel#readTensorflowHub" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readTensorflowHub(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
+      <a id="readTensorflowHub(path:&lt;?&gt;,spark:&lt;?&gt;,suffix:&lt;?&gt;,zipped:&lt;?&gt;,useBundle:&lt;?&gt;,tags:&lt;?&gt;):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
       <a id="readTensorflowHub(String,SparkSession,String,Boolean,Boolean,Array[String]):TensorflowWrapper"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -566,7 +583,7 @@
         <span class="name">readTensorflowHub</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="useBundle">useBundle: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@readTensorflowHub(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@readTensorflowHub(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String]):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -583,13 +600,13 @@
         <span class="name">readTensorflowModel</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="useBundle">useBundle: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="initAllTables">initAllTables: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@readTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@readTensorflowModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ReadTensorflowModel</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel#readTensorflowWithSPModel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readTensorflowWithSPModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean,loadSP:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
+      <a id="readTensorflowWithSPModel(path:&lt;?&gt;,spark:&lt;?&gt;,suffix:&lt;?&gt;,zipped:&lt;?&gt;,useBundle:&lt;?&gt;,tags:&lt;?&gt;,initAllTables:&lt;?&gt;,loadSP:&lt;?&gt;):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a>
       <a id="readTensorflowWithSPModel(String,SparkSession,String,Boolean,Boolean,Array[String],Boolean,Boolean):TensorflowWrapper"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -600,7 +617,7 @@
         <span class="name">readTensorflowWithSPModel</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="zipped">zipped: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="useBundle">useBundle: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="tags">tags: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="initAllTables">initAllTables: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="loadSP">loadSP: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@readTensorflowWithSPModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean,loadSP:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@readTensorflowWithSPModel(path:String,spark:org.apache.spark.sql.SparkSession,suffix:String,zipped:Boolean,useBundle:Boolean,tags:Array[String],initAllTables:Boolean,loadSP:Boolean):com.johnsnowlabs.ml.tensorflow.TensorflowWrapper" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -617,12 +634,12 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph#tfFile" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel#tfFile" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tfFile:String"></a>
       <a id="tfFile:String"></a>
       <h4 class="signature">
@@ -631,14 +648,14 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">tfFile</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">tfFile</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@tfFile:String" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@tfFile:String" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a> → ReadTensorflowModel</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../annotators/re/ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a> → ReadTensorflowModel</dd></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -651,7 +668,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@toString():String" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@toString():String" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -668,7 +685,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -691,7 +708,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -714,7 +731,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionModel$@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.jsl.annotator.package$$RelationExtractionDLModel$@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -738,20 +755,20 @@
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">
-              <h3>Inherited from <a href="../../annotators/generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.HasPretrained">
-              <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">
-              <h3>Inherited from <a href="../../annotators/generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">
+              <h3>Inherited from <a href="../../annotators/re/ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">
+              <h3>Inherited from <a href="../../annotators/re/ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.HasPretrained">
+              <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">
-              <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</h3>
+              <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>]</h3>
             </div><div class="parent" name="org.apache.spark.ml.util.DefaultParamsReadable">
-              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</h3>
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>]</h3>
             </div><div class="parent" name="org.apache.spark.ml.util.MLReadable">
-              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="package.html#RelationExtractionModel=com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" class="extmbr" name="com.johnsnowlabs.nlp.jsl.annotator.RelationExtractionModel">RelationExtractionModel</a>]</h3>
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="../../annotators/re/RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">annotators.re.RelationExtractionDLModel</a>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
