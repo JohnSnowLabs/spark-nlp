@@ -121,7 +121,7 @@ import sparknlp
 # Start Spark Session with Spark NLP
 # start() functions has two parameters: gpu and spark23
 # sparknlp.start(gpu=True) will start the session with GPU support
-# sparknlp.start(sparrk23=True) is when you have Apache Spark 2.3.x installed
+# sparknlp.start(spark23=True) is when you have Apache Spark 2.3.x installed
 spark = sparknlp.start()
 
 # Download a pre-trained pipeline
