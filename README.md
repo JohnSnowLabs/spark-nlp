@@ -43,7 +43,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 * [Examples](#examples)  
 * [FAQ](#faq)
 * [Troubleshooting](#troubleshooting)
-* [Acknowledgments](#acknowledgments)
+* [Citation](#citation)
 * [Contributing](#contributing)
 
 ## Features
@@ -703,25 +703,33 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 Need more **examples**? Check out our dedicated [Spark NLP Showcase](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository to showcase all Spark NLP use cases!
 
-In addition, don't forget to check [Spark NLP in Action](https://demo.johnsnowlabs.com/) built by Streamlit.
+In addition, don't forget to check [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo) built by Streamlit.
 
 ### All examples: [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
 
 ## FAQ
 
-[Check our Articles and FAQ page here](https://nlp.johnsnowlabs.com/articles.html)
+[Check our Articles and Videos page here](https://nlp.johnsnowlabs.com/learn)
 
-## Acknowledgments
+## Citation
 
-### Special community acknowledgments
+We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2665963821000063) that you can cite for the Spark NLP library:
 
-Thanks in general to the community who have been lately reporting important issues and pull request with bugfixes.
-The community has been key in the last releases with feedback in various Spark-based environments.
-
-Here a few specific mentions for recurring feedback and slack participation
-
-* [@maziyarpanahi](https://github.com/maziyarpanahi) - For contributing with testing and valuable feedback
-* [@easimadi](https://github.com/easimadi) - For contributing with documentation and valuable feedback
+```bibtex
+@article{KOCAMAN2021100058,
+    title = {Spark NLP: Natural language understanding at scale},
+    journal = {Software Impacts},
+    pages = {100058},
+    year = {2021},
+    issn = {2665-9638},
+    doi = {https://doi.org/10.1016/j.simpa.2021.100058},
+    url = {https://www.sciencedirect.com/science/article/pii/S2665963821000063},
+    author = {Veysel Kocaman and David Talby},
+    keywords = {Spark, Natural language processing, Deep learning, Tensorflow, Cluster},
+    abstract = {Spark NLP is a Natural Language Processing (NLP) library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that can scale easily in a distributed environment. Spark NLP comes with 1100+ pretrained pipelines and models in more than 192+ languages. It supports nearly all the NLP tasks and modules that can be used seamlessly in a cluster. Downloaded more than 2.7 million times and experiencing 9x growth since January 2020, Spark NLP is used by 54% of healthcare organizations as the world’s most widely used NLP library in the enterprise.}
+    }
+}
+```
 
 ## Contributing
 
