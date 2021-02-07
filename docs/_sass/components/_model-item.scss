@@ -5,14 +5,23 @@
   box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);
   padding: 20px;
   margin-bottom: 30px;
+  display: block;
 }
 
 .model-item__header {
+  border-bottom: 1px solid #e8f8ff;
+  padding: 0 20px 12px;
+}
+
+.model-item__title {
+  height: 66px;
   font-family: Montserrat, sans-serif;
   font-weight: bold;
   font-size: 18px;
-  border-bottom: 1px solid #e8f8ff;
-  padding: 0 20px 12px;
+  line-height: 22px;
+  box-sizing: content-box;
+  overflow: hidden;
+  display: block;
 }
 
 .model-item__content {
