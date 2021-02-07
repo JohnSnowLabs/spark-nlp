@@ -24,7 +24,15 @@ On the upper side of the **Labeling** screen, you can find the list of labels de
 
 ### Completions
 
-A **completion** is a list of annotations manually defined by a user for a given task. When the work on a task is done (e.g. all entities have been highlighted in the document or the task has been assigned one or more classes in the case of classification projects) the user clicks on the **Submit** button. This will create a new completion and will automatically load the next task for annotation. 
+A **completion** is a list of annotations manually defined by a user for a given task. When the work on a task is done (e.g. all entities have been highlighted in the document or the task has been assigned one or more classes in the case of classification projects) the user clicks on the **Save** button. 
+
+Starting Annotation Lab 1.2.0, we introduced the idea of completion submission. In the past, annotators could change or delete completions as many times as they wanted with no restriction. From now on, a submitted completion is no longer editable and cannot be deleted. Creating a new copy of the submitted completion is the only option to edit it. An annotator can modify or delete his/her completions only if the completions are not submitted yet. 
+
+<img class="image image--xl" src="/assets/images/annotation_lab/submit.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+This is an important feature for ensuring a complete audit trail of all user actions. Now, it is possible to track the history and details of any deleted completions, which was not possible in previous releases. This means it is possible to see the name of the completion creator, date of creation, and deletion.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/history.png" style="width:60%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ### Predictions
 A **prediction** is a list of annotations created automatically, via the use of Spark NLP pretrained models. Predictions are created using the "Preannotate" button form the **Task** view. Predictions are read only - users can see them but cannot modify them in any way. 
