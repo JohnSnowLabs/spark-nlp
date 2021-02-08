@@ -4,10 +4,11 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
+import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.functions.when
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 import scala.language.reflectiveCalls
@@ -110,7 +111,7 @@ class LightPipelineTestSpec extends FlatSpec {
     val text = "hello world, this is some sentence"
   }
 
-  "An LightPipeline with normalizer" should "annotate for each annotator" in {
+  "An LightPipeline with normalizer" should "annotate for each annotator" taggedAs FastTest in {
     val annotations = new LightPipeline(fixtureWithNormalizer.model).fullAnnotate(fixtureWithNormalizer.textArray)
     annotations.foreach { mapAnnotations =>
       mapAnnotations.values.foreach { annotations =>
@@ -122,12 +123,12 @@ class LightPipelineTestSpec extends FlatSpec {
     }
   }
 
-  it should "annotate for each string in the text array" in {
+  it should "annotate for each string in the text array" taggedAs FastTest in {
     val annotations = new LightPipeline(fixtureWithNormalizer.model).annotate(fixtureWithNormalizer.textArray)
     assert(fixtureWithNormalizer.textArray.length == annotations.length)
   }
 
-  it should "annotate single chunks of text with proper token amount" in {
+  it should "annotate single chunks of text with proper token amount" taggedAs FastTest in {
     val annotations = new LightPipeline(fixtureWithNormalizer.model)
     val result = Benchmark.time("Time to annotate single text") {
       annotations.annotate(fixtureWithNormalizer.text)
@@ -136,7 +137,7 @@ class LightPipelineTestSpec extends FlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a tranditional pipelineWithNormalizer" in {
+  it should "run faster than a tranditional pipelineWithNormalizer" taggedAs FastTest in {
     val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithNormalizer results") {
       fixtureWithNormalizer.model.transform(fixtureWithNormalizer.textDF).collect
     }
@@ -148,7 +149,7 @@ class LightPipelineTestSpec extends FlatSpec {
     assert(t1 > t2)
   }
 
-  "An LightPipeline without normalizer" should "annotate for each annotator" in {
+  "An LightPipeline without normalizer" should "annotate for each annotator" taggedAs FastTest in {
     val annotations = new LightPipeline(fixtureWithoutNormalizer.model).fullAnnotate(fixtureWithoutNormalizer.textArray)
     annotations.foreach { mapAnnotations =>
       mapAnnotations.values.foreach { annotations =>
@@ -161,12 +162,12 @@ class LightPipelineTestSpec extends FlatSpec {
     }
   }
 
-  it should "annotate for each string in the text array" in {
+  it should "annotate for each string in the text array" taggedAs FastTest in {
     val annotations = new LightPipeline(fixtureWithoutNormalizer.model).annotate(fixtureWithoutNormalizer.textArray)
     assert(fixtureWithoutNormalizer.textArray.length == annotations.length)
   }
 
-  it should "annotate single chunks of text with proper token amount" in {
+  it should "annotate single chunks of text with proper token amount" taggedAs FastTest in {
     val annotations = new LightPipeline(fixtureWithoutNormalizer.model)
     val result = Benchmark.time("Time to annotate single text") {
       annotations.annotate(fixtureWithoutNormalizer.text)
@@ -175,7 +176,7 @@ class LightPipelineTestSpec extends FlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a tranditional pipelineWithoutNormalizer" in {
+  it should "run faster than a tranditional pipelineWithoutNormalizer" taggedAs FastTest in {
     val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithoutNormalizer results") {
       fixtureWithoutNormalizer.model.transform(fixtureWithoutNormalizer.textDF).collect
     }

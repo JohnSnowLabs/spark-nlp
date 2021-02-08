@@ -4,9 +4,12 @@ title: Detect Anatomical Structures (Single Entity - embeddings_clinical)
 author: John Snow Labs
 name: ner_anatomy_coarse_en
 date: 2020-11-04
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.1
 tags: [ner, en, licensed, clinical]
 article_header:
-type: cover
+  type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -32,42 +35,40 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-nlpPipeline = Pipeline(stages=[clinical_ner])
-
-empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
-
+...
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
+model = nlpPipeline.fit(spark.createDataFrame([["content in the lung tissue"]]).toDF("text"))
 results = model.transform(data)
-
 ```
 
 ```scala
-
+...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(ner))
-
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
-
-
 ```
 
 </div>
 
 {:.h2_title}
 ## Results
-The output is a dataframe with a sentence per row and a "ner" column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select "token.result" and "ner.result" from your output dataframe or add the "Finisher" to the end of your pipeline.me:
+The output is a dataframe with a sentence per row and a ``ner`` column containing all of the entity labels in the sentence, entity character indices, and other metadata. To get only the tokens and entity labels, without the metadata, select ``token.result`` and ``ner.result`` from your output dataframe or add the ``Finisher`` to the end of your pipeline.
 ```bash
 |    | ner_chunk         | entity    |
-|---:|:------------------|:----------|
+|---:|------------------:|----------:|
 |  0 | lung tissue       | Anatomy   |
 ```
 

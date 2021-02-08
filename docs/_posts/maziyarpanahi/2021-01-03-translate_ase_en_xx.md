@@ -4,6 +4,9 @@ title: Translate American Sign Language to English Pipeline
 author: John Snow Labs
 name: translate_ase_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ase
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, ase, en, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Part of Speech for Bhojpuri (pos_ud_bhtb)
 author: John Snow Labs
 name: pos_ud_bhtb
 date: 2021-01-18
+task: POS
+language: bh
+edition: Spark NLP 2.7.0
 tags: [bho, bh, pos, open_source]
 article_header:
   type: cover
@@ -19,8 +22,8 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 `ADJ`, `ADP`, `ADV`, `AUX`, `CCONJ`, `DET`, `INTJ`, `NOUN`, `NUM`, `PART`, `PRON`, `PROPN`, `PUNCT`, `SCONJ`, `VERB`, and `X`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_bhtb_bh_2.7.0_2.4_1610989017843.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

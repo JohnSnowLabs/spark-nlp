@@ -4,6 +4,9 @@ title: Part of Speech for Japanese
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2021-01-03
+task: POS
+language: ja
+edition: Spark NLP 2.7.0
 tags: [pos, ja, open_source]
 article_header:
   type: cover
@@ -15,8 +18,8 @@ use_language_switcher: "Python-Scala-Java"
 This model annotates the part of speech of tokens in a text. The parts of speech annotated include PRON (pronoun), CCONJ (coordinating conjunction), and 13 others. The part of speech model is useful for extracting the grammatical structure of a piece of text automatically.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_gsd_ja_2.7.0_2.4_1609700150824.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

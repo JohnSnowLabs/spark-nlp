@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DeIdentificationModel - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
-          <meta name="description" content="DeIdentificationModel - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
-          <meta name="keywords" content="DeIdentificationModel Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <title>DeIdentificationModel - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
+          <meta name="description" content="DeIdentificationModel - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <meta name="keywords" content="DeIdentificationModel Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -466,6 +466,23 @@ It utilizes the main point of interest which is getAnonymizeSentence() and calls
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#chunkSameEntity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="chunkSameEntity(chunkA:com.johnsnowlabs.nlp.Annotation,chunkB:com.johnsnowlabs.nlp.Annotation):Boolean"></a>
+      <a id="chunkSameEntity(Annotation,Annotation):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">chunkSameEntity</span><span class="params">(<span name="chunkA">chunkA: <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span></span>, <span name="chunkB">chunkB: <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@chunkSameEntity(chunkA:com.johnsnowlabs.nlp.Annotation,chunkB:com.johnsnowlabs.nlp.Annotation):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a>
       <a id="clear(Param[_]):DeIdentificationModel.this.type"></a>
@@ -678,6 +695,23 @@ It utilizes the main point of interest which is getAnonymizeSentence() and calls
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AnnotatorModel</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#duplicateClean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="duplicateClean(entities:Seq[com.johnsnowlabs.nlp.Annotation],entitiesToCompare:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="duplicateClean(Seq[Annotation],Seq[Annotation]):Seq[Annotation]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">duplicateClean</span><span class="params">(<span name="entities">entities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="entitiesToCompare">entitiesToCompare: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@duplicateClean(entities:Seq[com.johnsnowlabs.nlp.Annotation],entitiesToCompare:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -1009,6 +1043,23 @@ This method is called for each sentence in the input collection of Annotations
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getFakerEntity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getFakerEntity(entity:String):String"></a>
+      <a id="getFakerEntity(String):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getFakerEntity</span><span class="params">(<span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@getFakerEntity(entity:String):String" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <a id="getInputCols:Array[String]"></a>
@@ -1188,7 +1239,7 @@ This method is called for each sentence in the input collection of Annotations
 </p><div class="fullcomment"><div class="comment cmt"><p>Returns the tokens for each Annotation instance in the input Sequence
 </p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>a Sequence of Annotation instances</p></dd><dt>returns</dt><dd class="cmt"><p>a Sequence of Sequence[IndexedToken], each Sequence represents tokens from each input Annotation</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#handleEntitiesDifferences" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="handleEntitiesDifferences(nerEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexEntities:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="handleEntitiesDifferences(AEntities:Seq[com.johnsnowlabs.nlp.Annotation],BEntities:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
       <a id="handleEntitiesDifferences(Seq[Annotation],Seq[Annotation]):Seq[Annotation]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1196,16 +1247,16 @@ This method is called for each sentence in the input collection of Annotations
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">handleEntitiesDifferences</span><span class="params">(<span name="nerEntities">nerEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="regexEntities">regexEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
+        <span class="name">handleEntitiesDifferences</span><span class="params">(<span name="AEntities">AEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="BEntities">BEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@handleEntitiesDifferences(nerEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexEntities:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@handleEntitiesDifferences(AEntities:Seq[com.johnsnowlabs.nlp.Annotation],BEntities:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns a complement of NER entities against RegEx entities
-</p><div class="fullcomment"><div class="comment cmt"><p>Returns a complement of NER entities against RegEx entities
-</p></div><dl class="paramcmts block"><dt class="param">nerEntities</dt><dd class="cmt"><p>a sequence of NER Entities to combine</p></dd><dt class="param">regexEntities</dt><dd class="cmt"><p>an sequence of Regex Entities to combine</p></dd><dt>returns</dt><dd class="cmt"><p>a Sequence of Annotation, which is difference between NER and RegEx</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns a complement of A entities against B entities
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns a complement of A entities against B entities
+</p></div><dl class="paramcmts block"><dt class="param">AEntities</dt><dd class="cmt"><p>a sequence of Entities to combine</p></dd><dt class="param">BEntities</dt><dd class="cmt"><p>an sequence of Entities to combine</p></dd><dt>returns</dt><dd class="cmt"><p>a Sequence of Annotation, which is difference between NER and RegEx</p></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a>
       <a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1651,18 +1702,18 @@ This method is called for each sentence in the input collection of Annotations
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#mergeEntities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="mergeEntities(nerEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexEntities:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
-      <a id="mergeEntities(Seq[Annotation],Seq[Annotation]):Seq[Annotation]"></a>
+      <a id="mergeEntities(nerEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexOverride:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="mergeEntities(Seq[Annotation],Seq[Annotation],Boolean):Seq[Annotation]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mergeEntities</span><span class="params">(<span name="nerEntities">nerEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="regexEntities">regexEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
+        <span class="name">mergeEntities</span><span class="params">(<span name="nerEntities">nerEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="regexEntities">regexEntities: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>, <span name="regexOverride">regexOverride: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@mergeEntities(nerEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexEntities:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@mergeEntities(nerEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexEntities:Seq[com.johnsnowlabs.nlp.Annotation],regexOverride:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1788,6 +1839,23 @@ This method is called for each sentence in the input collection of Annotations
       </a>
     </span>
       <p class="shortcomment cmt">When mode==&quot;obfuscate&quot; whether to obfuscate dates or not.</p><div class="fullcomment"><div class="comment cmt"><p>When mode==&quot;obfuscate&quot; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible. When setting to <code>true</code>, make sure dateFormats param fits the needs (default: false)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#obfuscateRefSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="obfuscateRefSource:org.apache.spark.ml.param.Param[String]"></a>
+      <a id="obfuscateRefSource:Param[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">obfuscateRefSource</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@obfuscateRefSource:org.apache.spark.ml.param.Param[String]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable#onWrite" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="onWrite(path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a>
       <a id="onWrite(String,SparkSession):Unit"></a>
@@ -1890,6 +1958,23 @@ This method is called for each sentence in the input collection of Annotations
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#regexOverride" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="regexOverride:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="regexOverride:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">regexOverride</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@regexOverride:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#regexPatternsDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="regexPatternsDictionary:com.johnsnowlabs.nlp.serialization.MapFeature[String,Array[String]]"></a>
       <a id="regexPatternsDictionary:MapFeature[String,Array[String]]"></a>
@@ -2396,6 +2481,23 @@ This method is called for each sentence in the input collection of Annotations
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setObfuscateRefSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setObfuscateRefSource(s:String):DeIdentificationParams.this.type"></a>
+      <a id="setObfuscateRefSource(String):DeIdentificationModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setObfuscateRefSource</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@setObfuscateRefSource(s:String):DeIdentificationParams.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a>
       <a id="setOutputCol(String):DeIdentificationModel.this.type"></a>
@@ -2430,6 +2532,23 @@ This method is called for each sentence in the input collection of Annotations
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setRegexOverride" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setRegexOverride(s:Boolean):DeIdentificationParams.this.type"></a>
+      <a id="setRegexOverride(Boolean):DeIdentificationModel.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRegexOverride</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel@setRegexOverride(s:Boolean):DeIdentificationParams.this.type" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#setRegexPatternsDictionary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setRegexPatternsDictionary(value:Map[String,Array[String]]):DeIdentificationModel.this.type"></a>
       <a id="setRegexPatternsDictionary(Map[String,Array[String]]):DeIdentificationModel.this.type"></a>

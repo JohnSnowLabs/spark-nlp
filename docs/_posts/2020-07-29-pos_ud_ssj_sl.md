@@ -4,6 +4,9 @@ title: Part of Speech for Slovenian
 author: John Snow Labs
 name: pos_ud_ssj
 date: 2020-07-29 23:35:00 +0800
+task: POS
+language: sl
+edition: Spark NLP 2.5.5
 tags: [pos, sl]
 article_header:
 type: cover

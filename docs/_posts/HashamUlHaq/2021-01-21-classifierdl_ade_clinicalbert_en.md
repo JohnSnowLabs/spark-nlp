@@ -4,6 +4,9 @@ title: Classifier for Adverse Drug Events using clinical bert - SparkNLP 2.7.1+
 author: John Snow Labs
 name: classifierdl_ade_clinicalbert
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, licensed, classifier, clinical]
 article_header:
   type: cover

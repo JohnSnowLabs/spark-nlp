@@ -6,6 +6,8 @@ name: sbiobertresolve_rxnorm
 language: en
 repository: clinical/models
 date: 2020-11-27
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.4
 tags: [clinical,entity_resolution,en]
 article_header:
     type: cover
@@ -22,7 +24,7 @@ RxNorm Codes and their normalized definition with ``sbiobert_base_cased_mli`` em
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_en_2.6.4_2.4_1606235763316.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
@@ -98,7 +100,7 @@ val result = pipeline.fit(Seq.empty["This is an 82 - year-old male with a histor
 |---------------|---------------------|
 | Name:         | sbiobertresolve_rxnorm        |
 | Type:          | SentenceEntityResolverModel     |
-| Compatibility: | Spark NLP 2.6.5 +               |
+| Compatibility: | Spark NLP 2.6.4 +               |
 | License:       | Licensed            |
 | Edition:       | Official          |
 |Input labels:        | [ner_chunk, chunk_embeddings]     |

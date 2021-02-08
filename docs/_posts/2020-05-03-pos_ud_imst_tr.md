@@ -4,6 +4,9 @@ title: Part of Speech for Turkish
 author: John Snow Labs
 name: pos_ud_imst
 date: 2020-05-03 12:43:00 +0800
+task: POS
+language: tr
+edition: Spark NLP 2.5.0
 tags: [pos, tr]
 article_header:
 type: cover

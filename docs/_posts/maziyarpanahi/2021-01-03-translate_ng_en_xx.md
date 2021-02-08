@@ -4,6 +4,9 @@ title: Translate Ndonga to English Pipeline
 author: John Snow Labs
 name: translate_ng_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ng
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, ng, en, xx]
 article_header:
   type: cover

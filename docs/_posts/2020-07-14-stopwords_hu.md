@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Hungarian
 author: John Snow Labs
 name: stopwords_hu
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: hu
+edition: Spark NLP 2.5.4
 tags: [stopwords, hu]
 article_header:
   type: cover

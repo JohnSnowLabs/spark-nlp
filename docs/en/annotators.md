@@ -4,7 +4,7 @@ header: true
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2020-10-01"
+modify_date: "2021-02-01"
 use_language_switcher: "Python-Scala"
 ---
 
@@ -41,27 +41,29 @@ The types are:
 
 - DOCUMENT = "document"
 - TOKEN = "token"
-- CHUNK = "chunk"
-- POS = "pos"
+- WORDPIECE = "wordpiece"
 - WORD_EMBEDDINGS = "word_embeddings"
 - SENTENCE_EMBEDDINGS = "sentence_embeddings"
+- CATEGORY = "category"
 - DATE = "date"
 - ENTITY = "entity"
-- CATEGORY = "category"
 - SENTIMENT = "sentiment"
+- POS = "pos"
+- CHUNK = "chunk"
 - NAMED_ENTITY = "named_entity"
+- NEGEX = "negex"
 - DEPENDENCY = "dependency"
 - LABELED_DEPENDENCY = "labeled_dependency"
-
-There are annotators freely available in the Open Source version of
-Spark-NLP. More are available in the licensed version of Spark NLP.
-Visit www.johnsnowlabs.com for more information about getting a license.
+- LANGUAGE = "language"
+- KEYWORD = "keyword"
 
 {:.table-model-big}
 |Annotator|Description|Version |
 |---|---|---|
 |Tokenizer|Identifies tokens with tokenization open standards|Opensource|
+|WordSegmenter|Trainable annotator for word segmentation of languages without any rule-based tokenization such as Chinese, Japanese, or Korean|Opensource|
 |Normalizer|Removes all dirty characters from text|Opensource|
+|DocumentNormalizer|Cleaning content from HTML or XML documents|Opensource|
 |Stemmer|Returns hard-stems out of words with the objective of retrieving the meaningful part of the word|Opensource|
 |Lemmatizer|Retrieves lemmas out of words with the objective of returning a base dictionary word|Opensource|
 |StopWordsCleaner|This annotator excludes from a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences|Opensource|
@@ -70,6 +72,7 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |Chunker|Matches a pattern of part-of-speech tags in order to return meaningful phrases from document|Opensource|
 |NGramGenerator|integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library|Opensource|
 |DateMatcher|Reads from different forms of date and time expressions and converts them to a provided date format|Opensource|
+|MultiDateMatcher|Reads from multiple different forms of date and time expressions and converts them to a provided date format|Opensource|
 |SentenceDetector|Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter|Opensource|
 |POSTagger|Sets a Part-Of-Speech tag to each word within a sentence. |Opensource|
 |ViveknSentimentDetector|Scores a sentence for a sentiment|Opensource|
@@ -86,6 +89,8 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |ClassifierDL|Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes|Opensource|
 |MultiClassifierDL|Multi-label Text Classification. MultiClassifierDL uses a Bidirectional GRU with Convolution model that we have built inside TensorFlow and supports up to 100 classes.|Opensource|
 |SentimentDL|Multi-class Sentiment Analysis Annotator. SentimentDL is an annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets|Opensource|
+|T5Transformer|for Text-To-Text Transfer Transformer (Google T5) models to achieve state-of-the-art results on multiple NLP tasks such as Translation, Summarization, Question Answering, Sentence Similarity, and so on|Opensource|
+|MarianTransformer|Neural Machine Translation based on MarianNMT models being developed by the Microsoft Translator team|Opensource|
 |LanguageDetectorDL|State-of-the-art language detection and identification annotator trained by using TensorFlow/keras neural networks|Opensource|
 |YakeModel|Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction algorithm.|Opensource|
 |NerDL|Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings)|Opensource|
@@ -96,10 +101,6 @@ Visit www.johnsnowlabs.com for more information about getting a license.
 |DependencyParser|Unlabeled parser that finds a grammatical relation between two words in a sentence|Opensource|
 |TypedDependencyParser|Labeled parser that finds a grammatical relation between two words in a sentence|Opensource|
 |PubTator reader|Converts automatic annotations of the biomedical datasets into Spark DataFrame|Opensource|
-|AssertionLogReg|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
-|AssertionDL|It will classify each clinicaly relevant named entity into its assertion type: "present", "absent", "hypothetical", etc.|Licensed|
-|EntityResolver|Assigns a ICD10 (International Classification of Diseases version 10) code to chunks identified as "PROBLEMS" by the NER Clinical Model|Licensed|
-|DeIdentification|Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.|Licensed|
 
 </div>
 
@@ -155,6 +156,44 @@ val tokenizer = new Tokenizer()
     .setSplitChars(Array('-'))
     .addException("New York")
     .addException("e-mail")
+```
+
+</div></div><div class="h3-box" markdown="1">
+
+## DocumentNormalizer (Text cleaning)
+
+Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.  
+**Output type:** Document  
+**Input types:** Document  
+**Reference:** [DocumentNormalizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizer.scala)  
+**Functions:**
+
+- setCleanupPatterns(patterns): normalization regex patterns which match will be removed from document. Defaults is "<[^>]*>".
+- setLowercase(value): whether to convert strings to lowercase, default false
+- setRemovalPolicy(policy): removalPolicy to remove pattern from text
+
+**Example:**
+
+Refer to the [DocumentNormalizer](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.Normalizer) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+documentNormalizer = DocumentNormalizer() \
+      .setInputCols("document") \
+      .setOutputCol("normalizedDocument") \
+      .setCleanupPatterns(cleanUpPatterns) \
+      .setRemovalPolicy(removalPolicy)
+```
+
+```scala
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("normalizedDocument")
+      .setCleanupPatterns(cleanUpPatterns)
+      .setRemovalPolicy(removalPolicy)
 ```
 
 </div></div><div class="h3-box" markdown="1">
@@ -511,6 +550,9 @@ Reads from different forms of date and time expressions and converts them to a p
 **Functions:**
 
 - setDateFormat(format): SimpleDateFormat standard date *output* formatting. Defaults to yyyy/MM/dd
+- setAnchorDateYear: Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021
+- setAnchorDateMonth: Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January
+- setAnchorDateDay: Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11
 
 **Example:**
 
@@ -522,14 +564,81 @@ Refer to the [DateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowla
 
 ```python
 date_matcher = DateMatcher() \
-    .setInputCols('document')
+    .setInputCols('document')\
     .setOutputCol("date") \
     .setDateFormat("yyyy/MM/dd")
 ```
 
 ```scala
 val dateMatcher = new DateMatcher()
-    .setInputCols('document')
+    .setInputCols("document")
+    .setOutputCol("date")
+    .setFormat("yyyyMM")
+```
+
+## MultiDateMatcher
+
+Reads from multiple different forms of date and time expressions and converts them to a provided date format. Extracts multiple dates per sentence.
+**Output type:** Date  
+**Input types:** Document  
+**Reference:** [MultiDateMatcher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcher.scala)  
+**Reads the following kind of dates:**
+
+- 1978-01-28
+- 1984/04/02
+- 1/02/1980
+- 2/28/79
+- The 31st of April in the year 2008
+- Fri, 21 Nov 1997
+- Jan 21, '97
+- Sun, Nov 21
+- jan 1st
+- next thursday
+- last wednesday
+- today
+- tomorrow
+- yesterday
+- next week
+- next month
+- next year
+- day after
+- the day before
+- 0600h
+- 06:00 hours
+- 6pm
+- 5:30 a.m.
+- at 5
+- 12:59
+- 23:59
+- 1988/11/23 6pm
+- next week at 7.30
+- 5 am tomorrow
+  
+**Functions:**
+
+- setDateFormat(format): SimpleDateFormat standard date *output* formatting. Defaults to yyyy/MM/dd
+- setAnchorDateYear: Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021
+- setAnchorDateMonth: Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January
+- setAnchorDateDay: Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11
+
+**Example:**
+
+Refer to the [MultiDateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.MultiDateMatcher) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+date_matcher = MultiDateMatcher() \
+    .setInputCols('document')\
+    .setOutputCol("date") \
+    .setDateFormat("yyyy/MM/dd")
+```
+
+```scala
+val dateMatcher = new MultiDateMatcher()
+    .setInputCols("document")
     .setOutputCol("date")
     .setFormat("yyyyMM")
 ```
@@ -537,7 +646,6 @@ val dateMatcher = new DateMatcher()
 </div></div><div class="h3-box" markdown="1">
 
 ## SentenceDetector
-
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Sentence

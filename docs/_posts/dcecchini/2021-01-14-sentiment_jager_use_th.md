@@ -1,9 +1,12 @@
 ---
 layout: model
-title: Sentiment Analysis for Thai ()
+title: Sentiment Analysis for Thai (sentiment_jager_use)
 author: John Snow Labs
 name: sentiment_jager_use
 date: 2021-01-14
+task: Sentiment Analysis
+language: th
+edition: Spark NLP 2.7.1
 tags: [sentiment, th, open_source]
 article_header:
   type: cover
@@ -12,7 +15,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Analise sentiment in reviews by classifying them as `positive` and `negative`. When the sentiment probability is below a customizable threshold (default to `0.6`)  then resulting document will be labeled as `neutral`. This model is trained using the multilingual `UniversalSentenceEncoder` sentence embeddings, and uses DL approach to classify the sentiments.
+Analyze sentiment in reviews by classifying them as `positive` and `negative`. When the sentiment probability is below a customizable threshold (default to `0.6`)  then resulting document will be labeled as `neutral`. This model is trained using the multilingual `UniversalSentenceEncoder` sentence embeddings, and uses DL approach to classify the sentiments.
 
 ## Predicted Entities
 
@@ -105,7 +108,7 @@ The model was trained on the custom corpus from [Jager V3](https://github.com/Ja
 |--------------|-----------|--------|----------|---------|
 | negative     | 0.94      | 0.99   | 0.96     | 82      |
 | positive     | 0.97      | 0.87   | 0.92     | 38      |
-| accuracy     | 0.95      | 120    |          |         |
+| accuracy     |           |        | 0.95     | 120     |
 | macro avg    | 0.96      | 0.93   | 0.94     | 120     |
 | weighted avg | 0.95      | 0.95   | 0.95     | 120     |
 ```

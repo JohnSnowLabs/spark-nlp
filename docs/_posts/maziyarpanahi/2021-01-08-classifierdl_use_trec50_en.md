@@ -4,6 +4,9 @@ title: TREC(50) Question Classifier
 author: John Snow Labs
 name: classifierdl_use_trec50
 date: 2021-01-08
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [classifier, text_classification, en, open_source]
 article_header:
   type: cover
@@ -21,7 +24,7 @@ Classify open-domain, fact-based questions into sub categories of the following 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_TREC/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_trec50_en_2.7.0_2.4_1610118328412.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_trec50_en_2.7.1_2.4_1610118328412.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -77,7 +80,7 @@ val result = pipeline.fit(Seq.empty["When did the construction of stone circles 
 {:.table-model}
 |---|---|
 |Model Name:|classifierdl_use_trec50|
-|Compatibility:|Spark NLP 2.7.0+|
+|Compatibility:|Spark NLP 2.7.1+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

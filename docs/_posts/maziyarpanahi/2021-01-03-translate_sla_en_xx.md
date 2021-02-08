@@ -4,6 +4,9 @@ title: Translate Slavic languages to English Pipeline
 author: John Snow Labs
 name: translate_sla_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: sla
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, sla, en, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Detect Symptoms, Treatments and Other Entities in German
 author: John Snow Labs
 name: ner_healthcare
 date: 2020-09-28
+task: Named Entity Recognition
+language: de
+edition: Spark NLP for Healthcare 2.6.0
 tags: [ner, clinical, de, licensed]
 article_header:
 type: cover
@@ -29,30 +32,29 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
+   .setInputCols(["document","token"])\
+   .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-clinical_ner_converter = NerConverterInternal().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
-
+...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, clinical_ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom")
 
 ```
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")
+   .setInputCols(Array("document","token"))
+   .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
-  
-val ner_converter = NerCoverterInternal().setInputCols("sentence", "token", "ner").setOutputCol("ner_chunk")
-
+...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, clinical_ner_converter))
-
 val result = pipeline.fit(Seq.empty["Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom"].toDS.toDF("text")).transform(data)
 
 ```

@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.annotators.common.TokenizedSentence
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, SparkAccessor}
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.functions.explode
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -13,7 +14,7 @@ import scala.collection.mutable.{Set => MSet}
 trait PerceptronApproachBehaviors { this: FlatSpec =>
 
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
-    s"Average Perceptron tagger" should "successfully train a provided wsj corpus" in {
+    s"Average Perceptron tagger" should "successfully train a provided wsj corpus" taggedAs FastTest in {
       val trainingSentences = ResourceHelper.parseTupleSentences(ExternalResource(trainingSentencesPath, ReadAs.TEXT, Map("delimiter" -> "|")))
       val nIterations = 1
       val trainingPerceptronDF = POS().readDataset(ResourceHelper.spark, trainingSentencesPath, "|", "tags")
@@ -36,8 +37,8 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
                                  trainedTagger: PerceptronModel,
                                  targetSentences: Array[TokenizedSentence]
                                ): Unit = {
-    s"Average Perceptron tagger" should "successfully tag all word sentences after training" in {
-      val result = trainedTagger.tag(targetSentences)
+    s"Average Perceptron tagger" should "successfully tag all word sentences after training" taggedAs FastTest in {
+      val result = trainedTagger.tag(trainedTagger.getModel, targetSentences)
       assert(result.head.words.length == targetSentences.head.tokens.length, "because tagger returned less than" +
         " the amount of appropriate tagged words")
     }
@@ -48,8 +49,8 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
                                   targetSentence: Array[TokenizedSentence],
                                   expectedTags: Array[String]
                                 ): Unit = {
-    s"Average Perceptron tagger" should "successfully return expected tags" in {
-      val resultTags = trainedTagger.tag(targetSentence).head
+    s"Average Perceptron tagger" should "successfully return expected tags" taggedAs FastTest in {
+      val resultTags = trainedTagger.tag(trainedTagger.getModel, targetSentence).head
       val resultContent = resultTags.taggedWords.zip(expectedTags)
         .filter(rte => rte._1.tag != rte._2)
         .map(rte => (rte._1.word, (rte._1.tag, rte._2)))
@@ -61,14 +62,14 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   }
 
   def sparkBasedPOSTagger(dataset: => Dataset[Row]): Unit = {
-    "a Perceptron POS tagger Annotator" should s"successfully tag sentences " in {
+    "a Perceptron POS tagger Annotator" should s"successfully tag sentences " taggedAs FastTest in {
       val df = AnnotatorBuilder.withFullPOSTagger(dataset)
       df.show(1)
       val posCol = df.select("pos")
       assert(posCol.first.getSeq[Row](0).head.getAs[String](0)  == "pos", "Annotation type should be equal to `pos`")
     }
 
-    it should "tag each word sentence" in {
+    it should "tag each word sentence" taggedAs FastTest in {
       val df = AnnotatorBuilder.withFullPOSTagger(dataset)
       val posCol = df.select("pos")
       val tokensCol = df.select("token")
@@ -79,7 +80,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
       }
     }
 
-    it should "annotate with the correct word index" in {
+    it should "annotate with the correct word index" taggedAs FastTest in {
       case class IndexedWord(word: String, begin: Int, end:Int) {
         def equals(o: IndexedWord): Boolean = { this.word == o.word && this.begin == o.begin && this.end == o.end }
       }
@@ -95,7 +96,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   }
 
   def sparkBasedPOSTraining(path: String, test: String): Unit = {
-    it should "successfully train from a POS Column" in {
+    it should "successfully train from a POS Column" taggedAs FastTest in {
 
       // Convert text token|tag into DataFrame with POS annotation column
       val pos = POS()
@@ -120,7 +121,7 @@ trait PerceptronApproachBehaviors { this: FlatSpec =>
   }
 
   def readDatasetInPOS(path: String, trueLabels: List[(String, Int)]): Unit = {
-    it should "successfully extract tokens and POS tags" in {
+    it should "successfully extract tokens and POS tags" taggedAs FastTest in {
 
       // Convert text token_tag into DataFrame with POS annotation column
       val pos = POS()

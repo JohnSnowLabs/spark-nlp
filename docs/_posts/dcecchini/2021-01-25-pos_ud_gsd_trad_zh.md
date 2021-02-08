@@ -4,6 +4,9 @@ title: Part of Speech for Traditional Chinese
 author: John Snow Labs
 name: pos_ud_gsd_trad
 date: 2021-01-25
+task: POS
+language: zh
+edition: Spark NLP 2.7.0
 tags: [pos, zh, open_source]
 article_header:
   type: cover

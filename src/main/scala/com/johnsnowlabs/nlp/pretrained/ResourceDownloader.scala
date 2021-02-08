@@ -16,9 +16,11 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+import com.johnsnowlabs.nlp.annotators.seq2seq.{MarianTransformer, T5Transformer}
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
+import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
@@ -460,7 +462,10 @@ object PythonResourceDownloader {
     "StopWordsCleaner" -> StopWordsCleaner,
     "BertSentenceEmbeddings" -> BertSentenceEmbeddings,
     "MultiClassifierDLModel" -> MultiClassifierDLModel,
-    "SentenceDetectorDLModel" -> SentenceDetectorDLModel
+    "SentenceDetectorDLModel" -> SentenceDetectorDLModel,
+    "T5Transformer" -> T5Transformer,
+    "MarianTransformer" -> MarianTransformer,
+    "WordSegmenterModel" -> WordSegmenterModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

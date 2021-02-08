@@ -4,6 +4,9 @@ title: Fast and Accurate Language Identification - 21 Languages (CNN)
 author: John Snow Labs
 name: ld_wiki_tatoeba_cnn_21
 date: 2020-12-05
+task: Language Detection
+language: xx
+edition: Spark NLP 2.7.0
 tags: [open_source, language_detection, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Detect Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-09-30
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.5.5
 tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
@@ -31,30 +34,29 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
-
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate("The patient presented to the emergency room last evening")
 
 ```
 
 ```scala
 ...
-
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_events_clinical", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
-
 ...
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-
 val result = pipeline.fit(Seq.empty["The patient presented to the emergency room last evening"].toDS.toDF("text")).transform(data)
 
 ```

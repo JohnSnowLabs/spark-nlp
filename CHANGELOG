@@ -1,4 +1,92 @@
 ========
+2.7.3
+========
+---------------
+New Features
+---------------
+* Add anchorDateYear, anchorDateMonth, and anchorDateDay to DateMatcher and MultiDateMatcher to be used for relative dates extraction
+
+----------------
+Bugfixes
+----------------
+* Fix the default value for action parameter in Python wrapper for DocumentNormalizer annotator
+* Fix Lemmatizer pretrained models published in 2021
+
+----------------
+Enhancements
+----------------
+* Improve T5Transformer performance on documents with many sentences
+
+
+========
+2.7.2
+========
+----------------
+Bugfixes
+----------------
+* Fix casual mask calculations resulting in bad translation in MarianTransformer
+* Fix Serialization issue in the cluster while training ContextSpellChecker
+* Fix calculating CHUNK spans based on the sentences' boundaries in RegexMatcher
+
+----------------
+Enhancements
+----------------
+* Add GPU support for training ContextSpellChecker
+* Adding Scalatest ability to control tests by tags
+
+
+========
+2.7.1
+========
+----------------
+Bugfixes
+----------------
+* Fix default pretrained model T5Transformer
+* Fix default pretrained model WordSegmenter
+* Fix missing reference to WordSegmenter in ResourceDwonloader
+* Fix T5Transformer models crashing due to unknown task
+* Fix the issue of saving and reading ClassifierDL, SentimentDL, and MultiClassifierDL models introduced in the 2.7.0 release
+
+----------------
+Enhancements
+----------------
+* Export new T5 models with optimized Encoder/Decoder
+* Add support for alternative tagging with the positional parser in RegexTokenizer
+* Refactor AssertAnnotations
+
+----------------
+Backward compatibility
+----------------
+* In order to fix the issue of Classifiers in the clusters, we had to export new TF models and change the read/write functions of these annotators. This caused any model trained prior to the 2.7.0 release not to be compatible with 2.7.1 and require retraining including pre-trained models. (we are re-training all the existing text classification models with 2.7.1)
+
+
+========
+2.7.0
+========
+------------------------------
+Major features and improvements
+------------------------------
+* Introducing MarianTransformer annotator for machine translation based on MarianNMT models. Marian is an efficient, free Neural Machine Translation framework mainly being developed by the Microsoft Translator team (646+ pretrained models & pipelines in 192+ languages)
+* Introducing T5Transformer annotator for Text-To-Text Transfer Transformer (Google T5) models to achieve state-of-the-art results on multiple NLP tasks such as Translation, Summarization, Question Answering, Sentence Similarity, and so on
+* Introducing brand new and refactored language detection and identification models. The new LanguageDetectorDL is faster, more accurate, and supports up to 375 languages
+* Introducing WordSegmenter annotator, a trainable annotator for word segmentation of languages without any rule-based tokenization such as Chinese, Japanese, or Korean
+* Introducing DocumentNormalizer annotator cleaning content from HTML or XML documents, applying either data cleansing using an arbitrary number of custom regular expressions either data extraction following the different parameters
+* [Spark NLP Display](https://github.com/JohnSnowLabs/spark-nlp-display) for visualization of different types of annotations
+* Add support for new multi-lingual models in UniversalSentenceEncoder annotator
+* Add support to Lemmatizer to be trained directly from a DataFrame instead of a text file
+* Add training helper to transform CoNLL-U into Spark NLP annotator type columns
+
+----------------
+Bugfixes and Enhancements
+----------------
+* Fix all the known issues in ClassifierDL, SentimentDL, and MultiClassifierDL annotators in a Cluster
+* NerDL enhancements for memory optimization and logging during the training with the test dataset
+* SentenceEmbeddings annotator now reuses the storageRef of any embeddings used in prior
+* Fix dropout in SentenceDetectorDL models for more deterministic results. Both English and Multi-lingual models are retrained for the 2.7.0 release
+* Fix Python dataType Annotation
+* Upgrade to Apache Spark 2.4.7
+
+========
 2.6.5
 ========
 ----------------

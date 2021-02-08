@@ -4,6 +4,9 @@ title: Part of Speech for Portuguese
 author: John Snow Labs
 name: pos_ud_bosque
 date: 2020-05-03 12:54:00 +0800
+task: POS
+language: pt
+edition: Spark NLP 2.5.0
 tags: [pos, pt]
 article_header:
 type: cover

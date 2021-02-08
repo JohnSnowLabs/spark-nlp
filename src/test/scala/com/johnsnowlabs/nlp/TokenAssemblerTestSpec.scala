@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.DataFrame
 import org.scalatest._
 
@@ -48,7 +49,7 @@ class TokenAssemblerTestSpec extends FlatSpec {
     pipelineDF
   }
 
-  "TokenAssembler" should "correctly turn tokens into original document in simple example" in {
+  "TokenAssembler" should "correctly turn tokens into original document in simple example" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
@@ -63,7 +64,7 @@ class TokenAssemblerTestSpec extends FlatSpec {
                 s"\nresult was \n${assemFirst.length} \nexpected is: \n${corpusFirst.length}")
   }
 
-  "TokenAssembler" should "correctly turn tokens into original document in sentence with line breaks" in {
+  "TokenAssembler" should "correctly turn tokens into original document in sentence with line breaks" taggedAs FastTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -80,7 +81,7 @@ class TokenAssemblerTestSpec extends FlatSpec {
         s"\nresult was \n${assemFirst.length} \nexpected is: \n${rawData.length}")
   }
 
-  "TokenAssembler" should "correctly merge tokens after StopWordsCleaner" in {
+  "TokenAssembler" should "correctly merge tokens after StopWordsCleaner" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")

@@ -4,10 +4,11 @@ val is_gpu = System.getProperty("is_gpu","false")
 val is_spark23 = System.getProperty("is_spark23","false")
 
 val spark23Ver = "2.3.4"
-val spark24Ver = "2.4.4"
+val spark24Ver = "2.4.7"
 val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
 val scalaVer = "2.11.12"
 val scalaTestVersion = "3.0.0"
+
 
 /** Package attributes */
 
@@ -24,7 +25,7 @@ if (is_gpu.equals("true") && is_spark23.equals("true")){
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.6.5"
+version := "2.7.3"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -93,7 +94,8 @@ developers in ThisBuild:= List(
   Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan")),
-  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq"))
+  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq")),
+  Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov"))
 )
 
 
@@ -182,9 +184,26 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
-parallelExecution in Test := false
+/** Test tagging start */
+// Command line fast:test
+lazy val FastTest = config("fast") extend Test
+// Command line slow:test
+lazy val SlowTest = config("slow") extend Test
 
+configs(FastTest, SlowTest)
+
+parallelExecution in Test := false
 logBuffered in Test := false
+testOptions in Test := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+
+inConfig(FastTest)(Defaults.testTasks)
+testOptions in FastTest := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+parallelExecution in FastTest := false
+
+inConfig(SlowTest)(Defaults.testTasks)
+testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
+parallelExecution in SlowTest := false
+/** Test tagging end */
 
 scalacOptions ++= Seq(
   "-feature",

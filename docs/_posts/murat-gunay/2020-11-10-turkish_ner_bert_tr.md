@@ -4,6 +4,9 @@ title: Detect Persons, Locations and Organization Entities in Turkish (bert_mult
 author: John Snow Labs
 name: turkish_ner_bert
 date: 2020-11-10
+task: Named Entity Recognition
+language: tr
+edition: Spark NLP 2.6.2
 tags: [tr, open_source]
 article_header:
   type: cover
@@ -29,7 +32,7 @@ Persons-``PER``, Locations-``LOC``, Organizations-``ORG``.
 Use as part of an NLP pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -53,6 +56,16 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 val result = pipeline.fit(Seq.empty["William Henry Gates III (28 Ekim 1955 doğumlu), Amerikalı bir iş adamı, yazılım geliştirici, yatırımcı ve hayırseverdir. En çok Microsoft şirketinin kurucu ortağı olarak bilinir. William Gates , Microsoft şirketindeki kariyeri boyunca başkan, icra kurulu başkanı, başkan ve yazılım mimarisi başkanı pozisyonlarında bulunmuş, aynı zamanda Mayıs 2014'e kadar en büyük bireysel hissedar olmuştur. O, 1970'lerin ve 1980'lerin mikrobilgisayar devriminin en tanınmış girişimcilerinden ve öncülerinden biridir. Seattle Washington'da doğup büyüyen William Gates, 1975'te New Mexico Albuquerque'de çocukluk arkadaşı Paul Allen ile Microsoft şirketini kurdu; dünyanın en büyük kişisel bilgisayar yazılım şirketi haline geldi. William Gates, Ocak 2000'de icra kurulu başkanı olarak istifa edene kadar şirketi başkan ve icra kurulu başkanı olarak yönetti ve daha sonra yazılım mimarisi başkanı oldu. 1990'ların sonlarında, William Gates rekabete aykırı olduğu düşünülen iş taktikleri nedeniyle eleştirilmişti. Bu görüş, çok sayıda mahkeme kararıyla onaylanmıştır. Haziran 2006'da William Gates, Microsoft şirketinde yarı zamanlı bir göreve ve 2000 yılında eşi Melinda Gates ile birlikte kurdukları özel hayır kurumu olan B&Melinda G. Vakfı'nda tam zamanlı çalışmaya geçeceğini duyurdu. Görevlerini kademeli olarak Ray Ozzie ve Craig Mundie'ye devretti. Şubat 2014'te Microsoft başkanlığından ayrıldı ve yeni atanan icra kurulu başkanı, Satya Nadella'yı desteklemek için teknoloji danışmanı olarak yeni bir göreve başladı."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+text = ["""William Henry Gates III (28 Ekim 1955 doğumlu), Amerikalı bir iş adamı, yazılım geliştirici, yatırımcı ve hayırseverdir. En çok Microsoft şirketinin kurucu ortağı olarak bilinir. William Gates , Microsoft şirketindeki kariyeri boyunca başkan, icra kurulu başkanı, başkan ve yazılım mimarisi başkanı pozisyonlarında bulunmuş, aynı zamanda Mayıs 2014'e kadar en büyük bireysel hissedar olmuştur. O, 1970'lerin ve 1980'lerin mikrobilgisayar devriminin en tanınmış girişimcilerinden ve öncülerinden biridir. Seattle Washington'da doğup büyüyen William Gates, 1975'te New Mexico Albuquerque'de çocukluk arkadaşı Paul Allen ile Microsoft şirketini kurdu; dünyanın en büyük kişisel bilgisayar yazılım şirketi haline geldi. William Gates, Ocak 2000'de icra kurulu başkanı olarak istifa edene kadar şirketi başkan ve icra kurulu başkanı olarak yönetti ve daha sonra yazılım mimarisi başkanı oldu. 1990'ların sonlarında, William Gates rekabete aykırı olduğu düşünülen iş taktikleri nedeniyle eleştirilmişti. Bu görüş, çok sayıda mahkeme kararıyla onaylanmıştır. Haziran 2006'da William Gates, Microsoft şirketinde yarı zamanlı bir göreve ve 2000 yılında eşi Melinda Gates ile birlikte kurdukları özel hayır kurumu olan B&Melinda G. Vakfı'nda tam zamanlı çalışmaya geçeceğini duyurdu. Görevlerini kademeli olarak Ray Ozzie ve Craig Mundie'ye devretti. Şubat 2014'te Microsoft başkanlığından ayrıldı ve yeni atanan icra kurulu başkanı, Satya Nadella'yı desteklemek için teknoloji danışmanı olarak yeni bir göreve başladı."""]
+
+ner_df = nlu.load('tr.ner.bert').predict(text, output_level = "chunk")
+ner_df[["entities", "entities_confidence"]]
+```
+
 </div>
 
 {:.h2_title}

@@ -4,6 +4,9 @@ title: Detect PHI for Deidentification (Augmented)
 author: John Snow Labs
 name: ner_deid_augmented
 date: 2021-01-20
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, deidentify, ner, clinical, licensed]
 article_header:
   type: cover

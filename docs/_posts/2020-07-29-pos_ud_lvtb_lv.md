@@ -4,6 +4,9 @@ title: Part of Speech for Latvian
 author: John Snow Labs
 name: pos_ud_lvtb
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: lv
+edition: Spark NLP 2.5.5
 tags: [pos, lv]
 article_header:
 type: cover

@@ -4,6 +4,9 @@ title: Sentence Embeddings - Biobert cased (MedNLI)
 author: John Snow Labs
 name: sbiobert_base_cased_mli
 date: 2020-11-27
+task: Embeddings
+language: en
+edition: Spark NLP for Healthcare 2.6.4
 tags: [embeddings, en, licensed]
 article_header:
     type: cover

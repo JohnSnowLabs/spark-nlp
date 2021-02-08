@@ -4,6 +4,9 @@ title: Detect Drugs - Generalized Single Entity (ner_drugs_greedy)
 author: John Snow Labs
 name: ner_drugs_greedy
 date: 2020-12-14
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.5
 tags: [ner, licensed, en, clinical]
 article_header:
   type: cover
@@ -32,24 +35,28 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_drugs_greedy", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 results = model.transform(spark.createDataFrame([["DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."]]).toDF("text"))
 ```
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 val clinical_ner = NerDLModel.pretrained("ner_drugs_greedy", "en", "clinical/models")
-     .setInputCols(Array("sentence", "token", "embeddings"))
-     .setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter))
-
 val result = pipeline.fit(Seq.empty["DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."].toDS.toDF("text")).transform(data)
 ```
 </div>

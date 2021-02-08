@@ -4,6 +4,9 @@ title: BioBERT Embeddings (Clinical)
 author: John Snow Labs
 name: biobert_clinical_base_cased
 date: 2020-09-19
+task: Embeddings
+language: en
+edition: Spark NLP 2.6.2
 tags: [embeddings, en, open_source]
 article_header:
   type: cover

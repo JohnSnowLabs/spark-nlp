@@ -7,7 +7,30 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+## 1.10.0
+
+#### Overview
+
+Support Microsoft Docx documents.
+
+#### New Features
+
+* Added [DocToText](ocr_pipeline_components#doctotext) transformer for extract text
+from DOCX documents.
+* Added [DocToTextTable](ocr_pipeline_components#doctotexttable) transformer for extract
+table data from DOCX documents.
+* Added [DocToPdf](ocr_pipeline_components#doctopdf) transformer for convert DOCX
+ documents to PDF format.
+
+#### Bugfixes
+
+* Fixed issue with loading model data on some cluster configurations
+
+
+
 ## 1.9.0
+
+Release date: 11-12-2020
 
 #### Overview
 

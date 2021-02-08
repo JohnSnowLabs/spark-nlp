@@ -4,6 +4,9 @@ title: Explain Document Pipeline - CARP
 author: John Snow Labs
 name: explain_clinical_doc_carp
 date: 2020-08-19
+task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
+language: en
+edition: Spark NLP for Healthcare 2.5.5
 tags: [pipeline, en, clinical, licensed]
 article_header:
   type: cover
@@ -15,7 +18,7 @@ A pretrained pipeline with ``ner_clinical``, ``assertion_dl``, ``re_clinical`` a
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/explain_clinical_doc_carp_en_2.5.5_2.4_1597841630062.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

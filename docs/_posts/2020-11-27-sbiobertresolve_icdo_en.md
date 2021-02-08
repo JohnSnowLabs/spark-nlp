@@ -6,6 +6,8 @@ name: sbiobertresolve_icdo
 language: en
 repository: clinical/models
 date: 2020-11-27
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.4
 tags: [clinical,entity_resolution,en]
 article_header:
     type: cover
@@ -21,7 +23,7 @@ ICD-O Codes and their normalized definition with ``sbiobert_base_cased_mli`` emb
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icdo_en_2.6.4_2.4_1606235766320.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
