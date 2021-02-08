@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Niger-Kordofanian Languages to
 author: John Snow Labs
 name: opus_mt_nic_en
 date: 2020-12-28
+task: Translation
+language: nic
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, nic, en, xx]
 article_header:
   type: cover

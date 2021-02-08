@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Philippine Languages to Englis
 author: John Snow Labs
 name: opus_mt_phi_en
 date: 2020-12-28
+task: Translation
+language: phi
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, phi, en, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Kongo to English
 author: John Snow Labs
 name: opus_mt_kg_en
 date: 2020-12-28
+task: Translation
+language: kg
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, kg, en, xx]
 article_header:
   type: cover

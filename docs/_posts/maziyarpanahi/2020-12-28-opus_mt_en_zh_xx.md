@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Chinese
 author: John Snow Labs
 name: opus_mt_en_zh
 date: 2020-12-28
+task: Translation
+language: zh
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, zh, xx]
 article_header:
   type: cover

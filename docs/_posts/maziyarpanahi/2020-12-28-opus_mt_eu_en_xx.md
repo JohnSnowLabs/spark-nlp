@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Basque to English
 author: John Snow Labs
 name: opus_mt_eu_en
 date: 2020-12-28
+task: Translation
+language: eu
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, eu, en, xx]
 article_header:
   type: cover

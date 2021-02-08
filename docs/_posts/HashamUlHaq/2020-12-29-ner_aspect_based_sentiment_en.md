@@ -4,6 +4,9 @@ title: Aspect based Sentiment Analysis for restaurant reviews
 author: John Snow Labs
 name: ner_aspect_based_sentiment
 date: 2020-12-29
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.6.2
 tags: [sentiment, open_source, en, ner]
 article_header:
   type: cover

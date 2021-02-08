@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Hausa
 author: John Snow Labs
 name: opus_mt_en_ha
 date: 2020-12-28
+task: Translation
+language: ha
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, ha, xx]
 article_header:
   type: cover

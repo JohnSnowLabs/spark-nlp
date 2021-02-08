@@ -4,6 +4,9 @@ title: Named Entity Recognition - BERT Base (OntoNotes)
 author: John Snow Labs
 name: onto_bert_base_cased
 date: 2020-12-05
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.7.0
 tags: [ner, en, open_source]
 article_header:
   type: cover
@@ -32,6 +35,9 @@ This model uses the pretrained `bert_base_cased` embeddings model from `BertEmbe
 
 ```python
 ...
+embeddings = BertEmbeddings.pretrained("bert_base_cased", "en") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("embeddings")
 ner_onto = NerDLModel.pretrained("onto_bert_base_cased", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
@@ -44,6 +50,9 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["
 
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
 val ner_onto = NerDLModel.pretrained("onto_bert_base_cased", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")

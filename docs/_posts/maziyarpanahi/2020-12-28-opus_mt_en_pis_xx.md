@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Pijin
 author: John Snow Labs
 name: opus_mt_en_pis
 date: 2020-12-28
+task: Translation
+language: pis
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, pis, xx]
 article_header:
   type: cover

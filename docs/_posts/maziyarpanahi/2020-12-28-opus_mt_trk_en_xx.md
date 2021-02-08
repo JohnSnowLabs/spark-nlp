@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Turkic Languages to English
 author: John Snow Labs
 name: opus_mt_trk_en
 date: 2020-12-28
+task: Translation
+language: trk
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, trk, en, xx]
 article_header:
   type: cover

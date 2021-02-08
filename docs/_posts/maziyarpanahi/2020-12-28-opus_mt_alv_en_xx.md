@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Atlantic-Congo Languages to En
 author: John Snow Labs
 name: opus_mt_alv_en
 date: 2020-12-28
+task: Translation
+language: alv
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, alv, en, xx]
 article_header:
   type: cover

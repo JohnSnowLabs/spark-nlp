@@ -4,7 +4,7 @@ header: true
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
-modify_date: "2021-01-23"
+modify_date: "2021-02-01"
 use_language_switcher: "Python-Scala"
 ---
 
@@ -72,6 +72,7 @@ The types are:
 |Chunker|Matches a pattern of part-of-speech tags in order to return meaningful phrases from document|Opensource|
 |NGramGenerator|integrates Spark ML NGram function into Spark ML with a new cumulative feature to also generate range ngrams like the scikit-learn library|Opensource|
 |DateMatcher|Reads from different forms of date and time expressions and converts them to a provided date format|Opensource|
+|MultiDateMatcher|Reads from multiple different forms of date and time expressions and converts them to a provided date format|Opensource|
 |SentenceDetector|Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter|Opensource|
 |POSTagger|Sets a Part-Of-Speech tag to each word within a sentence. |Opensource|
 |ViveknSentimentDetector|Scores a sentence for a sentiment|Opensource|
@@ -549,6 +550,9 @@ Reads from different forms of date and time expressions and converts them to a p
 **Functions:**
 
 - setDateFormat(format): SimpleDateFormat standard date *output* formatting. Defaults to yyyy/MM/dd
+- setAnchorDateYear: Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021
+- setAnchorDateMonth: Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January
+- setAnchorDateDay: Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11
 
 **Example:**
 
@@ -560,14 +564,81 @@ Refer to the [DateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowla
 
 ```python
 date_matcher = DateMatcher() \
-    .setInputCols('document')
+    .setInputCols('document')\
     .setOutputCol("date") \
     .setDateFormat("yyyy/MM/dd")
 ```
 
 ```scala
 val dateMatcher = new DateMatcher()
-    .setInputCols('document')
+    .setInputCols("document")
+    .setOutputCol("date")
+    .setFormat("yyyyMM")
+```
+
+## MultiDateMatcher
+
+Reads from multiple different forms of date and time expressions and converts them to a provided date format. Extracts multiple dates per sentence.
+**Output type:** Date  
+**Input types:** Document  
+**Reference:** [MultiDateMatcher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcher.scala)  
+**Reads the following kind of dates:**
+
+- 1978-01-28
+- 1984/04/02
+- 1/02/1980
+- 2/28/79
+- The 31st of April in the year 2008
+- Fri, 21 Nov 1997
+- Jan 21, '97
+- Sun, Nov 21
+- jan 1st
+- next thursday
+- last wednesday
+- today
+- tomorrow
+- yesterday
+- next week
+- next month
+- next year
+- day after
+- the day before
+- 0600h
+- 06:00 hours
+- 6pm
+- 5:30 a.m.
+- at 5
+- 12:59
+- 23:59
+- 1988/11/23 6pm
+- next week at 7.30
+- 5 am tomorrow
+  
+**Functions:**
+
+- setDateFormat(format): SimpleDateFormat standard date *output* formatting. Defaults to yyyy/MM/dd
+- setAnchorDateYear: Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021
+- setAnchorDateMonth: Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January
+- setAnchorDateDay: Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11
+
+**Example:**
+
+Refer to the [MultiDateMatcher](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.annotators.MultiDateMatcher) Scala docs for more details on the API.
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+date_matcher = MultiDateMatcher() \
+    .setInputCols('document')\
+    .setOutputCol("date") \
+    .setDateFormat("yyyy/MM/dd")
+```
+
+```scala
+val dateMatcher = new MultiDateMatcher()
+    .setInputCols("document")
     .setOutputCol("date")
     .setFormat("yyyyMM")
 ```
@@ -575,7 +646,6 @@ val dateMatcher = new DateMatcher()
 </div></div><div class="h3-box" markdown="1">
 
 ## SentenceDetector
-
 
 Finds sentence bounds in raw text. Applies rules from Pragmatic Segmenter.  
 **Output type:** Sentence
