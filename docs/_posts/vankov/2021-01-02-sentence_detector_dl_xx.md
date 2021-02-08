@@ -4,6 +4,9 @@ title: Sentence Detection in Multi-lingual Texts
 author: John Snow Labs
 name: sentence_detector_dl
 date: 2021-01-02
+task: Sentence Detection
+language: xx
+edition: Spark NLP 2.7.0
 tags: [open_source, xx, sentence_detection]
 article_header:
   type: cover

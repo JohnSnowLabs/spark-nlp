@@ -4,6 +4,9 @@ title: Sentiment Analysis of tweets Pipeline (analyze_sentimentdl_use_twitter)
 author: John Snow Labs
 name: analyze_sentimentdl_use_twitter
 date: 2021-01-18
+task: [Embeddings, Sentiment Analysis, Pipeline Public]
+language: en
+edition: Spark NLP 2.7.1
 tags: [en, sentiment, pipeline, open_source]
 article_header:
   type: cover

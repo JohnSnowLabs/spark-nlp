@@ -4,6 +4,9 @@ title: Part of Speech for Bhojpuri (pos_ud_bhtb)
 author: John Snow Labs
 name: pos_ud_bhtb
 date: 2021-01-18
+task: POS
+language: bh
+edition: Spark NLP 2.7.0
 tags: [bho, bh, pos, open_source]
 article_header:
   type: cover

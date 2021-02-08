@@ -4,6 +4,9 @@ title: Spam Classifier - Spark NLP 2.7.1+
 author: John Snow Labs
 name: classifierdl_use_spam
 date: 2021-01-09
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [open_source, en]
 article_header:
   type: cover

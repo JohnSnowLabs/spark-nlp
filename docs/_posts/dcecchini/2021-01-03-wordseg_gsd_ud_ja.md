@@ -4,6 +4,9 @@ title: Japanese Word Segmentation
 author: John Snow Labs
 name: wordseg_gsd_ud
 date: 2021-01-03
+task: Word Segmentation
+language: ja
+edition: Spark NLP 2.7.0
 tags: [word_segmentation, ja, open_source]
 article_header:
   type: cover
