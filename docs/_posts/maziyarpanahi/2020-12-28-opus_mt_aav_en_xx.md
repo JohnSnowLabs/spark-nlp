@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Austro-Asiatic languages to En
 author: John Snow Labs
 name: opus_mt_aav_en
 date: 2020-12-28
+task: Translation
+language: aav
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, aav, en, xx]
 article_header:
   type: cover

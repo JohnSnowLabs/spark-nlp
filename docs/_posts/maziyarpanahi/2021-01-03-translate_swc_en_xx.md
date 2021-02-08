@@ -4,6 +4,9 @@ title: Translate Congo Swahili to English Pipeline
 author: John Snow Labs
 name: translate_swc_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: swc
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, swc, en, xx]
 article_header:
   type: cover

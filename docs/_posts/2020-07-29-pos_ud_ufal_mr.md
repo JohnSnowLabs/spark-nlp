@@ -4,6 +4,9 @@ title: Part of Speech for Marathi
 author: John Snow Labs
 name: pos_ud_ufal
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: mr
+edition: Spark NLP 2.5.5
 tags: [pos, mr]
 article_header:
 type: cover

@@ -87,7 +87,7 @@ For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spar
 
 ### 3. Introducing SOTA relation extraction model using BioBert
 
-A brand-new end-to-end trained BERT model, resulting in massive improvements. Another new annotator is also developed for this new model to allow syntactic features work well with BioBert to extract relations.
+A brand-new end-to-end trained BERT model, resulting in massive improvements. Another new annotator (`ReChunkFilter`) is also developed for this new model to allow syntactic features work well with BioBert to extract relations.
 
 #### How to use:
 
@@ -123,7 +123,7 @@ model                           | Spark NLP ML model | Spark NLP DL model
 re_bodypart_problem             | 84.58     | 85.7
 re_bodypart_procedure           | 61.0      | 63.3
 re_date_clinical                | 83.0      | 84.0  
-re_bodypart_procedure           | 93.5      | 92.5  
+re_bodypart_direction           | 93.5      | 92.5  
 
 
 For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb) or [modelshub](https://nlp.johnsnowlabs.com/models?tag=relation_extraction).
@@ -179,7 +179,8 @@ pain | PROBLEM | absent |0.9238
 
 ### 5. New Relation Extraction Models:
 
-These models are trained using binary relation extraction approach for better accuracy.
+
+We are also releasing new relation extraction models to link the clinical entities to body parts and dates. These models are trained using binary relation extraction approach for better accuracy.
 
 **- re_bodypart_direction :**  Relation Extraction between `Body Part` and `Direction` entities.
 
@@ -189,15 +190,15 @@ These models are trained using binary relation extraction approach for better ac
 
 relations | entity1                     | chunk1     | entity2                     | chunk2        | confidence
 -----------|-----------------------------|------------|-----------------------------|---------------|------------
-1         | Direction                   | upper      | Internal_organ_or_component | brain stem    | 0.9999989
-0         | Direction                   | upper      | Internal_organ_or_component | cerebellum    | 0.99992585
-0         | Direction                   | upper      | Internal_organ_or_component | basil ganglia | 0.9999999  
-0         | Internal_organ_or_component | brain stem | Direction                   | left          | 0.999811
-0         | Internal_organ_or_component | brain stem | Direction                   | right         | 0.9998203
-1         | Direction                   | left       | Internal_organ_or_component | cerebellum    | 1.0         
-0         | Direction                   | left       | Internal_organ_or_component | basil ganglia | 0.97616416
-0         | Internal_organ_or_component | cerebellum | Direction                   | right         | 0.953046  
-1         | Direction                   | right      | Internal_organ_or_component | basil ganglia | 1.0       
+1         | Direction                   | upper      | bodyPart | brain stem    | 0.999
+0         | Direction                   | upper      | bodyPart | cerebellum    | 0.999
+0         | Direction                   | upper      | bodyPart | basil ganglia | 0.999
+0         | bodyPart | brain stem | Direction                   | left          | 0.999
+0         | bodyPart | brain stem | Direction                   | right         | 0.999
+1         | Direction                   | left       | bodyPart | cerebellum    | 1.0         
+0         | Direction                   | left       | bodyPart | basil ganglia | 0.976
+0         | bodyPart | cerebellum | Direction                   | right         | 0.953
+1         | Direction                   | right      | bodyPart | basil ganglia | 1.0       
 
 
 **- re_bodypart_problem :** Relation Extraction between `Body Part` and `Problem` entities.
@@ -208,8 +209,8 @@ relations | entity1                     | chunk1     | entity2                  
 
 relation | entity1   | chunk1              | entity2                      | chunk2   | confidence  
 --|------------------|--------------------|-----------------------------|---------|-----------  
-0 | Symptom   | neurologic deficits | External_body_part_or_region | hand     |          1
-1 | Symptom   | numbness            | External_body_part_or_region | hand     |          1
+0 | Symptom   | neurologic deficits | bodyPart | hand     |          1
+1 | Symptom   | numbness            | bodyPart | hand     |          1
 
 
 **- re_bodypart_proceduretest :**  Relation Extraction between `Body Part` and `Procedure`, `Test` entities.
@@ -220,7 +221,7 @@ relation | entity1   | chunk1              | entity2                      | chun
 
 relation | entity1                      | chunk1   | entity2   | chunk2              | confidence  
 ---------|-----------------------------|---------|----------|--------------------|-----------
-1 | External_body_part_or_region | chest    | Test      | portable ultrasound |    0.99953
+1 | bodyPart | chest    | Test      | portable ultrasound |    0.999
 
 **-re_date_clinical :** Relation Extraction between `Date` and different clinical entities.   
 

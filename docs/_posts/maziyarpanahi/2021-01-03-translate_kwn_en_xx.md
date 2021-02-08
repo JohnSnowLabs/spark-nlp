@@ -4,6 +4,9 @@ title: Translate Kwangali to English Pipeline
 author: John Snow Labs
 name: translate_kwn_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: kwn
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, kwn, en, xx]
 article_header:
   type: cover

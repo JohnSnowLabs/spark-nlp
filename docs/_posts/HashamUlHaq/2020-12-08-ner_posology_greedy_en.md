@@ -4,6 +4,9 @@ title: Detect Drugs and Posology Entities (ner_posology_greedy)
 author: John Snow Labs
 name: ner_posology_greedy
 date: 2020-12-08
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.5
 tags: [ner, licensed, clinical, en]
 article_header:
   type: cover

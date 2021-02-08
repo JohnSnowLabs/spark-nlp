@@ -4,6 +4,9 @@ title: Translate English to Hindi Pipeline
 author: John Snow Labs
 name: translate_en_hi
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: hi
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, hi, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Luba-Katanga
 author: John Snow Labs
 name: opus_mt_en_lu
 date: 2020-12-29
+task: Translation
+language: lu
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, lu, xx]
 article_header:
   type: cover

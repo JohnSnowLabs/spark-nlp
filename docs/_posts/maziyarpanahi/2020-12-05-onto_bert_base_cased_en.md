@@ -35,6 +35,9 @@ This model uses the pretrained `bert_base_cased` embeddings model from `BertEmbe
 
 ```python
 ...
+embeddings = BertEmbeddings.pretrained("bert_base_cased", "en") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("embeddings")
 ner_onto = NerDLModel.pretrained("onto_bert_base_cased", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
@@ -47,6 +50,9 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["
 
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
 val ner_onto = NerDLModel.pretrained("onto_bert_base_cased", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")

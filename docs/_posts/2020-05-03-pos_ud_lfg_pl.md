@@ -4,6 +4,9 @@ title: Part of Speech for Polish
 author: John Snow Labs
 name: pos_ud_lfg
 date: 2020-05-03 18:18:00 +0800
+task: POS
+language: pl
+edition: Spark NLP 2.5.0
 tags: [pos, pl]
 article_header:
 type: cover

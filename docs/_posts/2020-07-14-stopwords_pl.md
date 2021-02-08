@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Polish
 author: John Snow Labs
 name: stopwords_pl
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: pl
+edition: Spark NLP 2.5.4
 tags: [stopwords, pl]
 article_header:
   type: cover

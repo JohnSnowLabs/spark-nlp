@@ -4,6 +4,9 @@ title: Translate English to French Pipeline
 author: John Snow Labs
 name: translate_en_fr
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: fr
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, fr, xx]
 article_header:
   type: cover

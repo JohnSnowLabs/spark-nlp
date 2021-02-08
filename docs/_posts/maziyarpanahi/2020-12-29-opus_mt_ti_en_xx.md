@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Tigrinya to English
 author: John Snow Labs
 name: opus_mt_ti_en
 date: 2020-12-29
+task: Translation
+language: ti
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, ti, en, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Malagasy
 author: John Snow Labs
 name: opus_mt_en_mg
 date: 2020-12-28
+task: Translation
+language: mg
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, mg, xx]
 article_header:
   type: cover

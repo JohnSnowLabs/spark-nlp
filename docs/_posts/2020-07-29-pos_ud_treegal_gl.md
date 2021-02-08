@@ -4,6 +4,9 @@ title: Part of Speech for Galician
 author: John Snow Labs
 name: pos_ud_treegal
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: gl
+edition: Spark NLP 2.5.5
 tags: [pos, gl]
 article_header:
 type: cover

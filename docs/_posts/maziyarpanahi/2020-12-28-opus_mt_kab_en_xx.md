@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Kabyle to English
 author: John Snow Labs
 name: opus_mt_kab_en
 date: 2020-12-28
+task: Translation
+language: kab
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, kab, en, xx]
 article_header:
   type: cover

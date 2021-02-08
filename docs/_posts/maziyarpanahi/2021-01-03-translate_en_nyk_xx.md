@@ -4,6 +4,9 @@ title: Translate English to Nyaneka Pipeline
 author: John Snow Labs
 name: translate_en_nyk
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: nyk
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, nyk, xx]
 article_header:
   type: cover

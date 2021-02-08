@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Japanese to English
 author: John Snow Labs
 name: opus_mt_ja_en
 date: 2020-12-28
+task: Translation
+language: ja
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, ja, en, xx]
 article_header:
   type: cover

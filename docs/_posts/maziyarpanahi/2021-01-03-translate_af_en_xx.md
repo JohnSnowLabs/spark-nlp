@@ -4,6 +4,9 @@ title: Translate Afrikaans to English Pipeline
 author: John Snow Labs
 name: translate_af_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: af
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, af, en, xx]
 article_header:
   type: cover

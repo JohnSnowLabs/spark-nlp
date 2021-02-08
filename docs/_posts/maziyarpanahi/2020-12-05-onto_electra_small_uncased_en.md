@@ -35,9 +35,12 @@ This model uses the pretrained `electra_small_uncased` embeddgings model from th
 
 ```python
 ...
+embeddings = BertEmbeddings.pretrained("electra_small_uncased", "en") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("embeddings")
 ner_onto = NerDLModel.pretrained("onto_electra_small_uncased", "en") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+      .setInputCols(["document", "token", "embeddings"]) \
+      .setOutputCol("ner")
 ...        
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([['']]).toDF('text'))
@@ -47,9 +50,12 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["
 
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained("electra_small_uncased", "en")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
 val ner_onto = NerDLModel.pretrained("onto_electra_small_uncased", "en")
-        .setInputCols(Array("document", "token", "embeddings"))
-        .setOutputCol("ner")
+      .setInputCols(Array("document", "token", "embeddings"))
+      .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_onto, ner_converter))
 

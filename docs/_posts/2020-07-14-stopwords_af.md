@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Anglo-French
 author: John Snow Labs
 name: stopwords_af
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: af
+edition: Spark NLP 2.5.4
 tags: [stopwords, af]
 article_header:
   type: cover

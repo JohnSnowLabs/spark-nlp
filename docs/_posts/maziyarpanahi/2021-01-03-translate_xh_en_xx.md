@@ -4,6 +4,9 @@ title: Translate Xhosa to English Pipeline
 author: John Snow Labs
 name: translate_xh_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: xh
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, xh, en, xx]
 article_header:
   type: cover

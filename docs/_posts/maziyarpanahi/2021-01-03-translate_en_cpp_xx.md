@@ -4,6 +4,9 @@ title: Translate English to Portuguese-based languages Pipeline
 author: John Snow Labs
 name: translate_en_cpp
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: cpp
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, cpp, xx]
 article_header:
   type: cover

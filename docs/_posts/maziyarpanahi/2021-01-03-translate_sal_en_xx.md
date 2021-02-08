@@ -4,6 +4,9 @@ title: Translate Salishan languages to English Pipeline
 author: John Snow Labs
 name: translate_sal_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: sal
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, sal, en, xx]
 article_header:
   type: cover

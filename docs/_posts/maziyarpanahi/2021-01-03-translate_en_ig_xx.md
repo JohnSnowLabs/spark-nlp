@@ -4,6 +4,9 @@ title: Translate English to Igbo Pipeline
 author: John Snow Labs
 name: translate_en_ig
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ig
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, ig, xx]
 article_header:
   type: cover

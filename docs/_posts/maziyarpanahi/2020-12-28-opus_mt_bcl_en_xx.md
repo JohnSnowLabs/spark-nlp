@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Central Bikol to English
 author: John Snow Labs
 name: opus_mt_bcl_en
 date: 2020-12-28
+task: Translation
+language: bcl
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, bcl, en, xx]
 article_header:
   type: cover

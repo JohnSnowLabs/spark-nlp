@@ -4,6 +4,9 @@ title: Translate Dravidian languages to English Pipeline
 author: John Snow Labs
 name: translate_dra_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: dra
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, dra, en, xx]
 article_header:
   type: cover

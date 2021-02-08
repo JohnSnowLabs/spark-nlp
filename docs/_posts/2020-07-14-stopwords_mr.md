@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Marathi
 author: John Snow Labs
 name: stopwords_mr
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: mr
+edition: Spark NLP 2.5.4
 tags: [stopwords, mr]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Brazilian Sign Language to Eng
 author: John Snow Labs
 name: opus_mt_bzs_en
 date: 2020-12-29
+task: Translation
+language: bzs
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, bzs, en, xx]
 article_header:
   type: cover
