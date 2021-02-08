@@ -4,6 +4,9 @@ title: Named Entity Recognition - BERT Medium (OntoNotes)
 author: John Snow Labs
 name: onto_small_bert_L8_512
 date: 2020-12-05
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.7.0
 tags: [ner, open_source, en]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Detect Person, Organization, Location, Facilitie, Product and Event entit
 author: John Snow Labs
 name: personer_cc_300d
 date: 2020-12-07
+task: Named Entity Recognition
+language: fa
+edition: Spark NLP 2.7.0
 tags: [ner, fa, open_source]
 article_header:
   type: cover
