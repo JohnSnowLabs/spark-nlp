@@ -4,6 +4,9 @@ title: Deidentify PHI (DL)
 author: John Snow Labs
 name: deidentify_dl
 date: 2021-01-28
+task: Deidentification
+language: en
+edition: Spark NLP for Healthcare 2.7.2
 tags: [en, deidentify, clinical, licensed]
 article_header:
   type: cover
