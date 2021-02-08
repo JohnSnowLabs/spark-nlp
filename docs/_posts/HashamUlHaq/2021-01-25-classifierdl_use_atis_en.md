@@ -4,6 +4,9 @@ title: Intent Classification for Airline Traffic Information System queries (ATI
 author: John Snow Labs
 name: classifierdl_use_atis
 date: 2021-01-25
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [en, classifier, open_source]
 article_header:
   type: cover
