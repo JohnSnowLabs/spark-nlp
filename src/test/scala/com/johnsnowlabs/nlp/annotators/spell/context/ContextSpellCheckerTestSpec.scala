@@ -37,7 +37,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       result
     }
 
-    val data = Seq.fill(120)("This is a correct sentence .").toDF("text")
+    val data = Seq("This is a correct sentence .", "This is a correct bananas .").toDF("text")
 
     val documentAssembler =
       new DocumentAssembler().
@@ -358,14 +358,13 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     import scala.collection.JavaConversions._
 
-    val ocrSpellModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
+    val ocrSpellModel = ContextSpellCheckerModel.pretrained()
+    assert(ocrSpellModel.specialTransducers.getOrDefault.size == 5, "default pretrained should come with 5 classes")
 
-    ocrSpellModel.setSpecialClassesTransducers(Seq(new UnitToken))
-
+    // now we update the classes, and persist/unpersist the model
+    ocrSpellModel.setSpecialClassesTransducers(Seq(new DateToken, new NumberToken))
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
-
-    assert(loadedModel.specialTransducers.getOrDefault.size == 2, "default pretrained should come with 2 classes")
 
     // cope with potential change in element order in list
     val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)
