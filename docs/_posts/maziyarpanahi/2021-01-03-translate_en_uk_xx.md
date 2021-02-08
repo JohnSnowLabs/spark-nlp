@@ -4,6 +4,9 @@ title: Translate English to Ukrainian Pipeline
 author: John Snow Labs
 name: translate_en_uk
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: uk
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, uk, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Bengali
 author: John Snow Labs
 name: stopwords_bn
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: bn
+edition: Spark NLP 2.5.4
 tags: [stopwords, bn]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Classifier for Adverse Drug Events in small conversations - SparkNLP 2.7.
 author: John Snow Labs
 name: classifierdl_ade_conversational_biobert
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, licensed, classifier, clinical]
 article_header:
   type: cover

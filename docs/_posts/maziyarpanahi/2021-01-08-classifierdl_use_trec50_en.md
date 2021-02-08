@@ -4,6 +4,9 @@ title: TREC(50) Question Classifier
 author: John Snow Labs
 name: classifierdl_use_trec50
 date: 2021-01-08
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [classifier, text_classification, en, open_source]
 article_header:
   type: cover

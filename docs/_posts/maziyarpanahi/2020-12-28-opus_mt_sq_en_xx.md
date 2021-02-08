@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Albanian to English
 author: John Snow Labs
 name: opus_mt_sq_en
 date: 2020-12-28
+task: Translation
+language: sq
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, sq, en, xx]
 article_header:
   type: cover

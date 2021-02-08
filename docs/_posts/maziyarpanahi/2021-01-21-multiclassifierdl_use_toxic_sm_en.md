@@ -4,6 +4,9 @@ title: Toxic Comment Classification - Small
 author: John Snow Labs
 name: multiclassifierdl_use_toxic_sm
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [open_source, en, text_classification]
 article_header:
   type: cover

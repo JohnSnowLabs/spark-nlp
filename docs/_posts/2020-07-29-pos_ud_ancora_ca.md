@@ -4,6 +4,9 @@ title: Part of Speech for Catalan
 author: John Snow Labs
 name: pos_ud_ancora
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: ca
+edition: Spark NLP 2.5.5
 tags: [pos, ca]
 article_header:
 type: cover

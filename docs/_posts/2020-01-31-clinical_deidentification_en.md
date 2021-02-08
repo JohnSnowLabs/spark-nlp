@@ -7,6 +7,8 @@ class: PipelineModel
 language: en
 repository: clinical/models
 date: 2020-01-31
+task: [Deidentification, Pipeline Healthcare]
+edition: Spark NLP for Healthcare 2.4.0
 tags: [pipeline, clinical, licensed]
 article_header:
    type: cover

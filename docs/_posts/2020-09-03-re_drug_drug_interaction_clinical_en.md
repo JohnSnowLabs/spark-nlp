@@ -7,6 +7,8 @@ class: RelationExtractionModel
 language: en
 repository: clinical/models
 date: 2020-09-03
+task: Relation Extraction
+edition: Spark NLP for Healthcare 2.5.5
 tags: [clinical,licensed,relation extraction,en]
 article_header:
    type: cover

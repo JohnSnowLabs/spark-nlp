@@ -4,6 +4,9 @@ title: Part of Speech for Dutch
 author: John Snow Labs
 name: pos_ud_alpino
 date: 2020-05-04 01:47:00 +0800
+task: POS
+language: nl
+edition: Spark NLP 2.5.0
 tags: [pos, nl]
 article_header:
 type: cover

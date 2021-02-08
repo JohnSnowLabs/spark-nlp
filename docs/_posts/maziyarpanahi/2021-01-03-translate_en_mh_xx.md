@@ -4,6 +4,9 @@ title: Translate English to Marshallese Pipeline
 author: John Snow Labs
 name: translate_en_mh
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: mh
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, mh, xx]
 article_header:
   type: cover

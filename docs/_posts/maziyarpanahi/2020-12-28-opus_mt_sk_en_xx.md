@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Slovak to English
 author: John Snow Labs
 name: opus_mt_sk_en
 date: 2020-12-28
+task: Translation
+language: sk
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, sk, en, xx]
 article_header:
   type: cover

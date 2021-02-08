@@ -4,6 +4,9 @@ title: Relation extraction between body parts and procedures
 author: John Snow Labs
 name: re_bodypart_proceduretest
 date: 2021-01-18
+task: Relation Extraction
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, relation_extraction, clinical, licensed]
 article_header:
   type: cover

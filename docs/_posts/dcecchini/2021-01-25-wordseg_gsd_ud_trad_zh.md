@@ -4,6 +4,9 @@ title: Traditional Chinese Word Segmentation
 author: John Snow Labs
 name: wordseg_gsd_ud_trad
 date: 2021-01-25
+task: Word Segmentation
+language: zh
+edition: Spark NLP 2.7.0
 tags: [word_segmentation, zh, open_source]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from West Germanic languages to Eng
 author: John Snow Labs
 name: opus_mt_gmw_en
 date: 2020-12-28
+task: Translation
+language: gmw
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, gmw, en, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Named Entity Recognition (NER) Model in Swedish (GloVe 6B 100)
 author: John Snow Labs
 name: swedish_ner_6B_100
 date: 2020-08-30
+task: Named Entity Recognition
+language: sv
+edition: Spark NLP 2.6.0
 tags: [ner, sv, open_source]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Part of Speech for Hebrew
 author: John Snow Labs
 name: pos_ud_htb
 date: 2020-12-09
+task: POS
+language: he
+edition: Spark NLP 2.7.0
 tags: [pos, open_source, he]
 article_header:
   type: cover

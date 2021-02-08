@@ -4,6 +4,9 @@ title: Sentiment Analysis of IMDB Reviews Pipeline (analyze_sentimentdl_glove_im
 author: John Snow Labs
 name: analyze_sentimentdl_glove_imdb
 date: 2021-01-15
+task: [Embeddings, Sentiment Analysis, Pipeline Public]
+language: en
+edition: Spark NLP 2.7.1
 tags: [sentiment, en, pipeline]
 article_header:
   type: cover

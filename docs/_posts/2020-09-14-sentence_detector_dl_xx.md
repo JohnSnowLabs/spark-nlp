@@ -7,6 +7,8 @@ class: SentenceDetectorDLModel
 language: xx
 repository: clinical/models
 date: 2020-09-14
+task: Sentence Detection
+edition: Spark NLP 2.6.2
 tags: [open_source,sentence_detection,xx]
 article_header:
    type: cover

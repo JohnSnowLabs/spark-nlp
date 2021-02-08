@@ -4,6 +4,9 @@ title: Classifier for Genders - BIOBERT
 author: John Snow Labs
 name: classifierdl_gender_biobert
 date: 2020-12-16
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.6.5
 tags: [classifier, en, clinical, licensed]
 article_header:
     type: cover

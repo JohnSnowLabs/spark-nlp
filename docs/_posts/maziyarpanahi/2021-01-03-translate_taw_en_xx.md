@@ -4,6 +4,9 @@ title: Translate Tai to English Pipeline
 author: John Snow Labs
 name: translate_taw_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: taw
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, taw, en, xx]
 article_header:
   type: cover

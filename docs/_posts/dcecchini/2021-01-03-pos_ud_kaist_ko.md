@@ -4,6 +4,9 @@ title: Part of Speech for Korean
 author: John Snow Labs
 name: pos_ud_kaist
 date: 2021-01-03
+task: POS
+language: ko
+edition: Spark NLP 2.7.0
 tags: [pos, ko, open_source]
 article_header:
   type: cover

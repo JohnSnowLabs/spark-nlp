@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  line-height: 12px;
+  color: #536b76;
+}
+
+.pagination__text {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.pagination__button {
+  cursor: pointer;
+
+  &[disabled] {
+    visibility: hidden;
+  }
+
+  & + & {
+    margin-left: 10px;
+  }
+}

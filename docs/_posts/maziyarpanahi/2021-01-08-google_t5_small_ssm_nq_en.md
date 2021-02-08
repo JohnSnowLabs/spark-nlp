@@ -4,6 +4,9 @@ title: Google T5 for Closed Book Question Answering Small
 author: John Snow Labs
 name: google_t5_small_ssm_nq
 date: 2021-01-08
+task: Question Answering
+language: en
+edition: Spark NLP 2.7.1
 tags: [open_source, t5, seq2seq, question_answering, en]
 article_header:
   type: cover

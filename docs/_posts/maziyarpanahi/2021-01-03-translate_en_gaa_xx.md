@@ -4,6 +4,9 @@ title: Translate English to Ga Pipeline
 author: John Snow Labs
 name: translate_en_gaa
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: gaa
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, gaa, xx]
 article_header:
   type: cover

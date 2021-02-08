@@ -4,6 +4,9 @@ title: Sentiment Analysis for Urdu (IMDB Review dataset) - Spark NLP 2.7.1+
 author: John Snow Labs
 name: sentimentdl_urduvec_imdb
 date: 2021-01-09
+task: Sentiment Analysis
+language: ur
+edition: Spark NLP 2.7.1
 tags: [ur, open_source, sentiment]
 article_header:
   type: cover

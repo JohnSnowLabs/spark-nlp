@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Oromo to English
 author: John Snow Labs
 name: opus_mt_om_en
 date: 2020-12-28
+task: Translation
+language: om
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, om, en, xx]
 article_header:
   type: cover

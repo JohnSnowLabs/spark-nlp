@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Umbundu
 author: John Snow Labs
 name: opus_mt_en_umb
 date: 2020-12-28
+task: Translation
+language: umb
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, umb, xx]
 article_header:
   type: cover

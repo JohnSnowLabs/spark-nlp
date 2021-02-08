@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Latin
 author: John Snow Labs
 name: stopwords_la
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: la
+edition: Spark NLP 2.5.4
 tags: [stopwords, la]
 article_header:
   type: cover

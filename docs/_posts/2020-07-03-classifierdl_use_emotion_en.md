@@ -7,6 +7,8 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/07/2020
+task: Text Classification
+edition: Spark NLP 2.5.3
 tags: [classifier]
 article_header:
    type: cover

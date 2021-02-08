@@ -4,6 +4,9 @@ title: Translate English to Ruund Pipeline
 author: John Snow Labs
 name: translate_en_rnd
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: rnd
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, rnd, xx]
 article_header:
   type: cover

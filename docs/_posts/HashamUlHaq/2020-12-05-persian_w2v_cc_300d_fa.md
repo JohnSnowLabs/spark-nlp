@@ -4,6 +4,9 @@ title: Word Embeddings for Persian (persian_w2v_cc_300d)
 author: John Snow Labs
 name: persian_w2v_cc_300d
 date: 2020-12-05
+task: Embeddings
+language: fa
+edition: Spark NLP 2.7.0
 tags: [embeddings, fa, open_source]
 article_header:
   type: cover
