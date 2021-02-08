@@ -4,6 +4,9 @@ title: Part of Speech for Hungarian
 author: John Snow Labs
 name: pos_ud_szeged
 date: 2020-05-05 12:50:00 +0800
+task: POS
+language: hu
+edition: Spark NLP 2.5.0
 tags: [pos, hu]
 article_header:
 type: cover

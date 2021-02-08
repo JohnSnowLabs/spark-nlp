@@ -4,6 +4,9 @@ title: PICO Classifier
 author: John Snow Labs
 name: classifierdl_pico_biobert
 date: 2020-11-12
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.6.2
 tags: [classifier, en, licensed, clinical]
 article_header:
 type: cover

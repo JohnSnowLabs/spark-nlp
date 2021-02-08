@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Japanese
 author: John Snow Labs
 name: stopwords_ja
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: ja
+edition: Spark NLP 2.5.4
 tags: [stopwords, ja]
 article_header:
   type: cover

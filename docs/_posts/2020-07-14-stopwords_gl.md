@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Galician
 author: John Snow Labs
 name: stopwords_gl
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: gl
+edition: Spark NLP 2.5.4
 tags: [stopwords, gl]
 article_header:
   type: cover

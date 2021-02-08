@@ -7,6 +7,8 @@ class: WordEmbeddingsModel
 language: es
 repository: clinical/models
 date: 2020-05-26
+task: Embeddings
+edition: Spark NLP for Healthcare 2.5.0
 tags: [clinical,embeddings,es]
 article_header:
    type: cover

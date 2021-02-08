@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Catalan
 author: John Snow Labs
 name: stopwords_ca
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: ca
+edition: Spark NLP 2.5.4
 tags: [stopwords, ca]
 article_header:
   type: cover

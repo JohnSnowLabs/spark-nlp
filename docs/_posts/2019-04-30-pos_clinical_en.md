@@ -7,6 +7,8 @@ class: PerceptronModel
 language: en
 repository: clinical/models
 date: 2019-04-30
+task: POS
+edition: Spark NLP for Healthcare 2.0.2
 tags: [clinical, licensed, pos,en]
 article_header:
    type: cover

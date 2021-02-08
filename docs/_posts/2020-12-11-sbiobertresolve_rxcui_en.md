@@ -6,6 +6,8 @@ name: sbiobertresolve_rxcui
 language: en
 repository: clinical/models
 date: 2020-12-11
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.5
 tags: [clinical,entity_resolution,en]
 article_header:
     type: cover

@@ -6,6 +6,8 @@ name: deidentify_large
 language: en
 repository: clinical/models
 date: 2020-08-04
+task: Deidentification
+edition: Spark NLP for Healthcare 2.5.5
 tags: [deidentify, en, clinical, licensed]
 article_header:
   type: cover

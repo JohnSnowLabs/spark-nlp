@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Spanish
 author: John Snow Labs
 name: stopwords_es
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: es
+edition: Spark NLP 2.5.4
 tags: [stopwords, es]
 article_header:
   type: cover

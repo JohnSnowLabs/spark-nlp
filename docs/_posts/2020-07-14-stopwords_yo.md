@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Yoruba
 author: John Snow Labs
 name: stopwords_yo
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: yo
+edition: Spark NLP 2.5.4
 tags: [stopwords, yo]
 article_header:
   type: cover

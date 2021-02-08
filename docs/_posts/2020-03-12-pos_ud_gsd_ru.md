@@ -4,6 +4,9 @@ title: Part of Speech for Russian
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2020-03-12 13:48:00 +0800
+task: POS
+language: ru
+edition: Spark NLP 2.4.4
 tags: [pos, ru]
 article_header:
 type: cover

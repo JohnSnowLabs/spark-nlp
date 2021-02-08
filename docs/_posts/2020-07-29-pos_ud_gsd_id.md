@@ -4,6 +4,9 @@ title: Part of Speech for Indonesian
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: id
+edition: Spark NLP 2.5.5
 tags: [pos, id]
 article_header:
 type: cover

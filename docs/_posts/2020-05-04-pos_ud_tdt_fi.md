@@ -4,6 +4,9 @@ title: Part of Speech for Finnish
 author: John Snow Labs
 name: pos_ud_tdt
 date: 2020-05-04 23:32:00 +0800
+task: POS
+language: fi
+edition: Spark NLP 2.5.0
 tags: [pos, fi]
 article_header:
 type: cover
