@@ -4,6 +4,9 @@ title: Part of Speech for Urdu
 author: John Snow Labs
 name: pos_ud_udtb
 date: 2020-11-30
+task: POS
+language: ur
+edition: Spark NLP 2.7.0
 tags: [pos, ur]
 article_header:
   type: cover
