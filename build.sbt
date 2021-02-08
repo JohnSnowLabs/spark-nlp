@@ -9,7 +9,7 @@ val is_gpu = System.getProperty("is_gpu","false")
 val is_opt = System.getProperty("is_opt","false")
 val is_spark23 = System.getProperty("is_spark23","false")
 //TODO breaking with older spark Why???
-val is_spark30 = System.getProperty("is_spark30","false")
+val is_spark30 = System.getProperty("is_spark30","true")
 
 def getSparkVersion(is_spark23: String, is_spark30: String): String = {
   if(is_spark30 == "true") spark30Ver
