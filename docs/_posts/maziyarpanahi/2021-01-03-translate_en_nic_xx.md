@@ -4,6 +4,9 @@ title: Translate English to Niger-Kordofanian languages Pipeline
 author: John Snow Labs
 name: translate_en_nic
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: nic
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, nic, xx]
 article_header:
   type: cover

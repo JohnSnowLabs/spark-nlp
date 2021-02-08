@@ -4,6 +4,9 @@ title: Translate English to Romanian Pipeline
 author: John Snow Labs
 name: translate_en_ro
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ro
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, ro, xx]
 article_header:
   type: cover

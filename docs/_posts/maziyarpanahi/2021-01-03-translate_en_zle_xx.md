@@ -4,6 +4,9 @@ title: Translate English to East Slavic languages Pipeline
 author: John Snow Labs
 name: translate_en_zle
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: zle
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, zle, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Translate Shona to English Pipeline
 author: John Snow Labs
 name: translate_sn_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: sn
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, sn, en, xx]
 article_header:
   type: cover
