@@ -2,7 +2,7 @@
 layout: model
 title: Sentence Entity Resolver for billable ICD10-CM HCC codes
 author: John Snow Labs
-name: sbert_biobertresolve_icd10cm_augmented_billable_hcc
+name: sbiobertresolve_icd10cm_augmented_billable_hcc
 date: 2021-02-06
 tags: [licensed, clinical, en, entity_resolution]
 article_header:
@@ -25,7 +25,7 @@ For example, in the example shared `below the billable status is 1`, `hcc status
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbert_biobertresolve_icd10cm_augmented_billable_hcc_en_2.7.3_2.4_1612609178670.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_augmented_billable_hcc_en_2.7.3_2.4_1612609178670.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -43,7 +43,7 @@ sbert_embedder = BertSentenceEmbeddings\
      .setInputCols(["document"])\
      .setOutputCol("sbert_embeddings")
 
-icd10_resolver = SentenceEntityResolverModel.pretrained("sbert_biobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
      .setInputCols(["document", "sbert_embeddings"]) \
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
@@ -74,7 +74,7 @@ results = model.transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|sbert_biobertresolve_icd10cm_augmented_billable_hcc|
+|Model Name:|sbiobertresolve_icd10cm_augmented_billable_hcc|
 |Compatibility:|Spark NLP 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
