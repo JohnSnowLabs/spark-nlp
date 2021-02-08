@@ -4,6 +4,9 @@ title: Sentiment Analysis of IMDB Reviews (sentimentdl_use_imdb)
 author: John Snow Labs
 name: sentimentdl_use_imdb
 date: 2021-01-15
+task: Sentiment Analysis
+language: en
+edition: Spark NLP 2.7.0
 tags: [open_source, en, sentiment]
 article_header:
   type: cover
