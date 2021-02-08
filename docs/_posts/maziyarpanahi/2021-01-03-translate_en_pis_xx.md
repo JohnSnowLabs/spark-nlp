@@ -4,6 +4,9 @@ title: Translate English to Pijin Pipeline
 author: John Snow Labs
 name: translate_en_pis
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: pis
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, pis, xx]
 article_header:
   type: cover

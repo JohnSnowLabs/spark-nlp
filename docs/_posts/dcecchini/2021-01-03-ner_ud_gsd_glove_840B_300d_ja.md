@@ -4,6 +4,9 @@ title: Named Entity Recognition for Japanese (GloVe 840B 300d)
 author: John Snow Labs
 name: ner_ud_gsd_glove_840B_300d
 date: 2021-01-03
+task: Named Entity Recognition
+language: ja
+edition: Spark NLP 2.7.0
 tags: [ner, ja, open_source]
 article_header:
   type: cover

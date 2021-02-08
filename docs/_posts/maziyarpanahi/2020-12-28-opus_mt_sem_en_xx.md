@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Semitic Languages to English
 author: John Snow Labs
 name: opus_mt_sem_en
 date: 2020-12-28
+task: Translation
+language: sem
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, sem, en, xx]
 article_header:
   type: cover

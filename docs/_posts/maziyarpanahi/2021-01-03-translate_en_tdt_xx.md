@@ -4,6 +4,9 @@ title: Translate English to Tetun Dili Pipeline
 author: John Snow Labs
 name: translate_en_tdt
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: tdt
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, tdt, xx]
 article_header:
   type: cover

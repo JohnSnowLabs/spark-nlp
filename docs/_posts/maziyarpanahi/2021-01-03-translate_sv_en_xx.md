@@ -4,6 +4,9 @@ title: Translate Swedish to English Pipeline
 author: John Snow Labs
 name: translate_sv_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: sv
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, sv, en, xx]
 article_header:
   type: cover

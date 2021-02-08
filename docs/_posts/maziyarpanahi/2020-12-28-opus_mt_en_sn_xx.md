@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Shona
 author: John Snow Labs
 name: opus_mt_en_sn
 date: 2020-12-28
+task: Translation
+language: sn
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, sn, xx]
 article_header:
   type: cover

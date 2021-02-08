@@ -4,6 +4,9 @@ title: Detect Radiology Related Entities
 author: John Snow Labs
 name: ner_radiology
 date: 2021-01-18
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.0
 tags: [en, ner, licensed, clinical]
 article_header:
   type: cover

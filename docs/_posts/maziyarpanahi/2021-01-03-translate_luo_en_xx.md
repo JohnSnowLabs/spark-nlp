@@ -4,6 +4,9 @@ title: Translate Luo (Kenya and Tanzania) to English Pipeline
 author: John Snow Labs
 name: translate_luo_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: luo
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, luo, en, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Translate English to Bulgarian Pipeline
 author: John Snow Labs
 name: translate_en_bg
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: bg
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, bg, xx]
 article_header:
   type: cover

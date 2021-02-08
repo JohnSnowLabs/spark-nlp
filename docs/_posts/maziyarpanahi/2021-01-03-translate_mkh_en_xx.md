@@ -4,6 +4,9 @@ title: Translate Mon-Khmer languages to English Pipeline
 author: John Snow Labs
 name: translate_mkh_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: mkh
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, mkh, en, xx]
 article_header:
   type: cover

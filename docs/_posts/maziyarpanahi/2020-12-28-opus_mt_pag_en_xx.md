@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Pangasinan to English
 author: John Snow Labs
 name: opus_mt_pag_en
 date: 2020-12-28
+task: Translation
+language: pag
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pag, en, xx]
 article_header:
   type: cover

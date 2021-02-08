@@ -11,8 +11,8 @@ import scala.language.reflectiveCalls
 
 trait DateMatcherBehaviors extends FlatSpec {
   def fixture(dataset: Dataset[Row]) = new {
-    val df = AnnotatorBuilder.withDateMatcher(dataset)
-    val dateAnnotations = df.select("date")
+    val df: Dataset[Row] = AnnotatorBuilder.withDateMatcher(dataset)
+    val dateAnnotations: Array[Annotation] = df.select("date")
       .collect
       .flatMap { _.getSeq[Row](0) }
       .map { Annotation(_) }

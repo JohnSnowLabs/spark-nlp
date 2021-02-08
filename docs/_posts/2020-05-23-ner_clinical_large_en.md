@@ -4,6 +4,9 @@ title: Detect Problems, Tests and Treatments (ner_clinical_large)
 author: John Snow Labs
 name: ner_clinical_large_en
 date: 2020-05-23
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.5.0
 tags: [ner, en, clinical, licensed]
 article_header:
   type: cover

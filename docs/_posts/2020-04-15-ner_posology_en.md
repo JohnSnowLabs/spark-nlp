@@ -4,6 +4,9 @@ title: Detect Drug Information
 author: John Snow Labs
 name: ner_posology_en
 date: 2020-04-15
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.2
 tags: [ner, en, licensed, clinical]
 article_header:
   type: cover

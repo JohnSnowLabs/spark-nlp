@@ -4,6 +4,9 @@ title: Translate English to Baltic languages Pipeline
 author: John Snow Labs
 name: translate_en_bat
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: bat
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, bat, xx]
 article_header:
   type: cover
