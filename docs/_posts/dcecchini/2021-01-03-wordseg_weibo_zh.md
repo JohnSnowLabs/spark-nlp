@@ -4,6 +4,9 @@ title: Chinese Word Segmentation
 author: John Snow Labs
 name: wordseg_weibo
 date: 2021-01-03
+task: Word Segmentation
+language: zh
+edition: Spark NLP 2.7.0
 tags: [word_segmentation, cn, zh, open_source]
 article_header:
   type: cover
