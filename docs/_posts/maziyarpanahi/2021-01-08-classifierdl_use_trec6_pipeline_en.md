@@ -4,6 +4,9 @@ title: Question classification of open-domain and fact-based questions Pipeline 
 author: John Snow Labs
 name: classifierdl_use_trec6_pipeline
 date: 2021-01-08
+task: [Text Classification, Pipeline Public]
+language: en
+edition: Spark NLP 2.7.1
 tags: [classifier, text_classification, en, open_source, pipeline]
 article_header:
   type: cover

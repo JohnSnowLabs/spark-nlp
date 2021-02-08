@@ -4,6 +4,9 @@ title: Universal Sentence Encoder XLING English and French
 author: John Snow Labs
 name: tfhub_use_xling_en_fr
 date: 2020-12-08
+task: Embeddings
+language: xx
+edition: Spark NLP 2.7.0
 tags: [open_source, embeddings, xx]
 article_header:
   type: cover

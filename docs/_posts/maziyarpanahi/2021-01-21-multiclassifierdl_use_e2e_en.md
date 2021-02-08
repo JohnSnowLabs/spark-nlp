@@ -4,6 +4,9 @@ title: End-to-End (E2E) and data-driven NLG Challenge
 author: John Snow Labs
 name: multiclassifierdl_use_e2e
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [en, open_source, text_classification]
 article_header:
   type: cover

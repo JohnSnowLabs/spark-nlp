@@ -4,6 +4,9 @@ title: XLNet Embeddings (Base)
 author: John Snow Labs
 name: xlnet_base_cased
 date: 2020-04-28
+task: Embeddings
+language: en
+edition: Spark NLP 2.5.0
 tags: [embeddings, en, open_source]
 article_header:
   type: cover
