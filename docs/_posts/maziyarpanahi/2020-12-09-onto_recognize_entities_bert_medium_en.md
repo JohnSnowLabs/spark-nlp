@@ -4,6 +4,9 @@ title: Recognize Entities OntoNotes - BERT Medium
 author: John Snow Labs
 name: onto_recognize_entities_bert_medium
 date: 2020-12-09
+task: [Named Entity Recognition, Sentence Detection, Embeddings, Pipeline Public]
+language: en
+edition: Spark NLP 2.7.0
 tags: [open_source, en, pipeline]
 article_header:
   type: cover
