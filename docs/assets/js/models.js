@@ -420,7 +420,12 @@
             name: 'Date',
             value: date,
           }),
-          e(ModelItemTag, { key: 0, icon: 'edit', name: 'Task', value: task }),
+          e(ModelItemTag, {
+            key: 0,
+            icon: 'edit',
+            name: 'Task',
+            value: Array.isArray(task) ? task.join(', ') : task,
+          }),
           e(ModelItemTag, {
             key: 1,
             icon: 'flag',
