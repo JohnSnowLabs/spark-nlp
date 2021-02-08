@@ -4,6 +4,9 @@ title: Named Entity Recognition for Bengali (GloVe 840B 300d)
 author: John Snow Labs
 name: ner_jifs_glove_840B_300d
 date: 2021-01-27
+task: Named Entity Recognition
+language: bn
+edition: Spark NLP 2.7.0
 tags: [bn, ner, open_source]
 article_header:
   type: cover
