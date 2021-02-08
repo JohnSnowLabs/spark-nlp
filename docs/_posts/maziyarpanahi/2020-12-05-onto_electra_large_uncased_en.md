@@ -4,6 +4,9 @@ title: Named Entity Recognition - ELECTRA Large (OntoNotes)
 author: John Snow Labs
 name: onto_electra_large_uncased
 date: 2020-12-05
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.7.0
 tags: [ner, en, open_source]
 article_header:
   type: cover
