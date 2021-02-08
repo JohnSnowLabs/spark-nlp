@@ -4,6 +4,9 @@ title: TREC(6) Question Classifier
 author: John Snow Labs
 name: classifierdl_use_trec6
 date: 2021-01-08
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [classifier, open_source, en, text_classification]
 article_header:
   type: cover
