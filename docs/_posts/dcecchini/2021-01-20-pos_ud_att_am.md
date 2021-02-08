@@ -4,6 +4,9 @@ title: Part of Speech for Amharic (pos_ud_att)
 author: John Snow Labs
 name: pos_ud_att
 date: 2021-01-20
+task: POS
+language: am
+edition: Spark NLP 2.7.0
 tags: [am, pos, open_source]
 article_header:
   type: cover
