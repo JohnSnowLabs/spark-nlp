@@ -122,7 +122,7 @@ Micro-average:
 
 prec: 0.8947816, rec: 0.9059915, f1: 0.90035164
 
-CoNLL Eval:
+CoNLL Eval (test dataset):
 
 processed 152728 tokens with 11257 phrases; found: 11351 phrases; correct: 10044.
 accuracy:  98.02%; 10044 11257 11351 precision:  88.49%; recall:  89.22%; FB1:  88.85
@@ -144,5 +144,28 @@ accuracy:  98.02%; 10044 11257 11351 precision:  88.49%; recall:  89.22%; FB1:  
          QUANTITY:   81  105   99 precision:  81.82%; recall:  77.14%; FB1:  79.41  99
              TIME:  116  212  179 precision:  64.80%; recall:  54.72%; FB1:  59.34  179
       WORK_OF_ART:  110  166  152 precision:  72.37%; recall:  66.27%; FB1:  69.18  152
+
+CoNLL Eval (development dataset):
+
+processed 147724 tokens with 11066 phrases; found: 11259 phrases; correct: 10326.
+accuracy:  98.73%; 10326 11066 11259 precision:  91.71%; recall:  93.31%; FB1:  92.51
+         CARDINAL:  869  938  1001 precision:  86.81%; recall:  92.64%; FB1:  89.63  1001
+             DATE:  1374  1507  1571 precision:  87.46%; recall:  91.17%; FB1:  89.28  1571
+            EVENT:  112  143  138 precision:  81.16%; recall:  78.32%; FB1:  79.72  138
+              FAC:  105  115  140 precision:  75.00%; recall:  91.30%; FB1:  82.35  140
+              GPE:  2213  2268  2293 precision:  96.51%; recall:  97.57%; FB1:  97.04  2293
+         LANGUAGE:   27   33   27 precision: 100.00%; recall:  81.82%; FB1:  90.00  27
+              LAW:   33   40   39 precision:  84.62%; recall:  82.50%; FB1:  83.54  39
+              LOC:  163  204  178 precision:  91.57%; recall:  79.90%; FB1:  85.34  178
+            MONEY:  257  274  275 precision:  93.45%; recall:  93.80%; FB1:  93.62  275
+             NORP:  806  847  841 precision:  95.84%; recall:  95.16%; FB1:  95.50  841
+          ORDINAL:  212  232  241 precision:  87.97%; recall:  91.38%; FB1:  89.64  241
+              ORG:  1618  1740  1771 precision:  91.36%; recall:  92.99%; FB1:  92.17  1771
+          PERCENT:  164  177  174 precision:  94.25%; recall:  92.66%; FB1:  93.45  174
+           PERSON:  1961  2020  2064 precision:  95.01%; recall:  97.08%; FB1:  96.03  2064
+          PRODUCT:   64   72   73 precision:  87.67%; recall:  88.89%; FB1:  88.28  73
+         QUANTITY:   83  100   96 precision:  86.46%; recall:  83.00%; FB1:  84.69  96
+             TIME:  165  214  203 precision:  81.28%; recall:  77.10%; FB1:  79.14  203
+      WORK_OF_ART:  100  142  134 precision:  74.63%; recall:  70.42%; FB1:  72.46  134
 
 ```

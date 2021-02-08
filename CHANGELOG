@@ -1,4 +1,24 @@
 ========
+2.7.3
+========
+---------------
+New Features
+---------------
+* Add anchorDateYear, anchorDateMonth, and anchorDateDay to DateMatcher and MultiDateMatcher to be used for relative dates extraction
+
+----------------
+Bugfixes
+----------------
+* Fix the default value for action parameter in Python wrapper for DocumentNormalizer annotator
+* Fix Lemmatizer pretrained models published in 2021
+
+----------------
+Enhancements
+----------------
+* Improve T5Transformer performance on documents with many sentences
+
+
+========
 2.7.2
 ========
 ----------------
