@@ -7,6 +7,8 @@ class: NerDLModel
 language: es
 repository: clinical/models
 date: 2020-07-08
+task: Named Entity Recognition
+edition: Spark NLP for Healthcare 2.5.3
 tags: [clinical,licensed,ner,es]
 article_header:
    type: cover

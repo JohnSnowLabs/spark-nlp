@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DateMatcherUtils - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherUtils</title>
-          <meta name="description" content="DateMatcherUtils - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
-          <meta name="keywords" content="DateMatcherUtils Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
+          <title>DateMatcherUtils - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherUtils</title>
+          <meta name="description" content="DateMatcherUtils - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
+          <meta name="keywords" content="DateMatcherUtils Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -63,7 +63,7 @@
         <div id="order">
               <span class="filtertype">Ordering</span>
               <ol>
-                
+                <li class="group out"><span>Grouped</span></li>
                 <li class="alpha in"><span>Alphabetic</span></li>
                 <li class="inherit out"><span>By Inheritance</span></li>
               </ol>
@@ -219,6 +219,68 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#anchorDateDay" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="anchorDateDay:org.apache.spark.ml.param.Param[Int]"></a>
+      <a id="anchorDateDay:Param[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">anchorDateDay</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@anchorDateDay:org.apache.spark.ml.param.Param[Int]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Add an anchor year for the relative dates such as a day after tomorrow.</p><div class="fullcomment"><div class="comment cmt"><p>Add an anchor year for the relative dates such as a day after tomorrow.
+The first day of the month has value 1
+Example: 11
+By default it will use the current day
+Default: -1</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#anchorDateMonth" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="anchorDateMonth:org.apache.spark.ml.param.Param[Int]"></a>
+      <a id="anchorDateMonth:Param[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">anchorDateMonth</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@anchorDateMonth:org.apache.spark.ml.param.Param[Int]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Add an anchor month for the relative dates such as a day after tomorrow.</p><div class="fullcomment"><div class="comment cmt"><p>Add an anchor month for the relative dates such as a day after tomorrow.
+Month value is 1-based. e.g., 1 for January.
+By default it will use the current month
+Default: -1</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#anchorDateYear" visbl="pub" data-isabs="false" fullComment="yes" group="param">
+      <a id="anchorDateYear:org.apache.spark.ml.param.Param[Int]"></a>
+      <a id="anchorDateYear:Param[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">anchorDateYear</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@anchorDateYear:org.apache.spark.ml.param.Param[Int]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Add an anchor year for the relative dates such as a day after tomorrow.</p><div class="fullcomment"><div class="comment cmt"><p>Add an anchor year for the relative dates such as a day after tomorrow.
+If not set it will use the current year.
+Example: 2021
+By default it will use the current year
+Default: -1</p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -236,6 +298,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#calculateAnchorCalendar" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="calculateAnchorCalendar():java.util.Calendar"></a>
+      <a id="calculateAnchorCalendar():Calendar"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">calculateAnchorCalendar</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.Calendar">Calendar</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@calculateAnchorCalendar():java.util.Calendar" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a>
       <a id="clear(Param[_]):DateMatcherUtils.this.type"></a>
@@ -559,6 +638,57 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getAnchorDateDay" visbl="pub" data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getAnchorDateDay:Int"></a>
+      <a id="getAnchorDateDay:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAnchorDateDay</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@getAnchorDateDay:Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getAnchorDateMonth" visbl="pub" data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getAnchorDateMonth:Int"></a>
+      <a id="getAnchorDateMonth:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAnchorDateMonth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@getAnchorDateMonth:Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getAnchorDateYear" visbl="pub" data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getAnchorDateYear:Int"></a>
+      <a id="getAnchorDateYear:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAnchorDateYear</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@getAnchorDateYear:Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -1008,6 +1138,57 @@ Auto completes short versions of months. Any two digit year is considered to be 
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setAnchorDateDay" visbl="pub" data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setAnchorDateDay(value:Int):DateMatcherUtils.this.type"></a>
+      <a id="setAnchorDateDay(Int):DateMatcherUtils.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAnchorDateDay</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@setAnchorDateDay(value:Int):DateMatcherUtils.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setAnchorDateMonth" visbl="pub" data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setAnchorDateMonth(value:Int):DateMatcherUtils.this.type"></a>
+      <a id="setAnchorDateMonth(Int):DateMatcherUtils.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAnchorDateMonth</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@setAnchorDateMonth(value:Int):DateMatcherUtils.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setAnchorDateYear" visbl="pub" data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setAnchorDateYear(value:Int):DateMatcherUtils.this.type"></a>
+      <a id="setAnchorDateYear(Int):DateMatcherUtils.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAnchorDateYear</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.DateMatcherUtils@setAnchorDateYear(value:Int):DateMatcherUtils.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a>
       <a id="setDefault(ParamPair[_]*):DateMatcherUtils.this.type"></a>
@@ -1294,7 +1475,16 @@ text target document</p></div><dl class="paramcmts block"><dt>returns</dt><dd cl
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
+        <div class="group" name="getParam *">
+              <h3>getParam *</h3>
+              
+            </div><div class="group" name="param">
+              <h3>param</h3>
+              
+            </div><div class="group" name="setParam *">
+              <h3>setParam *</h3>
+              
+            </div><div class="group" name="Ungrouped">
               <h3>Ungrouped</h3>
               
             </div>

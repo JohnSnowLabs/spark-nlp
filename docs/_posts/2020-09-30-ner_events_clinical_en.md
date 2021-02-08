@@ -4,6 +4,9 @@ title: Detect Clinical Events
 author: John Snow Labs
 name: ner_events_clinical
 date: 2020-09-30
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.5.5
 tags: [ner, en, licensed, clinical]
 article_header:
 type: cover

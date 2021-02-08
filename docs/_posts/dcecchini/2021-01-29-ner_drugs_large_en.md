@@ -4,6 +4,9 @@ title: Detect Drug Chemicals
 author: John Snow Labs
 name: ner_drugs_large_en
 date: 2021-01-29
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
