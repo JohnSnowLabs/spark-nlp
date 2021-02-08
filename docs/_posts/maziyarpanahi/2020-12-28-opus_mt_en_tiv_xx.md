@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Tiv
 author: John Snow Labs
 name: opus_mt_en_tiv
 date: 2020-12-28
+task: Translation
+language: tiv
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, tiv, xx]
 article_header:
   type: cover

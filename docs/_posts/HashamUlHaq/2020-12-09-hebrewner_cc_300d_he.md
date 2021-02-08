@@ -4,6 +4,9 @@ title: Detect 10 Different Entities in Hebrew (hebrewner_cc_300d)
 author: John Snow Labs
 name: hebrewner_cc_300d
 date: 2020-12-09
+task: Named Entity Recognition
+language: he
+edition: Spark NLP 2.7.0
 tags: [ner, open_source, he]
 article_header:
   type: cover
@@ -31,8 +34,11 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("hebrew_cc_300d", "he") \
+   .setInputCols(["document", "token"]) \
+   .setOutputCol("embeddings")
 ner = NerDLModel.pretrained("hebrewner_cc_300d", "he") \
-   .setInputCols(["sentence", "token", "word_embeddings"]) \
+   .setInputCols(["sentence", "token", "embeddings"]) \
    .setOutputCol("ner")
 ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
@@ -42,8 +48,11 @@ annotations = light_pipeline.fullAnnotate("ב- 25 לאוגוסט עצר השב"�
 
 ```scala
 ...
+val embeddings = WordEmbeddingsModel.pretrained("hebrew_cc_300d", "he")
+        .setInputCols(Array("document", "token")) 
+        .setOutputCol("embeddings")
 val ner_model = NerDLModel.pretrained("hebrewner_cc_300d", "he")
-        .setInputCols(Array("sentence", "token", "word_embeddings"))
+        .setInputCols(Array("sentence", "token", "embeddings"))
         .setOutputCol("ner")
 val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))

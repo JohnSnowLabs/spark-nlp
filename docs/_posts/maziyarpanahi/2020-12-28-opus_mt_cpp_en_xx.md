@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Portuguese-Based Creoles And P
 author: John Snow Labs
 name: opus_mt_cpp_en
 date: 2020-12-28
+task: Translation
+language: cpp
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, cpp, en, xx]
 article_header:
   type: cover

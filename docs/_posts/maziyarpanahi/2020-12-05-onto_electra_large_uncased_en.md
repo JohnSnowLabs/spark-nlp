@@ -4,6 +4,9 @@ title: Named Entity Recognition - ELECTRA Large (OntoNotes)
 author: John Snow Labs
 name: onto_electra_large_uncased
 date: 2020-12-05
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.7.0
 tags: [ner, en, open_source]
 article_header:
   type: cover
@@ -32,6 +35,9 @@ This model uses the pretrained `electra_large_uncased` embeddings model from the
 
 ```python
 ...
+embeddings = BertEmbeddings.pretrained("electra_large_uncased", "en") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("embeddings")
 ner_onto = NerDLModel.pretrained("onto_electra_large_uncased", "en") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
@@ -44,6 +50,9 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({'text': ["
 
 ```scala
 ...
+val embeddings = BertEmbeddings.pretrained("electra_large_uncased", "en")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
 val ner_onto = NerDLModel.pretrained("onto_electra_large_uncased", "en")
         .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")

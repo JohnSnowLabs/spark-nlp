@@ -4,6 +4,9 @@ title: Translate Chuukese to English Pipeline
 author: John Snow Labs
 name: translate_chk_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: chk
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, chk, en, xx]
 article_header:
   type: cover

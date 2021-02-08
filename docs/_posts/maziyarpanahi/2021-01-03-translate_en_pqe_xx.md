@@ -4,6 +4,9 @@ title: Translate English to Eastern Malayo-Polynesian languages Pipeline
 author: John Snow Labs
 name: translate_en_pqe
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: pqe
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, pqe, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Southern Sotho to English
 author: John Snow Labs
 name: opus_mt_st_en
 date: 2020-12-28
+task: Translation
+language: st
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, st, en, xx]
 article_header:
   type: cover

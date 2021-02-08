@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Dutch to English
 author: John Snow Labs
 name: opus_mt_nl_en
 date: 2020-12-28
+task: Translation
+language: nl
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, nl, en, xx]
 article_header:
   type: cover

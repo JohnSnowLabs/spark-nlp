@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Twi
 author: John Snow Labs
 name: opus_mt_en_tw
 date: 2020-12-28
+task: Translation
+language: tw
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, tw, xx]
 article_header:
   type: cover

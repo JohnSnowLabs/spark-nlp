@@ -6,6 +6,8 @@ name: sbiobertresolve_rxnorm
 language: en
 repository: clinical/models
 date: 2020-11-27
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.4
 tags: [clinical,entity_resolution,en]
 article_header:
     type: cover
@@ -98,7 +100,7 @@ val result = pipeline.fit(Seq.empty["This is an 82 - year-old male with a histor
 |---------------|---------------------|
 | Name:         | sbiobertresolve_rxnorm        |
 | Type:          | SentenceEntityResolverModel     |
-| Compatibility: | Spark NLP 2.6.5 +               |
+| Compatibility: | Spark NLP 2.6.4 +               |
 | License:       | Licensed            |
 | Edition:       | Official          |
 |Input labels:        | [ner_chunk, chunk_embeddings]     |

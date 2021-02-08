@@ -4,6 +4,9 @@ title: Named Entity Recognition for Chinese (BERT-MSRA Dataset)
 author: John Snow Labs
 name: ner_msra_bert_768d
 date: 2021-01-03
+task: Named Entity Recognition
+language: zh
+edition: Spark NLP 2.7.0
 tags: [zh, cn, ner, open_source]
 article_header:
   type: cover

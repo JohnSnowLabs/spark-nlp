@@ -4,6 +4,9 @@ title: Fast and Accurate Language Identification - 375 Languages (CNN)
 author: John Snow Labs
 name: ld_wiki_tatoeba_cnn_375
 date: 2020-12-05
+task: Language Detection
+language: xx
+edition: Spark NLP 2.7.0
 tags: [language_detection, open_source, xx]
 article_header:
   type: cover

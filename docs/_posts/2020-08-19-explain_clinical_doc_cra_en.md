@@ -7,6 +7,8 @@ class: PipelineModel
 language: en
 repository: clinical/models
 date: 2020-08-19
+task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
+edition: Spark NLP for Healthcare 2.5.5
 tags: [clinical,licensed,pipeline,en]
 article_header:
    type: cover

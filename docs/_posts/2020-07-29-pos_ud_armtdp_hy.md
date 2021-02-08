@@ -4,6 +4,9 @@ title: Part of Speech for Armenian
 author: John Snow Labs
 name: pos_ud_armtdp
 date: 2020-07-29 23:34:00 +0800
+task: POS
+language: hy
+edition: Spark NLP 2.5.5
 tags: [pos, hy]
 article_header:
 type: cover

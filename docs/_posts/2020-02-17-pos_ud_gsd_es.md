@@ -4,6 +4,9 @@ title: Part of Speech for Spanish
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2020-02-17 00:16:00 +0800
+task: POS
+language: es
+edition: Spark NLP 2.4.0
 tags: [pos, es]
 article_header:
 type: cover

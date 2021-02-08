@@ -4,6 +4,9 @@ title: Stop Words Cleaner for English
 author: John Snow Labs
 name: stopwords_en
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: en
+edition: Spark NLP 2.5.4
 tags: [stopwords, en]
 article_header:
   type: cover

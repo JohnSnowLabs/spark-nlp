@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to German
 author: John Snow Labs
 name: opus_mt_en_de
 date: 2020-12-28
+task: Translation
+language: de
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, de, xx]
 article_header:
   type: cover

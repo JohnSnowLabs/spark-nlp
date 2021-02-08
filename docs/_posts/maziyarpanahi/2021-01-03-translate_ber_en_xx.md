@@ -4,6 +4,9 @@ title: Translate Berber to English Pipeline
 author: John Snow Labs
 name: translate_ber_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ber
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, ber, en, xx]
 article_header:
   type: cover

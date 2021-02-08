@@ -4,6 +4,9 @@ title: Part of Speech for Ukrainian
 author: John Snow Labs
 name: pos_ud_iu
 date: 2020-05-05 11:59:00 +0800
+task: POS
+language: uk
+edition: Spark NLP 2.5.0
 tags: [pos, uk]
 article_header:
 type: cover

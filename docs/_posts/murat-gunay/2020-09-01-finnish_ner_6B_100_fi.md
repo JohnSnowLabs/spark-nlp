@@ -4,6 +4,9 @@ title: Named Entity Recognition (NER) Model in Finnish (GloVe 6B 100)
 author: John Snow Labs
 name: finnish_ner_6B_100
 date: 2020-09-01
+task: Named Entity Recognition
+language: fi
+edition: Spark NLP 2.6.0
 tags: [ner, fi, open_source]
 article_header:
   type: cover
