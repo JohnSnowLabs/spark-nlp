@@ -83,7 +83,7 @@ class TensorResources {
     tensors.clear()
   }
 
-  def clearSession(outs: mutable.Buffer[Tensor[_ <:TType]]): Unit = {
+  def clearSession(outs: mutable.Buffer[Tensor[_]]): Unit = {
     outs.foreach(_.close())
   }
 
