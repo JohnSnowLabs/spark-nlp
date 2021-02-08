@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Gilbertese to English
 author: John Snow Labs
 name: opus_mt_gil_en
 date: 2020-12-28
+task: Translation
+language: gil
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, gil, en, xx]
 article_header:
   type: cover

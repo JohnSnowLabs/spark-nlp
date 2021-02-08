@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Luvale to English
 author: John Snow Labs
 name: opus_mt_lue_en
 date: 2020-12-29
+task: Translation
+language: lue
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, lue, en, xx]
 article_header:
   type: cover

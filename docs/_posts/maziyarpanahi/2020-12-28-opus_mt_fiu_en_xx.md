@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Finno-Ugrian Languages to Engl
 author: John Snow Labs
 name: opus_mt_fiu_en
 date: 2020-12-28
+task: Translation
+language: fiu
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, fiu, en, xx]
 article_header:
   type: cover

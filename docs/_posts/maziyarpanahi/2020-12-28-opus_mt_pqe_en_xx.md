@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Eastern Malayo-Polynesian Lang
 author: John Snow Labs
 name: opus_mt_pqe_en
 date: 2020-12-28
+task: Translation
+language: pqe
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pqe, en, xx]
 article_header:
   type: cover

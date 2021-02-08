@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Indo-European Languages to Eng
 author: John Snow Labs
 name: opus_mt_ine_en
 date: 2020-12-28
+task: Translation
+language: ine
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, ine, en, xx]
 article_header:
   type: cover

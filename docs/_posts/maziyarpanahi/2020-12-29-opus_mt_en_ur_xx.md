@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Urdu
 author: John Snow Labs
 name: opus_mt_en_ur
 date: 2020-12-29
+task: Translation
+language: ur
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, ur, xx]
 article_header:
   type: cover
