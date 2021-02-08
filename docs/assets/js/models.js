@@ -403,7 +403,7 @@
     ]);
   };
 
-  const ModelItem = ({ title, url, task, language, edition }) => {
+  const ModelItem = ({ title, url, task, language, edition, date }) => {
     return e(
       'div',
       { className: 'cell cell--12 cell--md-6 cell--lg-4' },
@@ -414,6 +414,12 @@
           e('a', { href: url, className: 'model-item__title', title }, title)
         ),
         e('div', { key: 'content', className: 'model-item__content' }, [
+          e(ModelItemTag, {
+            key: 0,
+            icon: 'calendar-alt',
+            name: 'Date',
+            value: date,
+          }),
           e(ModelItemTag, { key: 0, icon: 'edit', name: 'Task', value: task }),
           e(ModelItemTag, {
             key: 1,
