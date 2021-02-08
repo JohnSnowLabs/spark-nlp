@@ -4,6 +4,9 @@ title: Universal Sentence Encoder Large
 author: John Snow Labs
 name: tfhub_use_lg
 date: 2020-04-17
+task: Embeddings
+language: en
+edition: Spark NLP 2.4.0
 tags: [embeddings, en, open_source]
 article_header:
   type: cover
