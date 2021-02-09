@@ -1,0 +1,28 @@
+name: Create search index
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  jekyll:
+    runs-on: ubuntu-latest
+    environment: jekyll
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          working-directory: docs
+          bundler-cache: true
+      - name: Index changed posts
+        env:
+          ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
+          ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
+        working-directory: docs
+        run: |
+          git diff --name-only HEAD^ | grep ^docs/_posts | xargs -r basename > posts.txt
+          bundle exec jekyll build
