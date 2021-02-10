@@ -99,7 +99,11 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    tensors.clearSession(outs)
     tensors.clearTensors()
+    tokenTensors.close()
+    maskTensors.close()
+    segmentTensors.close()
 
     val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
@@ -160,7 +164,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
   def tokenize(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean):
   Seq[Array[WordpieceTokenizedSentence]] = {
 
-    val sentecneTokenPieces = sentences.map { s =>
+    val sentenceTokenPieces = sentences.map { s =>
       // Account for one [SEP] & one [CLS]
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength)
       shrinkedSentence.map{
@@ -169,11 +173,11 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
           val tokenPieces = spp.getSppModel.encodeAsPieces(tokenContent).toArray.map(x=>x.toString)
           val tokenIds = spp.getSppModel.encodeAsIds(tokenContent)
           WordpieceTokenizedSentence(
-            tokenPieces.zip(tokenIds).map(x=> TokenPiece(x._1, token.token, x._2, false, token.begin, token.end))
+            tokenPieces.zip(tokenIds).map(x=> TokenPiece(x._1, token.token, x._2, isWordStart = false, token.begin, token.end))
           )
       }
     }
-    sentecneTokenPieces
+    sentenceTokenPieces
   }
 
 }
