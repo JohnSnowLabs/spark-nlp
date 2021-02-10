@@ -212,11 +212,10 @@ lazy val root = (project in file("."))
   )
 
 /** Shading protobuf 2.5.0 for protobuf TF2 */
-val ShadedProtoBufVersion = "2.5.0"
+val ShadedProtoBufVersion = "3.8.0"
 
 assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inProject
-    .inLibrary("com.google.protobuf" % "protobuf-java" % ShadedProtoBufVersion)
+  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll
 )
 
 assemblyMergeStrategy in assembly := {
