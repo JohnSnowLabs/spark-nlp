@@ -46,7 +46,7 @@ class TensorflowWrapper(
 
       // save the binary data of variables to file - variables per se
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
-      val folder  = path.toAbsolutePath.toString
+      val folder = path.toAbsolutePath.toString
       val varData = Paths.get(folder, "variables.data-00000-of-00001")
       Files.write(varData, variables.variables)
 
