@@ -4,6 +4,9 @@ title: Sentence Entity Resolver for billable ICD10-CM HCC codes
 author: John Snow Labs
 name: sbiobertresolve_icd10cm_augmented_billable_hcc
 date: 2021-02-06
+task: Entity Resolution
+language: en
+edition: Spark NLP 2.7.3
 tags: [licensed, clinical, en, entity_resolution]
 article_header:
   type: cover
@@ -37,26 +40,34 @@ For example, in the example shared `below the billable status is 1`, `hcc status
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
      .setInputCols(["document"])\
      .setOutputCol("sbert_embeddings")
-
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
      .setInputCols(["document", "sbert_embeddings"]) \
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
-bert_pipeline_icd = PipelineModel(
-    stages = [
-    document_assembler,
-    sbert_embedder,
-    icd10_resolver])
-
-model = nlpPipeline.fit(spark.createDataFrame([["metastatic lung cancer"]]).toDF("text"))
-
+model = bert_pipeline_icd.fit(spark.createDataFrame([["metastatic lung cancer"]]).toDF("text"))
 results = model.transform(data)
+```
+
+```scala
+val document_assembler = DocumentAssembler()\
+  .setInputCol("text")\
+  .setOutputCol("document")
+val sbert_embedder = BertSentenceEmbeddings\
+     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .setInputCols(["document"])\
+     .setOutputCol("sbert_embeddings")
+val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+     .setInputCols(["document", "sbert_embeddings"]) \
+     .setOutputCol("icd10cm_code")\
+     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
+val result = bert_pipeline_icd.fit(Seq.empty["metastatic lung cancer"].toDS.toDF("text")).transform(data)
 ```
 
 </div>

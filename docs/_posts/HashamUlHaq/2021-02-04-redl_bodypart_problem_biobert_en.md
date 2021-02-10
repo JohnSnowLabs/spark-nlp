@@ -4,6 +4,9 @@ title: Relation extraction between body parts and problem entities (ReDL)
 author: John Snow Labs
 name: redl_bodypart_problem_biobert
 date: 2021-02-04
+task: Relation Extraction
+language: en
+edition: Spark NLP 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 article_header:
   type: cover
@@ -17,7 +20,7 @@ Relation extraction between body parts and problem entities in clinical texts.
 ## Predicted Entities
 
 `1` : Shows that there is a relation between body part entity and entities labeled as problem ( diagnosis, symptom etc.) 
- `0` : Shows that there no relation between body part and problem entities
+`0` : Shows that there no relation between body part and problem entities
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -31,37 +34,18 @@ Relation extraction between body parts and problem entities in clinical texts.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documenter = sparknlp.DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-sentencer = SentenceDetector()\
-    .setInputCols(["document"]) \
-    .setOutputCol("sentences")
-
-tokenizer = Tokenizer() \
-    .setInputCols(["sentences"]) \
-    .setOutputCol("tokens")
-
+...
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
-
-pos_tagger = PerceptronModel() \
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("pos_tags")
-
 ner_tagger = NerDLModel() \
     .pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
-
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
-
 dependency_parser = DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["sentences", "pos_tags", "tokens"]) \
@@ -81,24 +65,47 @@ re_model = RelationExtractionDLModel()\
     .setInputCols(["re_ner_chunks", "sentences"]) \
     .setOutputCol("relations")
 
-pipeline = Pipeline(stages=[
-    documenter, 
-    sentencer, 
-    tokenizer, 
-    words_embedder,
-    pos_tagger, 
-    ner_tagger, 
-    ner_converter, 
-    dependency_parser, 
-    re_ner_chunk_filter,
-    re_model
-])
+pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
 text ="No neurologic deficits other than some numbness in his left hand."
-data = spark.createDataFrame([[text]]).toDF("text")
-p_model = pipeline.fit(data)
+p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
 result = p_model.transform(data)
+```
 
+```scala
+...
+val words_embedder = WordEmbeddingsModel()
+    .pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+val ner_tagger = NerDLModel()
+    .pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+val ner_converter = NerConverter()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+val dependency_parser = DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
+
+// Set a filter on pairs of named entities which will be treated as relation candidates
+val re_ner_chunk_filter = RENerChunksFilter()
+    .setInputCols(Array("ner_chunks", "dependencies"))
+    .setMaxSyntacticDistance(10)
+    .setOutputCol("re_ner_chunks").setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
+
+// The dataset this model is trained to is sentence-wise. 
+// This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
+val re_model = RelationExtractionDLModel()
+    .pretrained("redl_bodypart_problem_biobert", "en", "clinical/models")
+    .setPredictionThreshold(0.5)
+    .setInputCols(Array("re_ner_chunks", "sentences"))
+    .setOutputCol("relations")
+val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
+
+val result = pipeline.fit(Seq.empty["No neurologic deficits other than some numbness in his left hand."].toDS.toDF("text")).transform(data)
 ```
 
 </div>

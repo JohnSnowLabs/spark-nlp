@@ -4,6 +4,9 @@ title: Extract relations between phenotypic abnormalities and diseases (ReDL)
 author: John Snow Labs
 name: redl_human_phenotype_gene_biobert
 date: 2021-02-04
+task: Relation Extraction
+language: en
+edition: Spark NLP 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 article_header:
   type: cover
@@ -17,7 +20,7 @@ Extract relations to fully understand the origin of some phenotypic abnormalitie
 ## Predicted Entities
 
 `1` : Entities are related
- `0` : Entities are not related
+`0` : Entities are not related
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -31,37 +34,18 @@ Extract relations to fully understand the origin of some phenotypic abnormalitie
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documenter = sparknlp.DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-sentencer = SentenceDetector()\
-    .setInputCols(["document"]) \
-    .setOutputCol("sentences")
-
-tokenizer = Tokenizer() \
-    .setInputCols(["sentences"]) \
-    .setOutputCol("tokens")
-
+...
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
-
-pos_tagger = PerceptronModel() \
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("pos_tags")
-
 ner_tagger = NerDLModel() \
     .pretrained("ner_human_phenotype_gene_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
-
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
-
 dependency_parser = DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["sentences", "pos_tags", "tokens"]) \
@@ -80,19 +64,7 @@ re_model = RelationExtractionDLModel()\
     .setPredictionThreshold(0.5)\
     .setInputCols(["re_ner_chunks", "sentences"]) \
     .setOutputCol("relations")
-
-pipeline = Pipeline(stages=[
-    documenter, 
-    sentencer, 
-    tokenizer, 
-    words_embedder,
-    pos_tagger, 
-    ner_tagger, 
-    ner_converter, 
-    dependency_parser, 
-    re_ner_chunk_filter,
-    re_model
-])
+pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
 text = "She has a retinal degeneration, hearing loss and renal failure, short stature, \
 Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."
@@ -100,7 +72,43 @@ Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for t
 data = spark.createDataFrame([[text]]).toDF("text")
 p_model = pipeline.fit(data)
 result = p_model.transform(data)
+```
 
+```scala
+...
+val words_embedder = WordEmbeddingsModel()
+    .pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+val ner_tagger = NerDLModel()
+    .pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_tags")
+val ner_converter = NerConverter()
+    .setInputCols(Array("sentences", "tokens", "ner_tags"))
+    .setOutputCol("ner_chunks")
+val dependency_parser = DependencyParserModel()
+    .pretrained("dependency_conllu", "en")
+    .setInputCols(Array("sentences", "pos_tags", "tokens"))
+    .setOutputCol("dependencies")
+
+// Set a filter on pairs of named entities which will be treated as relation candidates
+val re_ner_chunk_filter = RENerChunksFilter()
+    .setInputCols(Array("ner_chunks", "dependencies"))
+    .setMaxSyntacticDistance(10)
+    .setOutputCol("re_ner_chunks").setRelationPairs(Array('SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'))
+
+// The dataset this model is trained to is sentence-wise. 
+// This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
+val re_model = RelationExtractionDLModel()
+    .pretrained("redl_human_phenotype_gene_biobert", "en", "clinical/models")
+    .setPredictionThreshold(0.5)
+    .setInputCols(Array("re_ner_chunks", "sentences"))
+    .setOutputCol("relations")
+val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
+
+val result = pipeline.fit(Seq.empty["She has a retinal degeneration, hearing loss and renal failure, short stature, \
+Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."].toDS.toDF("text")).transform(data)
 ```
 
 </div>
