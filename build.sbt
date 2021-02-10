@@ -211,6 +211,14 @@ lazy val root = (project in file("."))
     mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
 
+/** Shading protobuf 2.5.0 for protobuf TF2 */
+val ShadedProtoBufVersion = "2.5.0"
+
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inProject
+    .inLibrary("com.google.protobuf" % "protobuf-java" % ShadedProtoBufVersion)
+)
+
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
