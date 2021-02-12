@@ -134,10 +134,10 @@ class NerDLSpec extends FlatSpec {
       .setValidationSplit(0.1f)
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
-//      .setGraphFolder("src/test/resources/graph/")
+      .setGraphFolder("src/test/resources/graph/")
       .fit(trainData)
 
-    ner.write.overwrite()save("./tmp_ner_dl_tf115")
+//    ner.write.overwrite()save("./tmp_ner_dl_tf115")
   }
 
   "NerDLModel" should "successfully download pretrained and predict" taggedAs SlowTest in {
