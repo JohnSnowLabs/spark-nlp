@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Fake News Classifier - Spark NLP 2.7.1+
+title: Fake News Classifier
 author: John Snow Labs
 name: classifierdl_use_fakenews
 date: 2021-01-09
@@ -31,7 +31,7 @@ Determine if news articles are Real or Fake.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -49,6 +49,11 @@ nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton')
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 

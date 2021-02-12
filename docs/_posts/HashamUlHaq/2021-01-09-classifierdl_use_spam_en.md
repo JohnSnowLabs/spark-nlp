@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Spam Classifier - Spark NLP 2.7.1+
+title: Spam Classifier
 author: John Snow Labs
 name: classifierdl_use_spam
 date: 2021-01-09
@@ -31,7 +31,7 @@ Automatically identify messages as being regular messages or Spam.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -49,6 +49,11 @@ nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now.')
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 

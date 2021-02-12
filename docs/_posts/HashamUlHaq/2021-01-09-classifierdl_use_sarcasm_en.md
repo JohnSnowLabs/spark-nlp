@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sarcasm Classifier - Spark NLP 2.7.1+
+title: Sarcasm Classifier
 author: John Snow Labs
 name: classifierdl_use_sarcasm
 date: 2021-01-09
@@ -31,7 +31,7 @@ Classify if a text contains sarcasm.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -50,6 +50,11 @@ nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('If I could put into words how much I love waking up at am on Tuesdays I would')
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 

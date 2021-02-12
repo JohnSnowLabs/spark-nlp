@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Classifier for Adverse Drug Events - SparkNLP 2.7.1+
+title: Classifier for Adverse Drug Events
 author: John Snow Labs
 name: classifierdl_biobert_ade
 date: 2021-01-21
@@ -56,6 +56,11 @@ classifier = ClassifierDLModel.pretrained('classifierdl_biobert_ade', 'en', 'cli
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 

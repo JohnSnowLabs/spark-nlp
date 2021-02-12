@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Cyberbullying Classifier - Spark NLP 2.7.1+
+title: Cyberbullying Classifier
 author: John Snow Labs
 name: classifierdl_use_cyberbullying
 date: 2021-01-09
@@ -31,7 +31,7 @@ Identify Racism, Sexism or Neutral tweets.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -49,6 +49,11 @@ nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked')
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 

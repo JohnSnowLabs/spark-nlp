@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Emotion Detection Classifier - Spark NLP 2.7.1+
+title: Emotion Detection Classifier
 author: John Snow Labs
 name: classifierdl_use_emotion
 date: 2021-01-09
@@ -31,7 +31,7 @@ Automatically identify Joy, Surprise, Fear, Sadness emotions in Tweets.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -49,6 +49,11 @@ nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('@Mira I just saw you on live t.v!!')
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 
