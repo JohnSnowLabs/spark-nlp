@@ -128,7 +128,7 @@ jobs:
           brew install sbt
           sbt clean
           sbt compile
-          sbt "testOnly *UniversalSentenceEncoderTestSpec"
+          sbt "testOnly *UniversalSentenceEncoderTestSpec *NerDLSpec"
       - name: ubuntu Test
         if: matrix.os == 'ubuntu-latest'
         run: |

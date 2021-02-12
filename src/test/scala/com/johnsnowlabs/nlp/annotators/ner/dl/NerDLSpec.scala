@@ -108,7 +108,7 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(40, 512, 101))
   }
 
-  "NerDL Approach" should "validate against part of the training dataset" taggedAs FastTest in {
+  "NerDLApproach" should "validate against part of the training dataset" taggedAs FastTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
@@ -134,7 +134,7 @@ class NerDLSpec extends FlatSpec {
       .setValidationSplit(0.1f)
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
-      .setGraphFolder("src/test/resources/graph/")
+//      .setGraphFolder("src/test/resources/graph/")
       .fit(trainData)
 
     ner.write.overwrite()save("./tmp_ner_dl_tf115")
