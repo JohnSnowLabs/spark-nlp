@@ -12,7 +12,7 @@ on:
 jobs:
   spark24:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Build and Test on Apache Spark 2.4.x
 
     steps:
@@ -45,7 +45,7 @@ jobs:
 
   spark32:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Build and Test on Apache Spark 2.3.x
 
     steps:
@@ -78,7 +78,7 @@ jobs:
 
   spark30:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Build and Test on Apache Spark 3.0.1
 
     steps:
@@ -108,3 +108,4 @@ jobs:
         run: |
           cd python
           python3.7 -m run-tests
+
