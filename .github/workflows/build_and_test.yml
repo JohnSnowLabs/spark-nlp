@@ -112,7 +112,7 @@ jobs:
   custom:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-18.04, macos-latest ]
     runs-on: ${{ matrix.os }}
     name: Build and Run custom unit tests
 
