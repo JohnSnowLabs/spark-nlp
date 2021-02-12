@@ -135,8 +135,8 @@ class NerDLSpec extends FlatSpec {
       .setEvaluationLogExtended(true)
       .setTestDataset("./tmp_conll_validate/")
       .setGraphFolder("src/test/resources/graph/")
-      .fit(trainData)
-
+//      .fit(trainData)
+//
 //    ner.write.overwrite()save("./tmp_ner_dl_tf115")
   }
 
