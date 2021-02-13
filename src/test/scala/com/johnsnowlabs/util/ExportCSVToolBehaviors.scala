@@ -50,7 +50,7 @@ trait ExportCSVToolBehaviors  { this: FlatSpec =>
   }
 
   def testExportToCoNLLFile(dataset: Dataset[Row], outputFilePath: String): Unit = {
-    it should "successfully generate POS tags" ignore  {
+    it should "successfully generate POS tags" taggedAs SlowTest in  {
       import SparkAccessor.spark.implicits._ //for col
 
       dataset.show(false)

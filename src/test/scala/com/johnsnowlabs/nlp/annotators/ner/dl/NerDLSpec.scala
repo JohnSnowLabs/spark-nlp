@@ -108,7 +108,7 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(40, 512, 101))
   }
 
-  "NerDLApproach" should "validate against part of the training dataset" taggedAs SlowTest in {
+  "NerDLApproach" should "validate against part of the training dataset" taggedAs FastTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
@@ -135,7 +135,7 @@ class NerDLSpec extends FlatSpec {
     ner.write.overwrite()save("./tmp_ner_dl_tf115")
   }
 
-  "NerDLModel" should "successfully load saved model" taggedAs SlowTest in {
+  "NerDLModel" should "successfully load saved model" taggedAs FastTest in {
 
     val conll = CoNLL()
     val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
@@ -151,7 +151,7 @@ class NerDLSpec extends FlatSpec {
 
   }
 
-  "NerDLModel" should "successfully download a pretrained model" taggedAs SlowTest in {
+  "NerDLModel" should "successfully download a pretrained model" taggedAs FastTest in {
 
     val nerModel = NerDLModel.pretrained()
       .setInputCols("sentence", "token", "embeddings")
