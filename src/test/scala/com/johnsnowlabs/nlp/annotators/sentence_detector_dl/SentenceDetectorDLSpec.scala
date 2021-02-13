@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
 
@@ -18,7 +18,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
   val savedModelPath = "./tmp_sdd_model/new_model"
   val testSampleFreeText = "src/test/resources/sentence_detector_dl/sample.txt"
 
-  "Sentence Detector DL" should "train a new model" taggedAs FastTest in {
+  "Sentence Detector DL" should "train a new model" taggedAs SlowTest in {
 
     assert(Files.exists(Paths.get(trainDataFile)))
 
@@ -55,7 +55,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
       metrics.f1))
   }
 
-  "Sentence Detector DL" should "load and run pretrained model" taggedAs FastTest in {
+  "Sentence Detector DL" should "load and run pretrained model" taggedAs SlowTest in {
 
     val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
 
@@ -90,7 +90,7 @@ class SentenceDetectorDLSpec  extends FlatSpec {
     })
   }
 
-  "Sentence Detector DL" should "download and run pretrained model" taggedAs FastTest in {
+  "Sentence Detector DL" should "download and run pretrained model" taggedAs SlowTest in {
 
     val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
 
