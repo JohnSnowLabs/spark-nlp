@@ -34,10 +34,10 @@ jobs:
       run: |
         sbt clean
         sbt compile
-        sbt assemblyAndCopy
+        sbt -mem 4096 assemblyAndCopy
     - name: Test Spark NLP in Scala - Apache Spark 2.4.x
       run: |
-        sbt test
+        sbt -mem 4096 test
     - name: Test Spark NLP in Python - Apache Spark 2.4.x
       run: |
         cd python
@@ -67,10 +67,10 @@ jobs:
       run: |
         sbt -Dis_spark23=true clean
         sbt -Dis_spark23=true compile
-        sbt -Dis_spark23=true assemblyAndCopy
+        sbt -mem 4096 -Dis_spark23=true assemblyAndCopy
     - name: Test Spark NLP in Scala - Apache Spark 2.3.x
       run: |
-        sbt -Dis_spark23=true test
+        sbt -mem 4096 -Dis_spark23=true test
     - name: Test Spark NLP in Python - Apache Spark 2.3.x
       run: |
         cd python
@@ -100,10 +100,10 @@ jobs:
         run: |
           sbt -Dis_spark30=true clean
           sbt -Dis_spark30=true compile
-          sbt -Dis_spark30=true assemblyAndCopy
+          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.0.1
         run: |
-          sbt -Dis_spark30=true test
+          sbt -mem 4096 -Dis_spark30=true test
       - name: Test Spark NLP in Python - Apache Spark 3.0.1
         run: |
           cd python
