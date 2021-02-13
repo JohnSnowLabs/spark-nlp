@@ -151,7 +151,7 @@ class NerDLSpec extends FlatSpec {
 
   }
 
-  "NerDLModel" should "successfully download a pretrained model" taggedAs FastTest in {
+  "NerDLModel" should "successfully download a pretrained model" taggedAs SlowTest in {
 
     val nerModel = NerDLModel.pretrained()
       .setInputCols("sentence", "token", "embeddings")
