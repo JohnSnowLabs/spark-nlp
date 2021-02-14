@@ -10,12 +10,78 @@ on:
       - 'master'
 
 jobs:
-  custom:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest ]
-    runs-on: ${{ matrix.os }}
-    name: Build and Run custom unit tests
+  spark24:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    runs-on: macos-latest
+    name: Build and Test on Apache Spark 2.4.x
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Install Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7.7
+        architecture: x64
+    - name: Install Python packages (Python 3.7)
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyspark==2.4.4 numpy
+    - name: Build Spark NLP on Apache Spark 2.4.x
+      run: |
+        brew install sbt
+        sbt clean
+        sbt compile
+        sbt -mem 4096 assemblyAndCopy
+    - name: Test Spark NLP in Scala - Apache Spark 2.4.x
+      run: |
+        sbt -mem 4096 test
+    - name: Test Spark NLP in Python - Apache Spark 2.4.x
+      run: |
+        cd python
+        python3.7 -m run-tests
+
+  spark32:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    runs-on: macos-latest
+    name: Build and Test on Apache Spark 2.3.x
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Install Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7.7
+        architecture: x64
+    - name: Install Python packages (Python 3.7)
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyspark==2.3.4 numpy
+    - name: Build Spark NLP on Apache Spark 2.3.x
+      run: |
+        brew install sbt
+        sbt -Dis_spark23=true clean
+        sbt -Dis_spark23=true compile
+        sbt -mem 4096 -Dis_spark23=true assemblyAndCopy
+    - name: Test Spark NLP in Scala - Apache Spark 2.3.x
+      run: |
+        sbt -mem 4096 -Dis_spark23=true test
+    - name: Test Spark NLP in Python - Apache Spark 2.3.x
+      run: |
+        cd python
+        python3.7 -m run-tests
+
+  spark30:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    runs-on: macos-latest
+    name: Build and Test on Apache Spark 3.0.1
 
     steps:
       - uses: actions/checkout@v2
@@ -23,115 +89,26 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: macos Test
-        if: matrix.os == 'macos-latest'
+      - name: Install Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7.7
+          architecture: x64
+      - name: Install Python packages (Python 3.7)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyspark==3.0.1 numpy
+      - name: Build Spark NLP on Apache Spark 3.0.1
         run: |
           brew install sbt
-          sbt clean
-          sbt -mem 4096 compile
-          sbt -mem 4096 test
-      - name: ubuntu Test
-        if: matrix.os == 'ubuntu-latest'
+          sbt -Dis_spark30=true clean
+          sbt -Dis_spark30=true compile
+          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
+      - name: Test Spark NLP in Scala - Apache Spark 3.0.1
         run: |
-          sbt clean
-          sbt -mem 4096 compile
-          sbt -mem 4096 test
-#  spark24:
-#    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-#    runs-on: ubuntu-latest
-#    name: Build and Test on Apache Spark 2.4.x
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#    - name: Set up JDK 8
-#      uses: actions/setup-java@v1
-#      with:
-#        java-version: 1.8
-#    - name: Install Python 3.7
-#      uses: actions/setup-python@v2
-#      with:
-#        python-version: 3.7.7
-#        architecture: x64
-#    - name: Install Python packages (Python 3.7)
-#      run: |
-#        python -m pip install --upgrade pip
-#        pip install pyspark==2.4.4 numpy
-#    - name: Build Spark NLP on Apache Spark 2.4.x
-#      run: |
-#        sbt clean
-#        sbt compile
-#        sbt -mem 4096 assemblyAndCopy
-#    - name: Test Spark NLP in Scala - Apache Spark 2.4.x
-#      run: |
-#        sbt -mem 4096 test
-#    - name: Test Spark NLP in Python - Apache Spark 2.4.x
-#      run: |
-#        cd python
-#        python3.7 -m run-tests
-#
-#  spark32:
-#    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-#    runs-on: ubuntu-latest
-#    name: Build and Test on Apache Spark 2.3.x
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#    - name: Set up JDK 8
-#      uses: actions/setup-java@v1
-#      with:
-#        java-version: 1.8
-#    - name: Install Python 3.7
-#      uses: actions/setup-python@v2
-#      with:
-#        python-version: 3.7.7
-#        architecture: x64
-#    - name: Install Python packages (Python 3.7)
-#      run: |
-#        python -m pip install --upgrade pip
-#        pip install pyspark==2.3.4 numpy
-#    - name: Build Spark NLP on Apache Spark 2.3.x
-#      run: |
-#        sbt -Dis_spark23=true clean
-#        sbt -Dis_spark23=true compile
-#        sbt -mem 4096 -Dis_spark23=true assemblyAndCopy
-#    - name: Test Spark NLP in Scala - Apache Spark 2.3.x
-#      run: |
-#        sbt -mem 4096 -Dis_spark23=true test
-#    - name: Test Spark NLP in Python - Apache Spark 2.3.x
-#      run: |
-#        cd python
-#        python3.7 -m run-tests
-#
-#  spark30:
-#    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-#    runs-on: ubuntu-latest
-#    name: Build and Test on Apache Spark 3.0.1
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up JDK 8
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 1.8
-#      - name: Install Python 3.7
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: 3.7.7
-#          architecture: x64
-#      - name: Install Python packages (Python 3.7)
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install pyspark==3.0.1 numpy
-#      - name: Build Spark NLP on Apache Spark 3.0.1
-#        run: |
-#          sbt -Dis_spark30=true clean
-#          sbt -Dis_spark30=true compile
-#          sbt -mem 4096 -Dis_spark30=true assemblyAndCopy
-#      - name: Test Spark NLP in Scala - Apache Spark 3.0.1
-#        run: |
-#          sbt -mem 4096 -Dis_spark30=true test
-#      - name: Test Spark NLP in Python - Apache Spark 3.0.1
-#        run: |
-#          cd python
-#          python3.7 -m run-tests
+          sbt -mem 4096 -Dis_spark30=true test
+      - name: Test Spark NLP in Python - Apache Spark 3.0.1
+        run: |
+          cd python
+          python3.7 -m run-tests
 
