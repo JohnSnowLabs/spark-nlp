@@ -10,30 +10,30 @@ import scala.collection.mutable
 
 class TokenAssemblerTestSpec extends FlatSpec {
 
+  val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
+  val sentence = new SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentence")
+
+  val token = new Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("tokens")
+
+  val tokenAssem = new TokenAssembler()
+    .setInputCols(Array("sentence", "tokens"))
+    .setOutputCol("newDocs")
+    .setPreservePosition(true)
+
+  val finisher = new Finisher()
+    .setInputCols("newDocs")
+    .setOutputAsArray(true)
+    .setCleanAnnotations(false)
+    .setOutputCols("output")
+
   def createPipeline(corpus: DataFrame): DataFrame = {
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val sentence = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
-
-    val token = new Tokenizer()
-      .setInputCols("document")
-      .setOutputCol("tokens")
-
-    val tokenAssem = new TokenAssembler()
-      .setInputCols(Array("sentence", "tokens"))
-      .setOutputCol("newDocs")
-      .setPreservePosition(true)
-
-    val finisher = new Finisher()
-      .setInputCols("newDocs")
-      .setOutputAsArray(true)
-      .setCleanAnnotations(false)
-      .setOutputCols("output")
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(
@@ -62,6 +62,34 @@ class TokenAssemblerTestSpec extends FlatSpec {
       corpusFirst.length == assemFirst.length,
               s"because result sentence length differ: " +
                 s"\nresult was \n${assemFirst.length} \nexpected is: \n${corpusFirst.length}")
+  }
+
+  "TokenAssembler" should "correctly work with a document" taggedAs FastTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    var rawData = Seq("I have some plpitations in my chest.")
+
+    val smallCorpus = rawData.toDF("text")
+
+    val tokenAssem = new TokenAssembler()
+      .setInputCols(Array("document", "tokens"))
+      .setOutputCol("newDocs")
+      .setPreservePosition(false)
+    val pipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        token,
+        tokenAssem,
+        finisher
+      ))
+    val result = pipeline.fit(smallCorpus).transform(smallCorpus).select("output")
+    val assemFirst = result.first.getAs[mutable.WrappedArray[String]](0).mkString(" ")
+
+    assert(
+      rawData(0).length == assemFirst.length,
+      s"because result sentence length differ: " +
+        s"\nresult was \n${assemFirst.length} \nexpected is: \n${rawData.length}")
   }
 
   "TokenAssembler" should "correctly turn tokens into original document in sentence with line breaks" taggedAs FastTest in {
