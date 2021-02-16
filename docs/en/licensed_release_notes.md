@@ -13,7 +13,7 @@ modify_date: "2020-02-07"
 
 We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!  
 
-### Highlights:
+#### Highlights:
 
 - Introducing a brand-new **RelationExtractionDL Annotator** – Achieving SOTA results in clinical relation extraction using **BioBert**.
 - Massive Improvements & feature enhancements in **De-Identification** module:
@@ -30,11 +30,11 @@ We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!
 - Matching the version with Spark NLP open-source v2.7.3.
 
 
-### 1. Improvements in De-Identification Module:
+#### 1. Improvements in De-Identification Module:
 
 Integration of `faker` library to automatically generate random data like names, dates, addresses etc so users dont have to specify dummy data (custom obfuscation files can still be used). It also improves the obfuscation results due to a bigger pool of random values.
 
-#### How to use:
+**How to use:**
 
 Set the flag `setObfuscateRefSource` to `faker`
 
@@ -46,11 +46,11 @@ Set the flag `setObfuscateRefSource` to `faker`
 
 For more details: Check out this [notebook ](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb)
 
-### 2. Structured De-Identification Module:
+#### 2. Structured De-Identification Module:
 
 Introduction of a new annotator to handle de-identification of structured data. it  allows users to define a mapping of columns and their obfuscation policy. Users can also provide dummy data and map them to columns they want to replace values in.
 
-#### How to use:
+**How to use:**
 
 	obfuscator = StructuredDeidentification \
 		(spark,{"NAME":"PATIENT","AGE":"AGE"},
@@ -60,7 +60,7 @@ Introduction of a new annotator to handle de-identification of structured data. 
 
 	obfuscator_df.select("NAME","AGE").show(truncate=False)
 
-##### Example:
+**Example:**
 
 Input Data:
 
@@ -85,11 +85,11 @@ Vanessa Andersson   |12
 
 For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb).
 
-### 3. Introducing SOTA relation extraction model using BioBert
+#### 3. Introducing SOTA relation extraction model using BioBert
 
 A brand-new end-to-end trained BERT model, resulting in massive improvements. Another new annotator (`ReChunkFilter`) is also developed for this new model to allow syntactic features work well with BioBert to extract relations.
 
-#### How to use:
+**How to use:**
 
     re_ner_chunk_filter = RENerChunksFilter()\
         .setInputCols(["ner_chunks", "dependencies"])\
@@ -104,7 +104,7 @@ A brand-new end-to-end trained BERT model, resulting in massive improvements. An
         .setOutputCol("relations")
 
 
-#### Benchmarks:
+##### Benchmarks:
 
 **on benchmark datasets**
 
@@ -130,7 +130,7 @@ For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark
 
 
 
-### 4. Drug Normalizer:
+#### 4. Drug Normalizer:
 
 Standardize units of drugs and handle abbreviations in raw text or drug chunks identified by any NER model. This normalization significantly improves performance of entity resolvers.  
 
@@ -163,7 +163,7 @@ Standardize units of drugs and handle abbreviations in raw text or drug chunks i
 
 For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb)
 
-**Assertion models to support confidence in output:**
+#### 5. Assertion models to support confidence in output:
 
 Just like NER output, assertion models now also provides _confidence scores_ for each prediction.
 
@@ -177,7 +177,7 @@ pain | PROBLEM | absent |0.9238
 `.setClasses()` method is deprecated in `AssertionDLApproach`  and users do not need to specify number of classes while training, as it will be inferred from the dataset.
 
 
-### 5. New Relation Extraction Models:
+#### 6. New Relation Extraction Models:
 
 
 We are also releasing new relation extraction models to link the clinical entities to body parts and dates. These models are trained using binary relation extraction approach for better accuracy.
@@ -251,7 +251,7 @@ For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark
 
 **New matching scheme for entity resolvers - improved accuracy:** Adding the option to use `cosine similarity` to resolve entities and find closest matches, resulting in better, more semantically correct results.
 
-### 6. New Resolver Models using `JSL SBERT`:
+#### 7. New Resolver Models using `JSL SBERT`:
 
 + `sbiobertresolve_icd10cm_augmented`
 
@@ -287,7 +287,7 @@ idx|  cpt code |   distance |resolutions
 4 | 74185 |     0.1343 | Magnetic resonance imaging without contrast                        |
 5 | 77059 |     0.1343 | Magnetic resonance imaging without contrast                        |
 
-### 7. New Pretrained Clinical NER Models
+#### 8. New Pretrained Clinical NER Models
 
 + NER Radiology
 **Input Text:** _"Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."_
