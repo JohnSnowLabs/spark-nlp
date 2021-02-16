@@ -29,7 +29,7 @@ Automatically identify messages as being regular messages or Spam.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
@@ -61,6 +61,15 @@ val document_classifier = ClassifierDLModel.pretrained('classifierdl_use_spam', 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val result = pipeline.fit(Seq.empty["Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now."].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now."""]
+spam_df = nlu.load('classify.spam.use').predict(text, output_level='document')
+spam_df[["document", "spam"]]
 ```
 
 </div>

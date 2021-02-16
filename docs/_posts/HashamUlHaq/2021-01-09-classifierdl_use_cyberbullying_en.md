@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Cyberbullying Classifier - Spark NLP 2.7.1+
+title: Cyberbullying Classifier
 author: John Snow Labs
 name: classifierdl_use_cyberbullying
 date: 2021-01-09
@@ -31,25 +31,43 @@ Identify Racism, Sexism or Neutral tweets.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
   .setInputCols(["document"])\
   .setOutputCol("sentence_embeddings")
-
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_cyberbullying', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
-
 nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked')
+```
+```scala
+val documentAssembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+val use = UniversalSentenceEncoder.pretrained(lang="en")
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence_embeddings")
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_cyberbullying", "en")
+  .setInputCols(Array("document", "sentence_embeddings"))
+  .setOutputCol("class")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
+val result = pipeline.fit(Seq.empty["@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"""]
+cyberbull_df = nlu.load('classify.cyberbullying.use').predict(text, output_level='document')
+cyberbull_df[["document", "cyberbullying"]]
 ```
 
 </div>

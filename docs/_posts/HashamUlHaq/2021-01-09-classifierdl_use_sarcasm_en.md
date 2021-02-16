@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sarcasm Classifier - Spark NLP 2.7.1+
+title: Sarcasm Classifier
 author: John Snow Labs
 name: classifierdl_use_sarcasm
 date: 2021-01-09
@@ -31,26 +31,43 @@ Classify if a text contains sarcasm.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
 use = UniversalSentenceEncoder.pretrained(lang="en") \
   .setInputCols(["document"])\
   .setOutputCol("sentence_embeddings")
-
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_sarcasm', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
-
 nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate('If I could put into words how much I love waking up at am on Tuesdays I would')
+```
+```scala
+val documentAssembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+val use = UniversalSentenceEncoder.pretrained(lang="en")
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence_embeddings")
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_sarcasm", "en")
+  .setInputCols(Array("document", "sentence_embeddings"))
+  .setOutputCol("class")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
+val result = pipeline.fit(Seq.empty["If I could put into words how much I love waking up at am on Tuesdays I would"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""If I could put into words how much I love waking up at am on Tuesdays I would"""]
+sarcasm_df = nlu.load('classify.sarcasm.use').predict(text, output_level='document')
+sarcasm_df[["document", "sarcasm"]]
 ```
 
 </div>
