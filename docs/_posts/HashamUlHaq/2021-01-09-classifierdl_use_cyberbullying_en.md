@@ -70,6 +70,11 @@ cyberbull_df = nlu.load('classify.cyberbullying.use').predict(text, output_level
 cyberbull_df[["document", "cyberbullying"]]
 ```
 
+{:.nlu-block}
+```python
+
+```
+
 </div>
 
 ## Results

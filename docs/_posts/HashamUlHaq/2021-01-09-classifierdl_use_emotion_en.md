@@ -70,6 +70,11 @@ emotion_df = nlu.load('en.classify.emotion.use').predict(text, output_level='doc
 emotion_df[["document", "emotion"]]
 ```
 
+{:.nlu-block}
+```python
+
+```
+
 </div>
 
 ## Results

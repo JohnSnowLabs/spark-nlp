@@ -73,6 +73,11 @@ val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred
 
 ```
 
+{:.nlu-block}
+```python
+
+```
+
 </div>
 
 ## Results
