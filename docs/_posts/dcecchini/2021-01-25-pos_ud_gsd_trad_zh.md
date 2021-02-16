@@ -81,6 +81,16 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 val result = pipeline.fit(Seq.empty["然而，這樣的處理也衍生了一些問題。"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""然而，這樣的處理也衍生了一些問題。"""]
+pos_df = nlu.load('zh.pos.ud_gsd_trad').predict(text, output_level = "token")
+pos_df
+```
+
 </div>
 
 ## Results
