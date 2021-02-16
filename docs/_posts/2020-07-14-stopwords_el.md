@@ -27,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_el", "el")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["Εκτός από το ότι είναι ο βασιλιάς του Βορρά, ο John Snow είναι Άγγλος γιατρός και ηγέτης στην ανάπτυξη της αναισθησίας και της ιατρικής υγιεινής."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Εκτός από το ότι είναι ο βασιλιάς του Βορρά, ο John Snow είναι Άγγλος γιατρός και ηγέτης στην ανάπτυξη της αναισθησίας και της ιατρικής υγιεινής."""]
+stopword_df = nlu.load('el.stopwords').predict(text)
+stopword_df[["cleanTokens"]]
+```
+
+</div>
 
 {:.h2_title}
 ## Results
