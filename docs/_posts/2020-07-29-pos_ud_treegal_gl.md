@@ -27,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_treegal", "gl")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Ademais de ser o rei do norte, John Snow é un médico inglés e un líder no desenvolvemento da anestesia e a hixiene médica."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Ademais de ser o rei do norte, John Snow é un médico inglés e un líder no desenvolvemento da anestesia e a hixiene médica."""]
+pos_df = nlu.load('gl.pos').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

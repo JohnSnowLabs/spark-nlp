@@ -31,7 +31,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 Use as part of an nlp pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -81,6 +81,16 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 val result = pipeline.fit(Seq.empty["비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."""]
+pos_df = nlu.load('ko.pos.ud_kaist').predict(text, output_level='token')
+pos_df
+```
+
 </div>
 
 ## Results

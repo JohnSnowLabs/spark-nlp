@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Classifier for Adverse Drug Events using clinical bert - SparkNLP 2.7.1+
+title: Classifier for Adverse Drug Events using Clinical Bert
 author: John Snow Labs
 name: classifierdl_ade_clinicalbert
 date: 2021-01-21
@@ -58,6 +58,11 @@ nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sente
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
+```
+
+{:.nlu-block}
+```python
+
 ```
 
 </div>

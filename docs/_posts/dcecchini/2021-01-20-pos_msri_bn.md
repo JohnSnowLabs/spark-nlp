@@ -82,6 +82,15 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val result = pipeline.fit(Seq.empty["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"]
+pos_df = nlu.load('bn.pos').predict(text, output_level = "token")
+pos_df
+```
+
 </div>
 
 ## Results
