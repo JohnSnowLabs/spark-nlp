@@ -4,7 +4,7 @@ title: Stop Words Cleaner for French
 author: John Snow Labs
 name: stopwords_fr
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: fr
 edition: Spark NLP 2.5.4
 tags: [stopwords, fr]

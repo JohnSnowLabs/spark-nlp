@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Irish
 author: John Snow Labs
 name: stopwords_ga
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: ga
 edition: Spark NLP 2.5.4
 tags: [stopwords, ga]

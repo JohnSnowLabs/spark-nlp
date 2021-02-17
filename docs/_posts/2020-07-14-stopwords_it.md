@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Italian
 author: John Snow Labs
 name: stopwords_it
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: it
 edition: Spark NLP 2.5.4
 tags: [stopwords, it]
