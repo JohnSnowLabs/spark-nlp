@@ -58,7 +58,7 @@ class FunctionsTestSpec extends FlatSpec {
 
     val udfed = data.select(mapAnnotations((annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
-    }, ArrayType(Annotation.dataType))(col("pos")))
+    })(col("pos")))
 
     val udfed2 = data.select(mapAnnotationsStrict((annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
