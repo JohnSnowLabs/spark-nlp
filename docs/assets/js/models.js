@@ -524,6 +524,24 @@
   };
 
   const ModelItem = ({ title, url, task, language, edition, date }) => {
+    const getDisplayedLanguage = () => {
+      switch (language.length) {
+        case 2:
+          return languages[language] || language;
+
+        case 3:
+          return languageGroups[language] || language;
+
+        default:
+          return language;
+      }
+    };
+
+    const getDisplayedDate = () => {
+      const [year, month] = date.split('-');
+      return month + '.' + year;
+    };
+
     return e(
       'div',
       { className: 'cell cell--12 cell--md-6 cell--lg-4' },
@@ -538,7 +556,7 @@
             key: 0,
             icon: 'calendar-alt',
             name: 'Date',
-            value: date,
+            value: getDisplayedDate(),
           }),
           e(ModelItemTag, {
             key: 0,
@@ -550,7 +568,7 @@
             key: 1,
             icon: 'flag',
             name: 'Language',
-            value: language,
+            value: getDisplayedLanguage(),
           }),
           e(ModelItemTag, {
             key: 2,
