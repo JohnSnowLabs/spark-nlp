@@ -28,6 +28,8 @@
   ];
 
   const languages = {
+    en: 'English',
+    xx: 'Multilingual',
     aa: 'Afar',
     ab: 'Abkhaz',
     ae: 'Avestan',
@@ -65,7 +67,6 @@
     dz: 'Dzongkha',
     ee: 'Ewe',
     el: 'Greek (modern)',
-    en: 'English',
     eo: 'Esperanto',
     es: 'Spanish',
     et: 'Estonian',
@@ -212,6 +213,125 @@
     za: 'Zhuang, Chuang',
     zh: 'Chinese',
     zu: 'Zulu',
+  };
+
+  const languageGroups = {
+    aav: 'Austro-Asiatic languages',
+    afa: 'Afro-Asiatic languages',
+    alg: 'Algonquian languages',
+    alv: 'Atlantic-Congo languages',
+    apa: 'Apache languages',
+    aqa: 'Alacalufan languages',
+    aql: 'Algic languages',
+    art: 'Artificial languages',
+    ath: 'Athapascan languages',
+    auf: 'Arauan languages',
+    aus: 'Australian languages',
+    awd: 'Arawakan languages',
+    azc: 'Uto-Aztecan languages',
+    bad: 'Banda languages',
+    bai: 'Bamileke languages',
+    bat: 'Baltic languages',
+    ber: 'Berber languages',
+    bih: 'Bihari languages',
+    bnt: 'Bantu languages',
+    btk: 'Batak languages',
+    cai: 'Central American Indian languages',
+    cau: 'Caucasian languages',
+    cba: 'Chibchan languages',
+    ccn: 'North Caucasian languages',
+    ccs: 'South Caucasian languages',
+    cdc: 'Chadic languages',
+    cdd: 'Caddoan languages',
+    cel: 'Celtic languages',
+    cmc: 'Chamic languages',
+    cpe: 'English based creoles and pidgins',
+    cpf: 'French-based creoles and pidgins',
+    cpp: 'Portuguese-based creoles and pidgins',
+    crp: 'Creoles and pidgins',
+    csu: 'Central Sudanic languages',
+    cus: 'Cushitic languages',
+    day: 'Land Dayak languages',
+    dmn: 'Mande languages',
+    dra: 'Dravidian languages',
+    egx: 'Egyptian languages',
+    esx: 'Eskimo-Aleut languages',
+    euq: 'Basque (family)',
+    fiu: 'Finno-Ugrian languages',
+    fox: 'Formosan languages',
+    gem: 'Germanic languages',
+    gme: 'East Germanic languages',
+    gmq: 'North Germanic languages',
+    gmw: 'West Germanic languages',
+    grk: 'Greek languages',
+    him: 'Himachali languages, Western Pahari languages',
+    hmx: 'Hmong-Mien languages',
+    hok: 'Hokan languages',
+    hyx: 'Armenian (family)',
+    iir: 'Indo-Iranian languages',
+    ijo: 'Ijo languages',
+    inc: 'Indic languages',
+    ine: 'Indo-European languages',
+    ira: 'Iranian languages',
+    iro: 'Iroquoian languages',
+    itc: 'Italic languages',
+    jpx: 'Japanese (family)',
+    kar: 'Karen languages',
+    kdo: 'Kordofanian languages',
+    khi: 'Khoisan languages',
+    kro: 'Kru languages',
+    map: 'Austronesian languages',
+    mkh: 'Mon-Khmer languages',
+    mno: 'Manobo languages',
+    mun: 'Munda languages',
+    myn: 'Mayan languages',
+    nah: 'Nahuatl languages',
+    nai: 'North American Indian',
+    ngf: 'Trans-New Guinea languages',
+    nic: 'Niger-Kordofanian languages',
+    nub: 'Nubian languages',
+    omq: 'Oto-Manguean languages',
+    omv: 'Omotic languages',
+    oto: 'Otomian languages',
+    paa: 'Papuan languages',
+    phi: 'Philippine languages',
+    plf: 'Central Malayo-Polynesian languages',
+    poz: 'Malayo-Polynesian languages',
+    pqe: 'Eastern Malayo-Polynesian languages',
+    pqw: 'Western Malayo-Polynesian languages',
+    pra: 'Prakrit languages',
+    qwe: 'Quechuan (family)',
+    roa: 'Romance languages',
+    sai: 'South American Indian languages',
+    sal: 'Salishan languages',
+    sdv: 'Eastern Sudanic languages',
+    sem: 'Semitic languages',
+    sgn: 'Sign Languages',
+    sio: 'Siouan languages',
+    sit: 'Sino-Tibetan languages',
+    sla: 'Slavic languages',
+    smi: 'Sami languages',
+    son: 'Songhai languages',
+    sqj: 'Albanian languages',
+    ssa: 'Nilo-Saharan languages',
+    syd: 'Samoyedic languages',
+    tai: 'Tai languages',
+    tbq: 'Tibeto-Burman languages',
+    trk: 'Turkic languages',
+    tup: 'Tupi languages',
+    tut: 'Altaic languages',
+    tuw: 'Tungus languages',
+    urj: 'Uralic languages',
+    wak: 'Wakashan languages',
+    wen: 'Sorbian languages',
+    xgn: 'Mongolian languages',
+    xnd: 'Na-Dene languages',
+    ypk: 'Yupik languages',
+    zhx: 'Chinese (family)',
+    zle: 'East Slavic languages',
+    zls: 'South Slavic languages',
+    zlw: 'West Slavic languages',
+    znd: 'Zande languages',
   };
 
   const editions = [
@@ -480,19 +600,36 @@
               className:
                 'select filter-form__select filter-form__select--language',
             },
-            Object.keys(languages).reduce(
-              (acc, language) => {
-                acc.push(
+            Object.keys(languages)
+              .reduce(
+                (acc, language) => {
+                  acc.push(
+                    e(
+                      'option',
+                      { key: language, value: language },
+                      languages[language]
+                    )
+                  );
+                  return acc;
+                },
+                [[e('option', { key: 0, value: '' }, 'All Languages')]]
+              )
+              .concat(
+                [
                   e(
                     'option',
-                    { key: language, value: language },
-                    languages[language]
-                  )
-                );
-                return acc;
-              },
-              [[e('option', { key: 0, value: '' }, 'Language')]]
-            )
+                    { key: 'separator', disabled: true },
+                    '──────────'
+                  ),
+                ],
+                Object.keys(languageGroups).map((code) => {
+                  return e(
+                    'option',
+                    { key: code, value: code },
+                    languageGroups[code]
+                  );
+                })
+              )
           ),
         ]),
         e('span', { key: 2, className: 'filter-form__group' }, [
