@@ -240,6 +240,7 @@ trait DateMatcherUtils extends Params {
       case "week" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
       case "month" => calendar.add(Calendar.MONTH, amount)
       case "year" => calendar.add(Calendar.YEAR, amount)
+      case _ =>
     }
     MatchedDateTime(calendar, relativeDate.start, relativeDate.end)
   }
@@ -271,6 +272,7 @@ trait DateMatcherUtils extends Params {
       case "day before yesterday" =>
         calendar.add(Calendar.DAY_OF_MONTH, -2)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
+      case _ => MatchedDateTime(calendar, tyDate.start, tyDate.end)
     }
   }
 
@@ -300,6 +302,7 @@ trait DateMatcherUtils extends Params {
         while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY) {
           calendar.add(Calendar.DAY_OF_MONTH, amount)
         }
+      case _ =>
     }
     MatchedDateTime(calendar, relativeDate.start, relativeDate.end)
   }
