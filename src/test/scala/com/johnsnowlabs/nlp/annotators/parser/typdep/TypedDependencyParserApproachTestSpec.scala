@@ -13,6 +13,8 @@ import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
 
 import java.io.FileNotFoundException
+import scala.language.existentials
+
 
 class TypedDependencyParserApproachTestSpec extends FlatSpec{
 
