@@ -4,7 +4,7 @@ title: Part of Speech for Basque
 author: John Snow Labs
 name: pos_ud_bdt
 date: 2020-07-29 23:34:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: eu
 edition: Spark NLP 2.5.5
 tags: [pos, eu]

@@ -4,7 +4,7 @@ title: Part of Speech for Greek
 author: John Snow Labs
 name: pos_ud_gdt
 date: 2020-05-05 16:56:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: el
 edition: Spark NLP 2.5.0
 tags: [pos, el]

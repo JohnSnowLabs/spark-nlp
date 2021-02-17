@@ -4,7 +4,7 @@ title: Part of Speech for Slovak
 author: John Snow Labs
 name: pos_ud_snk
 date: 2020-05-04 23:32:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: sk
 edition: Spark NLP 2.5.0
 tags: [pos, sk]

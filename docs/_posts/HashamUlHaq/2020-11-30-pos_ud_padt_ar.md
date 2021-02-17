@@ -4,7 +4,7 @@ title: Part of Speech for Arabic
 author: John Snow Labs
 name: pos_ud_padt
 date: 2020-11-30
-task: POS
+task: Part of Speech Tagging
 language: ar
 edition: Spark NLP 2.7.0
 tags: [pos, ar]
