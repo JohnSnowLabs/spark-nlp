@@ -335,39 +335,14 @@
   };
 
   const editions = [
-    'Spark NLP 2.4.0',
-    'Spark NLP 2.4.1',
-    'Spark NLP 2.4.2',
-    'Spark NLP 2.4.3',
-    'Spark NLP 2.4.4',
-    'Spark NLP 2.4.5',
-    'Spark NLP 2.5.0',
-    'Spark NLP 2.5.1',
-    'Spark NLP 2.5.2',
-    'Spark NLP 2.5.3',
-    'Spark NLP 2.5.4',
-    'Spark NLP 2.5.5',
-    'Spark NLP 2.6.0',
-    'Spark NLP 2.6.1',
-    'Spark NLP 2.6.2',
-    'Spark NLP 2.6.3',
-    'Spark NLP 2.6.4',
-    'Spark NLP 2.6.5',
-    'Spark NLP 2.7.0',
-    'Spark NLP for Healthcare 2.4.0',
-    'Spark NLP for Healthcare 2.4.1',
-    'Spark NLP for Healthcare 2.4.2',
-    'Spark NLP for Healthcare 2.4.5',
-    'Spark NLP for Healthcare 2.4.6',
-    'Spark NLP for Healthcare 2.5.0',
-    'Spark NLP for Healthcare 2.5.2',
-    'Spark NLP for Healthcare 2.5.3',
-    'Spark NLP for Healthcare 2.5.5',
-    'Spark NLP for Healthcare 2.6.0',
-    'Spark NLP for Healthcare 2.6.2',
-    'Spark NLP for Healthcare 2.7.0',
-    'Spark NLP for Healthcare 2.7.1',
-    'Spark NLP for Healthcare 2.7.2',
+    'Spark NLP 2.7',
+    'Spark NLP 2.6',
+    'Spark NLP 2.5',
+    'Spark NLP 2.4',
+    'Spark NLP for Healthcare 2.7',
+    'Spark NLP for Healthcare 2.6',
+    'Spark NLP for Healthcare 2.5',
+    'Spark NLP for Healthcare 2.4',
   ];
 
   const useFilterQuery = () => {
@@ -376,13 +351,18 @@
       context: {},
     });
 
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+      edition: editions[0],
+    });
 
     useEffect(() => {
       setState({ ...state, value: 'loading' });
+      const mapping = {
+        edition: 'edition_short',
+      };
       const searchParams = Object.keys(params).reduce((acc, k) => {
         if (params[k] && k !== 'type') {
-          acc.append(k, params[k]);
+          acc.append(mapping[k] || k, params[k]);
         }
         return acc;
       }, new URLSearchParams());
