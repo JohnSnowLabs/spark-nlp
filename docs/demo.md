@@ -276,20 +276,7 @@ data:
             url: https://demo.johnsnowlabs.com/public/DATE_MATCHER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb 
-        - title: Summarize text, compare sentences and answer questions using T5 transformer
-          image: 
-              src: /assets/images/Detect_sentences_in_text.svg
-          image2: 
-              src: /assets/images/Detect_sentences_in_text_f.svg
-          excerpt: This demo uses the T5 transformer model described in the seminal paper “Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer”.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/T5TRANSFORMER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb         
         - title: Understand questions about Airline Traffic
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
