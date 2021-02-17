@@ -105,7 +105,10 @@ class SentimentDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    getModelIfNotSet.predict(sentences, getConfigProtoBytes, $(threshold), $(thresholdLabel))
+    if(sentences.nonEmpty)
+      getModelIfNotSet.predict(sentences, getConfigProtoBytes, $(threshold), $(thresholdLabel))
+    else Seq.empty[Annotation]
+
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
