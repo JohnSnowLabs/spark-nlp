@@ -4,7 +4,7 @@ title: Deidentify  (Enriched)
 author: John Snow Labs
 name: deidentify_enriched_clinical
 date: 2021-01-29
-task: Deidentification
+task: De-identification
 language: en
 edition: Spark NLP for Healthcare 2.7.2
 tags: [deidentify, en, obfuscation, licensed]
