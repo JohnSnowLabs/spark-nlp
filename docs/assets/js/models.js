@@ -7,24 +7,21 @@
     'Named Entity Recognition',
     'Text Classification',
     'Sentiment Analysis',
-    'Assertion Status',
-    'Entity Resolution',
     'Translation',
     'Question Answering',
     'Summarization',
     'Sentence Detection',
     'Embeddings',
     'Language Detection',
-    'Deidentification',
-    'Stop Words',
+    'Stop Words Removal',
     'Word Segmentation',
-    'POS',
+    'Part of Speech Tagging',
     'Lemmatization',
     'Relation Extraction',
-    'Pipeline Healthcare',
-    'Pipeline Translate',
-    'Pipeline Onto NER',
-    'Pipeline Language Detection',
+    'Spell Checking',
+    'Assertion Status',
+    'Entity Resolution',
+    'De-identification',
   ];
 
   const languages = {
@@ -561,7 +558,12 @@
     );
   };
 
-  const FilterForm = ({ onSubmit, isLoading }) => {
+  const FilterForm = ({
+    onSubmit,
+    onTaskChange,
+    isLoading,
+    isHealthcareOnly,
+  }) => {
     return e(
       'form',
       { className: 'filter-form models-hero__group', onSubmit },
@@ -574,13 +576,14 @@
               key: 1,
               name: 'task',
               className: 'select filter-form__select filter-form__select--task',
+              onChange: onTaskChange,
             },
             tasks.reduce(
               (acc, task) => {
                 acc.push(e('option', { key: task, value: task }, task));
                 return acc;
               },
-              [[e('option', { key: 0, value: '' }, 'Task')]]
+              [[e('option', { key: 0, value: '' }, 'All')]]
             )
           ),
         ]),
@@ -640,15 +643,16 @@
               className:
                 'select filter-form__select filter-form__select--edition',
             },
-            editions.reduce(
-              (acc, edition) => {
-                acc.push(
-                  e('option', { key: edition, value: edition }, edition)
-                );
-                return acc;
-              },
-              [[e('option', { key: 0, value: '' }, 'Spark NLP edition')]]
-            )
+            editions
+              .filter((edition) => {
+                if (isHealthcareOnly) {
+                  return edition.indexOf('for Healthcare') !== -1;
+                }
+                return true;
+              })
+              .map((edition) =>
+                e('option', { key: edition, value: edition }, edition)
+              )
           ),
           e(
             'button',
@@ -716,6 +720,7 @@
 
   const App = () => {
     const [state, send] = useFilterQuery();
+    const [isHealthcareOnly, setIsHealthcareOnly] = useState(false);
 
     const handleFilterSubmit = (e) => {
       e.preventDefault();
@@ -727,6 +732,14 @@
         },
       } = e;
       send({ type: 'SUBMIT', task, language, edition });
+    };
+
+    const handleTaskChange = (e) => {
+      setIsHealthcareOnly(
+        ['Assertion Status', 'Entity Resolution', 'De-identification'].indexOf(
+          e.target.value
+        ) !== -1
+      );
     };
 
     const handlePageChange = (page) => {
@@ -769,7 +782,9 @@
       e(FilterForm, {
         key: 0,
         onSubmit: handleFilterSubmit,
+        onTaskChange: handleTaskChange,
         isLoading: state.value === 'loading',
+        isHealthcareOnly,
       }),
       e(SearchAndUpload, { key: 1 }),
       result,
