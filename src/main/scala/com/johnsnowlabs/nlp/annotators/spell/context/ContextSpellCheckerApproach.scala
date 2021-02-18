@@ -20,10 +20,11 @@ import java.util
 import org.tensorflow.proto.framework.GraphDef
 
 import scala.collection.mutable
-
+import scala.language.existentials
 
 
 case class LangModelSentence(ids: Array[Int], cids: Array[Int], cwids:Array[Int], len: Int)
+
 
 object CandidateStrategy {
   val ALL_UPPER_CASE = 0
@@ -150,7 +151,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     // split in validation and train
     val trainFraction = 1.0 - getOrDefault(validationFraction)
+
     val Array(validation, train) = dataset.randomSplit(Array(getOrDefault(validationFraction), trainFraction))
+
     val graph = findAndLoadGraph(getOrDefault(languageModelClasses), vocabulary.size)
 
     // create transducers for special classes
