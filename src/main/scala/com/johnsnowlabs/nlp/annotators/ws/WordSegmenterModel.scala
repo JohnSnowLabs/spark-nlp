@@ -149,7 +149,9 @@ private case class RegexTagsInfo(tagsMatch: String, start: Int, end: Int, estima
 trait ReadablePretrainedWordSegmenter extends ParamsAndFeaturesReadable[WordSegmenterModel]
   with HasPretrained[WordSegmenterModel]
 {
-  override val defaultModelName = Some("word_segmenter")
+  override val defaultModelName: Some[String] = Some("wordseg_pku")
+  override val defaultLang: String = "zh"
+
   /** Java compliant-overrides */
   override def pretrained(): WordSegmenterModel = super.pretrained()
   override def pretrained(name: String): WordSegmenterModel = super.pretrained(name)
