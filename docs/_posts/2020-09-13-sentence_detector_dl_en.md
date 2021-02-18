@@ -32,14 +32,13 @@ We are releasing two pretrained SDDL models: english and multilanguage that are 
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 
 ```python
 documenter = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-    
+  .setInputCol("text")\
+  .setOutputCol("document")
 sentencerDL = SentenceDetectorDLModel\
   .pretrained("sentence_detector_dl", "en") \
   .setInputCols(["document"]) \
@@ -52,13 +51,22 @@ sd_model.fullAnnotate("""John loves Mary.Mary loves Peter. Peter loves Helen .He
 val documenter = DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
-
 val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
-	.setInputCols(Array("document"))
-	.setOutputCol("sentence")
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence")
 val pipeline = new Pipeline().setStages(Array(documenter, model))
 val result = pipeline.fit(Seq.empty["John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved."""]
+sent_df = nlu.load('sentence_detector.deep').predict(text, output_level='sentence')
+sent_df
+```
+
 </div>
 
 {:.h2_title}

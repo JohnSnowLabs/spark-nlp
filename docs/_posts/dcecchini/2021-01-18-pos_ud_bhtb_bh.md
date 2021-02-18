@@ -79,6 +79,15 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val result = pipeline.fit(Seq.empty["ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।"].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।"]
+pos_df = nlu.load('bh.pos').predict(text)
+pos_df
+```
+
 </div>
 
 ## Results

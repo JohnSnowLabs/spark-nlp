@@ -294,7 +294,7 @@ data:
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
           image2: 
-              src: /assets/images/Detect_diagnosis_and_procedures.svg
+              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
           excerpt: Automatically detect key entities related to airline traffic, such as departure and arrival times and locations.
           actions:
           - text: Live Demo
@@ -302,7 +302,85 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title:  Automatically answer questions
+          image: 
+              src: /assets/images/spelling.svg
+          image2: 
+              src: /assets/images/spelling_f.svg
+          excerpt: Automatically generate answers to questions with & without context
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Infer word meaning from context
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: Compare the meaning of words in two different sentences and evaluate ambiguous pronouns.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/CONTEXTUAL_WORD_MEANING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Assess relationship between two sentences
+          image: 
+              src: /assets/images/Spell_Checking.svg
+          image2: 
+              src: /assets/images/Spell_Checking_f.svg
+          excerpt: Evaluate the relationship between two sentences or text fragments to identify things such as contradictions, entailments and premises & hypotheses
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_RELATIONS/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Summarize text
+          image: 
+              src: /assets/images/Document_Classification.svg
+          image2: 
+              src: /assets/images/Document_Classification_f.svg
+          excerpt: Summarize text to make it shorter while retaining meaning.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Evaluate sentence grammar
+          image: 
+              src: /assets/images/Find_in_Text.svg
+          image2: 
+              src: /assets/images/Find_in_Text_f.svg
+          excerpt: Classify a sentence as grammatically correct or incorrect.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_GRAMMAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Understand intent and actions in general commands
+          image: 
+              src: /assets/images/Split_Clean_Text.svg
+          image2: 
+              src: /assets/images/Split_Clean_Text_f.svg
+          excerpt: Extract intents in general commands related to music, restaurants, movies.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_CLS_SNIPS
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb    
       languages: yes
       languages: 
         - title: Detect language
@@ -1099,7 +1177,20 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
           - text: Colab Netbook
             type: blue_btn 
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb 
+        - title: Detect clinical entities in text
+          image: 
+              src: /assets/images/Detect_risk_factors.svg
+          image2: 
+              src: /assets/images/Detect_risk_factors_f.svg
+          excerpt: Automatically detect more than 50 clinical entities using our NER deep learning model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb       
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
@@ -1193,7 +1284,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
-        - title: Extract tables from PDFs
+        - title: Extract tables
           image: 
               src: /assets/images/Extract_tables_from_PDFs.svg
           image2: 
