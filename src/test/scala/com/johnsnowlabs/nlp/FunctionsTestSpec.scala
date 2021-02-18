@@ -2,14 +2,15 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator.{PerceptronApproach, Tokenizer}
 import com.johnsnowlabs.nlp.training.POS
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.types.ArrayType
 import org.scalatest._
 
 class FunctionsTestSpec extends FlatSpec {
 
-  "functions in functions" should "work successfully" in {
+  "functions in functions" should "work successfully" taggedAs FastTest in {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 

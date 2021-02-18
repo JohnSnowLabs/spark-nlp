@@ -1,0 +1,30 @@
+package:
+  name: "spark-nlp"
+  version: 2.7.3
+
+app:
+  entry: spark-nlp
+  summary: Natural Language Understanding Library for Apache Spark.
+
+source:
+    fn: spark-nlp-2.7.3.tar.gz
+    url: https://files.pythonhosted.org/packages/83/07/e6647d0d1d63df6fe5bc9a4ab9f2f245a6dd2f537ce64b7638ff36ac6d00/spark-nlp-2.7.3.tar.gz
+    sha256: bbd081cbce510ce0116ae517f6a4afc4fc88230182603dabc241041cbcd09bee
+build:
+  noarch: generic
+  number: 0
+  script: "python -m pip install . --no-deps -vv"
+
+requirements:
+  build:
+    - python
+  run:
+    - python
+
+about:
+  home: https://github.com/JohnSnowLabs/spark-nlp/
+  license: Apache License 2.0
+  license_family: APACHE
+  license_url: https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE
+  description: John Snow Labs Spark-NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment.
+  summary: Natural Language Understanding Library for Apache Spark.

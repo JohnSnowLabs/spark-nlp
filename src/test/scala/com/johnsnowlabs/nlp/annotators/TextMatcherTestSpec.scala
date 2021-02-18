@@ -4,18 +4,19 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
 
 class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
 
-  "An TextMatcher" should s"be of type $CHUNK" in {
+  "An TextMatcher" should s"be of type $CHUNK" taggedAs FastTest in {
     val entityExtractor = new TextMatcherModel
     assert(entityExtractor.outputAnnotatorType == CHUNK)
   }
 
-  "A TextMatcher" should "extract entities with and without sentences" in {
+  "A TextMatcher" should "extract entities with and without sentences" taggedAs SlowTest in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset)
     val resultNoSentence = AnnotatorBuilder.withFullTextMatcher(dataset, sbd = false)
@@ -45,7 +46,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     assert(extractedNoSentenceNoCase == expectedNoSentenceNoCase)
   }
 
-  "An Entity Extractor" should "search inside sentences" in {
+  "An Entity Extractor" should "search inside sentences" taggedAs SlowTest in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset, caseSensitive = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq
@@ -53,7 +54,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     assert(extracted == Seq.empty[Annotation])
   }
 
-  "A Recursive Pipeline TextMatcher" should "extract entities from dataset" in {
+  "A Recursive Pipeline TextMatcher" should "extract entities from dataset" taggedAs FastTest in {
     val data = ContentProvider.parquetData.limit(1000)
 
     val documentAssembler = new DocumentAssembler()
@@ -91,7 +92,7 @@ class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
-  "A Recursive Pipeline TextMatcher" should "extract entities from dataset without context chars" in {
+  "A Recursive Pipeline TextMatcher" should "extract entities from dataset without context chars" taggedAs FastTest in {
     val data = SparkAccessor.spark.createDataFrame(Seq(("LEFT PROSTATE (CORE blah BIOPSIES) jeje",""))).toDF("text","none")
 
     val documentAssembler = new DocumentAssembler()

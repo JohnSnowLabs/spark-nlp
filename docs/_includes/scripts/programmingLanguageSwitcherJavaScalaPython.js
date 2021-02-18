@@ -14,9 +14,9 @@ function toggleScala() {
     $(".python-button").addClass('code-selector-un-active');
 
     //toggle language snippets
-    $( ".language-scala" ).show() 
-    $( ".language-python" ).hide()
-    $( ".language-java" ).hide()
+    $( ".tabs-box .language-scala" ).show() 
+    $( ".tabs-box .language-python" ).hide()
+    $( ".tabs-box .language-java" ).hide()
     }
 
 function togglePython() {
@@ -36,9 +36,9 @@ function togglePython() {
     $(".scala-button").addClass('code-selector-un-active');
 
     //toggle language snippets
-    $( ".language-python" ).show() 
-    $( ".language-java" ).hide()
-    $( ".language-scala" ).hide()
+    $( ".tabs-box .language-python" ).show() 
+    $( ".tabs-box .language-java" ).hide()
+    $( ".tabs-box .language-scala" ).hide()
     }
 
 function toggleJava() {
@@ -56,9 +56,9 @@ function toggleJava() {
     $(".python-button").addClass('code-selector-un-active');
 
     //toggle language snippets
-    $( ".language-java" ).show() 
-    $( ".language-python" ).hide()
-    $( ".language-scala" ).hide()
+    $( ".tabs-box .language-java" ).show() 
+    $( ".tabs-box .language-python" ).hide()
+    $( ".tabs-box .language-scala" ).hide()
     }
 
 function defer(method) { //wait until jquery ready

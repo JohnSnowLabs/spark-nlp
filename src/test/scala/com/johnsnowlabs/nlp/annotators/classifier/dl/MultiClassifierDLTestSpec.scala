@@ -4,8 +4,8 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
 import org.apache.spark.sql.functions.{col, udf}
+import org.scalatest._
 
 class MultiClassifierDLTestSpec extends FlatSpec {
 

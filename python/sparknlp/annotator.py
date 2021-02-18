@@ -38,6 +38,9 @@ ld.dl = sys.modules[__name__]
 keyword = sys.modules[__name__]
 keyword.yake = sys.modules[__name__]
 sentence_detector_dl = sys.modules[__name__]
+seq2seq = sys.modules[__name__]
+ws = sys.modules[__name__]
+
 
 class RecursiveTokenizer(AnnotatorApproach):
     name = 'RecursiveTokenizer'
@@ -340,7 +343,8 @@ class RegexTokenizer(AnnotatorModel):
             outputCol="regexToken",
             toLowercase=False,
             minLength=1,
-            pattern="\\s+"
+            pattern="\\s+",
+            positionalMask=False
         )
 
     minLength = Param(Params._dummy(),
@@ -363,6 +367,11 @@ class RegexTokenizer(AnnotatorModel):
                     "regex pattern used for tokenizing. Defaults \S+",
                     typeConverter=TypeConverters.toString)
 
+    positionalMask = Param(Params._dummy(),
+                           "positionalMask",
+                           "Using a positional mask to guarantee the incremental progression of the tokenization.",
+                           typeConverter=TypeConverters.toBoolean)
+
     def setMinLength(self, value):
         return self._set(minLength=value)
 
@@ -374,6 +383,9 @@ class RegexTokenizer(AnnotatorModel):
 
     def setPattern(self, value):
         return self._set(pattern=value)
+
+    def setPositionalMask(self, value):
+        return self._set(positionalMask=value)
 
 
 class ChunkTokenizer(Tokenizer):
@@ -434,6 +446,69 @@ class Chunker(AnnotatorModel):
 
     def setRegexParsers(self, value):
         return self._set(regexParsers=value)
+
+
+class DocumentNormalizer(AnnotatorModel):
+
+    action = Param(Params._dummy(),
+                   "action",
+                   "action to perform applying regex patterns on text",
+                   typeConverter=TypeConverters.toString)
+
+    patterns = Param(Params._dummy(),
+                     "patterns",
+                     "normalization regex patterns which match will be removed from document. Defaults is <[^>]*>",
+                     typeConverter=TypeConverters.toListString)
+
+    replacement = Param(Params._dummy(),
+                        "replacement",
+                        "replacement string to apply when regexes match",
+                        typeConverter=TypeConverters.toString)
+
+    lowercase = Param(Params._dummy(),
+                      "lowercase",
+                      "whether to convert strings to lowercase",
+                      typeConverter=TypeConverters.toBoolean)
+
+    policy = Param(Params._dummy(),
+                   "policy",
+                   "policy to remove pattern from text",
+                   typeConverter=TypeConverters.toString)
+
+    encoding = Param(Params._dummy(),
+                     "encoding",
+                     "file encoding to apply on normalized documents",
+                     typeConverter=TypeConverters.toString)
+
+    @keyword_only
+    def __init__(self):
+        super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
+        self._setDefault(
+            action="clean",
+            patterns=["<[^>]*>"],
+            replacement=" ",
+            lowercase=False,
+            policy="pretty_all",
+            encoding="UTF-8"
+        )
+
+    def setAction(self, value):
+        return self._set(action=value)
+
+    def setPatterns(self, value):
+        return self._set(patterns=value)
+
+    def setReplacement(self, value):
+        return self._set(replacement=value)
+
+    def setLowercase(self, value):
+        return self._set(lowercase=value)
+
+    def setPolicy(self, value):
+        return self._set(policy=value)
+
+    def setEncoding(self, value):
+        return self._set(encoding=value)
 
 
 class Normalizer(AnnotatorApproach):
@@ -603,6 +678,27 @@ class DateMatcherUtils(Params):
                                   typeConverter=TypeConverters.toInt
                                   )
 
+    anchorDateYear = Param(Params._dummy(),
+                           "anchorDateYear",
+                           "Add an anchor year for the relative dates such as a day after tomorrow. If not set it "
+                           "will use the current year. Example: 2021",
+                           typeConverter=TypeConverters.toInt
+                           )
+
+    anchorDateMonth = Param(Params._dummy(),
+                            "anchorDateMonth",
+                            "Add an anchor month for the relative dates such as a day after tomorrow. If not set it "
+                            "will use the current month. Example: 1 which means January",
+                            typeConverter=TypeConverters.toInt
+                            )
+
+    anchorDateDay = Param(Params._dummy(),
+                          "anchorDateDay",
+                          "Add an anchor day of the day for the relative dates such as a day after tomorrow. If not "
+                          "set it will use the current day. Example: 11",
+                          typeConverter=TypeConverters.toInt
+                          )
+
     def setFormat(self, value):
         return self._set(dateFormat=value)
 
@@ -611,6 +707,15 @@ class DateMatcherUtils(Params):
 
     def setDefaultDayWhenMissing(self, value):
         return self._set(defaultDayWhenMissing=value)
+
+    def setAnchorDateYear(self, value):
+        return self._set(anchorDateYear=value)
+
+    def setAnchorDateMonth(self, value):
+        return self._set(anchorDateMonth=value)
+
+    def setAnchorDateDay(self, value):
+        return self._set(anchorDateDay=value)
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
@@ -623,7 +728,10 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
         self._setDefault(
             dateFormat="yyyy/MM/dd",
             readMonthFirst=True,
-            defaultDayWhenMissing=1
+            defaultDayWhenMissing=1,
+            anchorDateYear=-1,
+            anchorDateMonth=-1,
+            anchorDateDay=-1
         )
 
 
@@ -2042,10 +2150,19 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
     name = "UniversalSentenceEncoder"
 
+    loadSP = Param(Params._dummy(), "loadSP", "Whether to load SentencePiece ops file which is required only by multi-lingual models. "
+                                              "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.", typeConverter=TypeConverters.toBoolean)
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
+
+    def setLoadSP(self, value):
+        """
+        Sets the value of :py:attr:`loadSP`.
+        """
+        return self._set(loadSP=value)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -2056,11 +2173,14 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
             classname=classname,
             java_model=java_model
         )
+        self._setDefault(
+            loadSP=False
+        )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, loadsp=False):
         from sparknlp.internal import _USELoader
-        jModel = _USELoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _USELoader(folder, spark_session._jsparkSession, loadsp)._java_obj
         return UniversalSentenceEncoder(java_model=jModel)
 
 
@@ -2223,7 +2343,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
 
     classes = Param(Params._dummy(), "classes",
-                    "get the tags used to trained this NerDLModel",
+                    "get the tags used to trained this ClassifierDLModel",
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
@@ -2716,7 +2836,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     classes = Param(Params._dummy(), "classes",
-                    "get the tags used to trained this NerDLModel",
+                    "get the tags used to trained this SentimentDLModel",
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
@@ -2753,7 +2873,9 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.", TypeConverters.toFloat)
     thresholdLabel = Param(Params._dummy(), "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is neutral.", TypeConverters.toString)
     coalesceSentences = Param(Params._dummy(), "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.", TypeConverters.toBoolean)
-
+    languages = Param(Params._dummy(), "languages",
+                      "get the languages used to trained the model",
+                      TypeConverters.toListString)
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
@@ -2768,7 +2890,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self._set(coalesceSentences=value)
 
     @staticmethod
-    def pretrained(name="ld_wiki_20", lang="xx", remote_loc=None):
+    def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)
 
@@ -2875,7 +2997,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     threshold = Param(Params._dummy(), "threshold", "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
     classes = Param(Params._dummy(), "classes",
-                    "get the tags used to trained this NerDLModel",
+                    "get the tags used to trained this MultiClassifierDLModel",
                     TypeConverters.toListString)
 
     def setThreshold(self, v):
@@ -3034,3 +3156,155 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach"):
         super(SentenceDetectorDLApproach, self).__init__(classname=classname)
+
+
+class WordSegmenterApproach(AnnotatorApproach):
+    name = "WordSegmenterApproach"
+
+    posCol = Param(Params._dummy(),
+                   "posCol",
+                   "column of Array of POS tags that match tokens",
+                   typeConverter=TypeConverters.toString)
+
+    nIterations = Param(Params._dummy(),
+                        "nIterations",
+                        "Number of iterations in training, converges to better accuracy",
+                        typeConverter=TypeConverters.toInt)
+
+    frequencyThreshold = Param(Params._dummy(),
+                               "frequencyThreshold",
+                               "How many times at least a tag on a word to be marked as frequent",
+                               typeConverter=TypeConverters.toInt)
+
+    ambiguityThreshold = Param(Params._dummy(),
+                               "ambiguityThreshold",
+                               "How much percentage of total amount of words are covered to be marked as frequent",
+                               typeConverter=TypeConverters.toFloat)
+
+    @keyword_only
+    def __init__(self):
+        super(WordSegmenterApproach, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach")
+        self._setDefault(
+            nIterations=5, frequencyThreshold=20, ambiguityThreshold=0.97
+        )
+
+    def setPosCol(self, value):
+        return self._set(posCol=value)
+
+    def setIterations(self, value):
+        return self._set(nIterations=value)
+
+    def setFrequencyThreshold(self):
+        return self.getOrDefault(self.frequencyThreshold)
+
+    def setAmbiguityThreshold(self):
+        return self.getOrDefault(self.ambiguityThreshold)
+
+    def getNIterations(self):
+        return self.getOrDefault(self.nIterations)
+
+    def _create_model(self, java_model):
+        return WordSegmenterModel(java_model=java_model)
+
+
+class WordSegmenterModel(AnnotatorModel):
+    name = "WordSegmenterModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel", java_model=None):
+        super(WordSegmenterModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name="wordseg_weibo", lang="zh", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
+
+
+class T5Transformer(AnnotatorModel):
+
+    name = "T5Transformer"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    task = Param(Params._dummy(), "task", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
+
+    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Set the maximum length of output text", typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setTask(self, value):
+        return self._set(task=value)
+
+    def setMaxOutputLength(self, value):
+        return self._set(maxOutputLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer", java_model=None):
+        super(T5Transformer, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _T5Loader
+        jModel = _T5Loader(folder, spark_session._jsparkSession)._java_obj
+        return T5Transformer(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="t5_small", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
+
+
+class MarianTransformer(AnnotatorModel):
+
+    name = "MarianTransformer"
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    langId = Param(Params._dummy(), "langId", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
+
+    maxInputLength = Param(Params._dummy(), "maxInputLength", "Controls the maximum length for encoder inputs (source language texts)", typeConverter=TypeConverters.toInt)
+
+    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Controls the maximum length for decoder outputs (target language texts)", typeConverter=TypeConverters.toInt)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setLangId(self, value):
+        return self._set(langId=value)
+
+    def setMaxInputLength(self, value):
+        return self._set(maxInputLength=value)
+
+    def setMaxOutputLength(self, value):
+        return self._set(maxOutputLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer", java_model=None):
+        super(MarianTransformer, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _MarianLoader
+        jModel = _MarianLoader(folder, spark_session._jsparkSession)._java_obj
+        return MarianTransformer(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)

@@ -1,16 +1,18 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
-import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLApproach, ClassifierDLModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.scalatest._
+import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.functions.size
+import org.scalatest._
 
 class SentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" in {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -66,7 +68,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
   }
 
   // too large for Travis
-  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" ignore {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -119,7 +121,7 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "SentenceEmbeddings" should "not crash on empty embeddings" in {
+  "SentenceEmbeddings" should "not crash on empty embeddings" taggedAs FastTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -171,4 +173,62 @@ class SentenceEmbeddingsTestSpec extends FlatSpec {
     pipelineDF.show(2)
   }
 
+  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" taggedAs SlowTest in {
+
+    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(smallCorpus)
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+
+    val embeddingsSentence = new SentenceEmbeddings()
+      .setInputCols(Array("document", "embeddings"))
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+
+    val docClassifier = new ClassifierDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(64)
+      .setMaxEpochs(1)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+
+    val pipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        tokenizer,
+        embeddings,
+        embeddingsSentence,
+        docClassifier
+      ))
+
+    val pipelineModel = pipeline.fit(smallCorpus)
+    val pipelineDF = pipelineModel.transform(smallCorpus)
+
+    val embedStorageRef = embeddings.getStorageRef
+
+    val setnEmbedRef = embeddingsSentence.getStorageRef
+    val setnEmbedRefPipeModel = pipelineModel.stages(4).asInstanceOf[SentenceEmbeddings].getStorageRef
+    val classifierStorageRef = pipelineModel.stages.last.asInstanceOf[ClassifierDLModel].getStorageRef
+
+    assert(setnEmbedRef == embedStorageRef)
+    assert(setnEmbedRefPipeModel == embedStorageRef)
+    assert(classifierStorageRef == embedStorageRef)
+  }
 }

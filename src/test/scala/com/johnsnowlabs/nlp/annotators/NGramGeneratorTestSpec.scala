@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
 
@@ -22,13 +23,13 @@ class NGramGeneratorTestSpec extends FlatSpec {
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-  val stopWordsCleaner: StopWordsCleaner = new StopWordsCleaner()
+  val stopWords: StopWordsCleaner = new StopWordsCleaner()
     .setInputCols("token")
     .setOutputCol("cleanTokens")
     .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
     .setCaseSensitive(false)
 
-  "NGramGenerator" should "correctly generate n-grams from tokenizer's results" in {
+  "NGramGenerator" should "correctly generate n-grams from tokenizer's results" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -77,7 +78,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGenerator" should "correctly generate n-grams with enableCumulative" in {
+  "NGramGenerator" should "correctly generate n-grams with enableCumulative" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -150,7 +151,7 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGenerator" should "correctly generate n-grams with specified delimiter" in {
+  "NGramGenerator" should "correctly generate n-grams with specified delimiter" taggedAs FastTest in {
     val delimiter = "_"
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
@@ -224,19 +225,15 @@ class NGramGeneratorTestSpec extends FlatSpec {
 
   }
 
-  "NGramGenerator" should "correctly works with empty tokens" in {
+  "NGramGenerator" should "correctly works with empty tokens" taggedAs FastTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
       (2, "This is my third sentence. This is my fourth.")
     )).toDF("id", "text")
 
-    val symSpellChecker = NorvigSweetingModel.pretrained()
-      .setInputCols("cleanTokens")
-      .setOutputCol("checkedTokens")
-
     val nGrams = new NGramGenerator()
-      .setInputCols("checkedTokens")
+      .setInputCols("cleanTokens")
       .setOutputCol("ngrams")
       .setN(2)
       .setEnableCumulative(false)
@@ -246,16 +243,12 @@ class NGramGeneratorTestSpec extends FlatSpec {
         documentAssembler,
         sentence,
         tokenizer,
-        stopWordsCleaner,
-        symSpellChecker,
+        stopWords,
         nGrams
       ))
 
     val pipelineDF = pipeline.fit(testData).transform(testData)
-    pipelineDF.select("token").show(1)
-    pipelineDF.select("checkedTokens").show(1)
     pipelineDF.select("ngrams").show(1)
-
 
   }
 }

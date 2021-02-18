@@ -5,11 +5,12 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.scalatest._
 
 class NerConverterTest extends FlatSpec {
 
-  "NeConverter" should "correctly use any TOKEN type input" in {
+  "NeConverter" should "correctly use any TOKEN type input" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
