@@ -4,6 +4,9 @@ title: Detect Normalized Genes and Human Phenotypes
 author: John Snow Labs
 name: ner_human_phenotype_go_clinical
 date: 2020-09-21
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.0
 tags: [ner, en, licensed, clinical]
 article_header:
 type: cover
@@ -29,6 +32,9 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
@@ -43,6 +49,9 @@ annotations = light_pipeline.fullAnnotate("Another disease that shares two of th
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_human_phenotype_go_clinical", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")

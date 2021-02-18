@@ -1,18 +1,19 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.EmbeddingsFinisher
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
+import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, Normalizer, SQLTransformer}
-import org.scalatest._
 import org.apache.spark.sql.functions._
+import org.scalatest._
 
 class UniversalSentenceEncoderTestSpec extends FlatSpec {
 
-  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" ignore {
+  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true")
       .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
@@ -44,7 +45,7 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
 
   }
 
-  "UniversalSentenceEncoder" should "integrate into Spark ML" ignore {
+  "UniversalSentenceEncoder" should "integrate into Spark ML" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -113,7 +114,7 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
       .show()
   }
 
-  "UniversalSentenceEncoder" should "not fail on empty inputs" ignore {
+  "UniversalSentenceEncoder" should "not fail on empty inputs" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
@@ -144,6 +145,38 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
     pipelineDF.select("sentence.result").show(false)
     pipelineDF.select("sentence_embeddings.result").show(false)
     pipelineDF.show()
+
+  }
+
+
+  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" taggedAs SlowTest in {
+
+    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+      .csv("src/test/resources/embeddings/sentence_embeddings_use.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val useEmbeddings = UniversalSentenceEncoder
+      .pretrained("tfhub_use_multi", "xx")
+      .setInputCols("sentence")
+      .setOutputCol("sentence_embeddings")
+
+    val pipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        useEmbeddings
+      ))
+
+    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    println(pipelineDF.count())
+    pipelineDF.show
 
   }
 

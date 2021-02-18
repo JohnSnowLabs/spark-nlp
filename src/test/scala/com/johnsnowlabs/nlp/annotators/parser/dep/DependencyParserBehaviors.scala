@@ -1,37 +1,38 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
 import com.johnsnowlabs.nlp._
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.scalatest.FlatSpec
+import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.scalatest.FlatSpec
 
 trait DependencyParserBehaviors { this: FlatSpec =>
 
 
   def initialAnnotations(testDataSet: Dataset[Row]): Unit = {
     val fixture = createFixture(testDataSet)
-    it should "add annotations" in {
+    it should "add annotations" taggedAs FastTest in {
       assert(fixture.dependencies.count > 0, "Annotations count should be greater than 0")
     }
 
-    it should "add annotations with the correct annotationType" in {
+    it should "add annotations with the correct annotationType" taggedAs FastTest in {
       fixture.depAnnotations.foreach { a =>
         assert(a.annotatorType == AnnotatorType.DEPENDENCY, s"Annotation type should ${AnnotatorType.DEPENDENCY}")
       }
     }
 
-    it should "annotate each token" in {
+    it should "annotate each token" taggedAs FastTest in {
       assert(fixture.tokenAnnotations.size == fixture.depAnnotations.size, s"Every token should be annotated")
     }
 
-    it should "annotate each word with a head" in {
+    it should "annotate each word with a head" taggedAs FastTest in {
       fixture.depAnnotations.foreach { a =>
         assert(a.result.nonEmpty, s"Result should have a head")
       }
     }
 
-    it should "annotate each word with the correct indexes" in {
+    it should "annotate each word with the correct indexes" taggedAs FastTest in {
       fixture.depAnnotations
         .zip(fixture.tokenAnnotations)
         .foreach { case (dep, token) => assert(dep.begin == token.begin && dep.end == token.end, s"Token and word should have equal indixes") }
@@ -61,7 +62,7 @@ trait DependencyParserBehaviors { this: FlatSpec =>
 
     val dependencyParserModel = pipeline.fit(emptyDataSet)
 
-    it should "train a model" in {
+    it should "train a model" taggedAs FastTest in {
       val model = dependencyParserModel.stages.last.asInstanceOf[DependencyParserModel]
       assert(model.isInstanceOf[DependencyParserModel])
     }
@@ -70,7 +71,7 @@ trait DependencyParserBehaviors { this: FlatSpec =>
     //dependencyParserDataFrame.collect()
     //dependencyParserDataFrame.select("dependency").show(false)
 
-    it should "predict relationships between words" in {
+    it should "predict relationships between words" taggedAs FastTest in {
       assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
     }
 

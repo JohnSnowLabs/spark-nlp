@@ -1,8 +1,9 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
@@ -11,7 +12,7 @@ import org.scalatest._
 
 class AlbertEmbeddingsTestSpec extends FlatSpec {
 
-  "ALBert Embeddings" should "correctly load pretrained model" ignore {
+  "ALBert Embeddings" should "correctly load pretrained model" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header","true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")

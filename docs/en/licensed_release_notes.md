@@ -4,10 +4,589 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: "2020-11-26"
+modify_date: "2020-02-07"
 ---
 
 <div class="h3-box" markdown="1">
+
+### 2.7.3
+
+We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!  
+
+#### Highlights:
+
+- Introducing a brand-new **RelationExtractionDL Annotator** – Achieving SOTA results in clinical relation extraction using **BioBert**.
+- Massive Improvements & feature enhancements in **De-Identification** module:
+    - Introduction of **faker** augmentation in Spark NLP for Healthcare to generate random data for obfuscation in de-identification module.
+    - Brand-new annotator for **Structured De-Identification**.
+- **Drug Normalizer:**  Normalize medication-related phrases (dosage, form and strength) and abbreviations in text and named entities extracted by NER models.
+- **Confidence scores** in **assertion** output : just like NER output, assertion models now also support confidence scores for each prediction.
+- **Cosine similarity** metrics in entity resolvers to get more informative and semantically correct results.
+- **AuxLabel** in the metadata of entity resolvers to return additional mappings.
+- New **Relation Extraction** models to extract relations between **body parts** and clinical entities.
+- New **Entity Resolver** models to extract billable medical codes.
+- New **Clinical Pretrained NER** models.
+- Bug fixes & general improvements.
+- Matching the version with Spark NLP open-source v2.7.3.
+
+
+#### 1. Improvements in De-Identification Module:
+
+Integration of `faker` library to automatically generate random data like names, dates, addresses etc so users dont have to specify dummy data (custom obfuscation files can still be used). It also improves the obfuscation results due to a bigger pool of random values.
+
+**How to use:**
+
+Set the flag `setObfuscateRefSource` to `faker`
+
+    deidentification = DeIdentification()
+        .setInputCols(["sentence", "token", "ner_chunk"])\
+		.setOutputCol("deidentified")\
+		.setMode("obfuscate") \
+		.setObfuscateRefSource("faker")
+
+For more details: Check out this [notebook ](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb)
+
+#### 2. Structured De-Identification Module:
+
+Introduction of a new annotator to handle de-identification of structured data. it  allows users to define a mapping of columns and their obfuscation policy. Users can also provide dummy data and map them to columns they want to replace values in.
+
+**How to use:**
+
+	obfuscator = StructuredDeidentification \
+		(spark,{"NAME":"PATIENT","AGE":"AGE"},
+		obfuscateRefSource = "faker")
+
+	obfuscator_df = obfuscator.obfuscateColumns(df)
+
+	obfuscator_df.select("NAME","AGE").show(truncate=False)
+
+**Example:**
+
+Input Data:
+
+Name  | Age
+------------- | -------------
+Cecilia Chapman|83
+Iris Watson    |9  
+Bryar Pitts    |98
+Theodore Lowe  |16
+Calista Wise   |76
+
+Deidentified:
+
+Name  | Age
+------------- | -------------
+Menne Erdôs|20
+ Longin Robinson     |31  
+ Flynn Fiedlerová   |50
+ John Wakeland  |21
+Vanessa Andersson   |12
+
+
+For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb).
+
+#### 3. Introducing SOTA relation extraction model using BioBert
+
+A brand-new end-to-end trained BERT model, resulting in massive improvements. Another new annotator (`ReChunkFilter`) is also developed for this new model to allow syntactic features work well with BioBert to extract relations.
+
+**How to use:**
+
+    re_ner_chunk_filter = RENerChunksFilter()\
+        .setInputCols(["ner_chunks", "dependencies"])\
+        .setOutputCol("re_ner_chunks")\
+        .setRelationPairs(pairs)\
+        .setMaxSyntacticDistance(4)
+
+    re_model = RelationExtractionDLModel()\
+        .pretrained(“redl_temporal_events_biobert”, "en", "clinical/models")\
+        .setPredictionThreshold(0.9)\
+        .setInputCols(["re_ner_chunks", "sentences"])\
+        .setOutputCol("relations")
+
+
+##### Benchmarks:
+
+**on benchmark datasets**
+
+model                           | Spark NLP ML model | Spark NLP DL model | benchmark
+---------------------------------|-----------|-----------|-----------
+re_temporal_events_clinical     | 68.29     | 71.0      | 80.2 [1](https://arxiv.org/pdf/2012.08790.pdf)
+re_clinical                     | 56.45     | **69.2**      | 68.2      [2](ncbi.nlm.nih.gov/pmc/articles/PMC7153059/)
+re_human_pheotype_gene_clinical | -         | **87.9**      | 67.2 [3](https://arxiv.org/pdf/1903.10728.pdf)
+re_drug_drug_interaction        | -         | 72.1      | 83.8 [4](https://www.aclweb.org/anthology/2020.knlp-1.4.pdf)
+re_chemprot                     | 76.69     | **94.1**      | 83.64 [5](https://www.aclweb.org/anthology/D19-1371.pdf)
+
+**on in-house annotations**
+
+model                           | Spark NLP ML model | Spark NLP DL model
+---------------------------------|-----------|-----------
+re_bodypart_problem             | 84.58     | 85.7
+re_bodypart_procedure           | 61.0      | 63.3
+re_date_clinical                | 83.0      | 84.0  
+re_bodypart_direction           | 93.5      | 92.5  
+
+
+For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb) or [modelshub](https://nlp.johnsnowlabs.com/models?tag=relation_extraction).
+
+
+
+#### 4. Drug Normalizer:
+
+Standardize units of drugs and handle abbreviations in raw text or drug chunks identified by any NER model. This normalization significantly improves performance of entity resolvers.  
+
+**How to use:**
+
+    drug_normalizer = DrugNormalizer()\
+        .setInputCols("document")\
+        .setOutputCol("document_normalized")\
+        .setPolicy("all") #all/abbreviations/dosages
+
+**Examples:**
+
+`drug_normalizer.transform("adalimumab 54.5 + 43.2 gm”)`
+
+    >>> "adalimumab 97700 mg"
+
+**Changes:** _combine_ `54.5` + `43.2` and _normalize_ `gm` to `mg`
+
+`drug_normalizer.transform("Agnogenic one half cup”)`
+
+    >>> "Agnogenic 0.5 oral solution"
+
+**Changes:** _replace_ `one half` to the `0.5`, _normalize_ `cup` to the `oral solution`
+
+`drug_normalizer.transform("interferon alfa-2b 10 million unit ( 1 ml ) injec”)`
+
+    >>> "interferon alfa - 2b 10000000 unt ( 1 ml ) injection "
+
+**Changes:** _convert_ `10 million unit` to the `10000000 unt`, _replace_ `injec` with `injection`
+
+For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb)
+
+#### 5. Assertion models to support confidence in output:
+
+Just like NER output, assertion models now also provides _confidence scores_ for each prediction.
+
+chunks  | entities | assertion | confidence
+-----------|-----------|------------|-------------
+a headache | PROBLEM | present |0.9992
+anxious | PROBLEM | conditional |0.9039
+alopecia | PROBLEM | absent |0.9992
+pain | PROBLEM | absent |0.9238
+
+`.setClasses()` method is deprecated in `AssertionDLApproach`  and users do not need to specify number of classes while training, as it will be inferred from the dataset.
+
+
+#### 6. New Relation Extraction Models:
+
+
+We are also releasing new relation extraction models to link the clinical entities to body parts and dates. These models are trained using binary relation extraction approach for better accuracy.
+
+**- re_bodypart_direction :**  Relation Extraction between `Body Part` and `Direction` entities.
+
+**Example:**
+
+**Text:** _“MRI demonstrated infarction in the upper brain stem , left cerebellum and right basil ganglia”_
+
+relations | entity1                     | chunk1     | entity2                     | chunk2        | confidence
+-----------|-----------------------------|------------|-----------------------------|---------------|------------
+1         | Direction                   | upper      | bodyPart | brain stem    | 0.999
+0         | Direction                   | upper      | bodyPart | cerebellum    | 0.999
+0         | Direction                   | upper      | bodyPart | basil ganglia | 0.999
+0         | bodyPart | brain stem | Direction                   | left          | 0.999
+0         | bodyPart | brain stem | Direction                   | right         | 0.999
+1         | Direction                   | left       | bodyPart | cerebellum    | 1.0         
+0         | Direction                   | left       | bodyPart | basil ganglia | 0.976
+0         | bodyPart | cerebellum | Direction                   | right         | 0.953
+1         | Direction                   | right      | bodyPart | basil ganglia | 1.0       
+
+
+**- re_bodypart_problem :** Relation Extraction between `Body Part` and `Problem` entities.
+
+**Example:**
+
+**Text:** _“No neurologic deficits other than some numbness in his left hand.”_
+
+relation | entity1   | chunk1              | entity2                      | chunk2   | confidence  
+--|------------------|--------------------|-----------------------------|---------|-----------  
+0 | Symptom   | neurologic deficits | bodyPart | hand     |          1
+1 | Symptom   | numbness            | bodyPart | hand     |          1
+
+
+**- re_bodypart_proceduretest :**  Relation Extraction between `Body Part` and `Procedure`, `Test` entities.
+
+**Example:**
+
+**Text:** _“TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.”_
+
+relation | entity1                      | chunk1   | entity2   | chunk2              | confidence  
+---------|-----------------------------|---------|----------|--------------------|-----------
+1 | bodyPart | chest    | Test      | portable ultrasound |    0.999
+
+**-re_date_clinical :** Relation Extraction between `Date` and different clinical entities.   
+
+**Example:**
+
+**Text:** _“This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.”_
+
+relations | entity1 | chunk1                                   | entity2 | chunk2  | confidence
+-----------|---------|------------------------------------------|---------|---------|------------|
+1         | Test    | CT                                       | Date    | 1/12/95 | 1.0
+1         | Symptom | progressive memory and cognitive decline | Date    | 8/11/94 | 1.0
+
+
+**How to use:**
+
+    re_model = RelationExtractionModel()\
+        .pretrained("re_bodypart_direction","en","clinical/models")\
+        .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+        .setOutputCol("relations")\
+        .setMaxSyntacticDistance(4)\
+        .setRelationPairs([‘Internal_organ_or_component’, ‘Direction’])
+
+
+
+For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb) or [modelshub](https://nlp.johnsnowlabs.com/models?tag=relation_extraction).
+
+
+**New matching scheme for entity resolvers - improved accuracy:** Adding the option to use `cosine similarity` to resolve entities and find closest matches, resulting in better, more semantically correct results.
+
+#### 7. New Resolver Models using `JSL SBERT`:
+
++ `sbiobertresolve_icd10cm_augmented`
+
++ `sbiobertresolve_cpt_augmented`
+
++ `sbiobertresolve_cpt_procedures_augmented`
+
++ `sbiobertresolve_icd10cm_augmented_billable_hcc`
+
++ `sbiobertresolve_hcc_augmented`
+
+
+**Returning auxilary columns mapped to resolutions:**  Chunk entity resolver and sentence entity resolver now returns auxilary data that is mapped the resolutions during training. This will allow users to get multiple resolutions with single model without using any other annotator in the pipeline (In order to get billable codes otherwise there needs to be other modules in the same pipeline)
+
+**Example:**
+
+`sbiobertresolve_icd10cm_augmented_billable_hcc`
+**Input Text:** _"bladder cancer"_
+
+idx | chunks | code | resolutions | all_codes | billable | hcc_status | hcc_score | all_distances   
+---|---------------|-------|-------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|--------------------------|--------------------------|---------------------------|---------------------------------------------------
+ 0 | bladder cancer | C679 | ['bladder cancer', 'suspected bladder cancer', 'cancer in situ of urinary bladder', 'tumor of bladder neck', 'malignant tumour of bladder neck'] | ['C679', 'Z126', 'D090', 'D494', 'C7911'] | ['1', '1', '1', '1', '1'] | ['1', '0', '0', '0', '1'] | ['11', '0', '0', '0', '8'] | ['0.0000', '0.0904', '0.0978', '0.1080', '0.1281'] |
+
+`sbiobertresolve_cpt_augmented`  
+**Input Text:** _"ct abdomen without contrast"_
+
+idx|  cpt code |   distance |resolutions                                                       
+---:|------:|-----------:|:-------------------------------------------------------------------
+0 | 74150 |     0.0802 | Computed tomography, abdomen; without contrast material            |
+1 | 65091 |     0.1312 | Evisceration of ocular contents; without implant                   |
+2 | 70450 |     0.1323 | Computed tomography, head or brain; without contrast material      |
+3 | 74176 |     0.1333 | Computed tomography, abdomen and pelvis; without contrast material |
+4 | 74185 |     0.1343 | Magnetic resonance imaging without contrast                        |
+5 | 77059 |     0.1343 | Magnetic resonance imaging without contrast                        |
+
+#### 8. New Pretrained Clinical NER Models
+
++ NER Radiology
+**Input Text:** _"Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."_
+
+|idx | chunks                | entities                  |
+|----|-----------------------|---------------------------|
+| 0  | Bilateral             | Direction                 |
+| 1  | breast                | BodyPart                  |
+| 2  | ultrasound            | ImagingTest               |
+| 3  | ovoid mass            | ImagingFindings           |
+| 4  | 0.5 x 0.5 x 0.4       | Measurements              |
+| 5  | cm                    | Units                     |
+| 6  | anteromedial aspect   | Direction                 |
+| 7  | left                  | Direction                 |
+| 8  | shoulder              | BodyPart                  |
+| 9  | mass                  | ImagingFindings           |
+| 10 | isoechoic echotexture | ImagingFindings           |
+| 11 | muscle                | BodyPart                  |
+| 12 | internal color flow   | ImagingFindings           |
+| 13 | benign fibrous tissue | ImagingFindings           |
+| 14 | lipoma                | Disease_Syndrome_Disorder |
+
+
+
+### 2.7.2
+
+We are glad to announce that Spark NLP for Healthcare 2.7.2 has been released !
+
+In this release, we introduce the following features:
+
++ Far better accuracy for resolving medication terms to RxNorm codes:
+
+  `ondansetron 8 mg tablet' -> '312086`
++ Far better accuracy for resolving diagnosis terms to ICD-10-CM codes:
+
+ `TIA -> transient ischemic attack (disorder)	‘S0690’`
++ New ability to map medications to pharmacological actions (PA):
+
+  `'metformin' -> ‘Hypoglycemic Agents’ `
++ 2 new *greedy* named entity recognition models for medication details:
+
+ `ner_drugs_greedy: ‘magnesium hydroxide 100mg/1ml PO’`
+
+ ` ner_posology _greedy: ‘12 units of insulin lispro’ `
+
++ New model to *classify the gender* of a patient in a given medical note:
+
+ `'58yo patient with a family history of breast cancer' -> ‘female’ `
++ And starting customized spark sessions with rich parameters
+
+```python
+        params = {"spark.driver.memory":"32G",
+        "spark.kryoserializer.buffer.max":"2000M",
+        "spark.driver.maxResultSize":"2000M"}
+
+        spark = sparknlp_jsl.start(secret, params=params)
+```
+State-of-the-art accuracy is achieved using new healthcare-tuned BERT Sentence Embeddings (s-Bert). The following sections include more details, metrics, and examples.
+
+#### Named Entity Recognizers for Medications
+
+
++ A new medication NER (`ner_drugs_greedy`) that joins the drug entities with neighboring entities such as  `dosage`, `route`, `form` and `strength`; and returns a single entity `drug`.  This greedy NER model would be highly useful if you want to extract a drug with its context and then use it to get a RxNorm code (drugs may get different RxNorm codes based on the dosage and strength information).
+
+###### Metrics
+
+| label  | tp    | fp   | fn   | prec  | rec   | f1    |
+|--------|-------|------|------|-------|-------|-------|
+| I-DRUG | 37423 | 4179 | 3773 | 0.899 | 0.908 | 0.904 |
+| B-DRUG | 29699 | 2090 | 1983 | 0.934 | 0.937 | 0.936 |
+
+
++ A new medication NER (`ner_posology_greedy`) that joins the drug entities with neighboring entities such as  `dosage`, `route`, `form` and `strength`.  It also returns all the other medication entities even if not related to (or joined with) a drug.   
+
+Now we have five different medication-related NER models. You can see the outputs from each model below:
+
+Text = ''*The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night, 12 units of insulin lispro with meals, and metformin 1000 mg two times a day.*''
+
+a. **ner_drugs_greedy**
+
+|   | chunks                           | begin | end | entities |
+| - | -------------------------------- | ----- | --- | -------- |
+| 0 | 1 capsule of Advil 10 mg         | 27    | 50  | DRUG     |
+| 1 | magnesium hydroxide 100mg/1ml PO | 67    | 98  | DRUG     |
+| 2 |  40 units of insulin glargine    | 168   | 195 | DRUG     |
+| 3 |  12 units of insulin lispro      | 207   | 232 | DRUG     |
+
+b. **ner_posology_greedy**
+
+|    | chunks                           |   begin |   end | entities   |
+|---:|:---------------------------------|--------:|------:|:-----------|
+|  0 | 1 capsule of Advil 10 mg         |      27 |    50 | DRUG       |
+|  1 | magnesium hydroxide 100mg/1ml PO |      67 |    98 | DRUG       |
+|  2 | for 5 days                       |      52 |    61 | DURATION   |
+|  3 | 40 units of insulin glargine     |     168 |   195 | DRUG       |
+|  4 | at night                         |     197 |   204 | FREQUENCY  |
+|  5 | 12 units of insulin lispro       |     207 |   232 | DRUG       |
+|  6 | with meals                       |     234 |   243 | FREQUENCY  |
+|  7 | metformin 1000 mg                |     250 |   266 | DRUG       |
+|  8 | two times a day                  |     268 |   282 | FREQUENCY  |
+
+c. **ner_drugs**
+
+|    | chunks              |   begin |   end | entities   |
+|---:|:--------------------|--------:|------:|:-----------|
+|  0 | Advil               |      40 |    44 | DrugChem   |
+|  1 | magnesium hydroxide |      67 |    85 | DrugChem   |
+|  2 | metformin           |     261 |   269 | DrugChem   |
+
+
+d.**ner_posology**
+
+|    | chunks              |   begin |   end | entities   |
+|---:|:--------------------|--------:|------:|:-----------|
+|  0 | 1                   |      27 |    27 | DOSAGE     |
+|  1 | capsule             |      29 |    35 | FORM       |
+|  2 | Advil               |      40 |    44 | DRUG       |
+|  3 | 10 mg               |      46 |    50 | STRENGTH   |
+|  4 | for 5 days          |      52 |    61 | DURATION   |
+|  5 | magnesium hydroxide |      67 |    85 | DRUG       |
+|  6 | 100mg/1ml           |      87 |    95 | STRENGTH   |
+|  7 | PO                  |      97 |    98 | ROUTE      |
+|  8 | 40 units            |     168 |   175 | DOSAGE     |
+|  9 | insulin glargine    |     180 |   195 | DRUG       |
+| 10 | at night            |     197 |   204 | FREQUENCY  |
+| 11 | 12 units            |     207 |   214 | DOSAGE     |
+| 12 | insulin lispro      |     219 |   232 | DRUG       |
+| 13 | with meals          |     234 |   243 | FREQUENCY  |
+| 14 | metformin           |     250 |   258 | DRUG       |
+| 15 | 1000 mg             |     260 |   266 | STRENGTH   |
+| 16 | two times a day     |     268 |   282 | FREQUENCY  |
+
+e. **ner_drugs_large**
+
+|    | chunks                            |   begin |   end | entities   |
+|---:|:----------------------------------|--------:|------:|:-----------|
+|  0 | Advil 10 mg                       |      40 |    50 | DRUG       |
+|  1 | magnesium hydroxide 100mg/1ml PO. |      67 |    99 | DRUG       |
+|  2 | insulin glargine                  |     180 |   195 | DRUG       |
+|  3 | insulin lispro                    |     219 |   232 | DRUG       |
+|  4 | metformin 1000 mg                 |     250 |   266 | DRUG       |
+
+
+#### Patient Gender Classification
+
+This model detects the gender of the patient in the clinical document. It can classify the documents into `Female`, `Male` and `Unknown`.
+
+We release two models:
+
++ 'Classifierdl_gender_sbert' (more accurate, works with licensed `sbiobert_base_cased_mli`)
+
++ 'Classifierdl_gender_biobert' (works with `biobert_pubmed_base_cased`)
+
+The models are trained on more than four thousands clinical documents (radiology reports, pathology reports, clinical visits etc.), annotated internally.
+
+###### Metrics `(Classifierdl_gender_sbert)`
+
+|        | precision | recall | f1-score | support |
+| ------ | --------- | ------ | -------- | ------- |
+| Female | 0.9224    | 0.8954 | 0.9087   | 239     |
+| Male   | 0.7895    | 0.8468 | 0.8171   | 124     |
+
+Text= ''*social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home.
+family history: shows a family history of breast cancer.*''
+
+```python
+gender_classifier.annotate(text)['class'][0]
+>> `Female`
+```
+
+See this [Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb) notebook for further details.
+
+a. **classifierdl_gender_sbert**
+
+```python
+
+document = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sbert_embedder = BertSentenceEmbeddings\
+    .pretrained("sbiobert_base_cased_mli", 'en', 'clinical/models')\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence_embeddings")\
+    .setMaxSentenceLength(512)
+
+gender_classifier = ClassifierDLModel\
+    .pretrained('classifierdl_gender_sbert', 'en', 'clinical/models') \
+    .setInputCols(["document", "sentence_embeddings"]) \
+    .setOutputCol("class")
+
+gender_pred_pipeline = Pipeline(
+    stages = [
+       document,
+       sbert_embedder,
+       gender_classifier
+            ])
+```
+b. **classifierdl_gender_biobert**
+
+```python
+documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+clf_tokenizer = Tokenizer()\
+    .setInputCols(["document"])\
+    .setOutputCol("token")\
+
+biobert_embeddings = BertEmbeddings().pretrained('biobert_pubmed_base_cased') \
+    .setInputCols(["document",'token'])\
+    .setOutputCol("bert_embeddings")
+
+biobert_embeddings_avg = SentenceEmbeddings() \
+    .setInputCols(["document", "bert_embeddings"]) \
+    .setOutputCol("sentence_bert_embeddings") \
+    .setPoolingStrategy("AVERAGE")
+
+genderClassifier = ClassifierDLModel.pretrained('classifierdl_gender_biobert', 'en', 'clinical/models') \
+    .setInputCols(["document", "sentence_bert_embeddings"]) \
+    .setOutputCol("gender")
+
+gender_pred_pipeline = Pipeline(
+   stages = [
+       documentAssembler,
+       clf_tokenizer,
+       biobert_embeddings,
+       biobert_embeddings_avg,
+       genderClassifier
+   ])
+
+   ```
+#### New ICD10CM and RxCUI resolvers powered by s-Bert embeddings
+
+The advent of s-Bert sentence embeddings changed the landscape of Clinical Entity Resolvers completely in Spark NLP. Since s-Bert is already tuned on [MedNLI](https://physionet.org/content/mednli/) (medical natural language inference) dataset, it is now capable of populating the chunk embeddings in a more precise way than before.
+
+We now release two new resolvers:
+
++ `sbiobertresolve_icd10cm_augmented` (augmented with synonyms, four times richer than previous resolver accuracy:
+
+    `73% for top-1 (exact match), 89% for top-5 (previous accuracy was 59% and 64% respectively)`
+
++ `sbiobertresolve_rxcui` (extract RxNorm concept unique identifiers to map with ATC or durg families)
+accuracy:
+
+    `71% for top-1 (exact match), 72% for top-5
+(previous accuracy was 22% and 41% respectively)`
+
+a. **ICD10CM augmented resolver**
+
+Text = "*This is an 82 year old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU .* "
+
+|    | chunk                       |   begin |   end | code   | term                                                     |
+|---:|:----------------------------|--------:|------:|:-------|:---------------------------------------------------------|
+|  0 | hypertension                |      66 |    77 | I10    | hypertension                                             |
+|  1 | chronic renal insufficiency |      81 |   107 | N189   | chronic renal insufficiency                              |
+|  2 | COPD                        |     111 |   114 | J449   | copd - chronic obstructive pulmonary disease             |
+|  3 | gastritis                   |     118 |   126 | K2970  | gastritis                                                |
+|  4 | TIA                         |     134 |   136 | S0690  | transient ischemic attack (disorder)		 |
+|  5 | a non-ST elevation MI       |     180 |   200 | I219   | silent myocardial infarction (disorder)                  |
+|  6 | Guaiac positive stools      |     206 |   227 | K921   | guaiac-positive stools                                   |
+|  7 | mid LAD lesion              |     330 |   343 | I2102  | stemi involving left anterior descending coronary artery |
+|  8 | hypotension                 |     360 |   370 | I959   | hypotension                                              |
+|  9 | bradycardia                 |     376 |   386 | O9941  | bradycardia                                              |
+
+
+b. **RxCUI resolver**
+
+Text= "*He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day .* "
+
+|    | chunk                     |   begin |   end |   code | term                                        |
+|---:|:--------------------------|--------:|------:|-------:|:--------------------------------------------|
+|  0 | 50 mg of eltrombopag oral |      67 |    91 | 825427 | eltrombopag 50 MG Oral Tablet               |
+|  1 | 5 mg amlodipine           |     103 |   117 | 197361 | amlodipine 5 MG Oral Tablet                 |
+|  2 | metformin 1000 mg         |     135 |   151 | 861004 | metformin hydrochloride 1000 MG Oral Tablet |
+
+Using this new resolver and some other resources like Snomed Resolver, RxTerm, MESHPA and ATC dictionary, you can link the drugs to the pharmacological actions (PA), ingredients and the disease treated with that.
+
+###### Code sample:
+
+(after getting the chunk from ChunkConverter)
+
+
+ ```python
+
+c2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+
+sbert_embedder = BertSentenceEmbeddings\
+    .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+    .setInputCols(["ner_chunk_doc"])\
+    .setOutputCol("sbert_embeddings")
+
+icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models") \
+    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setOutputCol("icd10cm_code")\
+    .setDistanceFunction("EUCLIDEAN")
+```
+See the [notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb#scrollTo=VtDWAlnDList) for details.
+
 
 ### 2.7.1
 
@@ -15,18 +594,18 @@ We are glad to announce that Spark NLP for Healthcare 2.7.1 has been released !
 
 In this release, we introduce the following features:
 
-#### 1. Sentence BioBert and Bluebert Transformers that are fine tuned on [MedNLI](https://physionet.org/content/mednli/) dataset. 
+#### 1. Sentence BioBert and Bluebert Transformers that are fine tuned on [MedNLI](https://physionet.org/content/mednli/) dataset.
 
 Sentence Transformers offers a framework that provides an easy method to compute dense vector representations for sentences and paragraphs (also known as sentence embeddings). The models are based on BioBert and BlueBert, and are tuned specifically to meaningful sentence embeddings such that sentences with similar meanings are close in vector space. These are the first PyTorch based models we managed to port into Spark NLP.
 
 Here is how you can load these:
-```python 
+```python
 sbiobert_embeddins = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 ```
-```python 
+```python
 sbluebert_embeddins = BertSentenceEmbeddings\
      .pretrained("sbluebert_base_cased_mli",'en','clinical/models')\
      .setInputCols(["ner_chunk_doc"])\
@@ -52,8 +631,8 @@ sbiobertresolve_cpt
 Code sample:
 
 (after getting the chunk from ChunkConverter)
- 
-```python 
+
+```python
 c2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
@@ -160,7 +739,7 @@ For now, it only comes with one pretrained model (trained on Spider
 dataset) and new pretrained models will be released soon.
 
 Check out the
-Colab notebook to  see more examples and run on your data. 
+Colab notebook to  see more examples and run on your data.
 
 
 #### 2. SentenceEntityResolvers
@@ -178,7 +757,7 @@ SNOMED_CT (findings): `biobertresolve_snomed_findings`
 SNOMED_INT (clinical_findings): `biobertresolve_snomed_findings_int`    
 RXNORM (branded and clinical drugs): `biobertresolve_rxnorm_bdcd`  
 
-Example: 
+Example:
 ```python
 text = 'He has a starvation ketosis but nothing significant for dry oral mucosa'
 df = get_icd10_codes (light_pipeline_icd10, 'icd10cm_code', text)
@@ -187,10 +766,10 @@ df = get_icd10_codes (light_pipeline_icd10, 'icd10cm_code', text)
 |    | chunks               |   begin |   end | code |
 |---:|:---------------------|--------:|------:|:-------|
 |  0 | a starvation ketosis |       7 |    26 | E71121 |                                                                                                                                                   
-|  1 | dry oral mucosa      |      66 |    80 | K136   | 
+|  1 | dry oral mucosa      |      66 |    80 | K136   |
 
 
-Check out the Colab notebook to  see more examples and run on your data. 
+Check out the Colab notebook to  see more examples and run on your data.
 
 You can also train your own entity resolver using any medical terminology like MedRa and UMLS. Check this notebook to
 learn more about training from scratch.
@@ -203,10 +782,10 @@ model by overlapping. Now it has a new parameter to avoid merging overlapping en
 to return all the entities regardless of char indices. It will be quite useful to analyze what every NER module returns on the same text.
 
 
-#### 4. Starting SparkSession 
+#### 4. Starting SparkSession
 
 
-We now support starting SparkSession with a different version of the open source jar and not only the one it was built 
+We now support starting SparkSession with a different version of the open source jar and not only the one it was built
 against by `sparknlp_jsl.start(secret, public="x.x.x")` for extreme cases.
 
 
@@ -265,7 +844,7 @@ In addition to these, we release two new German NER models:
 
 Successful evidence-based medicine (EBM) applications rely on answering clinical questions by analyzing large medical literature databases. In order to formulate
 a well-defined, focused clinical question, a framework called PICO is widely used, which identifies the sentences in a given medical text that belong to the four components: Participants/Problem (P)  (e.g., diabetic patients), Intervention (I) (e.g., insulin),
-Comparison (C) (e.g., placebo)  and Outcome (O) (e.g., blood glucose levels). 
+Comparison (C) (e.g., placebo)  and Outcome (O) (e.g., blood glucose levels).
 
 Spark NLP now introduces a pretrained PICO Classifier that
 is trained with Biobert embeddings.
@@ -275,7 +854,7 @@ Example:
 ```python
 text = “There appears to be no difference in smoking cessation effectiveness between 1mg and 0.5mg varenicline.”
 pico_lp_pipeline.annotate(text)['class'][0]
- 
+
 ans: CONCLUSIONS
 ```
 
@@ -313,7 +892,7 @@ More information and examples [here](https://colab.research.google.com/github/Jo
 By combining ADE NER and Classifier, we are releasing a new pretrained clinical pipeline for ADE tasks to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 ```python
 pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
- 
+
 pipeline.annotate('my string')
 ```
 `explain_clinical_doc_ade` is bundled with `ner_ade_clinicalBert`, and `classifierdl_ade_clinicalBert`. It can extract ADE and DRUG clinical entities, and then assign ADE status to a text (`True` means ADE, `False` means not related to ADE).
@@ -357,7 +936,7 @@ The first time ever, we are releasing 3 licensed German models for healthcare an
 
 ##### Pretrained Pipelines:
 
-The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. 
+The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch.
 Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 
 ```python

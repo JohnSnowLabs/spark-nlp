@@ -4,7 +4,7 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2020-10-28"
+modify_date: "2021-01-25"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -26,7 +26,7 @@ The basic result of a Spark NLP operation is an **annotation**. It's structure i
 - **metadata:** content of matched result and additional information
 - **embeddings:** (new in 2.0) contains vector mappings if required
 
-This object is **automatically generated** by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it. 
+This object is **automatically generated** by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it.
 
 ## Annotators
 
@@ -55,25 +55,25 @@ You can run these examples using Python or Scala.
 The easiest way to run the python examples is by starting a pyspark jupyter notebook including the spark-nlp package:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.3
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.3
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.4
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.3
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.6.4`
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.3`
 
 **NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
 
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.6.4`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.6.4`
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.3`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.7.3`
 
 </div><div class="h3-box" markdown="1">
 
@@ -240,6 +240,7 @@ OUTPUT:
 
 The output of the previous DataFrame was in terms of Annotation objects. This output is not really comfortable to deal with, as you can see by
 running the code:
+
 
 <div class="tabs-box" markdown="1">
 

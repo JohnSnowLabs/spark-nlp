@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LocationClass - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass</title>
-          <meta name="description" content="LocationClass - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass" />
-          <meta name="keywords" content="LocationClass Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass" />
+          <title>LocationClass - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass</title>
+          <meta name="description" content="LocationClass - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass" />
+          <meta name="keywords" content="LocationClass Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -45,13 +45,13 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">LocationClass</span><span class="result"> extends <a href="VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">LocationClass</span><span class="result"> extends <a href="VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a> with <a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a>, <span class="extype" name="com.esotericsoftware.kryo.KryoSerializable">KryoSerializable</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="VocabParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser">VocabParser</a>, <a href="SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -69,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass"><span>LocationClass</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser"><span>VocabParser</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser"><span>SpecialClassParser</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass"><span>LocationClass</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass"><span>SerializableClass</span></li><li class="in" name="com.esotericsoftware.kryo.KryoSerializable"><span>KryoSerializable</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser"><span>VocabParser</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser"><span>SpecialClassParser</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -222,6 +222,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass#deserializeTransducer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="deserializeTransducer(aInputStream:java.io.ObjectInputStream):com.github.liblevenshtein.transducer.Transducer[com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode,com.github.liblevenshtein.transducer.Candidate]"></a>
+      <a id="deserializeTransducer(ObjectInputStream):Transducer[DawgNode,Candidate]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deserializeTransducer</span><span class="params">(<span name="aInputStream">aInputStream: <span class="extype" name="java.io.ObjectInputStream">ObjectInputStream</span></span>)</span><span class="result">: <span class="extype" name="com.github.liblevenshtein.transducer.Transducer">Transducer</span>[<span class="extype" name="com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode">DawgNode</span>, <span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass@deserializeTransducer(aInputStream:java.io.ObjectInputStream):com.github.liblevenshtein.transducer.Transducer[com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode,com.github.liblevenshtein.transducer.Candidate]" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -466,6 +483,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass#read" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="read(kryo:com.esotericsoftware.kryo.Kryo,input:com.esotericsoftware.kryo.io.Input):Unit"></a>
+      <a id="read(Kryo,Input):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">read</span><span class="params">(<span name="kryo">kryo: <span class="extype" name="com.esotericsoftware.kryo.Kryo">Kryo</span></span>, <span name="input">input: <span class="extype" name="com.esotericsoftware.kryo.io.Input">Input</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass@read(kryo:com.esotericsoftware.kryo.Kryo,input:com.esotericsoftware.kryo.io.Input):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a> → KryoSerializable</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser#replaceWithLabel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="replaceWithLabel(tmp:String):String"></a>
       <a id="replaceWithLabel(String):String"></a>
@@ -483,6 +517,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass#serializeTransducer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="serializeTransducer(aOutputStream:java.io.ObjectOutputStream,t:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):Unit"></a>
+      <a id="serializeTransducer(ObjectOutputStream,ITransducer[Candidate]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">serializeTransducer</span><span class="params">(<span name="aOutputStream">aOutputStream: <span class="extype" name="java.io.ObjectOutputStream">ObjectOutputStream</span></span>, <span name="t">t: <span class="extype" name="com.github.liblevenshtein.transducer.ITransducer">ITransducer</span>[<span class="extype" name="com.github.liblevenshtein.transducer.Candidate">Candidate</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass@serializeTransducer(aOutputStream:java.io.ObjectOutputStream,t:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser#setTransducer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setTransducer(t:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]):com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser"></a>
       <a id="setTransducer(ITransducer[Candidate]):SpecialClassParser"></a>
@@ -534,7 +585,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass#transducer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser#transducer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transducer:com.github.liblevenshtein.transducer.ITransducer[com.github.liblevenshtein.transducer.Candidate]"></a>
       <a id="transducer:ITransducer[Candidate]"></a>
       <h4 class="signature">
@@ -550,7 +601,7 @@
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass">LocationClass</a> → <a href="SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass#vocab" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="vocab:scala.collection.mutable.Set[String]"></a>
       <a id="vocab:Set[String]"></a>
@@ -637,6 +688,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass#write" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="write(kryo:com.esotericsoftware.kryo.Kryo,output:com.esotericsoftware.kryo.io.Output):Unit"></a>
+      <a id="write(Kryo,Output):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">write</span><span class="params">(<span name="kryo">kryo: <span class="extype" name="com.esotericsoftware.kryo.Kryo">Kryo</span></span>, <span name="output">output: <span class="extype" name="com.esotericsoftware.kryo.io.Output">Output</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#com.johnsnowlabs.nlp.annotators.spell.context.parser.LocationClass@write(kryo:com.esotericsoftware.kryo.Kryo,output:com.esotericsoftware.kryo.io.Output):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a> → KryoSerializable</dd></dl></div>
     </li></ol>
             </div>
 
@@ -646,7 +714,11 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.Serializable">
+        <div class="parent" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">
+              <h3>Inherited from <a href="SerializableClass.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SerializableClass">SerializableClass</a></h3>
+            </div><div class="parent" name="com.esotericsoftware.kryo.KryoSerializable">
+              <h3>Inherited from <span class="extype" name="com.esotericsoftware.kryo.KryoSerializable">KryoSerializable</span></h3>
+            </div><div class="parent" name="scala.Serializable">
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>

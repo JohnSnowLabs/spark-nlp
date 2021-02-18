@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>LanguageDetectorDL - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL</title>
-          <meta name="description" content="LanguageDetectorDL - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
-          <meta name="keywords" content="LanguageDetectorDL Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
+          <title>LanguageDetectorDL - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL</title>
+          <meta name="description" content="LanguageDetectorDL - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
+          <meta name="keywords" content="LanguageDetectorDL Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,8 +51,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification by using Deep Neural Network in TensowrFlow and Keras
-LanguageDetectorDL is an annotator that detects the language of documents or sentenccecs depending on the inputCols</p><p>The models are trained on large datasets from Wikipedia
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
+LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols</p><p>The models are trained on large datasets such as Wikipedia and Tatoeba
 The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a>, <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -925,6 +925,24 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getLanguage" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
+      <a id="getLanguage:Array[String]"></a>
+      <a id="getLanguage:Array[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLanguage</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL@getLanguage:Array[String]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">languages
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <a id="getLazyAnnotator:Boolean"></a>
@@ -1271,6 +1289,23 @@ AnnotatorType is used both as input and output columns if not specified
     </span>
       <p class="shortcomment cmt">language
 </p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#languages" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="languages:org.apache.spark.ml.param.StringArrayParam"></a>
+      <a id="languages:StringArrayParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">languages</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL@languages:org.apache.spark.ml.param.StringArrayParam" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a>
       <a id="lazyAnnotator:BooleanParam"></a>
@@ -1826,7 +1861,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">If sets to true the output of all sentences will be averaged to one output instead of one output per sentence.</p><div class="fullcomment"><div class="comment cmt"><p>If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.
+      <p class="shortcomment cmt">If sets to true the output of all sentences will be averaged to one output instead of one output per sentence.</p><div class="fullcomment"><div class="comment cmt"><p>If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setConfigProtoBytes" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setConfigProtoBytes(bytes:Array[Int]):LanguageDetectorDL.this.type"></a>
@@ -1998,7 +2033,7 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">language used to map prediction to two-letter (ISO 639-1) language codes
+      <p class="shortcomment cmt">language used to map prediction to ISO 639-1 language codes
 </p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a>
@@ -2068,7 +2103,7 @@ AnnotatorType is used both as input and output columns if not specified
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setThreshold" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setThreshold" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setThreshold(threshold:Float):LanguageDetectorDL.this.type"></a>
       <a id="setThreshold(Float):LanguageDetectorDL.this.type"></a>
       <h4 class="signature">
@@ -2084,7 +2119,9 @@ AnnotatorType is used both as input and output columns if not specified
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.</p>
+      <p class="shortcomment cmt">The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.</p><div class="fullcomment"><div class="comment cmt"><p>The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.</p><p>Value is between 0.0 to 1.0
+Try to set this lower if your text is hard to predict
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setThresholdLabel" visbl="pub" data-isabs="false" fullComment="yes" group="setParam">
       <a id="setThresholdLabel(label:String):LanguageDetectorDL.this.type"></a>
       <a id="setThresholdLabel(String):LanguageDetectorDL.this.type"></a>

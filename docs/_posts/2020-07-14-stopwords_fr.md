@@ -4,28 +4,33 @@ title: Stop Words Cleaner for French
 author: John Snow Labs
 name: stopwords_fr
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: fr
+edition: Spark NLP 2.5.4
 tags: [stopwords, fr]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
 This model removes 'stop words' from text. Stop words are words so common that they can be removed without significantly altering the meaning of a text. Removing stop words is useful when one wants to deal with only the most semantically important words in a text, and ignore words that are rarely semantically relevant, such as articles and prepositions.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_fr_fr_2.5.4_2.4_1594742439495.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+{:.h2_title}
 ## How to use
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 stop_words = StopWordsCleaner.pretrained("stopwords_fr", "fr") \
         .setInputCols(["token"]) \
         .setOutputCol("cleanTokens")
@@ -35,21 +40,34 @@ results = light_pipeline.fullAnnotate("En plus d'être le roi du nord, John Snow
 ```
 
 ```scala
-
+...
 val stopWords = StopWordsCleaner.pretrained("stopwords_fr", "fr")
         .setInputCols(Array("token"))
         .setOutputCol("cleanTokens")
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
+val result = pipeline.fit(Seq.empty["En plus d'être le roi du nord, John Snow est un médecin anglais et un leader dans le développement de l'anesthésie et de l'hygiène médicale."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""En plus d'être le roi du nord, John Snow est un médecin anglais et un leader dans le développement de l'anesthésie et de l'hygiène médicale."""]
+stopword_df = nlu.load('fr.stopwords').predict(text)
+stopword_df[["cleanTokens"]]
+```
+
+</div>
 
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=8, end=13, result="d'être", metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=18, end=20, result='roi', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=25, end=28, result='nord', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=29, end=29, result=',', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=31, end=34, result='John', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=8, end=13, result="d'être", metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=18, end=20, result='roi', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=25, end=28, result='nord', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=29, end=29, result=',', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=31, end=34, result='John', metadata={'sentence': '0'}),
 ...]
 ```
 

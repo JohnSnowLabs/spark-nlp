@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RegexTokenizer - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexTokenizer</title>
-          <meta name="description" content="RegexTokenizer - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexTokenizer" />
-          <meta name="keywords" content="RegexTokenizer Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexTokenizer" />
+          <title>RegexTokenizer - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexTokenizer</title>
+          <meta name="description" content="RegexTokenizer - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexTokenizer" />
+          <meta name="keywords" content="RegexTokenizer Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexTokenizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -950,6 +950,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </a>
     </span>
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#getPositionalMask" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
+      <a id="getPositionalMask:Boolean"></a>
+      <a id="getPositionalMask:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPositionalMask</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.RegexTokenizer@getPositionalMask:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#getToLowercase" visbl="pub" data-isabs="false" fullComment="no" group="getParam">
       <a id="getToLowercase:Boolean"></a>
       <a id="getToLowercase:Boolean"></a>
@@ -1606,6 +1623,24 @@ Default: 1, to avoid returning empty strings</p></div></div>
     </span>
       <p class="shortcomment cmt">Regex pattern used to match delimiters
 Default: <code>&quot;\\s+&quot;</code></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#positionalMask" visbl="pub" data-isabs="false" fullComment="no" group="param">
+      <a id="positionalMask:org.apache.spark.ml.param.BooleanParam"></a>
+      <a id="positionalMask:BooleanParam"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">positionalMask</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.RegexTokenizer@positionalMask:org.apache.spark.ml.param.BooleanParam" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Indicates whether to apply the regex tokenization using a positional mask to guarantee the incremental progression
+Default: false</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a>
       <a id="save(String):Unit"></a>
@@ -1991,6 +2026,23 @@ Default: <code>&quot;\\s+&quot;</code></p>
       </a>
     </span>
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#setPositionalMask" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
+      <a id="setPositionalMask(value:Boolean):RegexTokenizer.this.type"></a>
+      <a id="setPositionalMask(Boolean):RegexTokenizer.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setPositionalMask</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.RegexTokenizer">RegexTokenizer</a>.this.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.RegexTokenizer@setPositionalMask(value:Boolean):RegexTokenizer.this.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#setToLowercase" visbl="pub" data-isabs="false" fullComment="no" group="setParam">
       <a id="setToLowercase(value:Boolean):RegexTokenizer.this.type"></a>
       <a id="setToLowercase(Boolean):RegexTokenizer.this.type"></a>
@@ -2042,6 +2094,25 @@ Default: <code>&quot;\\s+&quot;</code></p>
       </a>
     </span>
       <p class="shortcomment cmt">This func generates a Seq of TokenizedSentences from a Seq of Sentences.</p><div class="fullcomment"><div class="comment cmt"><p>This func generates a Seq of TokenizedSentences from a Seq of Sentences.
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>to tag</p></dd><dt>returns</dt><dd class="cmt"><p>Seq of TokenizedSentence objects</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#tagWithPositionalMask" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tagWithPositionalMask(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence]):Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence]"></a>
+      <a id="tagWithPositionalMask(Seq[Sentence]):Seq[TokenizedSentence]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tagWithPositionalMask</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.nlp.annotators.RegexTokenizer@tagWithPositionalMask(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence]):Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
+</p><div class="fullcomment"><div class="comment cmt"><p>This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
 </p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>to tag</p></dd><dt>returns</dt><dd class="cmt"><p>Seq of TokenizedSentence objects</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.RegexTokenizer#toLowercase" visbl="pub" data-isabs="false" fullComment="yes" group="param">
       <a id="toLowercase:org.apache.spark.ml.param.BooleanParam"></a>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>perceptron - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron</title>
-          <meta name="description" content="perceptron - Spark NLP 2.6.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron" />
-          <meta name="keywords" content="perceptron Spark NLP 2.6.4 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron" />
+          <title>perceptron - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron</title>
+          <meta name="description" content="perceptron - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron" />
+          <meta name="keywords" content="perceptron Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -84,7 +84,7 @@
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">tags</dt><dd class="cmt"><p>Holds all unique tags based on training</p></dd><dt class="param">taggedWordBook</dt><dd class="cmt"><p>Contains non ambiguous words and their tags</p></dd><dt class="param">featuresWeight</dt><dd class="cmt"><p>Contains prediction information based on context frequencies</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PerceptronApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronUtils"></a>
+      <a id="PerceptronApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronTrainingUtils"></a>
       <a id="PerceptronApproach:PerceptronApproach"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -92,17 +92,17 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="PerceptronApproach.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></span>
+        <a href="PerceptronApproach.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronUtils" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronTrainingUtils" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Averaged Perceptron model to tag words part-of-speech.</p><div class="fullcomment"><div class="comment cmt"><p>Averaged Perceptron model to tag words part-of-speech.</p><p>Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron</a> for further reference on how to use this API.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PerceptronApproachDistributedextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronUtils"></a>
+      <a id="PerceptronApproachDistributedextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronTrainingUtils"></a>
       <a id="PerceptronApproachDistributed:PerceptronApproachDistributed"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -110,17 +110,17 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="PerceptronApproachDistributed.html"><span class="name">PerceptronApproachDistributed</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></span>
+        <a href="PerceptronApproachDistributed.html"><span class="name">PerceptronApproachDistributed</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronApproachDistributedextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronUtils" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronApproachDistributedextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronTrainingUtils" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Distributed Averaged Perceptron model to tag words part-of-speech.</p><div class="fullcomment"><div class="comment cmt"><p>Distributed Averaged Perceptron model to tag words part-of-speech.</p><p>Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/DistributedPos.scala</a> for further reference on how to use this APIs.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PerceptronModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronUtils"></a>
+      <a id="PerceptronModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronPredictionUtils"></a>
       <a id="PerceptronModel:PerceptronModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -128,15 +128,49 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="PerceptronModel.html"><span class="name">PerceptronModel</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></span>
+        <a href="PerceptronModel.html"><span class="name">PerceptronModel</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronPredictionUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronPredictionUtils">PerceptronPredictionUtils</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronUtils" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronPredictionUtils" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Part of speech tagger that might use different approaches</p><div class="fullcomment"><div class="comment cmt"><p>Part of speech tagger that might use different approaches</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron</a> for further reference on how to use this API.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronPredictionUtils" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PerceptronPredictionUtilsextendsPerceptronUtils"></a>
+      <a id="PerceptronPredictionUtils:PerceptronPredictionUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PerceptronPredictionUtils.html"><span class="name">PerceptronPredictionUtils</span></a><span class="result"> extends <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronPredictionUtilsextendsPerceptronUtils" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PerceptronTrainingUtilsextendsPerceptronUtils"></a>
+      <a id="PerceptronTrainingUtils:PerceptronTrainingUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PerceptronTrainingUtils.html"><span class="name">PerceptronTrainingUtils</span></a><span class="result"> extends <a href="PerceptronUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils">PerceptronUtils</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronTrainingUtilsextendsPerceptronUtils" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronUtils" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="PerceptronUtilsextendsAnyRef"></a>
       <a id="PerceptronUtils:PerceptronUtils"></a>
@@ -238,7 +272,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="PerceptronApproach$.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PerceptronApproachDistributed.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="PerceptronApproach$.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#com.johnsnowlabs.nlp.annotators.pos.perceptron.package@PerceptronApproach" title="Permalink" target="_top">

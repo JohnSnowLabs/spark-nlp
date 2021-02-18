@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Latvian
 author: John Snow Labs
 name: stopwords_lv
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: lv
+edition: Spark NLP 2.5.4
 tags: [stopwords, lv]
 article_header:
   type: cover
@@ -16,7 +19,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_lv_lv_2.5.4_2.4_1594742439893.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
@@ -24,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -45,15 +48,26 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sto
 val result = pipeline.fit(Seq.empty["Džons Snovs ir ne tikai ziemeļu karalis, bet arī angļu ārsts un anestēzijas un medicīniskās higiēnas attīstības līderis."].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Džons Snovs ir ne tikai ziemeļu karalis, bet arī angļu ārsts un anestēzijas un medicīniskās higiēnas attīstības līderis."""]
+stopword_df = nlu.load('lv.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
+
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=4, result='Džons', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=6, end=10, result='Snovs', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=24, end=30, result='ziemeļu', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=32, end=38, result='karalis', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=39, end=39, result=',', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=4, result='Džons', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=6, end=10, result='Snovs', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=24, end=30, result='ziemeļu', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=32, end=38, result='karalis', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=39, end=39, result=',', metadata={'sentence': '0'}),
 ...]
 ```
 

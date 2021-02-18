@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Somali
 author: John Snow Labs
 name: stopwords_so
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: so
+edition: Spark NLP 2.5.4
 tags: [stopwords, so]
 article_header:
   type: cover
@@ -16,7 +19,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_so_so_2.5.4_2.4_1594742441799.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
@@ -24,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -45,15 +48,26 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sto
 val result = pipeline.fit(Seq.empty["Marka laga reebo inuu yahay boqorka woqooyiga, John Snow waa dhakhtar Ingiriis ah oo hormuud u ah horumarinta suuxdinta iyo nadaafadda caafimaadka."].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Marka laga reebo inuu yahay boqorka woqooyiga, John Snow waa dhakhtar Ingiriis ah oo hormuud u ah horumarinta suuxdinta iyo nadaafadda caafimaadka."""]
+stopword_df = nlu.load('so.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
+
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=4, result='Marka', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=6, end=9, result='laga', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=11, end=15, result='reebo', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=22, end=26, result='yahay', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=28, end=34, result='boqorka', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=4, result='Marka', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=6, end=9, result='laga', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=11, end=15, result='reebo', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=22, end=26, result='yahay', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=28, end=34, result='boqorka', metadata={'sentence': '0'}),
 ...]
 ```
 

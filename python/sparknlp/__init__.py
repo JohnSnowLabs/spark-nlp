@@ -1,7 +1,7 @@
 import sys
 from pyspark.sql import SparkSession
 from sparknlp import annotator
-from sparknlp.base import DocumentAssembler, Finisher, TokenAssembler, Chunk2Doc, Doc2Chunk
+from sparknlp.base import DocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, Chunk2Doc, Doc2Chunk
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
@@ -31,13 +31,15 @@ sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 
 annotators = annotator
 embeddings = annotator
 
-
 def start(gpu=False, spark23=False):
-    current_version = "2.6.4"
+    current_version = "2.7.3"
+
     maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
     maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
     maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
@@ -64,4 +66,4 @@ def start(gpu=False, spark23=False):
 
 
 def version():
-    return '2.6.4'
+    return '2.7.3'

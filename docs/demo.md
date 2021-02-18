@@ -276,7 +276,111 @@ data:
             url: https://demo.johnsnowlabs.com/public/DATE_MATCHER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb 
+        - title: Summarize text, compare sentences and answer questions using T5 transformer
+          image: 
+              src: /assets/images/Detect_sentences_in_text.svg
+          image2: 
+              src: /assets/images/Detect_sentences_in_text_f.svg
+          excerpt: This demo uses the T5 transformer model described in the seminal paper “Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer”.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/T5TRANSFORMER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title: Understand questions about Airline Traffic
+          image: 
+              src: /assets/images/Detect_diagnosis_and_procedures.svg
+          image2: 
+              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
+          excerpt: Automatically detect key entities related to airline traffic, such as departure and arrival times and locations.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title:  Automatically answer questions
+          image: 
+              src: /assets/images/spelling.svg
+          image2: 
+              src: /assets/images/spelling_f.svg
+          excerpt: Automatically generate answers to questions with & without context
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Infer word meaning from context
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: Compare the meaning of words in two different sentences and evaluate ambiguous pronouns.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/CONTEXTUAL_WORD_MEANING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Assess relationship between two sentences
+          image: 
+              src: /assets/images/Spell_Checking.svg
+          image2: 
+              src: /assets/images/Spell_Checking_f.svg
+          excerpt: Evaluate the relationship between two sentences or text fragments to identify things such as contradictions, entailments and premises & hypotheses
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_RELATIONS/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Summarize text
+          image: 
+              src: /assets/images/Document_Classification.svg
+          image2: 
+              src: /assets/images/Document_Classification_f.svg
+          excerpt: Summarize text to make it shorter while retaining meaning.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Evaluate sentence grammar
+          image: 
+              src: /assets/images/Find_in_Text.svg
+          image2: 
+              src: /assets/images/Find_in_Text_f.svg
+          excerpt: Classify a sentence as grammatically correct or incorrect.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_GRAMMAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Understand intent and actions in general commands
+          image: 
+              src: /assets/images/Split_Clean_Text.svg
+          image2: 
+              src: /assets/images/Split_Clean_Text_f.svg
+          excerpt: Extract intents in general commands related to music, restaurants, movies.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_CLS_SNIPS
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb    
       languages: yes
       languages: 
         - title: Detect language
@@ -500,6 +604,136 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_TR.ipynb
+        - title: Recognize entities in Arabic text 
+          image: 
+              src: /assets/images/arab.jpg
+          image2: 
+              src: /assets/images/arab.jpg
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_AR/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Persian text 
+          image: 
+              src: /assets/images/Flag_of_Iran.png
+          image2: 
+              src: /assets/images/Flag_of_Iran.png
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_FA/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Hebrew text 
+          image: 
+              src: /assets/images/Israel.jpg
+          image2: 
+              src: /assets/images/Israel.jpg
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_HE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Japanese text 
+          image: 
+              src: /assets/images/Flag_of_Japan.png
+          image2: 
+              src: /assets/images/Flag_of_Japan.png
+          excerpt: Recognize Persons, Locations and Organization entities using an out of the box pretrained Deep Learning model and language specific embeddings. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_JA/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Urdu text
+          image: 
+              src: /assets/images/Flag_of_Pakistan.png
+          image2: 
+              src: /assets/images/Flag_of_Pakistan.png
+          excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_UR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Korean text
+          image: 
+              src: /assets/images/South_Korea.png
+          image2: 
+              src: /assets/images/South_Korea.png
+          excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_KO/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in Chinese text
+          image: 
+              src: /assets/images/Flag-China.jpg
+          image2: 
+              src: /assets/images/Flag-China.jpg
+          excerpt: Recognize Persons, Locations and other entities using an out of the box pretrained Deep Learning model and language specific embeddings.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_ZH/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Analyze sentiment in Urdu movie reviews
+          image: 
+              src: /assets/images/Flag_of_Pakistan.png
+          image2: 
+              src: /assets/images/Flag_of_Pakistan.png
+          excerpt: Detect the general sentiment expressed in a movie review or tweet by using our pretrained Spark NLP sentiment analysis model for Urdu language.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_UR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb
+        - title: Translate text in more than 192 languages 
+          image: 
+              src: /assets/images/language.svg
+          image2: 
+              src: /assets/images/language_w.svg
+          excerpt: Translate text in more than 192 languages using pretrained Deep Learning models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/TRANSLATION_MARIAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb
+        - title: Recognize Entities in Bengali
+          image: 
+              src: /assets/images/Flag_of_Bangladesh.png
+          image2: 
+              src: /assets/images/Flag_of_Bangladesh.png
+          excerpt: Recognize Persons, Locations, Organizations and Misc entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_840b_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_BN
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
@@ -931,6 +1165,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+        - title: Identify gender using context and medical records
+          image: 
+              src: /assets/images/Detect_demographic_information.svg
+          image2: 
+              src: /assets/images/Detect_demographic_information_f.svg
+          excerpt: Identify gender of a person by analyzing signs and symptoms using pretrained Spark NLP Classification model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
+          - text: Colab Netbook
+            type: blue_btn 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb 
+        - title: Detect clinical entities in text
+          image: 
+              src: /assets/images/Detect_risk_factors.svg
+          image2: 
+              src: /assets/images/Detect_risk_factors_f.svg
+          excerpt: Automatically detect more than 50 clinical entities using our NER deep learning model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb       
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
@@ -1024,7 +1284,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
-        - title: Extract tables from PDFs
+        - title: Extract tables
           image: 
               src: /assets/images/Extract_tables_from_PDFs.svg
           image2: 

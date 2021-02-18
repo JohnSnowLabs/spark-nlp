@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
@@ -12,12 +13,12 @@ import org.scalatest._
 
 class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
 
-  "An BigTextMatcher" should s"be of type $CHUNK" in {
+  "An BigTextMatcher" should s"be of type $CHUNK" taggedAs FastTest in {
     val entityExtractor = new BigTextMatcherModel
     assert(entityExtractor.outputAnnotatorType == CHUNK)
   }
 
-  "A BigTextMatcher" should "extract entities with and without sentences" in {
+  "A BigTextMatcher" should "extract entities with and without sentences" taggedAs FastTest in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
     val result = AnnotatorBuilder.withFullBigTextMatcher(dataset)
     val resultNoSentence = AnnotatorBuilder.withFullBigTextMatcher(dataset, sbd = false)
@@ -47,7 +48,7 @@ class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
     assert(extractedNoSentenceNoCase == expectedNoSentenceNoCase)
   }
 
-  "An Entity Extractor" should "search inside sentences" in {
+  "An Entity Extractor" should "search inside sentences" taggedAs FastTest in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
     val result = AnnotatorBuilder.withFullBigTextMatcher(dataset, caseSensitive = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq
@@ -55,7 +56,7 @@ class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
     assert(extracted == Seq.empty[Annotation])
   }
 
-  "A Recursive Pipeline BigTextMatcher" should "extract entities from dataset" in {
+  "A Recursive Pipeline BigTextMatcher" should "extract entities from dataset" taggedAs FastTest in {
     val data = ContentProvider.parquetData.limit(1000)
 
     val documentAssembler = new DocumentAssembler()
@@ -96,7 +97,7 @@ class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
     assert(recursivePipeline.fit(data).transform(data).filter("finished_entity == ''").count > 0)
   }
 
-  "A big text matcher pipeline" should "work fine" in {
+  "A big text matcher pipeline" should "work fine" taggedAs FastTest in {
     val m = PipelineModel.load("./tmp_bigtm")
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
     m.transform(dataset).show(1,false)

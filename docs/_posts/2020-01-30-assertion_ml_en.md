@@ -4,6 +4,9 @@ title: Detect Assertion Status (assertion_ml_en)
 author: John Snow Labs
 name: assertion_ml_en
 date: 2020-01-30
+task: Assertion Status
+language: en
+edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
@@ -35,6 +38,15 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
+clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
+  .setInputCols(["sentence", "token", "embeddings"]) \
+  .setOutputCol("ner")
+ner_converter = NerConverter() \
+  .setInputCols(["sentence", "token", "ner"]) \
+  .setOutputCol("ner_chunk")
 clinical_assertion = AssertionDLModel.pretrained("assertion_ml", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
@@ -48,14 +60,22 @@ light_result = LightPipeline(model).fullAnnotate('Patient has a headache for the
 ```
 
 ```scala
-
+...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
+val clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings")) 
+  .setOutputCol("ner")
+val ner_converter = NerConverter()
+  .setInputCols(Array("sentence", "token", "ner"))
+  .setOutputCol("ner_chunk")
 val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en", "clinical/models") \
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
 
-val pipeline = new Pipeline().setStages(Array(clinical_assertion_ml))
-
-val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion_ml))
+val result = pipeline.fit(Seq.empty["Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain"].toDS.toDF("text")).transform(data)
 ```
 
 </div>
@@ -92,5 +112,3 @@ The output is a dataframe with a sentence per row and an "assertion" column cont
 ## Data Source
 Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clinical text with 'embeddings_clinical'.
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
-
-

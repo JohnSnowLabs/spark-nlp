@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Thai
 author: John Snow Labs
 name: stopwords_th
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: th
+edition: Spark NLP 2.5.4
 tags: [stopwords, th]
 article_header:
   type: cover
@@ -16,7 +19,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_th_th_2.5.4_2.4_1594742440606.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
@@ -24,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -45,11 +48,22 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sto
 val result = pipeline.fit(Seq.empty["นอกเหนือจากการเป็นราชาแห่งทิศเหนือแล้วจอห์นสโนว์ยังเป็นแพทย์ชาวอังกฤษและเป็นผู้นำในการพัฒนายาระงับความรู้สึกและสุขอนามัยทางการแพทย์"].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""นอกเหนือจากการเป็นราชาแห่งทิศเหนือแล้วจอห์นสโนว์ยังเป็นแพทย์ชาวอังกฤษและเป็นผู้นำในการพัฒนายาระงับความรู้สึกและสุขอนามัยทางการแพทย์"""]
+stopword_df = nlu.load('th.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
+
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=0, end=130, result='นอกเหนือจากการเป็นราชาแห่งทิศเหนือแล้วจอห์นสโนว์ยังเป็นแพทย์ชาวอังกฤษและเป็นผู้นำในการพัฒนายาระงับความรู้สึกและสุขอนามัยทางการแพทย์', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=0, end=130, result='นอกเหนือจากการเป็นราชาแห่งทิศเหนือแล้วจอห์นสโนว์ยังเป็นแพทย์ชาวอังกฤษและเป็นผู้นำในการพัฒนายาระงับความรู้สึกและสุขอนามัยทางการแพทย์', metadata={'sentence': '0'}),
 ...]
 ```
 

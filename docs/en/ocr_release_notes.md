@@ -7,7 +7,44 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+## 1.10.0
+
+#### Overview
+
+Support Microsoft Docx documents.
+
+#### New Features
+
+* Added [DocToText](ocr_pipeline_components#doctotext) transformer for extract text
+from DOCX documents.
+* Added [DocToTextTable](ocr_pipeline_components#doctotexttable) transformer for extract
+table data from DOCX documents.
+* Added [DocToPdf](ocr_pipeline_components#doctopdf) transformer for convert DOCX
+ documents to PDF format.
+
+#### Bugfixes
+
+* Fixed issue with loading model data on some cluster configurations
+
+
+
+## 1.9.0
+
+Release date: 11-12-2020
+
+#### Overview
+
+Extension of  FoundationOne report parser and support HOCR output format.
+
+#### New Features
+
+* Added [ImageToHocr](ocr_pipeline_components#imagetohocr) transformer for recognize text from image and store it to HOCR format.
+* Added parsing gene lists from 'Appendix' in [FoundationOneReportParser](ocr_pipeline_components#foundationonereportparser) transformer.
+
+
 ## 1.8.0
+
+Release date: 20-11-2020
 
 #### Overview
 
@@ -18,8 +55,8 @@ Support up to 10k pages per document.
 
 * Added [ImageAdaptiveBinarizer](ocr_pipeline_components#imageadaptivebinarizer) Scala transformer with support:
     - Gaussian local thresholding
-    - Otsu treshholding
-    - Sauvola local treshholding
+    - Otsu thresholding
+    - Sauvola local thresholding
 * Added possibility to split pdf to small documents for optimize processing in [PdfToImage](ocr_pipeline_components#pdftoimage).
 
 

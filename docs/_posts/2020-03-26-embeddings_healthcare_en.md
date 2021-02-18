@@ -7,6 +7,8 @@ class: WordEmbeddingsModel
 language: en
 repository: clinical/models
 date: 2020-03-26
+task: Embeddings
+edition: Spark NLP for Healthcare 2.4.4
 tags: [licensed,clinical,embeddings,en]
 article_header:
    type: cover
@@ -16,9 +18,6 @@ use_language_switcher: "Python-Scala-Java"
 {:.h2_title}
 ## Description
 Word Embeddings lookup annotator that maps tokens to vectors.
-
-## Predicted Entities 
-Word2Vec feature vectors based on embeddings_healthcare.
 
 {:.h2_title}
 ## Data Source
@@ -38,7 +37,7 @@ https://www.nlm.nih.gov/databases/download/pubmed_medline.html
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinical/models")\
-	.setInputCols("document","token")\
+	.setInputCols(["document","token"])\
 	.setOutputCol("word_embeddings")
 ```
 
@@ -49,7 +48,9 @@ val model = WordEmbeddingsModel.pretrained("embeddings_healthcare","en","clinica
 ```
 </div>
 
-
+{:.h2_title}
+## Results 
+Word2Vec feature vectors based on ``embeddings_healthcare``.
 
 {:.model-param}
 ## Model Information

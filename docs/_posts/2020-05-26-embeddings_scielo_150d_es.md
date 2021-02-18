@@ -7,6 +7,8 @@ class: WordEmbeddingsModel
 language: es
 repository: clinical/models
 date: 2020-05-26
+task: Embeddings
+edition: Spark NLP for Healthcare 2.5.0
 tags: [clinical,embeddings,es]
 article_header:
    type: cover
@@ -17,13 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Word Embeddings lookup annotator that maps tokens to vectors.
 
-## Predicted Entities 
-Word2Vec feature vectors based on embeddings_scielo_150d.
-
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/embeddings_scielo_150d_es_2.5.0_2.4_1590467082526.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 {:.h2_title}
 ## How to use 
 <div class="tabs-box" markdown="1">
@@ -32,7 +32,7 @@ Word2Vec feature vectors based on embeddings_scielo_150d.
 
 ```python
 model = WordEmbeddingsModel.pretrained("embeddings_scielo_150d","es","clinical/models")\
-	.setInputCols("document","token")\
+	.setInputCols(["document","token"])\
 	.setOutputCol("word_embeddings")
 ```
 
@@ -42,6 +42,10 @@ val model = WordEmbeddingsModel.pretrained("embeddings_scielo_150d","es","clinic
 	.setOutputCol("word_embeddings")
 ```
 </div>
+
+{:.h2_title}
+## Results 
+Word2Vec feature vectors based on ``embeddings_scielo_150d``.
 
 {:.model-param}
 ## Model Information

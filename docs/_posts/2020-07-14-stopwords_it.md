@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Italian
 author: John Snow Labs
 name: stopwords_it
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words
+language: it
+edition: Spark NLP 2.5.4
 tags: [stopwords, it]
 article_header:
   type: cover
@@ -16,7 +19,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_it_it_2.5.4_2.4_1594742442063.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
@@ -24,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -45,15 +48,26 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sto
 val result = pipeline.fit(Seq.empty["Oltre ad essere il re del nord, John Snow è un medico inglese e leader nello sviluppo dell'anestesia e dell'igiene medica."].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Oltre ad essere il re del nord, John Snow è un medico inglese e leader nello sviluppo dell'anestesia e dell'igiene medica."""]
+stopword_df = nlu.load('it.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
+
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='token', begin=19, end=20, result='re', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=26, end=29, result='nord', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=30, end=30, result=',', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=32, end=35, result='John', metadata={'sentence': '0'}, embeddings=[]),
-Row(annotatorType='token', begin=37, end=40, result='Snow', metadata={'sentence': '0'}, embeddings=[]),
+[Row(annotatorType='token', begin=19, end=20, result='re', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=26, end=29, result='nord', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=30, end=30, result=',', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=32, end=35, result='John', metadata={'sentence': '0'}),
+Row(annotatorType='token', begin=37, end=40, result='Snow', metadata={'sentence': '0'}),
 ...]
 ```
 

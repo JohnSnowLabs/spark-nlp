@@ -7,6 +7,8 @@ class: PerceptronModel
 language: en
 repository: clinical/models
 date: 2019-04-30
+task: POS
+edition: Spark NLP for Healthcare 2.0.2
 tags: [clinical, licensed, pos,en]
 article_header:
    type: cover
@@ -29,19 +31,37 @@ Sets a Part-Of-Speech tag to each word within a sentence.
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-model = PerceptronModel.pretrained("pos_clinical","en","clinical/models")\
-	.setInputCols("token","sentence")\
+...
+pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")\
+	.setInputCols(["token","sentence"])\
 	.setOutputCol("pos")
+    
+pos_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
+light_pipeline = LightPipeline(pos_pipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
+result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.""")
 ```
 
 ```scala
-val model = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
+val pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
 	.setInputCols("token","sentence")
 	.setOutputCol("pos")
+    
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
+val result = pipeline.fit(Seq.empty["He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety."].toDS.toDF("text")).transform(data)
 ```
 </div>
 
+{:.h2_title}
+## Results
 
+```bash
+[Annotation(pos, 0, 1, NN, {'word': 'He'}),
+ Annotation(pos, 3, 5, VBD, {'word': 'was'}),
+ Annotation(pos, 7, 11, VVN, {'word': 'given'}),
+ Annotation(pos, 13, 19, NNS, {'word': 'boluses'}),
+ Annotation(pos, 21, 22, II, {'word': 'of'}),
+...]
+```
 
 {:.model-param}
 ## Model Information

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>re - Spark NLP 2.7.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.re</title>
-          <meta name="description" content="re - Spark NLP 2.7.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
-          <meta name="keywords" content="re Spark NLP 2.7.1 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
+          <title>re - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re</title>
+          <meta name="description" content="re - Spark NLP 2.7.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
+          <meta name="keywords" content="re Spark NLP 2.7.3 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -66,7 +66,41 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.re.PosologyREModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.re.BertREConfig" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BertREConfigextendsProductwithSerializable"></a>
+      <a id="BertREConfig:BertREConfig"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="BertREConfig.html"><span class="name">BertREConfig</span></a><span class="params">(<span name="sentenceStartTokenId">sentenceStartTokenId: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">102</span></span>, <span name="sentenceEndTokenId">sentenceEndTokenId: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">103</span></span>, <span name="entity1StartTokenId">entity1StartTokenId: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">10</span></span>, <span name="entity1EndTokenId">entity1EndTokenId: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">11</span></span>, <span name="entity2StartTokenId">entity2StartTokenId: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">12</span></span>, <span name="entity2EndTokenId">entity2EndTokenId: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">13</span></span>, <span name="entity1StartTag">entity1StartTag: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;e1b&quot;</span></span>, <span name="entity1EndTag">entity1EndTag: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;e1e&quot;</span></span>, <span name="entity2StartTag">entity2StartTag: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;e2b&quot;</span></span>, <span name="entity2EndTag">entity2EndTag: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;e2e&quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@BertREConfigextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.DLRelationInstance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DLRelationInstanceextendsProductwithSerializable"></a>
+      <a id="DLRelationInstance:DLRelationInstance"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DLRelationInstance.html"><span class="name">DLRelationInstance</span></a><span class="params">(<span name="relationType">relationType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1">entity1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity2">entity2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1_begin">entity1_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity1_end">entity1_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_begin">entity2_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_end">entity2_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="chunk1">chunk1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2">chunk2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="context">context: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@DLRelationInstanceextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.PosologyREModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PosologyREModelextendsRelationExtractionModelwithHasStorageRefwithParamsAndFeaturesWritablewithLicensed"></a>
       <a id="PosologyREModel:PosologyREModel"></a>
       <h4 class="signature">
@@ -100,6 +134,57 @@
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RENerChunksFilterextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter]withLicensed"></a>
+      <a id="RENerChunksFilter:RENerChunksFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="RENerChunksFilter.html"><span class="name">RENerChunksFilter</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@RENerChunksFilterextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter]withLicensed" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadRelationExtractionDLModelTensorflowModelextendsReadTensorflowModel"></a>
+      <a id="ReadRelationExtractionDLModelTensorflowModel:ReadRelationExtractionDLModelTensorflowModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ReadRelationExtractionDLModelTensorflowModel.html"><span class="name">ReadRelationExtractionDLModelTensorflowModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@ReadRelationExtractionDLModelTensorflowModelextendsReadTensorflowModel" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedRelationExtractionDLModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]"></a>
+      <a id="ReadablePretrainedRelationExtractionDLModel:ReadablePretrainedRelationExtractionDLModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ReadablePretrainedRelationExtractionDLModel.html"><span class="name">ReadablePretrainedRelationExtractionDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@ReadablePretrainedRelationExtractionDLModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="RelationExtractionApproachextendsGenericClassifierApproach"></a>
       <a id="RelationExtractionApproach:RelationExtractionApproach"></a>
@@ -113,6 +198,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@RelationExtractionApproachextendsGenericClassifierApproach" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RelationExtractionDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withWriteTensorflowModelwithHasStorageRefwithHasCaseSensitivePropertieswithLicensed"></a>
+      <a id="RelationExtractionDLModel:RelationExtractionDLModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="RelationExtractionDLModel.html"><span class="name">RelationExtractionDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@RelationExtractionDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel]withWriteTensorflowModelwithHasStorageRefwithHasCaseSensitivePropertieswithLicensed" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -172,6 +274,40 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@REFeatureGenerator" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RENerChunksFilter"></a>
+      <a id="RENerChunksFilter:RENerChunksFilter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RENerChunksFilter$.html"><span class="name">RENerChunksFilter</span></a><span class="result"> extends <a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@RENerChunksFilter" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RelationExtractionDLModel"></a>
+      <a id="RelationExtractionDLModel:RelationExtractionDLModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RelationExtractionDLModel$.html"><span class="name">RelationExtractionDLModel</span></a><span class="result"> extends <a href="ReadablePretrainedRelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadablePretrainedRelationExtractionDLModel">ReadablePretrainedRelationExtractionDLModel</a> with <a href="ReadRelationExtractionDLModelTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.ReadRelationExtractionDLModelTensorflowModel">ReadRelationExtractionDLModelTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.re.package@RelationExtractionDLModel" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

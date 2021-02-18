@@ -1,31 +1,36 @@
 ---
 layout: model
-title: Part of Speech for Spanish (Venezuela)
+title: Part of Speech for Swedish
 author: John Snow Labs
 name: pos_ud_tal
 date: 2020-05-04 23:32:00 +0800
+task: POS
+language: sv
+edition: Spark NLP 2.5.0
 tags: [pos, es]
 article_header:
 type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
+{:.h2_title}
 ## Description
 This model annotates the part of speech of tokens in a text. The [parts of speech](https://universaldependencies.org/u/pos/) annotated include PRON (pronoun), CCONJ (coordinating conjunction), and 15 others. The part of speech model is useful for extracting the grammatical structure of a piece of text automatically.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_tal_sv_2.5.0_2.4_1588622711284.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
+{:.h2_title}
 ## How to use 
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 pos = PerceptronModel.pretrained("pos_ud_tal", "sv") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("pos")
@@ -35,21 +40,34 @@ results = light_pipeline.fullAnnotate("Förutom att vara kungen i norr är John 
 ```
 
 ```scala
-
+...
 val pos = PerceptronModel.pretrained("pos_ud_tal", "sv")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
+val result = pipeline.fit(Seq.empty["Förutom att vara kungen i norr är John Snow en engelsk läkare och en ledare inom utveckling av anestesi och medicinsk hygien."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Förutom att vara kungen i norr är John Snow en engelsk läkare och en ledare inom utveckling av anestesi och medicinsk hygien."""]
+pos_df = nlu.load('sv.pos.ud_tal').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results
 
 ```bash
-[Row(annotatorType='pos', begin=0, end=6, result='ADP', metadata={'word': 'Förutom'}, embeddings=[]),
-Row(annotatorType='pos', begin=8, end=10, result='PART', metadata={'word': 'att'}, embeddings=[]),
-Row(annotatorType='pos', begin=12, end=15, result='AUX', metadata={'word': 'vara'}, embeddings=[]),
-Row(annotatorType='pos', begin=17, end=22, result='NOUN', metadata={'word': 'kungen'}, embeddings=[]),
-Row(annotatorType='pos', begin=24, end=24, result='ADP', metadata={'word': 'i'}, embeddings=[]),
+[Row(annotatorType='pos', begin=0, end=6, result='ADP', metadata={'word': 'Förutom'}),
+Row(annotatorType='pos', begin=8, end=10, result='PART', metadata={'word': 'att'}),
+Row(annotatorType='pos', begin=12, end=15, result='AUX', metadata={'word': 'vara'}),
+Row(annotatorType='pos', begin=17, end=22, result='NOUN', metadata={'word': 'kungen'}),
+Row(annotatorType='pos', begin=24, end=24, result='ADP', metadata={'word': 'i'}),
 ...]
 ```
 

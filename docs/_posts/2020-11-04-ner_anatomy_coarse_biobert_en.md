@@ -4,9 +4,12 @@ title: Detect Anatomical Structures (Single Entity - biobert)
 author: John Snow Labs
 name: ner_anatomy_coarse_biobert_en
 date: 2020-11-04
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.1
 tags: [ner, en, licensed, clinical]
 article_header:
-type: cover
+  type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -19,7 +22,7 @@ Anatomy
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}{:target="_blank"}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_coarse_biobert_en_2.6.1_2.4_1604435983087.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -32,32 +35,30 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-
+...
+embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en") \
+      .setInputCols("sentence", "token") \
+      .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-nlpPipeline = Pipeline(stages=[clinical_ner])
-
-empty_data = spark.createDataFrame([["content in the lung tissue"]]).toDF("text")
-
-model = nlpPipeline.fit(empty_data)
-
+...
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, clinical_ner, ner_converter])
+model = nlpPipeline.fit(spark.createDataFrame([["content in the lung tissue"]]).toDF("text"))
 results = model.transform(data)
-
 ```
 
 ```scala
-
+...
+val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
-val pipeline = new Pipeline().setStages(Array(ner))
-
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner, ner_converter))
 val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
-
-
 ```
 
 </div>
@@ -95,7 +96,7 @@ Trained on a custom dataset using 'biobert_pubmed_base_cased'.
 ## Benchmarking
 ```bash
 |    | label         |    tp |    fp |    fn |     prec |      rec |       f1 |
-|---:|:--------------|------:|------:|------:|---------:|---------:|---------:|
+|---:|--------------:|------:|------:|------:|---------:|---------:|---------:|
 |  0 | B-Anatomy     |  2499 |   155 |   162 | 0.941598 | 0.939121 | 0.940357 |
 |  1 | I-Anatomy     |  1695 |   116 |   158 | 0.935947 | 0.914733 | 0.925218 |
 |  2 | Macro-average | 4194  |  271  |   320 | 0.938772 | 0.926927 | 0.932812 |

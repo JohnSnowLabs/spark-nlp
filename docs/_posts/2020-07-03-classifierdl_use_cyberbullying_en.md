@@ -7,6 +7,8 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/07/2020
+task: Text Classification
+edition: Spark NLP 2.5.3
 tags: [classifier]
 article_header:
    type: cover
@@ -17,9 +19,9 @@ use_language_switcher: "Python-Scala-Java"
 ## Description 
 Identify Racism, Sexism or Neutral tweets.
 
- {:.h2_title}
-## Predicted Entities
-neutral, racism, sexism 
+{:.h2_title}
+## Classified Labels
+``neutral``, ``racism``, ``sexism``. 
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_EN_CYBERBULLYING/){:.button.button-orange}
@@ -29,31 +31,47 @@ neutral, racism, sexism
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
 use = UniversalSentenceEncoder.pretrained(lang="en") \
   .setInputCols(["document"])\
   .setOutputCol("sentence_embeddings")
-
-
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_cyberbullying', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[documentAssembler, use, document_classifier])
-
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked')
 
 ```
 ```scala
+val documentAssembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+val use = UniversalSentenceEncoder.pretrained(lang="en")
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence_embeddings")
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_cyberbullying", "en")
+  .setInputCols(Array("document", "sentence_embeddings"))
+  .setOutputCol("class")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
+
+val result = pipeline.fit(Seq.empty["@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"""]
+cyberbull_df = nlu.load('classify.cyberbullying.use').predict(text, output_level='document')
+cyberbull_df[["document", "cyberbullying"]]
 ```
 
 </div>
@@ -67,7 +85,6 @@ annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again
 |@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked.                     | racism     |
 +--------------------------------------------------------------------------------------------------------+------------+
 ```
-
 
 {:.model-param}
 ## Model Information
@@ -86,9 +103,20 @@ annotations = light_pipeline.fullAnnotate('@geeky_zekey Thanks for showing again
 | Upstream Dependencies   | tfhub_use                      |
 
 
-
-
 {:.h2_title}
 ## Data Source
 This model is trained on cyberbullying detection dataset. https://raw.githubusercontent.com/dhavalpotdar/cyberbullying-detection/master/data/data/data.csv
 
+{:.h2_title}
+## Benchmarking
+```bash
+              precision    recall  f1-score   support
+
+        none       0.69      1.00      0.81      3245
+      racism       0.00      0.00      0.00       568
+      sexism       0.00      0.00      0.00       922
+
+    accuracy                           0.69      4735
+   macro avg       0.23      0.33      0.27      4735
+weighted avg       0.47      0.69      0.56      4735
+```

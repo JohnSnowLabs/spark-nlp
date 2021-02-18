@@ -4,6 +4,9 @@ title: Detect Cancer Genetics
 author: John Snow Labs
 name: ner_bionlp_en
 date: 2020-01-30
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
@@ -22,7 +25,7 @@ Pretrained named entity recognition deep learning model for biology and genetics
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_TUMOR){:.button.button-orange}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
+[Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_bionlp_en_2.4.0_2.4_1580237286004.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
@@ -35,7 +38,10 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 
 ```python
-..
+...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_bionlp", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
@@ -49,6 +55,9 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({'text':"The human 
 
 ```scala
 ...
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_bionlp", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
