@@ -35,6 +35,20 @@ pipeline = PretrainedPipeline("analyze_sentimentdl_use_twitter", lang = "en")
 result = pipeline.fullAnnotate(["im meeting up with one of my besties tonight! Cant wait!!  - GIRL TALK!!", "is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!"])
 ```
 
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+val pipeline = new PretrainedPipeline("analyze_sentimentdl_use_twitter", lang = "en")
+val result = pipeline.fullAnnotate("im meeting up with one of my besties tonight! Cant wait!!  - GIRL TALK!!", "is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!")
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""im meeting up with one of my besties tonight! Cant wait!!  - GIRL TALK!!", "is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!"""]
+sentiment_df = nlu.load('en.sentiment.twitter.use').predict(text)
+sentiment_df
+```
 
 </div>
 
