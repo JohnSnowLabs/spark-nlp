@@ -5,6 +5,9 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.LangModelSentence
 import org.tensorflow.Graph
 
+import scala.collection.JavaConversions.asScalaBuffer
+
+
 class TensorflowSpell(
   val tensorflow: TensorflowWrapper,
   val verboseLevel: Verbose.Value
@@ -131,7 +134,21 @@ class TensorflowSpell(
           feed(initialLearningRateKey, tensors.createTensor(initialRate)).
           run()
 
-        val (loss, gs, clr) = (tfResponse.get(0), tfResponse.get(1), tfResponse.get(2))
+        val loss = tfResponse.lift(0) match {
+          case Some(e) => e
+          case _ => throw new IllegalArgumentException("Error in TF loss extraction")
+        }
+
+        val gs = tfResponse.lift(1) match {
+          case Some(e) => e
+          case _ => throw new IllegalArgumentException("Error in TF gs extraction")
+        }
+
+        val clr = tfResponse.lift(2) match {
+          case Some(e) => e
+          case _ => throw new IllegalArgumentException("Error in TF clr extraction")
+        }
+
         trainLoss += extractFloats(loss).sum
         val vws = batch.map(_.len).sum
         trainValidWords += vws

@@ -5,6 +5,8 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FlatSpec
+import scala.language.existentials
+
 
 class DependencyParserApproachTestSpec extends FlatSpec{
 
@@ -28,6 +30,7 @@ class DependencyParserApproachTestSpec extends FlatSpec{
       .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
       .setConllU("src/test/resources/parser/unlabeled/conll-u")
       .setNumberOfIterations(10)
+
     val expectedErrorMessage = "Use either TreeBank or CoNLL-U format file both are not allowed."
 
     val caught = intercept[IllegalArgumentException]{
