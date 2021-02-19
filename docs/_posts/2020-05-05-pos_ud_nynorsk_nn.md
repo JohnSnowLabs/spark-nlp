@@ -4,7 +4,7 @@ title: Part of Speech for Norwegian Nynorsk
 author: John Snow Labs
 name: pos_ud_nynorsk
 date: 2020-05-05 18:57:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: nn
 edition: Spark NLP 2.5.0
 tags: [pos, nn]

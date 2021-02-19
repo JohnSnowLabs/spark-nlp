@@ -7,7 +7,7 @@ class: DeIdentificationModel
 language: en
 repository: clinical/models
 date: 2019-06-04
-task: Deidentification
+task: De-identification
 edition: Spark NLP for Healthcare 2.0.2
 tags: [clinical,licensed,en]
 article_header:

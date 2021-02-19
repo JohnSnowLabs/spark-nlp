@@ -4,7 +4,7 @@ title: Part of Speech for Romanian
 author: John Snow Labs
 name: pos_ud_rrt
 date: 2020-05-04 23:32:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: ro
 edition: Spark NLP 2.5.0
 tags: [pos, ro]

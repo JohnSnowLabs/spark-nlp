@@ -4,7 +4,7 @@ title: Part of Speech for Urdu
 author: John Snow Labs
 name: pos_ud_udtb
 date: 2020-11-30
-task: POS
+task: Part of Speech Tagging
 language: ur
 edition: Spark NLP 2.7.0
 tags: [pos, ur]

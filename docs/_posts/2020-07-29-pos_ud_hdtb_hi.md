@@ -4,7 +4,7 @@ title: Part of Speech for Hindi
 author: John Snow Labs
 name: pos_ud_hdtb
 date: 2020-07-29 23:34:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: hi
 edition: Spark NLP 2.5.5
 tags: [pos, hi]

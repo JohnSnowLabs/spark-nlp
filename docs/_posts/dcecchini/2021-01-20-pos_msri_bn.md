@@ -4,7 +4,7 @@ title: Part of Speech for Bengali (pos_msri)
 author: John Snow Labs
 name: pos_msri
 date: 2021-01-20
-task: POS
+task: Part of Speech Tagging
 language: bn
 edition: Spark NLP 2.7.0
 tags: [bn, pos, open_source]

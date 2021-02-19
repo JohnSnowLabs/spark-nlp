@@ -4,7 +4,7 @@ title: Part of Speech for Chinese
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2021-01-03
-task: POS
+task: Part of Speech Tagging
 language: zh
 edition: Spark NLP 2.7.0
 tags: [pos, zh, cn, open_source]
