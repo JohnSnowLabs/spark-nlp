@@ -49,7 +49,9 @@ class Finisher(override val uid: String)
     cleanAnnotations -> true,
     includeMetadata -> false,
     outputAsArray -> true,
-    parseEmbeddingsVectors -> false
+    parseEmbeddingsVectors -> false,
+    valueSplitSymbol -> "#",
+    annotationSplitSymbol -> "@"
   )
 
   def this() = this(Identifiable.randomUID("finisher"))
