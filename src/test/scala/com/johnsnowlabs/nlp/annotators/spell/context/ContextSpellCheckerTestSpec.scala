@@ -103,7 +103,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     }
   }
 
-  "Special classes" should "serialize/deserialize properly - during execution" ignore {
+  "Special classes" should "serialize/deserialize properly - during execution" taggedAs SlowTest in {
 
     val specialClasses = Seq(new AgeToken, new UnitToken, new NumberToken,
       new LocationClass("./src/test/resources/spell/locations.txt"),
@@ -140,19 +140,19 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "weighted Levenshtein distance" should "work from file" in new distFile {
+  "weighted Levenshtein distance" should "work from file" taggedAs SlowTest in new distFile {
     assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
     assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
   }
 
 
-  "weighted Levenshtein distance" should "produce weighted results" in new Scope {
+  "weighted Levenshtein distance" should "produce weighted results" taggedAs SlowTest in new Scope {
     assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
     assert(wLevenshteinDist("clean", "crean", weights) > wLevenshteinDist("clean", "c!ean", weights))
     assert(wLevenshteinDist("Patient", "Fatient", weights) < wLevenshteinDist("Patient", "Aatient", weights))
   }
 
-  "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
+  "weighted Levenshtein distance" should "handle insertions and deletions" taggedAs SlowTest in new Scope {
     override val weights = loadWeights("src/test/resources/distance.psv")
 
     val cost1 = weights("F")("P") + weights("a")("e")
