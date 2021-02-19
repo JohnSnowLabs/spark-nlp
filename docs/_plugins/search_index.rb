@@ -16,12 +16,15 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
     .map { |v| File.basename(v) }
   Jekyll::Hooks.register :posts, :post_render do |post|
     next unless posts.include? post.basename
+    m = !post.data['edition'].nil? && /(.*)\.(\d+)\z/.match(post.data['edition'])
+    edition_short = m.is_a?(MatchData) ? m[1] : ''
     puts "Indexing #{post.url}..."
     client.index index: 'models', id: post.url, body: {
       title: post.data['title'],
       task: post.data['task'],
       language: post.data['language'],
       edition: post.data['edition'],
+      edition_short: edition_short,
       date: post.data['date'].strftime('%F')
     }
   end
