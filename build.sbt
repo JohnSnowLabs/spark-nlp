@@ -46,6 +46,10 @@ resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
 
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll
+)
+
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
