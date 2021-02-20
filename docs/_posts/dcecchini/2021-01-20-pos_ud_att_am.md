@@ -4,7 +4,7 @@ title: Part of Speech for Amharic (pos_ud_att)
 author: John Snow Labs
 name: pos_ud_att
 date: 2021-01-20
-task: POS
+task: Part of Speech Tagging
 language: am
 edition: Spark NLP 2.7.0
 tags: [am, pos, open_source]
@@ -98,8 +98,15 @@ val pos = PerceptronModel.pretrained("pos_ud_att", "am")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 
 val result = pipeline.fit(Seq.empty["ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።"].toDS.toDF("text")).transform(data)
+```
 
+{:.nlu-block}
+```python
+import nlu
 
+text = ["ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።"]
+pos_df = nlu.load('am.pos').predict(text)
+pos_df
 ```
 
 </div>

@@ -4,7 +4,7 @@ title: Part of Speech for Traditional Chinese
 author: John Snow Labs
 name: pos_ud_gsd_trad
 date: 2021-01-25
-task: POS
+task: Part of Speech Tagging
 language: zh
 edition: Spark NLP 2.7.0
 tags: [pos, zh, open_source]
@@ -81,6 +81,16 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 val result = pipeline.fit(Seq.empty["然而，這樣的處理也衍生了一些問題。"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""然而，這樣的處理也衍生了一些問題。"""]
+pos_df = nlu.load('zh.pos.ud_gsd_trad').predict(text, output_level = "token")
+pos_df
+```
+
 </div>
 
 ## Results

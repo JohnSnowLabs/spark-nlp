@@ -7,27 +7,26 @@
     'Named Entity Recognition',
     'Text Classification',
     'Sentiment Analysis',
-    'Assertion Status',
-    'Entity Resolution',
     'Translation',
     'Question Answering',
     'Summarization',
     'Sentence Detection',
     'Embeddings',
     'Language Detection',
-    'Deidentification',
-    'Stop Words',
+    'Stop Words Removal',
     'Word Segmentation',
-    'POS',
+    'Part of Speech Tagging',
     'Lemmatization',
     'Relation Extraction',
-    'Pipeline Healthcare',
-    'Pipeline Translate',
-    'Pipeline Onto NER',
-    'Pipeline Language Detection',
+    'Spell Checking',
+    'Assertion Status',
+    'Entity Resolution',
+    'De-identification',
   ];
 
   const languages = {
+    en: 'English',
+    xx: 'Multilingual',
     aa: 'Afar',
     ab: 'Abkhaz',
     ae: 'Avestan',
@@ -65,7 +64,6 @@
     dz: 'Dzongkha',
     ee: 'Ewe',
     el: 'Greek (modern)',
-    en: 'English',
     eo: 'Esperanto',
     es: 'Spanish',
     et: 'Estonian',
@@ -214,40 +212,134 @@
     zu: 'Zulu',
   };
 
+  const languageGroups = {
+    aav: 'Austro-Asiatic languages',
+    afa: 'Afro-Asiatic languages',
+    alg: 'Algonquian languages',
+    alv: 'Atlantic-Congo languages',
+    apa: 'Apache languages',
+    aqa: 'Alacalufan languages',
+    aql: 'Algic languages',
+    art: 'Artificial languages',
+    ath: 'Athapascan languages',
+    auf: 'Arauan languages',
+    aus: 'Australian languages',
+    awd: 'Arawakan languages',
+    azc: 'Uto-Aztecan languages',
+    bad: 'Banda languages',
+    bai: 'Bamileke languages',
+    bat: 'Baltic languages',
+    ber: 'Berber languages',
+    bih: 'Bihari languages',
+    bnt: 'Bantu languages',
+    btk: 'Batak languages',
+    cai: 'Central American Indian languages',
+    cau: 'Caucasian languages',
+    cba: 'Chibchan languages',
+    ccn: 'North Caucasian languages',
+    ccs: 'South Caucasian languages',
+    cdc: 'Chadic languages',
+    cdd: 'Caddoan languages',
+    cel: 'Celtic languages',
+    cmc: 'Chamic languages',
+    cpe: 'English based creoles and pidgins',
+    cpf: 'French-based creoles and pidgins',
+    cpp: 'Portuguese-based creoles and pidgins',
+    crp: 'Creoles and pidgins',
+    csu: 'Central Sudanic languages',
+    cus: 'Cushitic languages',
+    day: 'Land Dayak languages',
+    dmn: 'Mande languages',
+    dra: 'Dravidian languages',
+    egx: 'Egyptian languages',
+    esx: 'Eskimo-Aleut languages',
+    euq: 'Basque (family)',
+    fiu: 'Finno-Ugrian languages',
+    fox: 'Formosan languages',
+    gem: 'Germanic languages',
+    gme: 'East Germanic languages',
+    gmq: 'North Germanic languages',
+    gmw: 'West Germanic languages',
+    grk: 'Greek languages',
+    him: 'Himachali languages, Western Pahari languages',
+    hmx: 'Hmong-Mien languages',
+    hok: 'Hokan languages',
+    hyx: 'Armenian (family)',
+    iir: 'Indo-Iranian languages',
+    ijo: 'Ijo languages',
+    inc: 'Indic languages',
+    ine: 'Indo-European languages',
+    ira: 'Iranian languages',
+    iro: 'Iroquoian languages',
+    itc: 'Italic languages',
+    jpx: 'Japanese (family)',
+    kar: 'Karen languages',
+    kdo: 'Kordofanian languages',
+    khi: 'Khoisan languages',
+    kro: 'Kru languages',
+    map: 'Austronesian languages',
+    mkh: 'Mon-Khmer languages',
+    mno: 'Manobo languages',
+    mun: 'Munda languages',
+    myn: 'Mayan languages',
+    nah: 'Nahuatl languages',
+    nai: 'North American Indian',
+    ngf: 'Trans-New Guinea languages',
+    nic: 'Niger-Kordofanian languages',
+    nub: 'Nubian languages',
+    omq: 'Oto-Manguean languages',
+    omv: 'Omotic languages',
+    oto: 'Otomian languages',
+    paa: 'Papuan languages',
+    phi: 'Philippine languages',
+    plf: 'Central Malayo-Polynesian languages',
+    poz: 'Malayo-Polynesian languages',
+    pqe: 'Eastern Malayo-Polynesian languages',
+    pqw: 'Western Malayo-Polynesian languages',
+    pra: 'Prakrit languages',
+    qwe: 'Quechuan (family)',
+    roa: 'Romance languages',
+    sai: 'South American Indian languages',
+    sal: 'Salishan languages',
+    sdv: 'Eastern Sudanic languages',
+    sem: 'Semitic languages',
+    sgn: 'Sign Languages',
+    sio: 'Siouan languages',
+    sit: 'Sino-Tibetan languages',
+    sla: 'Slavic languages',
+    smi: 'Sami languages',
+    son: 'Songhai languages',
+    sqj: 'Albanian languages',
+    ssa: 'Nilo-Saharan languages',
+    syd: 'Samoyedic languages',
+    tai: 'Tai languages',
+    tbq: 'Tibeto-Burman languages',
+    trk: 'Turkic languages',
+    tup: 'Tupi languages',
+    tut: 'Altaic languages',
+    tuw: 'Tungus languages',
+    urj: 'Uralic languages',
+    wak: 'Wakashan languages',
+    wen: 'Sorbian languages',
+    xgn: 'Mongolian languages',
+    xnd: 'Na-Dene languages',
+    ypk: 'Yupik languages',
+    zhx: 'Chinese (family)',
+    zle: 'East Slavic languages',
+    zls: 'South Slavic languages',
+    zlw: 'West Slavic languages',
+    znd: 'Zande languages',
+  };
+
   const editions = [
-    'Spark NLP 2.4.0',
-    'Spark NLP 2.4.1',
-    'Spark NLP 2.4.2',
-    'Spark NLP 2.4.3',
-    'Spark NLP 2.4.4',
-    'Spark NLP 2.4.5',
-    'Spark NLP 2.5.0',
-    'Spark NLP 2.5.1',
-    'Spark NLP 2.5.2',
-    'Spark NLP 2.5.3',
-    'Spark NLP 2.5.4',
-    'Spark NLP 2.5.5',
-    'Spark NLP 2.6.0',
-    'Spark NLP 2.6.1',
-    'Spark NLP 2.6.2',
-    'Spark NLP 2.6.3',
-    'Spark NLP 2.6.4',
-    'Spark NLP 2.6.5',
-    'Spark NLP 2.7.0',
-    'Spark NLP for Healthcare 2.4.0',
-    'Spark NLP for Healthcare 2.4.1',
-    'Spark NLP for Healthcare 2.4.2',
-    'Spark NLP for Healthcare 2.4.5',
-    'Spark NLP for Healthcare 2.4.6',
-    'Spark NLP for Healthcare 2.5.0',
-    'Spark NLP for Healthcare 2.5.2',
-    'Spark NLP for Healthcare 2.5.3',
-    'Spark NLP for Healthcare 2.5.5',
-    'Spark NLP for Healthcare 2.6.0',
-    'Spark NLP for Healthcare 2.6.2',
-    'Spark NLP for Healthcare 2.7.0',
-    'Spark NLP for Healthcare 2.7.1',
-    'Spark NLP for Healthcare 2.7.2',
+    'Spark NLP 2.7',
+    'Spark NLP 2.6',
+    'Spark NLP 2.5',
+    'Spark NLP 2.4',
+    'Spark NLP for Healthcare 2.7',
+    'Spark NLP for Healthcare 2.6',
+    'Spark NLP for Healthcare 2.5',
+    'Spark NLP for Healthcare 2.4',
   ];
 
   const useFilterQuery = () => {
@@ -256,13 +348,18 @@
       context: {},
     });
 
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+      edition: editions[0],
+    });
 
     useEffect(() => {
       setState({ ...state, value: 'loading' });
+      const mapping = {
+        edition: 'edition_short',
+      };
       const searchParams = Object.keys(params).reduce((acc, k) => {
         if (params[k] && k !== 'type') {
-          acc.append(k, params[k]);
+          acc.append(mapping[k] || k, params[k]);
         }
         return acc;
       }, new URLSearchParams());
@@ -404,6 +501,24 @@
   };
 
   const ModelItem = ({ title, url, task, language, edition, date }) => {
+    const getDisplayedLanguage = () => {
+      switch (language.length) {
+        case 2:
+          return languages[language] || language;
+
+        case 3:
+          return languageGroups[language] || language;
+
+        default:
+          return language;
+      }
+    };
+
+    const getDisplayedDate = () => {
+      const [year, month] = date.split('-');
+      return month + '.' + year;
+    };
+
     return e(
       'div',
       { className: 'cell cell--12 cell--md-6 cell--lg-4' },
@@ -418,7 +533,7 @@
             key: 0,
             icon: 'calendar-alt',
             name: 'Date',
-            value: date,
+            value: getDisplayedDate(),
           }),
           e(ModelItemTag, {
             key: 0,
@@ -430,7 +545,7 @@
             key: 1,
             icon: 'flag',
             name: 'Language',
-            value: language,
+            value: getDisplayedLanguage(),
           }),
           e(ModelItemTag, {
             key: 2,
@@ -443,7 +558,12 @@
     );
   };
 
-  const FilterForm = ({ onSubmit, isLoading }) => {
+  const FilterForm = ({
+    onSubmit,
+    onTaskChange,
+    isLoading,
+    isHealthcareOnly,
+  }) => {
     return e(
       'form',
       { className: 'filter-form models-hero__group', onSubmit },
@@ -456,13 +576,14 @@
               key: 1,
               name: 'task',
               className: 'select filter-form__select filter-form__select--task',
+              onChange: onTaskChange,
             },
             tasks.reduce(
               (acc, task) => {
                 acc.push(e('option', { key: task, value: task }, task));
                 return acc;
               },
-              [[e('option', { key: 0, value: '' }, 'Task')]]
+              [[e('option', { key: 0, value: '' }, 'All')]]
             )
           ),
         ]),
@@ -480,19 +601,36 @@
               className:
                 'select filter-form__select filter-form__select--language',
             },
-            Object.keys(languages).reduce(
-              (acc, language) => {
-                acc.push(
+            Object.keys(languages)
+              .reduce(
+                (acc, language) => {
+                  acc.push(
+                    e(
+                      'option',
+                      { key: language, value: language },
+                      languages[language]
+                    )
+                  );
+                  return acc;
+                },
+                [[e('option', { key: 0, value: '' }, 'All Languages')]]
+              )
+              .concat(
+                [
                   e(
                     'option',
-                    { key: language, value: language },
-                    languages[language]
-                  )
-                );
-                return acc;
-              },
-              [[e('option', { key: 0, value: '' }, 'Language')]]
-            )
+                    { key: 'separator', disabled: true },
+                    '──────────'
+                  ),
+                ],
+                Object.keys(languageGroups).map((code) => {
+                  return e(
+                    'option',
+                    { key: code, value: code },
+                    languageGroups[code]
+                  );
+                })
+              )
           ),
         ]),
         e('span', { key: 2, className: 'filter-form__group' }, [
@@ -505,15 +643,16 @@
               className:
                 'select filter-form__select filter-form__select--edition',
             },
-            editions.reduce(
-              (acc, edition) => {
-                acc.push(
-                  e('option', { key: edition, value: edition }, edition)
-                );
-                return acc;
-              },
-              [[e('option', { key: 0, value: '' }, 'Spark NLP edition')]]
-            )
+            editions
+              .filter((edition) => {
+                if (isHealthcareOnly) {
+                  return edition.indexOf('for Healthcare') !== -1;
+                }
+                return true;
+              })
+              .map((edition) =>
+                e('option', { key: edition, value: edition }, edition)
+              )
           ),
           e(
             'button',
@@ -581,6 +720,7 @@
 
   const App = () => {
     const [state, send] = useFilterQuery();
+    const [isHealthcareOnly, setIsHealthcareOnly] = useState(false);
 
     const handleFilterSubmit = (e) => {
       e.preventDefault();
@@ -592,6 +732,14 @@
         },
       } = e;
       send({ type: 'SUBMIT', task, language, edition });
+    };
+
+    const handleTaskChange = (e) => {
+      setIsHealthcareOnly(
+        ['Assertion Status', 'Entity Resolution', 'De-identification'].indexOf(
+          e.target.value
+        ) !== -1
+      );
     };
 
     const handlePageChange = (page) => {
@@ -634,7 +782,9 @@
       e(FilterForm, {
         key: 0,
         onSubmit: handleFilterSubmit,
+        onTaskChange: handleTaskChange,
         isLoading: state.value === 'loading',
+        isHealthcareOnly,
       }),
       e(SearchAndUpload, { key: 1 }),
       result,

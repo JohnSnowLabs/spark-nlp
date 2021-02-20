@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Turkish
 author: John Snow Labs
 name: stopwords_tr
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: tr
 edition: Spark NLP 2.5.4
 tags: [stopwords, tr]
@@ -27,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_tr", "tr")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["John Snow, kuzeyin kralı olmanın yanı sıra bir İngiliz doktordur ve anestezi ve tıbbi hijyenin geliştirilmesinde liderdir."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""John Snow, kuzeyin kralı olmanın yanı sıra bir İngiliz doktordur ve anestezi ve tıbbi hijyenin geliştirilmesinde liderdir."""]
+stopword_df = nlu.load('tr.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
 
 {:.h2_title}
 ## Results

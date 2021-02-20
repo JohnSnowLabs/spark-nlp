@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Arabic
 author: John Snow Labs
 name: stopwords_ar
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: ar
 edition: Spark NLP 2.5.4
 tags: [stopwords, ar]
@@ -27,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_ar", "ar")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["بخلاف كونه ملك الشمال ، فإن جون سنو طبيب إنجليزي ورائد في تطوير التخدير والنظافة الطبية."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""بخلاف كونه ملك الشمال ، فإن جون سنو طبيب إنجليزي ورائد في تطوير التخدير والنظافة الطبية"""]
+stopword_df = nlu.load('ar.stopwords').predict(text)
+stopword_df[["cleanTokens"]]
+```
+
+</div>
 
 {:.h2_title}
 ## Results

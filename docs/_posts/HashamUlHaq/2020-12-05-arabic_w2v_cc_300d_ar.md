@@ -31,23 +31,48 @@ These embeddings can be used in multiple tasks like semantic word similarity, na
 Use as part of a pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
+...
 embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["أنا أحب التعلم الآلي"]})))
 ```
 ```scala
+...
 val embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar") 
         .setInputCols(Array("document", "token"))
         .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["أنا أحب التعلم الآلي"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["أنا أحب التعلم الآلي"]
+arabicvec_df = nlu.load('ar.embed.cbow.300d').predict(text, output_level='token')
+arabicvec_df
+```
+
 </div>
 
 {:.h2_title}
 ## Results
 The model gives 300 dimensional Word2Vec feature vector outputs per token.
+```bash
+|                   ar_embed_cbow_300d_embeddings	token
+|----------------------------------------------------|--------	
+| [-0.11158058792352676, -0.06634224951267242, -...	أنا
+| [-0.2818698585033417, -0.21061033010482788, -0...	أحب
+
+```
+
 
 {:.model-param}
 ## Model Information

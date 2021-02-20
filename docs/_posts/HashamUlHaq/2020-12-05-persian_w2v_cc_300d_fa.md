@@ -31,17 +31,32 @@ These embeddings can be used in multiple tasks like semantic word similarity, na
 Use as part of a pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+...
 embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") \
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["من یادگیری ماشین را دوست دارم"]})))
 ```
 
 ```scala
 val embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") 
         .setInputCols(Array("document", "token"))
         .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["من یادگیری ماشین را دوست دارم"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""من یادگیری ماشین را دوست دارم"""]
+farvec_df = nlu.load('fa.embed.word2vec.300d').predict(text, output_level='token')
+farvec_df
 ```
 
 </div>
@@ -49,7 +64,14 @@ val embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa")
 {:.h2_title}
 ## Results
 The model gives 300 dimensional Word2Vec feature vector outputs per token.
-
+```bash
+| token	| fa_embed_word2vec_300d_embeddings
+|-------|--------------------------------------------------		
+| من	| [-0.3861289620399475, -0.08295578509569168, -0...
+| را	| [-0.15430298447608948, -0.24924889206886292, 0...
+| دوست	| [0.07587642222642899, -0.24341894686222076, 0....
+| دارم	| [0.0899219810962677, -0.21863090991973877, 0.4...
+```
 {:.model-param}
 ## Model Information
 

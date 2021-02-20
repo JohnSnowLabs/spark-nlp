@@ -31,12 +31,21 @@ A pre-trained pipeline to classify IMDB reviews in `neg` and `pos` classes using
 ```python
 from sparknlp.pretrained import PretrainedPipeline 
 pipeline = PretrainedPipeline("analyze_sentimentdl_use_imdb", lang = "en") 
-
+result = pipeline.fullAnnotate("Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!")
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("analyze_sentimentdl_use_imdb", lang = "en")
+val result = pipeline.fullAnnotate("Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!")
+```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!"""]
+sentiment_df = nlu.load('en.sentiment.imdb.use').predict(text, output_level='sentence')
+sentiment_df
 ```
 
 </div>

@@ -4,7 +4,7 @@ title: Part of Speech for Bhojpuri (pos_ud_bhtb)
 author: John Snow Labs
 name: pos_ud_bhtb
 date: 2021-01-18
-task: POS
+task: Part of Speech Tagging
 language: bh
 edition: Spark NLP 2.7.0
 tags: [bho, bh, pos, open_source]
@@ -77,6 +77,15 @@ val pos = PerceptronModel.pretrained("pos_ud_bhtb", "bh")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।"]
+pos_df = nlu.load('bh.pos').predict(text)
+pos_df
 ```
 
 </div>

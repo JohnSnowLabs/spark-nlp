@@ -4,7 +4,7 @@ title: Part of Speech for Norwegian Nynorsk
 author: John Snow Labs
 name: pos_ud_nynorsk
 date: 2020-05-05 18:57:00 +0800
-task: POS
+task: Part of Speech Tagging
 language: nn
 edition: Spark NLP 2.5.0
 tags: [pos, nn]
@@ -27,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_nynorsk", "nn")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Annet enn å være kongen i nord, er John Snow en engelsk lege og en leder innen utvikling av anestesi og medisinsk hygiene."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Annet enn å være kongen i nord, er John Snow en engelsk lege og en leder innen utvikling av anestesi og medisinsk hygiene."""]
+pos_df = nlu.load('nn.pos.ud_nynorsk').predict(text)
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

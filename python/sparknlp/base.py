@@ -267,7 +267,9 @@ class Finisher(AnnotatorTransformer):
             cleanAnnotations=True,
             includeMetadata=False,
             outputAsArray=True,
-            parseEmbeddingsVectors=False
+            parseEmbeddingsVectors=False,
+            valueSplitSymbol="#",
+            annotationSplitSymbol="@"
         )
 
     @keyword_only

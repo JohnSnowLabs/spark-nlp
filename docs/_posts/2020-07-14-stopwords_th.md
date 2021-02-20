@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Thai
 author: John Snow Labs
 name: stopwords_th
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: th
 edition: Spark NLP 2.5.4
 tags: [stopwords, th]
@@ -27,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_th", "th")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["นอกเหนือจากการเป็นราชาแห่งทิศเหนือแล้วจอห์นสโนว์ยังเป็นแพทย์ชาวอังกฤษและเป็นผู้นำในการพัฒนายาระงับความรู้สึกและสุขอนามัยทางการแพทย์"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""นอกเหนือจากการเป็นราชาแห่งทิศเหนือแล้วจอห์นสโนว์ยังเป็นแพทย์ชาวอังกฤษและเป็นผู้นำในการพัฒนายาระงับความรู้สึกและสุขอนามัยทางการแพทย์"""]
+stopword_df = nlu.load('th.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
 
 {:.h2_title}
 ## Results

@@ -4,7 +4,7 @@ title: Part of Speech for Chinese
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2021-01-03
-task: POS
+task: Part of Speech Tagging
 language: zh
 edition: Spark NLP 2.7.0
 tags: [pos, zh, cn, open_source]
@@ -31,7 +31,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 Use as part of an nlp pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -82,6 +82,16 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 
 val result = pipeline.fit(Seq.empty["然而，这样的处理也衍生了一些问题。"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""然而，这样的处理也衍生了一些问题。"""]
+pos_df = nlu.load('zh.pos.ud_gsd').predict(text, output_level='token')
+pos_df
+```
+
 </div>
 
 ## Results

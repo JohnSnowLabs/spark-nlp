@@ -27,16 +27,14 @@ The ``explain_document_dl`` is a pretrained pipeline that we can use to process 
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
 pipeline = PretrainedPipeline('explain_document_dl', lang = 'en')
 
 annotations =  pipeline.fullAnnotate("""French author who helped pioner the science-fiction genre. Verne wrate about space, air, and underwater travel before navigable aircrast and practical submarines were invented, and before any means of space travel had been devised.""")[0]
 
 annotations.keys()
-
 ```
 
 ```scala
@@ -45,6 +43,16 @@ val pipeline = new PretrainedPipeline('explain_document_dl', lang = 'en')
 
 val result = pipeline.fullAnnotate("French author who helped pioner the science-fiction genre. Verne wrate about space, air, and underwater travel before navigable aircrast and practical submarines were invented, and before any means of space travel had been devised.")(0)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""John Snow built a detailed map of all the households where people died, and came to the conclusion that the fault was one public water pump that all the victims had used."""]
+explain_df = nlu.load('en.explain.dl').predict(text)
+explain_df
+```
+
 </div>
 
 {:.h2_title}

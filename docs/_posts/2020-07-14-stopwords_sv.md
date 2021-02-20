@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Swedish
 author: John Snow Labs
 name: stopwords_sv
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: sv
 edition: Spark NLP 2.5.4
 tags: [stopwords, sv]
@@ -27,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_sv", "sv")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["Förutom att vara kungen i norr är John Snow en engelsk läkare och en ledare inom utveckling av anestesi och medicinsk hygien."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Förutom att vara kungen i norr är John Snow en engelsk läkare och en ledare inom utveckling av anestesi och medicinsk hygien."""]
+stopword_df = nlu.load('sv.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
 
 {:.h2_title}
 ## Results

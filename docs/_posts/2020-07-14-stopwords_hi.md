@@ -4,7 +4,7 @@ title: Stop Words Cleaner for Hindi
 author: John Snow Labs
 name: stopwords_hi
 date: 2020-07-14 19:03:00 +0800
-task: Stop Words
+task: Stop Words Removal
 language: hi
 edition: Spark NLP 2.5.4
 tags: [stopwords, hi]
@@ -27,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -47,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_hi", "hi")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["उत्तर के राजा होने के अलावा, जॉन स्नो एक अंग्रेजी चिकित्सक और संज्ञाहरण और चिकित्सा स्वच्छता के विकास में अग्रणी है।"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""उत्तर के राजा होने के अलावा, जॉन स्नो एक अंग्रेजी चिकित्सक और संज्ञाहरण और चिकित्सा स्वच्छता के विकास में अग्रणी है।"""]
+stopword_df = nlu.load('hi.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
 
 {:.h2_title}
 ## Results
