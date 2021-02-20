@@ -4,9 +4,12 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: "2020-02-07"
+modify_date: 2021-02-20
 ---
 
+# Release Notes Spark NLP Healthcare
+## 2.7.4
+We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!
 <div class="h3-box" markdown="1">
 
 ### 2.7.3
