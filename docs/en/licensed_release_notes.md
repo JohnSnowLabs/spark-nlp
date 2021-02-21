@@ -9,11 +9,11 @@ modify_date: 2021-02-20
 
 # Release Notes Spark NLP Healthcare
 
-## 2.7.4
+### 2.7.4
 
 We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!  
 
-### Highlights:
+#### Highlights:
 
 - Introducing a new annotator to extract chunks with NER tags using regex-like patterns: **NerChunker**.
 - Introducing two new annotators to filter chunks: **ChunkFilterer** and **AssertionFilterer**.
@@ -22,7 +22,7 @@ We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!
 - New **De-Identification NER** model, augmented with synthetic datasets to detect uppercased name entities.
 - Bug fixes & general improvements.
 
-### 1. NerChunker:
+#### 1. NerChunker:
 
 Similar to what we used to do in **POSChunker** with POS tags, now we can also extract phrases that fits into a known pattern using the NER tags. **NerChunker** would be quite handy to extract entity groups with neighboring tokens when there is no pretrained NER model to address certain issues. Lets say we want to extract clinical findings and body parts together as a single chunk even if there are some unwanted tokens between. 
 
@@ -43,7 +43,7 @@ Similar to what we used to do in **POSChunker** with POS tags, now we can also e
     >> ner_chunk: ['cystic cyst on her kidney']
 
 
-### 2. ChunkFilterer:
+#### 2. ChunkFilterer:
 
 **ChunkFilterer** will allow you to filter out named entities by some conditions or predefined look-up lists, so that you can feed these entities to other annotators like Assertion Status or Entity Resolvers.  It can be used with two criteria: **isin** and **regex**.
 
@@ -69,7 +69,7 @@ Similar to what we used to do in **POSChunker** with POS tags, now we can also e
     >> chunk_filtered: ['severe fever','sore throat']
 
 
-### 3. AssertionFilterer:
+#### 3. AssertionFilterer:
 
 **AssertionFilterer** will allow you to filter out the named entities by the list of acceptable assertion statuses. This annotator would be quite handy if you want to set a white list for the acceptable assertion statuses like `present` or `conditional`; and do not want `absent` conditions get out of your pipeline.
 
