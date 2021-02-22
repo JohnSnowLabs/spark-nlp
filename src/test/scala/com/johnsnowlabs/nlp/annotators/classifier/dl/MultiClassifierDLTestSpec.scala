@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, udf}

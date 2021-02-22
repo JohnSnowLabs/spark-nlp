@@ -1,27 +1,56 @@
 import sbtassembly.MergeStrategy
 
-val is_gpu = System.getProperty("is_gpu","false")
-val is_spark23 = System.getProperty("is_spark23","false")
-
+/** ------- Spark version start ------- */
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
-val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
-val scalaVer = "2.11.12"
+val spark30Ver = "3.0.1"
+
+val is_gpu = System.getProperty("is_gpu","false")
+val is_opt = System.getProperty("is_opt","false")
+val is_spark23 = System.getProperty("is_spark23","false")
+//TODO breaking with older spark Why???
+val is_spark30 = System.getProperty("is_spark30","false")
+
+def getSparkVersion(is_spark23: String, is_spark30: String): String = {
+  if(is_spark30 == "true") spark30Ver
+  else
+    if(is_spark23=="false") spark24Ver
+    else spark23Ver
+}
+
+val sparkVer = getSparkVersion(is_spark23, is_spark30)
+/** ------- Spark version end ------- */
+
+/** ------- Scala version start ------- */
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.13"
+lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
+
+lazy val supportedScalaVersions = List(scala212, scala211)
+
 val scalaTestVersion = "3.0.0"
+/** ------- Scala version end ------- */
 
 
 /** Package attributes */
 
-if (is_gpu.equals("true") && is_spark23.equals("true")){
-  name:="spark-nlp-gpu-spark23"
-}else if (is_gpu.equals("true") && is_spark23.equals("false")){
-  name:="spark-nlp-gpu"
-}else if (is_gpu.equals("false") && is_spark23.equals("true")){
-  name:="spark-nlp-spark23"
-}else{
-  name:="spark-nlp"
+def getPackageName(is_spark23: String, is_spark30: String, is_gpu: String): String = {
+  if (is_gpu.equals("true") && is_spark23.equals("true")){
+    "spark-nlp-gpu-spark23"
+  }else if (is_gpu.equals("true") && is_spark30.equals("true")){
+    "spark-nlp-gpu-spark30"
+  }else if (is_gpu.equals("true") && is_spark30.equals("false")){
+    "spark-nlp-gpu"
+  }else if (is_gpu.equals("false") && is_spark23.equals("true")){
+    "spark-nlp-spark23"
+  }else if (is_gpu.equals("false") && is_spark30.equals("true")){
+    "spark-nlp-spark30"
+  }else{
+    "spark-nlp"
+  }
 }
 
+name:= getPackageName(is_spark23, is_spark30, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
@@ -30,6 +59,8 @@ version := "2.7.4"
 scalaVersion in ThisBuild := scalaVer
 
 sparkVersion in ThisBuild := sparkVer
+
+scalacOptions in ThisBuild += "-target:jvm-1.8"
 
 /** Spark-Package attributes */
 spName in ThisBuild := "JohnSnowLabs/spark-nlp"
@@ -45,6 +76,8 @@ spAppendScalaVersion := false
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
 
 resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
+
+resolvers in ThisBuild += "Another Maven" at "https://mvnrepository.com/artifact/"
 
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll
@@ -105,22 +138,15 @@ developers in ThisBuild:= List(
 
 scalacOptions in (Compile, doc) ++= Seq(
   "-doc-title",
+  "-target:jvm-1.8",
   "Spark NLP " + version.value + " ScalaDoc"
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-lazy val analyticsDependencies =
-  if(is_spark23=="false"){
-    Seq(
-      "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-      "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
-    )
-  }else{
-    Seq(
-      "org.apache.spark" %% "spark-core" % spark23Ver % "provided",
-      "org.apache.spark" %% "spark-mllib" % spark23Ver % "provided"
-    )
-  }
+lazy val analyticsDependencies = Seq(
+  "org.apache.spark" %% "spark-core" % sparkVer % Provided,
+  "org.apache.spark" %% "spark-mllib" % sparkVer % Provided
+)
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
@@ -158,25 +184,46 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
-      "org.tensorflow" % "libtensorflow" % "1.15.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.15.0"
+      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
+        exclude("com.fasterxml.jackson.core", "jackson-databind")
+    )
+  else if(is_opt.equals("true"))
+    Seq("org.tensorflow" % "tensorflow-core-platform-mkl" % "0.2.0"
+      exclude("com.fasterxml.jackson.core", "jackson-databind")
+      exclude("com.fasterxml.jackson.core", "jackson-core")
+      exclude("com.fasterxml.jackson.core", "jackson-annotations")
     )
   else
     Seq(
-      "org.tensorflow" % "tensorflow" % "1.15.0"
+      "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
+        exclude("com.fasterxml.jackson.core", "jackson-databind")
+        exclude("com.fasterxml.jackson.core", "jackson-core")
+        exclude("com.fasterxml.jackson.core", "jackson-annotations")
     )
+lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
   .settings(
+    crossScalaVersions := supportedScalaVersions,
     libraryDependencies ++=
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies++
-        typedDependencyParserDependencies
+        typedDependencyParserDependencies,
+    // TODO potentially improve this?
+    mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
 
+/** Shading protobuf 2.5.0 for protobuf TF2 */
+val ShadedProtoBufVersion = "3.8.0"
+
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll
+)
+
 assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
   case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
   case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
@@ -222,7 +269,7 @@ testOptions in Test += Tests.Argument("-oF")
 /** Disables tests in assembly */
 test in assembly := {}
 
-/** Publish test artificat **/
+/** Publish test artifact **/
 publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
