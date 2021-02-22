@@ -135,7 +135,7 @@ full_width: true
                   {%- include snippets/get-nav-url.html path=_action.url -%}
                   {%- assign _url = __return -%}
                   {%- assign _type = _action.type | default: 'outline-info' -%}
-                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                  <li><a id="{{ child.id }}" class="button button--{{ _type }} button--pill button--lg"
                       href="{{ _url }}">{{ _action.text }}</a></li>
                   {%- endfor -%}
                 </ul>
@@ -192,7 +192,7 @@ full_width: true
                   {%- include snippets/get-nav-url.html path=_action.url -%}
                   {%- assign _url = __return -%}
                   {%- assign _type = _action.type | default: 'outline-info' -%}
-                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                  <li><a id="{{ child.id }}" class="button button--{{ _type }} button--pill button--lg"
                       href="{{ _url }}">{{ _action.text }}</a></li>
                   {%- endfor -%}
                 </ul>
@@ -249,7 +249,7 @@ full_width: true
                   {%- include snippets/get-nav-url.html path=_action.url -%}
                   {%- assign _url = __return -%}
                   {%- assign _type = _action.type | default: 'outline-info' -%}
-                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                  <li><a id="{{ child.id }}" class="button button--{{ _type }} button--pill button--lg"
                       href="{{ _url }}">{{ _action.text }}</a></li>
                   {%- endfor -%}
                 </ul>
@@ -305,7 +305,7 @@ full_width: true
                   {%- include snippets/get-nav-url.html path=_action.url -%}
                   {%- assign _url = __return -%}
                   {%- assign _type = _action.type | default: 'outline-info' -%}
-                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                  <li><a id="{{ child.id }}" class="button button--{{ _type }} button--pill button--lg"
                       href="{{ _url }}">{{ _action.text }}</a></li>
                   {%- endfor -%}
                 </ul>
@@ -363,7 +363,7 @@ full_width: true
                   {%- include snippets/get-nav-url.html path=_action.url -%}
                   {%- assign _url = __return -%}
                   {%- assign _type = _action.type | default: 'outline-info' -%}
-                  <li><a class="button button--{{ _type }} button--pill button--lg"
+                  <li><a id="{{ child.id }}" class="button button--{{ _type }} button--pill button--lg"
                       href="{{ _url }}">{{ _action.text }}</a></li>
                   {%- endfor -%}
                 </ul>
