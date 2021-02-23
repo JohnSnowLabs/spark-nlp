@@ -147,7 +147,10 @@ class ClassifierDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    getModelIfNotSet.predict(sentences, getConfigProtoBytes)
+    if(sentences.nonEmpty)
+      getModelIfNotSet.predict(sentences, getConfigProtoBytes)
+    else Seq.empty[Annotation]
+
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

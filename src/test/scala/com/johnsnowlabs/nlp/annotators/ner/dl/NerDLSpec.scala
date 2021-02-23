@@ -177,17 +177,14 @@ class NerDLSpec extends FlatSpec {
     assertThrows[IllegalArgumentException](NerDLApproach.searchForSuitableGraph(40, 512, 101))
   }
 
-  "NerDL Approach" should "validate against part of the training dataset" taggedAs FastTest in {
+  "NerDLApproach" should "validate against part of the training dataset" taggedAs FastTest in {
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
-    val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
 
     val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
 
     val trainData = embeddings.transform(training_data)
-    val testData = embeddings.transform(test_data)
-    testData.write.mode("overwrite").parquet("./tmp_conll_validate")
 
     val ner = new NerDLApproach()
       .setInputCols("sentence", "token", "embeddings")
@@ -200,16 +197,14 @@ class NerDLSpec extends FlatSpec {
       .setMaxEpochs(1)
       .setRandomSeed(0)
       .setVerbose(0)
-      .setValidationSplit(0.1f)
       .setEvaluationLogExtended(true)
-      .setTestDataset("./tmp_conll_validate/")
       .setGraphFolder("src/test/resources/graph/")
       .fit(trainData)
 
     ner.write.overwrite()save("./tmp_ner_dl_tf115")
   }
 
-  "NerDLModel" should "successfully download pretrained and predict" taggedAs SlowTest in {
+  "NerDLModel" should "successfully load saved model" taggedAs FastTest in {
 
     val conll = CoNLL()
     val test_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testb")
@@ -222,6 +217,16 @@ class NerDLSpec extends FlatSpec {
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .transform(testData)
+
+  }
+
+  "NerDLModel" should "successfully download a pretrained model" taggedAs FastTest in {
+
+    val nerModel = NerDLModel.pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+
+    nerModel.getClasses.foreach(x=>println(x))
 
   }
 

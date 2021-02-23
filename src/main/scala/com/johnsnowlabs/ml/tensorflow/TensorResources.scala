@@ -1,7 +1,9 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.nio.{ByteBuffer, FloatBuffer, IntBuffer, LongBuffer}
-
+import org.tensorflow.ndarray.buffer._
+import org.tensorflow.ndarray.{Shape, StdArrays}
+import org.tensorflow.types.family.TType
+import org.tensorflow.types._
 import org.tensorflow.Tensor
 
 import scala.collection.mutable
@@ -14,47 +16,61 @@ import scala.language.existentials
 class TensorResources {
   private val tensors = ArrayBuffer[Tensor[_]]()
 
-  def createTensor[T](obj: T): Tensor[_] = {
+  def createTensor[T](obj: T): Tensor[_ <: TType] = {
     val result = obj match {
+      case float: Float =>
+        TFloat32.scalarOf(float)
+
       case str: String =>
-        Tensor.create(str.getBytes("UTF-8"), classOf[String])
-      case _ =>
-        Tensor.create(obj)
+        TString.scalarOf(str)
+
+      case array: Array[String] =>
+        TString.tensorOf(StdArrays.ndCopyOf(array))
+
+      case floatArray: Array[Float] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(floatArray))
+
+      case bidimArray: Array[Array[String]] =>
+        TString.tensorOf(StdArrays.ndCopyOf(bidimArray))
+
+      case bidimArray: Array[Array[Float]] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(bidimArray))
+
+      case tridimArray: Array[Array[Array[Float]]] =>
+        TFloat32.tensorOf(StdArrays.ndCopyOf(tridimArray))
+
+      case array: Array[Int] =>
+        TInt32.tensorOf(StdArrays.ndCopyOf(array))
+
+      case array: Array[Array[Int]] =>
+        TInt32.tensorOf(StdArrays.ndCopyOf(array))
+
+      case array: Array[Array[Array[Int]]] =>
+        TInt32.tensorOf(StdArrays.ndCopyOf(array))
+
+      case array: Array[Array[Array[Byte]]] =>
+        TUint8.tensorOf(StdArrays.ndCopyOf(array))
+
     }
-
     tensors.append(result)
     result
   }
 
 
-  def createIntBufferTensor[T](shape: Array[Long], buf: IntBuffer): Tensor[_] = {
-
-    val result = Tensor.create(shape, buf)
-
+  def createIntBufferTensor(shape: Array[Long], buf: IntDataBuffer): Tensor[TInt32] = {
+    val result = TInt32.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }
 
-  def createLongBufferTensor[T](shape: Array[Long], buf: LongBuffer): Tensor[_] = {
-
-    val result = Tensor.create(shape, buf)
-
+  def createLongBufferTensor(shape: Array[Long], buf: LongDataBuffer): Tensor[TInt64] = {
+    val result = TInt64.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }
 
-  def createFloatBufferTensor[T](shape: Array[Long], buf: FloatBuffer): Tensor[_] = {
-
-    val result = Tensor.create(shape, buf)
-
-    tensors.append(result)
-    result
-  }
-
-  def createBytesBufferTensor[T](shape: Array[Long], buf: ByteBuffer): Tensor[_] = {
-
-    val result = Tensor.create(classOf[String], shape, buf)
-
+  def createFloatBufferTensor(shape: Array[Long], buf: FloatDataBuffer): Tensor[TFloat32] = {
+    val result = TFloat32.tensorOf(Shape.of(shape:_*), buf)
     tensors.append(result)
     result
   }
@@ -71,34 +87,35 @@ class TensorResources {
     outs.foreach(_.close())
   }
 
-  def createIntBuffer(dim: Int): IntBuffer = {
-    IntBuffer.allocate(dim)
+  def createIntBuffer(dim: Int): IntDataBuffer = {
+    DataBuffers.ofInts(dim)
   }
 
-  def createLongBuffer(dim: Int): LongBuffer = {
-    LongBuffer.allocate(dim)
+  def createLongBuffer(dim: Int): LongDataBuffer = {
+    DataBuffers.ofLongs(dim)
   }
 
-  def createFloatBuffer(dim: Int): FloatBuffer = {
-    FloatBuffer.allocate(dim)
+  def createFloatBuffer(dim: Int): FloatDataBuffer = {
+    DataBuffers.ofFloats(dim)
   }
 }
 
 object TensorResources {
+  // TODO all these implementations are not tested
 
   def calculateTensorSize(source: Tensor[_], size: Option[Int]): Int = {
     size.getOrElse{
       // Calculate real size from tensor shape
       val shape = source.shape()
-      shape.foldLeft(1L)(_*_).toInt
+      shape.asArray.foldLeft(1L)(_*_).toInt
     }
   }
 
   def extractInts(source: Tensor[_], size: Option[Int] = None): Array[Int] = {
     val realSize = calculateTensorSize(source ,size)
-    val buffer = IntBuffer.allocate(realSize)
-    source.writeTo(buffer)
-    buffer.array()
+    val buffer = Array.fill(realSize)(0)
+    source.rawData.asInts.read(buffer)
+    buffer
   }
 
   def extractInt(source: Tensor[_], size: Option[Int] = None): Int =
@@ -106,15 +123,15 @@ object TensorResources {
 
   def extractLongs(source: Tensor[_], size: Option[Int] = None): Array[Long] = {
     val realSize = calculateTensorSize(source ,size)
-    val buffer = LongBuffer.allocate(realSize)
-    source.writeTo(buffer)
-    buffer.array()
+    val buffer = Array.fill(realSize)(0L)
+    source.rawData.asLongs.read(buffer)
+    buffer
   }
 
   def extractFloats(source: Tensor[_], size: Option[Int] = None): Array[Float] = {
     val realSize = calculateTensorSize(source ,size)
-    val buffer = FloatBuffer.allocate(realSize)
-    source.writeTo(buffer)
-    buffer.array().map(item => item)
+    val buffer = Array.fill(realSize)(0f)
+    source.rawData.asFloats.read(buffer)
+    buffer
   }
 }
