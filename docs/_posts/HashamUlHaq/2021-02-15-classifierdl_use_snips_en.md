@@ -33,19 +33,22 @@ Understand general commands and recognise the intent.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
 
-classifier = ClassifierDLModel('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
-
+classifier = ClassifierDLModel.pretrained('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
 nlp_pipeline = Pipeline(stages=[document_assembler, embeddings, classifier])
 
 l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = l_model.fullAnnotate(["i want to bring six of us to a bistro in town that serves hot chicken sandwich that is within the same area", "show weather forcast for t h  stone memorial st  joseph peninsula state park on one hour from now"])
+
 ```
 ```scala
 ...
@@ -53,7 +56,7 @@ val embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
     .setInputCols(Array("document"))\
     .setOutputCol("sentence_embeddings")
 
-val classifier = ClassifierDLModel('classifierdl_use_snips', 'en').setInputCols(Array('sentence_embeddings')).setOutputCol('class')
+val classifier = ClassifierDLModel.pretrained('classifierdl_use_snips', 'en').setInputCols(Array('sentence_embeddings')).setOutputCol('class')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings, classifier))
 
