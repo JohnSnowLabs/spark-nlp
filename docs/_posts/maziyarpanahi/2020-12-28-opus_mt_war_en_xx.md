@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Waray to English
 author: John Snow Labs
 name: opus_mt_war_en
 date: 2020-12-28
+task: Translation
+language: war
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, war, en, xx]
 article_header:
   type: cover

@@ -6,6 +6,8 @@ name: sbiobertresolve_cpt
 language: en
 repository: clinical/models
 date: 2020-11-27
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.4
 tags: [clinical,entity_resolution,en]
 article_header:
     type: cover

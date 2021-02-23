@@ -4,7 +4,10 @@ title: Relation extraction between body parts and problem entities
 author: John Snow Labs
 name: re_bodypart_problem
 date: 2021-01-18
-tags: [en, clinical, licenced, relation_extraction, licensed]
+task: Relation Extraction
+language: en
+edition: Spark NLP for Healthcare 2.7.1
+tags: [en, clinical, relation_extraction, licensed]
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

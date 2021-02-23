@@ -4,6 +4,9 @@ title: Translate English to Arabic Pipeline
 author: John Snow Labs
 name: translate_en_ar
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ar
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, ar, xx]
 article_header:
   type: cover

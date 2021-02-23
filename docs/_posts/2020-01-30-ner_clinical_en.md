@@ -4,6 +4,9 @@ title: Detect Problem, Test and Treatment (ner_clinical_en)
 author: John Snow Labs
 name: ner_clinical_en
 date: 2020-01-30
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical, licensed, ner, en]
 article_header:
 type: cover
@@ -34,11 +37,12 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
@@ -51,11 +55,12 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""The pa
 
 ```scala
 ...
-
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
-
 ...
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))

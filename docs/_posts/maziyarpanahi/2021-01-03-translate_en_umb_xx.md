@@ -4,6 +4,9 @@ title: Translate English to Umbundu Pipeline
 author: John Snow Labs
 name: translate_en_umb
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: umb
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, umb, xx]
 article_header:
   type: cover

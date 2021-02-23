@@ -19,6 +19,14 @@ GEM
     concurrent-ruby (1.1.7)
     dnsruby (1.61.5)
       simpleidn (~> 0.1)
+    elasticsearch (7.10.1)
+      elasticsearch-api (= 7.10.1)
+      elasticsearch-transport (= 7.10.1)
+    elasticsearch-api (7.10.1)
+      multi_json
+    elasticsearch-transport (7.10.1)
+      faraday (~> 1)
+      multi_json
     em-websocket (0.5.2)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -212,6 +220,7 @@ GEM
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
     minitest (5.14.2)
+    multi_json (1.15.0)
     multipart-post (2.1.1)
     nokogiri (1.11.0.rc4)
       mini_portile2 (~> 2.5.0)
@@ -264,6 +273,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  elasticsearch (~> 7.10)
   github-pages (= 207)
   nokogiri (>= 1.11.0.rc4)
 

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Bemba (Zambia) to English
 author: John Snow Labs
 name: opus_mt_bem_en
 date: 2020-12-28
+task: Translation
+language: bem
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, bem, en, xx]
 article_header:
   type: cover

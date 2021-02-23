@@ -1,10 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 
-import java.io.{BufferedWriter, File, FileWriter}
-import java.util
-
-import com.github.liblevenshtein.transducer.{Algorithm, Candidate, ITransducer}
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
+import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
@@ -14,17 +11,20 @@ import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.{DataFrame, Dataset}
-import org.apache.spark.sql.catalyst.encoders.RowEncoder
+import org.apache.spark.sql.Dataset
 import org.slf4j.LoggerFactory
 import org.tensorflow.Graph
+import java.io.{BufferedWriter, File, FileWriter}
+import java.util
 
-import scala.collection.JavaConversions._
+import org.tensorflow.proto.framework.GraphDef
+
 import scala.collection.mutable
-
+import scala.language.existentials
 
 
 case class LangModelSentence(ids: Array[Int], cids: Array[Int], cwids:Array[Int], len: Int)
+
 
 object CandidateStrategy {
   val ALL_UPPER_CASE = 0
@@ -151,7 +151,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     // split in validation and train
     val trainFraction = 1.0 - getOrDefault(validationFraction)
+
     val Array(validation, train) = dataset.randomSplit(Array(getOrDefault(validationFraction), trainFraction))
+
     val graph = findAndLoadGraph(getOrDefault(languageModelClasses), vocabulary.size)
 
     // create transducers for special classes
@@ -159,7 +161,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       par.map{t => t.setTransducer(t.generateTransducer)}.seq
 
     // training
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
     val model = new TensorflowSpell(tf, Verbose.Silent)
     model.train(encodeCorpus(train, word2ids, encodedClasses), encodeCorpus(validation, word2ids, encodedClasses),
       getOrDefault(epochs), getOrDefault(batchSize), getOrDefault(initialRate), getOrDefault(finalRate))
@@ -173,13 +175,13 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       setModelIfNotSet(dataset.sparkSession, tf).
       setInputCols(getOrDefault(inputCols)).
       setWordMaxDist($(wordMaxDistance))
-      setErrorThreshold($(errorThreshold))
+    setErrorThreshold($(errorThreshold))
 
     if (get(configProtoBytes).isDefined)
       contextModel.setConfigProtoBytes($(configProtoBytes))
 
     get(weightedDistPath).map(path => contextModel.setWeights(loadWeights(path))).
-    getOrElse(contextModel)
+      getOrElse(contextModel)
   }
 
 
@@ -212,7 +214,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     }
 
     require(maxWid  < k, "The language model is unbalanced, pick a larger" +
-        s" number of classes using setLMClasses(), current value is ${getOrDefault(languageModelClasses)}.")
+      s" number of classes using setLMClasses(), current value is ${getOrDefault(languageModelClasses)}.")
 
     logger.info(s"Max num of words per class: $maxWid")
     classes
@@ -259,7 +261,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
               case _ =>
             }
           }
-       }
+        }
       }
     }
 
@@ -331,11 +333,11 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     *  version of the training dataset
     */
   private def encodeCorpus(corpus: Dataset[_], vMap: Map[String, Int],
-    classes:Map[Int, (Int, Int)]):Iterator[Array[LangModelSentence]] = {
+                           classes:Map[Int, (Int, Int)]):Iterator[Array[LangModelSentence]] = {
 
     object DatasetIterator extends Iterator[Array[LangModelSentence]] {
-      import corpus.sparkSession.implicits._
       import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
+      import corpus.sparkSession.implicits._
 
       // Send batches, don't collect(), only keeping a single batch in memory anytime
       val it = corpus.select(getInputCols.head)
@@ -396,7 +398,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(bestGraph)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(graphBytesDef)
+    graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
     graph
   }
 

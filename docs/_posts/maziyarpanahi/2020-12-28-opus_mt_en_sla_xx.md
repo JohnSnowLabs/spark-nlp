@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Slavic Languages
 author: John Snow Labs
 name: opus_mt_en_sla
 date: 2020-12-28
+task: Translation
+language: sla
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, sla, xx]
 article_header:
   type: cover

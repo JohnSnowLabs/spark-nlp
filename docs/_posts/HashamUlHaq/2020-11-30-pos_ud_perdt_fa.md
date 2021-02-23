@@ -4,6 +4,9 @@ title: Part of Speech for Persian
 author: John Snow Labs
 name: pos_ud_perdt
 date: 2020-11-30
+task: Part of Speech Tagging
+language: fa
+edition: Spark NLP 2.7.0
 tags: [fa, pos]
 article_header:
   type: cover
@@ -22,7 +25,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -41,6 +44,15 @@ val pos = PerceptronModel.pretrained("pos_ud_perdt", "fa")
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["جان اسنو جدا از سلطنت شمال ، یک پزشک انگلیسی و رهبر توسعه بیهوشی و بهداشت پزشکی است."].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""جان اسنو جدا از سلطنت شمال ، یک پزشک انگلیسی و رهبر توسعه بیهوشی و بهداشت پزشکی است"""]
+pos_df = nlu.load('fa.pos').predict(text)
+pos_df
 ```
 
 </div>

@@ -1,9 +1,12 @@
 ---
 layout: model
-title: Fake News Classifier - Spark NLP 2.7.1+
+title: Fake News Classifier
 author: John Snow Labs
 name: classifierdl_use_fakenews
 date: 2021-01-09
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [open_source, en, classifier]
 article_header:
   type: cover
@@ -28,24 +31,47 @@ Determine if news articles are Real or Fake.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
   .setInputCols(["document"])\
   .setOutputCol("sentence_embeddings")
-
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_fakenews', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
-
 nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-
 annotations = light_pipeline.fullAnnotate('Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton')
+```
+```scala
+val documentAssembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+val use = UniversalSentenceEncoder.pretrained(lang="en")
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence_embeddings")
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_fakenews", "en")
+  .setInputCols(Array("document", "sentence_embeddings"))
+  .setOutputCol("class")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
+
+val result = pipeline.fit(Seq.empty["Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton"""]
+fake_df = nlu.load('classify.fakenews.use').predict(text, output_level='document')
+fake_df[["document", "fakenews"]]
+```
+
+{:.nlu-block}
+```python
 
 ```
 

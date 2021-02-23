@@ -7,6 +7,8 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/07/2020
+task: Text Classification
+edition: Spark NLP 2.5.3
 tags: [classifier]
 article_header:
    type: cover
@@ -29,7 +31,7 @@ Identify Racism, Sexism or Neutral tweets.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
@@ -61,6 +63,15 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_cyberbu
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val result = pipeline.fit(Seq.empty["@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"""]
+cyberbull_df = nlu.load('classify.cyberbullying.use').predict(text, output_level='document')
+cyberbull_df[["document", "cyberbullying"]]
 ```
 
 </div>

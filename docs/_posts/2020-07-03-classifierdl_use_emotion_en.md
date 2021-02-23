@@ -7,6 +7,8 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/07/2020
+task: Text Classification
+edition: Spark NLP 2.5.3
 tags: [classifier]
 article_header:
    type: cover
@@ -27,7 +29,7 @@ Automatically identify Joy, Surprise, Fear, Sadness in Tweets using out pretrain
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
@@ -59,6 +61,15 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val result = pipeline.fit(Seq.empty["@Mira I just saw you on live t.v!!"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""@Mira I just saw you on live t.v!!"""]
+emotion_df = nlu.load('en.classify.emotion.use').predict(text, output_level='document')
+emotion_df[["document", "emotion"]]
 ```
 
 </div>

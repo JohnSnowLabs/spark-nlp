@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Setswana to English
 author: John Snow Labs
 name: opus_mt_tn_en
 date: 2020-12-28
+task: Translation
+language: tn
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, tn, en, xx]
 article_header:
   type: cover

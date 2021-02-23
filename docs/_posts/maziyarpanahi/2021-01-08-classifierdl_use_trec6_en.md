@@ -4,6 +4,9 @@ title: TREC(6) Question Classifier
 author: John Snow Labs
 name: classifierdl_use_trec6
 date: 2021-01-08
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [classifier, open_source, en, text_classification]
 article_header:
   type: cover
@@ -28,7 +31,7 @@ Classify open-domain, fact-based questions into one of the following broad seman
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -63,6 +66,16 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_c
 
 val result = pipeline.fit(Seq.empty["When did the construction of stone circles begin in the UK?"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""When did the construction of stone circles begin in the UK?"""]
+trec6_df = nlu.load('en.classify.trec6.use').predict(text, output_level='document')
+trec6_df[["document", "trec6"]]
+```
+
 </div>
 
 ## Results

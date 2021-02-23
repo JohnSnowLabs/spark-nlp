@@ -4,6 +4,9 @@ title: Aspect based Sentiment Analysis for restaurant reviews
 author: John Snow Labs
 name: ner_aspect_based_sentiment
 date: 2020-12-29
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.6.2
 tags: [sentiment, open_source, en, ner]
 article_header:
   type: cover
@@ -28,24 +31,40 @@ Automatically detect positive, negative and neutral aspects about restaurants fr
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+...
 word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
     .setInputCols(["document", "token"])\
     .setOutputCol("embeddings")
-    
 ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")\
     .setInputCols(["document", "token", "embeddings"])\
     .setOutputCol("ner")
-
-ner_converter = NerConverter()\
-    .setInputCols(['sentence', 'token', 'ner']) \
-    .setOutputCol('ner_chunk')
-
+...
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter])
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 results = model.transform(spark.createDataFrame([["Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."]]).toDF("text"))
+```
+```scala
+...
+val word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")
+    .setInputCols(Array("document", "token"))
+    .setOutputCol("embeddings")
+val ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")
+    .setInputCols(Array("document", "token", "embeddings"))
+    .setOutputCol("ner")
+...
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter))
+val result = pipeline.fit(Seq.empty["Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+text = ["""Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."""]
+
+ner_df = nlu.load('en.ner.aspect_sentiment').predict(text, output_level='token')
+list(zip(ner_df["entities"].values[0], ner_df["entities_confidence"].values[0])
 ```
 
 </div>

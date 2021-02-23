@@ -4,6 +4,9 @@ title: Part of Speech for Japanese
 author: John Snow Labs
 name: pos_ud_gsd
 date: 2021-01-03
+task: Part of Speech Tagging
+language: ja
+edition: Spark NLP 2.7.0
 tags: [pos, ja, open_source]
 article_header:
   type: cover
@@ -24,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -74,11 +77,17 @@ val pos = PerceptronModel.pretrained("pos_ud_gsd", "ja")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, pos))
 
 val result = pipeline.fit(Seq.empty["院長と話をしたところ、腰痛治療も得意なようです。"].toDS.toDF("text")).transform(data)
-
-
-
-
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。"""]
+pos_df = nlu.load('ja.pos.ud_gsd').predict(text, output_level='token')
+pos_df
+```
+
 </div>
 
 ## Results

@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from English to Lushai
 author: John Snow Labs
 name: opus_mt_en_lus
 date: 2020-12-28
+task: Translation
+language: lus
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, lus, xx]
 article_header:
   type: cover

@@ -4,6 +4,9 @@ title: Part of Speech for Romanian
 author: John Snow Labs
 name: pos_ud_rrt
 date: 2020-05-04 23:32:00 +0800
+task: Part of Speech Tagging
+language: ro
+edition: Spark NLP 2.5.0
 tags: [pos, ro]
 article_header:
 type: cover
@@ -24,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_rrt", "ro")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["În afară de a fi regele nordului, John Snow este un medic englez și un lider în dezvoltarea anesteziei și igienei medicale."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""În afară de a fi regele nordului, John Snow este un medic englez și un lider în dezvoltarea anesteziei și igienei medicale."""]
+pos_df = nlu.load('ro.pos.ud_rrt').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

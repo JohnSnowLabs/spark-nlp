@@ -37,9 +37,8 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  private val tokensKey = "tokens"
-  private val sequenceKey = "sequence_len"
-
+  private val TokensKey = "tokens"
+  private val SequenceKey = "sequence_len"
 
   /**
     * Calculate the embeddigns for a sequence of Tokens and create WordPieceEmbeddingsSentence objects from them
@@ -59,20 +58,18 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
         //        val endRange =
         val tokenEmbeddings = tokenVectors.slice(0, tokenLength)
 
-        val tokensWithEmbeddings = sentence._1.indexedTokens.zip(tokenEmbeddings).map {
-          case (token, tokenEmbedding) =>
+        val tokensWithEmbeddings = sentence._1.indexedTokens.zip(tokenEmbeddings)
+          .map { case (token, tokenEmbeddings) =>
             TokenPieceEmbeddings(
               token.token,
               token.token,
               -1,
               isWordStart = true,
               isOOV = false,
-              tokenEmbedding,
+              tokenEmbeddings,
               token.begin,
-              token.end
-            )
-
-        }
+              token.end)
+          }
         WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._1.sentenceIndex)
       }
     }.toSeq
@@ -85,7 +82,9 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
     * @param batch         The Tokens for which we calculate embeddings
     * @param embeddingsKey Specification of the output embedding for Elmo
     * @param dimension Elmo's embeddings dimension: either 512 or 1024
-    * @return The Embeddings Vector. For each Seq Element we have a Sentence, and for each sentence we have an Array for each of its words. Each of its words gets a float array to represent its Embeddings
+    * @return The Embeddings Vector.
+    *         For each Seq Element we have a Sentence, and for each sentence we have an Array for each of its words.
+    *         Each of its words gets a float array to represent its Embeddings
     */
   def tag(batch: Seq[TokenizedSentence], embeddingsKey: String, dimension: Int): Seq[Array[Array[Float]]] = {
 
@@ -97,30 +96,24 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
 
     val sentencesBytes = batch.map { sentence =>
 
-      val tokensArray = sentence.indexedTokens
-      val diff = maxSentenceLength - tokensArray.length
+      val indexedToks = sentence.indexedTokens
+      val diff = maxSentenceLength - indexedToks.length
 
-      if(tokensArray.length < maxSentenceLength){
-        val tokens = tokensArray.map{x=> x.token}
+      if(indexedToks.length < maxSentenceLength){
+        val tokens = indexedToks.map{ _.token }
         /* Padding by adding extra empty tokens to smaller sentences */
-        val newTokens = tokens ++ Array.fill(1, diff)(" ").head
-        newTokens.map { token =>
-          token.getBytes("UTF-8")
-        }
+        tokens ++ Array.fill(1, diff)(" ").head
       }else {
-        tokensArray.map { token =>
-          token.token.getBytes("UTF-8")
-        }
+        indexedToks.map { _.token }
       }
-
     }.toArray
 
     val sentenceTensors = tensors.createTensor(sentencesBytes)
     val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
 
     runner
-      .feed(tokensKey, sentenceTensors)
-      .feed(sequenceKey, tensors.createTensor(sequencesLength))
+      .feed(TokensKey, sentenceTensors)
+      .feed(SequenceKey, tensors.createTensor(sequencesLength))
       .fetch(embeddingsKey)
 
     val outs = runner.run().asScala
@@ -129,18 +122,16 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
     tensors.clearTensors()
 
     var allWordEmbeddings: Array[Array[Float]] = wordEmbeddings.grouped(dimension).toArray
+
     /* Group embeddings based on the length of the sentence */
-    val embeddingsBySentence = batch.map{ case (sentence) =>
+    val embeddingsBySentence = batch.map{ case sentence =>
       val embds = allWordEmbeddings.slice(0, sentence.indexedTokens.length)
       /* Remove the already used vectors */
-      allWordEmbeddings = allWordEmbeddings.slice(0, sentence.indexedTokens.length*dimension)
+      allWordEmbeddings = allWordEmbeddings.slice(0, sentence.indexedTokens.length * dimension)
       embds
     }
 
-    batch.zip(embeddingsBySentence).map { case (ids, embeddings) =>
-      embeddings
-    }
-
+    batch.zip(embeddingsBySentence).map { case (_, embeddings) => embeddings }
   }
 
   /**
@@ -152,21 +143,12 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
     *
     * elmo: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape [batch_size, max_length, 1024]  == 1024
     *
-    * @param layer Layer specification
     * @return The dimension of chosen layer
     */
-  def getDimensions(layer: String): Int = {
-    {
-      layer match {
-        case "word_emb" =>
-          512
-        case "lstm_outputs1" =>
-          1024
-        case "lstm_outputs2" =>
-          1024
-        case "elmo" =>
-          1024
-      }
-    }
+  def getDimensions: String => Int = {
+    case "word_emb" =>  512
+    case "lstm_outputs1" => 1024
+    case "lstm_outputs2" => 1024
+    case "elmo" => 1024
   }
 }

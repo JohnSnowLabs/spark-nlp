@@ -4,6 +4,9 @@ title: Part of Speech for Irish
 author: John Snow Labs
 name: pos_ud_idt
 date: 2020-07-29 23:34:00 +0800
+task: Part of Speech Tagging
+language: ga
+edition: Spark NLP 2.5.5
 tags: [pos, ga]
 article_header:
 type: cover
@@ -24,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_idt", "ga")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Seachas a bheith ina rí ar an tuaisceart, is dochtúir Sasanach é John Snow agus ceannaire i bhforbairt ainéistéise agus sláinteachas míochaine."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Seachas a bheith ina rí ar an tuaisceart, is dochtúir Sasanach é John Snow agus ceannaire i bhforbairt ainéistéise agus sláinteachas míochaine."""]
+pos_df = nlu.load('ga.pos').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

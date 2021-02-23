@@ -4,6 +4,9 @@ title: Fast Neural Machine Translation Model from Niuean to English
 author: John Snow Labs
 name: opus_mt_niu_en
 date: 2020-12-29
+task: Translation
+language: niu
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, niu, en, xx]
 article_header:
   type: cover

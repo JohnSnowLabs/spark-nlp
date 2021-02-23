@@ -77,18 +77,14 @@ class T5Transformer(override val uid: String)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    if (annotations.nonEmpty){
-      val sentences = annotations.map(
-        x => get(task).getOrElse("").concat(" ").concat(x.result))
+    val nonEmptySentences = annotations.filter(_.result.nonEmpty)
 
-      this.getModelIfNotSet.process(sentences, getMaxOutputLength).zipWithIndex.map(x => {
-        new Annotation(
-          annotatorType = this.outputAnnotatorType,
-          begin = 0,
-          end = x._1.length,
-          result = x._1,
-          metadata = Map("sentence" -> x._2.toString))
-      })
+    if (nonEmptySentences.nonEmpty){
+      this.getModelIfNotSet.generateSeq2Seq(
+        sentences = nonEmptySentences,
+        maxOutputLength = $(maxOutputLength),
+        task = $(task)
+      )
     } else {
       Seq.empty[Annotation]
     }

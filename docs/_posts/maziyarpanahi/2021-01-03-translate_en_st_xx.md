@@ -4,6 +4,9 @@ title: Translate English to Southern Sotho Pipeline
 author: John Snow Labs
 name: translate_en_st
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: st
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, st, xx]
 article_header:
   type: cover

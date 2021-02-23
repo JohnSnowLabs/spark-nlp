@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>TensorflowT5 - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowT5</title>
-          <meta name="description" content="TensorflowT5 - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
-          <meta name="keywords" content="TensorflowT5 Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
+          <title>TensorflowT5 - Spark NLP 2.7.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowT5</title>
+          <meta name="description" content="TensorflowT5 - Spark NLP 2.7.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
+          <meta name="keywords" content="TensorflowT5 Spark NLP 2.7.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -50,7 +50,7 @@
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
-Input for this model must be tokenzied with a SentencePieceModel,
+Input for this model must be tokenized with a SentencePieceModel,
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -224,6 +224,23 @@ Input for this model must be tokenzied with a SentencePieceModel,
       </a>
     </span>
       
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#encode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encode(sentences:Seq[com.johnsnowlabs.nlp.Annotation],task:String):Seq[Array[Long]]"></a>
+      <a id="encode(Seq[Annotation],String):Seq[Array[Long]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encode</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="task">task: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowT5@encode(sentences:Seq[com.johnsnowlabs.nlp.Annotation],task:String):Seq[Array[Long]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -281,6 +298,23 @@ Input for this model must be tokenzied with a SentencePieceModel,
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#generateSeq2Seq" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxOutputLength:Int,task:String):Seq[com.johnsnowlabs.nlp.Annotation]"></a>
+      <a id="generateSeq2Seq(Seq[Annotation],Int,Int,String):Seq[Annotation]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateSeq2Seq</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="task">task: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowT5@generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxOutputLength:Int,task:String):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -384,18 +418,18 @@ Input for this model must be tokenzied with a SentencePieceModel,
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#process" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="process(textInputs:Seq[String],maxOutputLength:Int):Seq[String]"></a>
-      <a id="process(Seq[String],Int):Seq[String]"></a>
+      <a id="process(batch:Seq[Array[Long]],maxOutputLength:Int):Array[Array[Long]]"></a>
+      <a id="process(Seq[Array[Long]],Int):Array[Array[Long]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">process</span><span class="params">(<span name="textInputs">textInputs: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">200</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">process</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">200</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowT5@process(textInputs:Seq[String],maxOutputLength:Int):Seq[String]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.johnsnowlabs.ml.tensorflow.TensorflowT5@process(batch:Seq[Array[Long]],maxOutputLength:Int):Array[Array[Long]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

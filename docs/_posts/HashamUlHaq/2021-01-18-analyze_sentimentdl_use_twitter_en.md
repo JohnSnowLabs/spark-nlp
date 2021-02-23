@@ -4,6 +4,9 @@ title: Sentiment Analysis of tweets Pipeline (analyze_sentimentdl_use_twitter)
 author: John Snow Labs
 name: analyze_sentimentdl_use_twitter
 date: 2021-01-18
+task: [Embeddings, Sentiment Analysis, Pipeline Public]
+language: en
+edition: Spark NLP 2.7.1
 tags: [en, sentiment, pipeline, open_source]
 article_header:
   type: cover
@@ -32,6 +35,20 @@ pipeline = PretrainedPipeline("analyze_sentimentdl_use_twitter", lang = "en")
 result = pipeline.fullAnnotate(["im meeting up with one of my besties tonight! Cant wait!!  - GIRL TALK!!", "is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!"])
 ```
 
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+val pipeline = new PretrainedPipeline("analyze_sentimentdl_use_twitter", lang = "en")
+val result = pipeline.fullAnnotate("im meeting up with one of my besties tonight! Cant wait!!  - GIRL TALK!!", "is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!")
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""im meeting up with one of my besties tonight! Cant wait!!  - GIRL TALK!!", "is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!"""]
+sentiment_df = nlu.load('en.sentiment.twitter.use').predict(text)
+sentiment_df
+```
 
 </div>
 

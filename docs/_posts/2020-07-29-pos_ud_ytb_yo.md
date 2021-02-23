@@ -4,6 +4,9 @@ title: Part of Speech for Yoruba
 author: John Snow Labs
 name: pos_ud_ytb
 date: 2020-07-29 23:34:00 +0800
+task: Part of Speech Tagging
+language: yo
+edition: Spark NLP 2.5.5
 tags: [pos, yo]
 article_header:
 type: cover
@@ -24,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_ytb", "yo")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Yato si jijẹ ọba ariwa, John Snow jẹ oṣoogun ara Gẹẹsi kan ati adari ninu idagbasoke anaesthesia ati imototo ilera."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Yato si jijẹ ọba ariwa, John Snow jẹ oṣoogun ara Gẹẹsi kan ati adari ninu idagbasoke anaesthesia ati imototo ilera."""]
+pos_df = nlu.load('yo.pos').predict(text)
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

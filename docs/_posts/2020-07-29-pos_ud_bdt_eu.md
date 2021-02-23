@@ -4,6 +4,9 @@ title: Part of Speech for Basque
 author: John Snow Labs
 name: pos_ud_bdt
 date: 2020-07-29 23:34:00 +0800
+task: Part of Speech Tagging
+language: eu
+edition: Spark NLP 2.5.5
 tags: [pos, eu]
 article_header:
 type: cover
@@ -24,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_bdt", "eu")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Iparraldeko erregea izateaz gain, mediku ingelesa eta anestesia eta higiene medikoa garatzen duen liderra da John Snow."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Iparraldeko erregea izateaz gain, mediku ingelesa eta anestesia eta higiene medikoa garatzen duen liderra da John Snow."""]
+pos_df = nlu.load('eu.pos').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

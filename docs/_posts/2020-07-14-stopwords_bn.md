@@ -4,6 +4,9 @@ title: Stop Words Cleaner for Bengali
 author: John Snow Labs
 name: stopwords_bn
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words Removal
+language: bn
+edition: Spark NLP 2.5.4
 tags: [stopwords, bn]
 article_header:
   type: cover
@@ -24,7 +27,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +47,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_bn", "bn")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["উত্তরের রাজা হওয়া ছাড়াও জন স্নো একজন ইংরেজ চিকিত্সক এবং অবেদন এবং মেডিকেল হাইজিনের বিকাশের এক নেতা"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""উত্তরের রাজা হওয়া ছাড়াও জন স্নো একজন ইংরেজ চিকিত্সক এবং অবেদন এবং মেডিকেল হাইজিনের বিকাশের এক নেতা"""]
+stopword_df = nlu.load('bn.stopwords').predict(text)
+stopword_df[["cleanTokens"]]
+```
+
+</div>
 
 {:.h2_title}
 ## Results

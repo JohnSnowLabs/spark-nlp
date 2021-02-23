@@ -4,6 +4,9 @@ title: Detect Person, Organization, Location, Facilitie, Product and Event entit
 author: John Snow Labs
 name: personer_cc_300d
 date: 2020-12-07
+task: Named Entity Recognition
+language: fa
+edition: Spark NLP 2.7.0
 tags: [ner, fa, open_source]
 article_header:
   type: cover
@@ -33,20 +36,25 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") \
+   .setInputCols(["document", "token"]) \
+   .setOutputCol("embeddings")
 ner = NerDLModel.pretrained("personer_cc_300d", "fa") \
-  .setInputCols(["sentence", "token", "word_embeddings"]) \
-  .setOutputCol("ner")
+   .setInputCols(["sentence", "token", "embeddings"]) \
+   .setOutputCol("ner")
 ner_converter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate("به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند")
-
 ```
 
 ```scala
 ...
+val embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") 
+        .setInputCols(Array("document", "token"))
+        .setOutputCol("embeddings")
 val ner_model = NerDLModel.pretrained("personer_cc_300d", "fa")
-        .setInputCols(Array("sentence", "token", "word_embeddings"))
+        .setInputCols(Array("sentence", "token", "embeddings"))
         .setOutputCol("ner")
 val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))

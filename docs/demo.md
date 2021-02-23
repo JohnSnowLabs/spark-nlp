@@ -31,6 +31,7 @@ data:
       opensource: yes
       opensource: 
         - title: Recognize entities in text
+          id: recognize_entities_in_text
           image: 
               src: /assets/images/Split_Clean_Text.svg
           image2: 
@@ -38,12 +39,13 @@ data:
           excerpt: Recognize <b>Persons, Locations, Organizations</b> and <b>Misc</b> entities using out of the box pretrained Deep Learning models based on GloVe (glove_100d) and BERT (ner_dl_bert) word embeddings.
           actions:
           - text: Live Demo
-            type: normal
+            type: normal            
             url: https://demo.johnsnowlabs.com/public/NER_EN/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb   
         - title: Recognize more entities in text
+          id: recognize_more_entities_in_text
           image: 
               src: /assets/images/Spell_Checking.svg
           image2: 
@@ -57,6 +59,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb
         - title: Classify documents
+          id: classify_documents
           image: 
               src: /assets/images/Classify-documents.svg
           image2: 
@@ -70,6 +73,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_TREC.ipynb
         - title: Analyze sentiment in movie reviews and tweets
+          id: analyze_sentiment_in_movie_reviews_and_tweets
           image: 
               src: /assets/images/imdb.svg
           image2: 
@@ -83,6 +87,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb
         - title: Detect emotions in tweets
+          id: detect_emotions_in_tweets
           image: 
               src: /assets/images/Detect-emotions.svg
           image2: 
@@ -96,6 +101,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_EMOTION.ipynb
         - title: Detect cyberbullying in tweets
+          id: detect_cyberbullying_in_tweets
           image: 
               src: /assets/images/twitter-2.svg
           image2: 
@@ -109,6 +115,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_CYBERBULLYING.ipynb
         - title: Detect sarcastic tweets
+          id: detect_sarcastic_tweets
           image: 
               src: /assets/images/Detect-sarcastic-tweets.svg
           image2: 
@@ -122,6 +129,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb
         - title: Identify Fake news
+          id: identify_fake_news
           image: 
               src: /assets/images/fake-news.svg
           image2: 
@@ -135,6 +143,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_FAKENEWS.ipynb
         - title: Detect Spam messages
+          id: detect_spam_messages
           image: 
               src: /assets/images/exclamation.svg
           image2: 
@@ -148,6 +157,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_SPAM.ipynb
         - title: Find a text in document
+          id: find_a_text_in_document
           image: 
               src: /assets/images/Find_in_Text.svg
           image2: 
@@ -161,6 +171,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_FINDER_EN.ipynb
         - title: Grammar analysis & Dependency Parsing
+          id: grammar_analysis_dependency_parsing
           image: 
               src: /assets/images/Grammar_Analysis.svg
           image2: 
@@ -174,6 +185,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb
         - title: Split and clean text
+          id: split_and_clean_text
           image: 
               src: /assets/images/Document_Classification.svg
           image2: 
@@ -187,6 +199,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_PREPROCESSING.ipynb
         - title: Spell check your text documents
+          id: spell_check_your_text_documents
           image: 
               src: /assets/images/spelling.svg
           image2: 
@@ -200,6 +213,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb
         - title: Detect Key Phrases
+          id: detect_key_phrases
           image: 
               src: /assets/images/Detect_Key_Phrases.svg
           image2: 
@@ -213,6 +227,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/KEYPHRASE_EXTRACTION.ipynb
         - title: Detect similar sentences
+          id: detect_similar_sentences
           image: 
               src: /assets/images/Detect_similar_sentences.svg
           image2: 
@@ -226,6 +241,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTENCE_SIMILARITY.ipynb
         - title: Detect toxic content in comments
+          id: detect_toxic_content_in_comments
           image: 
               src: /assets/images/Detect_Toxic_Comments.svg
           image2: 
@@ -239,6 +255,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb
         - title: Aspect based sentiment analysis for restaurants
+          id: aspect_based_sentiment_analysis_for_restaurants
           image: 
               src: /assets/images/Aspect_based_sentiment_analysis_for_restaurants.svg
           image2: 
@@ -252,6 +269,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ABSA_Inference.ipynb
         - title: Detect sentences in text
+          id: detect_sentences_in_text
           image: 
               src: /assets/images/Detect_sentences_in_text.svg
           image2: 
@@ -265,6 +283,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
         - title: Detect and normalize dates
+          id: detect_and_normalize_dates
           image: 
               src: /assets/images/Detect_and_normalize_dates.svg
           image2: 
@@ -276,10 +295,109 @@ data:
             url: https://demo.johnsnowlabs.com/public/DATE_MATCHER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb         
+        - title: Understand questions about Airline Traffic
+          id: understand_questions_about_airline_traffic
+          image: 
+              src: /assets/images/Detect_diagnosis_and_procedures.svg
+          image2: 
+              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
+          excerpt: Automatically detect key entities related to airline traffic, such as departure and arrival times and locations.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title:  Automatically answer questions
+          id: automatically_answer_questions
+          image: 
+              src: /assets/images/spelling.svg
+          image2: 
+              src: /assets/images/spelling_f.svg
+          excerpt: Automatically generate answers to questions with & without context
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/QUESTION_ANSWERING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Infer word meaning from context
+          id: infer_word_meaning_from_context
+          image: 
+              src: /assets/images/Grammar_Analysis.svg
+          image2: 
+              src: /assets/images/Grammar_Analysis_f.svg
+          excerpt: Compare the meaning of words in two different sentences and evaluate ambiguous pronouns.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/CONTEXTUAL_WORD_MEANING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Assess relationship between two sentences
+          id: assess_relationship_between_two_sentences
+          image: 
+              src: /assets/images/Spell_Checking.svg
+          image2: 
+              src: /assets/images/Spell_Checking_f.svg
+          excerpt: Evaluate the relationship between two sentences or text fragments to identify things such as contradictions, entailments and premises & hypotheses
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_RELATIONS/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Summarize text
+          id: summarize_text
+          image: 
+              src: /assets/images/Document_Classification.svg
+          image2: 
+              src: /assets/images/Document_Classification_f.svg
+          excerpt: Summarize text to make it shorter while retaining meaning.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Evaluate sentence grammar
+          id: evaluate_sentence_grammar
+          image: 
+              src: /assets/images/Find_in_Text.svg
+          image2: 
+              src: /assets/images/Find_in_Text_f.svg
+          excerpt: Classify a sentence as grammatically correct or incorrect.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTENCE_GRAMMAR/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/T5TRANSFORMER.ipynb
+        - title:  Understand intent and actions in general commands
+          id: understand_intent_and_actions_in_general_commands
+          image: 
+              src: /assets/images/Split_Clean_Text.svg
+          image2: 
+              src: /assets/images/Split_Clean_Text_f.svg
+          excerpt: Extract intents in general commands related to music, restaurants, movies.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_CLS_SNIPS
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb    
       languages: yes
       languages: 
         - title: Detect language
+          id: detect_language
           image: 
               src: /assets/images/globe.svg
           image2: 
@@ -293,6 +411,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Language_Detector.ipynb
         - title: Recognize entities in English text
+          id: recognize_entities_in_english_text
           image: 
               src: /assets/images/United_Kingdom.png
           image2: 
@@ -306,6 +425,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb
         - title: Recognize entities in French text
+          id: recognize_entities_in_french_text
           image: 
               src: /assets/images/French_flag.svg
           image2: 
@@ -319,6 +439,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FR.ipynb
         - title: Recognize entities in German text
+          id: recognize_entities_in_german_text
           image: 
               src: /assets/images/German_flag.svg
           image2: 
@@ -332,6 +453,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_DE.ipynb
         - title: Recognize entities in Italian text
+          id: recognize_entities_in_italian_text
           image: 
               src: /assets/images/Italian_flag.svg
           image2: 
@@ -345,6 +467,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_IT.ipynb
         - title: Recognize entities in Norwegian text
+          id: recognize_entities_in_norwegian_text
           image: 
               src: /assets/images/norway-flag.jpg
           image2: 
@@ -358,6 +481,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_NO.ipynb
         - title: Recognize entities in Polish text
+          id: recognize_entities_in_polish_text
           image: 
               src: /assets/images/poland-flag.jpg
           image2: 
@@ -371,6 +495,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_PL.ipynb
         - title: Recognize entities in Portuguese text
+          id: recognize_entities_in_portuguese_text
           image: 
               src: /assets/images/flag-400.png
           image2: 
@@ -384,6 +509,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_PT.ipynb
         - title: Recognize entities in Russian text
+          id: recognize_entities_in_russian_text
           image: 
               src: /assets/images/russia-flag.jpg
           image2: 
@@ -397,6 +523,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_RU.ipynb
         - title: Recognize entities in Spanish text
+          id: recognize_entities_in_spanish_text
           image: 
               src: /assets/images/spanish-flag-small.png
           image2: 
@@ -410,6 +537,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_ES.ipynb
         - title: Recognize entities in Danish text
+          id: recognize_entities_in_danish_text
           image: 
               src: /assets/images/Flag_of_Denmark.png
           image2: 
@@ -423,6 +551,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Swedish text
+          id: recognize_entities_in_swedish_text
           image: 
               src: /assets/images/Flag_of_Sweden.jpg
           image2: 
@@ -436,6 +565,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Finnish text
+          id: recognize_entities_in_finnish_text
           image: 
               src: /assets/images/flag-of-finland.jpg
           image2: 
@@ -449,6 +579,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Prebuilt pipeline for entity recognition in Danish
+          id: prebuilt_pipeline_for_entity_recognition_in_danish
           image: 
               src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Danish.svg
           image2: 
@@ -462,6 +593,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
         - title: Prebuilt pipeline for entity recognition in Swedish
+          id: prebuilt_pipeline_for_entity_recognition_in_swedish
           image: 
               src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Swedish.svg
           image2: 
@@ -475,6 +607,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
         - title: Prebuilt pipeline for entity recognition in Finnish
+          id: prebuilt_pipeline_for_entity_recognition_in_finnish
           image: 
               src: /assets/images/Prebuilt_pipeline_for_entity_recognition_in_Finnish.svg
           image2: 
@@ -488,6 +621,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
         - title: Recognize entities in Turkish text
+          id: recognize_entities_in_turkish_text
           image: 
               src: /assets/images/Flag_of_Turkey.png
           image2: 
@@ -501,6 +635,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_TR.ipynb
         - title: Recognize entities in Arabic text 
+          id: recognize_entities_in_arabic_text
           image: 
               src: /assets/images/arab.jpg
           image2: 
@@ -514,6 +649,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Persian text 
+          id: recognize_entities_in_persian_text
           image: 
               src: /assets/images/Flag_of_Iran.png
           image2: 
@@ -527,6 +663,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Hebrew text 
+          id: recognize_entities_in_hebrew_text
           image: 
               src: /assets/images/Israel.jpg
           image2: 
@@ -540,6 +677,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Japanese text 
+          id: recognize_entities_in_japanese_text
           image: 
               src: /assets/images/Flag_of_Japan.png
           image2: 
@@ -553,6 +691,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Urdu text
+          id: recognize_entities_in_urdu_text
           image: 
               src: /assets/images/Flag_of_Pakistan.png
           image2: 
@@ -566,6 +705,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Korean text
+          id: recognize_entities_in_korean_text
           image: 
               src: /assets/images/South_Korea.png
           image2: 
@@ -579,6 +719,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Recognize entities in Chinese text
+          id: recognize_entities_in_chinese_text
           image: 
               src: /assets/images/Flag-China.jpg
           image2: 
@@ -592,6 +733,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
         - title: Analyze sentiment in Urdu movie reviews
+          id: analyze_sentiment_in_urdu_movie_reviews
           image: 
               src: /assets/images/Flag_of_Pakistan.png
           image2: 
@@ -605,6 +747,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN.ipynb
         - title: Translate text in more than 192 languages 
+          id: translate_text_in_more_than
           image: 
               src: /assets/images/language.svg
           image2: 
@@ -617,9 +760,24 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb
+        - title: Recognize Entities in Bengali
+          id: recognize_entities_in_bengali
+          image: 
+              src: /assets/images/Flag_of_Bangladesh.png
+          image2: 
+              src: /assets/images/Flag_of_Bangladesh.png
+          excerpt: Recognize Persons, Locations, Organizations and Misc entities using an out of the box pretrained Deep Learning model and GloVe word embeddings (glove_840b_300d).
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_BN
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
       healthcare: yes
       healthcare: 
         - title: Detect signs and symptoms
+          id: detect_signs_and_symptoms
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
           image2: 
@@ -633,6 +791,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SIGN_SYMP.ipynb
         - title: Detect diagnosis and procedures
+          id: detect_diagnosis_and_procedures
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
           image2: 
@@ -646,6 +805,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC.ipynb
         - title: Detect drugs and prescriptions
+          id: detect_drugs_and_prescriptions
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg
           image2: 
@@ -659,6 +819,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_POSOLOGY.ipynb
         - title: Detect risk factors
+          id: detect_risk_factors
           image: 
               src: /assets/images/Detect_risk_factors.svg
           image2: 
@@ -672,6 +833,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb
         - title: Detect anatomical references
+          id: detect_anatomical_references
           image: 
               src: /assets/images/Detect_anatomical_references.svg
           image2: 
@@ -685,6 +847,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_ANATOMY.ipynb
         - title: Detect demographic information
+          id: detect_demographic_information
           image: 
               src: /assets/images/Detect_demographic_information.svg
           image2: 
@@ -698,6 +861,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb
         - title: Detect clinical events
+          id: detect_clinical_events
           image: 
               src: /assets/images/Detect_clinical_events.svg
           image2: 
@@ -711,6 +875,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_EVENTS_CLINICAL.ipynb
         - title: Detect lab results
+          id: detect_lab_results
           image: 
               src: /assets/images/Detect_lab_results.svg
           image2: 
@@ -724,6 +889,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb
         - title: Detect tumor characteristics
+          id: detect_tumor_characteristics
           image: 
               src: /assets/images/Detect_tumor_characteristics.svg
           image2: 
@@ -737,6 +903,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR.ipynb
         - title: Spell checking for clinical documents
+          id: spell_checking_for_clinical_documents
           image: 
               src: /assets/images/Detect_clinical_events.svg
           image2: 
@@ -750,6 +917,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CONTEXTUAL_SPELL_CHECKER.ipynb
         - title: SNOMED coding
+          id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
           image2: 
@@ -763,6 +931,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
         - title: ICDO coding
+          id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
           image2: 
@@ -776,6 +945,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
         - title: ICD10-CM coding 
+          id: icd10-cm_coding
           image: 
               src: /assets/images/Detect_risk_factors.svg
           image2: 
@@ -789,6 +959,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: RxNORM coding
+          id: rxnorm_coding
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg
           image2: 
@@ -802,6 +973,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb          
         - title: Detect demographics and vital signs using rules
+          id: detect_demographics_and_vital_signs_using_rules
           image: 
               src: /assets/images/Detect_demographics_and_vital_signs_using_rules.svg
           image2: 
@@ -815,6 +987,7 @@ data:
             type: blue_btn
             url: https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_PARSER
         - title: Detect chemical compounds and genes
+          id: detect_chemical_compounds_and_genes
           image: 
               src: /assets/images/Detect_chemical_compounds_and_genes.svg
           image2: 
@@ -828,6 +1001,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_CHEMPROT_CLINICAL.ipynb
         - title: Detect genes and human phenotypes
+          id: detect_genes_and_human_phenotypes
           image: 
               src: /assets/images/Detect_genes_and_human_phenotypes.svg
           image2: 
@@ -841,6 +1015,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GENE_CLINICAL.ipynb
         - title: Detect normalized genes and human phenotypes
+          id: detect_normalized_genes_and_human_phenotypes
           image: 
               src: /assets/images/Detect_normalized_genes_and_human_phenotypes.svg
           image2: 
@@ -854,6 +1029,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HUMAN_PHENOTYPE_GO_CLINICAL.ipynb
         - title: ICD10 coding for German
+          id: icd10_coding_for_german
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
           image2: 
@@ -867,6 +1043,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_GM_DE.ipynb
         - title: Detect symptoms, treatments and other NERs in German
+          id: detect_symptoms
           image: 
               src: /assets/images/Detect_causality_between_symptoms.svg
           image2: 
@@ -880,6 +1057,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb
         - title: Detect legal entities German
+          id: detect_legal_entities_german
           image: 
               src: /assets/images/Grammar_Analysis.svg
           image2: 
@@ -893,6 +1071,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb
         - title: Adverse drug events tagger
+          id: adverse_drug_events_tagger
           image: 
               src: /assets/images/Adverse_drug_events_tagger.svg
           image2: 
@@ -906,6 +1085,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb
         - title: Identify diagnosis and symptoms assertion status
+          id: identify_diagnosis_and_symptoms_assertion_status
           image: 
               src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
           image2: 
@@ -919,6 +1099,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
         - title: Detect cell structure, DNA, RNA and protein
+          id: detect_cell_structure
           image: 
               src: /assets/images/Detect_cell_structure_DNA_RNA_and_protein.svg
           image2: 
@@ -932,6 +1113,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
         - title: Link entities to Wikipedia pages
+          id: link_entities_to_wikipedia_pages
           image: 
               src: /assets/images/Link_entities_to_Wikipedia_pages.svg
           image2: 
@@ -945,6 +1127,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb
         - title: Detect posology relations
+          id: detect_posology_relations
           image: 
               src: /assets/images/Grammar_Analysis.svg
           image2: 
@@ -958,6 +1141,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_POSOLOGY.ipynb
         - title: Detect temporal relations for clinical events
+          id: detect_temporal_relations_for_clinical_events
           image: 
               src: /assets/images/Grammar_Analysis.svg
           image2: 
@@ -971,6 +1155,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_EVENTS.ipynb
         - title: Detect causality between symptoms and treatment
+          id: detect_causality_between_symptoms_and_treatment
           image: 
               src: /assets/images/Grammar_Analysis.svg
           image2: 
@@ -984,6 +1169,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL.ipynb
         - title: Detect sentences in healthcare documents
+          id: detect_sentences_in_healthcare_documents
           image: 
               src: /assets/images/Detect_sentences_in_healthcare_documents.svg
           image2: 
@@ -997,6 +1183,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
         - title: Classify medical text according to PICO framework
+          id: classify_medical_text_according
           image: 
               src: /assets/images/Classify_medical_text_according_to_PICO_framework.svg
           image2: 
@@ -1010,6 +1197,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_CLASSIFICATION.ipynb
         - title: Detect chemical compounds
+          id: detect_chemical_compounds
           image: 
               src: /assets/images/Detect_chemical_compounds.svg
           image2: 
@@ -1023,6 +1211,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
         - title: Detect bacteria, plants, animals or general species
+          id: detect_bacteria
           image: 
               src: /assets/images/Detect_bacteria_plants_animals_or_general_species.svg
           image2: 
@@ -1036,6 +1225,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb        
         - title: Detect traffic information in text
+          id: detect_traffic_information_in_text
           image: 
               src: /assets/images/Detect_traffic_information_in_text.svg
           image2: 
@@ -1049,6 +1239,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
         - title: Identify gender using context and medical records
+          id: identify_gender_using_context_and_medical_records
           image: 
               src: /assets/images/Detect_demographic_information.svg
           image2: 
@@ -1059,11 +1250,26 @@ data:
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_GENDER/
           - text: Colab Netbook
+            type: blue_btn 
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb 
+        - title: Detect clinical entities in text
+          id: detect_clinical_entities_in_text
+          image: 
+              src: /assets/images/Detect_risk_factors.svg
+          image2: 
+              src: /assets/images/Detect_risk_factors_f.svg
+          excerpt: Automatically detect more than 50 clinical entities using our NER deep learning model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
+          - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/21_Gender_Classifier.ipynb
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb       
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text
+          id: pdf_to_text
           image: 
               src: /assets/images/PDF_to_Text.svg
           image2: 
@@ -1077,6 +1283,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TO_TEXT.ipynb
         - title: DICOM to Text
+          id: dicom_to_text
           image: 
               src: /assets/images/DICOM_to_Text.svg
           image2: 
@@ -1090,6 +1297,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DICOM_TO_TEXT.ipynb
         - title: Image to Text
+          id: image_to_text
           image: 
               src: /assets/images/Image_to_Text.svg
           image2: 
@@ -1103,6 +1311,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/IMAGE_TO_TEXT.ipynb
         - title: Remove background noise from scanned documents
+          id: remove_background_noise_from_scanned_documents
           image: 
               src: /assets/images/remove_bg.svg
           image2: 
@@ -1116,6 +1325,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/BG_NOISE_REMOVER.ipynb
         - title: Correct skewness in scanned documents
+          id: correct_skewness_in_scanned_documents
           image: 
               src: /assets/images/correct.svg
           image2: 
@@ -1129,6 +1339,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/SKEW_CORRECTION.ipynb
         - title: Recognize text in natural scenes
+          id: recognize_text_in_natural_scenes
           image: 
               src: /assets/images/Frame.svg
           image2: 
@@ -1142,6 +1353,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/NATURAL_SCENE.ipynb
         - title: Recognize entities in scanned PDFs
+          id: recognize_entities_in_scanned_pdfs
           image: 
               src: /assets/images/Recognize_text_in_natural_scenes.svg
           image2: 
@@ -1154,7 +1366,8 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
-        - title: Extract tables from PDFs
+        - title: Extract tables
+          id: extract_tables_from_pdfs
           image: 
               src: /assets/images/Extract_tables_from_PDFs.svg
           image2: 
@@ -1170,6 +1383,7 @@ data:
       deidentification: yes
       deidentification: 
         - title: Deidentify structured data
+          id: deidentify_structured_data
           image: 
               src: /assets/images/Deidentify_structured_data.svg
           image2: 
@@ -1183,6 +1397,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_EHR_DATA.ipynb
         - title: Deidentify free text documents
+          id: deidentify_free_text_documents
           image: 
               src: /assets/images/Deidentify_free_text_documents.svg
           image2: 
@@ -1196,6 +1411,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb
         - title: Deidentify DICOM documents
+          id: deidentify_dicom_documents
           image: 
               src: /assets/images/Deidentify_DICOM_documents.svg
           image2: 
@@ -1209,6 +1425,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_DICOM_IMAGE.ipynb
         - title: De-identify PDF documents - HIPAA Compliance
+          id: hipaa_compliance
           image: 
               src: /assets/images/Deidentify_PDF_documents.svg
           image2: 
@@ -1222,6 +1439,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb
         - title: De-identify PDF documents - GDPR Compliance
+          id: gdpr_compliance
           image: 
               src: /assets/images/Deidentify_PDF_documents.svg
           image2: 

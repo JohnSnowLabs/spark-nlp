@@ -4,6 +4,9 @@ title: Part of Speech for Turkish
 author: John Snow Labs
 name: pos_ud_imst
 date: 2020-05-03 12:43:00 +0800
+task: Part of Speech Tagging
+language: tr
+edition: Spark NLP 2.5.0
 tags: [pos, tr]
 article_header:
 type: cover
@@ -24,7 +27,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +47,17 @@ val pos = PerceptronModel.pretrained("pos_ud_imst", "tr")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["John Snow, kuzeyin kralı olmanın yanı sıra bir İngiliz doktordur ve anestezi ve tıbbi hijyenin geliştirilmesinde liderdir."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""John Snow, kuzeyin kralı olmanın yanı sıra bir İngiliz doktordur ve anestezi ve tıbbi hijyenin geliştirilmesinde liderdir."""]
+pos_df = nlu.load('tr.pos.ud_imst').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

@@ -4,6 +4,9 @@ title: Thai Word Segmentation
 author: John Snow Labs
 name: wordseg_best
 date: 2021-01-13
+task: Word Segmentation
+language: th
+edition: Spark NLP 2.7.0
 tags: [th, word_segmentation, open_source]
 article_header:
   type: cover

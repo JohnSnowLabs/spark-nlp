@@ -4,6 +4,9 @@ title: Language Detection & Identification Pipeline - 99 Languages
 author: John Snow Labs
 name: detect_language_99
 date: 2020-12-05
+task: [Pipeline Public, Language Detection, Sentence Detection]
+language: xx
+edition: Spark NLP 2.7.0
 tags: [language_detection, open_source, pipeline, xx]
 article_header:
   type: cover

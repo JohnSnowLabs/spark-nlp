@@ -4,6 +4,9 @@ title: Translate Sango to English Pipeline
 author: John Snow Labs
 name: translate_sg_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: sg
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, sg, en, xx]
 article_header:
   type: cover

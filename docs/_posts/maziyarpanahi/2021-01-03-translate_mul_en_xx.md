@@ -4,6 +4,9 @@ title: Translate Multiple languages to English Pipeline
 author: John Snow Labs
 name: translate_mul_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: mul
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, mul, en, xx]
 article_header:
   type: cover

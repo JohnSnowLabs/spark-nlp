@@ -4,6 +4,9 @@ title: BERT Embeddings (Large Cased)
 author: John Snow Labs
 name: bert_large_cased
 date: 2020-01-02
+task: Embeddings
+language: en
+edition: Spark NLP 2.4.0
 tags: [open_source, embeddings, en]
 article_header:
   type: cover

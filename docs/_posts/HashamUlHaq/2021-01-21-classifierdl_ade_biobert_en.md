@@ -1,9 +1,12 @@
 ---
 layout: model
-title: Classifier for Adverse Drug Events - SparkNLP 2.7.1+
+title: Classifier for Adverse Drug Events
 author: John Snow Labs
-name: classifierdl_biobert_ade
+name: classifierdl_ade_biobert
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [licensed, clinical, en, classifier]
 article_header:
   type: cover
@@ -14,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 Classify text/sentence in two categories:
 
- `True` : The sentence is talking about a possible ADE
+- `True` : The sentence is talking about a possible ADE
 
- `False` : The sentences doesn’t have any information about an ADE.
+- `False` : The sentences doesn’t have any information about an ADE.
 
-## Predicted Entities
+## Classified Labels
 
 `True`, `False`
 
@@ -34,25 +37,44 @@ Classify text/sentence in two categories:
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
-
-tokenizer = Tokenizer().setInputCols(['document']).setOutputCol('token')
-
+...
 embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')\
     .setInputCols(["document", 'token'])\
     .setOutputCol("word_embeddings")
-
 sentence_embeddings = SentenceEmbeddings() \
       .setInputCols(["document", "word_embeddings"]) \
       .setOutputCol("sentence_embeddings") \
       .setPoolingStrategy("AVERAGE")
-
-classifier = ClassifierDLModel.pretrained('classifierdl_biobert_ade', 'en', 'clinical/models')\
+classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')\
     .setInputCols(['document', 'token', 'sentence_embeddings']).setOutputCol('class')
-
 nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sentence_embeddings, classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
+```
+
+```scala
+...
+val embeddings = BertEmbeddings.pretrained('biobert_pubmed_base_cased')
+    .setInputCols(Array("document", 'token'))
+    .setOutputCol("word_embeddings")
+val sentence_embeddings = SentenceEmbeddings()
+      .setInputCols(Array("document", "word_embeddings"))
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+val classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 'clinical/models')
+    .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
+val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+
+```
+
+{:.nlu-block}
+```python
 
 ```
 
@@ -73,8 +95,8 @@ annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little 
 
 {:.table-model}
 |---|---|
-|Model Name:|classifierdl_biobert_ade|
-|Compatibility:|Spark NLP 2.7.1+|
+|Model Name:|classifierdl_ade_biobert|
+|Compatibility:|Spark NLP for Healthcare 2.7.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|

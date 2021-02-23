@@ -4,6 +4,9 @@ title: Sentiment Analysis for Thai (sentiment_jager_use)
 author: John Snow Labs
 name: sentiment_jager_use
 date: 2021-01-14
+task: Sentiment Analysis
+language: th
+edition: Spark NLP 2.7.1
 tags: [sentiment, th, open_source]
 article_header:
   type: cover

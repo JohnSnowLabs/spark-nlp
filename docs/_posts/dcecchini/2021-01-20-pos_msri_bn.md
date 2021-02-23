@@ -4,6 +4,9 @@ title: Part of Speech for Bengali (pos_msri)
 author: John Snow Labs
 name: pos_msri
 date: 2021-01-20
+task: Part of Speech Tagging
+language: bn
+edition: Spark NLP 2.7.0
 tags: [bn, pos, open_source]
 article_header:
   type: cover
@@ -77,6 +80,15 @@ val pos = PerceptronModel.pretrained("pos_lst20", "th")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 
 val result = pipeline.fit(Seq.empty["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"]
+pos_df = nlu.load('bn.pos').predict(text, output_level = "token")
+pos_df
 ```
 
 </div>

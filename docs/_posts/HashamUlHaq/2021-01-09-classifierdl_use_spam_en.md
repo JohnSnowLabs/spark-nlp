@@ -1,9 +1,12 @@
 ---
 layout: model
-title: Spam Classifier - Spark NLP 2.7.1+
+title: Spam Classifier
 author: John Snow Labs
 name: classifierdl_use_spam
 date: 2021-01-09
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [open_source, en]
 article_header:
   type: cover
@@ -28,24 +31,48 @@ Automatically identify messages as being regular messages or Spam.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
-
 use = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
   .setInputCols(["document"])\
   .setOutputCol("sentence_embeddings")
-
 document_classifier = ClassifierDLModel.pretrained('classifierdl_use_spam', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
-
 nlpPipeline = Pipeline(stages=[document_assembler, use, document_classifier])
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now.')
+```
+```scala
+val documentAssembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+val use = UniversalSentenceEncoder.pretrained(lang="en")
+  .setInputCols(Array("document"))
+  .setOutputCol("sentence_embeddings")
+val document_classifier = ClassifierDLModel.pretrained('classifierdl_use_spam', 'en')
+  .setInputCols(Array("document", "sentence_embeddings"))
+  .setOutputCol("class")
+val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
+
+val result = pipeline.fit(Seq.empty["Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now."].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now."""]
+spam_df = nlu.load('classify.spam.use').predict(text, output_level='document')
+spam_df[["document", "spam"]]
+```
+
+{:.nlu-block}
+```python
 
 ```
 

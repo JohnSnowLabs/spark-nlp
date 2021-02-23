@@ -4,6 +4,9 @@ title: Sentiment Analysis of Tweets (sentimentdl_use_twitter)
 author: John Snow Labs
 name: sentimentdl_use_twitter
 date: 2021-01-18
+task: Sentiment Analysis
+language: en
+edition: Spark NLP 2.7.1
 tags: [en, sentiment, open_source]
 article_header:
   type: cover

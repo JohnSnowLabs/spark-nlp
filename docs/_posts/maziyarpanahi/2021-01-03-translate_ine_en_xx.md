@@ -4,6 +4,9 @@ title: Translate Indo-European languages to English Pipeline
 author: John Snow Labs
 name: translate_ine_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ine
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, ine, en, xx]
 article_header:
   type: cover

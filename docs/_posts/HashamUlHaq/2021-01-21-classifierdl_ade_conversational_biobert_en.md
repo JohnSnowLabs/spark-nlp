@@ -1,9 +1,12 @@
 ---
 layout: model
-title: Classifier for Adverse Drug Events in small conversations - SparkNLP 2.7.1+
+title: Classifier for Adverse Drug Events in Small Conversations
 author: John Snow Labs
 name: classifierdl_ade_conversational_biobert
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, licensed, classifier, clinical]
 article_header:
   type: cover
@@ -55,6 +58,11 @@ nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sente
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
+```
+
+{:.nlu-block}
+```python
+
 ```
 
 </div>

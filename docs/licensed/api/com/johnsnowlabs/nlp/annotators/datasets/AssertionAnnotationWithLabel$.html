@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>AssertionAnnotationWithLabel - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel</title>
-          <meta name="description" content="AssertionAnnotationWithLabel - Spark NLP 2.7.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel" />
-          <meta name="keywords" content="AssertionAnnotationWithLabel Spark NLP 2.7.2 ScalaDoc com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel" />
+          <title>AssertionAnnotationWithLabel - Spark NLP 2.7.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel</title>
+          <meta name="description" content="AssertionAnnotationWithLabel - Spark NLP 2.7.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel" />
+          <meta name="keywords" content="AssertionAnnotationWithLabel Spark NLP 2.7.4 ScalaDoc com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -264,24 +264,24 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel#fromChunk" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromChunk(sentence:com.johnsnowlabs.nlp.Annotation,label:String,chunkContent:Seq[org.apache.spark.sql.Row],embeddingsSentence:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Seq[com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel]"></a>
-      <a id="fromChunk(Annotation,String,Seq[Row],WordpieceEmbeddingsSentence):Seq[AssertionAnnotationWithLabel]"></a>
+      <a id="fromChunk(sentence:com.johnsnowlabs.nlp.Annotation,label:String,confidence:Double,chunkContent:Seq[org.apache.spark.sql.Row],embeddingsSentence:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Seq[com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel]"></a>
+      <a id="fromChunk(Annotation,String,Double,Seq[Row],WordpieceEmbeddingsSentence):Seq[AssertionAnnotationWithLabel]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromChunk</span><span class="params">(<span name="sentence">sentence: <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span></span>, <span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunkContent">chunkContent: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>, <span name="embeddingsSentence">embeddingsSentence: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="AssertionAnnotationWithLabel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel">AssertionAnnotationWithLabel</a>]</span>
+        <span class="name">fromChunk</span><span class="params">(<span name="sentence">sentence: <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span></span>, <span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="confidence">confidence: <span class="extype" name="scala.Double">Double</span></span>, <span name="chunkContent">chunkContent: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="org.apache.spark.sql.Row">Row</span>]</span>, <span name="embeddingsSentence">embeddingsSentence: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="AssertionAnnotationWithLabel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel">AssertionAnnotationWithLabel</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel$@fromChunk(sentence:com.johnsnowlabs.nlp.Annotation,label:String,chunkContent:Seq[org.apache.spark.sql.Row],embeddingsSentence:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Seq[com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel]" title="Permalink" target="_top">
+      <a href="../../../../../index.html#com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel$@fromChunk(sentence:com.johnsnowlabs.nlp.Annotation,label:String,confidence:Double,chunkContent:Seq[org.apache.spark.sql.Row],embeddingsSentence:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence):Seq[com.johnsnowlabs.nlp.annotators.datasets.AssertionAnnotationWithLabel]" title="Permalink" target="_top">
         <img src="../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">This method converts annotation into Sequence of Assertions with Labels
 </p><div class="fullcomment"><div class="comment cmt"><p>This method converts annotation into Sequence of Assertions with Labels
-</p></div><dl class="paramcmts block"><dt class="param">sentence</dt><dd class="cmt"><p>a String, which represents a label</p></dd><dt class="param">label</dt><dd class="cmt"><p>a String, which represents a label</p></dd><dt class="param">chunkContent</dt><dd class="cmt"><p>a sequence of Rows, which represents the inner content of Chunk</p></dd><dt class="param">embeddingsSentence</dt><dd class="cmt"><p>an Embedding Sentence</p></dd><dt>returns</dt><dd class="cmt"><p>a sequence of instances of  AssertionAnnotationWithLabel</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">sentence</dt><dd class="cmt"><p>a String, which represents a label</p></dd><dt class="param">label</dt><dd class="cmt"><p>a String, which represents a label</p></dd><dt class="param">confidence</dt><dd class="cmt"><p>Double, represents confidence score for label</p></dd><dt class="param">chunkContent</dt><dd class="cmt"><p>a sequence of Rows, which represents the inner content of Chunk</p></dd><dt class="param">embeddingsSentence</dt><dd class="cmt"><p>an Embedding Sentence</p></dd><dt>returns</dt><dd class="cmt"><p>a sequence of instances of  AssertionAnnotationWithLabel</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>

@@ -4,6 +4,9 @@ title: TREC(50) Question Classifier
 author: John Snow Labs
 name: classifierdl_use_trec50
 date: 2021-01-08
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [classifier, text_classification, en, open_source]
 article_header:
   type: cover
@@ -28,7 +31,7 @@ Classify open-domain, fact-based questions into sub categories of the following 
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
   .setInputCol("text")\
@@ -59,6 +62,16 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_c
 
 val result = pipeline.fit(Seq.empty["When did the construction of stone circles begin in the UK?"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""When did the construction of stone circles begin in the UK?"""]
+trec50_df = nlu.load('en.classify.trec50.use').predict(text, output_level = "document")
+trec50_df[["document", "trec50"]]
+```
+
 </div>
 
 ## Results

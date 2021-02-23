@@ -4,6 +4,9 @@ title: Translate Polish to English Pipeline
 author: John Snow Labs
 name: translate_pl_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: pl
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, pl, en, xx]
 article_header:
   type: cover

@@ -1,4 +1,43 @@
 ========
+2.7.4
+========
+----------------
+Bugfixes
+----------------
+* Fix Tensors with a 0 dimension issue in ClassifierDL and SentimentDL
+* Fix index error in TokenAssembler
+* Fix MatchError in DateMatcher and MultiDateMatcher annotators
+* Fix setOutputAsArray and its default value for valueSplitSymbol in Finisher annotator
+
+----------------
+Enhancements
+----------------
+* Implement missing frequencyThreshold and ambiguityThreshold params in WordSegmenterApproach annotator
+* Downgrade Hadoop from 3.2 to 2.7 which caused an issue with S3
+* Update Apache HTTP Client
+
+
+========
+2.7.3
+========
+---------------
+New Features
+---------------
+* Add anchorDateYear, anchorDateMonth, and anchorDateDay to DateMatcher and MultiDateMatcher to be used for relative dates extraction
+
+----------------
+Bugfixes
+----------------
+* Fix the default value for action parameter in Python wrapper for DocumentNormalizer annotator
+* Fix Lemmatizer pretrained models published in 2021
+
+----------------
+Enhancements
+----------------
+* Improve T5Transformer performance on documents with many sentences
+
+
+========
 2.7.2
 ========
 ----------------

@@ -7,6 +7,8 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/07/2020
+task: Text Classification
+edition: Spark NLP 2.5.3
 tags: [classifier]
 article_header:
    type: cover
@@ -27,7 +29,7 @@ Classify if a text contains sarcasm.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
@@ -60,6 +62,15 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_sarcasm
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val result = pipeline.fit(Seq.empty["If I could put into words how much I love waking up at am on Tuesdays I would"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""If I could put into words how much I love waking up at am on Tuesdays I would"""]
+sarcasm_df = nlu.load('classify.sarcasm.use').predict(text, output_level='document')
+sarcasm_df[["document", "sarcasm"]]
 ```
 
 </div>

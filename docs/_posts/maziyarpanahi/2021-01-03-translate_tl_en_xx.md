@@ -4,6 +4,9 @@ title: Translate Tagalog to English Pipeline
 author: John Snow Labs
 name: translate_tl_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: tl
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, tl, en, xx]
 article_header:
   type: cover

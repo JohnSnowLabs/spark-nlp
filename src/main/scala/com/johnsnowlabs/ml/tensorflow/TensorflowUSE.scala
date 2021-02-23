@@ -31,11 +31,11 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
     val tensors = new TensorResources()
     val batchSize = sentences.length
 
-    val sentencesBytes = sentences.map{ x=>
-      x.content.getBytes("UTF-8")
+    val sentencesContent = sentences.map{ x=>
+      x.content
     }.toArray
 
-    val sentenceTensors = tensors.createTensor(sentencesBytes)
+    val sentenceTensors = tensors.createTensor(sentencesContent)
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
 

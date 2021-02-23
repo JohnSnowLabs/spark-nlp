@@ -4,6 +4,9 @@ title: Detect Anatomical Regions
 author: John Snow Labs
 name: ner_anatomy_en
 date: 2020-04-22
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.2
 tags: [ner, en, clinical, licensed]
 article_header:
 type: cover
@@ -33,10 +36,12 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_anatomy", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter])
@@ -45,33 +50,30 @@ empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
 
-results = model.transform(spark.createDataFrame(pd.DataFrame({"text": [
-    """This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.
+results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.
 General: Well-developed female, in no acute distress, afebrile.
 HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist.
 Neck: No lymphadenopathy.
 Chest: Clear.
 Abdomen: Positive bowel sounds and soft.
-Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."""
-]})))
-
+Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."""]})))
 ```
 
 ```scala
 ...
-
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token"))
+  .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_anatomy", "en", "clinical/models")
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
-
 ...
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty["""This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.
+val result = pipeline.fit(Seq.empty["This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.
 General: Well-developed female, in no acute distress, afebrile.
-HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist. Neck: No lymphadenopathy. Chest: Clear. Abdomen: Positive bowel sounds and soft. Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."""].toDS.toDF("text")).transform(data)
-
+HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist. Neck: No lymphadenopathy. Chest: Clear. Abdomen: Positive bowel sounds and soft. Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."].toDS.toDF("text")).transform(data)
 ```
 
 </div>
