@@ -23,7 +23,7 @@ val sparkVer = getSparkVersion(is_spark23, is_spark30)
 
 /** ------- Scala version start ------- */
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.13"
+lazy val scala212 = "2.12.10"
 lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
 
 lazy val supportedScalaVersions = List(scala212, scala211)
