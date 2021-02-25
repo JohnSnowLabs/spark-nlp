@@ -2357,11 +2357,15 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
 | pageIteratorLevel | [PageIteratorLevel](ocr_structures#pageiteratorlevel) | BLOCK | page iteration level |
 | ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY| OCR engine mode |
-| language | string | eng | language |
+| language | [Language](ocr_structures#language) | Language.ENG | language |
 | confidenceThreshold | int | 0 | Confidence threshold. |
 | ignoreResolution | bool | true | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 | pdfCoordinates | bool | false | Transform coordinates in positions to PDF points. |
+| modelData | string | | Path to the local model data. |
+| modelType | [ModelType](ocr_structures#modeltype) | ModelType.BASE | Model type|
+| downloadModelData | bool | false | Download model data from JSL S3 |
+| withSpaces | bool | false | Include spaces to output positions.|
 
 #### Output Columns
 
@@ -2369,7 +2373,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | text | Recognized text |
-| positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) | 
+| positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) in [PageMatrix](ocr_structures#pagematrix) | 
 
 **Example:**
 
