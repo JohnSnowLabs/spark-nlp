@@ -23,6 +23,7 @@ Spark OCR is built on top of ```Apache Spark``` and offers the following capabil
   - Removing background objects
 - Text recognition, by combining NLP and OCR pipelines:
   - Extracting text from images (optical character recognition)
+  - Support English, German, French, Spanish and Russian languages
   - Extracting data from tables
   - Recognizing and highlighting named entities in PDF documents
   - Masking sensitive text in order to de-identify images
