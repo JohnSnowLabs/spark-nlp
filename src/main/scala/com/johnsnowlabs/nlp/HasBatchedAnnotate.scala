@@ -25,12 +25,12 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     * @group getParam
     * */
   def getBatchSize: Int = {
-    val recommended = $(batchSize) / 8
-    if (recommended < 2) 2 else if (recommended > 32) 32 else recommended
+    val recommended = $(batchSize)
+    require(recommended <= 0, "batchSize must be greater than 0")
+    recommended
   }
 
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
-    println(s"Batch processing $this with batch size $getBatchSize")
     rows.grouped(getBatchSize).flatMap { case batchedRows: Seq[Row] =>
       val inputAnnotations = batchedRows.map(row => {
         getInputCols.flatMap(inputCol => {
