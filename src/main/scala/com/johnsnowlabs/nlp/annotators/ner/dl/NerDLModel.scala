@@ -64,7 +64,8 @@ class NerDLModel(override val uid: String)
   val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
   setDefault(
-    includeConfidence -> false
+    includeConfidence -> false,
+    batchSize -> 8
   )
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
