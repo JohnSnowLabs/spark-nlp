@@ -148,7 +148,7 @@ class BertEmbeddings(override val uid: String)
 
   setDefault(
     dimension -> 768,
-    batchSize -> 32,
+    batchSize -> 8,
     maxSentenceLength -> 128,
     caseSensitive -> false
   )
