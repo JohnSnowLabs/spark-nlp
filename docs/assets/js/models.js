@@ -348,9 +348,7 @@
       context: {},
     });
 
-    const [params, setParams] = useState({
-      edition: editions[0],
-    });
+    const [params, setParams] = useState({});
 
     useEffect(() => {
       setState({
@@ -677,6 +675,19 @@
               })
               .map((edition) =>
                 e('option', { key: edition, value: edition }, edition)
+              )
+              .reduce(
+                (acc, item) => {
+                  acc.push(item);
+                  return acc;
+                },
+                [
+                  e(
+                    'option',
+                    { key: 'all', value: '' },
+                    'All Spark NLP versions'
+                  ),
+                ]
               )
           ),
           e(
