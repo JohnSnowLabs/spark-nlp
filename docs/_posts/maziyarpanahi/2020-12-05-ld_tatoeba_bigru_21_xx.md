@@ -35,7 +35,7 @@ This model can detect the following languages:
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -46,6 +46,7 @@ languagePipeline = Pipeline(stages=[documentAssembler, sentenceDetector, languag
 light_pipeline = LightPipeline(languagePipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 result = light_pipeline.fullAnnotate("Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.")
 ```
+
 ```scala
 ...
 val languageDetector = LanguageDetectorDL.pretrained("ld_tatoeba_bigru_21", "xx")
@@ -54,6 +55,16 @@ val languageDetector = LanguageDetectorDL.pretrained("ld_tatoeba_bigru_21", "xx"
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, languageDetector))
 val result = pipeline.fit(Seq.empty["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."]
+lang_df = nlu.load('xx.classify.wiki_21.bigru').predict(text, output_level='sentence')
+lang_df
+```
+
 </div>
 
 ## Results
