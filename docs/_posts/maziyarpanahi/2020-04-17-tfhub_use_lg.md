@@ -36,7 +36,7 @@ The details are described in the paper "[Universal Sentence Encoder](https://arx
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP", "Many thanks"]})))
 ```
@@ -46,7 +46,7 @@ result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
 val result = pipeline.fit(Seq.empty["I love NLP", "Many thanks"].toDS.toDF("text")).transform(data)
 ```
 
