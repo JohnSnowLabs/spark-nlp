@@ -25,23 +25,47 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_large_cased", "en") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer"]})))
 ```
 
 ```scala
-
+...
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_large_cased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["I hate cancer"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I hate cancer"]
+embeddings_df = nlu.load('en.embed.biobert.pubmed_large_cased').predict(text, output_level='token')
+embeddings_df
 ```
 
 </div>
+
+{:.h2_title}
+## Results
+```bash
+        token	en_embed_biobert_pubmed_large_cased_embeddings
+	
+	I	[-0.041047871112823486, 0.24242812395095825, 0...
+	hate	[-0.6859451532363892, -0.45743268728256226, -0...
+	cancer	[-0.12403186410665512, 0.6688604354858398, -0....
+```
 
 {:.model-param}
 ## Model Information
