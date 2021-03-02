@@ -54,12 +54,6 @@ nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sente
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate(["""A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.""", """When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced."""])
-
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

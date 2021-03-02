@@ -6,6 +6,7 @@
   padding: 20px;
   margin-bottom: 30px;
   display: block;
+  height: calc(100% - 30px);
 }
 
 .model-item__header {
@@ -26,6 +27,20 @@
 
 .model-item__content {
   padding: 20px;
+}
+
+.model-item__highlight {
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  & em {
+    font-weight: bold;
+    font-style: normal;
+  }
 }
 
 .model-item__tag {

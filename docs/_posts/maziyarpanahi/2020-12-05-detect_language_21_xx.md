@@ -33,24 +33,32 @@ This pipeline can detect the following languages:
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
 pipeline = PretrainedPipeline("detect_language_21", lang = "xx")
 
 pipeline.annotate("French author who helped pioneer the science-fiction genre.")
-
-
 ```
+
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline = new PretrainedPipeline("detect_language_21", lang = "xx")
 
 pipeline.annotate("French author who helped pioneer the science-fiction genre.")
-
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["French author who helped pioneer the science-fiction genre."]
+lang_df = nlu.load("xx.classify.lang.21").predict(text)
+lang_df
+```
+
 </div>
 
 ## Results
