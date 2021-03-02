@@ -33,48 +33,44 @@ Use as part of an nlp pipeline as a substitute for the Tokenizer stage.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
+...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")\
         .setInputCols(["sentence"])\
-        .setOutputCol("token")
-        
-pipeline = Pipeline(stages=[
-        document_assembler,
-        word_segmenter
-        ])
-
+        .setOutputCol("token")    
+pipeline = Pipeline(stages=[document_assembler, word_segmenter])
 ws_model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 example = spark.createDataFrame(pd.DataFrame({'text': ["""然而，這樣的處理也衍生了一些問題。"""]}))
-
 result = ws_model.transform(example)
 ```
+
 ```scala
-val document_assembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
-val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")\
-        .setInputCols(["sentence"])\
+...
+val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud_trad", "zh")
+        .setInputCols(Array("sentence"))
         .setOutputCol("token")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-
 val result = pipeline.fit(Seq.empty["然而，這樣的處理也衍生了一些問題。"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""然而，這樣的處理也衍生了一些問題。"""]
+token_df = nlu.load('zh.segment_words.gsd').predict(text)
+token_df
+```
+
 </div>
 
 ## Results
 
 ```bash
-+----------------------------------+--------------------------------------------------------+
-|text                              |result                                                  |
-+----------------------------------+--------------------------------------------------------+
-|然而 ， 這樣 的 處理 也 衍生 了 一些 問題 。|[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。]|
-+----------------------------------+--------------------------------------------------------+
++-----------------------------------------+-----------------------------------------------------------+
+|text                                     | result                                                    |
++-----------------------------------------+-----------------------------------------------------------+
+|然而 ， 這樣 的 處理 也 衍生 了 一些 問題 。 |[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。]      |
++-----------------------------------------+-----------------------------------------------------------+
 ```
 
 {:.model-param}
@@ -97,7 +93,7 @@ The model was trained on the [Universal Dependencies](https://universaldependenc
 ## Benchmarking
 
 ```bash
-| precision    | recall       | f1-score     |
-|---------------|--------------|--------------|--------------|
-| 0.7392  |      0.7754  |      0.7569  |
+| precision    | recall   | f1-score   |
+|--------------|----------|------------|
+| 0.7392       | 0.7754   | 0.7569     |
 ```
