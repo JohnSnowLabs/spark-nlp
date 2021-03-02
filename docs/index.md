@@ -116,6 +116,114 @@ data:
             url: https://databricks.com/
             style: ""
             is_row: true
+        - title: 
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/ArcGIS_logo.png/600px-ArcGIS_logo.png
+            url: https://www.esri.com/en-us/home
+            style: "padding: 20px;"
+            is_row: true
+        - title:
+          image:
+            src: https://i.pinimg.com/originals/cf/bc/c6/cfbcc6418a4e7ba4c780c101559ff9e1.jpg
+            url: https://www.shell.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Walmart_logo.svg/800px-Walmart_logo.svg.png
+            url: https://www.walmart.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/c/c2/Allianz_rgb_72.jpg
+            url: https://www.allianz.com/en.html
+            style: "padding: 17px;"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/DaimlerLogo.svg/1200px-DaimlerLogo.svg.png
+            url: https://www.daimler.com/en/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Nuance_Communications_logo_2018.svg/640px-Nuance_Communications_logo_2018.svg.png
+            url: https://www.nuance.com/index.html
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://www.thetradedesk.com/assets/global/ttd-logo.svg
+            url: https://www.thetradedesk.com/us
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://clarivate.com/wp-content/themes/clarivate/src/img/logo.svg
+            url: https://clarivate.com
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://www.ericsson.com/4915cd/assets/global/qbank/2018/02/14/e-con-vertical-1500x1500px-88604crop105012731273resize750750autoorientquality90stripbackground23ffffffextensionjpg.jpg
+            url: https://www.ericsson.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg
+            url: https://www.infosys.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Novartis-Logo.svg/800px-Novartis-Logo.svg.png
+            url: https://www.novartis.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Amgen.svg/1280px-Amgen.svg.png
+            url: https://www.amgen.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://aiuaeafbno.cloudimg.io/v7/https://www.providence.org/-/media/200x38/6294B19C274A30A9861AFB9AB9BE7C4F/Project/psjh/providence/socal/Images/Logos/providence_color_small.png
+            url: https://www.providence.org/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://cdn-static.findly.com/wp-content/uploads/sites/803/2019/03/Highmarkhealth.jpg
+            url: http://www.highmarkhealth.org/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/1280px-Oracle_logo.svg.png
+            url: https://www.oracle.com/index.html
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Deloitte.svg/1024px-Deloitte.svg.png
+            url: https://www2.deloitte.com/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/L%27Or%C3%A9al_logo.svg/1280px-L%27Or%C3%A9al_logo.svg.png
+            url: https://www.loreal.com/en/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://www.idexx.com/static/img/logo/logo.47b5fefbb6b3.svg
+            url: https://www.idexx.com/en/
+            style: ""
+            is_row: true
         - title:
           image:
             src: https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Verizon_2015_logo_-vector.svg/500px-Verizon_2015_logo_-vector.svg.png
@@ -225,7 +333,43 @@ data:
             src: https://upload.wikimedia.org/wikipedia/commons/5/57/Stanford_logo_%282008-2012%29.png
             url: https://www.stanford.edu/
             style: ""
-            is_row: true    
+            is_row: true 
+        - title:
+          image:
+            src: https://www.iisc.ac.in/wp-content/uploads/2020/08/IISc_Master_Seal_Black_Transparent.png
+            url: https://www.iisc.ac.in/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Columbia_University_shield.svg/1200px-Columbia_University_shield.svg.png
+            url: https://www.columbia.edu/
+            style: "padding: 25px;"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/en/thumb/7/79/University_of_Chicago_shield.svg/1200px-University_of_Chicago_shield.svg.png
+            url: https://www.uchicago.edu/
+            style: "padding: 29px;"
+            is_row: true
+        - title:
+          image:
+            src: https://i.pinimg.com/originals/be/30/48/be304864a1e2a400320041cffb5acb3f.png
+            url: https://www.ox.ac.uk/
+            style: "padding: 29px;"
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/1/1f/UniversiteParis_logo_horizontal_couleur_RVB.png
+            url: https://u-paris.fr/en/
+            style: ""
+            is_row: true
+        - title:
+          image:
+            src: https://upload.wikimedia.org/wikipedia/commons/f/f9/Logo_Med_Uni_Graz.png
+            url: https://www.medunigraz.at/
+            style: "padding: 20px;"
+            is_row: true  
           
     - title: <h4 class="h4_title white">Active Community Support</h4>
       theme: dark
