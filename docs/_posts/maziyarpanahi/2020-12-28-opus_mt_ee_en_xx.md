@@ -32,7 +32,7 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\ 
  .setInputCol("text")\ 
@@ -67,6 +67,16 @@ val marian = MarianTransformer.pretrained("opus_mt_ee_en", "xx")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentence, marian))
 val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["text to translate"]
+opus_df = nlu.load('xx.ee.marian.translate_to.en').predict(text, output_level='sentence')
+opus_df
+```
+
 </div>
 
 {:.model-param}
