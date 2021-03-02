@@ -25,23 +25,46 @@ XLNet is a new unsupervised language representation learning method based on a n
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 embeddings = XlnetEmbeddings.pretrained("xlnet_large_cased", "en") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP"]})))
 ```
 
 ```scala
-
+...
 val embeddings = XlnetEmbeddings.pretrained("xlnet_large_cased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["I love NLP"].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP"]
+embeddings_df = nlu.load('en.embed.xlnet_large_cased').predict(text, output_level='token')
+embeddings_df
+```
 </div>
+
+{:.h2_title}
+## Results
+```bash
+	token	en_embed_xlnet_large_cased_embeddings
+	
+	I	[0.9742076396942139, -0.6181889772415161, 0.45...
+	love	[-0.7322277426719666, -1.7254987955093384, -0....
+	NLP	[1.6873085498809814, -0.8617655038833618, 0.46...
+```
 
 {:.model-param}
 ## Model Information
