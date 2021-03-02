@@ -18,17 +18,17 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     *
     * @group setParam
     * */
-  def setBatchSize(size: Int): this.type = set(this.batchSize, size)
+  def setBatchSize(size: Int): this.type = {
+    val recommended = $(batchSize)
+    require(recommended <= 0, "batchSize must be greater than 0")
+    set(this.batchSize, recommended)
+  }
 
   /** Size of every batch.
     *
     * @group getParam
     * */
-  def getBatchSize: Int = {
-    val recommended = $(batchSize)
-    require(recommended <= 0, "batchSize must be greater than 0")
-    recommended
-  }
+  def getBatchSize: Int = $(batchSize)
 
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
     rows.grouped(getBatchSize).flatMap { case batchedRows: Seq[Row] =>
