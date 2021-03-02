@@ -71,11 +71,6 @@ spam_df = nlu.load('classify.spam.use').predict(text, output_level='document')
 spam_df[["document", "spam"]]
 ```
 
-{:.nlu-block}
-```python
-
-```
-
 </div>
 
 ## Results

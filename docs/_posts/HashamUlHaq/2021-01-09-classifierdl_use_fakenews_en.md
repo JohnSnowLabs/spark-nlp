@@ -70,11 +70,6 @@ fake_df = nlu.load('classify.fakenews.use').predict(text, output_level='document
 fake_df[["document", "fakenews"]]
 ```
 
-{:.nlu-block}
-```python
-
-```
-
 </div>
 
 ## Results
