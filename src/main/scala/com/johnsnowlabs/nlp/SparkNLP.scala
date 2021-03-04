@@ -13,7 +13,7 @@ object SparkNLP {
   val MavenGpuSpark23 = s"com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:$currentVersion"
 
   /**
-    *
+    * Start SparkSession with Spark NLP
     * @param gpu start Spark NLP with GPU
     * @param spark23 start Spark NLP on Apache Spark 2.3.x
     * @param spark24 start Spark NLP on Apache Spark 2.4.x
