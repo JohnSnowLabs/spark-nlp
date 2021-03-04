@@ -8,6 +8,7 @@ task: [Pipeline Public, Language Detection, Sentence Detection]
 language: xx
 edition: Spark NLP 2.7.0
 tags: [language_detection, open_source, pipeline, xx]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

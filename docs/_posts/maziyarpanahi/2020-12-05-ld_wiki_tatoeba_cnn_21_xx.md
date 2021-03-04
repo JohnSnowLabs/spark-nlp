@@ -8,6 +8,7 @@ task: Language Detection
 language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, language_detection, xx]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
