@@ -10,6 +10,7 @@ date: 2020-07-08
 task: Named Entity Recognition
 edition: Spark NLP for Healthcare 2.4.2
 tags: [clinical,licensed,ner,deidentify,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
