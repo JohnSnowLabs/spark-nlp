@@ -8,6 +8,7 @@ task: Translation
 language: gem
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, gem, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

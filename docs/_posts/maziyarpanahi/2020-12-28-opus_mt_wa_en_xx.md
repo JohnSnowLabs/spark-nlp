@@ -8,6 +8,7 @@ task: Translation
 language: wa
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, wa, en, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

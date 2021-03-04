@@ -8,6 +8,7 @@ task: Translation
 language: id
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, id, en, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
