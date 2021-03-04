@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 2.6.5
 tags: [classifier, en, clinical, licensed]
+supported: true
 article_header:
     type: cover
 use_language_switcher: "Python-Scala-Java"

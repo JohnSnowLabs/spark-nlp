@@ -10,6 +10,7 @@ date: 2020-06-20
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.1
 tags: [clinical,licensed,entity_resolution,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

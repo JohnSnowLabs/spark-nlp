@@ -8,6 +8,7 @@ language: en
 repository: clinical/models
 date: 2020-01-31
 tags: [ner, clinical, licensed]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
