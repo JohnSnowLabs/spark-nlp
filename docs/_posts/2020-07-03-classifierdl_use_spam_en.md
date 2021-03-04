@@ -10,6 +10,7 @@ date: 03/07/2020
 task: Text Classification
 edition: Spark NLP 2.5.3
 tags: [classifier]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
