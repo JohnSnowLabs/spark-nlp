@@ -323,3 +323,4 @@ tst_shortcut_sd/
 src/*/resources/*.classes
 /word_segmenter_metrics/
 /special_class.ser
+.bsp/sbt.json
