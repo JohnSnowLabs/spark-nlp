@@ -5,26 +5,25 @@ val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
 val spark30Ver = "3.0.1"
 
-val is_gpu = System.getProperty("is_gpu","false")
-val is_opt = System.getProperty("is_opt","false")
-val is_spark23 = System.getProperty("is_spark23","false")
-//TODO breaking with older spark Why???
-val is_spark30 = System.getProperty("is_spark30","false")
+val is_gpu = System.getProperty("is_gpu", "false")
+val is_opt = System.getProperty("is_opt", "false")
+val is_spark23 = System.getProperty("is_spark23", "false")
+val is_spark24 = System.getProperty("is_spark24", "false")
 
-def getSparkVersion(is_spark23: String, is_spark30: String): String = {
-  if(is_spark30 == "true") spark30Ver
+def getSparkVersion(is_spark23: String, is_spark24: String): String = {
+  if(is_spark24 == "true") spark24Ver
   else
-    if(is_spark23=="false") spark24Ver
-    else spark23Ver
+    if(is_spark23=="true") spark23Ver
+    else spark30Ver
 }
 
-val sparkVer = getSparkVersion(is_spark23, is_spark30)
+val sparkVer = getSparkVersion(is_spark23, is_spark24)
 /** ------- Spark version end ------- */
 
 /** ------- Scala version start ------- */
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.10"
-lazy val scalaVer = if(is_spark30 =="true") scala212 else scala211
+lazy val scalaVer = if(is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
 
 lazy val supportedScalaVersions = List(scala212, scala211)
 
@@ -34,23 +33,23 @@ val scalaTestVersion = "3.0.0"
 
 /** Package attributes */
 
-def getPackageName(is_spark23: String, is_spark30: String, is_gpu: String): String = {
+def getPackageName(is_spark23: String, is_spark24: String, is_gpu: String): String = {
   if (is_gpu.equals("true") && is_spark23.equals("true")){
     "spark-nlp-gpu-spark23"
-  }else if (is_gpu.equals("true") && is_spark30.equals("true")){
-    "spark-nlp-gpu-spark30"
-  }else if (is_gpu.equals("true") && is_spark30.equals("false")){
+  }else if (is_gpu.equals("true") && is_spark24.equals("true")){
+    "spark-nlp-gpu-spark24"
+  }else if (is_gpu.equals("true") && is_spark24.equals("false")){
     "spark-nlp-gpu"
   }else if (is_gpu.equals("false") && is_spark23.equals("true")){
     "spark-nlp-spark23"
-  }else if (is_gpu.equals("false") && is_spark30.equals("true")){
-    "spark-nlp-spark30"
+  }else if (is_gpu.equals("false") && is_spark24.equals("true")){
+    "spark-nlp-spark24"
   }else{
     "spark-nlp"
   }
 }
 
-name:= getPackageName(is_spark23, is_spark30, is_gpu)
+name:= getPackageName(is_spark23, is_spark24, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
