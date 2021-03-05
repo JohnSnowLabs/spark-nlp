@@ -4,10 +4,11 @@ title: Detect actions in general commands related to music, restaurant, movies.
 author: John Snow Labs
 name: nerdl_snips_100d
 date: 2021-02-15
-tags: [open_source, ner, en]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 2.7.3
+tags: [open_source, ner, en]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

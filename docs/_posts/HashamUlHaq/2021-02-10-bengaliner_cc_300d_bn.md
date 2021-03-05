@@ -4,10 +4,11 @@ title: Named Entity Recognition (NER) Model in Bengali (bengaliner_cc_300d)
 author: John Snow Labs
 name: bengaliner_cc_300d
 date: 2021-02-10
-tags: [open_source, bn, ner]
 task: Named Entity Recognition
 language: bn
 edition: Spark NLP 2.7.3
+tags: [open_source, bn, ner]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
