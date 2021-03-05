@@ -8,6 +8,7 @@ task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 2.7.1
 tags: [en, relation_extraction, clinical, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -8,6 +8,7 @@ task: Question Answering
 language: en
 edition: Spark NLP 2.7.0
 tags: [open_source, t5, en]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
