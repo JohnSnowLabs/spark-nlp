@@ -55,25 +55,25 @@ You can run these examples using Python or Scala.
 The easiest way to run the python examples is by starting a pyspark jupyter notebook including the spark-nlp package:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.5
 ```
 
 ```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.5
 ```
 
 ```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.5
 ```
 
 This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
 
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.4`
+**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.5`
 
 **NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
 
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.4`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.7.4`
+- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.5`
+- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.7.5`
 
 </div><div class="h3-box" markdown="1">
 
