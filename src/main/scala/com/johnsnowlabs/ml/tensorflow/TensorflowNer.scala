@@ -76,7 +76,7 @@ class TensorflowNer
               val scores = TensorResources.extractFloats(calculated.get(1))
               require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
               val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
-              val probs = exp.map(g => BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble)
+              val probs = exp.map(g => Option(BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble) getOrElse 0.0d)
               Some(probs)
             } else {
               None
