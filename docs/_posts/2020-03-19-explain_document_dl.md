@@ -8,6 +8,7 @@ task: [Sentence Detection, POS, Lemmatization, Pipeline Public, Spell Check]
 language: en
 edition: Spark NLP 2.5.5
 tags: [pipeline, en, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

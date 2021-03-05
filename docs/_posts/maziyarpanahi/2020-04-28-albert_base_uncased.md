@@ -8,6 +8,7 @@ task: Embeddings
 language: en
 edition: Spark NLP 2.5.0
 tags: [embeddings, en, open_source]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

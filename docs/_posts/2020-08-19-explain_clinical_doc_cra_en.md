@@ -10,6 +10,7 @@ date: 2020-08-19
 task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
 edition: Spark NLP for Healthcare 2.5.5
 tags: [clinical,licensed,pipeline,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
