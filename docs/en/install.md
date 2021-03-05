@@ -189,16 +189,14 @@ Spark NLP 2.7.4 has been tested and is compatible with the following runtimes: 6
 spark.kryoserializer.buffer.max 1000M
 spark.serializer org.apache.spark.serializer.KryoSerializer
 ```
+  
+3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-3. Check `Enable autoscaling local storage` box to have persistent local storage
-    
-4. In `Libraries` tab inside your cluster you need to follow these steps:
+    3.1. Insatll New -> PyPI -> `spark-nlp` -> Install
 
-    4.1. Insatll New -> PyPI -> `spark-nlp` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4` -> Install
 
-    4.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4` -> Install
-
-5. Now you can attach your notebook to the cluster and use Spark NLP!
+4. Now you can attach your notebook to the cluster and use Spark NLP!
 
 </div>
 <div class="h3-box" markdown="1">
