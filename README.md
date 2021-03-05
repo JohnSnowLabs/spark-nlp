@@ -184,8 +184,22 @@ Spark NLP 2.7.5 has been tested and is compatible with the following runtimes:
 
 Spark NLP 2.7.5 has been tested and is compatible with the following EMR releases:
 
-- 5.26.0
-- 5.27.0
+- emr-5.20.0
+- emr-5.21.0
+- emr-5.21.1
+- emr-5.22.0
+- emr-5.23.0
+- emr-5.24.0
+- emr-5.24.1
+- emr-5.25.0
+- emr-5.26.0
+- emr-5.27.0
+- emr-5.28.0
+- emr-5.29.0
+- emr-5.30.0
+- emr-5.30.1
+- emr-5.31.0
+- emr-5.32.0
 
 Full list of [EMR releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html).
 
