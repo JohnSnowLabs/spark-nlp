@@ -1,26 +1,86 @@
 ---
 layout: model
-title: Spark 3 compatible POS
+title: Part of Speech for English
 author: John Snow Labs
-name: pos_anc_spk3
+name: pos_anc
 date: 2021-03-05
-tags: [en, open_source]
+tags: [en, open_source, part of speech, pos]
 task: Part of Speech Tagging
 language: en
-edition: Spark NLP 2.7.4
+edition: Spark NLP 3.0.0+
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
-
 ## Description
+Part of Speech trained for English trained Pos Anc dataset. Predicts the following tags :
 
-Spark 3 compatible POS
+- IN
+- DT
+- NNP
+- NNS
+- JJ
+- NN
+- :
+- CD
+- ,
+- CC
+- .
+- (
+- VBG
+- VBD
+- )
+- VB
+- PRP
+- VBP
+- VBZ
+- VBN
+- TO
+- WDT
+- PRP$
+- RB
+- ''
+- MD
+- POS
+- JJS
+- WRB
+- UH
+- EX
+- WP
+- RP
+- JJR
+- $
+- PDT
+- LS
+- RBS
+- RBR
+- FW
+- WP$
+- NNPS
+- ...
+- `-`
+- UH`
+- `#`
+- SYM
+- ``
+- "
+- '
+- PRN
+- LRB
+- ;
+- <
+- `>`
+- PP
+- *
+- /
+- `one-time`
+- `--`
+
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_anc_spk3_en_2.7.4_2.4_1614962126490.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_anc_en_3.0.0_3.0_1614962126490.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -28,19 +88,88 @@ Spark 3 compatible POS
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
+
 ```python
-Spark 3 compatible POS
+document_assembler = DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+sentence_detector = SentenceDetector()
+  .setInputCols(["document"])
+  .setOutputCol("sentence")
+
+pos = PerceptronModel.pretrained("pos_anc", "en")
+  .setInputCols(["document", "token"])
+  .setOutputCol("pos")
+
+pipeline = Pipeline(stages=[
+  document_assembler,
+  sentence_detector,
+  posTagger
+])
+
+example = spark.createDataFrame(pd.DataFrame({'text': ["Hello from John Snow Labs!"]}))
+
+result = pipeline.fit(example).transform(example)
+
+
 ```
 
+```scala
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+val sentence_detector = SentenceDetector()
+        .setInputCols(["document"])
+.setOutputCol("sentence")
+
+val pos = PerceptronModel.pretrained("pos_anc", "en")
+        .setInputCols(Array("document", "token"))
+        .setOutputCol("pos")
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
+
+val result = pipeline.fit(Seq.empty["Hello from John Snow Labs!"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+text = ["Hello from John Snow Labs!"]
+pos_df = nlu.load('en.pos.anc').predict(text, output_level = "token")
+pos_df
+```
+
+
 </div>
+
+{:.h2_title}
+## Results
+
+```bash
++----------+----------+
+|token_result|pos_result|
++----------+----------+
+|Hello     |UH        |
+|from      |IN        |
+|John      |NNP       |
+|Snow      |NNP       |
+|Labs      |NNP       |
+|!         |.         |
++----------+----------+
+```
+
+
 
 {:.model-param}
 ## Model Information
 
 {:.table-model}
 |---|---|
-|Model Name:|pos_anc_spk3|
-|Compatibility:|Spark NLP 2.7.4+|
+|Model Name:|pos_anc|
+|Compatibility:|Spark NLP 3.0.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document, token]|
