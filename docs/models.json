@@ -8,6 +8,10 @@ limit: 1000
       "title": "{{ post.title }}",
       "date"     : "{{ post.date | date: "%B %d, %Y" }}",
       "name": "{{post.name}}",
+      "class":"{{post.class}}",
+      "language":"{{post.language}}",
+      "task":"{{post.task}}",
+      "edition":"{{post.edition}}",
       {% if post.categories %} "categories"  : [
         {% for category in post.categories %} "{{ category }}"
         {% if forloop.last %}{% else %},{% endif %}

@@ -1,4 +1,17 @@
 ========
+2.7.5
+========
+----------------
+Bugfixes
+----------------
+* Fix BigDecimal error in NerDL when includeConfidence is true
+
+----------------
+Enhancements
+----------------
+* Shade Hadoop AWS and AWS Java SDK dependencies
+
+========
 2.7.4
 ========
 ----------------
