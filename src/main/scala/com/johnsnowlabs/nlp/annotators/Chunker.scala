@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.StringArrayParam
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -27,7 +27,7 @@ import scala.util.matching.Regex
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class Chunker(override val uid: String) extends AnnotatorModel[Chunker] {
+class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with HasSimpleAnnotate[Chunker] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

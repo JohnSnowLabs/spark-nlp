@@ -47,7 +47,7 @@ class RecursiveTestSpec extends FlatSpec {
         assert(recursivePipeline.get.stages.head.isInstanceOf[DocumentAssembler], "because train has not received a document assembler")
         assert(recursivePipeline.get.stages(1).isInstanceOf[TokenizerModel], "because train has not received a document assembler")
 
-        new SomeModel() {
+        new SomeModel() with HasSimpleAnnotate[SomeModel] {
           override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
             annotations
           }
@@ -71,7 +71,7 @@ class RecursiveTestSpec extends FlatSpec {
   "Recursive Model" should "receive annotator models in the pipeline" taggedAs FastTest in {
     import com.johnsnowlabs.nlp.recursive._
 
-    val someModel = new SomeModel() {
+    val someModel = new SomeModel() with HasSimpleAnnotate[SomeModel] {
       override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
         assert(annotations.nonEmpty, "because received no annotations to annotate")
         assert(annotations.map(_.annotatorType).toSet.size == 1, "because did not get exactly DOCUMENT type annotations")
@@ -105,7 +105,7 @@ class RecursiveTestSpec extends FlatSpec {
 
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
 
-    val someModel = new SomeModel() {
+    val someModel = new SomeModel() with HasSimpleAnnotate[SomeModel] {
 
       override def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation] = {
 
@@ -140,7 +140,7 @@ class RecursiveTestSpec extends FlatSpec {
 
     val lazyTokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").setLazyAnnotator(true)
 
-    val someModel = new SomeModel() {
+    val someModel = new SomeModel() with HasSimpleAnnotate[SomeModel] {
       override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
         throw new IllegalStateException("SomeModel does not accept annotate without recursion")
       }

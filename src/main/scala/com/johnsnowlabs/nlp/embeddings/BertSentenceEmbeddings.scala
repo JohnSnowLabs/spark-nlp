@@ -47,12 +47,13 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class BertSentenceEmbeddings(override val uid: String) extends
-  AnnotatorModel[BertSentenceEmbeddings]
-  with WriteTensorflowModel
-  with HasEmbeddingsProperties
-  with HasStorageRef
-  with HasCaseSensitiveProperties {
+class BertSentenceEmbeddings(override val uid: String)
+  extends AnnotatorModel[BertSentenceEmbeddings]
+    with HasSimpleAnnotate[BertSentenceEmbeddings]
+    with WriteTensorflowModel
+    with HasEmbeddingsProperties
+    with HasStorageRef
+    with HasCaseSensitiveProperties {
 
   def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
