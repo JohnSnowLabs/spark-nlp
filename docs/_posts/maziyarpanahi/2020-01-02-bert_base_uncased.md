@@ -8,6 +8,7 @@ task: Embeddings
 language: en
 edition: Spark NLP 2.4.0
 tags: [open_source, embeddings, en]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -25,23 +26,47 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 embeddings = BertEmbeddings.pretrained("bert_base_uncased", "en") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP"]})))
 ```
 
 ```scala
-
+...
 val embeddings = BertEmbeddings.pretrained("bert_base_uncased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["I love NLP"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP"]
+embeddings_df = nlu.load('en.embed.bert').predict(text, output_level='token')
+embeddings_df
 ```
 
 </div>
+
+{:.h2_title}
+## Results
+```bash
+	token	en_embed_bert_embeddings
+		
+	I	[0.5920650362968445, 0.18827693164348602, 0.12...
+	love	[1.2889715433120728, 0.8475795388221741, 0.720...
+	NLP	[0.21503107249736786, -0.9925870299339294, 1.0...
+```
 
 {:.model-param}
 ## Model Information

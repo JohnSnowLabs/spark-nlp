@@ -10,6 +10,7 @@ date: 2019-04-30
 task: Part of Speech Tagging
 edition: Spark NLP for Healthcare 2.0.2
 tags: [clinical, licensed, pos,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

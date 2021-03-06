@@ -70,11 +70,6 @@ sarcasm_df = nlu.load('classify.sarcasm.use').predict(text, output_level='docume
 sarcasm_df[["document", "sarcasm"]]
 ```
 
-{:.nlu-block}
-```python
-
-```
-
 </div>
 
 ## Results

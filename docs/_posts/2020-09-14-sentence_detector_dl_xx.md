@@ -10,6 +10,7 @@ date: 2020-09-14
 task: Sentence Detection
 edition: Spark NLP 2.6.2
 tags: [open_source,sentence_detection,xx]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

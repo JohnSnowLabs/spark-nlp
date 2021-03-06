@@ -8,6 +8,7 @@ task: Embeddings
 language: xx
 edition: Spark NLP 2.7.0
 tags: [embeddings, open_source, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,23 +34,47 @@ Note: This model only works on Linux and macOS operating systems and is not comp
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
+...
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_xling_en_de", "xx") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP", "Ich benutze gerne SparkNLP"]})))
 ```
 ```scala
+...
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_xling_en_de", "xx")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
+val result = pipeline.fit(Seq.empty["I love NLP", "Ich benutze gerne SparkNLP"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP", "Ich benutze gerne SparkNLP"]
+embeddings_df = nlu.load('xx.use.xling_en_de').predict(text, output_level='sentence')
+embeddings_df
+```
+
 </div>
 
 ## Results
 
 It gives a 512-dimensional vector of the sentences.
+
+```bash
+        xx_use_xling_en_de_embeddings	                     sentence
+
+0	[-0.011391869746148586, -0.0591440312564373, -...    I love NLP
+1	[-0.06441862881183624, -0.05351972579956055, 0...    Ich benutze gerne SparkNLP
+```
 
 {:.model-param}
 ## Model Information
