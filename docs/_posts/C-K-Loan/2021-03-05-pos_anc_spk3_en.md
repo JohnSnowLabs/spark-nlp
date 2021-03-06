@@ -1,8 +1,8 @@
 ---
 layout: model
-title: Part of Speech trained for English trained Pos Anc dataset
+title: Part of Speech for English
 author: John Snow Labs
-name: pos_anc_spk3
+name: pos_anc
 date: 2021-03-05
 tags: [en, open_source, part of speech, pos]
 task: Part of Speech Tagging
@@ -80,7 +80,7 @@ Part of Speech trained for English trained Pos Anc dataset. Predicts the followi
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_anc_spk3_en_2.7.4_2.4_1614962126490.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_anc_en_3.0.0_3.0_1614962126490.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
