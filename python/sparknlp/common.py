@@ -88,6 +88,17 @@ class HasStorageRef:
         return self.getOrDefault("storageRef")
 
 
+class HasBatchedAnnotate:
+
+    batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
+
+    def setBatchSize(self, v):
+        return self._set(batchSize=v)
+
+    def getBatchSize(self):
+        return self.getOrDefault("batchSize")
+
+
 class HasCaseSensitiveProperties:
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",

@@ -303,7 +303,7 @@ class NerDLApproach(override val uid: String)
       train.limit(0) // keep the schema only
     }
     else {
-      ResourceHelper.readParquetSparkDatFrame($(testDataset))
+      ResourceHelper.readParquetSparkDataFrame($(testDataset))
     }
 
 

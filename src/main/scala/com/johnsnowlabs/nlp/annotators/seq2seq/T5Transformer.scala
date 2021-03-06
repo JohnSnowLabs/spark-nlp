@@ -3,8 +3,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
-
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
@@ -14,6 +13,7 @@ import java.io.File
 
 class T5Transformer(override val uid: String)
   extends AnnotatorModel[T5Transformer]
+    with HasSimpleAnnotate[T5Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteSentencePieceModel {

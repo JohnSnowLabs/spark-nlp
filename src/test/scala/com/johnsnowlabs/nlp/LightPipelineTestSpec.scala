@@ -57,12 +57,12 @@ class LightPipelineTestSpec extends FlatSpec {
         sentimentDetector
       ))
 
-    val model: PipelineModel = pipeline.fit(data)
+    lazy val model: PipelineModel = pipeline.fit(data)
 
-    val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
+    lazy val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000).repartition()
 
-    val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
-    val text = "hello world, this is some sentence"
+    lazy val textArray: Array[String] = textDF.select("text").as[String].collect()
+    lazy val text = "hello world, this is some sentence"
   }
 
   def fixtureWithoutNormalizer = new {
@@ -103,12 +103,12 @@ class LightPipelineTestSpec extends FlatSpec {
         sentimentDetector
       ))
 
-    val model: PipelineModel = pipeline.fit(data)
+    lazy val model: PipelineModel = pipeline.fit(data)
 
-    val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
+    lazy val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
 
-    val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
-    val text = "hello world, this is some sentence"
+    lazy val textArray: Array[String] = textDF.select("text").as[String].collect
+    lazy val text = "hello world, this is some sentence"
   }
 
   "An LightPipeline with normalizer" should "annotate for each annotator" taggedAs FastTest in {
