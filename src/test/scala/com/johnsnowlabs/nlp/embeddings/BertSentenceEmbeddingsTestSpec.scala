@@ -3,10 +3,13 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
+import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest._
 
 import scala.collection.mutable
@@ -81,4 +84,44 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
 
   }
 
+  "BertSentenceEmbeddings" should "benchmark test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val conll = CoNLL()
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+      .setInputCols("sentence")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+      .setMaxSentenceLength(512)
+      .setBatchSize(16)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        embeddings
+      ))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_sentence_embeddings")
+    }
+
+    println("missing tokens/embeddings: ")
+    pipelineDF.withColumn("sentence_size", size(col("sentence")))
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("sentence_size") =!= col("embed_size"))
+      .select("sentence_size", "token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    val totalSentences = pipelineDF.select(explode($"sentence.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total sentences: $totalSentences")
+    println(s"total embeddings: $totalEmbeddings")
+
+    assert(totalSentences == totalEmbeddings)
+  }
 }
