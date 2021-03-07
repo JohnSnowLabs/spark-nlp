@@ -144,7 +144,7 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
         spell.fit(trainDataSet)
       }
 
-      val expectedErrorMessage = caught match{
+      val expectedErrorMessage = caught match {
         case ex: AnalysisException => "need an array field but got string" // Spark 3.x
         case ex: IllegalArgumentException => "Train dataset must have an array annotation type column" // Spark 2.x
         case _ => new Exception("Unknown exception. Please check Spark version for correct handling.")
