@@ -3,7 +3,7 @@ import sbtassembly.MergeStrategy
 /** ------- Spark version start ------- */
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
-val spark30Ver = "3.0.1"
+val spark30Ver = "3.1.1"
 
 val is_gpu = System.getProperty("is_gpu", "false")
 val is_opt = System.getProperty("is_opt", "false")
