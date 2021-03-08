@@ -8,6 +8,7 @@ task: Embeddings
 language: ar
 edition: Spark NLP 2.7.0
 tags: [embeddings, ar, open_source]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
