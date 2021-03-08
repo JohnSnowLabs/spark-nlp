@@ -104,7 +104,7 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save BertEmbeddings results") {
+    Benchmark.time("Time to save BertSentenceEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_sentence_embeddings")
     }
 
