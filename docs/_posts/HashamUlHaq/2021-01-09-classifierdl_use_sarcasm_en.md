@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
 tags: [open_source, en, classifier]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

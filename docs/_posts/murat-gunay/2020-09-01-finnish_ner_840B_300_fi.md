@@ -8,6 +8,7 @@ task: Named Entity Recognition
 language: fi
 edition: Spark NLP 2.6.0
 tags: [ner, fi, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

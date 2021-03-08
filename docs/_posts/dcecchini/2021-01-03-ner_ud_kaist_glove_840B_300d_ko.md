@@ -8,6 +8,7 @@ task: Named Entity Recognition
 language: ko
 edition: Spark NLP 2.7.0
 tags: [ko, ner, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
