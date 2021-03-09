@@ -1862,7 +1862,11 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         HasStorageModel.loadStorages(path, spark, storage_ref, WordEmbeddingsModel.databases)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef, HasBatchedAnnotate):
+class BertEmbeddings(AnnotatorModel,
+                     HasEmbeddingsProperties,
+                     HasCaseSensitiveProperties,
+                     HasStorageRef,
+                     HasBatchedAnnotate):
 
     name = "BertEmbeddings"
 
@@ -1908,7 +1912,11 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
 
-class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class BertSentenceEmbeddings(AnnotatorModel,
+                             HasEmbeddingsProperties,
+                             HasCaseSensitiveProperties,
+                             HasStorageRef,
+                             HasBatchedAnnotate):
 
     name = "BertSentenceEmbeddings"
 
@@ -1916,11 +1924,6 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
                               "maxSentenceLength",
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     isLong = Param(Params._dummy(),
                    "isLong",
@@ -1938,9 +1941,6 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     def setIsLong(self, value):
         return self._set(isLong=value)
 
@@ -1952,7 +1952,7 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
         )
         self._setDefault(
             dimension=768,
-            batchSize=32,
+            batchSize=8,
             maxSentenceLength=128,
             caseSensitive=False
         )
