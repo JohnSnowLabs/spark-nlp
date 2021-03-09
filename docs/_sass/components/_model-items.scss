@@ -1,9 +1,7 @@
 .model-items.grid--container {
-  margin-top: 50px;
   margin-bottom: 10px;
 
   @media (min-width: 768px) {
-    margin-top: 70px;
     margin-bottom: 40px;
   }
 }
@@ -11,5 +9,12 @@
 .model-items__no-results {
   text-align: center;
   flex-grow: 1;
+  margin-top: 30px;
   margin-bottom: 30px;
+}
+
+.model-items__total-results {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: block;
 }
