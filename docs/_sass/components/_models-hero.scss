@@ -26,14 +26,13 @@
 
   @media (min-width: 768px) {
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-start;
     flex-wrap: nowrap;
   }
 }
 
 .models-hero__item--search {
-  display: none;
   width: 100%;
   margin-bottom: 30px;
 

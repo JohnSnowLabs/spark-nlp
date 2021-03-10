@@ -348,12 +348,14 @@
       context: {},
     });
 
-    const [params, setParams] = useState({
-      edition: editions[0],
-    });
+    const [params, setParams] = useState({});
 
     useEffect(() => {
-      setState({ ...state, value: 'loading' });
+      setState({
+        ...state,
+        value: 'loading',
+        context: { ...state.context, form: params.type },
+      });
       const mapping = {
         edition: 'edition_short',
       };
@@ -396,11 +398,9 @@
         return;
       }
       switch (event.type) {
-        case 'SUBMIT':
-          {
-            const { task, language, edition } = event;
-            setParams({ task, language, edition });
-          }
+        case 'FILTER':
+        case 'SEARCH':
+          setParams(event);
           break;
 
         case 'CHANGE_PAGE':
@@ -413,6 +413,8 @@
     };
     return [state, dispatch];
   };
+
+  const Spinner = () => e('i', { className: 'fas fa-circle-notch fa-spin' });
 
   const Pagination = ({ page, totalPages, onChange }) => {
     if (totalPages <= 1) {
@@ -500,8 +502,20 @@
     ]);
   };
 
-  const ModelItem = ({ title, url, task, language, edition, date }) => {
+  const ModelItem = ({
+    title,
+    url,
+    task,
+    language,
+    edition,
+    date,
+    supported,
+    highlight,
+  }) => {
     const getDisplayedLanguage = () => {
+      if (!language) {
+        return null;
+      }
       switch (language.length) {
         case 2:
           return languages[language] || language;
@@ -514,6 +528,11 @@
       }
     };
 
+    let body;
+    if (highlight && highlight.body && highlight.body[0]) {
+      body = highlight.body[0];
+    }
+
     const getDisplayedDate = () => {
       const [year, month] = date.split('-');
       return month + '.' + year;
@@ -523,32 +542,46 @@
       'div',
       { className: 'cell cell--12 cell--md-6 cell--lg-4' },
       e('div', { className: 'model-item' }, [
+        supported &&
+          e(
+            'div',
+            {
+              key: 'supported',
+              className: 'model-item__supported',
+            },
+            'Supported'
+          ),
         e(
           'div',
           { key: 'header', className: 'model-item__header' },
           e('a', { href: url, className: 'model-item__title', title }, title)
         ),
         e('div', { key: 'content', className: 'model-item__content' }, [
+          e('div', {
+            key: 'body',
+            className: 'model-item__highlight',
+            dangerouslySetInnerHTML: { __html: body },
+          }),
           e(ModelItemTag, {
-            key: 0,
+            key: 'date',
             icon: 'calendar-alt',
             name: 'Date',
             value: getDisplayedDate(),
           }),
           e(ModelItemTag, {
-            key: 0,
+            key: 'task',
             icon: 'edit',
             name: 'Task',
             value: Array.isArray(task) ? task.join(', ') : task,
           }),
           e(ModelItemTag, {
-            key: 1,
+            key: 'language',
             icon: 'flag',
             name: 'Language',
             value: getDisplayedLanguage(),
           }),
           e(ModelItemTag, {
-            key: 2,
+            key: 'edition',
             icon: 'clone',
             name: 'Edition',
             value: edition,
@@ -653,6 +686,19 @@
               .map((edition) =>
                 e('option', { key: edition, value: edition }, edition)
               )
+              .reduce(
+                (acc, item) => {
+                  acc.push(item);
+                  return acc;
+                },
+                [
+                  e(
+                    'option',
+                    { key: 'all', value: '' },
+                    'All Spark NLP versions'
+                  ),
+                ]
+              )
           ),
           e(
             'button',
@@ -661,14 +707,38 @@
               type: 'submit',
               className: 'button filter-form__button',
             },
-            isLoading ? '...' : 'Go'
+            isLoading ? e(Spinner) : 'Go'
           ),
         ]),
       ]
     );
   };
 
-  const SearchAndUpload = () => {
+  const SearchForm = ({ onSubmit, isLoading }) => {
+    return e(
+      'form',
+      {
+        className: 'search-form',
+        onSubmit,
+      },
+      e('input', {
+        type: 'text',
+        name: 'q',
+        className: 'search-form__input',
+        placeholder: 'Search models and pipelines',
+      }),
+      e(
+        'button',
+        {
+          className: 'button search-form__button',
+          type: 'submit',
+        },
+        isLoading ? e(Spinner) : 'Search'
+      )
+    );
+  };
+
+  const SearchAndUpload = ({ onSubmit, isLoading }) => {
     return e(
       'div',
       {
@@ -679,24 +749,7 @@
         {
           className: 'models-hero__item models-hero__item--search',
         },
-        e(
-          'form',
-          {
-            className: 'search-form',
-          },
-          e('input', {
-            type: 'text',
-            className: 'search-form__input',
-            placeholder: 'Search models and pipelines',
-          }),
-          e(
-            'button',
-            {
-              className: 'button search-form__button',
-            },
-            'Search'
-          )
-        )
+        e(SearchForm, { onSubmit, isLoading })
       ),
       e(
         'div',
@@ -731,7 +784,17 @@
           edition: { value: edition },
         },
       } = e;
-      send({ type: 'SUBMIT', task, language, edition });
+      send({ type: 'FILTER', task, language, edition });
+    };
+
+    const handleSearchSubmit = (e) => {
+      e.preventDefault();
+      const {
+        target: {
+          q: { value: q },
+        },
+      } = e;
+      send({ type: 'SEARCH', q });
     };
 
     const handleTaskChange = (e) => {
@@ -783,10 +846,14 @@
         key: 0,
         onSubmit: handleFilterSubmit,
         onTaskChange: handleTaskChange,
-        isLoading: state.value === 'loading',
+        isLoading: state.value === 'loading' && state.context.form === 'FILTER',
         isHealthcareOnly,
       }),
-      e(SearchAndUpload, { key: 1 }),
+      e(SearchAndUpload, {
+        key: 1,
+        onSubmit: handleSearchSubmit,
+        isLoading: state.value === 'loading' && state.context.form === 'SEARCH',
+      }),
       result,
     ]);
   };
