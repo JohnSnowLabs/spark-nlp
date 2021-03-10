@@ -8,6 +8,7 @@ task: Word Segmentation
 language: ko
 edition: Spark NLP 2.7.0
 tags: [open_source, word_segmentation, ko]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

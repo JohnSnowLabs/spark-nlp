@@ -8,6 +8,7 @@ task: Part of Speech Tagging
 language: ja
 edition: Spark NLP 2.7.0
 tags: [pos, ja, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

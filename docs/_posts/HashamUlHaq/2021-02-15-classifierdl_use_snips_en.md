@@ -4,10 +4,11 @@ title: Identify intent in general text - SNIPS dataset
 author: John Snow Labs
 name: classifierdl_use_snips
 date: 2021-02-15
-tags: [open_source, classifier, en]
 task: Text Classification
 language: en
 edition: Spark NLP 2.7.3
+tags: [open_source, classifier, en]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
