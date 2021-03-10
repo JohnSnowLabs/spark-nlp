@@ -153,7 +153,7 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "6.5.3",
-  "com.amazonaws" % "aws-java-sdk" % "1.7.4"
+  "com.amazonaws" % "aws-java-sdk" % "1.11.603"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
@@ -209,7 +209,8 @@ lazy val root = (project in file("."))
 val ShadedProtoBufVersion = "3.8.0"
 
 assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll
+  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll,
+  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll
 )
 
 assemblyMergeStrategy in assembly := {
