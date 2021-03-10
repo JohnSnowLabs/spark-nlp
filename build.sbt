@@ -81,7 +81,7 @@ resolvers in ThisBuild += "Another Maven" at "https://mvnrepository.com/artifact
 
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
-  ShadeRule.rename("com.amazonaws.**" -> "com.amazonawsShaded@1").inAll
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
   
 )
 
