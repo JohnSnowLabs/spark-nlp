@@ -509,6 +509,7 @@
     language,
     edition,
     date,
+    supported,
     highlight,
   }) => {
     const getDisplayedLanguage = () => {
@@ -541,6 +542,15 @@
       'div',
       { className: 'cell cell--12 cell--md-6 cell--lg-4' },
       e('div', { className: 'model-item' }, [
+        supported &&
+          e(
+            'div',
+            {
+              key: 'supported',
+              className: 'model-item__supported',
+            },
+            'Supported'
+          ),
         e(
           'div',
           { key: 'header', className: 'model-item__header' },
