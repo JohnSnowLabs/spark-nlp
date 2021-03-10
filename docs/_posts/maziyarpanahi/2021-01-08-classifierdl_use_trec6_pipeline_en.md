@@ -8,6 +8,7 @@ task: [Text Classification, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.1
 tags: [classifier, text_classification, en, open_source, pipeline]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

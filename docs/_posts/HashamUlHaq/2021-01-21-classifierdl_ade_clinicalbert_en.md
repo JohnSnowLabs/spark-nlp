@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 2.7.1
 tags: [en, licensed, classifier, clinical]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -58,11 +59,6 @@ nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sente
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate(["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"])
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

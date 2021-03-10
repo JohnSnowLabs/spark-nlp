@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
 tags: [open_source, en, classifier]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,11 +69,6 @@ import nlu
 text = ["""@Mira I just saw you on live t.v!!"""]
 emotion_df = nlu.load('en.classify.emotion.use').predict(text, output_level='document')
 emotion_df[["document", "emotion"]]
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

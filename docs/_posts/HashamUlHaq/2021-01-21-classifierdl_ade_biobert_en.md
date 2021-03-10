@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 2.7.1
 tags: [licensed, clinical, en, classifier]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -66,16 +67,6 @@ val classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
 val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"].toDS.toDF("text")).transform(data)
-```
-
-{:.nlu-block}
-```python
-
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

@@ -8,6 +8,7 @@ task: Language Detection
 language: xx
 edition: Spark NLP 2.7.0
 tags: [language_detection, open_source, xx]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,7 +36,7 @@ This model can detect the following languages:
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -53,6 +54,15 @@ val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_220", 
    .setOutputCol("language")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, languageDetector))
 val result = pipeline.fit(Seq.empty["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."]
+lang_df = nlu.load('xx.classify.wiki_220').predict(text, output_level='sentence')
+lang_df
 ```
 
 </div>

@@ -1265,7 +1265,49 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb       
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb  
+        - title: Detect Clinical Entities in Radiology Reports
+          id: detect_clinical_entities_in_radiology_reports
+          image: 
+              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports.svg
+          image2: 
+              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports_f.svg
+          excerpt: Automatically identify entities such as body parts, imaging tests, imaging results and diseases using a pre-trained Spark NLP model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
+        - title: Normalize Medication-related Phrases
+          id: normalize_medication-related_phrases
+          image: 
+              src: /assets/images/Normalize_Medication-related_Phrases.svg
+          image2: 
+              src: /assets/images/Normalize_Medication-related_Phrases_f.svg
+          excerpt: Normalize medication-related phrases such as dosage, form and strength, as well as abbreviations in text and named entities extracted by NER models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/DRUG_NORMALIZATION
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb
+        - title: Detect relations between body parts and clinical entities
+          id: detect_relations_between_body_parts_and_clinical_entities
+          image: 
+              src: /assets/images/Detect_relations.svg
+          image2: 
+              src: /assets/images/Detect_relations_f.svg
+          excerpt: Use pre-trained relation extraction models to extract relations between body parts and clinical entities.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb
       sparkocr: yes
       sparkocr: 
         - title: PDF to Text

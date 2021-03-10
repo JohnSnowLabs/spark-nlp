@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
 tags: [open_source, en, classifier]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,11 +69,6 @@ import nlu
 text = ["""Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton"""]
 fake_df = nlu.load('classify.fakenews.use').predict(text, output_level='document')
 fake_df[["document", "fakenews"]]
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

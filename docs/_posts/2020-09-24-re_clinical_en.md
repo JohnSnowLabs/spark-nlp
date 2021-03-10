@@ -10,6 +10,7 @@ date: 2020-09-24
 task: Relation Extraction
 edition: Spark NLP for Healthcare 2.5.5
 tags: [clinical,licensed,relation extraction,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

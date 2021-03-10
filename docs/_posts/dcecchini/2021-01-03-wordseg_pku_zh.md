@@ -8,6 +8,7 @@ task: Word Segmentation
 language: zh
 edition: Spark NLP 2.7.0
 tags: [open_source, word_segmentation, cn, zh]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,43 +33,35 @@ References:
 Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-model_name = 'wordseg_msr'
-lang = 'zh'
-
-document_assembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
-word_segmenter = WordSegmenterModel.pretrained(model_name, lang)\
+...
+word_segmenter = WordSegmenterModel.pretrained('wordseg_msr', 'zh')\
         .setInputCols("document")\
-        .setOutputCol("token")
-        
-pipeline = Pipeline(stages=[
-        document_assembler,
-        word_segmenter
-        ])
-
+        .setOutputCol("token")    
+pipeline = Pipeline(stages=[document_assembler, word_segmenter])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 example = spark.createDataFrame(pd.DataFrame({'text': ["""然而，这样的处理也衍生了一些问题。"""]}))
-
 result = model.transform(example)
-
 ```
 ```scala
-
 ...
-
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_pku", "zh")
         .setInputCols("document")
         .setOutputCol("token")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-
 val result = pipeline.fit(Seq.empty["然而，这样的处理也衍生了一些问题。"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""然而，这样的处理也衍生了一些问题。"""]
+ner_df = nlu.load('zh.segment_words.pku').predict(text, output_level='token')
+ner_df
+```
+
 </div>
 
 ## Results

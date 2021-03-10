@@ -8,6 +8,7 @@ task: Word Segmentation
 language: ko
 edition: Spark NLP 2.7.0
 tags: [open_source, word_segmentation, ko]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,38 +33,39 @@ References:
 Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
+...
 word_segmenter = WordSegmenterModel.pretrained('wordseg_kaist_ud', 'ko')\
         .setInputCols("document")\
         .setOutputCol("token")
-        
 pipeline = Pipeline(stages=[
         document_assembler,
         word_segmenter
         ])
-
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 example = spark.createDataFrame(pd.DataFrame({'text': ["""비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."""]}))
-
 result = model.transform(example)
 ```
+
 ```scala
 ...
-
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
         .setInputCols("document")
         .setOutputCol("token")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-
 val result = pipeline.fit(Seq.empty["비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."""]
+token_df = nlu.load('ko.segment_words').predict(text, output_level='token')
+token_df
+```
+
 </div>
 
 ## Results

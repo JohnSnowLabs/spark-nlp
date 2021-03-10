@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
 tags: [open_source, en]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -69,11 +70,6 @@ import nlu
 text = ["""Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now."""]
 spam_df = nlu.load('classify.spam.use').predict(text, output_level='document')
 spam_df[["document", "spam"]]
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

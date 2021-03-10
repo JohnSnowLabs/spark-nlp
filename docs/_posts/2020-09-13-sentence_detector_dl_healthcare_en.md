@@ -10,6 +10,7 @@ date: 2020-09-13
 task: Sentence Detection
 edition: Spark NLP for Healthcare 2.6.0
 tags: [clinical,sentence_detection,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

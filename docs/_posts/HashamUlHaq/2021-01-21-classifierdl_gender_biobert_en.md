@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP for Healthcare 2.7.1
 tags: [licensed, en, classifier, clinical]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -55,12 +56,6 @@ nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, biobert_embedding
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate("""social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.""")
-
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

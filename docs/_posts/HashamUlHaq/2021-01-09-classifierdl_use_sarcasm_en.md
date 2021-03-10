@@ -8,6 +8,7 @@ task: Text Classification
 language: en
 edition: Spark NLP 2.7.1
 tags: [open_source, en, classifier]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -68,11 +69,6 @@ import nlu
 text = ["""If I could put into words how much I love waking up at am on Tuesdays I would"""]
 sarcasm_df = nlu.load('classify.sarcasm.use').predict(text, output_level='document')
 sarcasm_df[["document", "sarcasm"]]
-```
-
-{:.nlu-block}
-```python
-
 ```
 
 </div>

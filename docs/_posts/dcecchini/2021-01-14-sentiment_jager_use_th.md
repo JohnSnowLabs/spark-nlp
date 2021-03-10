@@ -8,6 +8,7 @@ task: Sentiment Analysis
 language: th
 edition: Spark NLP 2.7.1
 tags: [sentiment, th, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,47 +32,42 @@ Analyze sentiment in reviews by classifying them as `positive` and `negative`. W
 Use in the pipeline with the pretrained multi-language `UniversalSentenceEncoder` annotator `tfhub_use_multi_lg`.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-
+...
 use = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx") \
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
-
 sentimentdl = SentimentDLModel.pretrained("sentiment_jager_use", "th")\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("sentiment")
-
-pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        use,
-        sentimentdl
-    ])
+pipeline = Pipeline(stages = [document_assembler, use, sentimentdl])
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555"]}))
 result = pipeline.fit(example).transform(example)
 ```
+
 ```scala
-val document_assembler = DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
+...
 val use = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
-    .setInputCols(["document"])
+    .setInputCols(Array("document")
     .setOutputCol("sentence_embeddings")
-
 val sentimentdl = SentimentDLModel.pretrained("sentiment_jager_use", "th")
-    .setInputCols(["sentence_embeddings"])
+    .setInputCols(Array("sentence_embeddings"))
     .setOutputCol("sentiment")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, use, sentimentdl))
-
 val result = pipeline.fit(Seq.empty["เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555"""]
+sentiment_df = nlu.load('th.classify.sentiment').predict(text)
+sentiment_df
+```
+
 </div>
 
 ## Results
@@ -80,7 +76,7 @@ val result = pipeline.fit(Seq.empty["เเพ้ตอนnctโผล่มา�
 +-------------------------------------+----------+
 |text                                 |result    |
 +-------------------------------------+----------+
-|เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555|[positive]|
+|เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555  |[positive] |
 +-------------------------------------+----------+
 ```
 

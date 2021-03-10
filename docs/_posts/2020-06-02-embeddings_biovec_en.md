@@ -10,6 +10,7 @@ date: 2020-06-02
 task: Embeddings
 edition: Spark NLP for Healthcare 2.5.0
 tags: [clinical,embeddings,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

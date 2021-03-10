@@ -8,6 +8,7 @@ task: Word Segmentation
 language: th
 edition: Spark NLP 2.7.0
 tags: [th, word_segmentation, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,38 +33,37 @@ References:
 Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
+...
 word_segmenter = WordSegmenterModel.pretrained('wordseg_best', 'th')\
         .setInputCols("document")\
-        .setOutputCol("token")
-        
-pipeline = Pipeline(stages=[
-        document_assembler,
-        word_segmenter
-        ])
-
+        .setOutputCol("token")       
+pipeline = Pipeline(stages=[document_assembler, word_segmenter])
 example = spark.createDataFrame(pd.DataFrame({'text': ["จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ"]}))
-
 result = pipeline.fit(example ).transform(example)
 ```
+
 ```scala
 val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
-
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_best", "th")
         .setInputCols("document")
         .setOutputCol("token")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-
 val result = pipeline.fit(Seq.empty["จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Mona Lisa เป็นภาพวาดสีน้ำมันในศตวรรษที่ 16 ที่สร้างโดย Leonardo จัดขึ้นที่พิพิธภัณฑ์ลูฟร์ในปารีส"""]
+token_df = nlu.load('th.segment_words').predict(text)
+token_df
+```
+
 </div>
 
 ## Results
