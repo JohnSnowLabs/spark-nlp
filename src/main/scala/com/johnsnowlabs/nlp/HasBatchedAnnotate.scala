@@ -19,8 +19,8 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     * @group setParam
     * */
   def setBatchSize(size: Int): this.type = {
-    val recommended = $(batchSize)
-    require(recommended <= 0, "batchSize must be greater than 0")
+    val recommended = size
+    require(recommended > 0, "batchSize must be greater than 0")
     set(this.batchSize, recommended)
   }
 
