@@ -103,7 +103,6 @@ Mean Average Precision  | 89.1  | 42.3      | 65.7    |
 
 - For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
 
-
 Language Pair  | en-es  | en-fr | en-ru | en-zh |
 ---------------|--------|-------|-------|-------|
 Precision@1    | 86.1   | 83.3  | 88.9  | 78.8  |
