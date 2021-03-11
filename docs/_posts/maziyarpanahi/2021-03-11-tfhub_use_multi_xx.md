@@ -83,9 +83,10 @@ It gives a 512-dimensional vector of the sentences
 This embeddings model is imported from [https://tfhub.dev/google/universal-sentence-encoder-multilingual/3](https://tfhub.dev/google/universal-sentence-encoder-multilingual/3)
 
 ## Benchmarking
-
+ - We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the [example notebook]
+ - 
 ```bash
- - We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the [example notebook](https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb) made available. Results are shown below:
+(https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb) made available. Results are shown below:
 
 ```bash
 STSBenchmark                       | dev    | test  |
@@ -107,5 +108,5 @@ Mean Average Precision  | 89.2  | 39.9      | 64.6    |
 Language Pair  | en-es  | en-fr | en-ru | en-zh |
 ---------------|--------|-------|-------|-------|
 Precision@1    | 85.8   | 82.7  | 87.4  | 79.5  |
-```
+
 ```
