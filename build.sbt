@@ -3,7 +3,7 @@ import sbtassembly.MergeStrategy
 /** ------- Spark version start ------- */
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
-val spark30Ver = "3.1.1"
+val spark30Ver = "3.0.2"
 
 val is_gpu = System.getProperty("is_gpu", "false")
 val is_opt = System.getProperty("is_opt", "false")
@@ -148,7 +148,7 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   "com.typesafe" % "config" % "1.3.0",
   "org.rocksdb" % "rocksdbjni" % "6.5.3",
-  "com.amazonaws" % "aws-java-sdk" % "1.11.603"
+  "com.amazonaws" % "aws-java-sdk-bundle" % "1.11.603"
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
