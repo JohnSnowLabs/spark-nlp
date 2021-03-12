@@ -64,7 +64,7 @@ def getJavaTarget(is_spark23: String, is_spark24: String): String = {
   }
 }
 
-scalacOptions in ThisBuild += getJavaTarget(is_spark23, is_spark24)
+scalacOptions in ThisBuild += "-target:jvm-1.8"
 
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
