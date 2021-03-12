@@ -56,6 +56,16 @@ version := "3.0.0-rc1"
 
 scalaVersion in ThisBuild := scalaVer
 
+def getJavaTarget(is_spark23: String, is_spark24: String): String = {
+  if (is_spark24.equals("true") || is_spark23.equals("true")) {
+    "-target:jvm-1.8"
+  } else {
+    ""
+  }
+}
+
+scalacOptions in ThisBuild += getJavaTarget(is_spark23, is_spark24)
+
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
