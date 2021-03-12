@@ -58,19 +58,6 @@ scalaVersion in ThisBuild := scalaVer
 
 scalacOptions in ThisBuild += "-target:jvm-1.8"
 
-/** DEPRECATED **/
-/** Spark-Package attributes */
-/*
-sparkVersion in ThisBuild := sparkVer
-spName in ThisBuild := "JohnSnowLabs/spark-nlp"
-sparkComponents in ThisBuild ++= Seq("mllib")
-spIncludeMaven in ThisBuild:= false
-spAppendScalaVersion := false
-ivyScala := ivyScala.value map {
-  _.copy(overrideScalaVersion = true)
-}
-*/
-
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
@@ -82,7 +69,7 @@ resolvers in ThisBuild += "Another Maven" at "https://mvnrepository.com/artifact
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
   ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
-  
+
 )
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
