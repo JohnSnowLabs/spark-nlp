@@ -204,8 +204,7 @@ lazy val root = (project in file("."))
 val ShadedProtoBufVersion = "3.8.0"
 
 assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll,
-  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll
+  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll
 )
 
 assemblyMergeStrategy in assembly := {
