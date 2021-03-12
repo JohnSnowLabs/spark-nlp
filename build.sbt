@@ -56,8 +56,6 @@ version := "3.0.0-rc1"
 
 scalaVersion in ThisBuild := scalaVer
 
-scalacOptions in ThisBuild += "-target:jvm-1.8"
-
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
@@ -123,7 +121,6 @@ developers in ThisBuild:= List(
 
 scalacOptions in (Compile, doc) ++= Seq(
   "-doc-title",
-  "-target:jvm-1.8",
   "Spark NLP " + version.value + " ScalaDoc"
 )
 target in Compile in doc := baseDirectory.value / "docs/api"
