@@ -68,8 +68,8 @@ final class NativeLibrary {
         // Extract the JNI's dependency
         String frameworkLibName =
                 getVersionedLibraryName(System.mapLibraryName("tensorflow_framework"));
-        if (frameworkLibName.equals("libtensorflow_framework.dylib")) frameworkLibName = "libtensorflow_framework.1.dylib";
-        if (frameworkLibName.equals("libtensorflow_framework.so")) frameworkLibName = "libtensorflow_framework.so.1";
+        if (frameworkLibName.equals("libtensorflow_framework.dylib")) frameworkLibName = "libtensorflow_framework.2.dylib";
+        if (frameworkLibName.equals("libtensorflow_framework.so")) frameworkLibName = "libtensorflow_framework.so.2";
         final String frameworkResourceName = makeResourceName(frameworkLibName);
         log("frameworkResourceName: " + frameworkResourceName);
         final InputStream frameworkResource =
