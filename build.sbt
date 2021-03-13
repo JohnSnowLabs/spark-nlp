@@ -52,7 +52,7 @@ name:= getPackageName(is_spark23, is_spark24, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "3.0.0-rc3"
+version := "3.0.0-rc6"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -169,21 +169,27 @@ lazy val typedDependencyParserDependencies = Seq(
 val tensorflowDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(
+      "org.tensorflow" % "tensorflow-java" % "0.2.0" pomOnly(),
+      "org.tensorflow" % "tensorflow-core" % "0.2.0" pomOnly(),
+      "org.tensorflow" % "tensorflow-framework" % "0.2.0",
       "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
-        exclude("com.fasterxml.jackson.core", "jackson-databind")
-    )
-  else if(is_opt.equals("true"))
-    Seq("org.tensorflow" % "tensorflow-core-platform-mkl" % "0.2.0"
-      exclude("com.fasterxml.jackson.core", "jackson-databind")
-      exclude("com.fasterxml.jackson.core", "jackson-core")
-      exclude("com.fasterxml.jackson.core", "jackson-annotations")
+        exclude("com.fasterxml.jackson.core", "jackson-databind"),
+      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "linux-x86_64-gpu",
+      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "windows-x86_64-gpu"
     )
   else
     Seq(
+      "org.tensorflow" % "tensorflow-java" % "0.2.0" pomOnly(),
+      "org.tensorflow" % "tensorflow-core" % "0.2.0" pomOnly(),
+      "org.tensorflow" % "tensorflow-framework" % "0.2.0",
       "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
         exclude("com.fasterxml.jackson.core", "jackson-databind")
         exclude("com.fasterxml.jackson.core", "jackson-core")
-        exclude("com.fasterxml.jackson.core", "jackson-annotations")
+        exclude("com.fasterxml.jackson.core", "jackson-annotations"),
+      "org.tensorflow" % "tensorflow-core-api" % "0.2.0",
+      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "linux-x86_64",
+      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "macosx-x86_64",
+      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "windows-x86_64"
     )
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
