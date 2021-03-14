@@ -10,25 +10,8 @@ val is_opt = System.getProperty("is_opt", "false")
 val is_spark23 = System.getProperty("is_spark23", "false")
 val is_spark24 = System.getProperty("is_spark24", "false")
 
-def getSparkVersion(is_spark23: String, is_spark24: String): String = {
-  if(is_spark24 == "true") spark24Ver
-  else
-    if(is_spark23=="true") spark23Ver
-    else spark30Ver
-}
-
 val sparkVer = getSparkVersion(is_spark23, is_spark24)
 /** ------- Spark version end ------- */
-
-/** ------- Scala version start ------- */
-lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.10"
-lazy val scalaVer = if(is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
-
-lazy val supportedScalaVersions = List(scala212, scala211)
-
-val scalaTestVersion = "3.0.0"
-/** ------- Scala version end ------- */
 
 
 /** Package attributes */
@@ -48,13 +31,12 @@ def getPackageName(is_spark23: String, is_spark24: String, is_gpu: String): Stri
   }
 }
 
-name:= getPackageName(is_spark23, is_spark24, is_gpu)
-
-organization:= "com.johnsnowlabs.nlp"
-
-version := "3.0.0-rc7"
-
-scalaVersion in ThisBuild := scalaVer
+def getSparkVersion(is_spark23: String, is_spark24: String): String = {
+  if(is_spark24 == "true") spark24Ver
+  else
+    if(is_spark23=="true") spark23Ver
+    else spark30Ver
+}
 
 def getJavaTarget(is_spark23: String, is_spark24: String): String = {
   if (is_spark24.equals("true") || is_spark23.equals("true")) {
@@ -64,15 +46,45 @@ def getJavaTarget(is_spark23: String, is_spark24: String): String = {
   }
 }
 
+/** ------- Scala version start ------- */
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.10"
+lazy val scalaVer = if(is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
+
+lazy val supportedScalaVersions = List(scala212, scala211)
+
+val scalaTestVersion = "3.0.0"
+/** ------- Scala version end ------- */
+
+name:= getPackageName(is_spark23, is_spark24, is_gpu)
+
+organization:= "com.johnsnowlabs.nlp"
+
+version := "3.0.0-rc7"
+
+scalaVersion in ThisBuild := scalaVer
+
 scalacOptions in ThisBuild += "-target:jvm-1.8"
+
+scalacOptions ++= Seq(
+  "-unchecked",
+  "-feature",
+  "-language:implicitConversions"
+)
+
+scalacOptions in (Compile, doc) ++= Seq(
+  "-groups",
+  "-doc-title",
+  "Spark NLP " + version.value + " ScalaDoc"
+)
+
+target in Compile in doc := baseDirectory.value / "docs/api"
+
+useCoursier := false
 
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
-resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
-
-resolvers in ThisBuild += "Spring Plugins" at "https://repo.spring.io/plugins-release/"
-
-resolvers in ThisBuild += "Another Maven" at "https://mvnrepository.com/artifact/"
+resolvers in ThisBuild += "Maven Central"  at "https://repo1.maven.org/maven2/"
 
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
@@ -129,13 +141,6 @@ developers in ThisBuild:= List(
   Developer(id="alinapetukhova", name="Alina Petukhova", email="alina@johnsnowlabs.com", url=url("https://github.com/alinapetukhova"))
 )
 
-
-scalacOptions in (Compile, doc) ++= Seq(
-  "-doc-title",
-  "Spark NLP " + version.value + " ScalaDoc"
-)
-target in Compile in doc := baseDirectory.value / "docs/api"
-
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % Provided,
   "org.apache.spark" %% "spark-mllib" % sparkVer % Provided
@@ -161,36 +166,19 @@ lazy val utilDependencies = Seq(
 
 )
 
-
 lazy val typedDependencyParserDependencies = Seq(
   "net.sf.trove4j" % "trove4j" % "3.0.3",
   "junit" % "junit" % "4.10" % Test
 )
+
+val tf_scala_version = if(is_spark24.equals("true") || is_spark23.equals("true")) "2.11" else "2.12"
+val tf_platform = if(is_gpu.equals("true")) "gpu" else "cpu"
+val tf_version = "0.2.0"
+val tf_spark_nlp = s"spark-nlp-tensorflow-${tf_platform}_$tf_scala_version-$tf_version.jar"
 val tensorflowDependencies: Seq[sbt.ModuleID] =
-  if (is_gpu.equals("true"))
-    Seq(
-      "org.tensorflow" % "tensorflow-java" % "0.2.0" pomOnly(),
-      "org.tensorflow" % "tensorflow-core" % "0.2.0" pomOnly(),
-      "org.tensorflow" % "tensorflow-framework" % "0.2.0",
-      "org.tensorflow" % "tensorflow-core-platform-gpu" % "0.2.0"
-        exclude("com.fasterxml.jackson.core", "jackson-databind"),
-      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "linux-x86_64-gpu",
-      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "windows-x86_64-gpu"
-    )
-  else
-    Seq(
-      "org.tensorflow" % "tensorflow-java" % "0.2.0" pomOnly(),
-      "org.tensorflow" % "tensorflow-core" % "0.2.0" pomOnly(),
-      "org.tensorflow" % "tensorflow-framework" % "0.2.0",
-      "org.tensorflow" % "tensorflow-core-platform" % "0.2.0"
-        exclude("com.fasterxml.jackson.core", "jackson-databind")
-        exclude("com.fasterxml.jackson.core", "jackson-core")
-        exclude("com.fasterxml.jackson.core", "jackson-annotations"),
-      "org.tensorflow" % "tensorflow-core-api" % "0.2.0",
-      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "linux-x86_64",
-      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "macosx-x86_64",
-      "org.tensorflow" % "tensorflow-core-api" % "0.2.0" classifier "windows-x86_64"
-    )
+  Seq("com.johnsnowlabs.nlp" % "spark-nlp-tensorflow" % "0.2.0" from
+    s"https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-tensorflow/${tf_spark_nlp}")
+
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
@@ -205,13 +193,6 @@ lazy val root = (project in file("."))
     // TODO potentially improve this?
     mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
-
-/** Shading protobuf 2.5.0 for protobuf TF2 */
-val ShadedProtoBufVersion = "3.8.0"
-
-assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("com.google.protobuf.*" -> "shadedproto.@1").inAll
-)
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
@@ -247,13 +228,6 @@ testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowT
 parallelExecution in SlowTest := false
 /** Test tagging end */
 
-scalacOptions ++= Seq(
-  "-feature",
-  "-language:implicitConversions"
-)
-scalacOptions in(Compile, doc) ++= Seq(
-  "-groups"
-)
 /** Enable for debugging */
 testOptions in Test += Tests.Argument("-oF")
 
