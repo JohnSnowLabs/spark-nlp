@@ -4,6 +4,7 @@ import sbtassembly.MergeStrategy
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
 val spark30Ver = "3.0.2"
+val tensorflowVer = "0.2.0"
 
 val is_gpu = System.getProperty("is_gpu", "false")
 val is_opt = System.getProperty("is_opt", "false")
@@ -60,7 +61,7 @@ name:= getPackageName(is_spark23, is_spark24, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "3.0.0-rc7"
+version := "3.0.0-rc8"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -80,15 +81,13 @@ scalacOptions in (Compile, doc) ++= Seq(
 
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-useCoursier := false
-
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 resolvers in ThisBuild += "Maven Central"  at "https://repo1.maven.org/maven2/"
 
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll
-  // TODO just disabling this for RC7
+  // TODO just disabling this for RC8
   // ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
 )
 
@@ -171,13 +170,10 @@ lazy val typedDependencyParserDependencies = Seq(
   "junit" % "junit" % "4.10" % Test
 )
 
-val tf_scala_version = if(is_spark24.equals("true") || is_spark23.equals("true")) "2.11" else "2.12"
-val tf_platform = if(is_gpu.equals("true")) "gpu" else "cpu"
-val tf_version = "0.2.0"
-val tf_spark_nlp = s"spark-nlp-tensorflow-${tf_platform}_$tf_scala_version-$tf_version.jar"
-val tensorflowDependencies: Seq[sbt.ModuleID] =
-  Seq("com.johnsnowlabs.nlp" % "spark-nlp-tensorflow" % "0.2.0" from
-    s"https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/spark-nlp-tensorflow/${tf_spark_nlp}")
+val tensorflowDependencies: Seq[sbt.ModuleID] = if(is_gpu.equals("true"))
+  Seq("com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVer classifier "assembly")
+else
+  Seq("com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVer classifier "assembly")
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
