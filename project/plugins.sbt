@@ -10,5 +10,3 @@ addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
 
 /** scoverage */
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % scoverageVersion)
-
-useCoursier := false
