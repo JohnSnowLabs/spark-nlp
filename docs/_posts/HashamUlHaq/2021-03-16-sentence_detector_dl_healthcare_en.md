@@ -86,7 +86,7 @@ val result = pipeline.fit(Seq.empty["He was given boluses of MS04 with some effe
 
 ## Data Source
 
-Healthcare SDDL model is trained on internal domain specific data.
+Healthcare SDDL model is trained on in-house domain specific data.
 
 ## Benchmarking
 
