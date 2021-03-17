@@ -76,7 +76,10 @@ scalacOptions ++= Seq(
 scalacOptions in (Compile, doc) ++= Seq(
   "-groups",
   "-doc-title",
-  "Spark NLP " + version.value + " ScalaDoc"
+  "Spark NLP " + version.value + " ScalaDoc",
+  "-skip-packages",
+  "com.johnsnowlabs.nlp.annotator",
+  "-nowarn"
 )
 
 target in Compile in doc := baseDirectory.value / "docs/api"
