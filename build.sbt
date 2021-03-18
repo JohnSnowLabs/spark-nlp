@@ -4,7 +4,7 @@ import sbtassembly.MergeStrategy
 val spark23Ver = "2.3.4"
 val spark24Ver = "2.4.7"
 val spark30Ver = "3.0.2"
-val tensorflowVer = "0.3.0"
+val tensorflowVer = "0.2.2"
 
 val is_gpu = System.getProperty("is_gpu", "false")
 val is_opt = System.getProperty("is_opt", "false")
