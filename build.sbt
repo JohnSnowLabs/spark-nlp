@@ -61,7 +61,7 @@ name:= getPackageName(is_spark23, is_spark24, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "3.0.0-rc8"
+version := "3.0.0-rc9"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -78,7 +78,7 @@ scalacOptions in (Compile, doc) ++= Seq(
   "-doc-title",
   "Spark NLP " + version.value + " ScalaDoc",
   "-skip-packages",
-  "com.johnsnowlabs.nlp.annotator",
+  "com.johnsnowlabs.nlp.annotator:com.johnsnowlabs.nlp.base",
   "-nowarn"
 )
 
@@ -89,9 +89,8 @@ licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 resolvers in ThisBuild += "Maven Central"  at "https://repo1.maven.org/maven2/"
 
 assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll
-  // TODO just disabling this for RC8
-  // ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
+  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
 )
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
