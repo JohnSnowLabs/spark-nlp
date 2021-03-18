@@ -39,7 +39,7 @@ embeddings = annotator
 
 
 def start(gpu=False, spark23=False, spark24=False, memory="16G"):
-    current_version = "3.0.0-rc10"
+    current_version = "3.0.0-rc11"
 
     # Spark NLP on Apache Spark 3.0.x
     maven_spark = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
@@ -76,4 +76,4 @@ def start(gpu=False, spark23=False, spark24=False, memory="16G"):
 
 
 def version():
-    return '3.0.0-rc10'
+    return '3.0.0-rc11'
