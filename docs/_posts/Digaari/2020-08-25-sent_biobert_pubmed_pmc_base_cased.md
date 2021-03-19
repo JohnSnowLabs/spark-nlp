@@ -35,7 +35,7 @@ embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_pmc_base_cas
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer, "Antibiotics aren't painkiller""]})))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer, "Antibiotics aren't painkiller"]})))
 ```
 
 ```scala
@@ -44,7 +44,7 @@ val embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_pmc_base
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
-val result = pipeline.fit(Seq.empty["I hate cancer, "Antibiotics aren't painkiller""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["I hate cancer, "Antibiotics aren't painkiller"].toDS.toDF("text")).transform(data)
 ```
 
 {:.nlu-block}
@@ -61,10 +61,10 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-        sentence	                en_embed_sentence_biobert_pubmed_pmc_base_cased_embeddings
+      sentence	                en_embed_sentence_biobert_pubmed_pmc_base_cased_embeddings
 
 	I hate cancer	                [0.2354733943939209, 0.30127033591270447, -0.1...
-	Antibiotics aren't painkiller	[0.2837969958782196, 0.03842488303780556, 0.04...
+	Antibiotics aren't painkiller	    [0.2837969958782196, 0.03842488303780556, 0.04...
 ```
 
 {:.model-param}

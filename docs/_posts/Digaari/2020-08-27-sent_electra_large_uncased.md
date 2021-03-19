@@ -36,7 +36,7 @@ embeddings = BertEmbeddings.pretrained("sent_electra_large_uncased", "en") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer, "Antibiotics aren't painkiller""]})))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer, "Antibiotics aren't painkiller"]})))
 ```
 
 ```scala
@@ -45,7 +45,7 @@ val embeddings = BertEmbeddings.pretrained("sent_electra_large_uncased", "en")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
-val result = pipeline.fit(Seq.empty["I hate cancer, "Antibiotics aren't painkiller""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["I hate cancer, "Antibiotics aren't painkiller"].toDS.toDF("text")).transform(data)
 ```
 
 {:.nlu-block}

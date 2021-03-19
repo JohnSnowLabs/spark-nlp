@@ -44,7 +44,7 @@ val embeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_large_ca
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
-val result = pipeline.fit(Seq.empty["I hate cancer, "Antibiotics aren't painkiller""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty["I hate cancer, "Antibiotics aren't painkiller"].toDS.toDF("text")).transform(data)
 ```
 
 {:.nlu-block}
