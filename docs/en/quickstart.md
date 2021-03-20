@@ -30,7 +30,8 @@ Install Spark NLP in
 {:.btn-list}
 * [Python](https://nlp.johnsnowlabs.com/docs/en/install#python)
 * [Scala and Java](https://nlp.johnsnowlabs.com/docs/en/install#scala-and-java)
-* [Databricks](https://nlp.johnsnowlabs.com/docs/en/install#databricks)
+* [Databricks](https://nlp.johnsnowlabs.com/docs/en/install#databricks-support)
+* [EMR](https://nlp.johnsnowlabs.com/docs/en/install#emr-support)
     
 </div></div>
 
