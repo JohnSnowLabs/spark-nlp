@@ -18,85 +18,85 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Table of contents
 
-* [Features](#features)
-* [Requirements](#requirements)
-* [Quick Start](#quick-start)
-* [Apache Spark Support](#apache-spark-support)
-* [Databricks Support](#databricks-support)
-* [EMR Support](#emr-support)
-* [Using Spark NLP](#usage)  
-  * [Spark Packages](#spark-packages)
-  * [Scala](#scala)
-    * [Maven](#maven)
-    * [SBT](#sbt)
-  * [Python](#python)
-    * [Pip/Conda](#pipconda)
-  * [Compiled JARs](#compiled-jars)
-  * [Apache Zeppelin](#apache-zeppelin)
-  * [Jupyter Notebook](#jupyter-notebook-python)
-  * [Google Colab Notebook](#google-colab-notebook)
-  * [Databricks Cluser](#databricks-cluster)
-  * [EMR Cluser](#emr-cluster)
-  * [S3 Cluster](#s3-cluster)  
-* [Pipelines & Models](#pipelines-and-models)
-  * [Pipelines](#pipelines)
-  * [Models](#models)
-* [Examples](#examples)  
-* [FAQ](#faq)
-* [Troubleshooting](#troubleshooting)
-* [Citation](#citation)
-* [Contributing](#contributing)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Apache Spark Support](#apache-spark-support)
+- [Databricks Support](#databricks-support)
+- [EMR Support](#emr-support)
+- [Using Spark NLP](#usage)  
+  - [Spark Packages](#spark-packages)
+  - [Scala](#scala)
+    - [Maven](#maven)
+    - [SBT](#sbt)
+  - [Python](#python)
+    - [Pip/Conda](#pipconda)
+  - [Compiled JARs](#compiled-jars)
+  - [Apache Zeppelin](#apache-zeppelin)
+  - [Jupyter Notebook](#jupyter-notebook-python)
+  - [Google Colab Notebook](#google-colab-notebook)
+  - [Databricks Cluser](#databricks-cluster)
+  - [EMR Cluser](#emr-cluster)
+  - [S3 Cluster](#s3-cluster)  
+- [Pipelines & Models](#pipelines-and-models)
+  - [Pipelines](#pipelines)
+  - [Models](#models)
+- [Examples](#examples)  
+- [FAQ](#faq)
+- [Troubleshooting](#troubleshooting)
+- [Citation](#citation)
+- [Contributing](#contributing)
 
 ## Features
 
-* Tokenization
-* Trainable Word Segmentation
-* Stop Words Removal
-* Token Normalizer
-* Document Normalizer
-* Stemmer
-* Lemmatizer
-* NGrams
-* Regex Matching
-* Text Matching
-* Chunking
-* Date Matcher
-* Sentence Detector
-* Deep Sentence Detector (Deep learning)
-* Dependency parsing (Labeled/unlabeled)
-* Part-of-speech tagging
-* Sentiment Detection (ML models)
-* Spell Checker (ML and DL models)
-* Word Embeddings (GloVe and Word2Vec)
-* BERT Embeddings (TF Hub models)
-* ELMO Embeddings (TF Hub models)
-* ALBERT Embeddings (TF Hub models)
-* XLNet Embeddings
-* Universal Sentence Encoder (TF Hub models)
-* BERT Sentence Embeddings (42 TF Hub models)
-* Sentence Embeddings
-* Chunk Embeddings
-* Unsupervised keywords extraction
-* Language Detection & Identification (up to 375 languages)
-* Multi-class Sentiment analysis (Deep learning)
-* Multi-label Sentiment analysis (Deep learning)
-* Multi-class Text Classification (Deep learning)
-* Neural Machine Translation
-* Text-To-Text Transfer Transformer (Google T5)
-* Named entity recognition (Deep learning)
-* Easy TensorFlow integration
-* GPU Support
-* Full integration with Spark ML functions
-* +710 pre-trained models in +192 languages!
-* +450 pre-trained pipelines in +192 languages!
-* Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu.
+- Tokenization
+- Trainable Word Segmentation
+- Stop Words Removal
+- Token Normalizer
+- Document Normalizer
+- Stemmer
+- Lemmatizer
+- NGrams
+- Regex Matching
+- Text Matching
+- Chunking
+- Date Matcher
+- Sentence Detector
+- Deep Sentence Detector (Deep learning)
+- Dependency parsing (Labeled/unlabeled)
+- Part-of-speech tagging
+- Sentiment Detection (ML models)
+- Spell Checker (ML and DL models)
+- Word Embeddings (GloVe and Word2Vec)
+- BERT Embeddings (TF Hub models)
+- ELMO Embeddings (TF Hub models)
+- ALBERT Embeddings (TF Hub models)
+- XLNet Embeddings
+- Universal Sentence Encoder (TF Hub models)
+- BERT Sentence Embeddings (42 TF Hub models)
+- Sentence Embeddings
+- Chunk Embeddings
+- Unsupervised keywords extraction
+- Language Detection & Identification (up to 375 languages)
+- Multi-class Sentiment analysis (Deep learning)
+- Multi-label Sentiment analysis (Deep learning)
+- Multi-class Text Classification (Deep learning)
+- Neural Machine Translation
+- Text-To-Text Transfer Transformer (Google T5)
+- Named entity recognition (Deep learning)
+- Easy TensorFlow integration
+- GPU Support
+- Full integration with Spark ML functions
+- +710 pre-trained models in +192 languages!
+- +450 pre-trained pipelines in +192 languages!
+- Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu.
 
 ## Requirements
 
 To use Spark NLP you need the following requirements:
 
-* Java 8
-* Apache Spark 2.4.x (or Apache Spark 2.3.x)
+- Java 8
+- Apache Spark 3.1.x (or 3.0.x, or 2.4.x, or 2.3.x)
 
 ## Quick Start
 
@@ -120,7 +120,7 @@ from sparknlp.annotator import *
 from sparknlp.pretrained import PretrainedPipeline
 import sparknlp
 
-# Start Spark Session with Spark NLP
+# Start SparkSession with Spark NLP
 # start() functions has 4 parameters: gpu, spark23, spark24, and memory
 # sparknlp.start(gpu=True) will start the session with GPU support
 # sparknlp.start(spark23=True) is when you have Apache Spark 2.3.x installed
@@ -507,37 +507,37 @@ result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created
 
 #### spark-nlp
 
-* FAT-JAR for CPU on Apache Spark 3.x.x
+- FAT-JAR for CPU on Apache Spark 3.x.x
 
 ```bash
 sbt assembly
 ```
 
-* FAT-JAR for GPU on Apache Spark 3.x.x
+- FAT-JAR for GPU on Apache Spark 3.x.x
 
 ```bash
 sbt -Dis_gpu=true assembly
 ```
 
-* FAT-JAR for CPU on Apache Spark 2.4.x
+- FAT-JAR for CPU on Apache Spark 2.4.x
 
 ```bash
 sbt -Dis_spark24=true assembly
 ```
 
-* FAT-JAR for GPU on Apache Spark 2.4.x
+- FAT-JAR for GPU on Apache Spark 2.4.x
 
 ```bash
 sbt -Dis_gpu=true -Dis_spark24=true assembly
 ```
 
-* FAT-JAR for CPU on Apache Spark 2.3.x
+- FAT-JAR for CPU on Apache Spark 2.3.x
 
 ```bash
 sbt -Dis_spark23=true assembly
 ```
 
-* FAT-JAR for GPU on Apache Spark 2.3.x
+- FAT-JAR for GPU on Apache Spark 2.3.x
 
 ```bash
 sbt -Dis_gpu=true -Dis_spark23=true assembly
@@ -643,11 +643,11 @@ spark.version
 
 2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
 
-```bash
-spark.kryoserializer.buffer.max 2000M
-spark.serializer org.apache.spark.serializer.KryoSerializer
-```
-    
+    ```bash
+    spark.kryoserializer.buffer.max 2000M
+    spark.serializer org.apache.spark.serializer.KryoSerializer
+    ```
+
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
     3.1. Install New -> PyPI -> `spark-nlp` -> Install
@@ -823,7 +823,7 @@ val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang="it")
 
 **Quick offline example:**
 
-* Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
+- Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
 ```scala
 val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
@@ -869,12 +869,12 @@ We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2
 
 We appreciate any sort of contributions:
 
-* ideas
-* feedback
-* documentation
-* bug reports
-* NLP training and testing corpora
-* Development and testing
+- ideas
+- feedback
+- documentation
+- bug reports
+- NLP training and testing corpora
+- Development and testing
 
 Clone the repo and submit your pull-requests! Or directly create issues in this repo.
 
