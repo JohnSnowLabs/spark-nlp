@@ -36,6 +36,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   * [Jupyter Notebook](#jupyter-notebook-python)
   * [Google Colab Notebook](#google-colab-notebook)
   * [Databricks Cluser](#databricks-cluster)
+  * [EMR Cluser](#emr-cluster)
   * [S3 Cluster](#s3-cluster)  
 * [Pipelines & Models](#pipelines-and-models)
   * [Pipelines](#pipelines)
@@ -656,6 +657,70 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
 NOTE: If you are launching a Databricks runtime that is not based on Apache Spark 3.x please choose a compatible [Spark NLP package](#spark-packages)
+
+## EMR Cluster
+
+To lanuch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.
+
+A sample of your bootstrap script
+
+```.sh
+#!/bin/bash
+set -x -e
+
+echo -e 'export PYSPARK_PYTHON=/usr/bin/python3 
+export HADOOP_CONF_DIR=/etc/hadoop/conf 
+export SPARK_JARS_DIR=/usr/lib/spark/jars 
+export SPARK_HOME=/usr/lib/spark' >> $HOME/.bashrc && source $HOME/.bashrc
+
+sudo python3 -m pip install awscli boto spark-nlp
+
+set +x
+exit 0
+
+```
+
+A sample of your software configuration in JSON on S3 (must be public access):
+
+```.json
+[{
+  "Classification": "spark-env",
+  "Configurations": [{
+    "Classification": "export",
+    "Properties": {
+      "PYSPARK_PYTHON": "/usr/bin/python3"
+    }
+  }]
+},
+{
+  "Classification": "spark-defaults",
+    "Properties": {
+      "spark.yarn.stagingDir": "hdfs:///tmp",
+      "spark.yarn.preserve.staging.files": "true",
+      "spark.kryoserializer.buffer.max": "2000M",
+      "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
+      "spark.driver.maxResultSize": "0",
+      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0"
+    }
+}
+]
+
+A sample of AWS CLI to launch EMR cluster:
+
+```.sh
+aws emr create-cluster \
+--name "Spark NLP 3.0.0" \
+--release-label emr-6.2.0 \
+--applications Name=Hadoop Name=Spark Name=Hive \
+--instance-type m4.4xlarge \
+--instance-count 3 \
+--use-default-roles \
+--log-uri "s3://<S3_BUCKET>/" \
+--bootstrap-actions Path=s3://<S3_BUCKET>/emr-bootstrap.sh,Name=custome \
+--configurations "https://<public_access>/sparknlp-config.json" \
+--ec2-attributes KeyName=<your_ssh_key>,EmrManagedMasterSecurityGroup=<security_group_with_ssh>,EmrManagedSlaveSecurityGroup=<security_group_with_ssh> \
+--profile <aws_profile_credentials>
+```
 
 ## S3 Cluster
 
