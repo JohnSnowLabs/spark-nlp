@@ -181,7 +181,7 @@ class TensorflowNer
           .addTarget(trainingKey)
           .run()
 
-        //loss += calculated.get(0).data()
+        loss += TensorResources.extractFloats(calculated.get(0)).head
 
         tensors.clearTensors()
         batches += 1
