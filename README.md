@@ -589,9 +589,29 @@ Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.p
 
 An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as shown earlier since it includes both scala and python side installation.
 
+Q: What if I am still on Zeppelin 0.8.x that only supports Apache Spark 2.4.x?
+
+A: You can simply use the `spark-nlp-spark24:3.0.0` package or Fat JAR instead.
+
 ## Jupyter Notebook (Python)
 
-The easiest way to get this done is by making Jupyter Notebook run using pyspark as follows:
+**Recomended:**
+
+The easiest way to get this done on Linux and macOS is to simply install `spark-nlp` and `pyspark` PyPI packages and launch the Jupyter from the same Python environment:
+
+```sh
+$ conda create -n sparknlp python=3.7 -y
+$ conda activate sparknlp
+# spark-nlp by default is based on pyspark 3.x
+$ pip install spark-nlp==3.0.0 pyspark==3.1.1 jupyter
+$ jupyter notebook
+```
+
+The you can use `python3` kernel to run your code with creating SparkSession via `spark = sparknlp.start()`.
+
+**Optional:**
+
+If you are in different operating systems and require to make Jupyter Notebook run by using pyspark, you can follow these steps:
 
 ```bash
 export SPARK_HOME=/path/to/your/spark/folder
@@ -617,15 +637,17 @@ import os
 
 # Install java
 ! apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
+!wget -q "https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz" > /dev/null
+!tar -xvf spark-3.1.1-bin-hadoop2.7.tgz
+!pip install -q findspark
+
+os.environ["SPARK_HOME"] = "/content/spark-3.1.1-bin-hadoop2.7"
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
 os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! java -version
 
-# Install pyspark
-! pip install --ignore-installed pyspark==3.1.1
-
-# Install Spark NLP
-! pip install --ignore-installed spark-nlp==3.0.0
+# Install spark-nlp and pyspark
+! pip install spark-nlp==3.0.0 pyspark==3.1.1
 
 # Quick SparkSession start
 import sparknlp
