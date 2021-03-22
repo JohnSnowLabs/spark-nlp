@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.mutable
 
 
-class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel]
+class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel] with HasSimpleAnnotate[ContextSpellCheckerModel]
   with WeightedLevenshtein
   with WriteTensorflowModel
   with ParamsAndFeaturesWritable

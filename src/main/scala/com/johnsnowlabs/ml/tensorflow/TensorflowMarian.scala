@@ -51,6 +51,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
     //Run encoder
     val tensorEncoder = new TensorResources()
+    val inputDim = batch.length * maxSentenceLength
 
     val encoderInputIdsBuffers = tensorEncoder.createLongBuffer(batch.length * maxSentenceLength)
     val encoderAttentionMaskBuffers = tensorEncoder.createLongBuffer(batch.length * maxSentenceLength)
@@ -58,19 +59,17 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.foreach(tokenIds => {
+    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+      // this one marks the beginning of each sentence in the flatten structure
+      val offset = idx * maxSentenceLength
       val diff = maxSentenceLength - tokenIds.length
 
       val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(paddingTokenId)
-      encoderInputIdsBuffers.put(s)
+      encoderInputIdsBuffers.offset(offset).write(s)
       val mask = s.map(x =>  if (x != paddingTokenId) 1L else 0L)
-      encoderAttentionMaskBuffers.put(mask)
-      decoderAttentionMaskBuffers.put(mask)
-    })
-
-    encoderInputIdsBuffers.flip()
-    encoderAttentionMaskBuffers.flip()
-    decoderAttentionMaskBuffers.flip()
+      encoderAttentionMaskBuffers.offset(offset).write(mask)
+      decoderAttentionMaskBuffers.offset(offset).write(mask)
+    }
 
     val encoderInputIdsTensors = tensorEncoder.createLongBufferTensor(shape, encoderInputIdsBuffers)
     val encoderAttentionMaskKeyTensors = tensorEncoder.createLongBufferTensor(shape, encoderAttentionMaskBuffers)
@@ -85,23 +84,26 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       .fetch(encoderOutputsKey)
 
     val encoderOuts = runner.run().asScala
-    val encoderOutputs = TensorResources.extractFloats(encoderOuts.head).grouped(512).toArray.grouped(maxSentenceLength).toArray
+    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
+    val dim = encoderOutsFloats.length / inputDim
+    val encoderOutsBatch = encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
-    encoderInputIdsBuffers.clear()
-    encoderAttentionMaskBuffers.clear()
+    encoderOuts.foreach(_.close())
     tensorEncoder.clearSession(encoderOuts)
 
     // Run decoder
-    val decoderEncoderStateBuffers = tensorEncoder.createFloatBuffer(batch.length*maxSentenceLength*512)
-    batch.zipWithIndex.foreach(bi => {
-      encoderOutputs(bi._2).foreach(encoderOutput => {
-        decoderEncoderStateBuffers.put(encoderOutput)
+    val decoderEncoderStateBuffers = tensorEncoder.createFloatBuffer(batch.length * maxSentenceLength * dim)
+    //TODO: There must be a better way to calculate offsets
+    batch.zipWithIndex.foreach{case (_, index) =>
+      var offset = index * maxSentenceLength * dim
+      encoderOutsBatch(index).foreach(encoderOutput => {
+        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
+        offset += dim
       })
-    })
-    decoderEncoderStateBuffers.flip()
+    }
 
     val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
-      Array(batch.length.toLong, maxSentenceLength, 512),
+      Array(batch.length.toLong, maxSentenceLength, dim),
       decoderEncoderStateBuffers)
 
     var decoderInputs = batch.map(_ => Array(paddingTokenId)).toArray
@@ -118,25 +120,25 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       val decoderPaddingMaskBuffers = tensorDecoder.createLongBuffer(batch.length * decoderInputLength)
       val decoderCasualMaskBuffers = tensorDecoder.createFloatBuffer(decoderInputLength * decoderInputLength)
 
-      decoderInputs.map{ pieceIds =>
-        decoderInputBuffers.put(pieceIds)
+      decoderInputs.zipWithIndex.foreach{ case (pieceIds, idx) =>
+        val offset = idx * decoderInputLength
+        decoderInputBuffers.offset(offset).write(pieceIds)
         val paddingMasks = pieceIds.map(_ => if(pieceIds.length == 1) 1L else 0L)
-        decoderPaddingMaskBuffers.put(paddingMasks)
+        decoderPaddingMaskBuffers.offset(offset).write(paddingMasks)
       }
 
-      for(i <- 1 to decoderInputLength){
-        for(j <- 1 to decoderInputLength){
+      for(i <- 0 until decoderInputLength){
+        val temp = Array.ofDim[Float](decoderInputLength)
+        val offset = i*decoderInputLength
+        for(j <- 0 until decoderInputLength){
           if(i < j){
-            decoderCasualMaskBuffers.put(infFloat)
+            temp(j) = infFloat
           }else{
-            decoderCasualMaskBuffers.put(0.0f)
+            temp(j) = 0.0f
           }
         }
+        decoderCasualMaskBuffers.offset(offset).write(temp)
       }
-
-      decoderInputBuffers.flip()
-      decoderPaddingMaskBuffers.flip()
-      decoderCasualMaskBuffers.flip()
 
       val decoderInputTensors = tensorDecoder.createLongBufferTensor(
         Array(batch.length.toLong, decoderInputLength), decoderInputBuffers)
@@ -146,6 +148,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         Array(decoderInputLength.toLong, decoderInputLength), decoderCasualMaskBuffers)
 
       val runner = session.runner
+
       runner
         .feed(decoderEncoderInputKey, decoderEncoderStateTensors)
         .feed(decoderInputIdsKey, decoderInputTensors)
@@ -168,20 +171,22 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         }
       })
 
-      decoderInputBuffers.clear()
-      decoderPaddingMaskBuffers.clear()
-      decoderCasualMaskBuffers.clear()
+      decoderOuts.foreach(_.close())
 
       tensorDecoder.clearTensors()
       tensorDecoder.clearSession(decoderOuts)
+      decoderInputTensors.close()
+      decoderCausalMaskTensors.close()
+      decoderPaddingMaskTensors.close()
 
       stopDecoder = !modelOutputs.exists(o => o.last != eosTokenId) ||
         (modelOutputs.head.length > math.max(maxOutputLength, maxSentenceLength))
 
     }
 
+    decoderAttentionMaskTensors.close()
+    decoderEncoderStateTensors.close()
     tensorEncoder.clearTensors()
-    decoderEncoderStateBuffers.clear()
 
     modelOutputs.map(x => x.filter(y => y != eosTokenId && y != paddingTokenId))
   }
@@ -255,7 +260,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, normalizer, maxInputLength, vocabs, langIdPieceId, unknownTokenId, eosTokenId)
-      val spIds = process(batchSP,maxOutputLength, paddingTokenId, eosTokenId, vocabSize)
+      val spIds = process(batchSP, maxOutputLength, paddingTokenId, eosTokenId, vocabSize)
       decode(spIds, vocabs)
 
     }

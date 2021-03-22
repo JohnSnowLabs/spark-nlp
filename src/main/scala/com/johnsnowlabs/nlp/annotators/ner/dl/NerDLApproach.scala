@@ -18,6 +18,7 @@ import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.tensorflow.Graph
+import org.tensorflow.proto.framework.GraphDef
 
 import scala.util.Random
 
@@ -302,7 +303,7 @@ class NerDLApproach(override val uid: String)
       train.limit(0) // keep the schema only
     }
     else {
-      ResourceHelper.readParquetSparkDatFrame($(testDataset))
+      ResourceHelper.readParquetSparkDataFrame($(testDataset))
     }
 
 
@@ -328,9 +329,9 @@ class NerDLApproach(override val uid: String)
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(graphBytesDef)
+    graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
 
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
 
     val ner = try {
       val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
