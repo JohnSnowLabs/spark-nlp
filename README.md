@@ -316,7 +316,10 @@ The `spark-nlp-gpu-spark23` has been published to the [Maven Repository](https:/
 **NOTE**: In case you are using large pretrained models like UniversalSentenceEncoder, you need to have the following set in your SparkSession:
 
 ```sh
-spark-shell --driver-memory 16g --conf spark.kryoserializer.buffer.max=2000M --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+spark-shell \
+  --driver-memory 16g \
+  --conf spark.kryoserializer.buffer.max=2000M \
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
 ```
 
 ## Scala
