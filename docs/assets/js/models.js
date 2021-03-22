@@ -18,7 +18,7 @@
     'Part of Speech Tagging',
     'Lemmatization',
     'Relation Extraction',
-    'Spell Checking',
+    'Spell Check',
     'Assertion Status',
     'Entity Resolution',
     'De-identification',
