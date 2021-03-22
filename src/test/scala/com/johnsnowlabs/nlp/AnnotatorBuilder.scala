@@ -296,7 +296,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     new NerDLApproach()
       .setInputCols("sentence", "token", "embeddings")
       .setLabelColumn("label")
-      .setMaxEpochs(10)
+      .setMaxEpochs(14)
       .setRandomSeed(0)
       .setPo(0.01f)
       .setLr(0.1f)

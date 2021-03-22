@@ -377,7 +377,7 @@ object ResourceHelper {
     * Currently read only Parquet format
     * @return
     */
-  def readParquetSparkDatFrame(
+  def readParquetSparkDataFrame(
                                 er: ExternalResource
                               ): DataFrame = {
     er.readAs match {
