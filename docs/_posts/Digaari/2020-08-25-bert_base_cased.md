@@ -87,4 +87,4 @@ embeddings_df
 
 {:.h2_title}
 ## Data Source
-The model is imported from [https://tfhub.dev/google/bert_cased_L-24_H-1024_A-16/1](https://tfhub.dev/google/bert_cased_L-24_H-1024_A-16/1)
+The model is imported from [https://tfhub.dev/google/bert_cased_L-12_H-768_A-12/1](https://tfhub.dev/google/bert_cased_L-12_H-768_A-12/1)

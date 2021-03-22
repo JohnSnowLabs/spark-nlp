@@ -61,10 +61,10 @@ embeddings_df
 {:.h2_title}
 ## Results
 ```bash
-	sentence	                        en_embed_sentence_small_bert_L2_256_embeddings
+	en_embed_sentence_small_bert_L2_256_embeddings	      sentence
 		
-	I hate cancer	                  [[-1.2195377349853516, -0.7168622016906738, 1...
-      Antibiotics aren't painkiller 	[[-1.2195377349853516, -0.7168622016906738, 1...
+	[-1.0944892168045044, -1.8199821710586548, 1.4... 	I hate cancer
+ 	[-0.8097536563873291, -1.0587245225906372, 1.2... 	Antibiotics aren't painkiller
 ```
 
 {:.model-param}

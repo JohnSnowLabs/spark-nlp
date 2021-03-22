@@ -64,8 +64,8 @@ embeddings_df
 
 en_embed_sentence_small_bert_L4_128_embeddings 	      sentence
 		
-[[0.5186131596565247, 0.9552846550941467, 1.11... 	I hate cancer
-[[0.5186131596565247, 0.9552846550941467, 1.11... 	Antibiotics aren't painkiller
+[-0.9171956777572632, 0.9261569976806641, 0.85... 	I hate cancer
+[0.5746028423309326, 0.5926093459129333, -0.19... 	Antibiotics aren't painkiller
 ```
 
 {:.model-param}
