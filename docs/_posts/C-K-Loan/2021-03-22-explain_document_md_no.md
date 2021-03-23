@@ -4,9 +4,9 @@ title: Explain Document Pipeline for Norwegian (Bokmal)
 author: John Snow Labs
 name: explain_document_md
 date: 2021-03-22
-tags: [open_source, norwegian_bokmal, explain_document_md, pipeline, no]
+tags: [open_source, norwegian_bokmal, explain_document_md, pipeline, "no"]
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
-language: no
+language: "no"
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:
