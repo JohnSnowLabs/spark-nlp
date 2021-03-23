@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Document Pipeline for English
+title: Recognize Entities DL pipeline for English - Small
 author: John Snow Labs
 name: onto_recognize_entities_sm
 date: 2021-03-22

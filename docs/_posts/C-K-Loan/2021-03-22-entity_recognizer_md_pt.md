@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Recognize Entities DL Pipeline for Portuguese - Small
+title: Recognize Entities DL Pipeline for Portuguese - Medium
 author: John Snow Labs
-name: entity_recognizer_sm
+name: entity_recognizer_md
 date: 2021-03-22
-tags: [open_source, portuguese, entity_recognizer_sm, pipeline, pt]
+tags: [open_source, portuguese, entity_recognizer_md, pipeline, pt]
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
 language: pt
 edition: Spark NLP 3.0.0
@@ -16,13 +16,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The entity_recognizer_sm is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps.
+The entity_recognizer_md is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps.
          It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/jupyter/annotation/english/explain-document-dl/Explain%20Document%20DL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pt_3.0.0_3.0_1616442035630.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pt_3.0.0_3.0_1616449413384.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -33,14 +33,14 @@ The entity_recognizer_sm is a pretrained pipeline that we can use to process tex
 ```python
 
 from sparknlp.pretrained import PretrainedPipelinein
-pipeline = PretrainedPipeline('entity_recognizer_sm', lang = 'pt')
+pipeline = PretrainedPipeline('entity_recognizer_md', lang = 'pt')
 annotations =  pipeline.fullAnnotate(""Olá de John Snow Labs! "")[0]
 annotations.keys()
 
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline("entity_recognizer_sm", lang = "pt")
+val pipeline = new PretrainedPipeline("entity_recognizer_md", lang = "pt")
 val result = pipeline.fullAnnotate("Olá de John Snow Labs! ")(0)
 
 
@@ -51,7 +51,7 @@ val result = pipeline.fullAnnotate("Olá de John Snow Labs! ")(0)
 
 import nlu
 text = [""Olá de John Snow Labs! ""]
-result_df = nlu.load('pt.ner').predict(text)
+result_df = nlu.load('pt.ner.md').predict(text)
 result_df
     
 ```
@@ -70,7 +70,7 @@ result_df
 
 {:.table-model}
 |---|---|
-|Model Name:|entity_recognizer_sm|
+|Model Name:|entity_recognizer_md|
 |Type:|pipeline|
 |Compatibility:|Spark NLP 3.0.0+|
 |License:|Open Source|

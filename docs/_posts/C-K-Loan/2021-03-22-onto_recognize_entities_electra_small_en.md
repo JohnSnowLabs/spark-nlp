@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Document Pipeline for English
+title: Recognize Entities OntoNotes pipeline - ELECTRA Small
 author: John Snow Labs
 name: onto_recognize_entities_electra_small
 date: 2021-03-22
