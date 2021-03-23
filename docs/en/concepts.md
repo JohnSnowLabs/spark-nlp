@@ -4,16 +4,16 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2021-01-25"
+modify_date: "2021-03-20"
 use_language_switcher: "Python-Scala"
 
 ---
 
 ## Concepts
 
-Spark ML provides a set of Machine Learning applications that can be build using two main components: **Estimators** and **Transformers**. The **Estimators** have a method called fit() which secures and trains a piece of data to such application. The **Transformer** is generally the result of a fitting process and applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP. 
+Spark ML provides a set of Machine Learning applications that can be build using two main components: **Estimators** and **Transformers**. The **Estimators** have a method called fit() which secures and trains a piece of data to such application. The **Transformer** is generally the result of a fitting process and applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP.
 
-**Pipelines** are a mechanism for combining multiple estimators and transformers in a single workflow. They allow multiple chained transformations along a Machine Learning task. For more information please refer to [Spark ML](https://spark.apache.org/docs/2.4.5/ml-guide.html) library.
+**Pipelines** are a mechanism for combining multiple estimators and transformers in a single workflow. They allow multiple chained transformations along a Machine Learning task. For more information please refer to [Spark ML](https://spark.apache.org/docs/latest/ml-guide.html) library.
 
 ## Annotation
 
@@ -55,25 +55,14 @@ You can run these examples using Python or Scala.
 The easiest way to run the python examples is by starting a pyspark jupyter notebook including the spark-nlp package:
 
 ```sh
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4
+$ java -version
+# should be Java 8 (Oracle or OpenJDK)
+$ conda create -n sparknlp python=3.7 -y
+$ conda activate sparknlp
+# spark-nlp by default is based on pyspark 3.x
+$ pip install spark-nlp==3.0.0 pyspark==3.1.1 jupyter
+$ jupyter notebook
 ```
-
-```sh
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4
-```
-
-```sh
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.4
-```
-
-This can also be used to create a SparkSession manually by using the `spark.jars.packages` option in both Python and Scala.
-
-**NOTE**: To use Spark NLP with GPU you can use the dedicated GPU package `com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:2.7.4`
-
-**NOTE**: To use Spark NLP on Apache Spark 2.3.x you should instead use the following packages:
-
-- CPU: `com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:2.7.4`
-- GPU: `com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:2.7.4`
 
 </div><div class="h3-box" markdown="1">
 
@@ -768,4 +757,4 @@ we also use Features, which are a way to store parameter maps that are
 larger than just a string or a boolean. These features are serialized
 as either Parquet or RDD objects, allowing much faster and scalable
 annotator information. Features are also broadcasted among executors for
-better performance.  
+better performance.

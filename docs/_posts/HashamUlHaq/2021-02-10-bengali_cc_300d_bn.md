@@ -4,10 +4,11 @@ title: Word Embeddings for Bengali (bengali_cc_300d)
 author: John Snow Labs
 name: bengali_cc_300d
 date: 2021-02-10
-tags: [open_source, bn, embeddings]
 task: Embeddings
 language: bn
 edition: Spark NLP 2.7.3
+tags: [open_source, bn, embeddings]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

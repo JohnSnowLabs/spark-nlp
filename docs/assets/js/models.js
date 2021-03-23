@@ -480,9 +480,18 @@
   const ModelItemList = ({ meta, children, onPageChange }) => {
     return ReactDOM.createPortal(
       e(Fragment, null, [
-        e('div', { key: 0, className: 'grid--container model-items' }, [
-          e('div', { key: 0, className: 'grid' }, children),
-          e(Pagination, { key: 1, ...meta, onChange: onPageChange }),
+        e('div', { key: 'items', className: 'grid--container model-items' }, [
+          meta.totalItems > 0 &&
+            e(
+              'div',
+              {
+                key: 'total-results',
+                className: 'model-items__total-results',
+              },
+              'Models & Pipelines: ' + meta.totalItems
+            ),
+          e('div', { key: 'grid', className: 'grid' }, children),
+          e(Pagination, { key: 'pagination', ...meta, onChange: onPageChange }),
         ]),
       ]),
 
@@ -509,6 +518,7 @@
     language,
     edition,
     date,
+    supported,
     highlight,
   }) => {
     const getDisplayedLanguage = () => {
@@ -541,6 +551,15 @@
       'div',
       { className: 'cell cell--12 cell--md-6 cell--lg-4' },
       e('div', { className: 'model-item' }, [
+        supported &&
+          e(
+            'div',
+            {
+              key: 'supported',
+              className: 'model-item__supported',
+            },
+            'Supported'
+          ),
         e(
           'div',
           { key: 'header', className: 'model-item__header' },

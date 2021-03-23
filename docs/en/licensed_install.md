@@ -4,7 +4,7 @@ header: true
 title: Spark NLP for Healthcare
 permalink: /docs/en/licensed_install
 key: docs-licensed-install
-modify_date: "2020-09-09"
+modify_date: "2021-03-09"
 ---
 
 <div class="h3-box" markdown="1">
@@ -97,8 +97,9 @@ spark = SparkSession.builder \
     .appName("Spark NLP Enterprise") \
     .master("local[*]") \
     .config("spark.driver.memory","16") \
-    .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.0") \
+    .config("spark.driver.maxResultSize", "0") \
+    .config("spark.kryoserializer.buffer.max", "1000M")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.6") \
     .config("spark.jars", "https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar") \
     .getOrCreate()
 ```
@@ -146,7 +147,7 @@ If you want to download the source files (jar and whl files) locally, you can fo
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
  - Install New -> PyPI -> `spark-nlp` -> Install
- - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.6.1` -> Install
+ - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.5` -> Install
  - Please add following jars:
         - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl`
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`

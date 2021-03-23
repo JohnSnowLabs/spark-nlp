@@ -6,7 +6,7 @@ import org.scalatest._
 
 
 
-class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DummyAnnotatorModel] {
+class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DummyAnnotatorModel] with HasSimpleAnnotate[DummyAnnotatorModel] {
   import AnnotatorType._
   override val outputAnnotatorType: AnnotatorType = DUMMY
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array.empty[AnnotatorType]
@@ -23,7 +23,7 @@ class DummyAnnotatorModel(override val uid: String) extends AnnotatorModel[Dummy
 }
 object DummyAnnotatorModel extends DefaultParamsReadable[DummyAnnotatorModel]
 
-class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DemandingDummyAnnotatorModel] {
+class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorModel[DemandingDummyAnnotatorModel] with HasSimpleAnnotate[DemandingDummyAnnotatorModel] {
   import AnnotatorType._
   override val outputAnnotatorType: AnnotatorType = DUMMY
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DUMMY)

@@ -8,6 +8,7 @@ task: Word Segmentation
 language: zh
 edition: Spark NLP 2.7.0
 tags: [word_segmentation, cn, zh, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

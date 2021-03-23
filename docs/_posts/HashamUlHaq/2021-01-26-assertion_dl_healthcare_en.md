@@ -8,6 +8,7 @@ task: Assertion Status
 language: en
 edition: Spark NLP for Healthcare 2.7.2
 tags: [assertion, en, licensed, clinical]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

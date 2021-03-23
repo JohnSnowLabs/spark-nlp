@@ -8,6 +8,7 @@ tags: [licensed, clinical, ner, en]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 2.7.4
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
