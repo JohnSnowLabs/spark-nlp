@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Document Pipeline for Portuguese
+title: Recognize Entities DL Pipeline for Portuguese - Small
 author: John Snow Labs
 name: entity_recognizer_sm
 date: 2021-03-22

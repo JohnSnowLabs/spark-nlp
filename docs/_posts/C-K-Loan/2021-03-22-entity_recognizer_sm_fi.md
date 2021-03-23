@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Document Pipeline for Finnish
+title: Recognize Entities DL Pipeline for Finnish - Small
 author: John Snow Labs
 name: entity_recognizer_sm
 date: 2021-03-22

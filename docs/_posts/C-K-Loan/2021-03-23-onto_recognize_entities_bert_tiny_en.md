@@ -1,6 +1,6 @@
 ---
 layout: model
-title: onto_recognize_entities_bert_tiny pipeline for English
+title: Recognize Entities OntoNotes pipeline - BERT Tiny
 author: John Snow Labs
 name: onto_recognize_entities_bert_tiny
 date: 2021-03-23

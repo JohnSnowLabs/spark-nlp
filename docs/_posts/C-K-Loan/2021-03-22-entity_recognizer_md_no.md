@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Explain Document Pipeline for Norwegian (Bokmal)
+title: Recognize Entities DL Pipeline for Norwegian (Bokmal) - Medium
 author: John Snow Labs
 name: entity_recognizer_md
 date: 2021-03-22

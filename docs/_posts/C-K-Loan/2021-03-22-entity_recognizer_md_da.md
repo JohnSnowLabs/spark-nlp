@@ -1,6 +1,6 @@
 ---
 layout: model
-title: entity_recognizer_md pipeline for Danish
+title: Recognize Entities DL Pipeline for Danish - Medium
 author: John Snow Labs
 name: entity_recognizer_md
 date: 2021-03-22

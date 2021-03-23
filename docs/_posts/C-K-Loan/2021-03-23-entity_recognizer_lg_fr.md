@@ -1,6 +1,6 @@
 ---
 layout: model
-title: entity_recognizer_lg pipeline for French
+title: Recognize Entities DL pipeline for French - Large
 author: John Snow Labs
 name: entity_recognizer_lg
 date: 2021-03-23

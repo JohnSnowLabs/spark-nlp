@@ -1,6 +1,6 @@
 ---
 layout: model
-title: recognize_entities_bert pipeline for English
+title: Recognize Entities DL pipeline for English - BERT
 author: John Snow Labs
 name: recognize_entities_bert
 date: 2021-03-23

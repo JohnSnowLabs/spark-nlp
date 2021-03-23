@@ -1,6 +1,6 @@
 ---
 layout: model
-title: onto_recognize_entities_bert_large pipeline for English
+title: Recognize Entities OntoNotes pipeline - BERT Large
 author: John Snow Labs
 name: onto_recognize_entities_bert_large
 date: 2021-03-23

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: onto_recognize_entities_electra_large pipeline for English
+title: Recognize Entities OntoNotes pipeline - ELECTRA Large
 author: John Snow Labs
 name: onto_recognize_entities_electra_large
 date: 2021-03-23
