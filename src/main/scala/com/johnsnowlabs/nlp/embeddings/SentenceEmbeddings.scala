@@ -2,8 +2,9 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.HasStorageRef
+
 import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -28,6 +29,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   **/
 class SentenceEmbeddings(override val uid: String)
   extends AnnotatorModel[SentenceEmbeddings]
+    with HasSimpleAnnotate[SentenceEmbeddings]
     with HasEmbeddingsProperties
     with HasStorageRef {
 

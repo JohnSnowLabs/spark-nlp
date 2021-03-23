@@ -1606,7 +1606,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         )
 
 
-class NerDLModel(AnnotatorModel, HasStorageRef):
+class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
@@ -1614,7 +1614,10 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
             classname=classname,
             java_model=java_model
         )
-        self._setDefault(includeConfidence=False)
+        self._setDefault(
+            includeConfidence=False,
+            batchSize=8
+        )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     includeConfidence = Param(Params._dummy(), "includeConfidence",
@@ -1859,7 +1862,11 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         HasStorageModel.loadStorages(path, spark, storage_ref, WordEmbeddingsModel.databases)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class BertEmbeddings(AnnotatorModel,
+                     HasEmbeddingsProperties,
+                     HasCaseSensitiveProperties,
+                     HasStorageRef,
+                     HasBatchedAnnotate):
 
     name = "BertEmbeddings"
 
@@ -1867,11 +1874,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                               "maxSentenceLength",
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -1884,9 +1886,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
         super(BertEmbeddings, self).__init__(
@@ -1895,7 +1894,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         )
         self._setDefault(
             dimension=768,
-            batchSize=32,
+            batchSize=8,
             maxSentenceLength=128,
             caseSensitive=False
         )
@@ -1913,7 +1912,11 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
 
-class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class BertSentenceEmbeddings(AnnotatorModel,
+                             HasEmbeddingsProperties,
+                             HasCaseSensitiveProperties,
+                             HasStorageRef,
+                             HasBatchedAnnotate):
 
     name = "BertSentenceEmbeddings"
 
@@ -1921,11 +1924,6 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
                               "maxSentenceLength",
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     isLong = Param(Params._dummy(),
                    "isLong",
@@ -1943,9 +1941,6 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     def setIsLong(self, value):
         return self._set(isLong=value)
 
@@ -1957,7 +1952,7 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
         )
         self._setDefault(
             dimension=768,
-            batchSize=32,
+            batchSize=8,
             maxSentenceLength=128,
             caseSensitive=False
         )

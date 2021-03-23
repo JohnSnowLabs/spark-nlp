@@ -18,7 +18,7 @@
     'Part of Speech Tagging',
     'Lemmatization',
     'Relation Extraction',
-    'Spell Checking',
+    'Spell Check',
     'Assertion Status',
     'Entity Resolution',
     'De-identification',
@@ -332,6 +332,7 @@
   };
 
   const editions = [
+    'Spark NLP 3.0',
     'Spark NLP 2.7',
     'Spark NLP 2.6',
     'Spark NLP 2.5',

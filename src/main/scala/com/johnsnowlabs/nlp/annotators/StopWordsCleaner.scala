@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.util.Locale
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamValidators, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
@@ -26,7 +26,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class StopWordsCleaner(override val uid: String) extends AnnotatorModel[StopWordsCleaner] {
+class StopWordsCleaner(override val uid: String) extends AnnotatorModel[StopWordsCleaner] with HasSimpleAnnotate[StopWordsCleaner] {
 
   /** Output annotator type: TOKEN
     *
