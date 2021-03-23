@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
@@ -11,7 +10,7 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -23,6 +22,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   **/
 class NerDLModel(override val uid: String)
   extends AnnotatorModel[NerDLModel]
+    with HasBatchedAnnotate[NerDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -45,11 +45,6 @@ class NerDLModel(override val uid: String)
     * @group param
     **/
   val minProba = new FloatParam(this, "minProbe", "Minimum probability. Used only if there is no CRF on top of LSTM layer.")
-  /** Size of every batch.
-    *
-    * @group param
-    **/
-  val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
   /** datasetParams
     *
     * @group param
@@ -69,7 +64,8 @@ class NerDLModel(override val uid: String)
   val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
   setDefault(
-    includeConfidence -> false
+    includeConfidence -> false,
+    batchSize -> 8
   )
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
@@ -77,12 +73,6 @@ class NerDLModel(override val uid: String)
     * @group setParam
     **/
   def setMinProbability(minProba: Float): this.type = set(this.minProba, minProba)
-
-  /** Size of every batch.
-    *
-    * @group setParam
-    **/
-  def setBatchSize(size: Int): this.type = set(this.batchSize, size)
 
   /** datasetParams
     *
@@ -107,12 +97,6 @@ class NerDLModel(override val uid: String)
     * @group getParam
     **/
   def getMinProba: Float = $(this.minProba)
-
-  /** Size of every batch.
-    *
-    * @group getParam
-    **/
-  def getBatchSize: Int = $(this.batchSize)
 
   /** datasetParams
     *
@@ -142,13 +126,18 @@ class NerDLModel(override val uid: String)
     encoder.tags
   }
 
-  def tag(tokenized: Array[WordpieceEmbeddingsSentence]): Array[NerTaggedSentence] = {
+  private case class RowIdentifiedSentence(rowIndex: Int, rowSentence: WordpieceEmbeddingsSentence)
+
+  def tag(tokenized: Array[Array[WordpieceEmbeddingsSentence]]): Seq[Array[NerTaggedSentence]] = {
+    val batch = tokenized.zipWithIndex.flatMap{case (t, i) => t.map(RowIdentifiedSentence(i, _))}
     // Predict
-    val labels = getModelIfNotSet.predict(tokenized, getConfigProtoBytes, includeConfidence = $(includeConfidence))
+    val labels = getModelIfNotSet.predict(batch.map(_.rowSentence), getConfigProtoBytes, includeConfidence = $(includeConfidence))
+
+    val outputBatches = Array.fill[Array[NerTaggedSentence]](tokenized.length)(Array.empty)
 
     // Combine labels with sentences tokens
-    tokenized.indices.map { i =>
-      val sentence = tokenized(i)
+    batch.indices.foreach { i =>
+      val sentence = batch(i).rowSentence
 
       val tokens = sentence.tokens.indices.flatMap { j =>
         val token = sentence.tokens(j)
@@ -161,8 +150,9 @@ class NerDLModel(override val uid: String)
         }
       }.toArray
 
-      new TaggedSentence(tokens)
-    }.toArray
+      outputBatches(batch(i).rowIndex) = outputBatches(batch(i).rowIndex) :+ new TaggedSentence(tokens)
+    }
+    outputBatches
   }
 
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
@@ -175,7 +165,7 @@ class NerDLModel(override val uid: String)
           new TensorflowNer(
             tf,
             encoder,
-            1, // Tensorflow doesn't clear state in batch
+            10000, // Tensorflow doesn't clear state in batch
             Verbose.Silent
           )
         )
@@ -191,18 +181,18 @@ class NerDLModel(override val uid: String)
     dataset
   }
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     // Parse
-    val tokenized = WordpieceEmbeddingsSentence.unpack(annotations).toArray
+    val tokenized = batchedAnnotations.map(annotations =>
+      WordpieceEmbeddingsSentence.unpack(annotations).toArray
+    ).toArray
 
     // Predict
     val tagged = tag(tokenized)
 
     // Pack
-    NerTagged.pack(tagged)
+    tagged.map(innerTagged => NerTagged.pack(innerTagged))
   }
-
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)

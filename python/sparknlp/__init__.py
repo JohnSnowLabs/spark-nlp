@@ -37,33 +37,43 @@ sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 annotators = annotator
 embeddings = annotator
 
-def start(gpu=False, spark23=False):
-    current_version = "2.7.5"
 
-    maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp_2.11:{}".format(current_version)
-    maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.11:{}".format(current_version)
+def start(gpu=False, spark23=False, spark24=False, memory="16G"):
+    current_version = "3.0.0"
+
+    # Spark NLP on Apache Spark 3.0.x
+    maven_spark = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
+    maven_gpu_spark = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
+    # Spark NLP on Apache Spark 2.4.x
+    maven_spark24 = "com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:{}".format(current_version)
+    maven_gpu_spark24 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:{}".format(current_version)
+    # Spark NLP on Apache Spark 2.3.x
     maven_spark23 = "com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:{}".format(current_version)
     maven_gpu_spark23 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:{}".format(current_version)
 
     builder = SparkSession.builder \
         .appName("Spark NLP") \
         .master("local[*]") \
-        .config("spark.driver.memory", "16G") \
+        .config("spark.driver.memory", memory) \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.kryoserializer.buffer.max", "1000M") \
+        .config("spark.kryoserializer.buffer.max", "2000M") \
         .config("spark.driver.maxResultSize", "0")
 
     if gpu and spark23:
         builder.config("spark.jars.packages", maven_gpu_spark23)
+    elif gpu and spark24:
+        builder.config("spark.jars.packages", maven_gpu_spark24)
     elif spark23:
         builder.config("spark.jars.packages", maven_spark23)
-    elif gpu:
-        builder.config("spark.jars.packages", maven_gpu_spark24)
-    else:
+    elif spark24:
         builder.config("spark.jars.packages", maven_spark24)
-        
+    elif gpu:
+        builder.config("spark.jars.packages", maven_gpu_spark)
+    else:
+        builder.config("spark.jars.packages", maven_spark)
+
     return builder.getOrCreate()
 
 
 def version():
-    return '2.7.5'
+    return '3.0.0'

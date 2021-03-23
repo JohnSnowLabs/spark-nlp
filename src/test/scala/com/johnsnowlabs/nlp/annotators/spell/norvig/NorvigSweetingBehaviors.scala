@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{AnalysisException, Dataset, Row}
 import org.scalatest._
 
 trait NorvigSweetingBehaviors { this: FlatSpec =>
@@ -135,14 +135,19 @@ trait NorvigSweetingBehaviors { this: FlatSpec =>
   def raiseErrorWhenWrongColumnIsSent(): Unit = {
     "" should "raise an error when dataset without array annotation is used"  in {
       val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
-      val expectedErrorMessage = "Train dataset must have an array annotation type column"
       val spell = new NorvigSweetingApproach()
         .setInputCols(Array("text"))
         .setOutputCol("spell")
         .setDictionary("src/test/resources/spell/words.txt")
 
-      val caught = intercept[IllegalArgumentException] {
+      val caught = intercept[Exception] {
         spell.fit(trainDataSet)
+      }
+
+      val expectedErrorMessage = caught match {
+        case ex: AnalysisException => "need an array field but got string" // Spark 3.x
+        case ex: IllegalArgumentException => "Train dataset must have an array annotation type column" // Spark 2.x
+        case _ => new Exception("Unknown exception. Please check Spark version for correct handling.")
       }
 
       assert(caught.getMessage == expectedErrorMessage)
