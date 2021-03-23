@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Recognize Entities DL Pipeline for Spanish - Small
+title: Recognize Entities DL Pipeline for Spanish - Medium
 author: John Snow Labs
-name: entity_recognizer_sm
+name: entity_recognizer_md
 date: 2021-03-22
-tags: [open_source, spanish, entity_recognizer_sm, pipeline, es]
+tags: [open_source, spanish, entity_recognizer_md, pipeline, es]
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
 language: es
 edition: Spark NLP 3.0.0
@@ -16,13 +16,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The entity_recognizer_sm is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps.
+The entity_recognizer_md is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps.
          It performs most of the common text processing tasks on your dataframe
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/2da56c087da53a2fac1d51774d49939e05418e57/jupyter/annotation/english/explain-document-dl/Explain%20Document%20DL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_es_3.0.0_3.0_1616441492784.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_es_3.0.0_3.0_1616447940054.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -33,14 +33,14 @@ The entity_recognizer_sm is a pretrained pipeline that we can use to process tex
 ```python
 
 from sparknlp.pretrained import PretrainedPipelinein
-pipeline = PretrainedPipeline('entity_recognizer_sm', lang = 'es')
+pipeline = PretrainedPipeline('entity_recognizer_md', lang = 'es')
 annotations =  pipeline.fullAnnotate(""Hola de John Snow Labs! "")[0]
 annotations.keys()
 
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline("entity_recognizer_sm", lang = "es")
+val pipeline = new PretrainedPipeline("entity_recognizer_md", lang = "es")
 val result = pipeline.fullAnnotate("Hola de John Snow Labs! ")(0)
 
 
@@ -51,7 +51,7 @@ val result = pipeline.fullAnnotate("Hola de John Snow Labs! ")(0)
 
 import nlu
 text = [""Hola de John Snow Labs! ""]
-result_df = nlu.load('es.ner').predict(text)
+result_df = nlu.load('es.ner.md').predict(text)
 result_df
     
 ```
@@ -60,9 +60,9 @@ result_df
 ## Results
 
 ```bash
-|    | document                     | sentence                    | token                                   | embeddings                   | ner                                    | entities               |
-|---:|:-----------------------------|:----------------------------|:----------------------------------------|:-----------------------------|:---------------------------------------|:-----------------------|
-|  0 | ['Hola de John Snow Labs! '] | ['Hola de John Snow Labs!'] | ['Hola', 'de', 'John', 'Snow', 'Labs!'] | [[0.1754499971866607,.,...]] | ['O', 'O', 'B-PER', 'I-PER', 'B-MISC'] | ['John Snow', 'Labs!'] |
+|    | document                     | sentence                    | token                                   | embeddings                   | ner                                   | entities            |
+|---:|:-----------------------------|:----------------------------|:----------------------------------------|:-----------------------------|:--------------------------------------|:--------------------|
+|  0 | ['Hola de John Snow Labs! '] | ['Hola de John Snow Labs!'] | ['Hola', 'de', 'John', 'Snow', 'Labs!'] | [[0.5123000144958496,.,...]] | ['O', 'O', 'B-PER', 'I-PER', 'I-PER'] | ['John Snow Labs!'] |
 ```
 
 {:.model-param}
@@ -70,7 +70,7 @@ result_df
 
 {:.table-model}
 |---|---|
-|Model Name:|entity_recognizer_sm|
+|Model Name:|entity_recognizer_md|
 |Type:|pipeline|
 |Compatibility:|Spark NLP 3.0.0+|
 |License:|Open Source|
