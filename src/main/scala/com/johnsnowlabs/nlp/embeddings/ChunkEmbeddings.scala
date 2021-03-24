@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.DataFrame
@@ -52,7 +52,7 @@ object PoolingStrategy {
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
-class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] {
+class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmbeddings] with HasSimpleAnnotate[ChunkEmbeddings] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

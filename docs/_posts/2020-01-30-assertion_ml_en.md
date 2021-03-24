@@ -10,7 +10,7 @@ edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical, licensed, ner, en]
 supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

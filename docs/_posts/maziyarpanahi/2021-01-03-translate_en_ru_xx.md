@@ -8,6 +8,7 @@ task: [Translation, Pipeline Public]
 language: ru
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, ru, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

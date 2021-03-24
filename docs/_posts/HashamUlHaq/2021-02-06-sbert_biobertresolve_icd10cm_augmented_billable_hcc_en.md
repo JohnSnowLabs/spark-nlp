@@ -5,6 +5,7 @@ author: John Snow Labs
 name: sbert_biobertresolve_icd10cm_augmented_billable_hcc
 date: 2021-02-06
 tags: [licensed, clinical, en, entity_resolution]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

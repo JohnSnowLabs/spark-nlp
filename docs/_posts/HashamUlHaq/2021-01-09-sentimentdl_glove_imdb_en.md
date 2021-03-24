@@ -8,6 +8,7 @@ task: Sentiment Analysis
 language: en
 edition: Spark NLP 2.7.1
 tags: [open_source, en, sentiment]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

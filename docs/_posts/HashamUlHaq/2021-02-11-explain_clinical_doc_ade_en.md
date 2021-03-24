@@ -4,10 +4,11 @@ title: explain_clinical_doc_ade
 author: John Snow Labs
 name: explain_clinical_doc_ade
 date: 2021-02-11
-tags: [en, licensed]
 task: Pipeline Healthcare
 language: en
 edition: Spark NLP 2.7.3
+tags: [en, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

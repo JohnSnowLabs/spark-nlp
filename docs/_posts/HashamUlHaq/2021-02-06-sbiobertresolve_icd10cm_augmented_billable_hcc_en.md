@@ -8,6 +8,7 @@ task: Entity Resolution
 language: en
 edition: Spark NLP 2.7.3
 tags: [licensed, clinical, en, entity_resolution]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

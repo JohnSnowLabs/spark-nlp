@@ -31,6 +31,7 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
       edition: post.data['edition'],
       edition_short: edition_short,
       date: post.data['date'].strftime('%F'),
+      supported: !!post.data['supported'],
       body: body
     }
   end

@@ -8,6 +8,7 @@ task: [Embeddings, Sentiment Analysis, Pipeline Public]
 language: en
 edition: Spark NLP 2.7.1
 tags: [sentiment, en, pipeline]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
