@@ -50,7 +50,5 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.select("embeddings").write.mode("overwrite").parquet("./tmp_albert_embeddings")
     }
-
   }
-
 }

@@ -14,17 +14,20 @@ object LoadSentencepiece {
   @transient var loadedToCluster = false
   @transient var loadedToTensorflow = false
 
-  private lazy val lib = "_sentencepiece_processor_ops.so"
+  private lazy val lib = "_sentencepiece_tokenizer"
 
   private def resourcePath(os: String, lib: String) = "sp-process/"+os+"/"+lib
 
   lazy val sentencepiecePaths: Option[String] =
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
-      Some(resourcePath("mac", lib))
+      val libWithExtension = lib + ".dylib"
+      Some(resourcePath("mac", libWithExtension))
     } else if (SystemUtils.IS_OS_WINDOWS) {
       Some(resourcePath("win", lib))
     } else {
-      Some(resourcePath("linux", lib))
+      // TODO: the only available .so file is compatible with TF 2.4.x - Current TF Java supports TF 2.3.1
+      val libWithExtension = lib + ".so"
+      Some(resourcePath("linux", libWithExtension))
     }
 
   private def getFileName(path: String) = {

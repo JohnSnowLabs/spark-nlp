@@ -20,15 +20,11 @@ object functions {
     }
   }
 
-  def mapAnnotations[T](function: Seq[Annotation] => T, outputType: DataType): UserDefinedFunction = udf ( {
-    annotatorProperties: Seq[Row] =>
-      function(annotatorProperties.map(Annotation(_)))
-  }, outputType)
+  def mapAnnotations(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction =
+    udf { annotatorProperties: Seq[Row] => function(annotatorProperties.map(Annotation(_))) }
 
-  def mapAnnotationsStrict(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction = udf {
-    annotatorProperties: Seq[Row] =>
-      function(annotatorProperties.map(Annotation(_)))
-  }
+  def mapAnnotationsStrict(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction =
+    udf { annotatorProperties: Seq[Row] => function(annotatorProperties.map(Annotation(_))) }
 
   implicit class MapAnnotations(dataset: DataFrame) {
     def mapAnnotationsCol[T: TypeTag](column: String, outputCol: String, function: Seq[Annotation] => T): DataFrame = {
