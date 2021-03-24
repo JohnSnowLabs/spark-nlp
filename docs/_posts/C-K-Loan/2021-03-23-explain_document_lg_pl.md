@@ -1,6 +1,6 @@
 ---
 layout: model
-title: explain_document_lg pipeline for Polish
+title: Explain Document pipeline for Polish (explain_document_lg)
 author: John Snow Labs
 name: explain_document_lg
 date: 2021-03-23

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: analyze_sentiment pipeline for English
+title: Sentiment Analysis pipeline for English
 author: John Snow Labs
 name: analyze_sentiment
 date: 2021-03-24

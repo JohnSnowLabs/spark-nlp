@@ -1,6 +1,6 @@
 ---
 layout: model
-title: analyze_sentimentdl_glove_imdb pipeline for English
+title:  Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)
 author: John Snow Labs
 name: analyze_sentimentdl_glove_imdb
 date: 2021-03-24

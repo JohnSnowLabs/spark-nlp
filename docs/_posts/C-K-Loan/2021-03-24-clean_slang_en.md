@@ -1,6 +1,6 @@
 ---
 layout: model
-title: clean_slang pipeline for English
+title: Clean slangs pipeline for English
 author: John Snow Labs
 name: clean_slang
 date: 2021-03-24

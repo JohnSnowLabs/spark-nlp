@@ -1,6 +1,6 @@
 ---
 layout: model
-title: clean_pattern pipeline for English
+title: Clean patterns pipeline for English
 author: John Snow Labs
 name: clean_pattern
 date: 2021-03-24

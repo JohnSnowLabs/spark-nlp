@@ -1,6 +1,6 @@
 ---
 layout: model
-title: explain_document_lg pipeline for Norwegian (Bokmal)
+title: Explain Document pipeline for Norwegian (Bokmal) (explain_document_lg)
 author: John Snow Labs
 name: explain_document_lg
 date: 2021-03-23
