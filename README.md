@@ -639,30 +639,28 @@ Run the following code in Google Colab notebook and start using spark-nlp right 
 import os
 
 # Install java
-! apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
+!apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
 !wget -q "https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz" > /dev/null
-!tar -xvf spark-3.1.1-bin-hadoop2.7.tgz
+!tar -xvf spark-3.1.1-bin-hadoop2.7.tgz > /dev/null
 !pip install -q findspark
 
 os.environ["SPARK_HOME"] = "/content/spark-3.1.1-bin-hadoop2.7"
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
 os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
-! java -version
+!java -version
 
 # Install spark-nlp and pyspark
-! pip install spark-nlp==3.0.0 pyspark==3.1.1
+!pip install spark-nlp==3.0.0 pyspark==3.1.1
 
 # Quick SparkSession start
 import sparknlp
 spark = sparknlp.start()
 
-print("Spark NLP version")
-sparknlp.version()
-print("Apache Spark version")
-spark.version
+print("Spark NLP version: {}".format(sparknlp.version()))
+print("Apache Spark version: {}".format(spark.version))
 ```
 
-[Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
+[Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
 
 ## Databricks Cluster
 
