@@ -637,8 +637,8 @@ Run the following code in Google Colab notebook and start using spark-nlp right 
 
 ```python
 # This is only to setup PySpark and Spark NLP on Colab
-!wget -q https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/scripts/colab/pyspark.sh
-!bash pyspark.sh
+!wget -q https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/scripts/colab/colab_setup.sh
+!bash colab_setup.sh
 ```
 This script comes with the two options to define `pyspark` and `spark-nlp` versions via options:
 
@@ -646,7 +646,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -p is for pyspark
 # -s is for spark-nlp
 # by default they are set to the latest
-!bash pyspark.sh -p 3.1.1 -s 3.0.0
+!bash colab_setup.sh -p 3.1.1 -s 3.0.0
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
