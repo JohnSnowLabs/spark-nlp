@@ -636,17 +636,28 @@ Google Colab is perhaps the easiest way to get started with spark-nlp. It requir
 Run the following code in Google Colab notebook and start using spark-nlp right away.
 
 ```python
-# This is only to setup PySpark and Spark NLP on Colab
-!wget -q https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/scripts/colab/pyspark.sh
-!bash pyspark.sh
-```
-This script comes with the two options to define `pyspark` and `spark-nlp` versions via options:
+import os
 
-```python
-# -p is for pyspark
-# -s is for spark-nlp
-# by default they are set to the latest
-!bash pyspark.sh -p 3.1.1 -s 3.0.0
+# Install java
+!apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
+!wget -q "https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz" > /dev/null
+!tar -xvf spark-3.1.1-bin-hadoop2.7.tgz > /dev/null
+!pip install -q findspark
+
+os.environ["SPARK_HOME"] = "/content/spark-3.1.1-bin-hadoop2.7"
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
+!java -version
+
+# Install spark-nlp and pyspark
+!pip install spark-nlp==3.0.0 pyspark==3.1.1
+
+# Quick SparkSession start
+import sparknlp
+spark = sparknlp.start()
+
+print("Spark NLP version: {}".format(sparknlp.version()))
+print("Apache Spark version: {}".format(spark.version))
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
