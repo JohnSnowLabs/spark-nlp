@@ -23,13 +23,16 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
 
     m = !post.data['edition'].nil? && /(.*)\.(\d+)\z/.match(post.data['edition'])
     edition_short = m.is_a?(MatchData) ? m[1] : ''
-    body = Nokogiri::HTML(post.content).xpath('//p[not(contains(@class, "btn-box"))]').map do |p|
-      p.text.gsub(/\s+/, ' ')
-    end.join(' ')
+
+    body = Nokogiri::HTML(post.content)
+    body.search('h2, pre, table, .btn-box, .tabs-box, .highlight').remove
+    body = body.text.gsub(/\s+/, ' ').strip
 
     puts "Indexing #{post.url}..."
     client.index index: 'models', id: post.url, body: {
+      name: post.data['name'],
       title: post.data['title'],
+      tags_glued: post.data['tags'].join(' '),
       task: post.data['task'],
       language: post.data['language'],
       edition: post.data['edition'],
