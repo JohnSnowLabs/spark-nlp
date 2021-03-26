@@ -13,10 +13,14 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
     .each_line \
     .to_a \
     .map(&:chomp) \
+    .uniq \
     .select { |v| v.start_with?("docs/_posts") } \
     .map { |v| File.basename(v) }
+
   Jekyll::Hooks.register :posts, :post_render do |post|
     next unless posts.include? post.basename
+    posts.delete(post.basename)
+
     m = !post.data['edition'].nil? && /(.*)\.(\d+)\z/.match(post.data['edition'])
     edition_short = m.is_a?(MatchData) ? m[1] : ''
     body = Nokogiri::HTML(post.content).xpath('//p[not(contains(@class, "btn-box"))]').map do |p|
@@ -34,5 +38,15 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
       supported: !!post.data['supported'],
       body: body
     }
+  end
+
+  Jekyll::Hooks.register :site, :post_render do |site|
+    # remove renamed or deleted posts from the index
+    posts.map do |filename|
+      filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
+    end.compact.each do |id|
+      puts "Removing #{id}..."
+      client.delete index: 'models', id: id, ignore: [404]
+    end
   end
 end
