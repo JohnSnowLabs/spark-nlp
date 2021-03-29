@@ -96,31 +96,26 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     }
 
     //Run encoder
-    val encoderInputTensorResources = new TensorResources()
-    val encoderAttentionMaskTensorResources = new TensorResources()
-
+    val tensorEncoder = new TensorResources()
     val inputDim = batch.length * maxSentenceLength
 
-    val encoderInputBuffers = encoderInputTensorResources.createLongBuffer(inputDim)
-    val encoderAttentionMaskBuffers = encoderAttentionMaskTensorResources.createLongBuffer(inputDim)
+    val encoderInputBuffers = tensorEncoder.createLongBuffer(inputDim)
+    val encoderAttentionMaskBuffers = tensorEncoder.createLongBuffer(inputDim)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.foreach(tokenIds => {
-
+    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+      val offset = idx * maxSentenceLength
       val diff = maxSentenceLength - tokenIds.length
 
       val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Long](diff)(this.paddingTokenId)
-      encoderInputBuffers.put(s)
+      encoderInputBuffers.offset(offset).write(s)
       val mask = s.map(x => if (x != this.paddingTokenId) 1L else 0L)
-      encoderAttentionMaskBuffers.put(mask)
-    })
+      encoderAttentionMaskBuffers.offset(offset).write(mask)
+    }
 
-    encoderInputBuffers.flip()
-    encoderAttentionMaskBuffers.flip()
-
-    val encoderInputTensors = encoderInputTensorResources.createLongBufferTensor(shape, encoderInputBuffers)
-    val encoderAttentionMaskTensors = encoderAttentionMaskTensorResources.createLongBufferTensor(shape, encoderAttentionMaskBuffers)
+    val encoderInputTensors = tensorEncoder.createLongBufferTensor(shape, encoderInputBuffers)
+    val encoderAttentionMaskTensors = tensorEncoder.createLongBufferTensor(shape, encoderAttentionMaskBuffers)
 
     val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
     val runner = session.runner
@@ -135,33 +130,28 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val dim = encoderOutsFloats.length / inputDim
     val encoderOutsBatch = encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
-    encoderInputBuffers.clear()
-
-    encoderInputTensorResources.clearTensors()
-    encoderInputTensorResources.clearSession(encoderOuts)
+    encoderOuts.foreach(_.close())
+//    tensorEncoder.clearSession(encoderOuts)
 
     //Run decoder
     val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
-    batch.zipWithIndex.foreach(bi => {
-      encoderOutsBatch(bi._2).foreach(encoderOutput => {
-        decoderEncoderStateBuffers.put(encoderOutput)
+    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length*maxSentenceLength*dim)
+    batch.zipWithIndex.foreach { case (_, index) =>
+      var offset = index * maxSentenceLength * dim
+      encoderOutsBatch(index).foreach(encoderOutput => {
+        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
+        offset += dim
       })
-    })
-    decoderEncoderStateBuffers.flip()
-    val decoderEncoderStateTensors = encoderInputTensorResources.createFloatBufferTensor(
+    }
+
+    val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
       Array(batch.length.toLong, maxSentenceLength, dim),
       decoderEncoderStateBuffers)
 
     val modelOutputs = _generateNo_beam_search(batch, decoderEncoderStateTensors, encoderAttentionMaskTensors, maxOutputLength, minOutputLength, doSample,
       temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, effective_batch_size, vocab_size, session)
 
-    encoderAttentionMaskBuffers.clear()
-    encoderAttentionMaskTensorResources.clearTensors()
-
-    decoderEncoderStateBuffers.clear()
-    decoderEncoderStateTensorResources.clearTensors()
-
+    tensorEncoder.clearTensors()
     modelOutputs
   }
 
@@ -195,25 +185,21 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
     while (!stopDecoder) {
       val decoderInputLength = decoderInputs.head.length
-      val decoderInputTensorResources = new TensorResources()
-      val decoderAttentionTensorResources = new TensorResources()
-      val decoderInputBuffers = decoderInputTensorResources.createLongBuffer(inputIds.length * decoderInputLength)
-      val decoderAttentionBuffers = decoderAttentionTensorResources.createLongBuffer(inputIds.length * decoderInputLength)
+      val tensorDecoder = new TensorResources()
 
-      inputIds.zipWithIndex.foreach(bi => {
-        decoderInputs(bi._2).zipWithIndex.foreach(x => {
-          decoderInputBuffers.put(x._1)
-          decoderAttentionBuffers.put(if ((x._2 != 0) && (x._1 == this.paddingTokenId)) 0L else 1L)
-        })
-      })
+      val decoderInputBuffers = tensorDecoder.createLongBuffer(inputIds.length * decoderInputLength)
+      val decoderAttentionBuffers = tensorDecoder.createLongBuffer(inputIds.length * decoderInputLength)
 
-      decoderInputBuffers.flip()
-      decoderAttentionBuffers.flip()
+      decoderInputs.zipWithIndex.foreach{ case (pieceIds, idx) =>
+        val offset = idx * decoderInputLength
+        decoderInputBuffers.offset(offset).write(pieceIds)
+        val paddingMasks = pieceIds.map(_ => 1L)
+        decoderAttentionBuffers.offset(offset).write(paddingMasks)
+      }
 
-      // decoderInputIds
-      val decoderInputTensors = decoderInputTensorResources.createLongBufferTensor(
+      val decoderInputTensors = tensorDecoder.createLongBufferTensor(
         Array(inputIds.length.toLong, decoderInputLength), decoderInputBuffers)
-      val decoderAttentionMaskTensors = decoderAttentionTensorResources.createLongBufferTensor(
+      val decoderAttentionMaskTensors = tensorDecoder.createLongBufferTensor(
         Array(inputIds.length.toLong, decoderInputLength), decoderAttentionBuffers)
       val runner = session.runner
 
@@ -294,9 +280,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
       decoderOuts.foreach(_.close())
 
-      decoderInputBuffers.clear()
-      decoderInputTensorResources.clearTensors()
-      decoderAttentionBuffers.clear()
+      tensorDecoder.clearTensors()
+      tensorDecoder.clearSession(decoderOuts)
+      decoderInputTensors.close()
 
       stopDecoder = (
         !modelOutputs.exists(o => o.last != this.eosTokenId)

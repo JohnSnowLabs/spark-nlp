@@ -249,11 +249,11 @@ class PerceptronApproachDistributed(override val uid: String) extends AnnotatorA
         dataset.sparkSession.sparkContext.broadcast[Long](updateIterationAcc.value)
       }
 
-      val sortedSentences = cachedSentences.sort(rand()).sortWithinPartitions(rand())
+      val sortedSentences: Dataset[TaggedSentence] = cachedSentences.sort(rand()).sortWithinPartitions(rand())
 
       /** Cache of iteration datasets does not show any improvements, try sample? */
 
-      sortedSentences.foreachPartition(partition => {
+      sortedSentences.foreachPartition((partition: Iterator[TaggedSentence]) => {
 
         val _temp1 = ListBuffer.empty[((String, String), Long)]
         iterationTimestamps.value.copyToBuffer(_temp1)

@@ -386,7 +386,7 @@ data:
           url: https://github.com/JohnSnowLabs/spark-nlp-workshop
         - text: '<i class="fab fa-slack-hash"></i> Slack'
           type: trans
-          url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I
+          url: https://www.johnsnowlabs.com/slack-redirect/
       background_color: "#0098DA"
     
     

@@ -17,7 +17,7 @@ class TensorflowClassifier(
   private val inputKey = "inputs:0"
   private val labelKey = "labels:0"
   private val learningRateKey = "lr:0"
-  private val dropouttKey = "dp:0"
+  private val dropoutKey = "dp:0"
 
   private val numClasses: Int = encoder.params.tags.length
 
@@ -91,7 +91,7 @@ class TensorflowClassifier(
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
           .feed(learningRateKey, lrTensor)
-          .feed(dropouttKey, dpTensor)
+          .feed(dropoutKey, dpTensor)
           .fetch(optimizer)
           .fetch(predictionKey)
           .fetch(cost)

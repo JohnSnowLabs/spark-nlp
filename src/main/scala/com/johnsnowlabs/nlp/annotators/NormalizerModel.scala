@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -28,7 +28,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel] {
+class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel] with HasSimpleAnnotate[NormalizerModel] {
 
   /** Output annotator type : TOKEN
     *

@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp.annotators.sda.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam}
 import org.apache.spark.ml.util.Identifiable
 
@@ -29,7 +29,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[SentimentDetectorModel] {
+class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[SentimentDetectorModel] with HasSimpleAnnotate[SentimentDetectorModel] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
