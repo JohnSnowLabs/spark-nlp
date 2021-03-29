@@ -175,23 +175,27 @@ class ChunkTokenizerTestSpec(unittest.TestCase):
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = SparkContextForTest.data
+        self.session = SparkContextForTest.spark
+        # self.data = SparkContextForTest.data
 
     def runTest(self):
+        data = self.session.createDataFrame([("this is some/text I wrote",)], ["text"])
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token")
-        lemmatizer = Normalizer() \
+        normalizer = Normalizer() \
             .setInputCols(["token"]) \
-            .setOutputCol("normalized_token") \
-            .setLowercase(False)
+            .setOutputCol("normalized") \
+            .setLowercase(False) \
+            .setMinLength(4) \
+            .setMaxLength(10)
 
-        assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.fit(assembled).transform(assembled)
-        lemmatizer.transform(tokenized).show()
+        assembled = document_assembler.transform(data)
+        tokens = tokenizer.fit(assembled).transform(assembled)
+        normalizer.fit(tokens).transform(tokens).show()
 
 
 class DateMatcherTestSpec(unittest.TestCase):
@@ -1408,7 +1412,7 @@ class WordSegmenterTestSpec(unittest.TestCase):
         ])
 
         model = pipeline.fit(self.train)
-        model.transform(self.data).show(truncate=False)                                   
+        model.transform(self.data).show(truncate=False)
 
 class LanguageDetectorDLTestSpec(unittest.TestCase):
 
@@ -1422,7 +1426,7 @@ class LanguageDetectorDLTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        
+
         sentence_detector = SentenceDetectorDLModel.pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
@@ -1500,7 +1504,7 @@ class T5TransformerSummaryTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        t5 = T5Transformer.pretrained()\
+        t5 = T5Transformer.pretrained() \
             .setTask("summarize:") \
             .setMaxOutputLength(200) \
             .setInputCols(["documents"]) \
