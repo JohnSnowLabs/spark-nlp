@@ -8,7 +8,7 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
 class T5TestSpec extends FlatSpec {
-  "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline" in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -50,34 +50,34 @@ class T5TestSpec extends FlatSpec {
     results.select("summaries.result").show(truncate = false)
   }
 
-  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
-    val testData = ResourceHelper.spark.createDataFrame(Seq(
-
-      (1, "Which is the capital of France? Who was the first president of USA?"),
-      (1, "Which is the capital of Bulgaria ?"),
-      (2, "Who is Donald Trump?")
-
-    )).toDF("id", "text")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("documents")
-
-    val sentenceDetector = SentenceDetectorDLModel
-      .pretrained()
-      .setInputCols(Array("documents"))
-      .setOutputCol("questions")
-
-    val t5 = T5Transformer.pretrained("t5-small-ssm-nq")
-      .setInputCols(Array("questions"))
-      .setOutputCol("answers")
-
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, t5))
-
-    val model = pipeline.fit(testData)
-    val results = model.transform(testData)
-
-    results.select("questions.result", "answers.result").show(truncate = false)
-  }
+//  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" in {
+//    val testData = ResourceHelper.spark.createDataFrame(Seq(
+//
+//      (1, "Which is the capital of France? Who was the first president of USA?"),
+//      (1, "Which is the capital of Bulgaria ?"),
+//      (2, "Who is Donald Trump?")
+//
+//    )).toDF("id", "text")
+//
+//    val documentAssembler = new DocumentAssembler()
+//      .setInputCol("text")
+//      .setOutputCol("documents")
+//
+//    val sentenceDetector = SentenceDetectorDLModel
+//      .pretrained()
+//      .setInputCols(Array("documents"))
+//      .setOutputCol("questions")
+//
+//    val t5 = T5Transformer.pretrained("t5-small-ssm-nq")
+//      .setInputCols(Array("questions"))
+//      .setOutputCol("answers")
+//
+//    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, t5))
+//
+//    val model = pipeline.fit(testData)
+//    val results = model.transform(testData)
+//
+//    results.select("questions.result", "answers.result").show(truncate = false)
+//  }
 
 }

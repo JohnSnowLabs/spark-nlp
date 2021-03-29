@@ -16,7 +16,7 @@ import java.util.LinkedList;
 
 public class GeneralAnnotationsTest {
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         DocumentAssembler document = new DocumentAssembler();
         document.setInputCol("text");
@@ -30,9 +30,9 @@ public class GeneralAnnotationsTest {
         Pipeline pipeline = new Pipeline();
         pipeline.setStages(new PipelineStage[] {document, tokenizer});
 
-        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(false, false);
+        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(false, false, false, "16G");
 
-        LinkedList<String> text = new java.util.LinkedList<String>();
+        LinkedList<String> text = new java.util.LinkedList<>();
 
         text.add("Peter is a very good person");
 
@@ -58,7 +58,7 @@ public class GeneralAnnotationsTest {
 
         System.out.println(result.get("token"));
 
-        java.util.ArrayList<String> list = new java.util.ArrayList<String>();
+        java.util.ArrayList<String> list = new java.util.ArrayList<>();
         list.add("Peter is a good person.");
         list.add("Roy lives in Germany.");
 

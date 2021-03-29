@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.when
@@ -57,12 +57,12 @@ class LightPipelineTestSpec extends FlatSpec {
         sentimentDetector
       ))
 
-    val model: PipelineModel = pipeline.fit(data)
+    lazy val model: PipelineModel = pipeline.fit(data)
 
-    val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
+    lazy val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000).repartition()
 
-    val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
-    val text = "hello world, this is some sentence"
+    lazy val textArray: Array[String] = textDF.select("text").as[String].collect()
+    lazy val text = "hello world, this is some sentence"
   }
 
   def fixtureWithoutNormalizer = new {
@@ -103,12 +103,12 @@ class LightPipelineTestSpec extends FlatSpec {
         sentimentDetector
       ))
 
-    val model: PipelineModel = pipeline.fit(data)
+    lazy val model: PipelineModel = pipeline.fit(data)
 
-    val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
+    lazy val textDF: Dataset[Row] = ContentProvider.parquetData.limit(1000)
 
-    val textArray: Array[String] = ContentProvider.parquetData.limit(1000).select("text").as[String].collect
-    val text = "hello world, this is some sentence"
+    lazy val textArray: Array[String] = textDF.select("text").as[String].collect
+    lazy val text = "hello world, this is some sentence"
   }
 
   "An LightPipeline with normalizer" should "annotate for each annotator" taggedAs FastTest in {
@@ -137,7 +137,7 @@ class LightPipelineTestSpec extends FlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a tranditional pipelineWithNormalizer" taggedAs FastTest in {
+  it should "run faster than a traditional pipelineWithNormalizer" taggedAs SlowTest in {
     val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithNormalizer results") {
       fixtureWithNormalizer.model.transform(fixtureWithNormalizer.textDF).collect
     }
@@ -176,7 +176,7 @@ class LightPipelineTestSpec extends FlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a tranditional pipelineWithoutNormalizer" taggedAs FastTest in {
+  it should "run faster than a traditional pipelineWithoutNormalizer" taggedAs SlowTest in {
     val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithoutNormalizer results") {
       fixtureWithoutNormalizer.model.transform(fixtureWithoutNormalizer.textDF).collect
     }

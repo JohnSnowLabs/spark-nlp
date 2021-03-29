@@ -10,11 +10,14 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import java.nio.file.Paths
 
+import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.tfSessionConfig
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.io.filefilter.WildcardFileFilter
 import org.apache.hadoop.fs.Path
+import org.tensorflow.exceptions.TensorFlowException
+import org.tensorflow.proto.framework.{ConfigProto, GraphDef}
 
 
 case class Variables(variables:Array[Byte], index:Array[Byte])
@@ -43,7 +46,7 @@ class TensorflowWrapper(
 
       // save the binary data of variables to file - variables per se
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_tf_vars")
-      val folder  = path.toAbsolutePath.toString
+      val folder = path.toAbsolutePath.toString
       val varData = Paths.get(folder, "variables.data-00000-of-00001")
       Files.write(varData, variables.variables)
 
@@ -55,11 +58,12 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      g.importGraphDef(graph)
+      g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, config)
+      val session = new Session(g, ConfigProto.parseFrom(config))
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
+
       session.runner.addTarget("save/restore_all")
         .feed("save/Const", t.createTensor(variablesPath))
         .run()
@@ -96,10 +100,10 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      g.importGraphDef(graph)
+      g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, config)
+      val session = new Session(g, ConfigProto.parseFrom(tfSessionConfig))
       val variablesPath = Paths.get(folder, "variables").toAbsolutePath.toString
       if(initAllTables) {
         session.runner
@@ -134,10 +138,10 @@ class TensorflowWrapper(
 
       // import the graph
       val g = new Graph()
-      g.importGraphDef(graph)
+      g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, config)
+      val session = new Session(g, ConfigProto.parseFrom(config))
 
       msession = session
     }
@@ -264,9 +268,9 @@ object TensorflowWrapper {
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
     try {
-      graph.importGraphDef(graphBytesDef)
+      graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
     } catch {
-      case e: org.tensorflow.TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
+      case e: TensorFlowException if e.getMessage.contains("Op type not registered 'BlockLSTM'") =>
         throw new UnsupportedOperationException("Spark NLP tried to load a TensorFlow Graph using Contrib module, but" +
           " failed to load it on this system. If you are on Windows, please follow the correct steps for setup: " +
           "https://github.com/JohnSnowLabs/spark-nlp/issues/1022" +
@@ -309,7 +313,8 @@ object TensorflowWrapper {
       (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
-      val session = new Session(graph, tfSessionConfig)
+
+      val session = new Session(graph, ConfigProto.parseFrom(tfSessionConfig))
       val varPath = Paths.get(folder, "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables.index")
       if(initAllTables) {
@@ -334,8 +339,7 @@ object TensorflowWrapper {
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
     t.clearTensors()
-
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
@@ -377,7 +381,7 @@ object TensorflowWrapper {
       (graph, session, varPath, idxPath)
     } else {
       val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
-      val session = new Session(graph, tfSessionConfig)
+      val session = new Session(graph, ConfigProto.parseFrom(tfSessionConfig))
       val varPath = Paths.get(folder, "variables.data-00000-of-00001")
       val idxPath = Paths.get(folder, "variables.index")
       if(initAllTables) {
@@ -403,7 +407,7 @@ object TensorflowWrapper {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
@@ -476,7 +480,7 @@ object TensorflowWrapper {
     FileHelper.delete(folder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
@@ -513,7 +517,8 @@ object TensorflowWrapper {
 
     // 3. Read file as SavedModelBundle
     val graph = readGraph(Paths.get(folder, "saved_model.pb").toString)
-    val session = new Session(graph, tfSessionConfig)
+
+    val session = new Session(graph, ConfigProto.parseFrom(tfSessionConfig))
     val varPath = Paths.get(variablseData)
     val idxPath = Paths.get(variablesIndex)
     if(initAllTables) {
@@ -537,7 +542,7 @@ object TensorflowWrapper {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
 
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
     tfWrapper.msession = session
     tfWrapper
   }
