@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.scalatest.FlatSpec
 
 import java.nio.charset.StandardCharsets
@@ -27,7 +28,7 @@ class CoNNLGeneratorBatchNERDLTestSpec extends FlatSpec{
        |""".stripMargin
   }
 
-  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right CoNNL file" in {
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right CoNNL file" taggedAs SlowTest in {
 
     val firstnames =  Array("Liam","Olivia","Noah","Emma","Oliver","Ava","William","Sophia","Elijah","Isabella")
     val lastnames =  Array("Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez")
