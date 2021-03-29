@@ -585,30 +585,6 @@ object TensorflowWrapper {
     tfWrapper
   }
 
-  def extractVariables(session: Session): Variables = {
-    val t = new TensorResources()
-
-    val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + TFVarsSuffix)
-      .toAbsolutePath.toString
-    val variablesFile = Paths.get(folder, VariablesKey).toString
-
-    session.runner.addTarget(SaveControlDependenciesOP)
-      .feed(SaveConstOP, t.createTensor(variablesFile))
-      .run()
-
-    val varPath = Paths.get(folder, VariablesPathValue)
-    val varBytes = Files.readAllBytes(varPath)
-
-    val idxPath = Paths.get(folder, VariablesIdxValue)
-    val idxBytes = Files.readAllBytes(idxPath)
-
-    val vars = Variables(varBytes, idxBytes)
-
-    FileHelper.delete(folder)
-
-    vars
-  }
-
   def extractVariablesSavedModel(session: Session): Variables = {
     val t = new TensorResources()
 
