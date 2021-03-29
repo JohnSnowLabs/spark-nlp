@@ -196,7 +196,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
       val cased = if ($(lowercase)) cleaned.map(_.toLowerCase) else cleaned
 
-      cased.filter(_.nonEmpty).map { finalToken => {
+      cased.filter(t => t.nonEmpty && t.length >= $(minLength) && get(maxLength).forall(m => t.length <= m)).map { finalToken => {
         Annotation(
           outputAnnotatorType,
           originalToken.begin,
