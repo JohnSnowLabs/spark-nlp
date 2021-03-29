@@ -2,7 +2,7 @@
 layout: model
 title: Typed Dependency Parsing for English
 author: John Snow Labs
-name: Typed_Dependency_Parsing
+name: dependency_typed_conllu
 date: 2021-03-27
 tags: [typed_dependency_parsing, labelled_dependency_parsing, dependency_parsing, en, open_source]
 task: Relation Extraction
@@ -38,7 +38,7 @@ Relations among the words are illustrated above the sentence with directed, labe
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/GRAMMAR_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/Typed_Dependency_Parsing_en_3.0.0_3.0_1616862441841.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/dependency_typed_conllu_en_3.0.0_3.0_1616862441841.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -106,7 +106,7 @@ nlu.load("dep.typed").predict("Dependencies represents relationships betweens wo
 
 {:.table-model}
 |---|---|
-|Model Name:|Typed_Dependency_Parsing|
+|Model Name:|dependency_typed_conllu|
 |Compatibility:|Spark NLP 3.0.0+|
 |License:|Open Source|
 |Edition:|Official|
