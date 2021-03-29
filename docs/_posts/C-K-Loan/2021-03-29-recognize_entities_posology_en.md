@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 This pipeline detects drugs, dosage, form, frequency, duration, route, and drug strength in text.
 
 Predicted entities are 
-`DRUG, `STRENGTH`,` DURATION`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
+`DRUG`, `STRENGTH`,` DURATION`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange}
@@ -42,7 +42,7 @@ annotations.keys()
 ```
 ```scala
 
-val pipeline = new PretrainedPipeline("analyze_sentiment", lang = "en")
+val pipeline = new PretrainedPipeline("recognize_entities_posology", lang = "en")
 val result = pipeline.fullAnnotate("The patient was perscriped 50MG penicilin for is headache")(0)
 
 ```
