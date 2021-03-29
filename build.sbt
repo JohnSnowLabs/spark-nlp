@@ -90,7 +90,7 @@ resolvers in ThisBuild += "Maven Central"  at "https://repo1.maven.org/maven2/"
 
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
-  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll
 )
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
