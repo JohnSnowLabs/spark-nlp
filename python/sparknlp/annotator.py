@@ -531,13 +531,24 @@ class Normalizer(AnnotatorApproach):
                             "slang dictionary is a delimited text. needs 'delimiter' in options",
                             typeConverter=TypeConverters.identity)
 
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
         self._setDefault(
             cleanupPatterns=["[^\\pL+]"],
             lowercase=False,
-            slangMatchCase=False
+            slangMatchCase=False,
+            minLength=0
         )
 
     def setCleanupPatterns(self, value):
@@ -551,6 +562,12 @@ class Normalizer(AnnotatorApproach):
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     def _create_model(self, java_model):
         return NormalizerModel(java_model=java_model)
@@ -3198,10 +3215,10 @@ class WordSegmenterApproach(AnnotatorApproach):
 
     def getNIterations(self):
         return self.getOrDefault(self.nIterations)
-    
+
     def getFrequencyThreshold(self):
         return self.getOrDefault(self.frequencyThreshold)
-    
+
     def getAmbiguityThreshold(self):
         return self.getOrDefault(self.ambiguityThreshold)
 
