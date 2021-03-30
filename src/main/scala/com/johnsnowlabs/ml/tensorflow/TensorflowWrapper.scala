@@ -281,6 +281,16 @@ object TensorflowWrapper {
   // TF vars suffix folder
   val TFVarsSuffix = "_tf_vars"
 
+  /** Utility method to extract the TF saved model bundle */
+  private def withSafeSavedModelBundleLoader(tags: Array[String], folder: String) = {
+    val modelBundle: SavedModelBundle =
+      Try(SavedModelBundle.load(folder, tags: _*)) match {
+        case Success(bundle) => bundle
+        case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
+      }
+    modelBundle
+  }
+
   def readGraph(graphFile: String): Graph = {
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
@@ -329,11 +339,7 @@ object TensorflowWrapper {
     // 3. Read file as SavedModelBundle
     val (graph, session, varPath, idxPath) = if (useBundle) {
 
-      val model: SavedModelBundle =
-        Try(SavedModelBundle.load(folder, tags: _*)) match {
-          case Success(bundle) => bundle
-          case Failure(s) => throw new Exception("SaveModelBundle could not retrieve the TF model")
-        }
+      val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
 
       println("============================== SAVEMODELBUNDLE ========================================")
       println(model.toString)
@@ -406,7 +412,7 @@ object TensorflowWrapper {
     }
     // 3. Read file as SavedModelBundle
     val (graph, session, varPath, idxPath) = if (useBundle) {
-      val model = SavedModelBundle.load(folder, tags: _*)
+      val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
       val graph = model.graph()
       val session = model.session()
       val varPath = Paths.get(folder, VariablesKey, VariablesPathValue)
@@ -487,11 +493,11 @@ object TensorflowWrapper {
 
     // 4. Copy the saved_model.zip into tmp folder
     val savedModelInputStream = ResourceHelper.getResourceStream(new Path(folder, SavedModelPB).toString)
-    val savedModelFile = new File(finalFolder,SavedModelPB)
+    val savedModelFile = new File(finalFolder, SavedModelPB)
     Files.copy(savedModelInputStream, savedModelFile.toPath)
 
     val varIndexInputStream = ResourceHelper.getResourceStream(new Path(folder, VariablesIdxValue).toString)
-    val varIndexFile = new File(variablesFile.toString,VariablesIdxValue)
+    val varIndexFile = new File(variablesFile.toString, VariablesIdxValue)
     Files.copy(varIndexInputStream, varIndexFile.toPath)
 
     val varDataInputStream = ResourceHelper.getResourceStream(new Path(folder, VariablesPathValue).toString)
@@ -499,11 +505,13 @@ object TensorflowWrapper {
     Files.copy(varDataInputStream, varDataFile.toPath)
 
     // 5. Read file as SavedModelBundle
-    val model = SavedModelBundle.load(finalFolder, tags: _*)
+    val model = withSafeSavedModelBundleLoader(tags = tags, folder = finalFolder)
+    
     val graph = model.graph()
     val session = model.session()
     val varPath = Paths.get(finalFolder, VariablesKey, VariablesPathValue)
     val idxPath = Paths.get(finalFolder, VariablesKey, VariablesIdxValue)
+
     if(initAllTables) {
       session.runner().addTarget(InitAllTableOP)
     }
