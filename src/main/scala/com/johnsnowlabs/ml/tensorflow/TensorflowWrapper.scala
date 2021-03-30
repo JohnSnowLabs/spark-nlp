@@ -18,6 +18,8 @@ import org.apache.hadoop.fs.Path
 import org.tensorflow.exceptions.TensorFlowException
 import org.tensorflow.proto.framework.{ConfigProto, GraphDef}
 
+import java.net.URI
+import java.nio.file
 import scala.util.{Failure, Success, Try}
 
 
@@ -281,7 +283,7 @@ object TensorflowWrapper {
   // TF vars suffix folder
   val TFVarsSuffix = "_tf_vars"
 
-  /** Utility method to extract the TF saved model bundle */
+  /** Utility method to load the TF saved model bundle */
   private def withSafeSavedModelBundleLoader(tags: Array[String], folder: String) = {
     val modelBundle: SavedModelBundle =
       Try(SavedModelBundle.load(folder, tags: _*)) match {
@@ -291,6 +293,45 @@ object TensorflowWrapper {
     modelBundle
   }
 
+  /** Utility method to load the TF saved model components without a provided bundle */
+  private def unpackWithoutBundle(folder: String) = {
+    val graph = readGraph(Paths.get(folder, SavedModelPB).toString)
+    val session = new Session(graph, ConfigProto.parseFrom(TFSessionConfig))
+    val varPath = Paths.get(folder, VariablesPathValue)
+    val idxPath = Paths.get(folder, VariablesIdxValue)
+    (graph, session, varPath, idxPath)
+  }
+
+  /** Utility method to load the TF saved model components from a provided bundle */
+  private def unpackFromBundle(folder: String, model: SavedModelBundle) = {
+    val graph = model.graph()
+    val session = model.session()
+    val varPath = Paths.get(folder, VariablesKey, VariablesPathValue)
+    val idxPath = Paths.get(folder, VariablesKey, VariablesIdxValue)
+    (graph, session, varPath, idxPath)
+  }
+
+  /** Utility method to process init all table operation key */
+  private def processInitAllTableOp(initAllTables: Boolean,
+                                    tensorResources: TensorResources,
+                                    folder: String,
+                                    session: Session,
+                                    variablesKey: String = VariablesKey) = {
+    if (initAllTables) {
+      session.runner
+        .addTarget(SaveRestoreAllOP)
+        .addTarget(InitAllTableOP)
+        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(folder, variablesKey).toString))
+        .run()
+    } else {
+      session.runner
+        .addTarget(SaveRestoreAllOP)
+        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(folder, variablesKey).toString))
+        .run()
+    }
+  }
+
+  /** Utility method to load a Graph from path */
   def readGraph(graphFile: String): Graph = {
     val graphBytesDef = FileUtils.readFileToByteArray(new File(graphFile))
     val graph = new Graph()
@@ -337,45 +378,19 @@ object TensorflowWrapper {
     LoadsContrib.loadContribToTensorflow()
 
     // 3. Read file as SavedModelBundle
-    val (graph, session, varPath, idxPath) = if (useBundle) {
-
-      val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
-
-      println("============================== SAVEMODELBUNDLE ========================================")
-      println(model.toString)
-
-      val graph = model.graph()
-      val session = model.session()
-      val varPath = Paths.get(folder, VariablesKey, VariablesPathValue)
-      val idxPath = Paths.get(folder, VariablesKey, VariablesIdxValue)
-
-      if(initAllTables) {
-        session.runner().addTarget(InitAllTableOP)
+    val (graph, session, varPath, idxPath) =
+      if (useBundle) {
+        val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
+        val (graph, session, varPath, idxPath) = unpackFromBundle(folder, model)
+        if(initAllTables) session.runner().addTarget(InitAllTableOP)
+        (graph, session, varPath, idxPath)
+      } else {
+        val (graph, session, varPath, idxPath) = unpackWithoutBundle(folder)
+        processInitAllTableOp(initAllTables, t, folder, session)
+        (graph, session, varPath, idxPath)
       }
-      (graph, session, varPath, idxPath)
-    } else {
-      val graph = readGraph(Paths.get(folder, SavedModelPB).toString)
-
-      val session = new Session(graph, ConfigProto.parseFrom(TFSessionConfig))
-      val varPath = Paths.get(folder, VariablesPathValue)
-      val idxPath = Paths.get(folder, VariablesIdxValue)
-      if(initAllTables) {
-        session.runner
-          .addTarget(SaveRestoreAllOP)
-          .addTarget(InitAllTableOP)
-          .feed(SaveConstOP, t.createTensor(Paths.get(folder, VariablesKey).toString))
-          .run()
-      }else{
-        session.runner
-          .addTarget(SaveRestoreAllOP)
-          .feed(SaveConstOP, t.createTensor(Paths.get(folder, VariablesKey).toString))
-          .run()
-      }
-      (graph, session, varPath, idxPath)
-    }
 
     val varBytes = Files.readAllBytes(varPath)
-
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
@@ -411,38 +426,21 @@ object TensorflowWrapper {
       LoadSentencepiece.loadSPToTensorflow()
     }
     // 3. Read file as SavedModelBundle
-    val (graph, session, varPath, idxPath) = if (useBundle) {
-      val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
-      val graph = model.graph()
-      val session = model.session()
-      val varPath = Paths.get(folder, VariablesKey, VariablesPathValue)
-      val idxPath = Paths.get(folder, VariablesKey, VariablesIdxValue)
-      if(initAllTables) {
-        session.runner().addTarget(InitAllTableOP)
+    val (graph, session, varPath, idxPath) =
+      if (useBundle) {
+        val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
+        val (graph, session, varPath, idxPath) = unpackFromBundle(folder, model)
+
+        if(initAllTables) session.runner().addTarget(InitAllTableOP)
+
+        (graph, session, varPath, idxPath)
+      } else {
+        val (graph, session, varPath, idxPath) = unpackWithoutBundle(folder)
+        processInitAllTableOp(initAllTables, t, folder, session)
+        (graph, session, varPath, idxPath)
       }
-      (graph, session, varPath, idxPath)
-    } else {
-      val graph = readGraph(Paths.get(folder, SavedModelPB).toString)
-      val session = new Session(graph, ConfigProto.parseFrom(TFSessionConfig))
-      val varPath = Paths.get(folder, VariablesPathValue)
-      val idxPath = Paths.get(folder, VariablesIdxValue)
-      if(initAllTables) {
-        session.runner
-          .addTarget(SaveRestoreAllOP)
-          .addTarget(InitAllTableOP)
-          .feed(SaveConstOP, t.createTensor(Paths.get(folder, VariablesKey).toString))
-          .run()
-      }else{
-        session.runner
-          .addTarget(SaveRestoreAllOP)
-          .feed(SaveConstOP, t.createTensor(Paths.get(folder, VariablesKey).toString))
-          .run()
-      }
-      (graph, session, varPath, idxPath)
-    }
 
     val varBytes = Files.readAllBytes(varPath)
-
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
@@ -467,7 +465,7 @@ object TensorflowWrapper {
       s"${listFiles.head.split("/").head}/${fileName}"
     else listFiles.head
 
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new URI(path.replaceAllLiterally("\\", "/"))
 
     val inputStream = ResourceHelper.getResourceStream(uri.toString)
 
@@ -506,18 +504,14 @@ object TensorflowWrapper {
 
     // 5. Read file as SavedModelBundle
     val model = withSafeSavedModelBundleLoader(tags = tags, folder = finalFolder)
-    
-    val graph = model.graph()
-    val session = model.session()
-    val varPath = Paths.get(finalFolder, VariablesKey, VariablesPathValue)
-    val idxPath = Paths.get(finalFolder, VariablesKey, VariablesIdxValue)
+
+    val (graph: Graph, session: Session, varPath: file.Path, idxPath: file.Path) = unpackFromBundle(finalFolder, model)
 
     if(initAllTables) {
       session.runner().addTarget(InitAllTableOP)
     }
 
     val varBytes = Files.readAllBytes(varPath)
-
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 6. Remove tmp folder
@@ -557,31 +551,19 @@ object TensorflowWrapper {
       new WildcardFileFilter("variables*")
     ).toArray()
 
-    val variablesDir = tfChkPointsVars(1).toString
-    val variablseData = tfChkPointsVars(2).toString
+    //    val variablesDir = tfChkPointsVars(1).toString
+    val variablesData = tfChkPointsVars(2).toString
     val variablesIndex = tfChkPointsVars(3).toString
 
     // 3. Read file as SavedModelBundle
     val graph = readGraph(Paths.get(folder, SavedModelPB).toString)
-
     val session = new Session(graph, ConfigProto.parseFrom(TFSessionConfig))
-    val varPath = Paths.get(variablseData)
+    val varPath = Paths.get(variablesData)
     val idxPath = Paths.get(variablesIndex)
-    if(initAllTables) {
-      session.runner
-        .addTarget(SaveRestoreAllOP)
-        .addTarget(InitAllTableOP)
-        .feed(SaveConstOP, t.createTensor(Paths.get(variablesDir, "part-00000-of-00001").toString))
-        .run()
-    }else{
-      session.runner
-        .addTarget(SaveRestoreAllOP)
-        .feed(SaveConstOP, t.createTensor(Paths.get(variablesDir, "part-00000-of-00001").toString))
-        .run()
-    }
+
+    processInitAllTableOp(initAllTables, t, folder, session, variablesKey = "part-00000-of-00001")
 
     val varBytes = Files.readAllBytes(varPath)
-
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
