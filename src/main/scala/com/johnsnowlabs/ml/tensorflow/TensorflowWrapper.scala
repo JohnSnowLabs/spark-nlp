@@ -10,7 +10,6 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import java.nio.file.Paths
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.tfSessionConfig
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
