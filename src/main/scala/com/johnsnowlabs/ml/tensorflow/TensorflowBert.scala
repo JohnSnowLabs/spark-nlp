@@ -175,9 +175,9 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
-    val tokenTensors = tensors.createLongBufferTensor(shape, null)
-    val maskTensors = tensors.createLongBufferTensor(shape, null)
-    val segmentTensors = tensors.createLongBufferTensor(shape, null)
+    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(TokenIdsKey, tokenTensors)
