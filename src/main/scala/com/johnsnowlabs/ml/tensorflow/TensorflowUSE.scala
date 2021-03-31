@@ -21,7 +21,7 @@ import scala.collection.JavaConverters._
   */
 class TensorflowUSE(val tensorflow: TensorflowWrapper,
                     configProtoBytes: Option[Array[Byte]] = None,
-                    loadSP: Boolean = false,
+                    loadSP: Boolean = false
                    ) extends Serializable {
 
   private val inputKey = "input"
