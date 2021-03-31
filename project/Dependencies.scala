@@ -1,5 +1,4 @@
 import sbt._
-import Keys._
 
 object Dependencies {
 
@@ -8,12 +7,12 @@ object Dependencies {
   val spark24Ver = "2.4.7"
   val spark30Ver = "3.0.2"
 
-  val is_gpu = System.getProperty("is_gpu", "false")
-  val is_opt = System.getProperty("is_opt", "false")
-  val is_spark23 = System.getProperty("is_spark23", "false")
-  val is_spark24 = System.getProperty("is_spark24", "false")
+  val is_gpu: String = System.getProperty("is_gpu", "false")
+  val is_opt: String = System.getProperty("is_opt", "false")
+  val is_spark23: String = System.getProperty("is_spark23", "false")
+  val is_spark24: String = System.getProperty("is_spark24", "false")
 
-  val sparkVer = getSparkVersion(is_spark23, is_spark24)
+  val sparkVer: String = getSparkVersion(is_spark23, is_spark24)
   /** ------- Spark version end ------- */
 
 
@@ -52,7 +51,7 @@ object Dependencies {
   /** ------- Scala version start ------- */
   lazy val scala211 = "2.11.12"
   lazy val scala212 = "2.12.10"
-  lazy val scalaVer = if(is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
+  lazy val scalaVer: String = if(is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
 
   lazy val supportedScalaVersions = List(scala212, scala211)
 

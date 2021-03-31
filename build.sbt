@@ -35,7 +35,7 @@ resolvers in ThisBuild := m2Resolvers
 
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
-  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.shaded.Shaded@1").inAll
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll
 )
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
@@ -141,8 +141,8 @@ lazy val root = (project in file("."))
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
-  case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
-  case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
+  case PathList("org.apache.hadoop", _ @ _*)  => MergeStrategy.first
+  case PathList("com.amazonaws", _ @ _*)  => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
