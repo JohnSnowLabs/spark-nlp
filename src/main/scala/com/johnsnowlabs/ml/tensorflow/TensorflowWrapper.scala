@@ -10,7 +10,6 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import java.nio.file.Paths
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.tfSessionConfig
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -77,7 +76,7 @@ class TensorflowWrapper(
     msession
   }
 
-  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true): Session = {
+  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true, loadSP: Boolean = false): Session = {
 
     if (msession == null){
       logger.debug("Restoring TF Hub session from bytes")
@@ -95,9 +94,10 @@ class TensorflowWrapper(
       Files.write(varIdx, variables.index)
 
       LoadsContrib.loadContribToTensorflow()
-      LoadSentencepiece.loadSPToTensorflowLocally()
-      LoadSentencepiece.loadSPToTensorflow()
-
+      if(loadSP) {
+        LoadSentencepiece.loadSPToTensorflowLocally()
+        LoadSentencepiece.loadSPToTensorflow()
+      }
       // import the graph
       val g = new Graph()
       g.importGraphDef(GraphDef.parseFrom(graph))
