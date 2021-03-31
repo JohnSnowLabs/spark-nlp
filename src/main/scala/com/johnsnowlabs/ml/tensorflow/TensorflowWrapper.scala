@@ -77,7 +77,7 @@ class TensorflowWrapper(
     msession
   }
 
-  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true): Session = {
+  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true, loadSP: Boolean = false): Session = {
 
     if (msession == null){
       logger.debug("Restoring TF Hub session from bytes")
@@ -95,9 +95,10 @@ class TensorflowWrapper(
       Files.write(varIdx, variables.index)
 
       LoadsContrib.loadContribToTensorflow()
-      LoadSentencepiece.loadSPToTensorflowLocally()
-      LoadSentencepiece.loadSPToTensorflow()
-
+      if(loadSP) {
+        LoadSentencepiece.loadSPToTensorflowLocally()
+        LoadSentencepiece.loadSPToTensorflow()
+      }
       // import the graph
       val g = new Graph()
       g.importGraphDef(GraphDef.parseFrom(graph))
