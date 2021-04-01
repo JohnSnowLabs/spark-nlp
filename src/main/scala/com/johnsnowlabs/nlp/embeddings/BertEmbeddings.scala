@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -13,6 +12,7 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.slf4j.{Logger, LoggerFactory}
 
 /**
   * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
@@ -158,7 +158,9 @@ class BertEmbeddings(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowBert = _model.get.value
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession,
+                       tensorflow: TensorflowWrapper,
+                       tfBertSignatures: Option[TFSignatures] = None) = {
     if (_model.isEmpty) {
 
       _model = Some(
@@ -167,7 +169,8 @@ class BertEmbeddings(override val uid: String)
             tensorflow,
             sentenceStartTokenId,
             sentenceEndTokenId,
-            configProtoBytes = getConfigProtoBytes
+            configProtoBytes = getConfigProtoBytes,
+            tfBertSignatures = tfBertSignatures
           )
         )
       )
@@ -254,12 +257,15 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, tf, None)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): BertEmbeddings = {
+  def loadSavedModel(folder: String,
+                     spark: SparkSession,
+                     tfBertSignatures: Option[TFSignatures] = None)
+  : BertEmbeddings = {
 
     val f = new File(folder)
     val savedModel = new File(folder, "saved_model.pb")
@@ -282,9 +288,11 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
     new BertEmbeddings()
       .setVocabulary(words)
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(spark, wrapper, tfBertSignatures)
   }
 }
 
 
-object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel
+object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel{
+  private[BertEmbeddings] val logger: Logger = LoggerFactory.getLogger("BertEmbeddings")
+}

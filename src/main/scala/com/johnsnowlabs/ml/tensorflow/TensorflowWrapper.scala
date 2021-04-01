@@ -1,25 +1,22 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import java.io._
-import java.nio.file.Files
-import java.util.UUID
-import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
-import org.slf4j.{Logger, LoggerFactory}
-import org.tensorflow._
-
-import java.nio.file.Paths
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.{TFSessionConfig, VariablesIdxValue}
+import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.TFSessionConfig
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
+import org.apache.commons.io.FileUtils
 import org.apache.commons.io.filefilter.WildcardFileFilter
 import org.apache.hadoop.fs.Path
+import org.slf4j.{Logger, LoggerFactory}
+import org.tensorflow._
 import org.tensorflow.exceptions.TensorFlowException
-import org.tensorflow.proto.framework.{ConfigProto, GraphDef}
+import org.tensorflow.proto.framework.{ConfigProto, GraphDef, TensorInfo}
 
+import java.io._
 import java.net.URI
-import java.nio.file
+import java.nio.file.{Files, Paths}
+import java.util.{Map, UUID}
 import scala.util.{Failure, Success, Try}
 
 
@@ -285,12 +282,34 @@ object TensorflowWrapper {
 
   /** Utility method to load the TF saved model bundle */
   private def withSafeSavedModelBundleLoader(tags: Array[String], folder: String) = {
-    val modelBundle: SavedModelBundle =
+    import collection.JavaConverters._
+
+    val model: SavedModelBundle =
       Try(SavedModelBundle.load(folder, tags: _*)) match {
         case Success(bundle) => bundle
         case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
       }
-    modelBundle
+
+    if (model.metaGraphDef.hasGraphDef && model.metaGraphDef.getSignatureDefCount > 0) {
+      for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
+        val inputs: Map[String, TensorInfo] = sigDef.getInputsMap
+        for (e <- inputs.entrySet.asScala) {
+          val key: String = e.getKey
+          val tfInfo: TensorInfo = e.getValue
+          System.out.println("\nSignatureDef InputMap key: " + key + "\nSignatureDef InputMap tfInfo: " + tfInfo.getName)
+        }
+      }
+      for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
+        val outputs: Map[String, TensorInfo] = sigDef.getOutputsMap
+        for (e <- outputs.entrySet.asScala) {
+          val key: String = e.getKey
+          val tfInfo: TensorInfo = e.getValue
+          System.out.println("\nSignatureDef OutputMap key: " + key + "\nSignatureDef OutputMap tfInfo: " + tfInfo.getName)
+        }
+      }
+    }
+
+    model
   }
 
   /** Utility method to load the TF saved model components without a provided bundle */
@@ -430,9 +449,7 @@ object TensorflowWrapper {
       if (useBundle) {
         val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
         val (graph, session, varPath, idxPath) = unpackFromBundle(folder, model)
-
         if(initAllTables) session.runner().addTarget(InitAllTableOP)
-
         (graph, session, varPath, idxPath)
       } else {
         val (graph, session, varPath, idxPath) = unpackWithoutBundle(folder)
@@ -475,12 +492,12 @@ object TensorflowWrapper {
         .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_classifier_dl_zip")
         .toAbsolutePath.toString
 
-    val zipFIle = new File(tmpFolder,"tmp_classifier_dl.zip")
+    val zipFile = new File(tmpFolder,"tmp_classifier_dl.zip")
 
-    Files.copy(inputStream, zipFIle.toPath)
+    Files.copy(inputStream, zipFile.toPath)
 
     // 2. Unpack archive
-    val folder = ZipArchiveUtil.unzip(zipFIle, Some(tmpFolder))
+    val folder = ZipArchiveUtil.unzip(zipFile, Some(tmpFolder))
 
     // 3. Create second tmp folder
     val finalFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_classifier_dl")
@@ -505,11 +522,9 @@ object TensorflowWrapper {
     // 5. Read file as SavedModelBundle
     val model = withSafeSavedModelBundleLoader(tags = tags, folder = finalFolder)
 
-    val (graph: Graph, session: Session, varPath: file.Path, idxPath: file.Path) = unpackFromBundle(finalFolder, model)
+    val (graph, session, varPath, idxPath) = unpackFromBundle(finalFolder, model)
 
-    if(initAllTables) {
-      session.runner().addTarget(InitAllTableOP)
-    }
+    if(initAllTables) session.runner().addTarget(InitAllTableOP)
 
     val varBytes = Files.readAllBytes(varPath)
     val idxBytes = Files.readAllBytes(idxPath)
