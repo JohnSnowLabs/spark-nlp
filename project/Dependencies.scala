@@ -55,7 +55,7 @@ object Dependencies {
 
   lazy val supportedScalaVersions = List(scala212, scala211)
 
-  val scalaTestVersion = "3.0.0"
+  val scalaTestVersion = "3.0.1"
   /** ------- Scala version end ------- */
 
   /** ------- Dependencies start------- */
