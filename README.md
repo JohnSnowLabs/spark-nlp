@@ -35,6 +35,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   - [Apache Zeppelin](#apache-zeppelin)
   - [Jupyter Notebook](#jupyter-notebook-python)
   - [Google Colab Notebook](#google-colab-notebook)
+  - [Kaggle Kernel](#kaggle-kernel)
   - [Databricks Cluser](#databricks-cluster)
   - [EMR Cluser](#emr-cluster)
   - [S3 Cluster](#s3-cluster)  
@@ -650,6 +651,17 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
+
+## Kaggle Kernel
+
+Run the following code in Kaggle Kernel and start using spark-nlp right away.
+
+```python
+# Let's setup Kaggle for Spark NLP and PySpark
+!curl -s https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/scripts/kaggle/kaggle_setup.sh | bash 
+```
+
+[Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.
 
 ## Databricks Cluster
 
