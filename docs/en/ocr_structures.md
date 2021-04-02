@@ -161,6 +161,7 @@ element: struct (containsNull = true)
   * ***SPA***: Spanish
   * ***RUS***: Russian
   * ***DEU***: German
+  * ***VIE***: Vietnamese
   
 </div><div class="h3-box" markdown="1">
 

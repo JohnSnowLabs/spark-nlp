@@ -3174,3 +3174,128 @@ Output:
   }
 }
 ```
+
+### VisualDocumentClassifier
+
+`VisualDocumentClassifier` is a DL model for classification documents using text and layout data.
+Currently available pretrained model on the Tabacco3482 dataset.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document |
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| maxSentenceLength | int | 128 | Maximum sentence length. |
+| caseSensitive | boolean | false | Determines whether model is case sensitive. |
+| confidenceThreshold | float | 0f| Confidence threshold. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| labelCol | string | label | Name of output column with the predicted label. |
+| confidenceCol | string | confidence | Name of output column with confidence. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val visualDocumentClassifier = VisualDocumentClassifier
+  .pretrained("visual_document_classifier_tobacco3482", "en", "clinical/ocr")
+  .setMaxSentenceLength(128)
+  .setInputCol("hocr")
+  .setLabelCol("label")
+  .setConfidenceCol("conf")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  visualDocumentClassifier
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("label").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+document_classifier = VisualDocumentClassifier() \
+  .pretrained("visual_document_classifier_tobacco3482", "en", "clinical/ocr") \
+  .setMaxSentenceLength(128) \
+  .setInputCol("hocr") \
+  .setLabelCol("label") \
+  .setConfidenceCol("conf")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    document_classifier,
+    
+])
+
+result = pipeline.transform(df)
+result.select("label").show()
+```
+
+</div>
+
+Output:
+
+```
++------+
+| label|
++------+
+|Letter|
++------+
+
+```
