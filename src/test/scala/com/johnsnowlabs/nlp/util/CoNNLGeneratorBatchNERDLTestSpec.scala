@@ -53,7 +53,7 @@ class CoNNLGeneratorBatchNERDLTestSpec extends FlatSpec{
       val suffix = "\n"
 
       Files.write(
-        Paths.get(s"ner_fake_connl_$i.txt"),
+        Paths.get(s"./tmp_ner_fake_connl_$i.txt"),
         (prefix + nerTagsDatasetStr.mkString + suffix)
           .getBytes(StandardCharsets.UTF_8))
     }
