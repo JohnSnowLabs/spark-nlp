@@ -41,15 +41,23 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private val pieceSize = spp.getSppModel.getPieceSize
 
   def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int = 1,
+                      batchSize: Int,
+                      minOutputLength: Int,
                       maxOutputLength: Int,
-                      task: String
+                      doSample: Boolean,
+                      temperature: Double,
+                      topK: Int,
+                      topP: Double,
+                      repetitionPenalty: Double,
+                      noRepeatNgramSize: Int,
+                      task: String,
+                      randomSeed: Option[Long] = None
                      ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, task)
-      val spIds = process(batchSP, maxOutputLength)
+      val spIds = process(batchSP, minOutputLength, maxOutputLength, doSample, temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, randomSeed)
       decode(spIds)
 
     }
@@ -69,30 +77,30 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def process(batch: Seq[Array[Long]], minOutputLength: Int = 10, maxOutputLength: Int = 20, doSample: Boolean = false, temperature: Double = 1.0, topK: Int = 50, topP: Double = 1.0, repetitionPenalty: Double = 1.0, noRepeatNgramSize: Int = 0): Array[Array[Long]] = {
+  def process(batch: Seq[Array[Long]], minOutputLength: Int, maxOutputLength: Int, doSample: Boolean, temperature: Double, topK: Int, topP: Double, repetitionPenalty: Double, noRepeatNgramSize: Int, randomSeed: Option[Long]): Array[Array[Long]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
 
-    val num_beams = 1
-    val num_return_sequences = 1
+    val numBeams = 1
+    val numReturn_sequences = 1
     //from config
     val vocab_size = 32128
 
     //////////////////////
-    var effective_batch_size = 1
-    var effective_batch_mult = 1
+    var effectiveBatch_size = 1
+    var effectiveBatch_mult = 1
 
     //    val inputDim = batch.length * maxSentenceLength
     // set effective batch size and effective batch multiplier according to do_sample
     if (doSample) {
-      effective_batch_size = batch.length * num_return_sequences
-      effective_batch_mult = num_return_sequences
+      effectiveBatch_size = batch.length * numReturn_sequences
+      effectiveBatch_mult = numReturn_sequences
     }
     else {
-      effective_batch_size = batch.length
-      effective_batch_mult = 1
+      effectiveBatch_size = batch.length
+      effectiveBatch_mult = 1
     }
 
     //Run encoder
@@ -148,14 +156,14 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       Array(batch.length.toLong, maxSentenceLength, dim),
       decoderEncoderStateBuffers)
 
-    val modelOutputs = _generateNo_beam_search(batch, decoderEncoderStateTensors, encoderAttentionMaskTensors, maxOutputLength, minOutputLength, doSample,
-      temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, effective_batch_size, vocab_size, session)
+    val modelOutputs = generateNoBeamSearch(batch, decoderEncoderStateTensors, encoderAttentionMaskTensors, maxOutputLength, minOutputLength, doSample,
+      temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session)
 
     tensorEncoder.clearTensors()
     modelOutputs
   }
 
-  def _generateNo_beam_search(inputIds: Seq[Array[Long]],
+  def generateNoBeamSearch(inputIds: Seq[Array[Long]],
                               decoderEncoderStateTensors: Tensor[_],
                               encoderAttentionMaskTensors: Tensor[_],
                               maxOutputLength: Int,
@@ -168,27 +176,32 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
                               noRepeatNgramSize: Int,
                               batch_size: Int,
                               vocab_size: Int,
+                              randomSeed: Option[Long],
                               session: Session): Array[Array[Long]] = {
 
     /**
-      * Generate sequences for each example without beam search (num_beams == 1). All returned sequence are generated
+      * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
       * independently.
       **/
 
     var decoderInputs = inputIds.map(_ => Array(this.paddingTokenId)).toArray
-    var modelOutputs = inputIds.map(_ => Array(this.paddingTokenId)).toArray
 
-    var curLen = modelOutputs(0).length
+    var curLen = decoderInputs(0).length
 
     var stopDecoder = false
+
+    // length of generated sentences / unfinished sentences
+    var unfinishedSents = List.fill(decoderInputs.length)(1)
+    var sentLengths = List.fill(decoderInputs.length)(maxOutputLength)
+
     var past = decoderEncoderStateTensors
 
     while (!stopDecoder) {
       val decoderInputLength = decoderInputs.head.length
       val tensorDecoder = new TensorResources()
 
-      val decoderInputBuffers = tensorDecoder.createLongBuffer(inputIds.length * decoderInputLength)
-      val decoderAttentionBuffers = tensorDecoder.createLongBuffer(inputIds.length * decoderInputLength)
+      val decoderInputBuffers = tensorDecoder.createLongBuffer(decoderInputs.length * decoderInputLength)
+      val decoderAttentionBuffers = tensorDecoder.createLongBuffer(decoderInputs.length * decoderInputLength)
 
       decoderInputs.zipWithIndex.foreach{ case (pieceIds, idx) =>
         val offset = idx * decoderInputLength
@@ -198,34 +211,34 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       }
 
       val decoderInputTensors = tensorDecoder.createLongBufferTensor(
-        Array(inputIds.length.toLong, decoderInputLength), decoderInputBuffers)
+        Array(decoderInputs.length.toLong, decoderInputLength), decoderInputBuffers)
       val decoderAttentionMaskTensors = tensorDecoder.createLongBufferTensor(
-        Array(inputIds.length.toLong, decoderInputLength), decoderAttentionBuffers)
+        Array(decoderInputs.length.toLong, decoderInputLength), decoderAttentionBuffers)
       val runner = session.runner
 
       // TODO add past to the model and use cache
       runner
         .feed(decoderInputIdsKey, decoderInputTensors)
+        .feed(decoderAttentionMaskKey, decoderAttentionMaskTensors)
         .feed(decoderEncoderStateKey, decoderEncoderStateTensors)
         .feed(decoderEncoderAttentionMaskKey, encoderAttentionMaskTensors)
-        .feed(decoderAttentionMaskKey, decoderAttentionMaskTensors)
         .fetch(decoderOutputsKey)
 
       val decoderOuts = runner.run().asScala
-      var decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(32128).toArray.grouped(decoderInputLength).toArray
+      var decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(vocab_size).toArray.grouped(decoderInputLength).toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
       if (repetitionPenalty != 1.0) {
         nextTokenLogits = createNextTokenLogitsPenalties(
-          modelOutputs, nextTokenLogits, repetitionPenalty
+          decoderInputs, nextTokenLogits, repetitionPenalty
         )
       }
 
       if (noRepeatNgramSize > 0) {
         // calculate a list of banned tokens to prevent repetitively generating the same ngrams
         // from fairseq: https://github.com/pytorch/fairseq/blob/a07cb6f40480928c9e0548b737aadd36ee66ac76/fairseq/sequence_generator.py#L345
-        val bannedTokens = calc_bannedNgramTokens(modelOutputs, batch_size, noRepeatNgramSize, curLen)
+        val bannedTokens = calcBannedNgramTokens(decoderInputs, batch_size, noRepeatNgramSize, curLen)
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
@@ -251,7 +264,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         )
       }
 
-      var nextToken = 0L
+      var nextToken = Array.ofDim[Int](decoderInputs.size)
 
       if (doSample) {
         // Temperature (higher temperature => more likely to sample low probability tokens)
@@ -260,36 +273,55 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         // Top-p/top-k filtering
         nextTokenLogits = topKTopPFiltering(nextTokenLogits, topK, topP)
         // Sample
-        nextToken = nextTokenLogits.map(input => categoricalSample(input)).last.toLong
+        nextToken = nextTokenLogits.map(input => categoricalSample(input, randomSeed))
       }
       else {
         // Greedy decoding
-        nextToken = nextTokenLogits.map(input => input.indexOf(input.max)).last.toLong
+        nextToken = nextTokenLogits.map(input => input.indexOf(input.max))
       }
-      val tt = Array.fill(batch_size)(nextToken)
-      //      val outputIds = decoderOutputs.map(batch => batch.map(input => input.indexOf(input.max)).last).map(_.toLong)
-      decoderInputs = decoderInputs.zip(Array.fill(batch_size)(nextToken)).map(x => x._1 ++ Array(x._2))
-      modelOutputs = modelOutputs.zip(Array.fill(batch_size)(nextToken)).map(x => {
+      var tokensToAdd = Array.ofDim[Long](decoderInputs.size)
+
+      // update generations and finished sentences
+      if (!eosTokenId.isNaN)
+      // pad finished sentences if eos_token_id exist
+        tokensToAdd = nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
+      else
+        tokensToAdd = nextToken.map(_.toLong)
+
+      decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
         if (x._1.contains(eosTokenId)) {
           x._1
         } else {
           x._1 ++ Array(x._2)
         }
       })
+      decoderOuts.foreach(_.close())
+
       curLen += 1
 
-      decoderOuts.foreach(_.close())
+      if (!eosTokenId.isNaN) {
+        val eosInSents = tokensToAdd.map(x => if (x == eosTokenId) 1 else 0)
+        // if sentence is unfinished and the token to add is eos, sent_lengths is filled with current length
+        val isSentsUnfinishedAndTokenToAddIsEos = unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
+
+        sentLengths = sentLengths.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 * (1 - x._2) + curLen * x._2)
+
+        // unfinishedSents is set to zero if eos in sentence
+        unfinishedSents = unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
+      }
 
       tensorDecoder.clearTensors()
       tensorDecoder.clearSession(decoderOuts)
       decoderInputTensors.close()
 
+      // stop when there is a eos in each sentence, or if we exceed the maximum length
+//      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
       stopDecoder = (
-        !modelOutputs.exists(o => o.last != this.eosTokenId)
-          || (modelOutputs.head.length > maxOutputLength))
+        !decoderInputs.exists(o => o.last != this.eosTokenId)
+          || (decoderInputs.head.length > maxOutputLength))
 
     }
-    modelOutputs
+    decoderInputs
   }
 
   def createNextTokenLogitsPenalties(inputIds: Seq[Array[Long]], logits: Array[Array[Float]], repetitionPenalty: Double): Array[Array[Float]] = {
@@ -314,10 +346,10 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     nextTokenLogits
   }
 
-  private def calc_bannedNgramTokens(prevInputIds: Seq[Array[Long]], numHypos: Int, noRepeatNgramSize: Int, curLen: Int): Array[Array[Long]] = {
-    // based on fairseq for no_repeatNgram in beam_search
+  private def calcBannedNgramTokens(prevInputIds: Seq[Array[Long]], numHypos: Int, noRepeatNgramSize: Int, curLen: Int): Array[Array[Long]] = {
+    // based on fairseq for noRepeatNgram in beam_search
     if (curLen + 1 < noRepeatNgramSize)
-    // return no banned tokens if we haven't generated no_repeatNgram_size tokens yet
+    // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
       return Array.ofDim[Long](numHypos, 0)
     var generatedNgrams = Array.tabulate(numHypos)(_ => mutable.Map.empty[IndexedSeq[Long], List[Long]])
     for (idx <- 0 to numHypos - 1) {
@@ -366,10 +398,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         nextTokenLogit, indexToRemove, Float.NegativeInfinity
       )
     }
-
     if (topP < 1.0) {
-      val sortedIndices = logits(0).zipWithIndex.sorted.unzip._2.reverse
-      val sortedLogits = logits(0).sortWith(_ > _) // expects logits to be of dim (batch_size, vocab_size)
+      val (sortedLogits, sortedIndices) = logits(0).zipWithIndex.sorted.reverse.unzip
 
       val cumulativeProbs = scanLeft(softmax(sortedLogits))(0.0)(_ + _).drop(1)
       //    Remove tokens with cumulative probability above the threshold (token with 0 are kept)
@@ -396,11 +426,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
   private def scatterValuesOnBatchIndices(values: List[Boolean], batchIndices: Array[Int]): List[Boolean] = {
     // scatter values to pair indices
-    var initArray = List.fill(batchIndices.length)(false)
-    for ((batchIndex, i) <- batchIndices.zipWithIndex) {
-      initArray = initArray.updated(batchIndex, values(i))
-    }
-    return initArray
+    val (_, initArray) = batchIndices.zip(values).sorted.unzip
+    return initArray.toList
   }
 
   private def softmax(values: Array[Float]): Array[Float] = {
@@ -413,19 +440,29 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     for ((inputId, index) <- prevInputIds.zip(indices)) yield if (index) value else inputId
   }
 
-  private def categoricalSample(dist: Array[Float]): Int = {
+  private def categoricalSample(dist: Array[Float], randomSeed: Option[Long]): Int = {
     val (distFiltered, indices) = dist.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
 
     if (distFiltered.length == 1)
       return indices(0)
-    var normalized = (distFiltered.map(_ - distFiltered.min)).map(_ / (distFiltered.max - distFiltered.min))
 
-    val p = scala.util.Random.nextDouble()
+//    val distMinValue = distFiltered.min
+//    val distRange = distFiltered.max - distMinValue
+//    val normalized = distFiltered.map(i => (i - distMinValue)/distRange)
+    val normalized = softmax(distFiltered)
+
+    var randomDouble = 0.0
+    if (randomSeed.isDefined)
+      randomDouble = new scala.util.Random(randomSeed.get).nextDouble()
+    else
+      randomDouble = scala.util.Random.nextDouble()
+
     var accum = 0.0
     for ((itemProb, i) <- normalized.zip(indices)) {
       accum += itemProb
-      if (accum >= p)
+      if (accum >= randomDouble) {
         return i
+      }
     }
     return indices(0)
   }
