@@ -333,19 +333,19 @@ object TensorflowWrapper {
   /** Utility method to process init all table operation key */
   private def processInitAllTableOp(initAllTables: Boolean,
                                     tensorResources: TensorResources,
-                                    folder: String,
                                     session: Session,
+                                    variablesDir: String,
                                     variablesKey: String = VariablesKey) = {
     if (initAllTables) {
       session.runner
         .addTarget(SaveRestoreAllOP)
         .addTarget(InitAllTableOP)
-        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(folder, variablesKey).toString))
+        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
         .run()
     } else {
       session.runner
         .addTarget(SaveRestoreAllOP)
-        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(folder, variablesKey).toString))
+        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
         .run()
     }
   }
@@ -389,10 +389,11 @@ object TensorflowWrapper {
       .toAbsolutePath.toString
 
     // 2. Unpack archive
-    val folder = if (zipped)
-      ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
-    else
-      file
+    val folder =
+      if (zipped)
+        ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+      else
+        file
 
     LoadsContrib.loadContribToTensorflow()
 
@@ -405,7 +406,7 @@ object TensorflowWrapper {
         (graph, session, varPath, idxPath)
       } else {
         val (graph, session, varPath, idxPath) = unpackWithoutBundle(folder)
-        processInitAllTableOp(initAllTables, t, folder, session)
+        processInitAllTableOp(initAllTables, t, session, folder)
         (graph, session, varPath, idxPath)
       }
 
@@ -453,7 +454,7 @@ object TensorflowWrapper {
         (graph, session, varPath, idxPath)
       } else {
         val (graph, session, varPath, idxPath) = unpackWithoutBundle(folder)
-        processInitAllTableOp(initAllTables, t, folder, session)
+        processInitAllTableOp(initAllTables, t, session, folder)
         (graph, session, varPath, idxPath)
       }
 
@@ -553,10 +554,11 @@ object TensorflowWrapper {
       .toAbsolutePath.toString
 
     // 2. Unpack archive
-    val folder = if (zipped)
-      ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
-    else
-      file
+    val folder =
+      if (zipped)
+        ZipArchiveUtil.unzip(new File(file), Some(tmpFolder))
+      else
+        file
 
     LoadsContrib.loadContribToTensorflow()
 
@@ -566,7 +568,7 @@ object TensorflowWrapper {
       new WildcardFileFilter("variables*")
     ).toArray()
 
-    //    val variablesDir = tfChkPointsVars(1).toString
+    val variablesDir = tfChkPointsVars(1).toString
     val variablesData = tfChkPointsVars(2).toString
     val variablesIndex = tfChkPointsVars(3).toString
 
@@ -576,7 +578,7 @@ object TensorflowWrapper {
     val varPath = Paths.get(variablesData)
     val idxPath = Paths.get(variablesIndex)
 
-    processInitAllTableOp(initAllTables, t, folder, session, variablesKey = "part-00000-of-00001")
+    processInitAllTableOp(initAllTables, t, session, variablesDir, variablesKey = "part-00000-of-00001")
 
     val varBytes = Files.readAllBytes(varPath)
     val idxBytes = Files.readAllBytes(idxPath)
