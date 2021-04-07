@@ -97,16 +97,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  //  val _tfBertSignatures = tfBertSignatures match {
-  //    case someSignatures: Some[TFCustomBertSignatures] => {
-  //      logger.error("New signatures found...")
-  //      someSignatures
-  //    }
-  //    case _ => {
-  //      logger.error("New signatures not found, defaulting them to Spark NLP config...")
-  //      TFDefaultBertSignatures()
-  //    }
-  //  }
   val _tfBertSignatures: TFSignatures = tfBertSignatures.getOrElse(TFSignatureFactory.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
@@ -257,7 +247,6 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       .feed(_tfBertSignatures.tokenIdsKey, tokenTensors)
       .feed(_tfBertSignatures.maskIdsKey, maskTensors)
       .feed(_tfBertSignatures.segmentIdsKey, segmentTensors)
-      .fetch(_tfBertSignatures.embeddingsKey)
       .fetch(_tfBertSignatures.sentenceEmbeddingsKey)
 
     val outs = runner.run().asScala
