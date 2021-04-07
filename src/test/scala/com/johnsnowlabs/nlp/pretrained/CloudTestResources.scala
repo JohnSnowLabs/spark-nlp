@@ -58,5 +58,21 @@ object CloudTestResources {
     true,
     new Timestamp(1)
   )
+  val name_en_300_30 = new ResourceMetadata(
+    "name",
+    Some("en"),
+    Some(Version(3, 0, 0)),
+    Some(Version(3, 0)),
+    true,
+    new Timestamp(1)
+  )
+  val bert_tiny_en_300_30 = new ResourceMetadata(
+    "small_bert_L2_128",
+    Some("en"),
+    Some(Version(3, 0, 0)),
+    Some(Version(3, 0)),
+    true,
+    new Timestamp(1)
+  )
   val all = List(name_en_123_345_new, name_en_12_34_old, name_en_old, name_en_new_disabled, name_de)
 }
