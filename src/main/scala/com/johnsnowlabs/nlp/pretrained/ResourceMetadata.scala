@@ -2,10 +2,9 @@ package com.johnsnowlabs.nlp.pretrained
 
 import java.io.{FileWriter, InputStream}
 import java.sql.Timestamp
-
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.util.Version
-import org.json4s.NoTypeHints
+import org.json4s.{Formats, NoTypeHints}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods.parse
 import org.json4s.jackson.Serialization
@@ -28,11 +27,11 @@ case class ResourceMetadata
 ) {
 
 
-  lazy val key = {
+  lazy val key: String = {
     s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}"
   }
 
-  lazy val fileName = {
+  lazy val fileName: String = {
     if (isZipped) key + ".zip" else key
   }
 
@@ -41,7 +40,7 @@ case class ResourceMetadata
   }
 
   private def v(ver: Option[Version]): String = {
-    ver.map(v => v.toString).getOrElse("")
+    ver.map(v => v.toString()).getOrElse("")
   }
 
   private def t(time: Timestamp): String = {
@@ -51,7 +50,7 @@ case class ResourceMetadata
 
 
 object ResourceMetadata {
-  implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
+  implicit val formats: Formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
 
   def toJson(meta: ResourceMetadata): String  = {
     write(meta)

@@ -15,7 +15,7 @@ trait HasPretrained[M <: PipelineStage] {
 
   lazy val defaultLoc: String = ResourceDownloader.publicLoc
 
-  implicit private val companion = this.asInstanceOf[DefaultParamsReadable[M]]
+  implicit private val companion: DefaultParamsReadable[M] = this.asInstanceOf[DefaultParamsReadable[M]]
 
   private val errorMsg = s"${this.getClass.getName} does not have a default pretrained model. Please provide a model name."
 

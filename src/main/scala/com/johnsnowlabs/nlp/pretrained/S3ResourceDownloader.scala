@@ -5,7 +5,6 @@ import java.nio.file.Files
 import java.sql.Timestamp
 import java.util.Calendar
 import java.util.zip.ZipInputStream
-
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
@@ -26,14 +25,15 @@ class S3ResourceDownloader(bucket: => String,
   extends ResourceDownloader with AutoCloseable {
 
   // repository Folder -> repository Metadata
-  val repoFolder2Metadata = mutable.Map[String, RepositoryMetadata]()
+  val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] = mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
   if (!fs.exists(cachePath)) {
     fs.mkdirs(cachePath)
   }
 
-  lazy val client = {
+  /* ToDo AmazonS3Client has been deprecated*/
+  lazy val client: AmazonS3Client = {
     val regionObj = RegionUtils.getRegion(region)
 
     val config = new ClientConfiguration()
@@ -59,12 +59,8 @@ class S3ResourceDownloader(bucket: => String,
     val needToRefersh = lastState.isEmpty || lastState.get.lastMetadataDownloaded.before(fiveMinsBefore)
 
     if (!needToRefersh) {
-
       lastState.get.metadata
-
-    }
-    else {
-
+    } else {
       val metaFile = getS3File(s3Path, folder, "metadata.json")
       val obj = client.getObject(bucket, metaFile)
       val metadata = ResourceMetadata.readResources(obj.getObjectContent)
