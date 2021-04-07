@@ -16,7 +16,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==3.0.0 pyspark==3.1.1
+$ pip install spark-nlp==3.0.1 pyspark==3.1.1
 ```
 
 ## Colab setup
@@ -33,7 +33,7 @@ os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
 ! java -version
 
 # Install pyspark
-! pip install -q spark-nlp==3.0.0 pyspark==3.1.1
+! pip install -q spark-nlp==3.0.1 pyspark==3.1.1
 ```
 
 ## Notebooks

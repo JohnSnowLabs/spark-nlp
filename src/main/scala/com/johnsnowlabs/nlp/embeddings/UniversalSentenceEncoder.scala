@@ -110,12 +110,12 @@ class UniversalSentenceEncoder(override val uid: String)
   def getModelIfNotSet: TensorflowUSE = _model.get.value
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper, loadSP: Boolean = false): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowUSE(tensorflow, configProtoBytes = getConfigProtoBytes)
+          new TensorflowUSE(tensorflow, configProtoBytes = getConfigProtoBytes, loadSP = loadSP)
         )
       )
     }
@@ -206,7 +206,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
       TensorflowWrapper.readWithSP(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true, loadSP = loadSP)
 
     new UniversalSentenceEncoder()
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(spark, wrapper, loadSP)
       .setLoadSP(loadSP)
   }
 }

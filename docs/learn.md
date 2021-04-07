@@ -197,6 +197,11 @@ modify_date: "2019-05-16"
 <div class="grid--container container-aside article-wrapper"><div class="grid">
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[GloVe, ELMo & BERT. A guide to state-of-the-art text classification using Spark NLP
+](https://towardsdatascience.com/glove-elmo-bert-9dbbc9226934)</span><span class="video-descr">Ryan Burke - March 16, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_2.jpg)[Distributed Topic Modelling using Spark NLP and Spark MLLib(LDA)](https://medium.com/analytics-vidhya/distributed-topic-modelling-using-spark-nlp-and-spark-mllib-lda-6db3f06a4da3)</span><span class="video-descr">Satish Silveri - June 11, 2020</span>
 </div></div>
 
