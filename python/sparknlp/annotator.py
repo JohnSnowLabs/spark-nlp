@@ -3235,7 +3235,14 @@ class T5Transformer(AnnotatorModel):
 
     task = Param(Params._dummy(), "task", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
 
-    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Set the maximum length of output text", typeConverter=TypeConverters.toInt)
+    minOutputLength = Param(Params._dummy(),  "minOutputLength", "Minimum length of the sequence to be generated", typeConverter=TypeConverters.toInt)
+    maxOutputLength = Param(Params._dummy(),  "maxOutputLength", "Maximum length of output text", typeConverter=TypeConverters.toInt)
+    doSample = Param(Params._dummy(), "doSample", "Whether or not to use sampling; use greedy decoding otherwise", typeConverter=TypeConverters.toBoolean)
+    temperature = Param(Params._dummy(),  "temperature", "The value used to module the next token probabilities", typeConverter=TypeConverters.toFloat)
+    topK = Param(Params._dummy(),  "topK", "The number of highest probability vocabulary tokens to keep for top-k-filtering", typeConverter=TypeConverters.toInt)
+    topP = Param(Params._dummy(),  "topP", "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation", typeConverter=TypeConverters.toFloat)
+    repetitionPenalty = Param(Params._dummy(),  "repetitionPenalty", "The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details", typeConverter=TypeConverters.toFloat)
+    noRepeatNgramSize = Param(Params._dummy(),  "noRepeatNgramSize", "If set to int > 0, all ngrams of that size can only occur once", typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -3243,8 +3250,30 @@ class T5Transformer(AnnotatorModel):
     def setTask(self, value):
         return self._set(task=value)
 
+    def setMinOutputLength(self, value):
+        return self._set(minOutputLength=value)
+
     def setMaxOutputLength(self, value):
         return self._set(maxOutputLength=value)
+
+    def setDoSample(self, value):
+        return self._set(doSample=value)
+
+    def setTemperature(self, value):
+        return self._set(temperature=value)
+
+    def setTopK(self, value):
+        return self._set(topK=value)
+
+    def setTopP(self, value):
+        return self._set(topP=value)
+
+    def setRepetitionPenalty(self, value):
+        return self._set(repetitionPenalty=value)
+
+    def setNoRepeatNgramSize(self, value):
+        return self._set(noRepeatNgramSize=value)
+
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer", java_model=None):

@@ -9,7 +9,7 @@ import org.scalatest._
 import _root_.junit.framework.Assert.assertEquals
 
 class T5TestSpec extends FlatSpec {
-  "t5-small" should "run SparkNLP pipeline" in {
+  "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -52,7 +52,7 @@ class T5TestSpec extends FlatSpec {
     results.select("summaries.result").show(truncate = false)
   }
 
-  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" in {
+  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Which is the capital of France? Who was the first president of USA?"),
@@ -70,7 +70,7 @@ class T5TestSpec extends FlatSpec {
       .setInputCols(Array("documents"))
       .setOutputCol("questions")
 
-    val t5 = T5Transformer.pretrained("t5_base")
+    val t5 = T5Transformer.pretrained("t5_small")
       .setInputCols(Array("questions"))
       .setOutputCol("answers")
 
@@ -83,7 +83,7 @@ class T5TestSpec extends FlatSpec {
   }
 
 
-  "t5-small" should "run SparkNLP pipeline with maxLength=200 " in {
+  "t5-small" should "run SparkNLP pipeline with maxLength=200 " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -121,7 +121,7 @@ class T5TestSpec extends FlatSpec {
     assertEquals("a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .",result)
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample=true " in {
+  "t5-small" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -159,7 +159,7 @@ class T5TestSpec extends FlatSpec {
     assert(!dataframe1.equals(dataframe2))
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample=true and fixed random seed " in {
+  "t5-small" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -199,7 +199,7 @@ class T5TestSpec extends FlatSpec {
     assert(dataframe1.equals(dataframe2))
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample=true, fixed random seed deactivated topK" in {
+  "t5-small" should "run SparkNLP pipeline with doSample=true, fixed random seed deactivated topK" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -238,7 +238,7 @@ class T5TestSpec extends FlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline with temperature to decrease the sensitivity to low probability candidates" in {
+  "t5-small" should "run SparkNLP pipeline with temperature to decrease the sensitivity to low probability candidates" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -279,7 +279,7 @@ class T5TestSpec extends FlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample and TopP" in {
+  "t5-small" should "run SparkNLP pipeline with doSample and TopP" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
@@ -320,7 +320,7 @@ class T5TestSpec extends FlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline with repetitionPenalty" in {
+  "t5-small" should "run SparkNLP pipeline with repetitionPenalty" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
