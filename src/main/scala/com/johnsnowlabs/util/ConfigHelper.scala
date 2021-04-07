@@ -23,6 +23,9 @@ object ConfigHelper {
   // Configures s3 bucket where pretrained models are stored
   val pretrainedS3BucketKey = "sparknlp.settings.pretrained.s3_bucket"
 
+  // Configures s3 bucket where community pretrained models are stored
+  val pretrainedCommunityS3BucketKey = "sparknlp.settings.pretrained.s3_community_bucket"
+
   // Configures s3 path where pretrained models are stored
   val pretrainedS3PathKey = "sparknlp.settings.pretrained.s3_path"
 
