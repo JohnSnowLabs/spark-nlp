@@ -1,6 +1,5 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper.TFSessionConfig
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -16,7 +15,8 @@ import org.tensorflow.proto.framework.{ConfigProto, GraphDef, TensorInfo}
 import java.io._
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import java.util.{Map, UUID}
+import java.util
+import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
 
@@ -74,12 +74,11 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
     m_session
   }
 
-  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true): Session = {
+  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true, loadSP: Boolean = false): Session = {
 
     if (m_session == null){
       logger.debug("Restoring TF Hub session from bytes")
       val t = new TensorResources()
-      val config = configProtoBytes.getOrElse(TFSessionConfig)
 
       // save the binary data of variables to file - variables per se
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + TensorflowWrapper.TFVarsSuffix)
@@ -92,28 +91,19 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
       Files.write(varIdx, variables.index)
 
       LoadsContrib.loadContribToTensorflow()
-      LoadSentencepiece.loadSPToTensorflowLocally()
-      LoadSentencepiece.loadSPToTensorflow()
-
+      if(loadSP) {
+        LoadSentencepiece.loadSPToTensorflowLocally()
+        LoadSentencepiece.loadSPToTensorflow()
+      }
       // import the graph
       val g = new Graph()
       g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, ConfigProto.parseFrom(TFSessionConfig))
-      val variablesPath = Paths.get(folder, TensorflowWrapper.VariablesKey).toAbsolutePath.toString
-      if(initAllTables) {
-        session.runner
-          .addTarget(TensorflowWrapper.SaveRestoreAllOP)
-          .addTarget(TensorflowWrapper.InitAllTableOP)
-          .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesPath))
-          .run()
-      }else{
-        session.runner
-          .addTarget(TensorflowWrapper.SaveRestoreAllOP)
-          .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesPath))
-          .run()
-      }
+      val session = new Session(g, ConfigProto.parseFrom(TensorflowWrapper.TFSessionConfig))
+
+      TensorflowWrapper
+        .processInitAllTableOp(initAllTables, t, session, folder, TensorflowWrapper.VariablesKey)
 
       //delete variable files
       Files.delete(varData)
@@ -129,7 +119,7 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
     if (m_session == null){
       logger.debug("Creating empty TF session")
 
-      val config = configProtoBytes.getOrElse(TFSessionConfig)
+      val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
       LoadsContrib.loadContribToTensorflow()
 
@@ -246,7 +236,7 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
     Files.write(file.toAbsolutePath, bytes)
 
     // 2. Read from file
-    val tf = TensorflowWrapper.read(file.toString, zipped = true)
+    val tf = TensorflowWrapper.read(file.toString)
 
     this.m_session = tf.getSession()
     this.graph = tf.graph
@@ -292,7 +282,7 @@ object TensorflowWrapper {
 
     if (model.metaGraphDef.hasGraphDef && model.metaGraphDef.getSignatureDefCount > 0) {
       for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        val inputs: Map[String, TensorInfo] = sigDef.getInputsMap
+        val inputs: util.Map[String, TensorInfo] = sigDef.getInputsMap
         for (e <- inputs.entrySet.asScala) {
           val key: String = e.getKey
           val tfInfo: TensorInfo = e.getValue
@@ -300,7 +290,7 @@ object TensorflowWrapper {
         }
       }
       for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        val outputs: Map[String, TensorInfo] = sigDef.getOutputsMap
+        val outputs: util.Map[String, TensorInfo] = sigDef.getOutputsMap
         for (e <- outputs.entrySet.asScala) {
           val key: String = e.getKey
           val tfInfo: TensorInfo = e.getValue
@@ -479,9 +469,12 @@ object TensorflowWrapper {
     val tensorResources = new TensorResources()
 
     val listFiles = ResourceHelper.listResourceDirectory(rootDir)
-    val path = if(listFiles.length > 1)
-      s"${listFiles.head.split("/").head}/${fileName}"
-    else listFiles.head
+
+    val path =
+      if(listFiles.length > 1)
+        s"${listFiles.head.split("/").head}/$fileName"
+      else
+        listFiles.head
 
     val uri = new URI(path.replaceAllLiterally("\\", "/"))
 
