@@ -17,6 +17,8 @@ import java.net.URI
 import java.nio.file.{Files, Paths}
 import java.util
 import java.util.UUID
+import scala.collection.mutable.ListBuffer
+import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
 
 
@@ -271,22 +273,43 @@ object TensorflowWrapper {
   val TFVarsSuffix = "_tf_vars"
 
   /** Utility method to load the TF saved model bundle */
-  private def withSafeSavedModelBundleLoader(tags: Array[String], folder: String) = {
+  def withSafeSavedModelBundleLoader(tags: Array[String], savedModelDir: String) = {
+    Try(SavedModelBundle.load(savedModelDir, tags: _*)) match {
+      case Success(bundle) => bundle
+      case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
+    }
+  }
+
+  def extractSignatures(tags: Array[String],
+                        savedModelDir: String,
+                        modelProvider: String = "default") = {
+    val InputOp = "feed"
+    val OutputOp = "fetch"
+
+    val VERBOSE = false // TODO WIP - remove me
+
     import collection.JavaConverters._
 
-    val model: SavedModelBundle =
-      Try(SavedModelBundle.load(folder, tags: _*)) match {
+    val modelSignatures = new ListBuffer[(String, String, String)]()
+
+    val model =
+      Try(SavedModelBundle.load(savedModelDir, tags: _*)) match {
         case Success(bundle) => bundle
         case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
       }
-
     if (model.metaGraphDef.hasGraphDef && model.metaGraphDef.getSignatureDefCount > 0) {
       for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
         val inputs: util.Map[String, TensorInfo] = sigDef.getInputsMap
         for (e <- inputs.entrySet.asScala) {
           val key: String = e.getKey
           val tfInfo: TensorInfo = e.getValue
-          System.out.println("\nSignatureDef InputMap key: " + key + "\nSignatureDef InputMap tfInfo: " + tfInfo.getName)
+
+          if(VERBOSE){
+            println(
+              "\nSignatureDef InputMap key: " + key +
+                "\nSignatureDef InputMap tfInfo: " + tfInfo.getName)
+          }
+          modelSignatures += ((InputOp, key, tfInfo.getName))
         }
       }
       for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
@@ -294,12 +317,70 @@ object TensorflowWrapper {
         for (e <- outputs.entrySet.asScala) {
           val key: String = e.getKey
           val tfInfo: TensorInfo = e.getValue
-          System.out.println("\nSignatureDef OutputMap key: " + key + "\nSignatureDef OutputMap tfInfo: " + tfInfo.getName)
+          if(VERBOSE){
+            println(
+              "\nSignatureDef OutputMap key: " + key +
+                "\nSignatureDef OutputMap tfInfo: " + tfInfo.getName)
+          }
+          modelSignatures += ((OutputOp, key, tfInfo.getName))
         }
       }
     }
 
-    model
+    val signatureCandidates = modelSignatures.toList // List of tuple (opType, K, V)
+
+    if(VERBOSE) println(signatureCandidates.toString())
+
+    /** Regex matcher */
+    def findTFKeyMatch(candidate: String, key: Regex) = {
+      if(VERBOSE) println(s"c: $candidate - k: $key")
+      val pattern = key
+      val res = pattern.unapplySeq(candidate)
+      if(VERBOSE) println(res)
+      res.isDefined
+    }
+
+    /**
+      * Extract matches from candidate key and model signatures
+      * @param candidate: the candidate key name
+      * @param modelProvider: the model provider in between default, TF2 and HF to select the proper keys
+      * @return a list of matching keys as strings
+      * */
+    def extractCandidateMatches(candidate: String, modelProvider: String) : List[String] = {
+      val ReferenceKeys = modelProvider match {
+        case "default" =>
+          Array(
+            "(input)(.*)(ids)".r,
+            "(input)(.*)(mask)".r,
+            "(segment)(.*)(ids)".r,
+            "(sequence)(.*)(output)".r,
+            "(pooled)(.*)(output)".r)
+
+        case "TF2" =>
+          Array(
+            "(input_word)(.*)(ids)".r,
+            "(input)(.*)(mask)".r,
+            "(input_type)(.*)(ids)".r,
+            "(bert)(.*)(encoder)".r)
+        case "HF" =>
+          Array(
+            "(input)(.*)(ids)".r,
+            "(attention)(.*)(mask)".r,
+            "(token_type)(.*)(ids)".r,
+            "(StatefulPartitionedCall)".r)
+
+        case _ => throw new Exception("Unknown model provider! Please provide one in between default, TF2 or HF.")
+      }
+
+      val matches = (
+        for (refKey <- ReferenceKeys if findTFKeyMatch(candidate, refKey)) yield {
+          if(VERBOSE) println("Found match comparing " + candidate + " with " + refKey)
+          refKey
+        }).toList
+      if (matches.isEmpty) List("N/A") else matches.mkString(",").split(",").toList
+    }
+
+    signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
   }
 
   /** Utility method to load the TF saved model components without a provided bundle */
@@ -390,7 +471,7 @@ object TensorflowWrapper {
     // 3. Read file as SavedModelBundle
     val (graph, session, varPath, idxPath) =
       if (useBundle) {
-        val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
+        val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, savedModelDir = folder)
         val (graph, session, varPath, idxPath) = unpackFromBundle(folder, model)
         if(initAllTables) session.runner().addTarget(InitAllTableOP)
         (graph, session, varPath, idxPath)
@@ -438,7 +519,7 @@ object TensorflowWrapper {
     // 3. Read file as SavedModelBundle
     val (graph, session, varPath, idxPath) =
       if (useBundle) {
-        val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, folder = folder)
+        val model: SavedModelBundle = withSafeSavedModelBundleLoader(tags = tags, savedModelDir = folder)
         val (graph, session, varPath, idxPath) = unpackFromBundle(folder, model)
         if(initAllTables) session.runner().addTarget(InitAllTableOP)
         (graph, session, varPath, idxPath)
@@ -514,7 +595,7 @@ object TensorflowWrapper {
     Files.copy(varDataInputStream, varDataFile.toPath)
 
     // 5. Read file as SavedModelBundle
-    val model = withSafeSavedModelBundleLoader(tags = tags, folder = finalFolder)
+    val model = withSafeSavedModelBundleLoader(tags = tags, savedModelDir = finalFolder)
 
     val (graph, session, varPath, idxPath) = unpackFromBundle(finalFolder, model)
 
