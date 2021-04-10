@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.TFSignatureFactory
+import com.johnsnowlabs.ml.tensorflow.{TFSignatureFactory, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -166,6 +166,28 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
     pipeline.fit(ddd).transform(ddd).show
+  }
+
+  "Bert Embeddings" should "correctly match TF model signatures" taggedAs SlowTest in {
+    val tfModelPath = "src/test/resources/custom-bert/model" // TF2 MODEL HUB
+
+    var matchedSignatures =
+      TensorflowWrapper.extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath)
+    // println(matchedSignatures.mkString("\n"))
+    assert(matchedSignatures.head._1._1 == "feed")
+    assert(matchedSignatures.last._1._1 == "fetch")
+
+    matchedSignatures =
+      TensorflowWrapper.extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath, modelProvider = "TF2")
+    // println(matchedSignatures.mkString("\n"))
+    assert(matchedSignatures.head._1._1 == "feed")
+    assert(matchedSignatures.last._1._1 == "fetch")
+
+    matchedSignatures =
+      TensorflowWrapper.extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath, modelProvider = "HF")
+    // println(matchedSignatures.mkString("\n"))
+    assert(matchedSignatures.head._1._1 == "feed")
+    assert(matchedSignatures.last._1._1 == "fetch")
   }
 
 }
