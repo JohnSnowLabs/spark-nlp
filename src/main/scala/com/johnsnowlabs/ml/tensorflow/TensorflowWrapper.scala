@@ -24,6 +24,10 @@ import scala.util.{Failure, Success, Try}
 
 case class Variables(variables: Array[Byte], index: Array[Byte])
 
+case class ModelSignature(operation: String,
+                          value: String,
+                          matchingPatterns: List[String])
+
 
 class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extends Serializable {
 
@@ -280,6 +284,21 @@ object TensorflowWrapper {
     }
   }
 
+  /** Return a formatted map of key -> ModelSignature */
+  def convertToMap(matched: List[((String, String, String), List[String])]) = {
+    matched
+      .map(m =>
+        m._1._2 -> ModelSignature(operation = m._1._1, value = m._1._3, matchingPatterns = m._2)).toMap
+  }
+
+  /**
+    * Extract input and output signatures from TF saved models
+    *
+    * @param tags tags to load from model
+    * @param savedModelDir saved model path
+    * @param modelProvider model framework provider, i.e. default, TF2 or HF
+    * @return the list ot matching signatures as tuples
+    * */
   def extractSignatures(tags: Array[String],
                         savedModelDir: String,
                         modelProvider: String = "default") = {
@@ -380,7 +399,8 @@ object TensorflowWrapper {
       if (matches.isEmpty) List("N/A") else matches.mkString(",").split(",").toList
     }
 
-    signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
+    val matched = signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
+    convertToMap(matched)
   }
 
   /** Utility method to load the TF saved model components without a provided bundle */
