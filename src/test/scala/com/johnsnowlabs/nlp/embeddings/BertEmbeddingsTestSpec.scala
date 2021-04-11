@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.{TFSignatureFactory, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{ModelSignature, TFSignatureFactory, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
@@ -168,26 +168,53 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     pipeline.fit(ddd).transform(ddd).show
   }
 
-  "Bert Embeddings" should "correctly match TF model signatures" taggedAs SlowTest in {
+  "Bert Embeddings" should "correctly match TF model signatures" taggedAs FastTest in {
     val tfModelPath = "src/test/resources/custom-bert/model" // TF2 MODEL HUB
 
-    var matchedSignatures =
-      TensorflowWrapper.extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath)
-    // println(matchedSignatures.mkString("\n"))
-    assert(matchedSignatures.head._1._1 == "feed")
-    assert(matchedSignatures.last._1._1 == "fetch")
-
-    matchedSignatures =
+    val matchedSignatures: Map[String, ModelSignature] =
       TensorflowWrapper.extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath, modelProvider = "TF2")
-    // println(matchedSignatures.mkString("\n"))
-    assert(matchedSignatures.head._1._1 == "feed")
-    assert(matchedSignatures.last._1._1 == "fetch")
 
-    matchedSignatures =
-      TensorflowWrapper.extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath, modelProvider = "HF")
-    // println(matchedSignatures.mkString("\n"))
-    assert(matchedSignatures.head._1._1 == "feed")
-    assert(matchedSignatures.last._1._1 == "fetch")
+    println(matchedSignatures.mkString("\n"))
+
+    assert(matchedSignatures.contains("input_word_ids"))
+    assert(matchedSignatures.contains("input_mask"))
+    assert(matchedSignatures.contains("input_type_ids"))
+    assert(matchedSignatures.contains("bert_encoder"))
   }
+
+  //  "Bert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  //
+  //    import ResourceHelper.spark.implicits._
+  //
+  //    val ddd = Seq(
+  //      "Something is weird on the notebooks, something is happening."
+  //    ).toDF("text")
+  //
+  //    val document = new DocumentAssembler()
+  //      .setInputCol("text")
+  //      .setOutputCol("document")
+  //
+  //    val tokenizer = new Tokenizer()
+  //      .setInputCols(Array("document"))
+  //      .setOutputCol("token")
+  //
+  //    val tfModelPath = "src/test/resources/custom-bert/model"
+  //
+  //    val signatures: Map[String, ModelSignature] =
+  //      TensorflowWrapper
+  //        .extractSignatures(
+  //          tags = Array("serve"),
+  //          savedModelDir = tfModelPath,
+  //          modelProvider = "TF2")
+  //
+  //    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
+  //      .setInputCols(Array("token", "document"))
+  //      .setOutputCol("bert")
+  //      .setSignatures(signatures)
+  //
+  //    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+  //
+  //    pipeline.fit(ddd).transform(ddd).show
+  //  }
 
 }
