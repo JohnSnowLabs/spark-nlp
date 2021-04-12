@@ -9,67 +9,22 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 import scala.collection.JavaConverters._
 
 
-trait TFSignatures{
-  def tokenIdsKey():String
-  def maskIdsKey():String
-  def segmentIdsKey():String
-  def embeddingsKey():String
-  def sentenceEmbeddingsKey():String
-
-  override def toString = "" +
-    "tokenIdsKey= " + tokenIdsKey +", " +
-    "maskIdsKey=" + maskIdsKey + ", " +
-    "segmentIdsKey=" + segmentIdsKey + ", " +
-    "embeddingsKey=" + embeddingsKey + ", " +
-    "sentenceEmbeddingsKey=" + sentenceEmbeddingsKey
-}
-
-private class TFDefaultSignatures(val tokenIdsKey: String,
-                                 val maskIdsKey: String,
-                                 val segmentIdsKey: String,
-                                 val embeddingsKey: String,
-                                 val sentenceEmbeddingsKey: String) extends TFSignatures{
-  def getTokenIdsKey():String =  tokenIdsKey
-  def getMaskIdsKey():String =  maskIdsKey
-  def getSegmentIdsKey():String =  segmentIdsKey
-  def getEmbeddingsKey():String =  embeddingsKey
-  def getSentenceEmbeddingsKey():String =  sentenceEmbeddingsKey
-}
-
-private class TFCustomSignatures(val tokenIdsKey: String,
-                                val maskIdsKey: String,
-                                val segmentIdsKey: String,
-                                val embeddingsKey: String,
-                                val sentenceEmbeddingsKey: String) extends TFSignatures{
-  def getTokenIdsKey():String =  tokenIdsKey
-  def getMaskIdsKey():String =  maskIdsKey
-  def getSegmentIdsKey():String =  segmentIdsKey
-  def getEmbeddingsKey():String =  embeddingsKey
-  def getSentenceEmbeddingsKey():String =  sentenceEmbeddingsKey
-}
-
 object TFSignatureFactory{
-  def apply(tfSignatureType: String = "default",
+  def apply(tfSignatureType: String = "JSL",
             tokenIdsKey: String = "input_ids:0",
             maskIdsKey: String = "input_mask:0",
             segmentIdsKey: String = "segment_ids:0",
             embeddingsKey: String = "sequence_output:0",
             sentenceEmbeddingsKey: String = "pooled_output:0") =
     tfSignatureType.toUpperCase match {
-      case "DEFAULT" =>
-        new TFDefaultSignatures(
-          tokenIdsKey,
-          maskIdsKey,
-          segmentIdsKey,
-          embeddingsKey,
-          sentenceEmbeddingsKey)
-      case "CUSTOM" =>
-        new TFCustomSignatures(
-          tokenIdsKey,
-          maskIdsKey,
-          segmentIdsKey,
-          embeddingsKey,
-          sentenceEmbeddingsKey)
+      case "JSL" =>
+        Map[String, String](
+          "input_ids" -> tokenIdsKey,
+          "input_mask" -> maskIdsKey,
+          "segment_ids" -> segmentIdsKey,
+          "sequence_output" -> embeddingsKey,
+          "pooled_output" -> sentenceEmbeddingsKey)
+      case _ => throw new Exception("Model provider not available.")
     }
 }
 
@@ -93,11 +48,13 @@ object TFSignatureFactory{
 class TensorflowBert(val tensorflow: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
-                     tfBertSignatures: Option[TFSignatures] = None,
+                     tfBertSignatures: Option[Map[String, String]] = None,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  val _tfBertSignatures: TFSignatures = tfBertSignatures.getOrElse(TFSignatureFactory.apply())
+  val _tfBertSignatures = tfBertSignatures.getOrElse(TFSignatureFactory.apply())
+
+  println(_tfBertSignatures)
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -143,10 +100,10 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.tokenIdsKey(), tokenTensors)
-      .feed(_tfBertSignatures.maskIdsKey, maskTensors)
-      .feed(_tfBertSignatures.segmentIdsKey, segmentTensors)
-      .fetch(_tfBertSignatures.embeddingsKey)
+      .feed(_tfBertSignatures.getOrElse("input_ids", "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse("input_mask", "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse("segment_ids", "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse("sequence_output", "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -201,10 +158,10 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.tokenIdsKey, tokenTensors)
-      .feed(_tfBertSignatures.maskIdsKey, maskTensors)
-      .feed(_tfBertSignatures.segmentIdsKey, segmentTensors)
-      .fetch(_tfBertSignatures.sentenceEmbeddingsKey())
+      .feed(_tfBertSignatures.getOrElse("input_ids", "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse("input_mask", "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse("segment_ids", "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse("pooled_output", "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -244,10 +201,10 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.tokenIdsKey, tokenTensors)
-      .feed(_tfBertSignatures.maskIdsKey, maskTensors)
-      .feed(_tfBertSignatures.segmentIdsKey, segmentTensors)
-      .fetch(_tfBertSignatures.sentenceEmbeddingsKey)
+      .feed(_tfBertSignatures.getOrElse("input_ids", "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse("input_mask", "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse("segment_ids", "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse("sequence_output", "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
