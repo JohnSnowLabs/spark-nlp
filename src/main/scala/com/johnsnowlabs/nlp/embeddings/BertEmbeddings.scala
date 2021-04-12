@@ -5,6 +5,7 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.BertEmbeddings.logger
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
@@ -85,6 +86,12 @@ class BertEmbeddings(override val uid: String)
     $$(vocabulary)("[SEP]")
   }
 
+  /**
+    * It contains TF model signatures for the laded saved model
+    * @group param
+    **/
+  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+
   /** Set Embeddings dimensions for the BERT model
     * Only possible to set this when the first time is saved
     * dimension is not changeable, it comes from BERT config file
@@ -95,7 +102,6 @@ class BertEmbeddings(override val uid: String)
     if (get(dimension).isEmpty)
       set(this.dimension, value)
     this
-
   }
 
   /** Whether to lowercase tokens or not
@@ -134,6 +140,11 @@ class BertEmbeddings(override val uid: String)
     this
   }
 
+  /**
+    * Set TF model signatures for the loaded saved model
+    * */
+  def setSignatures(value: Map[String, String]): this.type = set(signatures, value)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     *
     * @group getParam
@@ -145,6 +156,12 @@ class BertEmbeddings(override val uid: String)
     * @group getParam
     **/
   def getMaxSentenceLength: Int = $(maxSentenceLength)
+
+  /** Signatures for the TF saved model
+    *
+    * @group getParam
+    **/
+  def getSignatures(): Option[Map[String, String]] = get(this.signatures)
 
   setDefault(
     dimension -> 768,
@@ -160,8 +177,15 @@ class BertEmbeddings(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession,
                        tensorflow: TensorflowWrapper,
-                       tfBertSignatures: Option[TFSignatures] = None) = {
+                       signatures: Option[Map[String, String]] = None) = {
+    signatures match {
+      case Some(signatures) => setSignatures(signatures)
+      case _ => setSignatures(TFSignatureFactory.apply())
+    }
+
     if (_model.isEmpty) {
+
+      println(getSignatures)
 
       _model = Some(
         spark.sparkContext.broadcast(
@@ -170,7 +194,7 @@ class BertEmbeddings(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tfBertSignatures = tfBertSignatures
+            tfBertSignatures = getSignatures
           )
         )
       )
@@ -257,14 +281,12 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf, None)
+    instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String,
-                     spark: SparkSession,
-                     tfBertSignatures: Option[TFSignatures] = None)
+  def loadSavedModel(folder: String, spark: SparkSession, signatures: Option[Map[String, String]] = None)
   : BertEmbeddings = {
 
     val f = new File(folder)
@@ -288,7 +310,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
     new BertEmbeddings()
       .setVocabulary(words)
-      .setModelIfNotSet(spark, wrapper, tfBertSignatures)
+      .setModelIfNotSet(spark, wrapper, signatures)
   }
 }
 
