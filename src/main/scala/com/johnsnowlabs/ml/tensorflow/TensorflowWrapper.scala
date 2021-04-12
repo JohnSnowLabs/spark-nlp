@@ -284,24 +284,34 @@ object TensorflowWrapper {
     }
   }
 
-  /** Return a formatted map of key -> ModelSignature */
-  def convertToMap(matched: List[((String, String, String), List[String])]) = {
-    matched
-      .map(m =>
-        m._1._2 -> ModelSignature(operation = m._1._1, value = m._1._3, matchingPatterns = m._2)).toMap
+  private def conventionedKey(keyName: String) = {
+    keyName match {
+      case "input_ids" | "input_word_ids" => "input_ids"
+      case "input_mask" => "input_mask"
+      case "segment_ids" | "input_type_ids" => "segment_ids"
+      case "sequence_output" | "bert_encoder" => "sequence_output"
+      case "pooled_output" => "pooled_output"
+      case k => k
+    }
+  }
+
+  /** Return a formatted map of key -> value for model signature objects */
+  def convertToConventionedMap(matched: List[((String, String, String), List[String])]) = {
+    val converted: Map[String, String] = matched.map(m => m._1._2 -> m._1._3).toMap
+    converted.map(e => (conventionedKey(e._1),e._2))
   }
 
   /**
     * Extract input and output signatures from TF saved models
     *
     * @param tags tags to load from model
-    * @param savedModelDir saved model path
     * @param modelProvider model framework provider, i.e. default, TF2 or HF
+    * @param savedModelDir saved model path
     * @return the list ot matching signatures as tuples
     * */
-  def extractSignatures(tags: Array[String],
-                        savedModelDir: String,
-                        modelProvider: String = "default") = {
+  def extractSignatures(tags: Array[String] = Array("serve"),
+                        modelProvider: String = "JSL",
+                        savedModelDir: String) = {
     val InputOp = "feed"
     val OutputOp = "fetch"
 
@@ -367,7 +377,7 @@ object TensorflowWrapper {
       * */
     def extractCandidateMatches(candidate: String, modelProvider: String) : List[String] = {
       val ReferenceKeys = modelProvider match {
-        case "default" =>
+        case "JSL" =>
           Array(
             "(input)(.*)(ids)".r,
             "(input)(.*)(mask)".r,
@@ -400,7 +410,7 @@ object TensorflowWrapper {
     }
 
     val matched = signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
-    convertToMap(matched)
+    convertToConventionedMap(matched)
   }
 
   /** Utility method to load the TF saved model components without a provided bundle */
