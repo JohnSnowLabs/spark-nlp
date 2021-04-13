@@ -135,14 +135,22 @@ class BertEmbeddingsTestSpec extends FlatSpec {
   "Bert Embeddings" should "correctly match TF model signatures" taggedAs FastTest in {
     val tfModelPath = "src/test/resources/custom-bert/model" // TF2 MODEL HUB
 
-    val matchedSignatures: Map[String, String] =
+    val matchedSignatures: Option[Map[String, String]] =
       TensorflowWrapper
-        .extractSignatures(tags = Array("serve"), savedModelDir = tfModelPath, modelProvider = "TF2")
+        .extractSignatures(
+          tags = Array("serve"),
+          savedModelDir = tfModelPath,
+          modelProvider = "TF2")
 
-    assert(matchedSignatures.contains("input_ids"))
-    assert(matchedSignatures.contains("input_mask"))
-    assert(matchedSignatures.contains("segment_ids"))
-    assert(matchedSignatures.contains("sequence_output"))
+    val signatures = matchedSignatures match {
+      case Some(s) => s
+      case _ => throw new Exception("Signature map is empty!")
+    }
+    
+    assert(signatures.contains("input_ids"))
+    assert(signatures.contains("input_mask"))
+    assert(signatures.contains("segment_ids"))
+    assert(signatures.contains("sequence_output"))
   }
 
   "Bert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
@@ -163,14 +171,14 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
     val tfModelPath = "src/test/resources/custom-bert/model"
 
-    val signatures: Map[String, String] =
+    val signatures: Option[Map[String, String]] =
       TensorflowWrapper
         .extractSignatures(
           tags = Array("serve"),
           savedModelDir = tfModelPath,
           modelProvider = "TF2")
 
-    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark, Some(signatures))
+    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark, signatures)
       .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
 
