@@ -410,7 +410,7 @@ object TensorflowWrapper {
     }
 
     val matched = signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
-    convertToConventionedMap(matched)
+    Option(convertToConventionedMap(matched))
   }
 
   /** Utility method to load the TF saved model components without a provided bundle */

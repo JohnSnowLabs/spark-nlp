@@ -174,19 +174,20 @@ class BertEmbeddings(override val uid: String)
 
   /** @group getParam */
   def getModelIfNotSet: TensorflowBert = _model.get.value
-  /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession,
-                       tensorflow: TensorflowWrapper,
-                       signatures: Option[Map[String, String]] = None) = {
-    signatures match {
-      case Some(signatures) => setSignatures(signatures)
-      case _ => setSignatures(TFSignatureFactory.apply())
+
+  def setSignaturesIfNotSet(signatures: Option[Map[String, String]]) ={
+    if(!getSignatures.isDefined) {
+      signatures match {
+        case Some(signatures) => setSignatures(signatures)
+        case _ => setSignatures(TFSignatureFactory.apply())
+      }
     }
+    this
+  }
 
+  /** @group setParam */
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper) = {
     if (_model.isEmpty) {
-
-      println(getSignatures)
-
       _model = Some(
         spark.sparkContext.broadcast(
           new TensorflowBert(
@@ -310,7 +311,8 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
     new BertEmbeddings()
       .setVocabulary(words)
-      .setModelIfNotSet(spark, wrapper, signatures)
+      .setSignaturesIfNotSet(signatures)
+      .setModelIfNotSet(spark, wrapper)
   }
 }
 
