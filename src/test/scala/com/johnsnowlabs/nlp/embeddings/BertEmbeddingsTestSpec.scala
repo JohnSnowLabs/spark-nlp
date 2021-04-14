@@ -146,7 +146,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       case Some(s) => s
       case _ => throw new Exception("Signature map is empty!")
     }
-    
+
     assert(signatures.contains("input_ids"))
     assert(signatures.contains("input_mask"))
     assert(signatures.contains("segment_ids"))
@@ -169,14 +169,9 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tfModelPath = "src/test/resources/custom-bert/model"
+    val tfModelPath = "src/test/resources/custom-bert/model" // TF2 hub model
 
-    val signatures: Option[Map[String, String]] =
-      TensorflowWrapper
-        .extractSignatures(
-          tags = Array("serve"),
-          savedModelDir = tfModelPath,
-          modelProvider = "TF2")
+    val signatures = TensorflowWrapper.extractSignatures(modelProvider = "TF2", savedModelDir = tfModelPath)
 
     val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark, signatures)
       .setInputCols(Array("token", "document"))
@@ -186,5 +181,4 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
     pipeline.fit(ddd).transform(ddd).show
   }
-
 }
