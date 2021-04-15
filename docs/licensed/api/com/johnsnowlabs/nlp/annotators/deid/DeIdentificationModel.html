@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <title>Spark NLP 3.0.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel</title>
+          <meta name="description" content="Spark NLP 3.0.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
+          <meta name="keywords" content="Spark NLP 3.0.1 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -584,11 +584,7 @@ masking or obfuscating the given CHUNKS
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">This method represents the pipeline method which calls each method one by one
-It utilizes the main point of interest which is getAnonymizeSentence() and calls it for each sentence
-</p><div class="fullcomment"><div class="comment cmt"><p>This method represents the pipeline method which calls each method one by one
-It utilizes the main point of interest which is getAnonymizeSentence() and calls it for each sentence
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>a Sequence of Annotations to anonymize</p></dd><dt>returns</dt><dd class="cmt"><p>a Sequence of Anonimized Annotations</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasSimpleAnnotate</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasSimpleAnnotate</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -605,7 +601,7 @@ It utilizes the main point of interest which is getAnonymizeSentence() and calls
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#beforeAnnotate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#beforeAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]"></a><a id="beforeAnnotate(Dataset[_]):Dataset[_]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]" title="Permalink">
@@ -620,7 +616,11 @@ It utilizes the main point of interest which is getAnonymizeSentence() and calls
         <span class="name">beforeAnnotate</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AnnotatorModel</dd></dl></div>
+      <p class="shortcomment cmt">This method represents the pipeline method which calls each method one by one
+It utilizes the main point of interest which is getAnonymizeSentence() and calls it for each sentence
+</p><div class="fullcomment"><div class="comment cmt"><p>This method represents the pipeline method which calls each method one by one
+It utilizes the main point of interest which is getAnonymizeSentence() and calls it for each sentence
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a Sequence of Anonimized Annotations</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → AnnotatorModel</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -1053,6 +1053,22 @@ It utilizes the main point of interest which is getAnonymizeSentence() and calls
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]"></a><a id="get[K,V](MapFeature[K,V]):Option[Map[K,V]]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel.get.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel.get.V">V</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a> → HasFeatures</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]"></a><a id="get[T](StructFeature[T]):Option[T]"></a>
       <span class="permalink">
@@ -1066,22 +1082,6 @@ It utilizes the main point of interest which is getAnonymizeSentence() and calls
       </span>
       <span class="symbol">
         <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]"></a><a id="get[K,V](MapFeature[K,V]):Option[Map[K,V]]"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">get</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
@@ -1202,10 +1202,10 @@ This method is called for each sentence in the input collection of Annotations
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getFakerEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getFakerEntity(entity:String):String"></a><a id="getFakerEntity(String):String"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getFakersEntity" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getFakersEntity(entity:String):Seq[String]"></a><a id="getFakersEntity(String):Seq[String]"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#getFakerEntity(entity:String):String" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#getFakersEntity(entity:String):Seq[String]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1214,7 +1214,7 @@ This method is called for each sentence in the input collection of Annotations
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getFakerEntity</span><span class="params">(<span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">getFakersEntity</span><span class="params">(<span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       
@@ -1350,6 +1350,22 @@ This method is called for each sentence in the input collection of Annotations
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getSeed():Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#getSeed():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSeed</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#getSentences" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getSentences(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[String]"></a><a id="getSentences(Seq[Annotation]):Seq[String]"></a>
       <span class="permalink">
@@ -1471,6 +1487,22 @@ This method is called for each sentence in the input collection of Annotations
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#ignoreRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ignoreRegex:org.apache.spark.ml.param.BooleanParam"></a><a id="ignoreRegex:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#ignoreRegex:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ignoreRegex</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">
@@ -2057,22 +2089,6 @@ This method is called for each sentence in the input collection of Annotations
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel#random" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="random:scala.util.Random"></a><a id="random:Random"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#random:scala.util.Random" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">random</span><span class="result">: <span class="extype" name="scala.util.Random">Random</span></span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#regexOverride" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="regexOverride:org.apache.spark.ml.param.BooleanParam"></a><a id="regexOverride:BooleanParam"></a>
       <span class="permalink">
@@ -2166,6 +2182,22 @@ This method is called for each sentence in the input collection of Annotations
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#seed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="seed:org.apache.spark.ml.param.IntParam"></a><a id="seed:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#seed:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">seed</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type"></a><a id="set[T](StructFeature[T],T):DeIdentificationModel.this.type"></a>
       <span class="permalink">
@@ -2470,6 +2502,22 @@ This method is called for each sentence in the input collection of Annotations
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setIgnoreRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setIgnoreRegex(s:Boolean):DeIdentificationParams.this.type"></a><a id="setIgnoreRegex(Boolean):DeIdentificationModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#setIgnoreRegex(s:Boolean):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setIgnoreRegex</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):DeIdentificationModel.this.type"></a>
       <span class="permalink">
@@ -2659,6 +2707,22 @@ This method is called for each sentence in the input collection of Annotations
       </span>
       <span class="symbol">
         <span class="name">setSameEntityThreshold</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setSeed(s:Int):DeIdentificationParams.this.type"></a><a id="setSeed(Int):DeIdentificationModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html#setSeed(s:Int):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSeed</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>.this.type</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></dd></dl></div>
