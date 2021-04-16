@@ -4,7 +4,7 @@ import random
 import math
 import sys
 from sentence_grouper import SentenceGrouper
-
+import crf_modified
 
 class NerModel:
     # If session is not defined than default session will be used
@@ -274,7 +274,7 @@ class NerModel:
                     tf.identity(self.transition_params, "transition_params")
 
                     self.loss = tf.reduce_mean(input_tensor=-log_likelihood)
-                    self.prediction, _ = tf.contrib.crf.crf_decode(self.scores, self.transition_params, self.sentence_lengths)
+                    self.prediction, _, _ = crf_modified.crf_decode(self.scores, self.transition_params, self.sentence_lengths)
 
                 else:
                     # Softmax
