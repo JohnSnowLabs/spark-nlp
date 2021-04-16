@@ -325,13 +325,67 @@ Show images on Databrics notebook.
 
 </div><div class="h3-box" markdown="1">
 
+## Jupyter Python helpers
+
+### display_image
+
+Show single image with methadata in Jupyter notebook.
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_image
+from sparkocr.transformers import BinaryToImage
+
+images_path = "/tmp/ocr/images/*.tif"
+images_example_df = spark.read.format("binaryFile").load(images_path).cache()
+
+display_image(BinaryToImage().transform(images_example_df).collect()[0].image)
+```
+
+### display_images
+
+Show images from dataframe.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| field | string | image | input column name with image struct |
+| limit | integer | 5 | count of rows for display  |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_images
+from sparkocr.transformers import BinaryToImage
+
+images_path = "/tmp/ocr/images/*.tif"
+images_example_df = spark.read.format("binaryFile").load(images_path).cache()
+
+display_images(BinaryToImage().transform(images_example_df), limit=3)
+```
+![image](/assets/images/ocr/showImage1.png)
+
 ## Databricks Python helpers
 
 ### display_images
 
-Show images.
+Show images from dataframe.
 
-</div>
 
 #### Parameters
 
