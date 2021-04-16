@@ -8,26 +8,6 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-
-object TFSignatureFactory{
-  def apply(tfSignatureType: String = "JSL",
-            tokenIdsKey: String = "input_ids:0",
-            maskIdsKey: String = "input_mask:0",
-            segmentIdsKey: String = "segment_ids:0",
-            embeddingsKey: String = "sequence_output:0",
-            sentenceEmbeddingsKey: String = "pooled_output:0") =
-    tfSignatureType.toUpperCase match {
-      case "JSL" =>
-        Map[String, String](
-          "input_ids" -> tokenIdsKey,
-          "input_mask" -> maskIdsKey,
-          "segment_ids" -> segmentIdsKey,
-          "sequence_output" -> embeddingsKey,
-          "pooled_output" -> sentenceEmbeddingsKey)
-      case _ => throw new Exception("Model provider not available.")
-    }
-}
-
 /**
   * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
   *
@@ -52,7 +32,7 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  val _tfBertSignatures = tfBertSignatures.getOrElse(TFSignatureFactory.apply())
+  val _tfBertSignatures = tfBertSignatures.getOrElse(TensorflowSignaturesManager.apply())
 
   println(_tfBertSignatures)
 

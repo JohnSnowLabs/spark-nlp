@@ -29,11 +29,13 @@ case class ModelSignature(operation: String,
                           matchingPatterns: List[String])
 
 
-class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extends Serializable {
+class TensorflowWrapper(var variables: Variables,
+                        var graph: Array[Byte],
+                        val signatures: Option[Map[String, String]] = None) extends Serializable {
 
   /** For Deserialization */
   def this() = {
-    this(null, null)
+    this(null, null, null)
   }
 
   @transient private var m_session: Session = _
@@ -322,6 +324,7 @@ object TensorflowWrapper {
           "(input)(.*)(mask)".r,
           "(input_type)(.*)(ids)".r,
           "(bert)(.*)(encoder)".r)
+
       case "HF" =>
         Array(
           "(input)(.*)(ids)".r,
@@ -382,10 +385,10 @@ object TensorflowWrapper {
                         savedModelDir: String) = {
 
     val model =
-    Try(SavedModelBundle.load(savedModelDir, tags: _*)) match {
-      case Success(bundle) => bundle
-      case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
-    }
+      Try(SavedModelBundle.load(savedModelDir, tags: _*)) match {
+        case Success(bundle) => bundle
+        case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
+      }
 
     val signatureCandidates = getSignaturesFromModel(model)
 
@@ -400,7 +403,7 @@ object TensorflowWrapper {
 
     /**
       * Extract matches from candidate key and model signatures
- *
+      *
       * @param candidate: the candidate key name
       * @param modelProvider: the model provider in between default, TF2 and HF to select the proper keys
       * @return a list of matching keys as strings
@@ -486,6 +489,7 @@ object TensorflowWrapper {
            zipped: Boolean = true,
            useBundle: Boolean = false,
            tags: Array[String] = Array.empty[String],
+           isLoadingSavedModel: Boolean = false,
            initAllTables: Boolean = false)
   : TensorflowWrapper = {
 
@@ -520,10 +524,16 @@ object TensorflowWrapper {
     val varBytes = Files.readAllBytes(varPath)
     val idxBytes = Files.readAllBytes(idxPath)
 
+    // 4. Extract saved model signatures
+    val signatures =
+      if(isLoadingSavedModel)
+        TensorflowWrapper.extractSignatures(modelProvider = "TF2", savedModelDir = folder)
+      else None
+
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
     t.clearTensors()
-    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
+    val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray, signatures)
     tfWrapper.m_session = session
     tfWrapper
   }
