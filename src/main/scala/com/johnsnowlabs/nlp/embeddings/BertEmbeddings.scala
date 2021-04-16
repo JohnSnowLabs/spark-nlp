@@ -171,27 +171,15 @@ class BertEmbeddings(override val uid: String)
   )
 
   private var _model: Option[Broadcast[TensorflowBert]] = None
-
   /** @group getParam */
   def getModelIfNotSet: TensorflowBert = _model.get.value
-
-  def setSignaturesIfNotSet(signatures: Option[Map[String, String]]) ={
-    if(!getSignatures.isDefined) {
-      signatures match {
-        case Some(signatures) => setSignatures(signatures)
-        case _ => setSignatures(TFSignatureFactory.apply())
-      }
-    }
-    this
-  }
-
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper) = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper) = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new TensorflowBert(
-            tensorflow,
+            tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
@@ -287,31 +275,31 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession, signatures: Option[Map[String, String]] = None)
-  : BertEmbeddings = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession, tags: Array[String] = Array("serve")): BertEmbeddings = {
 
-    val f = new File(folder)
-    val savedModel = new File(folder, "saved_model.pb")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
+    val f = new File(tfModelPath)
+    val savedModel = new File(tfModelPath, "saved_model.pb")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
+      s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
 
-    val vocab = new File(folder+"/assets", "vocab.txt")
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $folder")
+    val vocab = new File(tfModelPath+"/assets", "vocab.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
 
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
+    val wrapper =
+      TensorflowWrapper
+        .read(tfModelPath, zipped = false, useBundle = true, tags = tags, isLoadingSavedModel = true)
 
     new BertEmbeddings()
       .setVocabulary(words)
-      .setSignaturesIfNotSet(signatures)
       .setModelIfNotSet(spark, wrapper)
   }
 }
