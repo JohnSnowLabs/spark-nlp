@@ -7,6 +7,32 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+
+## 3.1.0
+
+#### Overview
+
+Image processing on GPU. It is in 3..5 times faster than on CPU.
+
+#### New Features
+
+* [GPUImageTransformer](ocr_pipeline_components#gpuimagetransformer) with support: scaling, erosion, delation, Otsu and Huang thresholding.
+* Added [display_images](ocr_structures#displayimages) util function for display images from Spark DataFrame in Jupyter notebooks.
+
+#### Enhancements
+
+* Improve [display_image](ocr_structures#displayimage) util function.
+
+#### Bug fixes
+
+* Fixed issue with extra dependencies in [start](ocr_install#using-start-function) function
+
+#### New notebooks
+
+* [GPU image processing](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.1.0/jupyter/SparkOCRGPUOperations.ipynb)
+
+
+
 ## 3.0.0
 
 #### Overview
