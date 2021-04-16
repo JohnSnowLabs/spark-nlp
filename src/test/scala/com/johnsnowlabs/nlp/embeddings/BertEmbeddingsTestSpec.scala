@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.{ModelSignature, TFSignatureFactory, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
@@ -171,14 +171,14 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
     val tfModelPath = "src/test/resources/custom-bert/model" // TF2 hub model
 
-    val signatures = TensorflowWrapper.extractSignatures(modelProvider = "TF2", savedModelDir = tfModelPath)
-
-    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark, signatures)
+    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
     pipeline.fit(ddd).transform(ddd).show
+//    // FIXME save/load
+//    embeddings.write.overwrite().save("./tmp_loaded_bert_embeds")
   }
 }
