@@ -245,7 +245,7 @@ class BertSentenceEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_bert_sentence", BertSentenceEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_sentence", BertSentenceEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }

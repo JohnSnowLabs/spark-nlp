@@ -13,11 +13,11 @@ object TensorflowSignaturesManager{
     tfSignatureType.toUpperCase match {
       case "JSL" =>
         Map[String, String](
-          "input_ids" -> tokenIdsKey,
-          "input_mask" -> maskIdsKey,
-          "segment_ids" -> segmentIdsKey,
-          "sequence_output" -> embeddingsKey,
-          "pooled_output" -> sentenceEmbeddingsKey)
+          "ids" -> tokenIdsKey,
+          "mask" -> maskIdsKey,
+          "segs" -> segmentIdsKey,
+          "out" -> embeddingsKey,
+          "s_out" -> sentenceEmbeddingsKey)
       case _ => throw new Exception("Model provider not available.")
     }
 }
