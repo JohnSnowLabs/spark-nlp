@@ -16,7 +16,7 @@ import scala.collection.JavaConverters._
   * Sources:
   *
   *
-  * @param tensorflow           Bert Model wrapper with TensorFlow Wrapper
+  * @param tensorflowWrapper           Bert Model wrapper with TensorFlow Wrapper
   * @param sentenceStartTokenId Id of sentence start Token
   * @param sentenceEndTokenId   Id of sentence end Token.
   * @param configProtoBytes     Configuration for TensorFlow session
@@ -25,16 +25,13 @@ import scala.collection.JavaConverters._
   *
   *                             Source:  [[https://github.com/google-research/bert]]
   **/
-class TensorflowBert(val tensorflow: TensorflowWrapper,
+class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
-                     tfBertSignatures: Option[Map[String, String]] = None,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  val _tfBertSignatures = tfBertSignatures.getOrElse(TensorflowSignaturesManager.apply())
-
-  println(_tfBertSignatures)
+  val _tfBertSignatures = tensorflowWrapper.signatures.getOrElse(TensorflowSignaturesManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -73,17 +70,17 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
         segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse("input_ids", "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse("input_mask", "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse("segment_ids", "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse("sequence_output", "missing_pooled_output_key"))
+      .feed(_tfBertSignatures.getOrElse("ids", "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse("mask", "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse("segs", "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse("out", "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -131,17 +128,17 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
     }
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse("input_ids", "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse("input_mask", "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse("segment_ids", "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse("pooled_output", "missing_sequence_output_key"))
+      .feed(_tfBertSignatures.getOrElse("ids", "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse("mask", "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse("segs", "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse("s_out", "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -174,17 +171,17 @@ class TensorflowBert(val tensorflow: TensorflowWrapper,
     }
 
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
     val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse("input_ids", "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse("input_mask", "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse("segment_ids", "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse("sequence_output", "missing_sequence_output_key"))
+      .feed(_tfBertSignatures.getOrElse("ids", "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse("mask", "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse("segs", "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse("s_out", "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)

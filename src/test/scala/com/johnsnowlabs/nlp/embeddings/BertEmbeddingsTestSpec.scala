@@ -147,10 +147,10 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       case _ => throw new Exception("Signature map is empty!")
     }
 
-    assert(signatures.contains("input_ids"))
-    assert(signatures.contains("input_mask"))
-    assert(signatures.contains("segment_ids"))
-    assert(signatures.contains("sequence_output"))
+    assert(signatures.contains("ids"))
+    assert(signatures.contains("mask"))
+    assert(signatures.contains("segs"))
+    assert(signatures.contains("out"))
   }
 
   "Bert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {

@@ -288,11 +288,12 @@ object TensorflowWrapper {
 
   /** Convert signatures key names to adopted naming conventions */
   private def toAdoptedKeys(keyName: String) = {
+    // example: input_word_ids
     keyName match {
-      case "input_ids" | "input_word_ids" => "input_ids"
-      case "input_mask" | "attention_mask" => "input_mask"
-      case "segment_ids" | "input_type_ids" | "token_type_ids" => "segment_ids"
-      case "sequence_output" | "bert_encoder" | "last_hidden_state" => "sequence_output"
+      case "input_ids" | "input_word_ids" => "ids"
+      case "input_mask" | "attention_mask" => "mask"
+      case "segment_ids" | "input_type_ids" | "token_type_ids" => "segs"
+      case "sequence_output" | "bert_encoder" | "last_hidden_state" => "out"
       case "pooled_output" => "pooled_output"
       case k => k
     }
@@ -300,8 +301,7 @@ object TensorflowWrapper {
 
   /** Return a formatted map of key -> value for model signature objects */
   def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]) = {
-    val converted: Map[String, String] = matched.map(m => m._1._2 -> m._1._3).toMap
-    converted.map(e => (toAdoptedKeys(e._1),e._2))
+    matched.map(e => toAdoptedKeys(e._1._2) -> e._1._3).toMap
   }
 
   /** Retrieve signature patterns for a given provider
@@ -391,7 +391,6 @@ object TensorflowWrapper {
       }
 
     val signatureCandidates = getSignaturesFromModel(model)
-
     logger.debug(signatureCandidates.toString)
 
     /** Regex matcher */
@@ -419,6 +418,7 @@ object TensorflowWrapper {
     }
 
     val matched = signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
+
     Option(convertToAdoptedKeys(matched))
   }
 
