@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.ml.tensorflow.sign.{BertTFSignConstants, BertTFSignManager}
+import com.johnsnowlabs.ml.tensorflow.sign.BertTFSignManager
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
@@ -137,7 +136,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     val tfModelPath = "src/test/resources/tf-hub-bert/model"
 
     val matchedSignatures: Option[Map[String, String]] =
-      TensorflowWrapper
+      BertTFSignManager
         .extractSignatures(
           tags = Array("serve"),
           savedModelDir = tfModelPath,
@@ -179,7 +178,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
     pipeline.fit(ddd).transform(ddd).show
-//    // FIXME save/load
-//    embeddings.write.overwrite().save("./tmp_loaded_bert_embeds")
+    // FIXME save/load
+    // embeddings.write.overwrite().save("./tmp_loaded_bert_embeds")
   }
 }

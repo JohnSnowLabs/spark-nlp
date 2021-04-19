@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
+import com.johnsnowlabs.ml.tensorflow.sign.BertTFSignManager
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
@@ -10,15 +11,12 @@ import org.apache.hadoop.fs.Path
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow._
 import org.tensorflow.exceptions.TensorFlowException
-import org.tensorflow.proto.framework.{ConfigProto, GraphDef, TensorInfo}
+import org.tensorflow.proto.framework.{ConfigProto, GraphDef}
 
 import java.io._
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import java.util
 import java.util.UUID
-import scala.collection.mutable.ListBuffer
-import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
 
 
@@ -286,142 +284,6 @@ object TensorflowWrapper {
     }
   }
 
-  /** Convert signatures key names to adopted naming conventions */
-  private def toAdoptedKeys(keyName: String) = {
-    // example: input_word_ids
-    keyName match {
-      case "input_ids" | "input_word_ids" => "ids"
-      case "input_mask" | "attention_mask" => "mask"
-      case "segment_ids" | "input_type_ids" | "token_type_ids" => "segs"
-      case "sequence_output" | "bert_encoder" | "last_hidden_state" => "out"
-      case "pooled_output" => "pooled_output"
-      case k => k
-    }
-  }
-
-  /** Return a formatted map of key -> value for model signature objects */
-  def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]) = {
-    matched.map(e => toAdoptedKeys(e._1._2) -> e._1._3).toMap
-  }
-
-  /** Retrieve signature patterns for a given provider
-    * @param modelProvider: the provider library that built the model and the signatures
-    * @return reference keys array of signature patterns for a given provider
-    * */
-  def getSignaturePatterns(modelProvider: String) = {
-    val referenceKeys = modelProvider match {
-      case "JSL" =>
-        Array(
-          "(input)(.*)(ids)".r,
-          "(input)(.*)(mask)".r,
-          "(segment)(.*)(ids)".r,
-          "(sequence)(.*)(output)".r,
-          "(pooled)(.*)(output)".r)
-
-      case "TF2" =>
-        Array(
-          "(input_word)(.*)(ids)".r,
-          "(input)(.*)(mask)".r,
-          "(input_type)(.*)(ids)".r,
-          "(bert)(.*)(encoder)".r)
-
-      case "HF" =>
-        Array(
-          "(input)(.*)(ids)".r,
-          "(attention)(.*)(mask)".r,
-          "(token_type)(.*)(ids)".r,
-          "(StatefulPartitionedCall)".r)
-
-      case _ => throw new Exception("Unknown model provider! Please provide one in between JSL, TF2 or HF.")
-    }
-    referenceKeys
-  }
-
-  /** Extract signatures from actual model
-    * @param model: a SavedModelBundle object
-    * @return a list of tuples of type (OperationType, key, TFInfoName)
-    * */
-  def getSignaturesFromModel(model: SavedModelBundle) = {
-    import collection.JavaConverters._
-
-    val InputOp = "feed"
-    val OutputOp = "fetch"
-
-    val modelSignatures = new ListBuffer[(String, String, String)]()
-
-    if (model.metaGraphDef.hasGraphDef && model.metaGraphDef.getSignatureDefCount > 0) {
-      for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        val inputs: util.Map[String, TensorInfo] = sigDef.getInputsMap
-        for (e <- inputs.entrySet.asScala) {
-          val key: String = e.getKey
-          val tfInfo: TensorInfo = e.getValue
-          logger.debug("\nSignatureDef InputMap key: " + key + " tfInfo: " + tfInfo.getName)
-          modelSignatures += ((InputOp, key, tfInfo.getName))
-        }
-      }
-      for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        val outputs: util.Map[String, TensorInfo] = sigDef.getOutputsMap
-        for (e <- outputs.entrySet.asScala) {
-          val key: String = e.getKey
-          val tfInfo: TensorInfo = e.getValue
-          logger.debug("\nSignatureDef OutputMap key: " + key + " tfInfo: " + tfInfo.getName)
-          modelSignatures += ((OutputOp, key, tfInfo.getName))
-        }
-      }
-    }
-    modelSignatures.toList
-  }
-
-  /**
-    * Extract input and output signatures from TF saved models
-    *
-    * @param tags tags to load from model
-    * @param modelProvider model framework provider, i.e. default, TF2 or HF
-    * @param savedModelDir saved model path
-    * @return the list ot matching signatures as tuples
-    * */
-  def extractSignatures(tags: Array[String] = Array("serve"),
-                        modelProvider: String = "JSL",
-                        savedModelDir: String) = {
-
-    val model =
-      Try(SavedModelBundle.load(savedModelDir, tags: _*)) match {
-        case Success(bundle) => bundle
-        case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
-      }
-
-    val signatureCandidates = getSignaturesFromModel(model)
-    logger.debug(signatureCandidates.toString)
-
-    /** Regex matcher */
-    def findTFKeyMatch(candidate: String, key: Regex) = {
-      val pattern = key
-      val res = pattern.unapplySeq(candidate)
-      res.isDefined
-    }
-
-    /**
-      * Extract matches from candidate key and model signatures
-      *
-      * @param candidate: the candidate key name
-      * @param modelProvider: the model provider in between default, TF2 and HF to select the proper keys
-      * @return a list of matching keys as strings
-      * */
-    def extractCandidateMatches(candidate: String, modelProvider: String) : List[String] = {
-      val ReferenceKeys: Array[Regex] = getSignaturePatterns(modelProvider)
-
-      val matches = (
-        for (refKey <- ReferenceKeys if findTFKeyMatch(candidate, refKey)) yield {
-          refKey
-        }).toList
-      if (matches.isEmpty) List("N/A") else matches.mkString(",").split(",").toList
-    }
-
-    val matched = signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
-
-    Option(convertToAdoptedKeys(matched))
-  }
-
   /** Utility method to load the TF saved model components without a provided bundle */
   private def unpackWithoutBundle(folder: String) = {
     val graph = readGraph(Paths.get(folder, SavedModelPB).toString)
@@ -477,14 +339,14 @@ object TensorflowWrapper {
   }
 
   /**
-    * Read method to create tmp folder, unpack archive and read file as SavedModelBundle
-    * @param file: the file to read
-    * @param zipped: boolean flag to know if compression is applied
-    * @param useBundle: whether to use the SaveModelBundle object to parse the TF saved model
-    * @param tags: tags to retrieve on the model bundle
-    * @param initAllTables: boolean flag whether to retrieve the TF init operation
-    * @return Returns a greeting based on the `name` field.
-    */
+   * Read method to create tmp folder, unpack archive and read file as SavedModelBundle
+   * @param file: the file to read
+   * @param zipped: boolean flag to know if compression is applied
+   * @param useBundle: whether to use the SaveModelBundle object to parse the TF saved model
+   * @param tags: tags to retrieve on the model bundle
+   * @param initAllTables: boolean flag whether to retrieve the TF init operation
+   * @return Returns a greeting based on the `name` field.
+   */
   def read(file: String,
            zipped: Boolean = true,
            useBundle: Boolean = false,
@@ -527,7 +389,7 @@ object TensorflowWrapper {
     // 4. Extract saved model signatures
     val signatures =
       if(isLoadingSavedModel)
-        TensorflowWrapper.extractSignatures(modelProvider = "TF2", savedModelDir = folder)
+        BertTFSignManager.extractSignatures(modelProvider = "TF2", savedModelDir = folder)
       else None
 
     // 4. Remove tmp folder
