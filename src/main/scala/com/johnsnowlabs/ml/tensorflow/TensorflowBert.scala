@@ -1,7 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.TensorflowBert.logger
-import com.johnsnowlabs.ml.tensorflow.sign.TFSignManager
+import com.johnsnowlabs.ml.tensorflow.sign.BertTFSignManager
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -32,7 +32,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-  val _tfBertSignatures = tensorflowWrapper.signatures.getOrElse(TFSignManager.apply())
+  val _tfBertSignatures = tensorflowWrapper.signatures.getOrElse(BertTFSignManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
