@@ -31,20 +31,20 @@ object BertTFSignManager {
       case _ => throw new Exception("Model provider not available.")
     }
 
-  def getBertTokenIdsKey(): String = {BertTFSignConstants.TokenIds.key}
-  def getBertTokenIdsValue(): String = {BertTFSignConstants.TokenIds.value}
+  def getBertTokenIdsKey = BertTFSignConstants.TokenIds.key
+  def getBertTokenIdsValue = BertTFSignConstants.TokenIds.value
 
-  def getBertMaskIdsKey(): String = {BertTFSignConstants.TokenIds.key}
-  def getBertMaskIdsValue(): String = {BertTFSignConstants.TokenIds.value}
+  def getBertMaskIdsKey = BertTFSignConstants.TokenIds.key
+  def getBertMaskIdsValue = BertTFSignConstants.TokenIds.value
 
-  def getBertSegmentIdsKey(): String = {BertTFSignConstants.TokenIds.key}
-  def getBertSegmentIdsValue(): String = {BertTFSignConstants.TokenIds.value}
+  def getBertSegmentIdsKey = BertTFSignConstants.TokenIds.key
+  def getBertSegmentIdsValue = BertTFSignConstants.TokenIds.value
 
-  def getBertEmbeddingsKey(): String = {BertTFSignConstants.TokenIds.key}
-  def getBertEmbeddingsValue(): String = {BertTFSignConstants.TokenIds.value}
+  def getBertEmbeddingsKey = BertTFSignConstants.TokenIds.key
+  def getBertEmbeddingsValue = BertTFSignConstants.TokenIds.value
 
-  def getBertSentenceEmbeddingsKey(): String = {BertTFSignConstants.TokenIds.key}
-  def getBertSentenceEmbeddingsValue(): String = {BertTFSignConstants.TokenIds.value}
+  def getBertSentenceEmbeddingsKey = BertTFSignConstants.TokenIds.key
+  def getBertSentenceEmbeddingsValue = BertTFSignConstants.TokenIds.value
 
   /** Return a formatted map of key -> value for model signature objects */
   def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]) = {
