@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
+import com.johnsnowlabs.ml.tensorflow.sign.{BertTFSignConstants, BertTFSignManager}
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
@@ -133,7 +134,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
   }
 
   "Bert Embeddings" should "correctly match TF model signatures" taggedAs FastTest in {
-    val tfModelPath = "src/test/resources/custom-bert/model" // TF2 MODEL HUB
+    val tfModelPath = "src/test/resources/tf-hub-bert/model"
 
     val matchedSignatures: Option[Map[String, String]] =
       TensorflowWrapper
@@ -147,10 +148,10 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       case _ => throw new Exception("Signature map is empty!")
     }
 
-    assert(signatures.contains("ids"))
-    assert(signatures.contains("mask"))
-    assert(signatures.contains("segs"))
-    assert(signatures.contains("out"))
+    assert(signatures.contains(BertTFSignManager.getBertTokenIdsKey))
+    assert(signatures.contains(BertTFSignManager.getBertMaskIdsKey))
+    assert(signatures.contains(BertTFSignManager.getBertSegmentIdsKey))
+    assert(signatures.contains(BertTFSignManager.getBertEmbeddingsKey))
   }
 
   "Bert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
@@ -169,7 +170,7 @@ class BertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tfModelPath = "src/test/resources/custom-bert/model" // TF2 hub model
+    val tfModelPath = "src/test/resources/tf-hub-bert/model"
 
     val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
