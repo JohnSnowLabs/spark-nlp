@@ -1,44 +1,62 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
+
 /** XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding
-  *
-  * Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
-  * The use of an accelerator is recommended.
-  *
-  * XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective. Additionally, XLNet employs Transformer-XL as the backbone model, exhibiting excellent performance for language tasks involving long context. Overall, XLNet achieves state-of-the-art (SOTA) results on various downstream language tasks including question answering, natural language inference, sentiment analysis, and document ranking.
-  *
-  * XLNet-Large     = [[https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip]]    | 24-layer, 1024-hidden, 16-heads
-  * XLNet-Base    = [[https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip]]   |  12-layer, 768-hidden, 12-heads. This model is trained on full data (different from the one in the paper).
-  *
-  * @param uid required internal uid for saving annotator
-  *
-  *            '''Sources :'''
-  *
-  *            [[ https://arxiv.org/abs/1906.08237]]
-  *
-  *            [[ https://github.com/zihangdai/xlnet]]
-  *
-  *            '''Paper abstract: '''
-  *
-  *            With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves better performance than pretraining approaches based on autoregressive language modeling. However, relying on corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore, XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically, under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  */
+ *
+ * Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
+ * The use of an accelerator is recommended.
+ *
+ * XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective. Additionally, XLNet employs Transformer-XL as the backbone model, exhibiting excellent performance for language tasks involving long context. Overall, XLNet achieves state-of-the-art (SOTA) results on various downstream language tasks including question answering, natural language inference, sentiment analysis, and document ranking.
+ *
+ * XLNet-Large     = [[https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip]]    | 24-layer, 1024-hidden, 16-heads
+ * XLNet-Base    = [[https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip]]   |  12-layer, 768-hidden, 12-heads. This model is trained on full data (different from the one in the paper).
+ *
+ * @param uid required internal uid for saving annotator
+ *
+ *            '''Sources :'''
+ *
+ *            [[ https://arxiv.org/abs/1906.08237]]
+ *
+ *            [[ https://github.com/zihangdai/xlnet]]
+ *
+ *            '''Paper abstract: '''
+ *
+ *            With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves better performance than pretraining approaches based on autoregressive language modeling. However, relying on corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore, XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically, under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class TensorflowXlnet(val tensorflow: TensorflowWrapper,
                       val spp: SentencePieceWrapper,
                       configProtoBytes: Option[Array[Byte]] = None
@@ -55,6 +73,21 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
 
   def getSpecialTokens(token: String): Array[Int] = {
     spp.getSppModel.encodeAsIds(token)
+  }
+
+  def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+    val maxSentenceLength =
+      Array(
+        maxSequenceLength - 2,
+        sentences.map{ case(wpTokSentence, _) => wpTokSentence.tokens.length}.max).min
+
+    sentences
+      .map{ case(wpTokSentence, _) =>
+        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
+
+        tokenPieceIds.take(maxSentenceLength) ++ tokenSEPCLSIds ++ padding
+      }
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -122,62 +155,57 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(sentences: Seq[TokenizedSentence],
+  def calculateEmbeddings(tokenizedSentences: Seq[TokenizedSentence],
                           batchSize: Int,
                           maxSentenceLength: Int,
                           caseSensitive: Boolean
                          ): Seq[WordpieceEmbeddingsSentence] = {
 
-    sentences.grouped(batchSize).toArray.flatMap { batch =>
+    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
+    wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
+      val batchedInputsIds = prepareBatchInputs(batch, maxSentenceLength)
+      val vectors = tag(batchedInputsIds)
 
-      val tokensPiece = tokenize(batch, maxSentenceLength, caseSensitive)
-      val tokenIds = tokensPiece.map { sentence =>
-        sentence.flatMap(x => x.tokens.find(_.pieceId != sentencePieceDelimiterId).map(x => x.pieceId)) ++ tokenSEPCLSIds
-      }
-      val vectors = tag(tokenIds)
-      val tokenIdsVectors = tokenIds.zip(vectors).map { x =>
-        x._1.zip(x._2).toMap
-      }
-
-      tokensPiece.zipWithIndex.zip(tokenIdsVectors).map { case (tokens, vectors) =>
-
-        val tokensWithEmbeddings =  tokens._1.map{ token =>
-          /* 17 is the id for '▁' token if appears alone */
-          val subWord:TokenPiece = token.tokens.find(_.pieceId != sentencePieceDelimiterId).getOrElse(token.tokens.head)
-          TokenPieceEmbeddings(
-            subWord.wordpiece,
-            subWord.token,
-            subWord.pieceId,
-            isWordStart = true,
-            isOOV = false,
-            vectors.apply(subWord.pieceId),
-            subWord.begin,
-            subWord.end
-          )
+      /*Combine tokens and calculated embeddings*/
+      batch.zip(vectors).map{case (sentence, tokenVectors) =>
+        val tokenLength = sentence._1.tokens.length
+        /*All wordpiece embeddings*/
+        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
+          case (token, tokenEmbedding) =>
+            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
+            val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
+              p => p.begin == tokenWithEmbeddings.begin).map{
+              token =>
+                val originalTokenWithEmbedding = TokenPieceEmbeddings(
+                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
+                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
+                    pieceId = tokenWithEmbeddings.pieceId,
+                    isWordStart = tokenWithEmbeddings.isWordStart,
+                    begin = token.begin,
+                    end = token.end
+                  ),
+                  tokenEmbedding
+                )
+                originalTokenWithEmbedding
+            }
+            originalTokensWithEmbeddings
         }
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, tokens._2)
-      }
-    }
 
+        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+      }
+    }.toSeq
   }
 
-  def tokenize(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean):
-  Seq[Array[WordpieceTokenizedSentence]] = {
+  def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId)
 
-    val sentenceTokenPieces = sentences.map { s =>
-      // Account for one [SEP] & one [CLS]
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength)
-      shrinkedSentence.map{
-        case(token) =>
-          val tokenContent = if (caseSensitive) token.token else token.token.toLowerCase()
-          val tokenPieces = spp.getSppModel.encodeAsPieces(tokenContent).toArray.map(x=>x.toString)
-          val tokenIds = spp.getSppModel.encodeAsIds(tokenContent)
-          WordpieceTokenizedSentence(
-            tokenPieces.zip(tokenIds).map(x=> TokenPiece(x._1, token.token, x._2, isWordStart = false, token.begin, token.end))
-          )
-      }
+    val sentecneTokenPieces = sentences.map { s =>
+      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
+      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentenceTokenPieces
+    sentecneTokenPieces
   }
 
 }
