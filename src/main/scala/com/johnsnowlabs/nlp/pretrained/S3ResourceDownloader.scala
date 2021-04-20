@@ -1,17 +1,36 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.pretrained
+
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
+import org.apache.hadoop.fs.Path
 
 import java.io.File
 import java.nio.file.Files
 import java.sql.Timestamp
 import java.util.Calendar
 import java.util.zip.ZipInputStream
+
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.GetObjectRequest
 import com.amazonaws.{AmazonServiceException, ClientConfiguration}
-import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
-import org.apache.hadoop.fs.Path
 
 import scala.collection.mutable
 
@@ -191,7 +210,7 @@ class S3ResourceDownloader(bucket: => String,
   private def getTimestamp(addMinutes: Int = 0): Timestamp = {
     val cal = Calendar.getInstance()
     cal.add(Calendar.MINUTE, addMinutes)
-    val timestamp = new Timestamp(cal.getTime().getTime())
+    val timestamp = new Timestamp(cal.getTime.getTime)
     cal.clear()
     timestamp
   }
@@ -210,7 +229,7 @@ class S3ResourceDownloader(bucket: => String,
         client.getObjectMetadata(bucket, key)
         true
       } catch {
-        case e: AmazonServiceException => if (e.getStatusCode == 404) return false else throw e
+        case e: AmazonServiceException => if (e.getStatusCode == 404) false else throw e
       }
     }
   }
