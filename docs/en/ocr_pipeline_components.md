@@ -1108,6 +1108,118 @@ data.select("image").show()
 
 </div>
 
+### GPUImageTransformer
+
+`GPUImageTransformer` allows to run image pre-processing operations on GPU.
+
+It supports following operations:
+- Scaling
+- Otsu thresholding
+- Huang thresholding
+- Erosion
+- Dilation
+
+`GPUImageTransformer` allows to add few operations. For add  operations need to call
+one of the methods with params:
+
+{:.table-model-big}
+| Method name | Params  | Description |
+|addScalingTransform| factor| Scale image by scaling factor. |
+|addOtsuTransform| | The automatic thresholder utilizes the Otsu threshold method. |
+|addHuangTransform| | The automatic thresholder utilizes the Huang threshold method. |
+|addDilateTransform| width, height | Computes the local maximum of a pixels rectangular neighborhood. The rectangles size is specified by its half-width and half-height. |
+|addErodeTransform| width, height | Computes the local minimum of a pixels rectangular neighborhood. The rectangles size is specified by its half-width and half-height|
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+##### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_BINARY` | Type of the output image |
+| gpuName   | string  | "" | GPU device name.|
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | transformed_image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.GPUImageTransformer
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new GPUImageTransformer()
+  .setInputCol("image")
+  .setOutputCol("transformed_image")
+  .addHuangTransform()
+  .addScalingTransform(3)
+  .addDilateTransform(2, 2)
+  .setImageType(ImageType.TYPE_BYTE_BINARY)
+
+val data = transformer.transform(df)
+
+data.storeImage("transformed_image")
+```
+
+```python
+from sparkocr.transformers import *
+from sparkocr.enums import ImageType
+from sparkocr.utils import display_images
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+transformer = GPUImageTransformer() \
+  .setInputCol("image") \
+  .setOutputCol("transformed_image") \
+  .addHuangTransform() \
+  .addScalingTransform(3) \
+  .addDilateTransform(2, 2) \
+  .setImageType(ImageType.TYPE_BYTE_BINARY)
+
+pipeline = PipelineModel(stages=[
+            binary_to_image,
+            transformer
+        ])
+
+result = pipeline.transform(df)
+
+display_images(result, "transformed_image")
+```
+
+</div>
+
 ### ImageBinarizer
 
 `ImageBinarizer` transforms image to binary color schema by threshold.
