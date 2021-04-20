@@ -1,17 +1,34 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.benchmarks.spark
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.NerTagged
 import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLApproach, NerDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import org.apache.spark.ml.PipelineModel
 
 
-object NerDLPipeline extends App {
-  val folder = "./"
+object NerDLCoNLL2003 extends App {
+  val folder = "src/test/resources/conll2003/"
 
   val trainFile = ExternalResource(folder + "eng.train", ReadAs.TEXT, Map.empty[String, String])
   val testFileA = ExternalResource(folder + "eng.testa", ReadAs.TEXT, Map.empty[String, String])
@@ -21,9 +38,7 @@ object NerDLPipeline extends App {
 
   def createPipeline() = {
 
-    val glove = new WordEmbeddings()
-      .setStoragePath("glove.6B.100d.txt", "TEXT")
-      .setDimension(100)
+    val glove = WordEmbeddingsModel.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("glove")
 
@@ -82,7 +97,7 @@ object NerDLPipeline extends App {
     val df = nerReader.readDataset(SparkAccessor.benchmarkSpark, file.path).toDF()
     val transformed = model.transform(df)
 
-    val labeled = NerTagged.interateOnArray(transformed.collect(), Seq("sentence", "token", "glove"), "label", 2)
+    val labeled = NerTagged.iterateOnArray(transformed.collect(), Seq("sentence", "token", "glove"), 2)
 
     ner.measure(labeled, extended, outputLogsPath = "")
   }
