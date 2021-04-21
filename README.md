@@ -42,6 +42,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
+- [Offline](#offline)  
 - [Examples](#examples)  
 - [FAQ](#faq)
 - [Troubleshooting](#troubleshooting)
@@ -109,7 +110,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.0.1 pyspark==3.1.1
+$ pip install spark-nlp==3.0.2 pyspark==3.1.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -155,7 +156,7 @@ For more examples, you can visit our dedicated [repository](https://github.com/J
 
 ## Apache Spark Support
 
-Spark NLP *3.0.1* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x and Apache Spark 2.4.x:
+Spark NLP *3.0.2* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x and Apache Spark 2.4.x:
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
 |-------------|-----------------------|--------------------|--------------------|--------------------|
@@ -169,15 +170,15 @@ Spark NLP *3.0.1* has been built on top of Apache Spark 3.x while fully supports
 | 1.6.x       |YES                    |NO                  |NO                  |NO                  |
 | 1.5.x       |YES                    |NO                  |NO                  |NO                  |
 
-**NOTE:** Starting 3.0.1 release, the default `spark-nlp` and `spark-nlp-gpu` pacakges are based on Scala 2.12 and Apache Spark 3.x by default.
+**NOTE:** Starting 3.0.2 release, the default `spark-nlp` and `spark-nlp-gpu` pacakges are based on Scala 2.12 and Apache Spark 3.x by default.
 
-**NOTE:** Starting the 3.0.1 release, we support all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x, Apache Spark 3.0.x, and Apache Spark 3.1.x
+**NOTE:** Starting the 3.0.2 release, we support all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x, Apache Spark 3.0.x, and Apache Spark 3.1.x
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
 ## Databricks Support
 
-Spark NLP 3.0.1 has been tested and is compatible with the following runtimes:
+Spark NLP 3.0.2 has been tested and is compatible with the following runtimes:
 
 - 5.5 LTS
 - 5.5 LTS ML & GPU
@@ -195,11 +196,11 @@ Spark NLP 3.0.1 has been tested and is compatible with the following runtimes:
 - 8.0 ML
 - 8.1 Beta
 
-NOTE: The Databricks 8.1 Beta ML with GPU is not supported in Spark NLP 3.0.1 due to its default CUDA 11.x incompatibility
+NOTE: The Databricks 8.1 Beta ML with GPU is not supported in Spark NLP 3.0.2 due to its default CUDA 11.x incompatibility
 
 ## EMR Support
 
-Spark NLP 3.0.1 has been tested and is compatible with the following EMR releases:
+Spark NLP 3.0.2 has been tested and is compatible with the following EMR releases:
 
 - emr-5.20.0
 - emr-5.21.0
@@ -223,7 +224,7 @@ Spark NLP 3.0.1 has been tested and is compatible with the following EMR release
 Full list of [Amazon EMR 5.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html)
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 
-NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.0.1
+NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.0.2
 
 ## Usage
 
@@ -238,11 +239,11 @@ Spark NLP supports all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x,
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 ```
 
 The `spark-nlp` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp).
@@ -250,11 +251,11 @@ The `spark-nlp` has been published to the [Maven Repository](https://mvnreposito
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.2
 
 ```
 
@@ -265,11 +266,11 @@ The `spark-nlp-gpu` has been published to the [Maven Repository](https://mvnrepo
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.2
 ```
 
 The `spark-nlp-spark24` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark24).
@@ -277,11 +278,11 @@ The `spark-nlp-spark24` has been published to the [Maven Repository](https://mvn
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.2
 
 ```
 
@@ -292,11 +293,11 @@ The `spark-nlp-gpu-spark24` has been published to the [Maven Repository](https:/
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.2
 ```
 
 The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23).
@@ -304,11 +305,11 @@ The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvn
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.2
 
 ```
 
@@ -320,7 +321,7 @@ The `spark-nlp-gpu-spark23` has been published to the [Maven Repository](https:/
 spark-shell \
   --driver-memory 16g \
   --conf spark.kryoserializer.buffer.max=2000M \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 ```
 
 ## Scala
@@ -336,7 +337,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.12</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
 </dependency>
 ```
 
@@ -347,7 +348,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.12</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
 </dependency>
 ```
 
@@ -358,7 +359,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-spark24_2.11</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
 </dependency>
 ```
 
@@ -369,7 +370,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>3.0.1/version>
+    <version>3.0.2/version>
 </dependency>
 ```
 
@@ -380,7 +381,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-spark23_2.11</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
 </dependency>
 ```
 
@@ -391,7 +392,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
 </dependency>
 ```
 
@@ -401,42 +402,42 @@ Our package is deployed to maven central. To add this package as a dependency in
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "3.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "3.0.2"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "3.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "3.0.2"
 ```
 
 **spark-nlp** on Apache Spark 2.4.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark24" % "3.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark24" % "3.0.2"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark24" % "3.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark24" % "3.0.2"
 ```
 
 **spark-nlp** on Apache Spark 2.3.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "3.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "3.0.2"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark23
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.0.1"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.0.2"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -454,7 +455,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==3.0.1
+pip install spark-nlp==3.0.2
 ```
 
 Conda:
@@ -482,7 +483,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory","16G")\
     .config("spark.driver.maxResultSize", "0") \    
     .config("spark.kryoserializer.buffer.max", "2000M")\
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2")\
     .getOrCreate()
 ```
 
@@ -568,7 +569,7 @@ Use either one of the following options
 - Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 ```
 
 - Add a path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -578,7 +579,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
 Apart from the previous step, install the python module through pip
 
 ```bash
-pip install spark-nlp==3.0.1
+pip install spark-nlp==3.0.2
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -595,7 +596,7 @@ An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) a
 
 Q: What if I am still on Zeppelin 0.8.x that only supports Apache Spark 2.4.x?
 
-A: You can simply use the `spark-nlp-spark24:3.0.1` package or Fat JAR instead.
+A: You can simply use the `spark-nlp-spark24:3.0.2` package or Fat JAR instead.
 
 ## Jupyter Notebook (Python)
 
@@ -607,7 +608,7 @@ The easiest way to get this done on Linux and macOS is to simply install `spark-
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.0.1 pyspark==3.1.1 jupyter
+$ pip install spark-nlp==3.0.2 pyspark==3.1.1 jupyter
 $ jupyter notebook
 ```
 
@@ -623,7 +624,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -647,7 +648,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -p is for pyspark
 # -s is for spark-nlp
 # by default they are set to the latest
-!bash colab.sh -p 3.1.1 -s 3.0.1
+!bash colab.sh -p 3.1.1 -s 3.0.2
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
@@ -678,7 +679,7 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
     3.1. Install New -> PyPI -> `spark-nlp` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -726,7 +727,7 @@ A sample of your software configuration in JSON on S3 (must be public access):
       "spark.kryoserializer.buffer.max": "2000M",
       "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
       "spark.driver.maxResultSize": "0",
-      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1"
+      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2"
     }
 }
 ]
@@ -735,7 +736,7 @@ A sample of AWS CLI to launch EMR cluster:
 
 ```.sh
 aws emr create-cluster \
---name "Spark NLP 3.0.1" \
+--name "Spark NLP 3.0.2" \
 --release-label emr-6.2.0 \
 --applications Name=Hadoop Name=Spark Name=Hive \
 --instance-type m4.4xlarge \
@@ -858,6 +859,49 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 ```
 
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
+
+## Offline
+
+Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:
+
+- Instead of using the Maven package, you need to load our Fat JAR
+- Instead of using PretrainedPipeline for pretrained pipelines or the `.pretrained()` function to download pretrained models, you will need to manually download your pipeline/model from [Models Hub](https://nlp.johnsnowlabs.com/models), extract it, and load it.
+
+Example of `SparkSession` with Fat JAR to have Spark NLP offline:
+
+```python
+spark = SparkSession.builder \
+    .appName("Spark NLP")\
+    .master("local[*]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "0") \    
+    .config("spark.kryoserializer.buffer.max", "2000M")\
+    .config("spark.jars", "/tmp/spark-nlp-assembly-3.0.2.jar")\
+    .getOrCreate()
+```
+
+- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
+- If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/spark-nlp-assembly-3.0.2.jar`)
+
+Example of using pretrained Models and Pipelines in offline:
+
+```python
+# instead of using pretrained() for online:
+# french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
+# you download this model, extract it, and use .load
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
+
+# example for pipelines
+# instead of using PretrainedPipeline
+# pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+# you download this pipeline, extract it, and use PipelineModel
+PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
+```
+
+- Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you
+- If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
 
 ## Examples
 

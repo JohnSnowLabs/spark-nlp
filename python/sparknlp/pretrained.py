@@ -71,7 +71,6 @@ class ResourceDownloader(object):
 
     @staticmethod
     def showPublicModels():
-        print("test")
         _internal._ShowPublicModels().apply()
 
     @staticmethod
