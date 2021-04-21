@@ -23,6 +23,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{NAMED_ENTITY, POS}
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import org.apache.spark.sql.{Dataset, Row}
 
+import java.util
 import scala.collection.Map
 import scala.util.Random
 
@@ -46,12 +47,18 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         while (tagAnnotations.hasNext && (annotation.isEmpty || annotation.get.begin < token.begin))
           annotation = Some(tagAnnotations.next)
 
-        val tag = if (annotation.isDefined && annotation.get.begin == token.begin)
-          annotation.get.result
-        else
+        val tag = if (annotation.isDefined && annotation.get.begin == token.begin) {
+           annotation.get.result
+        } else
           emptyTag
+        // etract the confidence score belong to the tag
+        val metadata = try{
+          Map(tag -> annotation.get.metadata(tag))
+        } catch { case _: Exception =>
+          Map.empty[String, String]
+        }
 
-        IndexedTaggedWord(token.token, tag, token.begin, token.end)
+        IndexedTaggedWord(token.token, tag, token.begin, token.end, metadata = metadata)
       }
 
       new TaggedSentence(tokens)
@@ -185,7 +192,7 @@ object NerTagged extends Tagged[NerTaggedSentence] {
       import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
       // Send batches, don't collect(), only keeping a single batch in memory anytime
-      val it = dataset
+      val it: util.Iterator[Row] = dataset
         .select(labelColumn, sentenceCols: _*)
         .randomize // to improve training
         .toLocalIterator()
