@@ -526,4 +526,51 @@ Either create a conda env for python 3.6, install *pyspark==3.1.1 spark-nlp nump
 
 <img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
+</div><div class="h3-box" markdown="1">
+
+## Offline
+
+Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:
+
+- Instead of using the Maven package, you need to load our Fat JAR
+- Instead of using PretrainedPipeline for pretrained pipelines or the `.pretrained()` function to download pretrained models, you will need to manually download your pipeline/model from [Models Hub](https://nlp.johnsnowlabs.com/models), extract it, and load it.
+
+Example of `SparkSession` with Fat JAR to have Spark NLP offline:
+
+```python
+spark = SparkSession.builder \
+    .appName("Spark NLP")\
+    .master("local[*]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "0") \    
+    .config("spark.kryoserializer.buffer.max", "2000M")\
+    .config("spark.jars", "/tmp/spark-nlp-assembly-3.0.2.jar")\
+    .getOrCreate()
+```
+
+- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
+- If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/spark-nlp-assembly-3.0.2.jar`)
+
+Example of using pretrained Models and Pipelines in offline:
+
+```python
+# instead of using pretrained() for online:
+# french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
+# you download this model, extract it, and use .load
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
+
+# example for pipelines
+# instead of using PretrainedPipeline
+# pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+# you download this pipeline, extract it, and use PipelineModel
+PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
+```
+
+- Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you
+- If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
+
+
 </div>
+
