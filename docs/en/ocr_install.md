@@ -11,15 +11,15 @@ modify_date: "2020-04-08"
 
 
 Spark OCR is built on top of **Apache Spark**. 
-Currently, it supports 2.4.* and 2.3.* versions of Spark.
+Currently, it supports 3.0.*, 3.1.*, 2.4.* and 2.3.* versions of Spark.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
 
 Spark OCR required:
- - Scala 2.11
+ - Scala 2.11 or 2.12 related to the Spark version
  - Python 3.+ (in case using PySpark)
- - Spark 2.4.* or 2.3.*
+
 
 Before you start, make sure that you have: 
 - Spark OCR jar file (or secret for download it)

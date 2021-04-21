@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowAlbert</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowAlbert" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowAlbert" />
+          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowAlbert</title>
+          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowAlbert" />
+          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowAlbert" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -436,9 +436,9 @@ the same number of hidden layers as it has to iterate through the same number of
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowAlbert#calculateEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="calculateEmbeddings(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]"></a><a id="calculateEmbeddings(Seq[TokenizedSentence],Int,Int,Boolean):Seq[WordpieceEmbeddingsSentence]"></a>
+      <a id="calculateEmbeddings(tokenizedSentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]"></a><a id="calculateEmbeddings(Seq[TokenizedSentence],Int,Int,Boolean):Seq[WordpieceEmbeddingsSentence]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowAlbert.html#calculateEmbeddings(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowAlbert.html#calculateEmbeddings(tokenizedSentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],batchSize:Int,maxSentenceLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -447,7 +447,7 @@ the same number of hidden layers as it has to iterate through the same number of
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">calculateEmbeddings</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>
+        <span class="name">calculateEmbeddings</span><span class="params">(<span name="tokenizedSentences">tokenizedSentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxSentenceLength">maxSentenceLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceEmbeddingsSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence">WordpieceEmbeddingsSentence</a>]</span>
       </span>
       
       
@@ -637,6 +637,22 @@ the same number of hidden layers as it has to iterate through the same number of
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowAlbert#prepareBatchInputs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="prepareBatchInputs(sentences:Seq[(com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence,Int)],maxSequenceLength:Int):Seq[Array[Int]]"></a><a id="prepareBatchInputs(Seq[(WordpieceTokenizedSentence,Int)],Int):Seq[Array[Int]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowAlbert.html#prepareBatchInputs(sentences:Seq[(com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence,Int)],maxSequenceLength:Int):Seq[Array[Int]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">prepareBatchInputs</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[(<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>, <span class="extype" name="scala.Int">Int</span>)]</span>, <span name="maxSequenceLength">maxSequenceLength: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowAlbert#spp" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="spp:com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper"></a><a id="spp:SentencePieceWrapper"></a>
       <span class="permalink">
@@ -717,10 +733,10 @@ the same number of hidden layers as it has to iterate through the same number of
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowAlbert#tokenize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="tokenize(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],maxSeqLength:Int,caseSensitive:Boolean):Seq[Array[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]]"></a><a id="tokenize(Seq[TokenizedSentence],Int,Boolean):Seq[Array[WordpieceTokenizedSentence]]"></a>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowAlbert#tokenizeWithAlignment" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tokenizeWithAlignment(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],maxSeqLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]"></a><a id="tokenizeWithAlignment(Seq[TokenizedSentence],Int,Boolean):Seq[WordpieceTokenizedSentence]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowAlbert.html#tokenize(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],maxSeqLength:Int,caseSensitive:Boolean):Seq[Array[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowAlbert.html#tokenizeWithAlignment(sentences:Seq[com.johnsnowlabs.nlp.annotators.common.TokenizedSentence],maxSeqLength:Int,caseSensitive:Boolean):Seq[com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -729,7 +745,7 @@ the same number of hidden layers as it has to iterate through the same number of
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">tokenize</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="maxSeqLength">maxSeqLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]]</span>
+        <span class="name">tokenizeWithAlignment</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/TokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.TokenizedSentence">TokenizedSentence</a>]</span>, <span name="maxSeqLength">maxSeqLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="caseSensitive">caseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/WordpieceTokenizedSentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.WordpieceTokenizedSentence">WordpieceTokenizedSentence</a>]</span>
       </span>
       
       

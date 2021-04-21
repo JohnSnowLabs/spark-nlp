@@ -20,7 +20,8 @@ import scala.collection.JavaConverters._
   *                         [[https://tfhub.dev/google/universal-sentence-encoder/2]]
   */
 class TensorflowUSE(val tensorflow: TensorflowWrapper,
-                    configProtoBytes: Option[Array[Byte]] = None
+                    configProtoBytes: Option[Array[Byte]] = None,
+                    loadSP: Boolean = false
                    ) extends Serializable {
 
   private val inputKey = "input"
@@ -37,7 +38,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
 
     val sentenceTensors = tensors.createTensor(sentencesContent)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
 
     runner
       .feed(inputKey, sentenceTensors)

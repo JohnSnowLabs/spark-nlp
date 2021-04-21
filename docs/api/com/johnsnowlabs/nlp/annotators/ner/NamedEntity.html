@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NamedEntity</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NamedEntity" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NamedEntity" />
+          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NamedEntity</title>
+          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NamedEntity" />
+          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NamedEntity" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -228,7 +228,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">NamedEntity</span><span class="params">(<span name="start">start: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sentenceId">sentenceId: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">NamedEntity</span><span class="params">(<span name="start">start: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sentenceId">sentenceId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="confidence">confidence: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Float">Float</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -284,9 +284,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.ner.NamedEntity#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(start:Int,end:Int,entity:String,text:String,sentenceId:String):com.johnsnowlabs.nlp.annotators.ner.NamedEntity"></a><a id="&lt;init&gt;:NamedEntity"></a>
+      <a id="&lt;init&gt;(start:Int,end:Int,entity:String,text:String,sentenceId:String,confidence:Option[Float]):com.johnsnowlabs.nlp.annotators.ner.NamedEntity"></a><a id="&lt;init&gt;:NamedEntity"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NamedEntity.html#&lt;init&gt;(start:Int,end:Int,entity:String,text:String,sentenceId:String):com.johnsnowlabs.nlp.annotators.ner.NamedEntity" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NamedEntity.html#&lt;init&gt;(start:Int,end:Int,entity:String,text:String,sentenceId:String,confidence:Option[Float]):com.johnsnowlabs.nlp.annotators.ner.NamedEntity" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -295,7 +295,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">NamedEntity</span><span class="params">(<span name="start">start: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sentenceId">sentenceId: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
+        <span class="name">NamedEntity</span><span class="params">(<span name="start">start: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sentenceId">sentenceId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="confidence">confidence: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Float">Float</span>]</span>)</span>
       </span>
       
       
@@ -397,6 +397,22 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NamedEntity#confidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="confidence:Option[Float]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NamedEntity.html#confidence:Option[Float]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">confidence</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Float">Float</span>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NamedEntity#end" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="end:Int"></a>
       <span class="permalink">

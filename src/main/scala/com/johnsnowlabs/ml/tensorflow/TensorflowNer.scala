@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
@@ -5,17 +22,16 @@ import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import org.apache.spark.ml.util.Identifiable
 
+import scala.collection.Map
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 
-class TensorflowNer
-(
-  val tensorflow: TensorflowWrapper,
-  val encoder: NerDatasetEncoder,
-  val batchSize: Int,
-  override val verboseLevel: Verbose.Value
-) extends Serializable with Logging {
+class TensorflowNer(val tensorflow: TensorflowWrapper,
+                    val encoder: NerDatasetEncoder,
+                    val batchSize: Int,
+                    override val verboseLevel: Verbose.Value
+                   ) extends Serializable with Logging {
 
   override def getLogName: String = "NerDL"
 
@@ -35,19 +51,18 @@ class TensorflowNer
 
   private val initKey = "training_1/init"
 
-  def predict(
-               dataset: Array[WordpieceEmbeddingsSentence],
-               configProtoBytes: Option[Array[Byte]] = None,
-               includeConfidence: Boolean = false): Array[Array[(String, Option[Double])]] = {
+  def predict(dataset: Array[WordpieceEmbeddingsSentence],
+              configProtoBytes: Option[Array[Byte]] = None,
+              includeConfidence: Boolean = false): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
-    val result = ArrayBuffer[Array[(String, Option[Double])]]()
+    val result = ArrayBuffer[Array[(String, Option[Array[Map[String, String]]])]]()
 
     for (batch <- dataset.grouped(batchSize); if batch.length > 0) {
       val batchInput = encoder.encodeInputData(batch)
 
       if (batchInput.sentenceLengths.length == 0)
         for (_ <- batch) {
-          result.append(Array.empty[(String, Option[Double])])
+          result.append(Array.empty[(String, Option[Array[Map[String, String]]])])
         }
       else {
         val tensors = new TensorResources()
@@ -55,10 +70,8 @@ class TensorflowNer
         val calculator = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
-
           .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
           .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
-
           .feed(dropoutKey, tensors.createTensor(1.0f))
           .fetch(predictKey)
 
@@ -68,26 +81,32 @@ class TensorflowNer
 
         tensors.clearTensors()
 
+        val allTags = encoder.tags
         val tagIds = TensorResources.extractInts(calculated.get(0))
 
-        val confidence: Option[Seq[Double]] = {
+        val confidence: Option[Seq[Array[Float]]] = {
           try {
             if (includeConfidence) {
               val scores = TensorResources.extractFloats(calculated.get(1))
               require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
               val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
-              val probs = exp.map(g => try{BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble}catch{case _: Exception => 0.0d})
+              // val probs = exp.map(g => try{BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble}catch{case _: Exception => 0.0d})
+              val probs = exp.map(d => d.map(_ / d.sum).map(p => try {
+                BigDecimal(p).setScale(4, BigDecimal.RoundingMode.HALF_UP).toFloat
+              } catch{case _: Exception => 0.0f}))
+
               Some(probs)
             } else {
               None
             }
           } catch { case _: Exception =>
-            Option(Array.fill(tagIds.length)(0.0d))
+            Option(Seq.fill(tagIds.length)(Array.fill(allTags.length)(0.0f)))
           }
         }
 
-        val tags = encoder.decodeOutputData(tagIds)
-        val sentenceTags = encoder.convertBatchTags(tags, batchInput.sentenceLengths, confidence)
+        val predictedTags = encoder.decodeOutputData(tagIds)
+
+        val sentenceTags = encoder.convertBatchTags(predictedTags, allTags, batchInput.sentenceLengths, confidence)
 
         result.appendAll(sentenceTags)
       }
@@ -99,7 +118,7 @@ class TensorflowNer
   def getPiecesTags(tokenTags: TextSentenceLabels, sentence: WordpieceEmbeddingsSentence): Array[String] = {
     var i = -1
 
-    sentence.tokens.map{t =>
+    sentence.tokens.map{ _ =>
       i += 1
       tokenTags.labels(i)
     }
@@ -140,11 +159,11 @@ class TensorflowNer
       tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
 
     println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
-      s"- chars: ${encoder.chars.length} - training examples: ${trainLength}"
+      s"- chars: ${encoder.chars.length} - training examples: $trainLength"
     )
 
     outputLog(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
-      s"- chars: ${encoder.chars.length} - training examples: ${trainLength}", uuid, enableOutputLogs, outputLogsPath)
+      s"- chars: ${encoder.chars.length} - training examples: $trainLength", uuid, enableOutputLogs, outputLogsPath)
 
     // Train
     for (epoch <- startEpoch until endEpoch) {
@@ -218,7 +237,7 @@ class TensorflowNer
     (if (prec.isNaN) 0f else prec, if(rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
   }
 
-  def tagsForTokens(labels: Array[(String, Option[Double])], pieces: WordpieceEmbeddingsSentence): Array[(String, Option[Double])] = {
+  def tagsForTokens(labels: Array[(String, Option[Array[Map[String, String]]])], pieces: WordpieceEmbeddingsSentence): Array[(String, Option[Array[Map[String, String]]])] = {
     labels.zip(pieces.tokens).flatMap{
       case(l, p) =>
         if (p.isWordStart)
@@ -228,8 +247,8 @@ class TensorflowNer
     }
   }
 
-  def tagsForTokens(labels: Array[Array[(String, Option[Double])]], pieces: Array[WordpieceEmbeddingsSentence]):
-  Array[Array[(String, Option[Double])]] = {
+  def tagsForTokens(labels: Array[Array[(String, Option[Array[Map[String, String]]])]], pieces: Array[WordpieceEmbeddingsSentence]):
+  Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     labels.zip(pieces)
       .map{case (l, p) => tagsForTokens(l, p)}
@@ -276,7 +295,7 @@ class TensorflowNer
             predicted(tag._1) = predicted.getOrElse(tag._1, 0) + 1
 
             //We don't really care about true negatives at the moment
-            if ((label == tag._1)) {
+            if (label == tag._1) {
               truePositives(label) = truePositives.getOrElse(label, 0) + 1
             } else if (label == "O" && tag._1 != "O") {
               falsePositives(tag._1) = falsePositives.getOrElse(tag._1, 0) + 1

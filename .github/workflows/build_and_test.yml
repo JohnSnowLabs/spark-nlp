@@ -81,7 +81,7 @@ jobs:
   spark30:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: macos-latest
-    name: Build and Test on Apache Spark 3.0.1
+    name: Build and Test on Apache Spark 3.0.x
 
     steps:
       - uses: actions/checkout@v2
@@ -97,17 +97,17 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==3.0.1 numpy
-      - name: Build Spark NLP on Apache Spark 3.0.1
+          pip install pyspark==3.0.2 numpy
+      - name: Build Spark NLP on Apache Spark 3.0.2
         run: |
           brew install sbt
           sbt clean
           sbt compile
           sbt -mem 4096 assemblyAndCopy
-      - name: Test Spark NLP in Scala - Apache Spark 3.0.1
+      - name: Test Spark NLP in Scala - Apache Spark 3.0.x
         run: |
           sbt -mem 4096 test
-      - name: Test Spark NLP in Python - Apache Spark 3.0.1
+      - name: Test Spark NLP in Python - Apache Spark 3.0.x
         run: |
           cd python
           python3.7 -m run-tests
