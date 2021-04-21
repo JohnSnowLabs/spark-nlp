@@ -81,7 +81,7 @@ jobs:
   spark30:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: macos-latest
-    name: Build and Test on Apache Spark 3.0.2
+    name: Build and Test on Apache Spark 3.0.x
 
     steps:
       - uses: actions/checkout@v2
@@ -104,10 +104,10 @@ jobs:
           sbt clean
           sbt compile
           sbt -mem 4096 assemblyAndCopy
-      - name: Test Spark NLP in Scala - Apache Spark 3.0.2
+      - name: Test Spark NLP in Scala - Apache Spark 3.0.x
         run: |
           sbt -mem 4096 test
-      - name: Test Spark NLP in Python - Apache Spark 3.0.2
+      - name: Test Spark NLP in Python - Apache Spark 3.0.x
         run: |
           cd python
           python3.7 -m run-tests
