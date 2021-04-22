@@ -16,8 +16,8 @@ Check out www.johnsnowlabs.com for more information.
 </div><div class="h3-box" markdown="1">
 
 ### AssertionLogReg 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">Transformer scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html">Transformer scaladocs</a>
 
 This annotator classifies each clinically relevant named entity into its assertion:
 
@@ -64,8 +64,8 @@ val logRegAssert = new AssertionLogRegApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### AssertionDL 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">Transformer scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html">Transformer scaladocs</a>
 
 This annotator classifies each clinically relevant named entity into its assertion type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
@@ -114,7 +114,7 @@ val dlAssert = new AssertionDLApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### Chunk2Token
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.Chunk2Token">Transformer scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/Chunk2Token.html">Transformer scaladocs</a>
 
 Transforms a complete chunk Annotation into a token Annotation without further tokenization, as opposed to ChunkTokenizer.
 
@@ -142,8 +142,8 @@ val chunk2Token = new Chunk2Token()
 </div></div><div class="h3-box" markdown="1">
 
 ### ChunkEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel">Transformer scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverModel.html">Transformer scaladocs</a>
 
 Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Models and embeddings pooled by ChunkEmbeddings
 
@@ -200,8 +200,8 @@ val resolver = new ChunkEntityResolverApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### SentenceEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">Transformer scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html">Transformer scaladocs</a>
 
 Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models.  
 This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks.  
@@ -240,6 +240,8 @@ val resolver = new SentenceEntityResolverApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### DocumentLogRegClassifier
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierModel.html">Transformer scaladocs</a>
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
 
@@ -275,6 +277,8 @@ val logregClassifier = new DocumentLogRegClassifierApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### DeIdentificator
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentification.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html">Transformer scaladocs</a>
 
 Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.
 
@@ -322,6 +326,8 @@ val deid = new DeIdentificationApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### Contextual Parser
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/context/ContextualParserModel.html">Transformer scaladocs</a>
 
 This annotator provides Regex + Contextual Matching, based on a JSON file.
 
@@ -368,8 +374,8 @@ val contextualParser = new ContextualParserApproach()
 </div></div><div class="h3-box" markdown="1">
 
 ### RelationExtraction 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">Estimator scaladocs</a> | 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/index.html#com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">Transformer scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach.html">Estimator scaladocs</a> | 
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html">Transformer scaladocs</a>
 
 Extracts and classifier instances of relations between named entities.
 
