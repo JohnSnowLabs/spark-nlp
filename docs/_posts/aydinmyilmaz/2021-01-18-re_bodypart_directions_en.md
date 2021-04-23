@@ -46,7 +46,7 @@ ner_tagger = sparknlp.annotators.NerDLModel()\
 
 pair_list = ['direction-internal_organ_or_component', 'internal_organ_or_component-direction']
 
-re_model = RelationExtractionModel().pretrained("re_bodypart_direction","en","clinical/models")\
+re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en","clinical/models")\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setMaxSyntacticDistance(4)\
