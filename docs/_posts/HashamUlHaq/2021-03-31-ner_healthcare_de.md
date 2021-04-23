@@ -37,9 +37,9 @@ This model can be used to detect symptoms, treatments and other entities in medi
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
-   .setInputCols(["document","token"])\
+   .setInputCols(["sentence","token"])\
    .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "en", "clinical/models") \
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
@@ -50,9 +50,9 @@ annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (K
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")
-   .setInputCols(Array("document","token"))
+   .setInputCols(Array("sentence","token"))
    .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_healthcare", "en", "clinical/models") 
+val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
 ...
