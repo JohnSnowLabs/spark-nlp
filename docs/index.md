@@ -100,7 +100,7 @@ data:
             is_row: true        
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Intel_logo_%282006%29.svg/800px-Intel_logo_%282006%29.svg.png
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Intel_logo_%282020%2C_light_blue%29.svg/200px-Intel_logo_%282020%2C_light_blue%29.svg.png
             url: https://www.intel.com/
             style: "padding: 25px;"
             is_row: true
@@ -360,7 +360,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/1/1f/UniversiteParis_logo_horizontal_couleur_RVB.png
+            src: https://u-paris.fr/wp-content/uploads/2019/03/Universite_Paris_logo_horizontal.jpg
             url: https://u-paris.fr/en/
             style: ""
             is_row: true
