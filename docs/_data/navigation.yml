@@ -15,7 +15,7 @@ header:
   - title: '<span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
-    url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I
+    url: https://www.johnsnowlabs.com/slack-redirect/
 docs-en:
   - title:     Spark NLP
     children:
