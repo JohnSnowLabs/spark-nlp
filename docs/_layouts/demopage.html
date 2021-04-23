@@ -1,0 +1,176 @@
+---
+layout: page
+header: true
+full_width: true
+---
+<!-- Do not use auto intent in this file. -->
+<div class="layout--landing">
+  {%- for _section in page.data.sections -%}
+  <div class="demopage">
+    <div class="demopage-sidemenu">
+      <ul class="sidemenu">
+        <li><strong>Spark NLP: English</strong></li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "classify_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/classify_documents">Classify Documents</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_entitie" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/recognize_entitie">Recognize Entities</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "detect_sentiment_emotion" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/detect_sentiment_emotion">Detect Sentiment &amp; Emotion</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_spelling_grammar" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/analyze_spelling_grammar">Analyze Spelling &amp; Grammar</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "infer_meaning_intent" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/infer_meaning_intent">Infer Meaning &amp; Intent</a>
+        </li>
+        <li><strong>Spark NLP: World Languages</strong></li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "identify_translate_languages" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/identify_translate_languages">Identify &amp; Translate Languages</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "european_languages" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/european_languages">European Languages</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "east_asian_languages" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/east_asian_languages">East Asian Languages</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "languages_india" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/languages_india">Languages of India</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "middle_eastern_languages" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/middle_eastern_languages">Middle Eastern Languages</a>
+        </li>
+        <li><strong>Spark NLP for Healthcare</strong></li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/deidentification">De-Identification</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_clinical_entities" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_specialty_reports" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/analyze_specialty_reports">Analyze Specialty Reports</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_biomedical_entities" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/recognize_biomedical_entities">Recognize Biomedical Entities</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_social_determinants" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/recognize_social_determinants">Recognize Social Determinants</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "resolve_entities_codes" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_relationships" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/extract_relationships">Extract Relationships</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "split_clean_medical_text" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/split_clean_medical_text">Split &amp; Clean Medical Text</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_medical_text" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/analyze_non_english_medical_text">Analyze non-English Medical Text</a>
+        </li>
+        <li><strong>Spark OCR:</strong></li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/extract_text_from_documents">Extract Text from Documents</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "enhance_low_quality_images" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/enhance_low_quality_images">Enhance Low-Quality Images</a>
+        </li>
+        <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_tables_structured_data" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+          <a href="/extract_tables_structured_data">Extract Tables &amp; Structured Data</a>
+        </li>
+      </ul>
+    </div>
+    {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
+    {%- assign _url = __return -%}
+    <section class="hero section-row hero--center" id="hero-{{ forloop.index }}">
+
+      <div class="">
+        {{ content }}
+
+        {%- if _section.secheader -%}
+
+          {%- for child in _section.secheader -%}
+          <div class="subtitle">{{ child.title }} <img src="/assets/images/arrow.svg" /><strong>{{ child.subtitle }}</strong></div>           
+          {%- endfor-%}
+
+          
+        {%- endif -%}
+
+        
+
+        <div class="grid--container main-big" id="panels">
+        {%- if _section.source -%}
+        {%- assign _size = _section.source | size  -%}
+            <div class="tab-wrapper-inner">
+            {%- for child in _section.source -%}
+            <div class="tab-item">
+              <div class="tab-item-inner">
+                {%- if child.image and child.image.src -%}
+
+                {%- if child.image.url -%}
+                {%- include snippets/get-nav-url.html path=child.image.url -%}
+                {%- assign _item_image_url = __return -%}
+                {%- else -%}
+                {%- assign _item_image_url = nil -%}
+                {%- endif -%}
+
+                {%- include snippets/get-nav-url.html path=child.image.src -%}                
+                {%- assign _item_image_src = __return -%}
+                {%- include snippets/get-nav-url.html path=child.image2.src -%}
+                {%- assign _item_image2_src = __return -%}
+
+                {%- if child.image.is_row -%}
+                  {%- endif -%}
+                  <figure class="tab_fig_blue">
+                    <img src="{{ _item_image_src }}" />
+                  </figure>
+                  <figure class="tab_fig_white">
+                    <img src="{{ _item_image2_src }}" />
+                  </figure>
+                  {%- if child.image.is_row -%}
+                {%- endif -%}
+                {%- endif -%}
+
+                <div class="tab-item-title">{{ child.title }}</div>
+
+                {%- if child.excerpt-%}
+                <div class="tab-description">{{ child.excerpt }}</div>
+                {%- endif -%}
+
+                {%- if child.actions -%}
+                <ul class="tab-menu">
+                  {%- for _action in child.actions -%}
+                  {%- include snippets/get-nav-url.html path=_action.url -%}
+                  {%- assign _url = __return -%}
+                  {%- assign _type = _action.type | default: 'outline-info' -%}
+                  <li><a id="{{ child.id }}" class="button button--{{ _type }} button--pill button--lg"
+                      href="{{ _url }}">{{ _action.text }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                {%- endif -%}
+              </div> 
+            </div>
+            {%- endfor-%}
+          </div>
+        {%- endif -%}
+
+
+        </div>
+      {%- if _section.image.full_width == true -%}
+      </div> {% comment %} end hero__content {% endcomment %}
+      {%- endif -%}
+
+      {%- if _section.image.full_width != true -%}
+  </div> {% comment %} end hero__content {% endcomment %}
+  {%- endif -%}
+
+  {%- if _section.content-%}
+  <p>{{ _section.content }}</p>
+  {%- endif -%}
+  </section>
+  {%- endfor -%}
+</div>
+</div>
+
+
