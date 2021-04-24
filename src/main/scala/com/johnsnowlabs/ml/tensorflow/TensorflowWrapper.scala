@@ -180,9 +180,22 @@ class TensorflowWrapper(var variables: Variables,
     val variablesFile = Paths.get(folder, TensorflowWrapper.VariablesKey).toString
 
     // 2. Save variables
-    getSession(configProtoBytes).runner.addTarget(TensorflowWrapper.SaveControlDependenciesOP)
-      .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesFile))
-      .run()
+    def runSessionLegacy = {
+      getSession(configProtoBytes).runner.addTarget(TensorflowWrapper.SaveControlDependenciesOP)
+        .feed(TensorflowWrapper.SaveConstOP, t.createTensor(variablesFile))
+        .run()
+    }
+
+    def runSessionNew = {
+      getSession(configProtoBytes).runner.addTarget("StatefulPartitionedCall_1")
+        .feed("saver_filename", t.createTensor(variablesFile))
+        .run()
+    }
+
+    Try(runSessionLegacy) match {
+      case Success(_) => logger.warn("Running legacy session to save variables...")
+      case Failure(_) => runSessionNew
+    }
 
     // 3. Save Graph
     val graphFile = Paths.get(folder, TensorflowWrapper.SavedModelPB).toString
@@ -308,17 +321,50 @@ object TensorflowWrapper {
                                     session: Session,
                                     variablesDir: String,
                                     variablesKey: String = VariablesKey) = {
-    if (initAllTables) {
+
+    // FIXME - throwing [ERROR] org.tensorflow.exceptions.TFFailedPreconditionException:
+    //  Error while reading resource variable transformer/layer_1/self_attention/attention_output/kernel from Container: localhost.
+    //  This could mean that the variable was uninitialized. Not found: Container localhost does not exist.
+    //  (Could not find resource: localhost/transformer/layer_1/self_attention/attention_output/kernel)
+    //	 [[{{node transformer/layer_1/self_attention/attention_output/kernel/Read/ReadVariableOp}}]]
+    def runRestoreNewNoInit = {
+      session.runner.addTarget("StatefulPartitionedCall_1")
+        .feed("saver_filename", tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
+        .run()
+    }
+
+    def runRestoreLegacyNoInit = {
+      session.runner
+        .addTarget(SaveRestoreAllOP)
+        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
+        .run()
+    }
+
+    def runRestoreNewInit = {
+      session.runner.addTarget("StatefulPartitionedCall_1")
+        .addTarget(InitAllTableOP)
+        .feed("saver_filename", tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
+        .run()
+    }
+
+    def runRestoreLegacyInit = {
       session.runner
         .addTarget(SaveRestoreAllOP)
         .addTarget(InitAllTableOP)
         .feed(SaveConstOP, tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
         .run()
+    }
+
+    if (initAllTables) {
+      Try(runRestoreLegacyInit) match {
+        case Success(_) => logger.warn("Running restore legacy with init...")
+        case Failure(_) => runRestoreNewInit
+      }
     } else {
-      session.runner
-        .addTarget(SaveRestoreAllOP)
-        .feed(SaveConstOP, tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
-        .run()
+      Try(runRestoreLegacyNoInit) match {
+        case Success(_) => logger.warn("Running restore legacy with no init...")
+        case Failure(_) => runRestoreNewNoInit
+      }
     }
   }
 

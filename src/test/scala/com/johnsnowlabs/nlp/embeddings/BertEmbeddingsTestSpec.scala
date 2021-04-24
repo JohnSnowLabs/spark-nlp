@@ -7,7 +7,7 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest._
 
@@ -177,8 +177,10 @@ class BertEmbeddingsTestSpec extends FlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
-    pipeline.fit(ddd).transform(ddd).show
-    // FIXME save/load
-    // embeddings.write.overwrite().save("./tmp_loaded_bert_embeds")
+    // FIXME write is working - load is not
+    pipeline.fit(ddd).write.overwrite().save("./tmp_bert_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
+
+    pipelineModel.transform(ddd)
   }
 }
