@@ -135,12 +135,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("CHUNK_EMBEDDINGS"))
 
-  private def calculateChunkEmbeddings(matrix : Array[Array[Float]], tokens: Array[TokenPieceEmbeddings]):Array[Float] = {
-    try{
-      val res = Array.ofDim[Float](matrix(0).length)
-    } catch {
-      case _: Exception => tokens
-    }
+  private def calculateChunkEmbeddings(matrix : Array[Array[Float]]):Array[Float] = {
     val res = Array.ofDim[Float](matrix(0).length)
     matrix(0).indices.foreach {
       j =>
@@ -190,7 +185,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
          * When we have more chunks than word embeddings
          * this happens when the embeddings has max sequence restriction like BERT, ALBERT, etc.
          */
-        if(finalEmbeddings.isEmpty)
+        if (finalEmbeddings.isEmpty)
           None
         else
           Some(Annotation(
