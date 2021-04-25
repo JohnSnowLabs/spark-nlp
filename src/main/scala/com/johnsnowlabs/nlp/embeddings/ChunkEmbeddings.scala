@@ -200,7 +200,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
               "pieceId" -> "-1",
               "isWordStart" -> "true"
             ),
-            embeddings = calculateChunkEmbeddings(finalEmbeddings, tokensWithEmbeddings)
+            embeddings = calculateChunkEmbeddings(finalEmbeddings)
           ))
       } else {
         None
