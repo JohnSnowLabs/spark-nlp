@@ -10,7 +10,7 @@ body {
 	font-size: 16px;
 	line-height: 24px;
 	color: $color-darkblue;
-	height: auto;
+	height: 100%;
 	overflow-x: hidden;
 	font-family: 'Roboto', sans-serif;
 }
@@ -755,6 +755,7 @@ ul.list1 {
 
 .page__main-inner {
 	min-height: calc(100vh - 70px);
+	height: 100%;
 }
 
 .layout--page--sidebar {	 
@@ -1065,6 +1066,81 @@ ul.list1 {
 	}
 }
 
+.subtitle {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 800;
+	font-size: 20px;
+	line-height: 26px;
+	color: #536B76;
+	margin-bottom: 56px;
+	strong {
+		font-weight: normal;
+		color: #1E77B7;
+	}
+	img {
+		width: 18px !important;
+		display: inline-block !important;
+		margin: 0 8px !important;
+	}
+}
+
+.demopage {
+	min-height: 100vh;
+	position: relative;
+}
+
+.demopage-sidemenu {
+	height: calc(100% + 158px);
+	position: absolute;
+	left: 0;
+	top: -132px;
+	width: 250px;
+	padding: 64px 28px 0 37px;
+	&:before {
+		content: '';
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 15px;
+		background: #F5F5F5;
+		display: block;
+	}
+}
+
+.sidemenu {
+	list-style-type: none;
+	margin: 0;
+	li {
+		padding: 3px 0;
+		strong {
+			display: block;
+			padding: 10px 0;
+			font-weight: bold;
+			font-size: 16px;
+			line-height: 19px;
+			color: #1E77B7;			
+		}
+		&.active a {
+			color: #ff8a00 !important;
+			font-weight: bold;
+		}
+		a {
+			font-size: 14px;
+			font-weight: normal;
+			line-height: 16px;
+			color: #536B76 !important;			
+			transition: all 300ms ease;
+			&:hover {
+				text-decoration: none !important;
+				color: #ff8a00 !important;
+			}
+		}
+	}
+}
+
+
+
 /****Footer****/
 
 .page__footer {
@@ -1082,10 +1158,6 @@ ul.list1 {
 			a {
 				font-weight: normal;
 				color:$color-lightblue;
-				-webkit-transition: all 300ms ease;
-				-moz-transition: all 300ms ease;
-				-ms-transition: all 300ms ease;
-				-o-transition: all 300ms ease;
 				transition: all 300ms ease;
 				&:hover {
 					color: $color-orange !important;
@@ -1195,6 +1267,14 @@ ul.list1 {
 			a {
 				min-width: 20px;
 				width: 100%;
+				&.button--blue_btn {
+					background: #0098DA;
+					border-color: #0098da;
+					&:hover {
+						background: #FF8A00;
+						border-color: #FF8A00;
+					}
+				}
 			}
 		}
 	}	
@@ -1257,6 +1337,14 @@ ul.list1 {
 	&:hover {
 		background:$color-lightblue;
 		padding: 5px 15px 30px;
+		.tab-menu li a.button--blue_btn {
+			background: #FF8A00;
+			border-color: #FF8A00;
+			&:hover {
+				background: #1E77B7;
+				border-color: #1E77B7;
+			}
+		}
 		.tab_fig_white {
 			display: inline-block;
 		}

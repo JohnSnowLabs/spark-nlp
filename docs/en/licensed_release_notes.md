@@ -4,14 +4,37 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2021-04-15
+modify_date: 2021-04-26
 ---
 
-# Release Notes Spark NLP Healthcare
+### 3.0.2
+
+We are very excited to announce that **Spark NLP for Healthcare 3.0.2** has been released! This release includes bug fixes and some compatibility improvements.
+
+#### Highlights
+
+* Dictionaries for Obfuscator were augmented with more than 10K names.
+* Improved support for spark 2.3 and spark 2.4.
+* Bug fixes in `DrugNormalizer`.
+
+#### New Features
+Provide confidence scores for all available tags in `MedicalNerModel`,
+
+##### MedicalNerModel before 3.0.2
+```
+[[named_entity, 0, 9, B-PROBLEM, [word -> Pneumonia, confidence -> 0.9998], []]
+```
+##### Now in Spark NLP for Healthcare 3.0.2
+```
+[[named_entity, 0, 9, B-PROBLEM, [B-PROBLEM -> 0.9998, I-TREATMENT -> 0.0, I-PROBLEM -> 0.0, I-TEST -> 0.0, B-TREATMENT -> 1.0E-4, word -> Pneumonia, B-TEST -> 0.0], []]
+```
+
 ### 3.0.1
-We are very excited to announce that **Spark NLP for Healthcare 3.0.1** has been released! This release includes some bug fixes and some additional functionalities.
-### 3.0.1
+
+We are very excited to announce that **Spark NLP for Healthcare 3.0.1** has been released! 
+
 #### Highlights:
+
 * Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).
 * Fixes in the internal implementation of DeIdentificationModel/Obfuscator.
 * Being able to disable the use of regexes in the Deidentification process 
@@ -139,18 +162,14 @@ We added new entities to the default supported regexes:
 * `IBAN - International Bank Account Number.`
 * `DEA - DEA Registration Number, which is an identifier assigned to a health care provider by the United States Drug Enforcement Administration.`
 
-We introduced new Obfuscator cases for these new entities.
+We also introduced new Obfuscator cases for these new entities.
 
 
-# Release Notes Spark NLP Healthcare
-## 3.0.0
-We are glad to announce that Spark NLP for Healthcare 3.0.0 has been released!
-# Release Notes Spark NLP Healthcare
-## 3.0.0
-We are glad to announce that Spark NLP for Healthcare 3.0.0 has been released!
 ### 3.0.0
 
 We are very excited to announce that **Spark NLP for Healthcare 3.0.0** has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.
+
+#### Highlights:
 
 Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.
 

@@ -1,9 +1,50 @@
 ========
+3.0.2
+========
+
+----------------
+New Features and Enhancements
+----------------
+* Experimental support for community models and pipelines https://github.com/JohnSnowLabs/spark-nlp/pull/2743
+* Add proper conversions for Scala 2.11/2.12 in ContextSpellChecker to use models from Spark 2.x in Spark 3.x https://github.com/JohnSnowLabs/spark-nlp/pull/2758
+* Provide confidence scores for all available tags in NerDLModel and NerCrfModel https://github.com/JohnSnowLabs/spark-nlp/pull/2760
+```
+# Previously in NerDLModel and NerCrfModel 
+[[named_entity, 0, 4, B-LOC, [word -> Japan, confidence -> 0.9998], []]
+```
+
+```
+# In Spark NLP 3.0.2
+[[named_entity, 0, 4, B-LOC, [B-LOC -> 0.9998, I-ORG -> 0.0, I-MISC -> 0.0, I-LOC -> 0.0, I-PER -> 0.0, B-MISC -> 0.0, B-ORG -> 1.0E-4, word -> Japan, O -> 0.0, B-PER -> 0.0], []]
+```
+* Add confidence score to NerConverter metadata https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+```
+[chunk, 30, 37, john, [entity -> PERSON, sentence -> 0, chunk -> 0, confidence -> 0.44035]
+```
+* Refactoring SentencePiece encoding in AlbertEmbeddings and XlnetEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+----------------
+Bug Fixes
+----------------
+* Fix an exception in NerConverter when the documents/sentences don't carry the used tokens in NerDLModel https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+* Fix an exception in AlbertEmbeddings when the original tokens are longer than the piece tokens https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+
+========
 3.0.1
 ========
 
-* Adjust shading rule for amazonaws to support sub-projects from Spark NLP Fat JAR https://github.com/JohnSnowLabs/spark-nlp/pull/2613
+----------------
+New Features
+----------------
 * Add minLength and maxLength parameters to Normalizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/2614
+* 1 line to setup [Google Colab](https://github.com/JohnSnowLabs/spark-nlp#google-colab-notebook)
+* 1 line to setup [Kaggle Kernel](https://github.com/JohnSnowLabs/spark-nlp#kaggle-kernel)
+
+----------------
+Enhancements
+----------------
+* Adjust shading rule for amazon AWS to support sub-projects from Spark NLP Fat JAR https://github.com/JohnSnowLabs/spark-nlp/pull/2613
 * Fix the missing variables in BertSentenceEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2615
 * Restrict loading Sentencepiece ops only to supported models https://github.com/JohnSnowLabs/spark-nlp/pull/2623
 * improve dependency management and resolvers https://github.com/JohnSnowLabs/spark-nlp/pull/2479
