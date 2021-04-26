@@ -35,12 +35,9 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-
-
 clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter])
@@ -48,6 +45,19 @@ nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer,
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(data)
+```
+
+```scala
+...
+val clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
+
+val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter))
+
+val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+
+val results = LightPipeline(model).fullAnnotate(data)
 ```
 
 </div>
