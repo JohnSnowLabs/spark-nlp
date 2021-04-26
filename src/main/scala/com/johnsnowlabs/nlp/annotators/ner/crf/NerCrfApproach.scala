@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{CrfParams, LinearChainCrf}
@@ -8,14 +25,11 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType}
 import com.johnsnowlabs.storage.HasStorageRef
+
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
-
-/*
-
-   */
 
 /**
   * Algorithm for training Named Entity Recognition Model
@@ -38,12 +52,12 @@ class NerCrfApproach(override val uid: String)
     *
     * @group anno
     **/
-  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
   /** Input annotator types : NAMED_ENTITY
     *
     * @group anno
     **/
-  override val outputAnnotatorType = NAMED_ENTITY
+  override val outputAnnotatorType: AnnotatorType = NAMED_ENTITY
 
   /** L2 regularization coefficient
     *

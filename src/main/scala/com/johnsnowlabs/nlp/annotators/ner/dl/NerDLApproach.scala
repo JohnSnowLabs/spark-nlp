@@ -413,7 +413,7 @@ class NerDLApproach(override val uid: String)
   }
 
 
-  def getIteratorFunc(dataset:Dataset[Row]) = {
+  def getIteratorFunc(dataset:Dataset[Row]): () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
 
     if ($(enableMemoryOptimizer)) {
       () => NerTagged.iterateOnDataframe(dataset, getInputCols, $(labelColumn), $(batchSize))
@@ -423,7 +423,7 @@ class NerDLApproach(override val uid: String)
         .select($(labelColumn), getInputCols.toSeq: _*)
         .collect()
 
-      () => NerTagged.interateOnArray(inMemory, getInputCols, $(labelColumn), $(batchSize))
+      () => NerTagged.iterateOnArray(inMemory, getInputCols, $(batchSize))
 
     }
   }
