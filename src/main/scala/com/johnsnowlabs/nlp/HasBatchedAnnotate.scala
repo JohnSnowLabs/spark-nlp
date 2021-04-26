@@ -31,6 +31,7 @@ trait HasBatchedAnnotate[M <: Model[M]] {
   def getBatchSize: Int = $(batchSize)
 
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
+    // TODO remove the @unchecked annotation and create a type to handle different subtypes
     rows.grouped(getBatchSize).flatMap { case batchedRows: Seq[Row @unchecked] =>
       val inputAnnotations = batchedRows.map(row => {
         getInputCols.flatMap(inputCol => {
