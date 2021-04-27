@@ -493,8 +493,29 @@
       
       <p class="shortcomment cmt">A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
 array of chunk-based tokens (annotatorType TOKEN).</p><div class="fullcomment"><div class="comment cmt"><p>A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
-array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty, an empty array is returned.</p><p>This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels
-</p></div></div>
+array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty, an empty array is returned.</p><p>This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels</p><h4>Example</h4><p>Define a pipeline for generating n-grams</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>((<span class="lit">"A 63-year-old man presents to the hospital ..."</span>)).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> token = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> ngrammer = <span class="kw">new</span> NGramGenerator()
+ .setN(<span class="num">2</span>)
+ .setEnableCumulative(<span class="kw">false</span>)
+ .setInputCols(<span class="lit">"token"</span>)
+ .setOutputCol(<span class="lit">"ngrams"</span>)
+ .setDelimiter(<span class="lit">"_"</span>)</pre><p>Stage to convert n-gram CHUNKS to TOKEN type</p><pre><span class="kw">val</span> chunk2Token = <span class="kw">new</span> Chunk2Token().setInputCols(<span class="lit">"ngrams"</span>).setOutputCol(<span class="lit">"ngram_tokens"</span>)
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, sentenceDetector, token, ngrammer, chunk2Token)).fit(data)
+
+<span class="kw">val</span> result = trainingPipeline.transform(data).cache()
+result.selectExpr(<span class="lit">"explode(ngram_tokens)"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
+  +----------------------------------------------------------------+
+  |col                                                             |
+  +----------------------------------------------------------------+
+  |{token, <span class="num">3</span>, <span class="num">15</span>, A_63-year-old, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>}, []}  |
+  |{token, <span class="num">5</span>, <span class="num">19</span>, <span class="num">63</span>-year-old_man, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}|
+  |{token, <span class="num">17</span>, <span class="num">28</span>, man_presents, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">2</span>}, []}  |
+  |{token, <span class="num">21</span>, <span class="num">31</span>, presents_to, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">3</span>}, []}   |
+  |{token, <span class="num">30</span>, <span class="num">35</span>, to_the, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}        |
+  +----------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator" target="_blank">NGramGenerator</a></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DrugNormalizerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.DrugNormalizer]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.DrugNormalizer]"></a><a id="DrugNormalizer:DrugNormalizer"></a>
       <span class="permalink">
