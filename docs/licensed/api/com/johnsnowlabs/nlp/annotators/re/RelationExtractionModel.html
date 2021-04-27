@@ -191,8 +191,8 @@
                         <a href="RelationExtractionDLModel.html" title="">RelationExtractionDLModel</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="RelationExtractionModel$.html" title=""></a>
-                        <a class="class" href="" title="ClassifierDL is a generic Multi-class Text Classification."></a>
-                        <a href="" title="ClassifierDL is a generic Multi-class Text Classification.">RelationExtractionModel</a>
+                        <a class="class" href="" title="Annotator model, that Extracts and classifies instances of relations between named entities."></a>
+                        <a href="" title="Annotator model, that Extracts and classifies instances of relations between named entities.">RelationExtractionModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="RelationInstance.html" title=""></a>
@@ -227,7 +227,7 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications. The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 50 classes</p><p>NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.</p><p>NOTE: UniversalSentenceEncoder and SentenceEmbeddings can be used for the inputCol</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala</a> for further reference on how to use this API
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Annotator model, that Extracts and classifies instances of relations between named entities.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -254,7 +254,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -299,7 +299,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel"></a><a id="&lt;init&gt;:RelationExtractionModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel" title="Permalink">
@@ -314,7 +314,7 @@
         <span class="name">RelationExtractionModel</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1349,8 +1349,8 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator type : SENTENCE_EMBEDDINGS
-</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : SENTENCE_EMBEDDINGS
+      <p class="shortcomment cmt">Input annotator types : WORD_EMBEDDINGS, POS, CHUNK, DEPENDENCY
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types : WORD_EMBEDDINGS, POS, CHUNK, DEPENDENCY
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> → <a href="../generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>

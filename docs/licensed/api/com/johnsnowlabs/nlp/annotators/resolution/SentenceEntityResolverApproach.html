@@ -183,24 +183,24 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution">resolution</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="BigChunkEntityResolverApproach.html" title=""></a>
-                        <a href="BigChunkEntityResolverApproach.html" title="">BigChunkEntityResolverApproach</a>
+                        <a class="class" href="BigChunkEntityResolverApproach.html" title="This class is deprecated."></a>
+                        <a href="BigChunkEntityResolverApproach.html" title="This class is deprecated.">BigChunkEntityResolverApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="BigChunkEntityResolverModel$.html" title=""></a>
-                        <a class="class" href="BigChunkEntityResolverModel.html" title=""></a>
-                        <a href="BigChunkEntityResolverModel.html" title="">BigChunkEntityResolverModel</a>
+                        <a class="class" href="BigChunkEntityResolverModel.html" title="This class is deprecated."></a>
+                        <a href="BigChunkEntityResolverModel.html" title="This class is deprecated.">BigChunkEntityResolverModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="BigFoundData.html" title=""></a>
                         <a href="BigFoundData.html" title="">BigFoundData</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="ChunkEntityResolverApproach.html" title=""></a>
-                        <a href="ChunkEntityResolverApproach.html" title="">ChunkEntityResolverApproach</a>
+                        <a class="class" href="ChunkEntityResolverApproach.html" title="Contains all the parameters and methods to train a ChunkEntityResolverModel."></a>
+                        <a href="ChunkEntityResolverApproach.html" title="Contains all the parameters and methods to train a ChunkEntityResolverModel.">ChunkEntityResolverApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="ChunkEntityResolverModel$.html" title=""></a>
-                        <a class="class" href="ChunkEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset."></a>
-                        <a href="ChunkEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset.">ChunkEntityResolverModel</a>
+                        <a class="class" href="ChunkEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset (e.g."></a>
+                        <a href="ChunkEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset (e.g.">ChunkEntityResolverModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="object" href="ConfidenceFunction$.html" title="Helper object to use while setting confidenceFunction parameter"></a>
@@ -251,8 +251,8 @@
                         <a href="ReadablePretrainedSentenceEntityResolver.html" title="">ReadablePretrainedSentenceEntityResolver</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">SentenceEntityResolverApproach</a>
+                        <a class="class" href="" title="Contains all the parameters and methods to train a SentenceEntityResolverModel."></a>
+                        <a href="" title="Contains all the parameters and methods to train a SentenceEntityResolverModel.">SentenceEntityResolverApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="SentenceEntityResolverModel$.html" title=""></a>
                         <a class="class" href="SentenceEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset."></a>
@@ -289,7 +289,33 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains all the parameters and methods to train a <a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.
+The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html" target="_blank">BertSentenceEmbeddings</a>
+and returns the normalized entity for a particular trained ontology / curated dataset.
+(e.g. ICD-10, RxNorm, SNOMED etc.)</p><p>To use pretrained models please use SentenceEntityResolverModel
+and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><h5>Training a SNOMED resolution model using BERT sentence embeddings</h5><p>Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+   .setInputCol(<span class="lit">"normalized_text"</span>)
+   .setOutputCol(<span class="lit">"document"</span>)
+ <span class="kw">val</span> bertEmbeddings = BertSentenceEmbeddings.pretrained(<span class="lit">"sent_biobert_pubmed_base_cased"</span>)
+   .setInputCols(<span class="lit">"sentence"</span>)
+   .setOutputCol(<span class="lit">"bert_embeddings"</span>)
+ <span class="kw">val</span> snomedTrainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+   documentAssembler,
+   bertEmbeddings
+ ))
+ <span class="kw">val</span> snomedTrainingModel = snomedTrainingPipeline.fit(data)
+ <span class="kw">val</span> snomedData = snomedTrainingModel.transform(data).cache()</pre><p>Then the Resolver can be trained with</p><pre><span class="kw">val</span> bertExtractor = <span class="kw">new</span> SentenceEntityResolverApproach()
+  .setNeighbours(<span class="num">25</span>)
+  .setThreshold(<span class="num">1000</span>)
+  .setInputCols(<span class="lit">"bert_embeddings"</span>)
+  .setNormalizedCol(<span class="lit">"normalized_text"</span>)
+  .setLabelCol(<span class="lit">"label"</span>)
+  .setOutputCol(<span class="lit">"snomed_code"</span>)
+  .setDistanceFunction(<span class="lit">"EUCLIDIAN"</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> snomedModel = bertExtractor.fit(snomedData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -310,7 +336,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -355,7 +381,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach"></a><a id="&lt;init&gt;:SentenceEntityResolverApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" title="Permalink">
@@ -370,7 +396,7 @@
         <span class="name">SentenceEntityResolverApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -560,7 +586,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#auxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#auxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="auxLabelCol:org.apache.spark.ml.param.Param[String]"></a><a id="auxLabelCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#auxLabelCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -575,7 +601,8 @@
         <span class="name">auxLabelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional
+column. Default: &quot;aux_label&quot;</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#auxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="auxLabelMap:com.johnsnowlabs.nlp.serialization.StructFeature[scala.collection.Map[String,String]]"></a><a id="auxLabelMap:StructFeature[Map[String,String]]"></a>
       <span class="permalink">
@@ -872,7 +899,7 @@
       </span>
       
       <p class="shortcomment cmt">Extracts a Map[String,String] where key=label and value=auxLabel from a dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts a Map[String,String] where key=label and value=auxLabel from a dataset.
-If either of one columns does not exist, it will return an empty map</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>from whichw e extract the column</p></dd><dt>returns</dt><dd class="cmt"><p>a Map[String,String]</p></dd></dl></div>
+If either of one columns does not exist, it will return an empty map</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>from which we extract the column</p></dd><dt>returns</dt><dd class="cmt"><p>a Map[String,String]</p></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a><a id="extractParamMap():ParamMap"></a>
       <span class="permalink">
@@ -1107,7 +1134,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getAuxLabelCol():Option[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#getAuxLabelCol():Option[String]" title="Permalink">
@@ -1122,7 +1149,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getAuxLabelCol</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getAuxLabelMap():scala.collection.Map[String,String]"></a><a id="getAuxLabelMap():Map[String,String]"></a>
       <span class="permalink">
@@ -1138,7 +1165,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getAuxLabelMap</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Map[String,String] where key=label and value=auxLabel from a dataset.</p>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#getCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getCaseSensitive:Boolean"></a>
       <span class="permalink">
@@ -1238,7 +1265,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getLabelCol:String"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#getLabelCol:String" title="Permalink">
@@ -1253,7 +1280,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getLabelCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">column name for the value we are trying to resolve</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <span class="permalink">
@@ -1302,7 +1329,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getNormalizedCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getNormalizedCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getNormalizedCol:String"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#getNormalizedCol:String" title="Permalink">
@@ -1317,7 +1344,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getNormalizedCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">column name for the original, normalized description</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1366,7 +1393,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getReturnAllKEmbeddings():Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#getReturnAllKEmbeddings():Boolean" title="Permalink">
@@ -1381,8 +1408,9 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getReturnAllKEmbeddings</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
+Increase in RAM usage to be expected</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getReturnCosineDistances:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#getReturnCosineDistances:Boolean" title="Permalink">
@@ -1397,7 +1425,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getReturnCosineDistances</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get whether cosine distances should be calculated between a chunk and the k_candidates result embeddings</p>
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a sentence and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a sentence and the k closest candidates.
+Can improve accuracy but increases computation.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams#getThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getThreshold:Double"></a>
       <span class="permalink">
@@ -1414,7 +1443,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#getUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getUseAuxLabel():Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#getUseAuxLabel():Boolean" title="Permalink">
@@ -1429,7 +1458,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">getUseAuxLabel</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to use Aux Label or not</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1513,7 +1542,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1528,7 +1557,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: SENTENCE_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: SENTENCE_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1609,7 +1638,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#labelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#labelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="labelCol:org.apache.spark.ml.param.Param[String]"></a><a id="labelCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#labelCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1624,7 +1653,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">labelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">column name for the value we are trying to resolve</p>
+      <p class="shortcomment cmt">column name for the value we are trying to resolve.</p><div class="fullcomment"><div class="comment cmt"><p>column name for the value we are trying to resolve. Default: &quot;code&quot;</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#labelColumnName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="labelColumnName:String"></a>
       <span class="permalink">
@@ -1913,7 +1942,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <p class="shortcomment cmt">number of neighbours to consider in the KNN query to calculate WMD</p><div class="fullcomment"><div class="comment cmt"><p>number of neighbours to consider in the KNN query to calculate WMD</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#normalizedCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#normalizedCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="normalizedCol:org.apache.spark.ml.param.Param[String]"></a><a id="normalizedCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#normalizedCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2015,7 +2044,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:SentenceEntityResolverApproach.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#outputAnnotatorType:SentenceEntityResolverApproach.this.AnnotatorType" title="Permalink">
@@ -2030,7 +2059,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: ENTITY</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ENTITY</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2063,7 +2092,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#returnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#returnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="returnAllKEmbeddings:org.apache.spark.ml.param.BooleanParam"></a><a id="returnAllKEmbeddings:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#returnAllKEmbeddings:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2078,8 +2107,9 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">returnAllKEmbeddings</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
+Increase in RAM usage to be expected. Default: false</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnCosineDistances:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#returnCosineDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2094,7 +2124,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">returnCosineDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a sentence and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a sentence and the k closest candidates.
+Can improve accuracy but increases computation. Default: true</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2234,7 +2265,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setAuxLabelCol(c:String):SentenceEntityResolverApproach.this.type"></a><a id="setAuxLabelCol(String):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setAuxLabelCol(c:String):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2250,7 +2281,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setAuxLabelMap(m:scala.collection.Map[String,String]):SentenceEntityResolverApproach.this.type"></a><a id="setAuxLabelMap(Map[String,String]):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setAuxLabelMap(m:scala.collection.Map[String,String]):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2265,7 +2296,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">setAuxLabelMap</span><span class="params">(<span name="m">m: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
+      <p class="shortcomment cmt">Map[String,String] where key=label and value=auxLabel from a dataset.</p>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#setCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setCaseSensitive(value:Boolean):HasCaseSensitiveProperties.this.type"></a><a id="setCaseSensitive(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2442,7 +2473,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setLabelCol(value:String):SentenceEntityResolverApproach.this.type"></a><a id="setLabelCol(String):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setLabelCol(value:String):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2457,7 +2488,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">setLabelCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">column name for the value we are trying to resolve</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2506,7 +2537,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setNormalizedCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setNormalizedCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setNormalizedCol(value:String):SentenceEntityResolverApproach.this.type"></a><a id="setNormalizedCol(String):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setNormalizedCol(value:String):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2521,7 +2552,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">setNormalizedCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">column name for the original, normalized description</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2538,7 +2569,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReturnAllKEmbeddings(b:Boolean):SentenceEntityResolverApproach.this.type"></a><a id="setReturnAllKEmbeddings(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setReturnAllKEmbeddings(b:Boolean):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2553,8 +2584,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">setReturnAllKEmbeddings</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata. Increase in RAM usage to be expected</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReturnCosineDistances(value:Boolean):SentenceEntityResolverApproach.this.type"></a><a id="setReturnCosineDistances(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setReturnCosineDistances(value:Boolean):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2569,7 +2600,8 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">setReturnCosineDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set whether cosine distances should be calculated between a chunk and the k_candidates result embeddings</p>
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a sentence and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a sentence and the k closest candidates.
+Can improve accuracy but increases computation.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams#setThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setThreshold(dist:Double):SentenceResolverParams.this.type"></a><a id="setThreshold(Double):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2586,7 +2618,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setUseAuxLabel(b:Boolean):SentenceEntityResolverApproach.this.type"></a><a id="setUseAuxLabel(Boolean):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setUseAuxLabel(b:Boolean):SentenceEntityResolverApproach.this.type" title="Permalink">
@@ -2601,7 +2633,7 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">setUseAuxLabel</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to use Aux Label or not</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2665,10 +2697,10 @@ If either of one columns does not exist, it will return an empty map</p></div><d
         <span class="name">train</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="recursivePipeline">recursivePipeline: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.PipelineModel">PipelineModel</span>]</span>)</span><span class="result">: <a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></span>
       </span>
       
-      <p class="shortcomment cmt">Returns the ChunkEntityResolverModel Transformer, that can be used to transform input datasets</p><div class="fullcomment"><div class="comment cmt"><p>Returns the ChunkEntityResolverModel Transformer, that can be used to transform input datasets</p><p>The dataset provided to the fit method should have one chunk per row and contain the following columns:
-ChunkTokens, ChunkEmbeddings, ResolverLabel, [ResolverNormalized]</p><p>The cardinality of the dataset should not exceed 100.000 data points since searching
+      <p class="shortcomment cmt">Returns the SentenceEntityResolverModel Transformer, that can be used to transform input datasets</p><div class="fullcomment"><div class="comment cmt"><p>Returns the SentenceEntityResolverModel Transformer, that can be used to transform input datasets</p><p>The dataset provided to the fit method should have one sentence per row and contain the following columns:
+SentenceEmbeddings, ResolverLabel, ResolverNormalized</p><p>The cardinality of the dataset should not exceed 100.000 data points since searching
 in such a big KD-tree becomes impractical</p><p>This method is called inside the <a href="https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.AnnotatorApproach" target="_blank">AnnotatorApproach</a>'s fit method
-</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>a Dataset containing ChunkTokens, ChunkEmbeddings, ClassifierLabel, ResolverLabel, [ResolverNormalized]</p></dd><dt>returns</dt><dd class="cmt"><p>a trained ChunkEntityResolverModel</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → AnnotatorApproach</dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>a Dataset containing SentenceEmbeddings, ResolverLabel, ResolverNormalized</p></dd><dt>returns</dt><dd class="cmt"><p>a trained SentenceEntityResolverModel</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → AnnotatorApproach</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#transformSchema" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformSchema(schema:org.apache.spark.sql.types.StructType):org.apache.spark.sql.types.StructType"></a><a id="transformSchema(StructType):StructType"></a>
       <span class="permalink">
@@ -2720,7 +2752,7 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> → Identifiable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#useAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#useAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="useAuxLabel:org.apache.spark.ml.param.BooleanParam"></a><a id="useAuxLabel:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#useAuxLabel:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2735,7 +2767,7 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
         <span class="name">useAuxLabel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to use Aux Label or not.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to use Aux Label or not. Default: false</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
@@ -2893,8 +2925,20 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>
