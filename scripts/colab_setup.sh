@@ -15,7 +15,7 @@ do
 done
 
 echo "setup Colab for PySpark $PYSPARK and Spark NLP $SPARKNLP"
-
+apt-get update
 apt-get purge -y openjdk-11* -qq > /dev/null && sudo apt-get autoremove -y -qq > /dev/null
 apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
 
