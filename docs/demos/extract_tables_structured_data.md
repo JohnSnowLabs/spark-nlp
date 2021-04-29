@@ -45,5 +45,19 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_TABLE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_TABLE.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_TABLE.ipynb
+        - title: Extract Data from FoundationOne Sequencing Reports
+          id: extract-data-from-foundationone-sequencing-reports
+          image: 
+              src: /assets/images/correct.svg
+          image2: 
+              src: /assets/images/correct_f.svg
+          excerpt: Use our transformer to parse patient info, genomic and biomarker findings, and gene lists.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/
+          - text: Colab Netbook
+            type: blue_btn
+            url:      
 ---
