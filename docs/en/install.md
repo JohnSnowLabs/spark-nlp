@@ -28,10 +28,11 @@ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
 # Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
 spark-shell --jar spark-nlp-assembly-3.0.2
 ```
+<div class="h3-box" markdown="1">
 
 ## Python
 
-<div class="h3-box" markdown="1">
+Spark NLP supports Python 3.6.x and 3.7.x if you are using PySpark 2.3.x or 2.4.x and Python 3.8.x if you are using PySpark 3.x.
 
 #### Quick Install
 
@@ -80,8 +81,7 @@ spark = SparkSession.builder \
 
 #### Maven
 
-Our package is deployed to maven central. In order to add this package
-as a dependency in your application:
+Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and Scala 2.12.x if you are using Apache Spark 3.0.x or 3.1.x. Our packages are deployed to Maven central. To add any of our packages as a dependency in your application you can follow these coordinates:
 
 **spark-nlp** on Apache Spark 3.x:
 
