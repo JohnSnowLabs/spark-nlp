@@ -38,7 +38,7 @@ LOINC codes - per input NER entity
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbluebert_base_uncased_mli",'en','clinical/models')\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 
@@ -64,14 +64,14 @@ results = model.transform(data)
 |  0 | gestational diabetes mellitus         | 45636-8      |
 |  1 | subsequent type two diabetes mellitus | 44877-9      |
 |  2 | T2DM                                  | 45636-8      |
-|  3 | HTG-induced pancreatitis              | 66667-7      |
-|  4 | an acute hepatitis                    | 45690-5      |
-|  5 | obesity                               | 73708-0      |
+|  3 | HTG-induced pancreatitis              | 79102-0      |
+|  4 | an acute hepatitis                    | 28083-4      |
+|  5 | obesity                               | 50227-8      |
 |  6 | a body mass index                     | 59574-4      |
 |  7 | BMI                                   | 59574-4      |
 |  8 | polyuria                              | 28239-2      |
 |  9 | polydipsia                            | 90552-1      |
-| 10 | poor appetite                         | 28387-9      |
+| 10 | poor appetite                         | 65961-5      |
 | 11 | vomiting                              | 81224-8      |
 
 ```
