@@ -1,3 +1,4 @@
+{%- for _section in page.data.sections -%}
 <div class="demopage-sidemenu">
     <ul class="sidemenu">
       <li><strong>Spark NLP: English</strong></li>
@@ -33,7 +34,7 @@
         <a href="/middle_eastern_languages">Middle Eastern Languages</a>
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "languages_africa" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/languages_africa">Africa Languages</a>
+        <a href="/languages_africa">African Languages</a>
       </li>
       <li><strong>Spark NLP for Healthcare</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "deidentification" %} class="active"  {% endif %} {% endfor %} {% endif %} >
@@ -75,3 +76,4 @@
       </li>
     </ul>
   </div>
+  {%- endfor-%}
