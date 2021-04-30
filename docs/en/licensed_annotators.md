@@ -23,45 +23,114 @@ This annotator classifies each clinically relevant named entity into its asserti
 
 type: "present", "absent", "hypothetical", "conditional", "associated_with_other_person", etc.
 
-**Input types:** `"sentence", "ner_chunk", "embeddings"`
+**Input types:** `DOCUMENT, CHUNK, WORD_EMBEDDINGS`
 
-**Output type:** `"assertion"`
+**Output type:** `ASSERTION`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+  {% include programmingLanguageSelectScalaPython.html %}
 
-```python
-logRegAssert = AssertionLogRegApproach()
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
-    .setOutputCol("pos") \
-    .setLabelCol("label") \
-    .setMaxIter(26) \
-    .setReg(0.00192) \
-    .setEnet(0.9) \
-    .setBefore(10) \
-    .setAfter(10) \
-    .setStartCol("start") \
-    .setEndCol("end")
-```
+  ```scala
+  // Training with Glove Embeddings
+  // First define pipeline stages to extract embeddings and text chunks
+  val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-```scala
-val logRegAssert = new AssertionLogRegApproach()
-    .setInputCols(Array("sentence", "ner_chunk", "embeddings"))
-    .setOutputCol("pos")
+  val tokenizer = new Tokenizer()
+    .setInputCols("document")
+    .setOutputCol("token")
+
+  val glove = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols("document", "token")
+    .setOutputCol("word_embeddings")
+    .setCaseSensitive(false)
+
+  val chunkAssembler = new Doc2Chunk()
+    .setInputCols("document")
+    .setChunkCol("target")
+    .setOutputCol("chunk")
+
+  // Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
+  val assertion = new AssertionLogRegApproach()
     .setLabelCol("label")
-    .setMaxIter(26)
-    .setReg(0.00192)
-    .setEnet(0.9)
-    .setBefore(10)
-    .setAfter(10)
+    .setInputCols("document", "chunk", "word_embeddings")
+    .setOutputCol("assertion")
+    .setReg(0.01)
+    .setBefore(11)
+    .setAfter(13)
     .setStartCol("start")
     .setEndCol("end")
-```
 
-</div></div><div class="h3-box" markdown="1">
+  val assertionPipeline = new Pipeline().setStages(Array(
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    nerModel,
+    nerConverter,
+    assertion
+  ))
+
+  val assertionModel = assertionPipeline.fit(dataset)
+
+  ```
+  ```python
+  # Training with Glove Embeddings
+  # First define pipeline stages to extract embeddings and text chunks
+  documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+  tokenizer = Tokenizer()
+    .setInputCols(["document"])
+    .setOutputCol("token")
+
+  glove = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("word_embeddings") \
+    .setCaseSensitive(False)
+
+  chunkAssembler = Doc2Chunk() \
+    .setInputCols(["document"]) \
+    .setChunkCol("target") \
+    .setOutputCol("chunk")
+
+  # Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
+  assertion = AssertionLogRegApproach() \
+    .setLabelCol("label") \
+    .setInputCols(["document", "chunk", "word_embeddings"]) \
+    .setOutputCol("assertion") \
+    .setReg(0.01) \
+    .setBefore(11) \
+    .setAfter(13) \
+    .setStartCol("start") \
+    .setEndCol("end")
+
+  assertionPipeline = Pipeline(stages=[
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    nerModel,
+    nerConverter,
+    assertion
+  ])
+
+  assertionModel = assertionPipeline.fit(dataset)
+  ```
+
+</div>
+
+</details>
+
+</div>
+
+<div class="h3-box" markdown="1">
 
 ### AssertionDL
 <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html">Estimator scaladocs</a> |
@@ -73,7 +142,8 @@ A Deep Learning based approach is used to extract Assertion Status from extracte
 
 **Output type:** `ASSERTION`
 
-**Example:**
+<details>
+<summary><b>Show Example</b></summary>
 
 <div class="tabs-box" markdown="1">
 
@@ -132,15 +202,15 @@ data = spark.createDataFrame([
 documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
 sentenceDetector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
 tokenizer = Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
-embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
   .setOutputCol("embeddings")
-nerModel = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+nerModel = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
 nerConverter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutputCol("ner_chunk")
 
 # Then a pretrained AssertionDLModel is used to extract the assertion status
-clinicalAssertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models")
-  .setInputCols(["sentence", "ner_chunk", "embeddings"])
+clinicalAssertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
+  .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
   .setOutputCol("assertion")
 
 assertionPipeline = Pipeline(stages=[
@@ -168,7 +238,11 @@ result.selectExpr("ner_chunk.result", "assertion.result").show(3, truncate=False
 
 ```
 
-</div></div>
+</div>
+
+</details>
+
+</div>
 
 <div class="h3-box" markdown="1">
 ### AssertionFilterer
@@ -181,7 +255,9 @@ Filters entities coming from ASSERTION type annotations and returns the CHUNKS. 
 
 **Output type:** `CHUNK`
 
-**Example:**
+<details>
+<summary><b>Show Example</b></summary>
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -273,6 +349,8 @@ result.select("filtered.result").show(3, truncate=False)
 ```
 </div>
 
+</details>
+
 </div>
 
 <div class="h3-box" markdown="1">
@@ -282,9 +360,9 @@ result.select("filtered.result").show(3, truncate=False)
 
 Transforms a complete chunk Annotation into a token Annotation without further tokenization, as opposed to ChunkTokenizer.
 
-**Input types:** `"chunk",`
+**Input types:** `CHUNK,`
 
-**Output type:** `"token"`
+**Output type:** `TOKEN`
 
 **Example:**
 
@@ -309,59 +387,130 @@ val chunk2Token = new Chunk2Token()
 <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverApproach.html">Estimator scaladocs</a> |
 <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverModel.html">Transformer scaladocs</a>
 
-Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to chunk tokens identified from TextMatchers or the NER Models and embeddings pooled by ChunkEmbeddings
+Contains all the parameters and methods to train a ChunkEntityResolverModel. It transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from e.g. ChunkTokenizer and ChunkEmbeddings Annotators and returns the normalized entity for a particular trained ontology / curated dataset. (e.g. ICD-10, RxNorm, SNOMED etc.) To use pretrained models please use ChunkEntityResolverModel and see the Models Hub for available models.
 
-**Input types:** `"chunk_token", "embeddings"`
+**Input types:** `TOKEN, WORD_EMBEDDINGS`
 
-**Output type:** `"resolution"`
+**Output type:** `ENTITY`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
+
 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
 
-```python
-resolver = ChunkEntityResolverApproach() \
-    .setInputCols(["chunk_token", "chunk_embeddings"]) \
-    .setOutputCol("token") \
-    .setLabelCol("label") \
-    .setNormalizedCol("normalized") \
-    .setNeighbours(500) \
-    .setAlternatives(25) \
-    .setThreshold(5) \
-    .setExtramassPenalty(1) \
-    .setEnableWmd(True) \
-    .setEnableTfidf(True) \
-    .setEnableJaccard(True) \
-    .setEnableSorensenDice(False) \
-    .setEnableJaroWinkler(False) \
-    .setEnableLevenshtein(False) \
-    .setDistanceWeights([1,2,2,0,0,0]) \
-    .setPoolingStrategy("MAX") \
-    .setMissAsEmpty(True)
-```
 ```scala
-val resolver = new ChunkEntityResolverApproach()
-    .setInputCols(Array("chunk_token", "chunk_embeddings"))
-    .setOutputCol("token")
-    .setLabelCol("label")
-    .setNormalizedCol("normalized")
-    .setNeighbours(500)
-    .setAlternatives(25)
-    .setThreshold(5)
-    .setExtramassPenalty(1)
-    .setEnableWmd(true)
-    .setEnableTfidf(true)
-    .setEnableJaccard(true)
-    .setEnableSorensenDice(false)
-    .setEnableJaroWinkler(false)
-    .setEnableLevenshtein(false)
-    .setDistanceWeights(Array(1,2,2,0,0,0))
-    .setPoolingStrategy("MAX")
-    .setMissAsEmpty(true)
+// Training a SNOMED model
+// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data
+// and their labels.
+val document = new DocumentAssembler()
+  .setInputCol("normalized_text")
+  .setOutputCol("document")
+
+val chunk = new Doc2Chunk()
+  .setInputCols("document")
+  .setOutputCol("chunk")
+
+val token = new Tokenizer()
+  .setInputCols("document")
+  .setOutputCol("token")
+
+val embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+
+val chunkEmb = new ChunkEmbeddings()
+      .setInputCols("chunk", "embeddings")
+      .setOutputCol("chunk_embeddings")
+
+val snomedTrainingPipeline = new Pipeline().setStages(Array(
+  document,
+  chunk,
+  token,
+  embeddings,
+  chunkEmb
+))
+
+val snomedTrainingModel = snomedTrainingPipeline.fit(data)
+
+val snomedData = snomedTrainingModel.transform(data).cache()
+
+// Then the Resolver can be trained with
+val snomedExtractor = new ChunkEntityResolverApproach()
+  .setInputCols("token", "chunk_embeddings")
+  .setOutputCol("recognized")
+  .setNeighbours(1000)
+  .setAlternatives(25)
+  .setNormalizedCol("normalized_text")
+  .setLabelCol("label")
+  .setEnableWmd(true).setEnableTfidf(true).setEnableJaccard(true)
+  .setEnableSorensenDice(true).setEnableJaroWinkler(true).setEnableLevenshtein(true)
+  .setDistanceWeights(Array(1, 2, 2, 1, 1, 1))
+  .setAllDistancesMetadata(true)
+  .setPoolingStrategy("MAX")
+  .setThreshold(1e32)
+val model = snomedExtractor.fit(snomedData)
+
 ```
-</div></div>
+```python
+# Training a SNOMED model
+# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data
+# and their labels.
+document = DocumentAssembler() \
+  .setInputCol("normalized_text") \
+  .setOutputCol("document")
+
+chunk = Doc2Chunk() \
+  .setInputCols(["document"]) \
+  .setOutputCol("chunk")
+
+token = Tokenizer()
+  .setInputCols(["document"])
+  .setOutputCol("token")
+
+embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models") \
+  .setInputCols(["document", "token"]) \
+  .setOutputCol("embeddings")
+
+chunkEmb = ChunkEmbeddings() \
+      .setInputCols(["chunk", "embeddings"]) \
+      .setOutputCol("chunk_embeddings")
+
+snomedTrainingPipeline = Pipeline(stages=[
+  document,
+  chunk,
+  token,
+  embeddings,
+  chunkEmb
+])
+
+snomedTrainingModel = snomedTrainingPipeline.fit(data)
+
+snomedData = snomedTrainingModel.transform(data).cache()
+
+# Then the Resolver can be trained with
+snomedExtractor = ChunkEntityResolverApproach() \
+  .setInputCols(["token", "chunk_embeddings"]) \
+  .setOutputCol("recognized") \
+  .setNeighbours(1000) \
+  .setAlternatives(25) \
+  .setNormalizedCol("normalized_text") \
+  .setLabelCol("label") \
+  .setEnableWmd(True).setEnableTfidf(True).setEnableJaccard(True) \
+  .setEnableSorensenDice(True).setEnableJaroWinkler(True).setEnableLevenshtein(True) \
+  .setDistanceWeights(Array(1, 2, 2, 1, 1, 1)) \
+  .setAllDistancesMetadata(True) \
+  .setPoolingStrategy("MAX") \
+  .setThreshold(1e32)
+model = snomedExtractor.fit(snomedData)
+
+```
+</div>
+
+</details>
+</div>
 
 <div class="h3-box" markdown="1">
 ### ChunkFilterer
@@ -374,13 +523,15 @@ Filters entities coming from CHUNK annotations. Filters can be set via a white l
 
 **Output type:** `CHUNK`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```scala
-// ===Filtering POS tags===
-First pipeline stages to extract the POS tags are defined
+// Filtering POS tags
+// First pipeline stages to extract the POS tags are defined
 val data = Seq("Has a past history of gastroenteritis and stomach pain, however patient ...").toDF("text")
 val docAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
@@ -432,8 +583,8 @@ result.selectExpr("explode(filtered)").show(truncate=false)
 
 ```
 ```python
-# ===Filtering POS tags===
-First pipeline stages to extract the POS tags are defined
+# Filtering POS tags
+# First pipeline stages to extract the POS tags are defined
 data = spark.createDataFrame(["Has a past history of gastroenteritis and stomach pain, however patient ..."]).toDF("text")
 docAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
 sentenceDetector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
@@ -486,6 +637,8 @@ result.selectExpr("explode(filtered)").show(truncate=False)
 ```
 </div>
 
+</details>
+
 </div>
 
 <div class="h3-box" markdown="1">
@@ -499,7 +652,9 @@ Merges NER Chunks by prioritizing overlapping indices (chunks with longer length
 
 **Output type:** `CHUNK`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -539,7 +694,7 @@ result.selectExpr("explode(merged_chunk) as a")
 ```
 ```python
 # Define a pipeline with 2 different NER models with a ChunkMergeApproach at the end
-data = spark.createDataFrame([(["A 63-year-old man presents to the hospital ..."])]).toDF("text")
+data = spark.createDataFrame(["A 63-year-old man presents to the hospital ..."]).toDF("text")
 pipeline = Pipeline(stages=[
  DocumentAssembler(].setInputCol("text").setOutputCol("document"),
  SentenceDetector().setInputCols(["document"]).setOutputCol("sentence"),
@@ -557,8 +712,8 @@ pipeline = Pipeline(stages=[
 
 # Show results
 result = pipeline.fit(data).transform(data).cache()
-result.selectExpr("explode(merged_chunk) as a")
-  .selectExpr("a.begin","a.end","a.result as chunk","a.metadata.entity as entity")
+result.selectExpr("explode(merged_chunk) as a") \
+  .selectExpr("a.begin","a.end","a.result as chunk","a.metadata.entity as entity") \
   .show(5, False)
 +-----+---+-----------+---------+
 |begin|end|chunk      |entity   |
@@ -573,6 +728,8 @@ result.selectExpr("explode(merged_chunk) as a")
 ```
 </div>
 
+</details>
+
 </div>
 
 <div class="h3-box" markdown="1">
@@ -586,7 +743,9 @@ Merges token tags and NER labels from chunks in the specified format. For exampl
 
 **Output type:** `NAMED_ENTITY`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -621,7 +780,7 @@ result.selectExpr("explode(ner_label) as a")
 ```
 ```python
 # Pipeline stages are defined where NER is done. NER is converted to chunks.
-data = spark.createDataFrame([(["A 63-year-old man presents to the hospital ..."])]).toDF("text")
+data = spark.createDataFrame(["A 63-year-old man presents to the hospital ..."]).toDF("text")
 docAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
 sentenceDetector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
 tokenizer = Tokenizer().setInputCols(["sentence"]).setOutputCol("token")
@@ -633,8 +792,8 @@ nerConverter = NerConverter().setInputCols(["sentence", "token", "ner"]).setOutp
 iobTagger = IOBTagger().setInputCols(["token", "ner_chunk"]).setOutputCol("ner_label")
 pipeline = Pipeline(stages=[docAssembler, sentenceDetector, tokenizer, embeddings, nerModel, nerConverter, iobTagger])
 
-result.selectExpr("explode(ner_label) as a")
-  .selectExpr("a.begin","a.end","a.result as chunk","a.metadata.word as word")
+result.selectExpr("explode(ner_label) as a") \
+  .selectExpr("a.begin","a.end","a.result as chunk","a.metadata.word as word") \
   .where("chunk!='O'").show(5, False)
 
 +-----+---+-----------+-----------+
@@ -650,6 +809,8 @@ result.selectExpr("explode(ner_label) as a")
 ```
 </div>
 
+</details>
+
 </div>
 
 <div class="h3-box" markdown="1">
@@ -663,7 +824,9 @@ Converts a IOB or IOB2 representation of NER to a user-friendly one, by associat
 
 **Output type:** `CHUNK`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -721,6 +884,8 @@ result.selectExpr("explode(ner_converter_result)").show(5, False)
 ```
 </div>
 
+</details>
+
 </div>
 
 <div class="h3-box" markdown="1">
@@ -734,7 +899,9 @@ Links words of interest, such as names of persons, locations and companies, from
 
 **Output type:** `DISAMBIGUATION`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
+
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 
@@ -800,7 +967,7 @@ result.selectExpr("explode(disambiguation)")
 ```python
 # Extracting Person identities
 # First define pipeline stages that extract entities and embeddings. Entities are filtered for PER type entities.
-data = Seq("The show also had a contestant named Donald Trump who later defeated Christina Aguilera ...")
+data = spark.createDataframe(["The show also had a contestant named Donald Trump who later defeated Christina Aguilera ..."])
   .toDF("text")
 documentAssembler = DocumentAssembler() \
   .setInputCol("text") \
@@ -858,6 +1025,8 @@ result.selectExpr("explode(disambiguation)")
 ```
 </div>
 
+</details>
+
 </div>
 
 <div class="h3-box" markdown="1">
@@ -869,38 +1038,84 @@ result.selectExpr("explode(disambiguation)")
 Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models.
 This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks.
 
-**Input types:** `"sentence_embeddings"`
+**Input types:** `SENTENCE_EMBEDDINGS`
 
-**Output type:** `"resolution"`
+**Output type:** `ENTITY`
 
-**Example:**
+<details>
+<summary><b>Show Example </b></summary>
 
 <div class="tabs-box" markdown="1">
-
 {% include programmingLanguageSelectScalaPython.html %}
 
-```python
-resolver = SentenceEntityResolverApproach() \
-    .setInputCols(["sentence_embeddings"]) \
-    .setOutputCol("prediction") \
-    .setLabelCol("label") \
-    .setNormalizedCol("normalized") \
-    .setNeighbours(500) \
-    .setThreshold(5) \
-    .setMissAsEmpty(True)
-```
 ```scala
-val resolver = new SentenceEntityResolverApproach()
-    .setInputCols(Array("chunk_token", "chunk_embeddings"))
-    .setOutputCol("prediction")
-    .setLabelCol("label")
-    .setNormalizedCol("normalized")
-    .setNeighbours(500)
-    .setThreshold(5)
-    .setMissAsEmpty(true)
+// Training a SNOMED resolution model using BERT sentence embeddings
+// Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("normalized_text")
+  .setOutputCol("document")
+val bertEmbeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased")
+  .setInputCols("sentence")
+  .setOutputCol("bert_embeddings")
+val snomedTrainingPipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  bertEmbeddings
+))
+val snomedTrainingModel = snomedTrainingPipeline.fit(data)
+val snomedData = snomedTrainingModel.transform(data).cache()
+
+// Then the Resolver can be trained with
+val bertExtractor = new SentenceEntityResolverApproach()
+  .setNeighbours(25)
+  .setThreshold(1000)
+  .setInputCols("bert_embeddings")
+  .setNormalizedCol("normalized_text")
+  .setLabelCol("label")
+  .setOutputCol("snomed_code")
+  .setDistanceFunction("EUCLIDIAN")
+  .setCaseSensitive(false)
+
+val snomedModel = bertExtractor.fit(snomedData)
+
+```
+```python
+# Training a SNOMED resolution model using BERT sentence embeddings
+# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+documentAssembler = DocumentAssembler() \
+  .setInputCol("normalized_text") \
+  .setOutputCol("document")
+bertEmbeddings = BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+  .setInputCols(["sentence"]) \
+  .setOutputCol("bert_embeddings")
+snomedTrainingPipeline = Pipeline(stages=[
+  documentAssembler,
+  bertEmbeddings
+])
+snomedTrainingModel = snomedTrainingPipeline.fit(data)
+snomedData = snomedTrainingModel.transform(data).cache()
+
+# Then the Resolver can be trained with
+bertExtractor = SentenceEntityResolverApproach() \
+  .setNeighbours(25) \
+  .setThreshold(1000) \
+  .setInputCols(["bert_embeddings"]) \
+  .setNormalizedCol("normalized_text") \
+  .setLabelCol("label") \
+  .setOutputCol("snomed_code") \
+  .setDistanceFunction("EUCLIDIAN") \
+  .setCaseSensitive(False)
+
+snomedModel = bertExtractor.fit(snomedData)
+
 ```
 
-</div></div><div class="h3-box" markdown="1">
+</div>
+
+</details>
+
+</div>
+
+<div class="h3-box" markdown="1">
 
 ### DocumentLogRegClassifier
 <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierApproach.html">Estimator scaladocs</a> |
@@ -908,9 +1123,9 @@ val resolver = new SentenceEntityResolverApproach()
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
 
-**Input types:** `"token"`
+**Input types:** `TOKEN`
 
-**Output type:** `"category"`
+**Output type:** `CATEGORY`
 
 **Example:**
 
@@ -945,9 +1160,9 @@ val logregClassifier = new DocumentLogRegClassifierApproach()
 
 Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.
 
-**Input types:** `"sentence", "token", "ner_chunk"`
+**Input types:** `DOCUMENT, TOKEN, CHUNK`
 
-**Output type:** `"sentence"`
+**Output type:** `DOCUMENT`
 
 **Example:**
 
@@ -994,9 +1209,9 @@ val deid = new DeIdentificationApproach()
 
 This annotator provides Regex + Contextual Matching, based on a JSON file.
 
-**Output type:** `"sentence", "token"`
+**Output type:** `DOCUMENT, TOKEN`
 
-**Input types:** `"chunk"`
+**Input types:** `CHUNK`
 
 **JSON format:**
 ```
@@ -1042,9 +1257,9 @@ val contextualParser = new ContextualParserApproach()
 
 Extracts and classifier instances of relations between named entities.
 
-**Input types:** `"pos", "ner_chunk", "embeddings", "dependency"`
+**Input types:** `WORD_EMBEDDINGS, POS, CHUNK, DEPENDENCY`
 
-**Output type:** `"category"`
+**Output type:** `CATEGORY`
 
 **Example:**
 
