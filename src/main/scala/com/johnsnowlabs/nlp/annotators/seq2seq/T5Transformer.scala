@@ -325,7 +325,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
     )
     require(sppModel.exists(), s"SentencePiece model not found in folder $sppModelPath")
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val t5model = new T5Transformer().setModelIfNotSet(spark, wrapper, spp)
