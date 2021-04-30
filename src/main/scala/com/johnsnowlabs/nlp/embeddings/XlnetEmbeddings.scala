@@ -80,18 +80,18 @@ class XlnetEmbeddings(override val uid: String)
   /** Input Annotator Type : TOKEN DOCUMENT
    *
    * @group anno
-   **/
+   * */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
   /** Output Annotator Type : WORD_EMBEDDINGS
    *
    * @group anno
-   **/
+   * */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   /** Batch size. Large values allows faster processing but requires more memory.
    *
    * @group param
-   **/
+   * */
   val batchSize = new IntParam(this, "batchSize", "Batch size. Large values allows faster processing but requires more memory.")
 
   /** @group setParam */
@@ -104,7 +104,7 @@ class XlnetEmbeddings(override val uid: String)
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
-   **/
+   * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group getSaram */
@@ -116,7 +116,7 @@ class XlnetEmbeddings(override val uid: String)
   /** Max sentence length to process
    *
    * @group param
-   **/
+   * */
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** @group setParam */
@@ -135,7 +135,7 @@ class XlnetEmbeddings(override val uid: String)
    * Since output shape depends on the model selected, see [[ https://github.com/zihangdai/xlnet]]for further reference
    *
    * @group setParam
-   **/
+   * */
   override def setDimension(value: Int): this.type = {
     if (get(dimension).isEmpty)
       set(this.dimension, value)
@@ -145,13 +145,13 @@ class XlnetEmbeddings(override val uid: String)
   /** The Tensorflow XLNet Model
    *
    * @group param
-   **/
+   * */
   private var _model: Option[Broadcast[TensorflowXlnet]] = None
 
   /** Sets XLNet tensorflow Model
    *
    * @group setParam
-   **/
+   * */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
 
@@ -172,7 +172,7 @@ class XlnetEmbeddings(override val uid: String)
   /** Gets XLNet tensorflow Model
    *
    * @group setParam
-   **/
+   * */
   def getModelIfNotSet: TensorflowXlnet = _model.get.value
 
   setDefault(
@@ -192,7 +192,7 @@ class XlnetEmbeddings(override val uid: String)
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations)
 
     /*Return empty if the real tokens are empty*/
-    if(tokenizedSentences.nonEmpty) {
+    if (tokenizedSentences.nonEmpty) {
       val embeddings = getModelIfNotSet.calculateEmbeddings(
         tokenizedSentences,
         $(batchSize),
@@ -208,7 +208,7 @@ class XlnetEmbeddings(override val uid: String)
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_xlnet", XlnetEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet",  XlnetEmbeddings.sppFile)
+    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet", XlnetEmbeddings.sppFile)
 
   }
 
@@ -220,10 +220,14 @@ class XlnetEmbeddings(override val uid: String)
 
 trait ReadablePretrainedXlnetModel extends ParamsAndFeaturesReadable[XlnetEmbeddings] with HasPretrained[XlnetEmbeddings] {
   override val defaultModelName: Some[String] = Some("xlnet_base_cased")
+
   /** Java compliant-overrides */
   override def pretrained(): XlnetEmbeddings = super.pretrained()
+
   override def pretrained(name: String): XlnetEmbeddings = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): XlnetEmbeddings = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): XlnetEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
@@ -244,7 +248,7 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
   def loadSavedModel(folder: String, spark: SparkSession): XlnetEmbeddings = {
 
     val f = new File(folder)
-    val sppModelPath = folder+"/assets"
+    val sppModelPath = folder + "/assets"
     val savedModel = new File(folder, "saved_model.pb")
     val sppModel = new File(sppModelPath, "spiece.model")
 
@@ -256,7 +260,7 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
     )
     require(sppModel.exists(), s"SentencePiece model spiece.model not found in folder $sppModelPath")
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val xlnet = new XlnetEmbeddings()

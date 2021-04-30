@@ -1,9 +1,27 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
@@ -21,15 +39,15 @@ class T5Transformer(override val uid: String)
   def this() = this(Identifiable.randomUID("T5TRANSFORMER"))
 
   /** Output annotator type : TOKEN
-    *
-    * @group anno
-    * */
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Output annotator type : DOCUMENT
-    *
-    * @group anno
-    * */
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: String = DOCUMENT
 
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
@@ -40,7 +58,7 @@ class T5Transformer(override val uid: String)
 
   private var _tfModel: Option[Broadcast[TensorflowT5]] = None
 
-  def setConfigProtoBytes(bytes: Array[Int]): T5Transformer  .this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): T5Transformer.this.type = set(this.configProtoBytes, bytes)
 
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
@@ -79,7 +97,7 @@ class T5Transformer(override val uid: String)
 
     val nonEmptySentences = annotations.filter(_.result.nonEmpty)
 
-    if (nonEmptySentences.nonEmpty){
+    if (nonEmptySentences.nonEmpty) {
       this.getModelIfNotSet.generateSeq2Seq(
         sentences = nonEmptySentences,
         maxOutputLength = $(maxOutputLength),
@@ -93,17 +111,21 @@ class T5Transformer(override val uid: String)
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_t5", T5Transformer.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_t5",  T5Transformer.sppFile)
+    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_t5", T5Transformer.sppFile)
 
   }
 }
 
 trait ReadablePretrainedT5TransformerModel extends ParamsAndFeaturesReadable[T5Transformer] with HasPretrained[T5Transformer] {
   override val defaultModelName: Some[String] = Some("t5_small")
+
   /** Java compliant-overrides */
   override def pretrained(): T5Transformer = super.pretrained()
+
   override def pretrained(name: String): T5Transformer = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): T5Transformer = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): T5Transformer = super.pretrained(name, lang, remoteLoc)
 }
 
@@ -124,7 +146,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
   def loadSavedModel(folder: String, spark: SparkSession): T5Transformer = {
 
     val f = new File(folder)
-    val sppModelPath = folder+"/assets"
+    val sppModelPath = folder + "/assets"
     val savedModel = new File(folder, "saved_model.pb")
     val sppModel = new File(sppModelPath, "spiece.model")
 
@@ -136,7 +158,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
     )
     require(sppModel.exists(), s"SentencePiece model not found in folder $sppModelPath")
 
-    val wrapper = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val t5model = new T5Transformer().setModelIfNotSet(spark, wrapper, spp)
