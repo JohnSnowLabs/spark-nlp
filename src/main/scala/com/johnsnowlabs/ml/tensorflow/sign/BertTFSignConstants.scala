@@ -1,5 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow.sign
 
+import scala.util.matching.Regex
+
 
 private [sign] object BertTFSignConstants {
 
@@ -37,7 +39,7 @@ private [sign] object BertTFSignConstants {
    * @param modelProvider: the provider library that built the model and the signatures
    * @return reference keys array of signature patterns for a given provider
    * */
-  def getSignaturePatterns(modelProvider: String) = {
+  def getSignaturePatterns(modelProvider: String): Array[Regex] = {
     val referenceKeys = modelProvider match {
       case "JSL" =>
         Array(
@@ -67,7 +69,7 @@ private [sign] object BertTFSignConstants {
   }
 
   /** Convert signatures key names to adopted naming conventions for BERT keys mapping */
-  def toAdoptedKeys(keyName: String) = {
+  def toAdoptedKeys(keyName: String): String = {
     keyName match {
       case "input_ids" | "input_word_ids" => TokenIds.key
       case "input_mask" | "attention_mask" => MaskIds.key

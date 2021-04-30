@@ -1,13 +1,31 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow.sign
 
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.SavedModelBundle
 import org.tensorflow.proto.framework.TensorInfo
 
-import java.util
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
-import scala.util.{Failure, Success, Try}
+
+import java.util
+
 
 object BertTFSignManager {
 
@@ -18,7 +36,7 @@ object BertTFSignManager {
             maskIdsValue: String = BertTFSignConstants.MaskIds.value,
             segmentIdsValue: String = BertTFSignConstants.SegmentIds.value,
             embeddingsValue: String = BertTFSignConstants.Embeddings.value,
-            sentenceEmbeddingsValue: String = BertTFSignConstants.SentenceEmbeddings.value) =
+            sentenceEmbeddingsValue: String = BertTFSignConstants.SentenceEmbeddings.value): Map[String, String] =
 
     tfSignatureType.toUpperCase match {
       case "JSL" =>
@@ -31,31 +49,37 @@ object BertTFSignManager {
       case _ => throw new Exception("Model provider not available.")
     }
 
-  def getBertTokenIdsKey = BertTFSignConstants.TokenIds.key
-  def getBertTokenIdsValue = BertTFSignConstants.TokenIds.value
+  def getBertTokenIdsKey: String = BertTFSignConstants.TokenIds.key
 
-  def getBertMaskIdsKey = BertTFSignConstants.TokenIds.key
-  def getBertMaskIdsValue = BertTFSignConstants.TokenIds.value
+  def getBertTokenIdsValue: String = BertTFSignConstants.TokenIds.value
 
-  def getBertSegmentIdsKey = BertTFSignConstants.TokenIds.key
-  def getBertSegmentIdsValue = BertTFSignConstants.TokenIds.value
+  def getBertMaskIdsKey: String = BertTFSignConstants.TokenIds.key
 
-  def getBertEmbeddingsKey = BertTFSignConstants.TokenIds.key
-  def getBertEmbeddingsValue = BertTFSignConstants.TokenIds.value
+  def getBertMaskIdsValue: String = BertTFSignConstants.TokenIds.value
 
-  def getBertSentenceEmbeddingsKey = BertTFSignConstants.TokenIds.key
-  def getBertSentenceEmbeddingsValue = BertTFSignConstants.TokenIds.value
+  def getBertSegmentIdsKey: String = BertTFSignConstants.TokenIds.key
+
+  def getBertSegmentIdsValue: String = BertTFSignConstants.TokenIds.value
+
+  def getBertEmbeddingsKey: String = BertTFSignConstants.TokenIds.key
+
+  def getBertEmbeddingsValue: String = BertTFSignConstants.TokenIds.value
+
+  def getBertSentenceEmbeddingsKey: String = BertTFSignConstants.TokenIds.key
+
+  def getBertSentenceEmbeddingsValue: String = BertTFSignConstants.TokenIds.value
 
   /** Return a formatted map of key -> value for model signature objects */
-  def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]) = {
+  def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]): Map[String, String] = {
     matched.map(e => BertTFSignConstants.toAdoptedKeys(e._1._2) -> e._1._3).toMap
   }
 
   /** Extract signatures from actual model
-   * @param model: a SavedModelBundle object
+   *
+   * @param model : a SavedModelBundle object
    * @return a list of tuples of type (OperationType, key, TFInfoName)
    * */
-  def getSignaturesFromModel(model: SavedModelBundle) = {
+  def getSignaturesFromModel(model: SavedModelBundle): List[(String, String, String)] = {
     import collection.JavaConverters._
 
     val InputOp = "feed"
@@ -89,20 +113,12 @@ object BertTFSignManager {
   /**
    * Extract input and output signatures from TF saved models
    *
-   * @param tags tags to load from model
    * @param modelProvider model framework provider, i.e. default, TF2 or HF
-   * @param savedModelDir saved model path
+   * @param model loaded SavedModelBundle
    * @return the list ot matching signatures as tuples
    * */
-  def extractSignatures(tags: Array[String] = Array("serve"),
-                        modelProvider: String = "JSL",
-                        savedModelDir: String) = {
-
-    val model =
-      Try(SavedModelBundle.load(savedModelDir, tags: _*)) match {
-        case Success(bundle) => bundle
-        case Failure(s) => throw new Exception(s"Could not retrieve the SavedModelBundle + ${s.printStackTrace()}")
-      }
+  def extractSignatures(modelProvider: String = "JSL",
+                        model: SavedModelBundle): Option[Map[String, String]] = {
 
     val signatureCandidates = getSignaturesFromModel(model)
     logger.debug(signatureCandidates.toString)
@@ -117,11 +133,11 @@ object BertTFSignManager {
     /**
      * Extract matches from candidate key and model signatures
      *
-     * @param candidate: the candidate key name
-     * @param modelProvider: the model provider in between default, TF2 and HF to select the proper keys
+     * @param candidate     : the candidate key name
+     * @param modelProvider : the model provider in between default, TF2 and HF to select the proper keys
      * @return a list of matching keys as strings
      * */
-    def extractCandidateMatches(candidate: String, modelProvider: String) : List[String] = {
+    def extractCandidateMatches(candidate: String, modelProvider: String): List[String] = {
       val ReferenceKeys: Array[Regex] = BertTFSignConstants.getSignaturePatterns(modelProvider)
 
       val matches = (
