@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
@@ -9,13 +26,13 @@ import scala.collection.mutable
 import scala.math._
 
 /**
-  * This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
-  * Input for this model must be tokenized with a SentencePieceModel,
-  *
-  * @param tensorflow       Albert Model wrapper with TensorFlowWrapper
-  * @param spp              Albert SentencePiece model with SentencePieceWrapper
-  * @param configProtoBytes Configuration for TensorFlow session
-  */
+ * This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
+ * Input for this model must be tokenized with a SentencePieceModel,
+ *
+ * @param tensorflow       Albert Model wrapper with TensorFlowWrapper
+ * @param spp              Albert SentencePiece model with SentencePieceWrapper
+ * @param configProtoBytes Configuration for TensorFlow session
+ */
 
 class TensorflowT5(val tensorflow: TensorflowWrapper,
                    val spp: SentencePieceWrapper,
@@ -23,11 +40,11 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
                   ) extends Serializable {
 
   // keys representing the input and output tensors of the T5 model
-
   private val encoderInputIdsKey = "encoder_input_ids:0"
   private val encoderAttentionMaskKey = "encoder_attention_mask:0"
   private val decoderInputIdsKey = "decoder_input_ids:0"
   private val decoderEncoderStateKey = "encoder_state:0"
+  // TODO: should be implemented in next release
   //  private val decoderPastKey = "decoderPastKeyValues:0"
   //  private val decoderCacheKey = "decoder_use_cache:0"
   private val decoderEncoderAttentionMaskKey = "decoder_encoder_attention_mask:0"
@@ -88,7 +105,6 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     //from config
     val vocab_size = 32128
 
-    //////////////////////
     var effectiveBatch_size = 1
     var effectiveBatch_mult = 1
 
@@ -139,11 +155,11 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val encoderOutsBatch = encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     encoderOuts.foreach(_.close())
-//    tensorEncoder.clearSession(encoderOuts)
+    //    tensorEncoder.clearSession(encoderOuts)
 
     //Run decoder
     val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length*maxSentenceLength*dim)
+    val decoderEncoderStateBuffers = decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
     batch.zipWithIndex.foreach { case (_, index) =>
       var offset = index * maxSentenceLength * dim
       encoderOutsBatch(index).foreach(encoderOutput => {
@@ -164,25 +180,25 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   }
 
   def generateNoBeamSearch(inputIds: Seq[Array[Long]],
-                              decoderEncoderStateTensors: Tensor[_],
-                              encoderAttentionMaskTensors: Tensor[_],
-                              maxOutputLength: Int,
-                              minOutputLength: Int,
-                              doSample: Boolean,
-                              temperature: Double,
-                              topK: Int,
-                              topP: Double,
-                              repetitionPenalty: Double,
-                              noRepeatNgramSize: Int,
-                              batch_size: Int,
-                              vocab_size: Int,
-                              randomSeed: Option[Long],
-                              session: Session): Array[Array[Long]] = {
+                           decoderEncoderStateTensors: Tensor[_],
+                           encoderAttentionMaskTensors: Tensor[_],
+                           maxOutputLength: Int,
+                           minOutputLength: Int,
+                           doSample: Boolean,
+                           temperature: Double,
+                           topK: Int,
+                           topP: Double,
+                           repetitionPenalty: Double,
+                           noRepeatNgramSize: Int,
+                           batch_size: Int,
+                           vocab_size: Int,
+                           randomSeed: Option[Long],
+                           session: Session): Array[Array[Long]] = {
 
     /**
-      * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
-      * independently.
-      **/
+     * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
+     * independently.
+     * */
 
     var decoderInputs = inputIds.map(_ => Array(this.paddingTokenId)).toArray
 
@@ -203,7 +219,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       val decoderInputBuffers = tensorDecoder.createLongBuffer(decoderInputs.length * decoderInputLength)
       val decoderAttentionBuffers = tensorDecoder.createLongBuffer(decoderInputs.length * decoderInputLength)
 
-      decoderInputs.zipWithIndex.foreach{ case (pieceIds, idx) =>
+      decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
         val offset = idx * decoderInputLength
         decoderInputBuffers.offset(offset).write(pieceIds)
         val paddingMasks = pieceIds.map(_ => 1L)
@@ -315,7 +331,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       decoderInputTensors.close()
 
       // stop when there is a eos in each sentence, or if we exceed the maximum length
-//      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
+      //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
       stopDecoder = (
         !decoderInputs.exists(o => o.last != this.eosTokenId)
           || (decoderInputs.head.length > maxOutputLength))
@@ -374,16 +390,16 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
 
   private def topKTopPFiltering(logits: Array[Array[Float]], topK: Int, topP: Double, filterValue: Float = Float.NegativeInfinity, minTokensToKeep: Int = 1): Array[Array[Float]] = {
     /**
-      * Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
-      * *
-      * Args:
-      * logits: logits distribution shape (batch size, vocabulary size)
-      * if topK > 0: keep only top k tokens with highest probability (top-k filtering).
-      * if topP < 1.0: keep the top tokens with cumulative probability >= topP (nucleus filtering).
-      * Nucleus filtering is described in Holtzman et al. (http://arxiv.org/abs/1904.09751)
-      * Make sure we keep at least minTokensToKeep per batch example in the output
-      * From: https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
-      **/
+     * Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
+     * *
+     * Args:
+     * logits: logits distribution shape (batch size, vocabulary size)
+     * if topK > 0: keep only top k tokens with highest probability (top-k filtering).
+     * if topP < 1.0: keep the top tokens with cumulative probability >= topP (nucleus filtering).
+     * Nucleus filtering is described in Holtzman et al. (http://arxiv.org/abs/1904.09751)
+     * Make sure we keep at least minTokensToKeep per batch example in the output
+     * From: https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
+     * */
 
     var logitsUpd = logits
     val logitsShape = Array(logits.length, logits(0).length)
@@ -418,7 +434,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         nextTokenLogit, indexToRemove.toIndexedSeq, Float.NegativeInfinity
       )
     }
-    return logitsUpd
+    logitsUpd
   }
 
   private def scanLeft[a, b](xs: Iterable[a])(s: b)(f: (b, a) => b) =
@@ -446,9 +462,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     if (distFiltered.length == 1)
       return indices(0)
 
-//    val distMinValue = distFiltered.min
-//    val distRange = distFiltered.max - distMinValue
-//    val normalized = distFiltered.map(i => (i - distMinValue)/distRange)
+    //    val distMinValue = distFiltered.min
+    //    val distRange = distFiltered.max - distMinValue
+    //    val normalized = distFiltered.map(i => (i - distMinValue)/distRange)
     val normalized = softmax(distFiltered)
 
     var randomDouble = 0.0
@@ -464,7 +480,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         return i
       }
     }
-    return indices(0)
+    indices(0)
   }
 
   def decode(sentences: Array[Array[Long]]): Seq[String] = {
