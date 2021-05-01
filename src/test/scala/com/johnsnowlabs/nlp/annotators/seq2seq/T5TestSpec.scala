@@ -1,12 +1,31 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
-import _root_.junit.framework.Assert.assertEquals
+
+import org.scalatest.FlatSpec
+
 
 class T5TestSpec extends FlatSpec {
   "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
@@ -34,7 +53,7 @@ class T5TestSpec extends FlatSpec {
         "from 1996 to 2015, and produced and hosted the reality television series The Apprentice from 2004 to 2015.")
     )).toDF("id", "text")
 
-   val documentAssembler = new DocumentAssembler()
+    val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("documents")
 
@@ -118,7 +137,7 @@ class T5TestSpec extends FlatSpec {
     val dataframe = results.select("summaries.result").collect()
     val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
 
-    assertEquals("a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .",result)
+    assert("a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned ." == result)
   }
 
   "t5-small" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
@@ -222,7 +241,7 @@ class T5TestSpec extends FlatSpec {
     val t5 = T5Transformer.pretrained("t5_small")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
-        .setOutputCol("summaries")
+      .setOutputCol("summaries")
       .setDoSample(true)
       .setRandomSeed(10L)
       .setMaxOutputLength(20)
@@ -234,7 +253,7 @@ class T5TestSpec extends FlatSpec {
     val results1 = model.transform(testData)
 
     val dataframe1 = results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
-    assertEquals("cut the kidneys in half and snip out the white core . dripping or 2",dataframe1)
+    assert("cut the kidneys in half and snip out the white core . dripping or 2" == dataframe1)
 
   }
 
@@ -275,7 +294,7 @@ class T5TestSpec extends FlatSpec {
 
     val dataframe1 = results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
     println(dataframe1)
-    assertEquals("the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core .",dataframe1)
+    assert("the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core ." == dataframe1)
 
   }
 
@@ -316,7 +335,7 @@ class T5TestSpec extends FlatSpec {
 
     val dataframe1 = results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
     println(dataframe1)
-    assertEquals("the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core .",dataframe1)
+    assert("the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core ." == dataframe1)
 
   }
 
@@ -354,7 +373,8 @@ class T5TestSpec extends FlatSpec {
 
     val dataframe1 = results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
     println(dataframe1)
-    assertEquals("the lamb fillet of fat and cut into slices the thickness of a chop . melt dripping or 2 tablespoons vegetable oil in 'large pan'",dataframe1)
+
+    assert("the lamb fillet of fat and cut into slices the thickness of a chop . melt dripping or 2 tablespoons vegetable oil in 'large pan'" == dataframe1)
 
   }
 }
