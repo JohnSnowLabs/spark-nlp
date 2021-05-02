@@ -27,9 +27,9 @@ import scala.util.matching.Regex
 import java.util
 
 
-object BertTFSignManager {
+object ModelSignatureManager {
 
-  private[BertTFSignManager] val logger: Logger = LoggerFactory.getLogger("BertTFSignManager")
+  private[ModelSignatureManager] val logger: Logger = LoggerFactory.getLogger("ModelSignatureManager")
 
   def apply(tfSignatureType: String = "JSL",
             tokenIdsValue: String = BertTFSignConstants.TokenIds.value,
