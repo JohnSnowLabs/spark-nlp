@@ -151,8 +151,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="ChunkMergeApproach.html" title="Merges entities coming from different CHUNK annotations"></a>
-                        <a href="ChunkMergeApproach.html" title="Merges entities coming from different CHUNK annotations">ChunkMergeApproach</a>
+                        <a class="class" href="ChunkMergeApproach.html" title="Merges NER Chunks by prioritizing overlapping indices (chunks with longer lengths and highest information will be kept from each ner model) Labels can be changed by setReplaceDictResource."></a>
+                        <a href="ChunkMergeApproach.html" title="Merges NER Chunks by prioritizing overlapping indices (chunks with longer lengths and highest information will be kept from each ner model) Labels can be changed by setReplaceDictResource.">ChunkMergeApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="ChunkMergeModel$.html" title=""></a>
                         <a class="class" href="" title="Merges entities coming from different CHUNK annotations"></a>
@@ -213,7 +213,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -273,7 +273,7 @@
         <span class="name">ChunkMergeModel</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instanced AnnotatorModel</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -494,7 +494,7 @@
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>a Sequence of chunks to merge</p></dd><dt>returns</dt><dd class="cmt"><p>a Sequence of Merged CHUNK Annotations</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a> → HasSimpleAnnotate</dd></dl></div>
+      <p class="shortcomment cmt">Merges columns of chunk Annotations while considering false positives and replacements.</p><div class="fullcomment"><div class="comment cmt"><p>Merges columns of chunk Annotations while considering false positives and replacements.</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>a Sequence of chunks to merge</p></dd><dt>returns</dt><dd class="cmt"><p>a Sequence of Merged CHUNK Annotations</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a> → HasSimpleAnnotate</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -775,7 +775,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#falsePositives" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#falsePositives" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="falsePositives:com.johnsnowlabs.nlp.serialization.ArrayFeature[(String,String,String)]"></a><a id="falsePositives:ArrayFeature[(String,String,String)]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#falsePositives:com.johnsnowlabs.nlp.serialization.ArrayFeature[(String,String,String)]" title="Permalink">
@@ -790,7 +790,8 @@
         <span class="name">falsePositives</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Array of entity pairs that are false positives.</p><div class="fullcomment"><div class="comment cmt"><p>Array of entity pairs that are false positives. If a third value is defined, the pair will be replaced by that value.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#falsePositivesArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="falsePositivesArray:Array[(String,String,String)]"></a>
       <span class="permalink">
@@ -960,7 +961,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#getFalsePositives" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#getFalsePositives" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getFalsePositives:Array[(String,String,String)]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#getFalsePositives:Array[(String,String,String)]" title="Permalink">
@@ -975,7 +976,8 @@
         <span class="name">getFalsePositives</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Array of entity pairs that are false positives.</p><div class="fullcomment"><div class="comment cmt"><p>Array of entity pairs that are false positives. If a third value is defined, the pair will be replaced by that value.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1008,7 +1010,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#getMergeOverlapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#getMergeOverlapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getMergeOverlapping:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#getMergeOverlapping:Boolean" title="Permalink">
@@ -1023,7 +1025,7 @@
         <span class="name">getMergeOverlapping</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">whether to merge overlapping matched chunks.</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1087,7 +1089,7 @@
         <span class="name">getReplaceDict</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Mapping of replacement strings for entities.</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1187,7 +1189,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[ChunkMergeModel.this.AnnotatorType]"></a><a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#inputAnnotatorTypes:Array[ChunkMergeModel.this.AnnotatorType]" title="Permalink">
@@ -1202,7 +1204,9 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK, CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK, CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1594,7 +1598,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:ChunkMergeModel.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#outputAnnotatorType:ChunkMergeModel.this.AnnotatorType" title="Permalink">
@@ -1609,7 +1613,9 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1689,7 +1695,7 @@
         <span class="name">replaceDict</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Mapping of replacement strings for entities.</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#replaceDictMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="replaceDictMap:Map[String,String]"></a>
       <span class="permalink">
@@ -1941,7 +1947,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#setFalsePositives" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#setFalsePositives" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setFalsePositives(value:Array[(String,String,String)]):ChunkMergeModel.this.type"></a><a id="setFalsePositives(Array[(String,String,String)]):ChunkMergeModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#setFalsePositives(value:Array[(String,String,String)]):ChunkMergeModel.this.type" title="Permalink">
@@ -1956,7 +1962,8 @@
         <span class="name">setFalsePositives</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Array of entity pairs that are false positives.</p><div class="fullcomment"><div class="comment cmt"><p>Array of entity pairs that are false positives. If a third value is defined, the pair will be replaced by that value.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):ChunkMergeModel.this.type"></a>
       <span class="permalink">
@@ -2005,7 +2012,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#setMergeOverlapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel#setMergeOverlapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMergeOverlapping(v:Boolean):ChunkMergeModel.this.type"></a><a id="setMergeOverlapping(Boolean):ChunkMergeModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html#setMergeOverlapping(v:Boolean):ChunkMergeModel.this.type" title="Permalink">
@@ -2020,7 +2027,7 @@
         <span class="name">setMergeOverlapping</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">whether to merge overlapping matched chunks.</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):ChunkMergeModel.this.type"></a>
       <span class="permalink">
@@ -2068,7 +2075,7 @@
         <span class="name">setReplaceDict</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel">ChunkMergeModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Mapping of replacement strings for entities.</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2390,10 +2397,19 @@
 
         <div id="groupedMembers">
         <div class="group" name="param">
-              <h3>param</h3>
+              <h3>Parameters</h3>
               
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

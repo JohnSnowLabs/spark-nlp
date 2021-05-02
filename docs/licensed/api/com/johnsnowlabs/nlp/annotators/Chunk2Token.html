@@ -362,8 +362,29 @@
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
-array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty, an empty array is returned.</p><p>This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels
-</p></div><div class="toggleContainer block">
+array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty, an empty array is returned.</p><p>This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels</p><h4>Example</h4><p>Define a pipeline for generating n-grams</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>((<span class="lit">"A 63-year-old man presents to the hospital ..."</span>)).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> token = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> ngrammer = <span class="kw">new</span> NGramGenerator()
+ .setN(<span class="num">2</span>)
+ .setEnableCumulative(<span class="kw">false</span>)
+ .setInputCols(<span class="lit">"token"</span>)
+ .setOutputCol(<span class="lit">"ngrams"</span>)
+ .setDelimiter(<span class="lit">"_"</span>)</pre><p>Stage to convert n-gram CHUNKS to TOKEN type</p><pre><span class="kw">val</span> chunk2Token = <span class="kw">new</span> Chunk2Token().setInputCols(<span class="lit">"ngrams"</span>).setOutputCol(<span class="lit">"ngram_tokens"</span>)
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, sentenceDetector, token, ngrammer, chunk2Token)).fit(data)
+
+<span class="kw">val</span> result = trainingPipeline.transform(data).cache()
+result.selectExpr(<span class="lit">"explode(ngram_tokens)"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
+  +----------------------------------------------------------------+
+  |col                                                             |
+  +----------------------------------------------------------------+
+  |{token, <span class="num">3</span>, <span class="num">15</span>, A_63-year-old, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>}, []}  |
+  |{token, <span class="num">5</span>, <span class="num">19</span>, <span class="num">63</span>-year-old_man, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}|
+  |{token, <span class="num">17</span>, <span class="num">28</span>, man_presents, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">2</span>}, []}  |
+  |{token, <span class="num">21</span>, <span class="num">31</span>, presents_to, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">3</span>}, []}   |
+  |{token, <span class="num">30</span>, <span class="num">35</span>, to_the, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}        |
+  +----------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator" target="_blank">NGramGenerator</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -384,7 +405,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -429,7 +450,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.Chunk2Token#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Chunk2Token#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.Chunk2Token"></a><a id="&lt;init&gt;:Chunk2Token"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/Chunk2Token.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.Chunk2Token" title="Permalink">
@@ -444,7 +465,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
         <span class="name">Chunk2Token</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1278,7 +1299,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Chunk2Token#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Chunk2Token#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[Chunk2Token.this.AnnotatorType]"></a><a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/Chunk2Token.html#inputAnnotatorTypes:Array[Chunk2Token.this.AnnotatorType]" title="Permalink">
@@ -1293,7 +1314,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.Chunk2Token.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">inputAnnotatorTypes is CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>inputAnnotatorTypes is CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Token">Chunk2Token</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Token">Chunk2Token</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1668,7 +1689,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.Chunk2Token#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.Chunk2Token#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:Chunk2Token.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/Chunk2Token.html#outputAnnotatorType:Chunk2Token.this.AnnotatorType" title="Permalink">
@@ -1683,7 +1704,7 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.Chunk2Token.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">outputAnnotatorType is TOKEN</p><div class="fullcomment"><div class="comment cmt"><p>outputAnnotatorType is TOKEN</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Token">Chunk2Token</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: TOKEN</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: TOKEN</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Token">Chunk2Token</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2365,7 +2386,10 @@ array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
+        <div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
               <h3>Ungrouped</h3>
               
             </div>

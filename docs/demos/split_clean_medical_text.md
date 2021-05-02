@@ -46,7 +46,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb
-        - title: Normalize Medication-related Phrases
+        - title: Normalize medication-related phrases
           id: normalize_medication-related_phrases
           image: 
               src: /assets/images/Normalize_Medication-related_Phrases.svg

@@ -167,8 +167,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion">assertion</a></dd></dl></div>
     </li><li class="current-entities indented6">
                         <a class="object" href="AssertionDLApproach$.html" title=""></a>
-                        <a class="class" href="AssertionDLApproach.html" title="Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd"></a>
-                        <a href="AssertionDLApproach.html" title="Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd">AssertionDLApproach</a>
+                        <a class="class" href="AssertionDLApproach.html" title="Contains all the methods for training an AssertionDLModel."></a>
+                        <a href="AssertionDLApproach.html" title="Contains all the methods for training an AssertionDLModel.">AssertionDLApproach</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="AssertionDLModel$.html" title=""></a>
                         <a class="class" href="AssertionDLModel.html" title="This is a main class in AssertionDL family."></a>
@@ -260,7 +260,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AssertionDLApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]withLoggingwithLicensed"></a><a id="AssertionDLApproach:AssertionDLApproach"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html" title="Permalink">
@@ -272,11 +272,44 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd" href="AssertionDLApproach.html"><span class="name">AssertionDLApproach</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.ml.tensorflow.Logging">Logging</span> with <a href="../../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Contains all the methods for training an AssertionDLModel." href="AssertionDLApproach.html"><span class="name">AssertionDLApproach</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.ml.tensorflow.Logging">Logging</span> with <a href="../../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      <p class="shortcomment cmt">Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd
-</p>
+      <p class="shortcomment cmt">Contains all the methods for training an <a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Contains all the methods for training an <a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>.
+For pretrained models please use AssertionDLModel and see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Assertion+Status" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><p>First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.</p><pre><span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> chunk = <span class="kw">new</span> Doc2Chunk()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)
+<span class="kw">val</span> token = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>Define AssertionDLApproach with parameters and start training</p><pre><span class="kw">val</span> assertionStatus = <span class="kw">new</span> AssertionDLApproach()
+  .setLabelCol(<span class="lit">"label"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"chunk"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"assertion"</span>)
+  .setBatchSize(<span class="num">128</span>)
+  .setDropout(<span class="num">0.012</span>f)
+  .setLearningRate(<span class="num">0.015</span>f)
+  .setEpochs(<span class="num">1</span>)
+  .setStartCol(<span class="lit">"start"</span>)
+  .setEndCol(<span class="lit">"end"</span>)
+  .setMaxSentLen(<span class="num">250</span>)
+
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document,
+  chunk,
+  token,
+  embeddings,
+  assertionStatus
+))
+
+<span class="kw">val</span> assertionModel = trainingPipeline.fit(data)
+<span class="kw">val</span> assertionResults = assertionModel.transform(data).cache()</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AssertionDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]withWriteTensorflowModelwithHasStorageRefwithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]withParamsAndFeaturesWritablewithLicensed"></a><a id="AssertionDLModel:AssertionDLModel"></a>
       <span class="permalink">

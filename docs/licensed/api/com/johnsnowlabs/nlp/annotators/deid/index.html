@@ -247,16 +247,16 @@
       
     </li><li class="current-entities indented5">
                         <a class="object" href="DeIdentification$.html" title=""></a>
-                        <a class="class" href="DeIdentification.html" title="Trains a DeIdentification Annotator which provides functionality to either mask or obfuscate PHI based on Input Annotations of types DOCUMENT, TOKEN and CHUNK."></a>
-                        <a href="DeIdentification.html" title="Trains a DeIdentification Annotator which provides functionality to either mask or obfuscate PHI based on Input Annotations of types DOCUMENT, TOKEN and CHUNK.">DeIdentification</a>
+                        <a class="class" href="DeIdentification.html" title="Contains all the methods for training a DeIdentificationModel model."></a>
+                        <a href="DeIdentification.html" title="Contains all the methods for training a DeIdentificationModel model.">DeIdentification</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="DeIdentificationModel$.html" title=""></a>
                         <a class="class" href="DeIdentificationModel.html" title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS"></a>
                         <a href="DeIdentificationModel.html" title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS">DeIdentificationModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="trait" href="DeIdentificationParams.html" title=""></a>
-                        <a href="DeIdentificationParams.html" title="">DeIdentificationParams</a>
+                        <a class="trait" href="DeIdentificationParams.html" title="A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators"></a>
+                        <a href="DeIdentificationParams.html" title="A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators">DeIdentificationParams</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="object" href="DefaultRegex$.html" title=""></a>
@@ -468,18 +468,73 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Trains a DeIdentification Annotator which provides functionality to either mask or obfuscate PHI based on Input Annotations of types DOCUMENT, TOKEN and CHUNK." href="DeIdentification.html"><span class="name">DeIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Contains all the methods for training a DeIdentificationModel model." href="DeIdentification.html"><span class="name">DeIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      <p class="shortcomment cmt">Trains a DeIdentification Annotator which provides functionality to either <code>mask</code> or <code>obfuscate</code>
-PHI based on Input Annotations of types DOCUMENT, TOKEN and CHUNK.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a DeIdentification Annotator which provides functionality to either <code>mask</code> or <code>obfuscate</code>
-PHI based on Input Annotations of types DOCUMENT, TOKEN and CHUNK.</p><p>Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using
+      <p class="shortcomment cmt">Contains all the methods for training a DeIdentificationModel model.</p><div class="fullcomment"><div class="comment cmt"><p>Contains all the methods for training a DeIdentificationModel model.
+This module can obfuscate or mask the entities that contains personal information.
+The configuration params for that module are in trait DeIdentificationParams.</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a></p></span><span class="cmt"><p><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></p></span><span class="cmt"><p><a href="DeIdentification.html#train(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#train">train</a>
+Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$TextMatcher$" target="_blank">TextMatchers</a>,
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$RegexMatcher$" target="_blank">RegexMatchers</a>,
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$RegexMatcher$" target="_blank">DateMatchers</a>,
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$NerCrfApproach$" target="_blank">NerCRFs</a> or
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$NerDLApproach$" target="_blank">NerDLs</a>
-</p></div></div>
+Example of pipeline for deidentification.</p><h4>Example</h4><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+    .setInputCol(<span class="lit">"text"</span>)
+    .setOutputCol(<span class="lit">"document"</span>)*<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+    .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+    .setOutputCol(<span class="lit">"sentence"</span>)
+    .setUseAbbreviations(<span class="kw">true</span>)
+
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+    .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+    .setOutputCol(<span class="lit">"sentence"</span>)
+    .setUseAbbreviations(<span class="kw">true</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+    .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>))
+    .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> embeddings = WordEmbeddingsModel
+    .pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+    .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>))
+    .setOutputCol(<span class="lit">"embeddings"</span>)</pre><h4>Ner entities</h4><pre><span class="kw">val</span> clinical_sensitive_entities = MedicalNerModel.pretrained(<span class="lit">"ner_deid_enriched"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+       .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)).setOutputCol(<span class="lit">"ner"</span>)
+
+<span class="kw">val</span> nerConverter = <span class="kw">new</span> NerConverter()
+    .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>))
+    .setOutputCol(<span class="lit">"ner_con"</span>)</pre><h4>Deidentification</h4><pre><span class="kw">val</span> deIdentification = <span class="kw">new</span> DeIdentification()
+    .setInputCols(<span class="std">Array</span>(<span class="lit">"ner_chunk"</span>, <span class="lit">"token"</span>, <span class="lit">"sentence"</span>))
+    .setOutputCol(<span class="lit">"dei"</span>)
+    <span class="cmt">// file with custom regex patern for custom entities</span>
+    .setRegexPatternsDictionary(<span class="lit">"src/test/resources/de-identification/dic_regex_patterns_main_categories.txt"</span>)
+    <span class="cmt">// file with custom obfuscator names for the entities</span>
+    .setObfuscateRefFile(<span class="lit">"src/test/resources/de-identification/obfuscate_fixed_entities.txt"</span>)
+    .setRefFileFormat(<span class="lit">"csv"</span>)
+    .setRefSep(<span class="lit">"#"</span>)
+    .setMode(<span class="lit">"obfuscate"</span>)
+    .setDateFormats(<span class="std">Array</span>(<span class="lit">"MM/dd/yy"</span>,<span class="lit">"yyyy-MM-dd"</span>))
+    .setObfuscateDate(<span class="kw">true</span>)
+    .setDateTag(<span class="lit">"DATE"</span>)
+    .setDays(<span class="num">5</span>)
+    .setObfuscateRefSource(<span class="lit">"file"</span>)</pre><h4>Pipeline</h4><pre><span class="kw">val</span> testDataset = <span class="std">Seq</span>(
+ <span class="lit">"# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."</span>
+ ).toDS.toDF(<span class="lit">"text"</span>)
+
+deIdentificationDataFrame = pipeline.transform(testDataset)
+
+deIdentificationDataFrame.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)</pre><p>+--------------------------------------------------------------------------------------------------+</p><table class="doctbl">
+      <thead>
+        <tr><th class="doctbl-left"><p>result                                                                                            </p></th></tr>
+      </thead>
+      
+    </table><p>+--------------------------------------------------------------------------------------------------+</p><table class="doctbl">
+      <thead>
+        <tr><th class="doctbl-left"><p>[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]</p></th></tr>
+      </thead>
+      
+    </table><p>+--------------------------------------------------------------------------------------------------+</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="DeIdentificationModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withDeIdentificationParamswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withLicensed"></a><a id="DeIdentificationModel:DeIdentificationModel"></a>
       <span class="permalink">
@@ -499,7 +554,7 @@ PHI based on Input Annotations of types DOCUMENT, TOKEN and CHUNK.</p><p>Ideally
 of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either
 masking or obfuscating the given CHUNKS
 </p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="DeIdentificationParamsextendsParams"></a><a id="DeIdentificationParams:DeIdentificationParams"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html" title="Permalink">
@@ -511,10 +566,10 @@ masking or obfuscating the given CHUNKS
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="DeIdentificationParams.html"><span class="name">DeIdentificationParams</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>
+        <a title="A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators" href="DeIdentificationParams.html"><span class="name">DeIdentificationParams</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators</p><div class="fullcomment"><div class="comment cmt"><p>A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification">DeIdentification</a></p></span><span class="cmt"><p><a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.ObfuscatorAnnotatorApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ObfuscatorAnnotatorApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.deid.ObfuscatorAnnotatorModel]withObfuscatorParams"></a><a id="ObfuscatorAnnotatorApproach:ObfuscatorAnnotatorApproach"></a>
       <span class="permalink">

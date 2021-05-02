@@ -167,8 +167,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion">assertion</a></dd></dl></div>
     </li><li class="current-entities indented6">
                         <a class="object" href="AssertionDLApproach$.html" title=""></a>
-                        <a class="class" href="" title="Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd"></a>
-                        <a href="" title="Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd">AssertionDLApproach</a>
+                        <a class="class" href="" title="Contains all the methods for training an AssertionDLModel."></a>
+                        <a href="" title="Contains all the methods for training an AssertionDLModel.">AssertionDLApproach</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="AssertionDLModel$.html" title=""></a>
                         <a class="class" href="AssertionDLModel.html" title="This is a main class in AssertionDL family."></a>
@@ -211,8 +211,41 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains all the methods for training the DL Approach, together with trainWithChunk, trainWithStartEnd
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains all the methods for training an <a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>.
+For pretrained models please use AssertionDLModel and see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Assertion+Status" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><p>First, pipeline stages for pre-processing the dataset (containing columns for text and label) are defined.</p><pre><span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> chunk = <span class="kw">new</span> Doc2Chunk()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)
+<span class="kw">val</span> token = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>Define AssertionDLApproach with parameters and start training</p><pre><span class="kw">val</span> assertionStatus = <span class="kw">new</span> AssertionDLApproach()
+  .setLabelCol(<span class="lit">"label"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"chunk"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"assertion"</span>)
+  .setBatchSize(<span class="num">128</span>)
+  .setDropout(<span class="num">0.012</span>f)
+  .setLearningRate(<span class="num">0.015</span>f)
+  .setEpochs(<span class="num">1</span>)
+  .setStartCol(<span class="lit">"start"</span>)
+  .setEndCol(<span class="lit">"end"</span>)
+  .setMaxSentLen(<span class="num">250</span>)
+
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document,
+  chunk,
+  token,
+  embeddings,
+  assertionStatus
+))
+
+<span class="kw">val</span> assertionModel = trainingPipeline.fit(data)
+<span class="kw">val</span> assertionResults = assertionModel.transform(data).cache()</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -233,7 +266,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -293,7 +326,7 @@
         <span class="name">AssertionDLApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instanced AssertionDLApproach</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -419,7 +452,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="batchSize:org.apache.spark.ml.param.IntParam"></a><a id="batchSize:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#batchSize:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -434,7 +467,7 @@
         <span class="name">batchSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Size for each batch in the optimization process.</p><div class="fullcomment"><div class="comment cmt"><p>Size for each batch in the optimization process. Default: 64</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
       <span class="permalink">
@@ -467,7 +500,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#chunkCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#chunkCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="chunkCol:org.apache.spark.ml.param.Param[String]"></a><a id="chunkCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#chunkCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -482,7 +515,7 @@
         <span class="name">chunkCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column with extracted NER chunks</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):AssertionDLApproach.this.type"></a>
       <span class="permalink">
@@ -523,7 +556,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="configProtoBytes:org.apache.spark.ml.param.IntArrayParam"></a><a id="configProtoBytes:IntArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#configProtoBytes:org.apache.spark.ml.param.IntArrayParam" title="Permalink">
@@ -538,7 +571,7 @@
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a><a id="copy(ParamMap):Estimator[AssertionDLModel]"></a>
       <span class="permalink">
@@ -603,7 +636,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#dropout" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#dropout" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="dropout:org.apache.spark.ml.param.FloatParam"></a><a id="dropout:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#dropout:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -618,8 +651,8 @@
         <span class="name">dropout</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#enableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Dropout at the output of each layer.</p><div class="fullcomment"><div class="comment cmt"><p>Dropout at the output of each layer. Default: 0.05f</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#enableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="enableOutputLogs:org.apache.spark.ml.param.BooleanParam"></a><a id="enableOutputLogs:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#enableOutputLogs:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -634,8 +667,8 @@
         <span class="name">enableOutputLogs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to output to annotators log folder.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to output to annotators log folder. Default: false</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="endCol:org.apache.spark.ml.param.Param[String]"></a><a id="endCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#endCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -650,8 +683,8 @@
         <span class="name">endCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#epochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Column with token number for last target token</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#epochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="epochs:org.apache.spark.ml.param.IntParam"></a><a id="epochs:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#epochs:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -666,7 +699,7 @@
         <span class="name">epochs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Number of epochs for the optimization process.</p><div class="fullcomment"><div class="comment cmt"><p>Number of epochs for the optimization process. Default: 5</p></div></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -904,7 +937,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getConfigProtoBytes:Option[Array[Byte]]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#getConfigProtoBytes:Option[Array[Byte]]" title="Permalink">
@@ -919,7 +952,7 @@
         <span class="name">getConfigProtoBytes</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -936,7 +969,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getEnableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getEnableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getEnableOutputLogs:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#getEnableOutputLogs:Boolean" title="Permalink">
@@ -951,7 +984,7 @@
         <span class="name">getEnableOutputLogs</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to output to annotators log folder</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getIncludeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getIncludeConfidence:Boolean"></a>
       <span class="permalink">
@@ -1049,7 +1082,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getOutputLogsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#getOutputLogsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getOutputLogsPath:String"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#getOutputLogsPath:String" title="Permalink">
@@ -1064,7 +1097,7 @@
         <span class="name">getOutputLogsPath</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Folder path to save training logs</p>
     </li><li name="org.apache.spark.ml.param.Params#getParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getParam(paramName:String):org.apache.spark.ml.param.Param[Any]"></a><a id="getParam(String):Param[Any]"></a>
       <span class="permalink">
@@ -1081,7 +1114,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#graphFolder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#graphFolder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="graphFolder:org.apache.spark.ml.param.Param[String]"></a><a id="graphFolder:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#graphFolder:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1096,7 +1129,7 @@
         <span class="name">graphFolder</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Folder path that contain external graph files</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1148,7 +1181,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#includeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#includeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="includeConfidence:org.apache.spark.ml.param.BooleanParam"></a><a id="includeConfidence:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#includeConfidence:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1163,7 +1196,7 @@
         <span class="name">includeConfidence</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata</p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">
@@ -1196,7 +1229,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1211,7 +1244,7 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input Annotator Types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input Annotator Types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1292,7 +1325,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#labelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#labelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="labelCol:org.apache.spark.ml.param.Param[String]"></a><a id="labelCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#labelCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1307,7 +1340,8 @@
         <span class="name">labelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column with one label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Column with one label per document. Example of possible values:
+“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a><a id="lazyAnnotator:BooleanParam"></a>
       <span class="permalink">
@@ -1324,7 +1358,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#learningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#learningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="learningRate:org.apache.spark.ml.param.FloatParam"></a><a id="learningRate:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#learningRate:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -1339,7 +1373,7 @@
         <span class="name">learningRate</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Learning rate for the optimization process.</p><div class="fullcomment"><div class="comment cmt"><p>Learning rate for the optimization process. Default: 0.0012f</p></div></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.Logging#log" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="log(value:=&gt;String,minLevel:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):Unit"></a><a id="log(⇒String,Level):Unit"></a>
       <span class="permalink">
@@ -1564,7 +1598,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="maxSentLen:org.apache.spark.ml.param.IntParam"></a><a id="maxSentLen:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#maxSentLen:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1579,7 +1613,7 @@
         <span class="name">maxSentLen</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Max possible length of a sentence, must match graph model.</p><div class="fullcomment"><div class="comment cmt"><p>Max possible length of a sentence, must match graph model. Default: 250</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1666,7 +1700,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:AssertionDLApproach.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#outputAnnotatorType:AssertionDLApproach.this.AnnotatorType" title="Permalink">
@@ -1681,7 +1715,7 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type: ASSERTION</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type: ASSERTION</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1714,7 +1748,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#outputLogsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#outputLogsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="outputLogsPath:org.apache.spark.ml.param.Param[String]"></a><a id="outputLogsPath:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#outputLogsPath:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1729,7 +1763,7 @@
         <span class="name">outputLogsPath</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Folder path to save training logs</p>
     </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a><a id="params:Array[Param[_]]"></a>
       <span class="permalink">
@@ -1821,7 +1855,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setBatchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setBatchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setBatchSize(size:Int):AssertionDLApproach.this.type"></a><a id="setBatchSize(Int):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setBatchSize(size:Int):AssertionDLApproach.this.type" title="Permalink">
@@ -1836,8 +1870,8 @@
         <span class="name">setBatchSize</span><span class="params">(<span name="size">size: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setChunkCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Size for each batch in the optimization process</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setChunkCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setChunkCol(c:String):AssertionDLApproach.this.type"></a><a id="setChunkCol(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setChunkCol(c:String):AssertionDLApproach.this.type" title="Permalink">
@@ -1852,11 +1886,11 @@
         <span class="name">setChunkCol</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach"></a><a id="setConfigProtoBytes(Array[Int]):AssertionDLApproach"></a>
+      <p class="shortcomment cmt">Column with extracted NER chunks</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setConfigProtoBytes(bytes:Array[Int]):AssertionDLApproach.this.type"></a><a id="setConfigProtoBytes(Array[Int]):AssertionDLApproach.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setConfigProtoBytes(bytes:Array[Int]):AssertionDLApproach.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1865,10 +1899,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a></span>
+        <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):AssertionDLApproach.this.type"></a>
       <span class="permalink">
@@ -1901,7 +1935,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setDropout" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setDropout" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setDropout(factor:Float):AssertionDLApproach.this.type"></a><a id="setDropout(Float):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setDropout(factor:Float):AssertionDLApproach.this.type" title="Permalink">
@@ -1916,8 +1950,8 @@
         <span class="name">setDropout</span><span class="params">(<span name="factor">factor: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setEnableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <p class="shortcomment cmt">Dropout at the output of each layer</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setEnableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEnableOutputLogs(v:Boolean):AssertionDLApproach.this.type"></a><a id="setEnableOutputLogs(Boolean):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setEnableOutputLogs(v:Boolean):AssertionDLApproach.this.type" title="Permalink">
@@ -1932,9 +1966,8 @@
         <span class="name">setEnableOutputLogs</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Whether to output to annotators log folder
-</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setEndCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to output to annotators log folder</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setEndCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEndCol(e:String):AssertionDLApproach.this.type"></a><a id="setEndCol(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setEndCol(e:String):AssertionDLApproach.this.type" title="Permalink">
@@ -1949,8 +1982,8 @@
         <span class="name">setEndCol</span><span class="params">(<span name="e">e: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setEpochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Column with token number for last target token</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setEpochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEpochs(number:Int):AssertionDLApproach.this.type"></a><a id="setEpochs(Int):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setEpochs(number:Int):AssertionDLApproach.this.type" title="Permalink">
@@ -1965,11 +1998,11 @@
         <span class="name">setEpochs</span><span class="params">(<span name="number">number: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setGraphFolder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setGraphFolder(path:String):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach"></a><a id="setGraphFolder(String):AssertionDLApproach"></a>
+      <p class="shortcomment cmt">Number of epochs for the optimization process</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setGraphFolder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setGraphFolder(path:String):AssertionDLApproach.this.type"></a><a id="setGraphFolder(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setGraphFolder(path:String):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setGraphFolder(path:String):AssertionDLApproach.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1978,10 +2011,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setGraphFolder</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a></span>
+        <span class="name">setGraphFolder</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Folder path that contain external graph files</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setIncludeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setIncludeConfidence(value:Boolean):AssertionDLApproach.this.type"></a><a id="setIncludeConfidence(Boolean):AssertionDLApproach.this.type"></a>
       <span class="permalink">
@@ -1997,8 +2030,7 @@
         <span class="name">setIncludeConfidence</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata
-</p>
+      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):AssertionDLApproach.this.type"></a>
       <span class="permalink">
@@ -2031,7 +2063,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setLabelCol(label:String):AssertionDLApproach.this.type"></a><a id="setLabelCol(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setLabelCol(label:String):AssertionDLApproach.this.type" title="Permalink">
@@ -2046,7 +2078,7 @@
         <span class="name">setLabelCol</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column with one label per document</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):AssertionDLApproach.this.type"></a>
       <span class="permalink">
@@ -2063,7 +2095,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setLearningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setLearningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setLearningRate(rate:Float):AssertionDLApproach.this.type"></a><a id="setLearningRate(Float):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setLearningRate(rate:Float):AssertionDLApproach.this.type" title="Permalink">
@@ -2078,8 +2110,8 @@
         <span class="name">setLearningRate</span><span class="params">(<span name="rate">rate: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setMaxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Learning rate for the optimization process</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setMaxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxSentLen(len:Int):AssertionDLApproach.this.type"></a><a id="setMaxSentLen(Int):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setMaxSentLen(len:Int):AssertionDLApproach.this.type" title="Permalink">
@@ -2094,7 +2126,7 @@
         <span class="name">setMaxSentLen</span><span class="params">(<span name="len">len: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Max possible length of a sentence, must match graph model</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
@@ -2111,7 +2143,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setOutputLogsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setOutputLogsPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setOutputLogsPath(v:String):AssertionDLApproach.this.type"></a><a id="setOutputLogsPath(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setOutputLogsPath(v:String):AssertionDLApproach.this.type" title="Permalink">
@@ -2126,8 +2158,8 @@
         <span class="name">setOutputLogsPath</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setStartCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Folder path to save training logs</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setStartCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setStartCol(s:String):AssertionDLApproach.this.type"></a><a id="setStartCol(String):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setStartCol(s:String):AssertionDLApproach.this.type" title="Permalink">
@@ -2142,8 +2174,8 @@
         <span class="name">setStartCol</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setValidationSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Column with token number for first target token</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setValidationSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setValidationSplit(validationSplit:Float):AssertionDLApproach.this.type"></a><a id="setValidationSplit(Float):AssertionDLApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setValidationSplit(validationSplit:Float):AssertionDLApproach.this.type" title="Permalink">
@@ -2158,11 +2190,11 @@
         <span class="name">setValidationSplit</span><span class="params">(<span name="validationSplit">validationSplit: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setVerbose" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setVerbose(verbose:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach"></a><a id="setVerbose(Level):AssertionDLApproach"></a>
+      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#setVerbose" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setVerbose(verbose:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):AssertionDLApproach.this.type"></a><a id="setVerbose(Level):AssertionDLApproach.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setVerbose(verbose:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#setVerbose(verbose:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):AssertionDLApproach.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2171,11 +2203,11 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setVerbose</span><span class="params">(<span name="verbose">verbose: <span class="extype" name="com.johnsnowlabs.nlp.annotators.ner.Verbose.Level">Level</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a></span>
+        <span class="name">setVerbose</span><span class="params">(<span name="verbose">verbose: <span class="extype" name="com.johnsnowlabs.nlp.annotators.ner.Verbose.Level">Level</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#startCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Level of verbosity during training</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#startCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="startCol:org.apache.spark.ml.param.Param[String]"></a><a id="startCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#startCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2190,7 +2222,7 @@
         <span class="name">startCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column with token number for first target token</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2222,8 +2254,7 @@
         <span class="name">testDataset</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam">ExternalResourceParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">val testDataset = new ExternalResourceParam(this, &quot;testDataset&quot;, &quot;Path to test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>val testDataset = new ExternalResourceParam(this, &quot;testDataset&quot;, &quot;Path to test dataset. If set used to calculate statistic on it during training.&quot;)
-</p></div></div>
+      <p class="shortcomment cmt">Path to test dataset.</p><div class="fullcomment"><div class="comment cmt"><p>Path to test dataset. If set used to calculate statistic on it during training</p></div></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
@@ -2255,7 +2286,10 @@
         <span class="name">train</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="recursivePipeline">recursivePipeline: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.ml.PipelineModel">PipelineModel</span>]</span>)</span><span class="result">: <a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></span>
       </span>
       
-      <p class="shortcomment cmt">This is a main point of interest of this class.</p><div class="fullcomment"><div class="comment cmt"><p>This is a main point of interest of this class. It trains the dataset with recursive pipeline and uses
+      <p class="shortcomment cmt">Trains the dataset with recursive pipeline and uses
+methods trainWithChunk() and trainwithStartEnd()
+The choice of training happens based on the startCol value of the DL Approach
+</p><div class="fullcomment"><div class="comment cmt"><p>Trains the dataset with recursive pipeline and uses
 methods trainWithChunk() and trainwithStartEnd()
 The choice of training happens based on the startCol value of the DL Approach
 </p></div><dl class="paramcmts block"><dt class="param">dataset</dt><dd class="cmt"><p>a collection of inputs to train</p></dd><dt class="param">recursivePipeline</dt><dd class="cmt"><p>an instance of PipelineModel</p></dd><dt>returns</dt><dd class="cmt"><p>an instance of trained AssertionDLModel</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → AnnotatorApproach</dd></dl></div>
@@ -2341,9 +2375,8 @@ The choice of training happens based on the startCol value of the DL Approach
         <span class="name">validationSplit</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#verbose" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#verbose" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="verbose:org.apache.spark.ml.param.IntParam"></a><a id="verbose:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#verbose:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -2358,7 +2391,7 @@ The choice of training happens based on the startCol value of the DL Approach
         <span class="name">verbose</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Level of verbosity during training</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#verboseLevel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="verboseLevel:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level"></a><a id="verboseLevel:Level"></a>
       <span class="permalink">
@@ -2510,17 +2543,20 @@ The choice of training happens based on the startCol value of the DL Approach
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="getParam">
-              <h3>getParam</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
               
-            </div><div class="group" name="param">
-              <h3>param</h3>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

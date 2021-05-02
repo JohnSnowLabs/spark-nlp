@@ -151,8 +151,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="IOBTagger$.html" title=""></a>
-                        <a class="class" href="" title="Tags tokens based on entity chunks and tokens"></a>
-                        <a href="" title="Tags tokens based on entity chunks and tokens">IOBTagger</a>
+                        <a class="class" href="" title="Merges token tags and NER labels from chunks in the specified format."></a>
+                        <a href="" title="Merges token tags and NER labels from chunks in the specified format.">IOBTagger</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="MedicalNerApproach$.html" title=""></a>
                         <a class="class" href="MedicalNerApproach.html" title=""></a>
@@ -171,8 +171,8 @@
                         <a href="NerChunker.html" title="">NerChunker</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="NerConverterInternal$.html" title=""></a>
-                        <a class="class" href="NerConverterInternal.html" title="Converts IOB or IOB2 representation of NER to user-friendly."></a>
-                        <a href="NerConverterInternal.html" title="Converts IOB or IOB2 representation of NER to user-friendly.">NerConverterInternal</a>
+                        <a class="class" href="NerConverterInternal.html" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label."></a>
+                        <a href="NerConverterInternal.html" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label.">NerConverterInternal</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="object" href="NerTaggedInternal$.html" title=""></a>
@@ -219,7 +219,31 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Tags tokens based on entity chunks and tokens</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Merges token tags and NER labels from chunks in the specified format.
+For example output columns as inputs from
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html" target="_blank">NerConverter</a>
+and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer" target="_blank">Tokenizer</a> can be used to merge.</p><h4>Example</h4><p>Pipeline stages are defined where NER is done. NER is converted to chunks.</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>((<span class="lit">"A 63-year-old man presents to the hospital ..."</span>)).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> docAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>).setOutputCol(<span class="lit">"embs"</span>)
+<span class="kw">val</span> nerModel = MedicalNerModel.pretrained(<span class="lit">"ner_jsl"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>).setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embs"</span>).setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> nerConverter = <span class="kw">new</span> NerConverter().setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>).setOutputCol(<span class="lit">"ner_chunk"</span>)</pre><p>Define the IOB tagger, which needs tokens and chunks as input. Show results.</p><pre><span class="kw">val</span> iobTagger = <span class="kw">new</span> IOBTagger().setInputCols(<span class="lit">"token"</span>, <span class="lit">"ner_chunk"</span>).setOutputCol(<span class="lit">"ner_label"</span>)
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(docAssembler, sentenceDetector, tokenizer, embeddings, nerModel, nerConverter, iobTagger))
+
+result.selectExpr(<span class="lit">"explode(ner_label) as a"</span>)
+  .selectExpr(<span class="lit">"a.begin"</span>,<span class="lit">"a.end"</span>,<span class="lit">"a.result as chunk"</span>,<span class="lit">"a.metadata.word as word"</span>)
+  .where(<span class="lit">"chunk!='O'"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
+
++-----+---+-----------+-----------+
+|begin|end|chunk      |word       |
++-----+---+-----------+-----------+
+|<span class="num">5</span>    |<span class="num">15</span> |B-Age      |<span class="num">63</span>-year-old|
+|<span class="num">17</span>   |<span class="num">19</span> |B-Gender   |man        |
+|<span class="num">64</span>   |<span class="num">72</span> |B-Modifier |recurrent  |
+|<span class="num">98</span>   |<span class="num">107</span>|B-Diagnosis|cellulitis |
+|<span class="num">110</span>  |<span class="num">119</span>|B-Diagnosis|pneumonias |
++-----+---+-----------+-----------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer" target="_blank">Tokenizer</a></p></span><span class="cmt"><p><a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a></p></span><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter" target="_blank">NerConverter</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -240,7 +264,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -300,7 +324,7 @@
         <span class="name">IOBTagger</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instanced AnnotatorModel</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -521,7 +545,7 @@
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>a Sequence of chunks and tokens</p></dd><dt>returns</dt><dd class="cmt"><p>a Tokenized tags</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger">IOBTagger</a> → HasSimpleAnnotate</dd></dl></div>
+      <p class="shortcomment cmt">Takes extracted NER (chunks) and tags from tokens to merge</p><div class="fullcomment"><div class="comment cmt"><p>Takes extracted NER (chunks) and tags from tokens to merge</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>a Sequence of chunks and tokens</p></dd><dt>returns</dt><dd class="cmt"><p>Tagged NER labels</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger">IOBTagger</a> → HasSimpleAnnotate</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -1134,7 +1158,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[IOBTagger.this.AnnotatorType]"></a><a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html#inputAnnotatorTypes:Array[IOBTagger.this.AnnotatorType]" title="Permalink">
@@ -1149,7 +1173,7 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger">IOBTagger</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: TOKEN, CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: TOKEN, CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger">IOBTagger</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1524,7 +1548,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:IOBTagger.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html#outputAnnotatorType:IOBTagger.this.AnnotatorType" title="Permalink">
@@ -1539,7 +1563,7 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger">IOBTagger</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: NAMED_ENTITY</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: NAMED_ENTITY</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger">IOBTagger</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1615,7 +1639,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger#scheme" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.IOBTagger#scheme" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="scheme:org.apache.spark.ml.param.Param[String]"></a><a id="scheme:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html#scheme:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1630,7 +1654,7 @@
         <span class="name">scheme</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Format of tags, either IOB or BIOES</p>
+      <p class="shortcomment cmt">Format of tags, either IOB or BIOES.</p><div class="fullcomment"><div class="comment cmt"><p>Format of tags, either IOB or BIOES. Default: &quot;IOB&quot;</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type"></a><a id="set[T](StructFeature[T],T):IOBTagger.this.type"></a>
       <span class="permalink">
@@ -2255,8 +2279,14 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div>
         </div>
