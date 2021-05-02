@@ -442,6 +442,7 @@ object TensorflowWrapper {
 
         // Extract saved model signatures
         // todo: change the name to something more universal
+        // todo: modelProvider either has to be automatic or allow setting it via .read()
         val signatures = BertTFSignManager.extractSignatures(modelProvider = "TF2", model)
 
         val saverDef = model.metaGraphDef().getSaverDef
