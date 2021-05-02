@@ -3,7 +3,37 @@ package com.johnsnowlabs.ml.tensorflow.sign
 import scala.util.matching.Regex
 
 
-private [sign] object BertTFSignConstants {
+/**
+ * Based on Hugging Face reference, for instance:
+ *
+ * signature_def['serving_default']:
+ * The given SavedModel SignatureDef contains the following input(s):
+ * inputs['attention_mask'] tensor_info:
+ * dtype: DT_INT32
+ * shape: (-1, -1)
+ * name: serving_default_attention_mask:0
+ * inputs['input_ids'] tensor_info:
+ * dtype: DT_INT32
+ * shape: (-1, -1)
+ * name: serving_default_input_ids:0
+ * inputs['token_type_ids'] tensor_info:
+ * dtype: DT_INT32
+ * shape: (-1, -1)
+ * name: serving_default_token_type_ids:0
+ * The given SavedModel SignatureDef contains the following output(s):
+ * outputs['last_hidden_state'] tensor_info:
+ * dtype: DT_FLOAT
+ * shape: (-1, -1, 768)
+ * name: StatefulPartitionedCall:0
+ * outputs['pooler_output'] tensor_info:
+ * dtype: DT_FLOAT
+ * shape: (-1, 768)
+ * name: StatefulPartitionedCall:1
+ * Method name is: tensorflow/serving/predict*
+*/
+
+
+object BertTFSignConstants {
 
   sealed trait TFInfoNameMapper {
     protected val key: String
@@ -11,27 +41,27 @@ private [sign] object BertTFSignConstants {
   }
 
   case object TokenIds extends TFInfoNameMapper {
-    override val key: String = "ids"
+    override val key: String = "input_ids"
     override val value: String = "input_ids:0"
   }
 
   case object MaskIds extends TFInfoNameMapper {
-    override val key: String = "mask"
+    override val key: String = "attention_mask"
     override val value: String = "input_mask:0"
   }
 
   case object SegmentIds extends TFInfoNameMapper {
-    override val key: String = "segs"
+    override val key: String = "token_type_ids"
     override val value: String = "segment_ids:0"
   }
 
   case object Embeddings extends TFInfoNameMapper {
-    override val key: String = "out"
+    override val key: String = "last_hidden_state"
     override val value: String = "sequence_output:0"
   }
 
   case object SentenceEmbeddings extends TFInfoNameMapper {
-    override val key: String = "s_out"
+    override val key: String = "pooler_output"
     override val value: String = "pooled_output:0"
   }
 
