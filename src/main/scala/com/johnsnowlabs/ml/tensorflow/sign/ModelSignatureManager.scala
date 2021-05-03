@@ -35,8 +35,8 @@ object ModelSignatureManager {
             tokenIdsValue: String = ModelSignatureConstants.TokenIds.value,
             maskIdsValue: String = ModelSignatureConstants.MaskIds.value,
             segmentIdsValue: String = ModelSignatureConstants.SegmentIds.value,
-            embeddingsValue: String = ModelSignatureConstants.Embeddings.value,
-            sentenceEmbeddingsValue: String = ModelSignatureConstants.SentenceEmbeddings.value): Map[String, String] =
+            embeddingsValue: String = ModelSignatureConstants.LastHiddenState.value,
+            sentenceEmbeddingsValue: String = ModelSignatureConstants.PoolerOutput.value): Map[String, String] =
 
     tfSignatureType.toUpperCase match {
       case "JSL" =>
@@ -44,30 +44,30 @@ object ModelSignatureManager {
           ModelSignatureConstants.TokenIds.key -> tokenIdsValue,
           ModelSignatureConstants.MaskIds.key -> maskIdsValue,
           ModelSignatureConstants.SegmentIds.key -> segmentIdsValue,
-          ModelSignatureConstants.Embeddings.key -> embeddingsValue,
-          ModelSignatureConstants.SentenceEmbeddings.key -> sentenceEmbeddingsValue)
+          ModelSignatureConstants.LastHiddenState.key -> embeddingsValue,
+          ModelSignatureConstants.PoolerOutput.key -> sentenceEmbeddingsValue)
       case _ => throw new Exception("Model provider not available.")
     }
 
-  def getTokenIdsKey: String = ModelSignatureConstants.TokenIds.key
+  def getInputIdsKey: String = ModelSignatureConstants.TokenIds.key
 
-  def getTokenIdsValue: String = ModelSignatureConstants.TokenIds.value
+  def getInputIdsValue: String = ModelSignatureConstants.TokenIds.value
 
   def getAttentionMaskIdsKey: String = ModelSignatureConstants.MaskIds.key
 
   def getAttentionMaskIdsValue: String = ModelSignatureConstants.MaskIds.value
 
-  def getSegmentIdsKey: String = ModelSignatureConstants.SegmentIds.key
+  def getTokenTypeIdsKey: String = ModelSignatureConstants.SegmentIds.key
 
-  def getSegmentIdsValue: String = ModelSignatureConstants.SegmentIds.value
+  def getTokenTypeIdsValue: String = ModelSignatureConstants.SegmentIds.value
 
-  def getBertEmbeddingsKey: String = ModelSignatureConstants.Embeddings.key
+  def getLastHiddenStateKey: String = ModelSignatureConstants.LastHiddenState.key
 
-  def getBertEmbeddingsValue: String = ModelSignatureConstants.Embeddings.value
+  def getLastHiddenStateValue: String = ModelSignatureConstants.LastHiddenState.value
 
-  def getBertSentenceEmbeddingsKey: String = ModelSignatureConstants.SentenceEmbeddings.key
+  def getPoolerOutputKey: String = ModelSignatureConstants.PoolerOutput.key
 
-  def getBertSentenceEmbeddingsValue: String = ModelSignatureConstants.SentenceEmbeddings.value
+  def getPoolerOutputValue: String = ModelSignatureConstants.PoolerOutput.value
 
   /** Return a formatted map of key -> value for model signature objects */
   def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]): Map[String, String] = {

@@ -55,12 +55,12 @@ object ModelSignatureConstants {
     override val value: String = "segment_ids:0"
   }
 
-  case object Embeddings extends TFInfoNameMapper {
+  case object LastHiddenState extends TFInfoNameMapper {
     override val key: String = "last_hidden_state"
     override val value: String = "sequence_output:0"
   }
 
-  case object SentenceEmbeddings extends TFInfoNameMapper {
+  case object PoolerOutput extends TFInfoNameMapper {
     override val key: String = "pooler_output"
     override val value: String = "pooled_output:0"
   }
@@ -103,8 +103,8 @@ object ModelSignatureConstants {
       case "input_ids" | "input_word_ids" => TokenIds.key
       case "input_mask" | "attention_mask" => MaskIds.key
       case "segment_ids" | "input_type_ids" | "token_type_ids" => SegmentIds.key
-      case "sequence_output" | "bert_encoder" | "last_hidden_state" => Embeddings.key
-      case "pooled_output" => SentenceEmbeddings.key
+      case "sequence_output" | "bert_encoder" | "last_hidden_state" => LastHiddenState.key
+      case "pooled_output" => PoolerOutput.key
       case k => k
     }
   }
