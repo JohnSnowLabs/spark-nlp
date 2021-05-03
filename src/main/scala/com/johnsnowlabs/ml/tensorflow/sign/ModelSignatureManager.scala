@@ -32,46 +32,46 @@ object ModelSignatureManager {
   private[ModelSignatureManager] val logger: Logger = LoggerFactory.getLogger("ModelSignatureManager")
 
   def apply(tfSignatureType: String = "JSL",
-            tokenIdsValue: String = BertTFSignConstants.TokenIds.value,
-            maskIdsValue: String = BertTFSignConstants.MaskIds.value,
-            segmentIdsValue: String = BertTFSignConstants.SegmentIds.value,
-            embeddingsValue: String = BertTFSignConstants.Embeddings.value,
-            sentenceEmbeddingsValue: String = BertTFSignConstants.SentenceEmbeddings.value): Map[String, String] =
+            tokenIdsValue: String = ModelSignatureConstants.TokenIds.value,
+            maskIdsValue: String = ModelSignatureConstants.MaskIds.value,
+            segmentIdsValue: String = ModelSignatureConstants.SegmentIds.value,
+            embeddingsValue: String = ModelSignatureConstants.Embeddings.value,
+            sentenceEmbeddingsValue: String = ModelSignatureConstants.SentenceEmbeddings.value): Map[String, String] =
 
     tfSignatureType.toUpperCase match {
       case "JSL" =>
         Map[String, String](
-          BertTFSignConstants.TokenIds.key -> tokenIdsValue,
-          BertTFSignConstants.MaskIds.key -> maskIdsValue,
-          BertTFSignConstants.SegmentIds.key -> segmentIdsValue,
-          BertTFSignConstants.Embeddings.key -> embeddingsValue,
-          BertTFSignConstants.SentenceEmbeddings.key -> sentenceEmbeddingsValue)
+          ModelSignatureConstants.TokenIds.key -> tokenIdsValue,
+          ModelSignatureConstants.MaskIds.key -> maskIdsValue,
+          ModelSignatureConstants.SegmentIds.key -> segmentIdsValue,
+          ModelSignatureConstants.Embeddings.key -> embeddingsValue,
+          ModelSignatureConstants.SentenceEmbeddings.key -> sentenceEmbeddingsValue)
       case _ => throw new Exception("Model provider not available.")
     }
 
-  def getBertTokenIdsKey: String = BertTFSignConstants.TokenIds.key
+  def getTokenIdsKey: String = ModelSignatureConstants.TokenIds.key
 
-  def getBertTokenIdsValue: String = BertTFSignConstants.TokenIds.value
+  def getTokenIdsValue: String = ModelSignatureConstants.TokenIds.value
 
-  def getBertMaskIdsKey: String = BertTFSignConstants.TokenIds.key
+  def getAttentionMaskIdsKey: String = ModelSignatureConstants.MaskIds.key
 
-  def getBertMaskIdsValue: String = BertTFSignConstants.TokenIds.value
+  def getAttentionMaskIdsValue: String = ModelSignatureConstants.MaskIds.value
 
-  def getBertSegmentIdsKey: String = BertTFSignConstants.TokenIds.key
+  def getSegmentIdsKey: String = ModelSignatureConstants.SegmentIds.key
 
-  def getBertSegmentIdsValue: String = BertTFSignConstants.TokenIds.value
+  def getSegmentIdsValue: String = ModelSignatureConstants.SegmentIds.value
 
-  def getBertEmbeddingsKey: String = BertTFSignConstants.TokenIds.key
+  def getBertEmbeddingsKey: String = ModelSignatureConstants.Embeddings.key
 
-  def getBertEmbeddingsValue: String = BertTFSignConstants.TokenIds.value
+  def getBertEmbeddingsValue: String = ModelSignatureConstants.Embeddings.value
 
-  def getBertSentenceEmbeddingsKey: String = BertTFSignConstants.TokenIds.key
+  def getBertSentenceEmbeddingsKey: String = ModelSignatureConstants.SentenceEmbeddings.key
 
-  def getBertSentenceEmbeddingsValue: String = BertTFSignConstants.TokenIds.value
+  def getBertSentenceEmbeddingsValue: String = ModelSignatureConstants.SentenceEmbeddings.value
 
   /** Return a formatted map of key -> value for model signature objects */
   def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]): Map[String, String] = {
-    matched.map(e => BertTFSignConstants.toAdoptedKeys(e._1._2) -> e._1._3).toMap
+    matched.map(e => ModelSignatureConstants.toAdoptedKeys(e._1._2) -> e._1._3).toMap
   }
 
   /** Extract signatures from actual model
@@ -138,7 +138,7 @@ object ModelSignatureManager {
      * @return a list of matching keys as strings
      * */
     def extractCandidateMatches(candidate: String, modelProvider: String): List[String] = {
-      val ReferenceKeys: Array[Regex] = BertTFSignConstants.getSignaturePatterns(modelProvider)
+      val ReferenceKeys: Array[Regex] = ModelSignatureConstants.getSignaturePatterns(modelProvider)
 
       val matches = (
         for (refKey <- ReferenceKeys if findTFKeyMatch(candidate, refKey)) yield {
