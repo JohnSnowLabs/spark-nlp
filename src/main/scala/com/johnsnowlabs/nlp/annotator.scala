@@ -207,4 +207,7 @@ package object annotator {
   type T5Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
   object T5Transformer extends ReadablePretrainedT5TransformerModel with ReadT5TransformerTensorflowModel with ReadSentencePieceModel
 
+  type DistilBertEmbeddings = com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
+  object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertTensorflowModel
+
 }
