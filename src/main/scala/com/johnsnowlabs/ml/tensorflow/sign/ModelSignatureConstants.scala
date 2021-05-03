@@ -33,7 +33,7 @@ import scala.util.matching.Regex
 */
 
 
-object BertTFSignConstants {
+object ModelSignatureConstants {
 
   sealed trait TFInfoNameMapper {
     protected val key: String
@@ -71,7 +71,7 @@ object BertTFSignConstants {
    * */
   def getSignaturePatterns(modelProvider: String): Array[Regex] = {
     val referenceKeys = modelProvider match {
-      case "JSL" =>
+      case "TF1" =>
         Array(
           "(input)(.*)(ids)".r,
           "(input)(.*)(mask)".r,
@@ -81,13 +81,12 @@ object BertTFSignConstants {
 
       case "TF2" =>
         Array(
+          // TF2 hub
           "(input_word)(.*)(ids)".r,
           "(input)(.*)(mask)".r,
           "(input_type)(.*)(ids)".r,
-          "(bert)(.*)(encoder)".r)
-
-      case "HF" =>
-        Array(
+          "(bert)(.*)(encoder)".r,
+          // Hugging Face hub
           "(input)(.*)(ids)".r,
           "(attention)(.*)(mask)".r,
           "(token_type)(.*)(ids)".r,
