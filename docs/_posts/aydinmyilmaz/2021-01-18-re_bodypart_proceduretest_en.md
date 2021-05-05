@@ -37,7 +37,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -58,7 +58,7 @@ annotations = light_pipeline.fullAnnotate(''''TECHNIQUE IN DETAIL: After informe
 
 ```scala
 ...
-val ner_tagger = sparknlp.annotators.NerDLModel().pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')
+val ner_tagger = sparknlp.annotators.NerDLModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
     .setInputCols("sentences", "tokens", "embeddings")
     .setOutputCol("ner_tags") 
 

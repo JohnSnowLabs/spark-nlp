@@ -37,7 +37,7 @@ Relation extraction between body parts and problem entities  in clinical texts
 ```python
 
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -56,7 +56,7 @@ results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than
 ```scala
 ...
 val ner_tagger = sparknlp.annotators.NerDLModel()
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
     .setInputCols("sentences", "tokens", "embeddings")
     .setOutputCol("ner_tags") 
 
