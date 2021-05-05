@@ -38,7 +38,7 @@ LOINC codes - per input NER entity
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbluebert_base_uncased_mli",'en','clinical/models')\
+     .pretrained("sbluebert_base_uncased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 

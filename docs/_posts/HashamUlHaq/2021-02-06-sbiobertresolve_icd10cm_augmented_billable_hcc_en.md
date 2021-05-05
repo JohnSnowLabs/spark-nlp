@@ -42,7 +42,7 @@ document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["document"])\
      .setOutputCol("sbert_embeddings")
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
@@ -60,7 +60,7 @@ val document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["document"])\
      .setOutputCol("sbert_embeddings")
 val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
