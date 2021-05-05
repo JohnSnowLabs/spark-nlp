@@ -22,11 +22,9 @@ import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.filefilter.WildcardFileFilter
 import org.apache.hadoop.fs.Path
-
 import org.tensorflow._
 import org.tensorflow.exceptions.TensorFlowException
 import org.tensorflow.proto.framework.{ConfigProto, GraphDef}
@@ -35,10 +33,9 @@ import java.io._
 import java.net.URI
 import java.nio.file.{Files, Paths}
 import java.util.UUID
-
 import scala.util.{Failure, Success, Try}
-
 import org.slf4j.{Logger, LoggerFactory}
+import org.tensorflow.types.TString
 
 
 case class Variables(variables: Array[Byte], index: Array[Byte])
@@ -661,6 +658,19 @@ object TensorflowWrapper {
     FileHelper.delete(folder)
 
     vars
+  }
+
+  def restoreVariablesSession(model: SavedModelBundle, modelPath: String,
+                              prefix: String = "variables/variables"): Session = {
+    val session = model.session()
+    val saverDef = model.metaGraphDef().getSaverDef
+
+    session.runner()
+      .addTarget(saverDef.getRestoreOpName)
+      .feed(saverDef.getFilenameTensorName, TString.scalarOf(modelPath + prefix))
+      .run()
+
+    session
   }
 
 }
