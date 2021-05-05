@@ -114,6 +114,7 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
 
