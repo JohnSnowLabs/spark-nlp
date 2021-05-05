@@ -729,7 +729,8 @@ class DateMatcherUtils(Params):
         return self._set(anchorDateYear=value)
 
     def setAnchorDateMonth(self, value):
-        return self._set(anchorDateMonth=value)
+        normalizedMonth = value - 1
+        return self._set(anchorDateMonth=normalizedMonth)
 
     def setAnchorDateDay(self, value):
         return self._set(anchorDateDay=value)
