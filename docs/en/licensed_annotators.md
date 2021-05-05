@@ -707,7 +707,7 @@ result.selectExpr("explode(filtered)").show(truncate=False)
 
 ### ChunkMerge
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/merge/ChunkMergeApproach.html">Model scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/merge/ChunkMergeApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel.html">Model scaladocs</a>
 
 Merges NER Chunks by prioritizing overlapping indices (chunks with longer lengths and highest information will be kept from each ner model). Labels can be changed by setReplaceDictResource.
 
@@ -1230,7 +1230,7 @@ clf_model = pipeline.fit(data)
 
 ### IOBTagger
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html">Model scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html">API scaladocs</a>
 
 Merges token tags and NER labels from chunks in the specified format. For example output columns as inputs from NerConverter and Tokenizer can be used to merge.
 
@@ -1473,7 +1473,7 @@ result.select("ner_chunk.result").show(truncate=False)
 
 ### NerConverterInternal
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerConverterInternal.html">Model scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerConverterInternal.html">API scaladocs</a>
 
 Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label. Chunks with no associated entity (tagged "O") are filtered. See also Inside–outside–beginning (tagging) for more information.
 
@@ -1549,7 +1549,7 @@ result.selectExpr("explode(ner_converter_result)").show(5, False)
 
 ### NerDisambiguator
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html">Model scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html">API scaladocs</a>
 
 Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs), mentions, or surface forms. The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g. SentenceEmbeddings and NerConverter.
 
