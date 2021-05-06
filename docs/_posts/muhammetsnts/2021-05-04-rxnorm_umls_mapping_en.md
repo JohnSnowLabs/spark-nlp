@@ -7,7 +7,7 @@ date: 2021-05-04
 tags: [rxnorm, umls, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP 3.0.2
+edition: Spark NLP for Healthcare 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -51,17 +51,17 @@ val result = pipeline.annotate("1161611 315677 343663")
 
 Note:
 
-| RxNorm | Details | 
-| ---------- | -----------:|
-| 1161611 |  metformin Pill |
-| 315677 | cimetidine 100 mg |
-| 343663 | insulin lispro 50 UNT/ML |
+| RxNorm     | Details                  | 
+| ---------- | ------------------------:|
+| 1161611    |  metformin Pill          |
+| 315677     | cimetidine 100 mg        |
+| 343663     | insulin lispro 50 UNT/ML |
 
-| UMLS | Details |
-| ---------- | -----------:|
-| C3215948 | metformin pill |
-| C0984912 | cimetidine 100 mg |
-| C1146501 | insulin lispro 50 unt/ml |
+| UMLS       | Details                  |
+| ---------- | ------------------------:|
+| C3215948   | metformin pill           |
+| C0984912   | cimetidine 100 mg        |
+| C1146501   | insulin lispro 50 unt/ml |
 ```
 
 {:.model-param}
@@ -71,7 +71,7 @@ Note:
 |---|---|
 |Model Name:|rxnorm_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.0.2+|
+|Compatibility:|Spark NLP for Healthcare 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

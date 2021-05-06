@@ -7,7 +7,7 @@ date: 2021-05-04
 tags: [rxnorm, mesh, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP 3.0.2
+edition: Spark NLP for Healthcare 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -51,17 +51,17 @@ val result = pipeline.annotate("1191 6809 47613")
 
 Note: 
 
-| RxNorm | Details | 
-| ---------- | -----------:|
-| 1191 |  aspirin |
-| 6809 | metformin |
-| 47613 | calcium citrate |
+| RxNorm     | Details             | 
+| ---------- | -------------------:|
+| 1191       |  aspirin            |
+| 6809       | metformin           |
+| 47613      | calcium citrate     |
 
-| MeSH | Details |
-| ---------- | -----------:|
-| D001241 | Aspirin |
-| D008687 | Metformin |
-| D019355 | Calcium Citrate |
+| MeSH       | Details             |
+| ---------- | -------------------:|
+| D001241    | Aspirin             |
+| D008687    | Metformin           |
+| D019355    | Calcium Citrate     |
 ```
 
 {:.model-param}
@@ -71,7 +71,7 @@ Note:
 |---|---|
 |Model Name:|rxnorm_mesh_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.0.2+|
+|Compatibility:|Spark NLP for Healthcare 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
