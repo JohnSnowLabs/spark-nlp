@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowT5</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowT5</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowT5" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -447,6 +447,22 @@ Input for this model must be tokenized with a SentencePieceModel,
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#createNextTokenLogitsPenalties" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="createNextTokenLogitsPenalties(inputIds:Seq[Array[Long]],logits:Array[Array[Float]],repetitionPenalty:Double):Array[Array[Float]]"></a><a id="createNextTokenLogitsPenalties(Seq[Array[Long]],Array[Array[Float]],Double):Array[Array[Float]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#createNextTokenLogitsPenalties(inputIds:Seq[Array[Long]],logits:Array[Array[Float]],repetitionPenalty:Double):Array[Array[Float]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createNextTokenLogitsPenalties</span><span class="params">(<span name="inputIds">inputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="logits">logits: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#decode" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="decode(sentences:Array[Array[Long]]):Seq[String]"></a><a id="decode(Array[Array[Long]]):Seq[String]"></a>
       <span class="permalink">
@@ -533,10 +549,10 @@ Input for this model must be tokenized with a SentencePieceModel,
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#generateSeq2Seq" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxOutputLength:Int,task:String):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="generateSeq2Seq(Seq[Annotation],Int,Int,String):Seq[Annotation]"></a>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#generateNoBeamSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="generateNoBeamSearch(inputIds:Seq[Array[Long]],decoderEncoderStateTensors:org.tensorflow.Tensor[_],encoderAttentionMaskTensors:org.tensorflow.Tensor[_],maxOutputLength:Int,minOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,batch_size:Int,vocab_size:Int,randomSeed:Option[Long],session:org.tensorflow.Session):Array[Array[Long]]"></a><a id="generateNoBeamSearch(Seq[Array[Long]],Tensor[_],Tensor[_],Int,Int,Boolean,Double,Int,Double,Double,Int,Int,Int,Option[Long],Session):Array[Array[Long]]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxOutputLength:Int,task:String):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#generateNoBeamSearch(inputIds:Seq[Array[Long]],decoderEncoderStateTensors:org.tensorflow.Tensor[_],encoderAttentionMaskTensors:org.tensorflow.Tensor[_],maxOutputLength:Int,minOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,batch_size:Int,vocab_size:Int,randomSeed:Option[Long],session:org.tensorflow.Session):Array[Array[Long]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -545,7 +561,23 @@ Input for this model must be tokenized with a SentencePieceModel,
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">generateSeq2Seq</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="task">task: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+        <span class="name">generateNoBeamSearch</span><span class="params">(<span name="inputIds">inputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="decoderEncoderStateTensors">decoderEncoderStateTensors: <span class="extype" name="org.tensorflow.Tensor">Tensor</span>[_]</span>, <span name="encoderAttentionMaskTensors">encoderAttentionMaskTensors: <span class="extype" name="org.tensorflow.Tensor">Tensor</span>[_]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="batch_size">batch_size: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocab_size">vocab_size: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>, <span name="session">session: <span class="extype" name="org.tensorflow.Session">Session</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#generateSeq2Seq" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,minOutputLength:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,task:String,randomSeed:Option[Long]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="generateSeq2Seq(Seq[Annotation],Int,Int,Int,Boolean,Double,Int,Double,Double,Int,String,Option[Long]):Seq[Annotation]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,minOutputLength:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,task:String,randomSeed:Option[Long]):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generateSeq2Seq</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="task">task: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
       
@@ -568,6 +600,22 @@ Input for this model must be tokenized with a SentencePieceModel,
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#getGeneratedNgrams" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getGeneratedNgrams(prevInputIds:Seq[Array[Long]],generatedNgrams:Array[scala.collection.mutable.Map[IndexedSeq[Long],List[Long]]],hypoIdx:Int,curLen:Int,noRepeatNgramSize:Int):Array[Long]"></a><a id="getGeneratedNgrams(Seq[Array[Long]],Array[Map[IndexedSeq[Long],List[Long]]],Int,Int,Int):Array[Long]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#getGeneratedNgrams(prevInputIds:Seq[Array[Long]],generatedNgrams:Array[scala.collection.mutable.Map[IndexedSeq[Long],List[Long]]],hypoIdx:Int,curLen:Int,noRepeatNgramSize:Int):Array[Long]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getGeneratedNgrams</span><span class="params">(<span name="prevInputIds">prevInputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="generatedNgrams">generatedNgrams: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Long">Long</span>], <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Long">Long</span>]]]</span>, <span name="hypoIdx">hypoIdx: <span class="extype" name="scala.Int">Int</span></span>, <span name="curLen">curLen: <span class="extype" name="scala.Int">Int</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -658,9 +706,9 @@ Input for this model must be tokenized with a SentencePieceModel,
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowT5#process" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="process(batch:Seq[Array[Long]],maxOutputLength:Int):Array[Array[Long]]"></a><a id="process(Seq[Array[Long]],Int):Array[Array[Long]]"></a>
+      <a id="process(batch:Seq[Array[Long]],minOutputLength:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,randomSeed:Option[Long]):Array[Array[Long]]"></a><a id="process(Seq[Array[Long]],Int,Int,Boolean,Double,Int,Double,Double,Int,Option[Long]):Array[Array[Long]]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#process(batch:Seq[Array[Long]],maxOutputLength:Int):Array[Array[Long]]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowT5.html#process(batch:Seq[Array[Long]],minOutputLength:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,randomSeed:Option[Long]):Array[Array[Long]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -669,7 +717,7 @@ Input for this model must be tokenized with a SentencePieceModel,
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">process</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">200</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>
+        <span class="name">process</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>
       </span>
       
       
