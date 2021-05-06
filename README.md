@@ -97,8 +97,9 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 To use Spark NLP you need the following requirements:
 
-- Java 8
+- Java 8 
 - Apache Spark 3.1.x (or 3.0.x, or 2.4.x, or 2.3.x)
+- CUDA 10.1 (optional, if you choose to use GPU build of Spark NLP)
 
 ## Quick Start
 

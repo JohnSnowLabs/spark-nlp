@@ -40,7 +40,7 @@ words_embedder = WordEmbeddingsModel()\
     .setOutputCol("embeddings")
 
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags")    
 
@@ -67,7 +67,7 @@ val words_embedder = WordEmbeddingsModel()
     .setOutputCol("embeddings")
 
 val ner_tagger = sparknlp.annotators.NerDLModel()
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
     .setInputCols("sentences", "tokens", "embeddings")
     .setOutputCol("ner_tags")    
 
