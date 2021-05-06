@@ -19,11 +19,10 @@ package com.johnsnowlabs.ml.tensorflow.sign
 
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.SavedModelBundle
-import org.tensorflow.proto.framework.TensorInfo
+import org.tensorflow.proto.framework.{SignatureDef, TensorInfo}
 
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
-
 import java.util
 
 
@@ -31,35 +30,35 @@ object ModelSignatureManager {
 
   private[ModelSignatureManager] val logger: Logger = LoggerFactory.getLogger("ModelSignatureManager")
 
-  def apply(tfSignatureType: String = "JSL",
-            tokenIdsValue: String = ModelSignatureConstants.TokenIds.value,
-            maskIdsValue: String = ModelSignatureConstants.MaskIds.value,
-            segmentIdsValue: String = ModelSignatureConstants.SegmentIds.value,
-            embeddingsValue: String = ModelSignatureConstants.LastHiddenState.value,
-            sentenceEmbeddingsValue: String = ModelSignatureConstants.PoolerOutput.value): Map[String, String] =
+  def apply(tfSignatureType: String = "TF1",
+            tokenIdsValue: String = ModelSignatureConstants.InputIdsV1.value,
+            maskIdsValue: String = ModelSignatureConstants.AttentionMaskV1.value,
+            segmentIdsValue: String = ModelSignatureConstants.TokenTypeIdsV1.value,
+            embeddingsValue: String = ModelSignatureConstants.LastHiddenStateV1.value,
+            sentenceEmbeddingsValue: String = ModelSignatureConstants.PoolerOutputV1.value): Map[String, String] =
 
     tfSignatureType.toUpperCase match {
-      case "JSL" =>
+      case "TF1" =>
         Map[String, String](
-          ModelSignatureConstants.TokenIds.key -> tokenIdsValue,
-          ModelSignatureConstants.MaskIds.key -> maskIdsValue,
-          ModelSignatureConstants.SegmentIds.key -> segmentIdsValue,
+          ModelSignatureConstants.InputIds.key -> tokenIdsValue,
+          ModelSignatureConstants.AttentionMask.key -> maskIdsValue,
+          ModelSignatureConstants.TokenTypeIds.key -> segmentIdsValue,
           ModelSignatureConstants.LastHiddenState.key -> embeddingsValue,
           ModelSignatureConstants.PoolerOutput.key -> sentenceEmbeddingsValue)
       case _ => throw new Exception("Model provider not available.")
     }
 
-  def getInputIdsKey: String = ModelSignatureConstants.TokenIds.key
+  def getInputIdsKey: String = ModelSignatureConstants.InputIds.key
 
-  def getInputIdsValue: String = ModelSignatureConstants.TokenIds.value
+  def getInputIdsValue: String = ModelSignatureConstants.InputIds.value
 
-  def getAttentionMaskIdsKey: String = ModelSignatureConstants.MaskIds.key
+  def getAttentionMaskIdsKey: String = ModelSignatureConstants.AttentionMask.key
 
-  def getAttentionMaskIdsValue: String = ModelSignatureConstants.MaskIds.value
+  def getAttentionMaskIdsValue: String = ModelSignatureConstants.AttentionMask.value
 
-  def getTokenTypeIdsKey: String = ModelSignatureConstants.SegmentIds.key
+  def getTokenTypeIdsKey: String = ModelSignatureConstants.TokenTypeIds.key
 
-  def getTokenTypeIdsValue: String = ModelSignatureConstants.SegmentIds.value
+  def getTokenTypeIdsValue: String = ModelSignatureConstants.TokenTypeIds.value
 
   def getLastHiddenStateKey: String = ModelSignatureConstants.LastHiddenState.key
 
@@ -70,8 +69,11 @@ object ModelSignatureManager {
   def getPoolerOutputValue: String = ModelSignatureConstants.PoolerOutput.value
 
   /** Return a formatted map of key -> value for model signature objects */
-  def convertToAdoptedKeys(matched: List[((String, String, String), List[String])]): Map[String, String] = {
-    matched.map(e => ModelSignatureConstants.toAdoptedKeys(e._1._2) -> e._1._3).toMap
+  def convertToAdoptedKeys(matched: Map[String, String]): Map[String, String] = {
+    val SecondaryIndexSep = "::"
+    matched
+      .map{case(k, v) => k.split(SecondaryIndexSep)(1) -> v}// signature def name
+      .map{case(k, v) => ModelSignatureConstants.toAdoptedKeys(k) -> v}
   }
 
   /** Extract signatures from actual model
@@ -79,49 +81,63 @@ object ModelSignatureManager {
    * @param model : a SavedModelBundle object
    * @return a list of tuples of type (OperationType, key, TFInfoName)
    * */
-  def getSignaturesFromModel(model: SavedModelBundle): List[(String, String, String)] = {
+  def getSignaturesFromModel(model: SavedModelBundle) = {
     import collection.JavaConverters._
 
-    val InputOp = "feed"
-    val OutputOp = "fetch"
+    val InputPrefix = "input"
+    val OutputPrefix = "output"
+    val Sep = "::"
 
-    val modelSignatures = new ListBuffer[(String, String, String)]()
+    val modelSignatures = scala.collection.mutable.Map.empty[String, String]
+
+    def extractSignDefInputs(sigDef: SignatureDef) = {
+      val inputs: util.Map[String, TensorInfo] = sigDef.getInputsMap
+      for (e <- inputs.entrySet.asScala) {
+        val key: String = e.getKey
+        val tfInfo: TensorInfo = e.getValue
+
+        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.Name.key}" -> tfInfo.getName)
+        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.DType.key}" -> tfInfo.getDtype.toString)
+        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.DimCount.key}" -> tfInfo.getTensorShape.getDimCount.toString)
+        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.ShapeDimList.key}" -> tfInfo.getTensorShape.getDimList.toString.replaceAll("\n", "").replaceAll("size:", ""))
+        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.SerializedSize.key}" -> tfInfo.getName)
+      }
+    }
+
+    def extractSignDefOutputs(sigDef: SignatureDef) = {
+      val outputs: util.Map[String, TensorInfo] = sigDef.getOutputsMap
+      for (e <- outputs.entrySet.asScala) {
+        val key: String = e.getKey
+        val tfInfo: TensorInfo = e.getValue
+
+        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.Name.key}" -> tfInfo.getName)
+        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.DType.key}" -> tfInfo.getDtype.toString)
+        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.DimCount.key}" -> tfInfo.getTensorShape.getDimCount.toString)
+        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.ShapeDimList.key}" -> tfInfo.getTensorShape.getDimList.toString.replaceAll("\n", "").replaceAll("size:", ""))
+        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.SerializedSize.key}" -> tfInfo.getName)
+      }
+    }
 
     if (model.metaGraphDef.hasGraphDef && model.metaGraphDef.getSignatureDefCount > 0) {
       for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        val inputs: util.Map[String, TensorInfo] = sigDef.getInputsMap
-        for (e <- inputs.entrySet.asScala) {
-          val key: String = e.getKey
-          val tfInfo: TensorInfo = e.getValue
-          logger.debug("\nSignatureDef InputMap key: " + key + " tfInfo: " + tfInfo.getName)
-          modelSignatures += ((InputOp, key, tfInfo.getName))
-        }
-      }
-      for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        val outputs: util.Map[String, TensorInfo] = sigDef.getOutputsMap
-        for (e <- outputs.entrySet.asScala) {
-          val key: String = e.getKey
-          val tfInfo: TensorInfo = e.getValue
-          logger.debug("\nSignatureDef OutputMap key: " + key + " tfInfo: " + tfInfo.getName)
-          modelSignatures += ((OutputOp, key, tfInfo.getName))
-        }
+        extractSignDefInputs(sigDef)
+        extractSignDefOutputs(sigDef)
       }
     }
-    modelSignatures.toList
+
+    modelSignatures.toMap
   }
 
   /**
    * Extract input and output signatures from TF saved models
    *
-   * @param modelProvider model framework provider, i.e. default, TF2 or HF
+   * @param modelProvider model framework provider, i.e. TF1 or TF2, default TF1
    * @param model loaded SavedModelBundle
    * @return the list ot matching signatures as tuples
    * */
-  def extractSignatures(modelProvider: String = "JSL",
-                        model: SavedModelBundle): Option[Map[String, String]] = {
+  def extractSignatures(modelProvider: String = "TF1", model: SavedModelBundle): Option[Map[String, String]] = {
 
     val signatureCandidates = getSignaturesFromModel(model)
-    logger.debug(signatureCandidates.toString)
 
     /** Regex matcher */
     def findTFKeyMatch(candidate: String, key: Regex) = {
@@ -147,8 +163,7 @@ object ModelSignatureManager {
       if (matches.isEmpty) List("N/A") else matches.mkString(",").split(",").toList
     }
 
-    val matched = signatureCandidates.map(s => (s, extractCandidateMatches(s._2, modelProvider)))
-
-    Option(convertToAdoptedKeys(matched))
+    val signDefNames = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
+    Option(convertToAdoptedKeys(signDefNames))
   }
 }
