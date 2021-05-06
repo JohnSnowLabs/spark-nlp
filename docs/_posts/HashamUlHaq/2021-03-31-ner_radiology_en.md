@@ -47,6 +47,18 @@ model = nlpPipeline.fit(spark.createDataFrame([['''Bilateral breast ultrasound w
 results = model.transform(data)
 ```
 
+```scala
+...
+val radiology_ner = MedicalNerModel().pretrained("ner_radiology", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
+
+val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
+
+val result = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text")).transform(data)
+
+```
+
 </div>
 
 ## Results

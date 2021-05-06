@@ -448,7 +448,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_DE/
+            url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_DE.ipynb
@@ -1056,7 +1056,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb
-        - title: Detect legal entities German
+        - title: Detect legal entities in German
           id: detect_legal_entities_german
           image: 
               src: /assets/images/Grammar_Analysis.svg
@@ -1066,7 +1066,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/healthcare/NER_LEGAL_DE/
+            url: https://demo.johnsnowlabs.com/healthcare/NER_LEGAL_DE/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_DE.ipynb

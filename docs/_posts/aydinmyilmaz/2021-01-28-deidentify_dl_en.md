@@ -47,6 +47,25 @@ deid= DeIdentificationModel.pretrained("deidentify_dl", "en", "clinical/models")
 deid_text = deid.transform(result)
 ```
 
+```scala
+...
+val deid_ner = NerDLModel.pretrained("ner_deid_large", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
+
+val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, deid_ner, ner_converter))
+
+val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+
+val results = LightPipeline(model).fullAnnotate("""Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D.""")
+
+val deid= DeIdentificationModel.pretrained("deidentify_dl", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "ner_chunk"))
+      .setOutputCol("obfuscated")
+      .setMode("obfuscate")
+
+val deid_text = deid.transform(result)
+```
 </div>
 
 ## Results

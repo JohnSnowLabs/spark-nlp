@@ -1,346 +1,34 @@
 (function () {
-  const { createElement: e, useState, useEffect, Fragment } = React;
+  const { createElement: e, useState, useEffect, Fragment, Children } = React;
 
   const SEARCH_ORIGIN = 'https://search.modelshub.johnsnowlabs.com';
 
-  const tasks = [
-    'Named Entity Recognition',
-    'Text Classification',
-    'Sentiment Analysis',
-    'Translation',
-    'Question Answering',
-    'Summarization',
-    'Sentence Detection',
-    'Embeddings',
-    'Language Detection',
-    'Stop Words Removal',
-    'Word Segmentation',
-    'Part of Speech Tagging',
-    'Lemmatization',
-    'Relation Extraction',
-    'Spell Check',
-    'Assertion Status',
-    'Entity Resolution',
-    'De-identification',
-  ];
+  const toSearchString = (params) => {
+    let isEmpty = true;
+    const searchParams = Object.keys(params).reduce((acc, k) => {
+      if (params[k] && k !== 'type') {
+        let value = params[k];
+        if (k === 'supported') {
+          value = Number(value);
+        }
+        acc.append(k, value);
+        isEmpty = false;
+      }
+      return acc;
+    }, new URLSearchParams());
 
-  const languages = {
-    en: 'English',
-    xx: 'Multilingual',
-    aa: 'Afar',
-    ab: 'Abkhaz',
-    ae: 'Avestan',
-    af: 'Afrikaans',
-    ak: 'Akan',
-    am: 'Amharic',
-    an: 'Aragonese',
-    ar: 'Arabic',
-    as: 'Assamese',
-    av: 'Avaric',
-    ay: 'Aymara',
-    az: 'Azerbaijani',
-    ba: 'Bashkir',
-    be: 'Belarusian',
-    bg: 'Bulgarian',
-    bh: 'Bihari',
-    bi: 'Bislama',
-    bm: 'Bambara',
-    bn: 'Bengali, Bangla',
-    bo: 'Tibetan Standard, Tibetan, Central',
-    br: 'Breton',
-    bs: 'Bosnian',
-    ca: 'Catalan',
-    ce: 'Chechen',
-    ch: 'Chamorro',
-    co: 'Corsican',
-    cr: 'Cree',
-    cs: 'Czech',
-    cu: 'Old Church Slavonic, Church Slavonic, Old Bulgarian',
-    cv: 'Chuvash',
-    cy: 'Welsh',
-    da: 'Danish',
-    de: 'German',
-    dv: 'Divehi, Dhivehi, Maldivian',
-    dz: 'Dzongkha',
-    ee: 'Ewe',
-    el: 'Greek (modern)',
-    eo: 'Esperanto',
-    es: 'Spanish',
-    et: 'Estonian',
-    eu: 'Basque',
-    fa: 'Persian (Farsi)',
-    ff: 'Fula, Fulah, Pulaar, Pular',
-    fi: 'Finnish',
-    fj: 'Fijian',
-    fo: 'Faroese',
-    fr: 'French',
-    fy: 'Western Frisian',
-    ga: 'Irish',
-    gd: 'Scottish Gaelic, Gaelic',
-    gl: 'Galician',
-    gn: 'Guaraní',
-    gu: 'Gujarati',
-    gv: 'Manx',
-    ha: 'Hausa',
-    he: 'Hebrew (modern)',
-    hi: 'Hindi',
-    ho: 'Hiri Motu',
-    hr: 'Croatian',
-    ht: 'Haitian, Haitian Creole',
-    hu: 'Hungarian',
-    hy: 'Armenian',
-    hz: 'Herero',
-    ia: 'Interlingua',
-    id: 'Indonesian',
-    ie: 'Interlingue',
-    ig: 'Igbo',
-    ii: 'Nuosu',
-    ik: 'Inupiaq',
-    io: 'Ido',
-    is: 'Icelandic',
-    it: 'Italian',
-    iu: 'Inuktitut',
-    ja: 'Japanese',
-    jv: 'Javanese',
-    ka: 'Georgian',
-    kg: 'Kongo',
-    ki: 'Kikuyu, Gikuyu',
-    kj: 'Kwanyama, Kuanyama',
-    kk: 'Kazakh',
-    kl: 'Kalaallisut, Greenlandic',
-    km: 'Khmer',
-    kn: 'Kannada',
-    ko: 'Korean',
-    kr: 'Kanuri',
-    ks: 'Kashmiri',
-    ku: 'Kurdish',
-    kv: 'Komi',
-    kw: 'Cornish',
-    ky: 'Kyrgyz',
-    la: 'Latin',
-    lb: 'Luxembourgish, Letzeburgesch',
-    lg: 'Ganda',
-    li: 'Limburgish, Limburgan, Limburger',
-    ln: 'Lingala',
-    lo: 'Lao',
-    lt: 'Lithuanian',
-    lu: 'Luba-Katanga',
-    lv: 'Latvian',
-    mg: 'Malagasy',
-    mh: 'Marshallese',
-    mi: 'Māori',
-    mk: 'Macedonian',
-    ml: 'Malayalam',
-    mn: 'Mongolian',
-    mr: 'Marathi (Marāṭhī)',
-    ms: 'Malay',
-    mt: 'Maltese',
-    my: 'Burmese',
-    na: 'Nauruan',
-    nb: 'Norwegian Bokmål',
-    nd: 'Northern Ndebele',
-    ne: 'Nepali',
-    ng: 'Ndonga',
-    nl: 'Dutch',
-    nn: 'Norwegian Nynorsk',
-    no: 'Norwegian',
-    nr: 'Southern Ndebele',
-    nv: 'Navajo, Navaho',
-    ny: 'Chichewa, Chewa, Nyanja',
-    oc: 'Occitan',
-    oj: 'Ojibwe, Ojibwa',
-    om: 'Oromo',
-    or: 'Oriya',
-    os: 'Ossetian, Ossetic',
-    pa: '(Eastern) Punjabi',
-    pi: 'Pāli',
-    pl: 'Polish',
-    ps: 'Pashto, Pushto',
-    pt: 'Portuguese',
-    qu: 'Quechua',
-    rm: 'Romansh',
-    rn: 'Kirundi',
-    ro: 'Romanian',
-    ru: 'Russian',
-    rw: 'Kinyarwanda',
-    sa: 'Sanskrit (Saṁskṛta)',
-    sc: 'Sardinian',
-    sd: 'Sindhi',
-    se: 'Northern Sami',
-    sg: 'Sango',
-    si: 'Sinhalese, Sinhala',
-    sk: 'Slovak',
-    sl: 'Slovene',
-    sm: 'Samoan',
-    sn: 'Shona',
-    so: 'Somali',
-    sq: 'Albanian',
-    sr: 'Serbian',
-    ss: 'Swati',
-    st: 'Southern Sotho',
-    su: 'Sundanese',
-    sv: 'Swedish',
-    sw: 'Swahili',
-    ta: 'Tamil',
-    te: 'Telugu',
-    tg: 'Tajik',
-    th: 'Thai',
-    ti: 'Tigrinya',
-    tk: 'Turkmen',
-    tl: 'Tagalog',
-    tn: 'Tswana',
-    to: 'Tonga (Tonga Islands)',
-    tr: 'Turkish',
-    ts: 'Tsonga',
-    tt: 'Tatar',
-    tw: 'Twi',
-    ty: 'Tahitian',
-    ug: 'Uyghur',
-    uk: 'Ukrainian',
-    ur: 'Urdu',
-    uz: 'Uzbek',
-    ve: 'Venda',
-    vi: 'Vietnamese',
-    vo: 'Volapük',
-    wa: 'Walloon',
-    wo: 'Wolof',
-    xh: 'Xhosa',
-    yi: 'Yiddish',
-    yo: 'Yoruba',
-    za: 'Zhuang, Chuang',
-    zh: 'Chinese',
-    zu: 'Zulu',
+    return isEmpty ? '' : '?' + searchParams;
   };
 
-  const languageGroups = {
-    aav: 'Austro-Asiatic languages',
-    afa: 'Afro-Asiatic languages',
-    alg: 'Algonquian languages',
-    alv: 'Atlantic-Congo languages',
-    apa: 'Apache languages',
-    aqa: 'Alacalufan languages',
-    aql: 'Algic languages',
-    art: 'Artificial languages',
-    ath: 'Athapascan languages',
-    auf: 'Arauan languages',
-    aus: 'Australian languages',
-    awd: 'Arawakan languages',
-    azc: 'Uto-Aztecan languages',
-    bad: 'Banda languages',
-    bai: 'Bamileke languages',
-    bat: 'Baltic languages',
-    ber: 'Berber languages',
-    bih: 'Bihari languages',
-    bnt: 'Bantu languages',
-    btk: 'Batak languages',
-    cai: 'Central American Indian languages',
-    cau: 'Caucasian languages',
-    cba: 'Chibchan languages',
-    ccn: 'North Caucasian languages',
-    ccs: 'South Caucasian languages',
-    cdc: 'Chadic languages',
-    cdd: 'Caddoan languages',
-    cel: 'Celtic languages',
-    cmc: 'Chamic languages',
-    cpe: 'English based creoles and pidgins',
-    cpf: 'French-based creoles and pidgins',
-    cpp: 'Portuguese-based creoles and pidgins',
-    crp: 'Creoles and pidgins',
-    csu: 'Central Sudanic languages',
-    cus: 'Cushitic languages',
-    day: 'Land Dayak languages',
-    dmn: 'Mande languages',
-    dra: 'Dravidian languages',
-    egx: 'Egyptian languages',
-    esx: 'Eskimo-Aleut languages',
-    euq: 'Basque (family)',
-    fiu: 'Finno-Ugrian languages',
-    fox: 'Formosan languages',
-    gem: 'Germanic languages',
-    gme: 'East Germanic languages',
-    gmq: 'North Germanic languages',
-    gmw: 'West Germanic languages',
-    grk: 'Greek languages',
-    him: 'Himachali languages, Western Pahari languages',
-    hmx: 'Hmong-Mien languages',
-    hok: 'Hokan languages',
-    hyx: 'Armenian (family)',
-    iir: 'Indo-Iranian languages',
-    ijo: 'Ijo languages',
-    inc: 'Indic languages',
-    ine: 'Indo-European languages',
-    ira: 'Iranian languages',
-    iro: 'Iroquoian languages',
-    itc: 'Italic languages',
-    jpx: 'Japanese (family)',
-    kar: 'Karen languages',
-    kdo: 'Kordofanian languages',
-    khi: 'Khoisan languages',
-    kro: 'Kru languages',
-    map: 'Austronesian languages',
-    mkh: 'Mon-Khmer languages',
-    mno: 'Manobo languages',
-    mun: 'Munda languages',
-    myn: 'Mayan languages',
-    nah: 'Nahuatl languages',
-    nai: 'North American Indian',
-    ngf: 'Trans-New Guinea languages',
-    nic: 'Niger-Kordofanian languages',
-    nub: 'Nubian languages',
-    omq: 'Oto-Manguean languages',
-    omv: 'Omotic languages',
-    oto: 'Otomian languages',
-    paa: 'Papuan languages',
-    phi: 'Philippine languages',
-    plf: 'Central Malayo-Polynesian languages',
-    poz: 'Malayo-Polynesian languages',
-    pqe: 'Eastern Malayo-Polynesian languages',
-    pqw: 'Western Malayo-Polynesian languages',
-    pra: 'Prakrit languages',
-    qwe: 'Quechuan (family)',
-    roa: 'Romance languages',
-    sai: 'South American Indian languages',
-    sal: 'Salishan languages',
-    sdv: 'Eastern Sudanic languages',
-    sem: 'Semitic languages',
-    sgn: 'Sign Languages',
-    sio: 'Siouan languages',
-    sit: 'Sino-Tibetan languages',
-    sla: 'Slavic languages',
-    smi: 'Sami languages',
-    son: 'Songhai languages',
-    sqj: 'Albanian languages',
-    ssa: 'Nilo-Saharan languages',
-    syd: 'Samoyedic languages',
-    tai: 'Tai languages',
-    tbq: 'Tibeto-Burman languages',
-    trk: 'Turkic languages',
-    tup: 'Tupi languages',
-    tut: 'Altaic languages',
-    tuw: 'Tungus languages',
-    urj: 'Uralic languages',
-    wak: 'Wakashan languages',
-    wen: 'Sorbian languages',
-    xgn: 'Mongolian languages',
-    xnd: 'Na-Dene languages',
-    ypk: 'Yupik languages',
-    zhx: 'Chinese (family)',
-    zle: 'East Slavic languages',
-    zls: 'South Slavic languages',
-    zlw: 'West Slavic languages',
-    znd: 'Zande languages',
+  const fromSearchString = () => {
+    const params = Object.fromEntries(
+      new URLSearchParams(window.location.search)
+    );
+    if ('supported' in params && params.supported === '1') {
+      params.supported = true;
+    }
+    return params;
   };
-
-  const editions = [
-    'Spark NLP 2.7',
-    'Spark NLP 2.6',
-    'Spark NLP 2.5',
-    'Spark NLP 2.4',
-    'Spark NLP for Healthcare 2.7',
-    'Spark NLP for Healthcare 2.6',
-    'Spark NLP for Healthcare 2.5',
-    'Spark NLP for Healthcare 2.4',
-  ];
 
   const useFilterQuery = () => {
     const [state, setState] = useState({
@@ -348,24 +36,27 @@
       context: {},
     });
 
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState(fromSearchString());
+
+    useEffect(() => {
+      window.onpopstate = (e) => {
+        setParams(
+          Object.fromEntries(new URLSearchParams(window.location.search))
+        );
+      };
+      return () => {
+        window.onpopstate = null;
+      };
+    }, []);
 
     useEffect(() => {
       setState({
         ...state,
         value: 'loading',
-        context: { ...state.context, form: params.type },
+        context: { ...state.context, params },
       });
-      const mapping = {
-        edition: 'edition_short',
-      };
-      const searchParams = Object.keys(params).reduce((acc, k) => {
-        if (params[k] && k !== 'type') {
-          acc.append(mapping[k] || k, params[k]);
-        }
-        return acc;
-      }, new URLSearchParams());
-      fetch(SEARCH_ORIGIN + '/?' + searchParams)
+
+      fetch(SEARCH_ORIGIN + '/' + toSearchString(params))
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -375,13 +66,13 @@
         .then(({ data, meta }) => {
           setState({
             value: 'success',
-            context: { data, meta },
+            context: { data, meta, params },
           });
         })
         .catch((e) => {
           setState({
             value: 'failure',
-            context: { error: e.message },
+            context: { error: e.message, params },
           });
         })
         .finally(() => {
@@ -397,24 +88,115 @@
       if (state.value === 'loading') {
         return;
       }
+      let nextParams;
       switch (event.type) {
-        case 'FILTER':
-        case 'SEARCH':
-          setParams(event);
+        case 'SUBMIT':
+          nextParams = { ...params, ...event };
           break;
 
         case 'CHANGE_PAGE':
           {
             const { page } = event;
-            setParams({ ...params, page });
+            nextParams = { ...params, page };
           }
           break;
       }
+      window.history.pushState(
+        nextParams,
+        window.title,
+        '/models' + toSearchString(nextParams)
+      );
+      setParams(nextParams);
     };
     return [state, dispatch];
   };
 
   const Spinner = () => e('i', { className: 'fas fa-circle-notch fa-spin' });
+
+  const Select = ({
+    name,
+    value,
+    renderValue = (v) => v,
+    className,
+    onChange,
+    disabled,
+    children,
+  }) => {
+    const handleChange = (e) => {
+      if (typeof onChange === 'function') {
+        onChange(e);
+      }
+    };
+
+    const handleClear = () => {
+      if (typeof onChange === 'function') {
+        onChange({
+          target: { value: '' },
+        });
+      }
+    };
+
+    if (value) {
+      return e(
+        'div',
+        {
+          className: [
+            'select',
+            'select--value',
+            disabled && 'select--disabled',
+            className,
+          ]
+            .filter(Boolean)
+            .join(' '),
+          title: renderValue(value),
+        },
+        [
+          e(
+            'span',
+            { key: 'value', className: 'select__value' },
+            renderValue(value)
+          ),
+          e('button', {
+            key: 'clear',
+            className: 'select__clear-button fa fa-times-circle',
+            'aria-hidden': true,
+            onClick: handleClear,
+            disabled,
+          }),
+        ]
+      );
+    }
+
+    if (Children.count(children) === 2) {
+      const value = Children.toArray(children)[1].props.children;
+      return e(
+        'div',
+        {
+          className: [
+            'select',
+            'select--value',
+            disabled && 'select--disabled',
+            className,
+          ]
+            .filter(Boolean)
+            .join(' '),
+          title: value,
+        },
+        e('span', { className: 'select__value' }, value)
+      );
+    }
+
+    return e(
+      'select',
+      {
+        name,
+        className: ['select', className].filter(Boolean).join(' '),
+        onChange: handleChange,
+        disabled,
+      },
+      children
+    );
+  };
 
   const Pagination = ({ page, totalPages, onChange }) => {
     if (totalPages <= 1) {
@@ -477,19 +259,42 @@
     ]);
   };
 
-  const ModelItemList = ({ meta, children, onPageChange }) => {
+  const ModelItemList = ({
+    meta,
+    params,
+    children,
+    onPageChange,
+    onSupportedToggle,
+  }) => {
+    const handleSupportedChange = (e) => {
+      const flag = e.target.checked;
+      onSupportedToggle(flag);
+    };
+
     return ReactDOM.createPortal(
       e(Fragment, null, [
         e('div', { key: 'items', className: 'grid--container model-items' }, [
-          meta.totalItems > 0 &&
+          e(
+            'div',
+            {
+              key: 'header',
+              className: 'model-items__header',
+            },
             e(
               'div',
-              {
-                key: 'total-results',
-                className: 'model-items__total-results',
-              },
+              { className: 'model-items__header-total-results' },
               'Models & Pipelines: ' + meta.totalItems
             ),
+            e('label', { className: 'model-items__header-supported' }, [
+              e('input', {
+                type: 'checkbox',
+                name: 'supported',
+                checked: params.supported,
+                onChange: handleSupportedChange,
+              }),
+              e('span', {}, 'Supported models only'),
+            ])
+          ),
           e('div', { key: 'grid', className: 'grid' }, children),
           e(Pagination, { key: 'pagination', ...meta, onChange: onPageChange }),
         ]),
@@ -521,22 +326,6 @@
     supported,
     highlight,
   }) => {
-    const getDisplayedLanguage = () => {
-      if (!language) {
-        return null;
-      }
-      switch (language.length) {
-        case 2:
-          return languages[language] || language;
-
-        case 3:
-          return languageGroups[language] || language;
-
-        default:
-          return language;
-      }
-    };
-
     let body;
     if (highlight && highlight.body && highlight.body[0]) {
       body = highlight.body[0];
@@ -566,11 +355,12 @@
           e('a', { href: url, className: 'model-item__title', title }, title)
         ),
         e('div', { key: 'content', className: 'model-item__content' }, [
-          e('div', {
-            key: 'body',
-            className: 'model-item__highlight',
-            dangerouslySetInnerHTML: { __html: body },
-          }),
+          body &&
+            e('div', {
+              key: 'body',
+              className: 'model-item__highlight',
+              dangerouslySetInnerHTML: { __html: body },
+            }),
           e(ModelItemTag, {
             key: 'date',
             icon: 'calendar-alt',
@@ -587,7 +377,7 @@
             key: 'language',
             icon: 'flag',
             name: 'Language',
-            value: getDisplayedLanguage(),
+            value: language,
           }),
           e(ModelItemTag, {
             key: 'edition',
@@ -600,25 +390,56 @@
     );
   };
 
-  const FilterForm = ({
-    onSubmit,
-    onTaskChange,
-    isLoading,
-    isHealthcareOnly,
-  }) => {
+  const FilterForm = ({ onSubmit, isLoading, meta, params }) => {
+    let tasks = [];
+    let languages = [];
+    let editions = [];
+    if (meta && meta.aggregations) {
+      ({ tasks, languages, editions } = meta.aggregations);
+    }
+    editions.sort((a, b) => {
+      if (a.indexOf('Healthcare') !== -1 && b.indexOf('Healthcare') === -1) {
+        return 1;
+      }
+      return 0;
+    });
+
+    let task;
+    let language;
+    let edition;
+    if (params) {
+      ({ task, language, edition } = params);
+    }
+
+    const languageOptions = [
+      [e('option', { key: 0, value: '' }, 'All Languages')],
+    ];
+    languages.forEach(({ code, name }) => {
+      languageOptions.push(e('option', { key: code, value: code }, name));
+    });
+
     return e(
       'form',
-      { className: 'filter-form models-hero__group', onSubmit },
+      {
+        className: 'filter-form models-hero__group',
+        onSubmit: (e) => {
+          e.preventDefault();
+        },
+      },
       [
         e('span', { key: 0, className: 'filter-form__group' }, [
           e('span', { key: 0, className: 'filter-form__text' }, 'Show'),
           e(
-            'select',
+            Select,
             {
               key: 1,
               name: 'task',
-              className: 'select filter-form__select filter-form__select--task',
-              onChange: onTaskChange,
+              value: task,
+              className: 'filter-form__select filter-form__select--task',
+              disabled: isLoading,
+              onChange: (e) => {
+                onSubmit({ task: e.target.value });
+              },
             },
             tasks.reduce(
               (acc, task) => {
@@ -636,62 +457,39 @@
             'models & pipelines in'
           ),
           e(
-            'select',
+            Select,
             {
               key: 1,
               name: 'language',
-              className:
-                'select filter-form__select filter-form__select--language',
+              value: language,
+              renderValue: (code) => {
+                const item = languages.find((v) => v.code === code);
+                return item ? item.name : code;
+              },
+              className: 'filter-form__select filter-form__select--language',
+              disabled: isLoading,
+              onChange: (e) => {
+                onSubmit({ language: e.target.value });
+              },
             },
-            Object.keys(languages)
-              .reduce(
-                (acc, language) => {
-                  acc.push(
-                    e(
-                      'option',
-                      { key: language, value: language },
-                      languages[language]
-                    )
-                  );
-                  return acc;
-                },
-                [[e('option', { key: 0, value: '' }, 'All Languages')]]
-              )
-              .concat(
-                [
-                  e(
-                    'option',
-                    { key: 'separator', disabled: true },
-                    '──────────'
-                  ),
-                ],
-                Object.keys(languageGroups).map((code) => {
-                  return e(
-                    'option',
-                    { key: code, value: code },
-                    languageGroups[code]
-                  );
-                })
-              )
+            languageOptions
           ),
         ]),
         e('span', { key: 2, className: 'filter-form__group' }, [
           e('span', { key: 0, className: 'filter-form__text' }, 'for'),
           e(
-            'select',
+            Select,
             {
               key: 1,
               name: 'edition',
-              className:
-                'select filter-form__select filter-form__select--edition',
+              value: edition,
+              className: 'filter-form__select filter-form__select--edition',
+              disabled: isLoading,
+              onChange: (e) => {
+                onSubmit({ edition: e.target.value });
+              },
             },
             editions
-              .filter((edition) => {
-                if (isHealthcareOnly) {
-                  return edition.indexOf('for Healthcare') !== -1;
-                }
-                return true;
-              })
               .map((edition) =>
                 e('option', { key: edition, value: edition }, edition)
               )
@@ -709,113 +507,83 @@
                 ]
               )
           ),
-          e(
-            'button',
-            {
-              key: 2,
-              type: 'submit',
-              className: 'button filter-form__button',
-            },
-            isLoading ? e(Spinner) : 'Go'
-          ),
         ]),
       ]
     );
   };
 
-  const SearchForm = ({ onSubmit, isLoading }) => {
+  const SearchForm = ({ onSubmit, isLoading, params }) => {
+    const [value, setValue] = useState('');
+    useEffect(() => {
+      setValue((params ? params.q : undefined) || '');
+    }, [params]);
     return e(
       'form',
       {
-        className: 'search-form',
-        onSubmit,
+        className: 'search-form models-hero__group',
+        onSubmit: (e) => {
+          e.preventDefault();
+          onSubmit({ q: value });
+        },
       },
       e('input', {
         type: 'text',
         name: 'q',
+        value,
+        onChange: (e) => setValue(e.target.value),
         className: 'search-form__input',
         placeholder: 'Search models and pipelines',
       }),
-      e(
-        'button',
-        {
-          className: 'button search-form__button',
-          type: 'submit',
-        },
-        isLoading ? e(Spinner) : 'Search'
-      )
+      !!(params && params.q) &&
+        e('button', {
+          key: 'button',
+          type: 'button',
+          className: 'search-form__input-clear-button fa fa-times-circle',
+          onClick: () => {
+            onSubmit({ q: undefined });
+          },
+        }),
+
+      isLoading
+        ? e('span', { className: 'search-form__button' }, e(Spinner))
+        : e('button', {
+            className: 'fa fa-search search-form__button',
+            type: 'submit',
+          })
     );
   };
 
-  const SearchAndUpload = ({ onSubmit, isLoading }) => {
-    return e(
-      'div',
-      {
-        className: 'models-hero__group models-hero__group--search-and-upload',
-      },
-      e(
-        'div',
-        {
-          className: 'models-hero__item models-hero__item--search',
-        },
-        e(SearchForm, { onSubmit, isLoading })
-      ),
-      e(
-        'div',
-        {
-          className: 'models-hero__item models-hero__item--upload',
-        },
-        e(
-          'a',
-          {
-            href: 'https://modelshub.johnsnowlabs.com/',
-            className: 'button models-hero__upload-button',
-          },
-          e('i', {
-            className: 'fa fa-upload',
-          }),
-          '\xA0 Upload Your Model'
-        )
-      )
-    );
+  const Form = ({ onSubmit, isLoading, params, meta }) => {
+    return [
+      e(SearchForm, {
+        key: 'search',
+        onSubmit,
+        isLoading,
+        params,
+      }),
+      e(FilterForm, {
+        key: 'filter',
+        onSubmit,
+        isLoading,
+        meta,
+        params,
+      }),
+    ];
   };
 
   const App = () => {
     const [state, send] = useFilterQuery();
-    const [isHealthcareOnly, setIsHealthcareOnly] = useState(false);
 
-    const handleFilterSubmit = (e) => {
-      e.preventDefault();
-      const {
-        target: {
-          task: { value: task },
-          language: { value: language },
-          edition: { value: edition },
-        },
-      } = e;
-      send({ type: 'FILTER', task, language, edition });
-    };
-
-    const handleSearchSubmit = (e) => {
-      e.preventDefault();
-      const {
-        target: {
-          q: { value: q },
-        },
-      } = e;
-      send({ type: 'SEARCH', q });
-    };
-
-    const handleTaskChange = (e) => {
-      setIsHealthcareOnly(
-        ['Assertion Status', 'Entity Resolution', 'De-identification'].indexOf(
-          e.target.value
-        ) !== -1
-      );
+    const handleSubmit = (params) => {
+      send({ type: 'SUBMIT', ...params, page: undefined });
     };
 
     const handlePageChange = (page) => {
       send({ type: 'CHANGE_PAGE', page });
+    };
+
+    const handleSupportedToggle = (supported) => {
+      send({ type: 'SUBMIT', page: undefined, supported });
     };
 
     let result;
@@ -837,7 +605,9 @@
           result = e(ModelItemList, {
             key: 'model-items',
             meta: state.context.meta,
+            params: state.context.params,
             onPageChange: handlePageChange,
+            onSupportedToggle: handleSupportedToggle,
             children,
           });
         }
@@ -851,17 +621,12 @@
     }
 
     return e(React.Fragment, null, [
-      e(FilterForm, {
+      e(Form, {
         key: 0,
-        onSubmit: handleFilterSubmit,
-        onTaskChange: handleTaskChange,
-        isLoading: state.value === 'loading' && state.context.form === 'FILTER',
-        isHealthcareOnly,
-      }),
-      e(SearchAndUpload, {
-        key: 1,
-        onSubmit: handleSearchSubmit,
-        isLoading: state.value === 'loading' && state.context.form === 'SEARCH',
+        onSubmit: handleSubmit,
+        isLoading: state.value === 'loading',
+        params: state.context.params,
+        meta: state.context.meta,
       }),
       result,
     ]);

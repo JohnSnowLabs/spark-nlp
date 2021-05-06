@@ -7,7 +7,7 @@ date: 2021-03-18
 tags: [assertion, en, licensed, radiology, clinical]
 task: Assertion Status
 language: en
-edition: Spark NLP 2.7.4
+edition: Spark NLP for Healthcare 2.7.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -105,7 +105,7 @@ val result = pipeline.fit(Seq.empty["Blunting of the left costophrenic angle on 
 {:.table-model}
 |---|---|
 |Model Name:|assertion_dl_radiology|
-|Compatibility:|Spark NLP 2.7.4+|
+|Compatibility:|Spark NLP for Healthcare 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, chunk, embeddings]|

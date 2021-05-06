@@ -4,7 +4,7 @@ title: Explain Document DL
 author: John Snow Labs
 name: explain_document_dl
 date: 2020-03-19
-task: [Sentence Detection, POS, Lemmatization, Pipeline Public, Spell Check]
+task: [Sentence Detection, Part of Speech Tagging, Lemmatization, Pipeline Public, Spell Check]
 language: en
 edition: Spark NLP 2.5.5
 tags: [pipeline, en, open_source]

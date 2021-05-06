@@ -7,7 +7,7 @@ date: 2021-05-04
 tags: [mesh, umls, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP 3.0.2
+edition: Spark NLP for Healthcare 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -50,17 +50,17 @@ val result = pipeline.annotate("C028491 D019326 C579867")
 
 Note:
 
-| MeSH | Details | 
-| ---------- | -----------:|
-| C028491 |  1,3-butylene glycol |
-| D019326 | 17-alpha-Hydroxyprogesterone |
-| C579867 | 3-Methylglutaconic Aciduria |
+| MeSH       | Details                      | 
+| ---------- | ----------------------------:|
+| C028491    |  1,3-butylene glycol         |
+| D019326    | 17-alpha-Hydroxyprogesterone |
+| C579867    | 3-Methylglutaconic Aciduria  |
 
-| UMLS | Details |
-| ---------- | -----------:|
-| C0970275 | 1,3-butylene glycol |
-| C0886627 | 17-hydroxyprogesterone |
-| C3696376 | 3-methylglutaconic aciduria |
+| UMLS       | Details                     |
+| ---------- | ---------------------------:|
+| C0970275   | 1,3-butylene glycol         |
+| C0886627   | 17-hydroxyprogesterone      |
+| C3696376   | 3-methylglutaconic aciduria |
 ```
 
 {:.model-param}
@@ -70,7 +70,7 @@ Note:
 |---|---|
 |Model Name:|mesh_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.0.2+|
+|Compatibility:|Spark NLP for Healthcare 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

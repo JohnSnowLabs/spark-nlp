@@ -37,7 +37,7 @@ Relation extraction between body parts and problem entities  in clinical texts
 ```python
 
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -53,6 +53,23 @@ model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than some numbness in his left hand.''')
 ```
 
+```scala
+...
+val ner_tagger = sparknlp.annotators.NerDLModel()
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
+    .setInputCols("sentences", "tokens", "embeddings")
+    .setOutputCol("ner_tags") 
+
+val reModel = RelationExtractionModel().pretrained("re_bodypart_problem","en","clinical/models")
+    .setInputCols(Array("word_embeddings","chunk","pos","dependency"))
+    .setOutput("relations")
+    .setRelationPairs(Array('symptom-external_body_part_or_region'))
+
+val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel))
+val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+
+val results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than some numbness in his left hand.''')
+```
 
 </div>
 

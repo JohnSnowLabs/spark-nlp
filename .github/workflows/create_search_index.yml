@@ -24,5 +24,6 @@ jobs:
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
         working-directory: docs
         run: |
-          git diff --name-only HEAD^ > changes.txt
+          git diff --name-only HEAD~1..HEAD > changes.txt
+          git diff --name-only HEAD..HEAD~1 >> changes.txt
           bundle exec jekyll build

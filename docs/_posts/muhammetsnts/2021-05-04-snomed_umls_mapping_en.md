@@ -7,7 +7,7 @@ date: 2021-05-04
 tags: [snomed, umls, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP 3.0.2
+edition: Spark NLP for Healthcare 3.0.2
 spark_version: 3.0
 supported: true
 article_header:
@@ -51,17 +51,17 @@ val result = pipeline.annotate('733187009 449433008 51264003')
 
 Note:
 
-|SNOMED | Details | 
-| ---------- | -----------:|
-| 733187009 | osteolysis following surgical procedure on skeletal system |
-| 449433008 | Diffuse stenosis of left pulmonary artery |
-| 51264003 | Limbal AND/OR corneal involvement in vernal conjunctivitis |
+|SNOMED      | Details                                                    | 
+| ---------- | ----------------------------------------------------------:|
+| 733187009  | osteolysis following surgical procedure on skeletal system |
+| 449433008  | Diffuse stenosis of left pulmonary artery                  |
+| 51264003   | Limbal AND/OR corneal involvement in vernal conjunctivitis |
 
-| UMLS | Details |
-| ---------- | -----------:|
-| C4546029 | osteolysis following surgical procedure on skeletal system |
-| C3164619 | diffuse stenosis of left pulmonary artery |
-| C0271267 | limbal and/or corneal involvement in vernal conjunctivitis |
+| UMLS       | Details                                                    |
+| ---------- | ----------------------------------------------------------:|
+| C4546029   | osteolysis following surgical procedure on skeletal system |
+| C3164619   | diffuse stenosis of left pulmonary artery                  |
+| C0271267   | limbal and/or corneal involvement in vernal conjunctivitis |
 ```
 
 {:.model-param}
@@ -71,7 +71,7 @@ Note:
 |---|---|
 |Model Name:|snomed_umls_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.0.2+|
+|Compatibility:|Spark NLP for Healthcare 3.0.2+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

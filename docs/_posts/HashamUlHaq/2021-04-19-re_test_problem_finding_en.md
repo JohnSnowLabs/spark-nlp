@@ -36,7 +36,7 @@ Find relations between diagnosis, tests and imaging findings in radiology report
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_clinical','en','clinical/models')\
+    .pretrained('jsl_ner_wip_clinical',"en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 

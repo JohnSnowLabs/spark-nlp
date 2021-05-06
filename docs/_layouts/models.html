@@ -3,16 +3,22 @@ layout: base
 ---
 
 <div class="layout--page js-page-root">
-  <div class="cell cell--auto">
+  <div class="page__main js-page-main page__viewport full-width cell cell--auto">
     <div class="page__main-inner">
       <div class="page__header d-print-none">{%- include header.html -%}</div>
       <div class="page__content">
         <div class="article__header--overlay">
-          <div class="hero hero--center hero--dark overlay"
-            style="min-height: 0; padding-top: 50px; padding-bottom: 50px;">
-            <div class="hero__content">
+          <div class="hero hero--center hero--dark overlay" style="min-height: 0; padding-top: 0; padding-bottom: 0;">
+            <div class="hero__content grid--container models-hero-container">
               <div class="article__header models-hero-header">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <div class="models-hero-header__upload-button-wrapper">
+                  <a href="https://modelshub.johnsnowlabs.com/" class="button models-hero-header__upload-button">
+                    <i class="fa fa-upload"></i>
+                    &nbsp;
+                    Upload Your Model
+                  </a>
+                </div>
                 <header>
                   <h1>NLP Models Hub</h1>
                 </header>
@@ -23,41 +29,27 @@ layout: base
               </p>
               <!-- form here -->
               <div class="models-hero" id="app">
-                <form class="filter-form models-hero__group models-hero__group--filter">
+                <form class="search-form models-hero__group">
+                  <input type="text" class="search-form__input" placeholder="Search models and pipelines" disabled />
+                  <span class="search-form__button"><i class="fas fa-circle-notch fa-spin"></i></span>
+                </form>
+                <form class="filter-form models-hero__group">
                   <span class="filter-form__group">
                     <span class="filter-form__text">Show</span>
-                    <select name="task" class="select filter-form__select filter-form__select--task">
+                    <select name="task" class="select filter-form__select filter-form__select--task" disabled>
                     </select>
                   </span>
                   <span class="filter-form__group">
                     <span class="filter-form__text">models & pipelines in</span>
-                    <select name="language" class="select filter-form__select filter-form__select--language">
+                    <select name="language" class="select filter-form__select filter-form__select--language" disabled>
                     </select>
                   </span>
                   <span class="filter-form__group">
                     <span class="filter-form__text">for</span>
-                    <select name="edition" class="select filter-form__select filter-form__select--edition">
+                    <select name="edition" class="select filter-form__select filter-form__select--edition" disabled>
                     </select>
-                    <button type="submit" class="button filter-form__button">
-                      Go
-                    </button>
                   </span>
                 </form>
-                <div class="models-hero__group models-hero__group--search-and-upload">
-                  <div class="models-hero__item models-hero__item--search">
-                    <form class="search-form">
-                      <input type="text" class="search-form__input" placeholder="Search models and pipelines" />
-                      <button class="button search-form__button">Search</button>
-                    </form>
-                  </div>
-                  <div class="models-hero__item models-hero__item--upload">
-                    <a href="https://modelshub.johnsnowlabs.com/" class="button models-hero__upload-button">
-                      <i class="fa fa-upload"></i>
-                      &nbsp;
-                      Upload Your Model
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -79,6 +71,6 @@ layout: base
 
 <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-<script type="text/javascript" src="/assets/js/models.js"></script>
+<script type="text/javascript" src="/assets/js/models.js?t=1616991961127"></script>
 
 {%- include pageview.html -%}

@@ -1,11 +1,21 @@
 .filter-form {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin-bottom: -20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 1200px) {
+    justify-content: center;
+  }
 }
 
 .filter-form__select {
   margin: 0 10px;
+  flex-shrink: 0;
 }
 
 .filter-form__text {
@@ -35,13 +45,13 @@
 }
 
 .filter-form__select--task {
-  width: 190px;
+  width: 220px;
 }
 
 .filter-form__select--language {
-  width: 150px;
+  width: 230px;
 }
 
 .filter-form__select--edition {
-  width: 200px;
+  width: 240px;
 }

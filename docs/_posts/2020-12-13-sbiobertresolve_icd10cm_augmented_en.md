@@ -39,7 +39,7 @@ ICD10-CM Codes and their normalized definition with ``sbiobert_base_cased_mli`` 
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
  
