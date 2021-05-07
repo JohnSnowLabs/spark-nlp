@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Diagnosis and Procedures (Spanish)
+title: Detect Diagnoses and Procedures (Spanish)
 author: John Snow Labs
 name: ner_diag_proc
 date: 2021-03-31

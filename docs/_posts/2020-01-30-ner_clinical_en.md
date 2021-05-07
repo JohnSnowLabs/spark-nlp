@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Problem, Test and Treatment (ner_clinical_en)
+title: Detect Problems, Tests and Treatments (ner_clinical_en)
 author: John Snow Labs
 name: ner_clinical_en
 date: 2020-01-30

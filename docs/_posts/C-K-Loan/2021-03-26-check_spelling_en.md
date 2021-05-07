@@ -1,6 +1,6 @@
 ---
 layout: model
-title: check_spelling pipeline for English
+title: Spell Checking Pipeline for English
 author: John Snow Labs
 name: check_spelling
 date: 2021-03-26

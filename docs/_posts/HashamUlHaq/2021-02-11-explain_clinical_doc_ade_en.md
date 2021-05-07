@@ -1,6 +1,6 @@
 ---
 layout: model
-title: explain_clinical_doc_ade
+title: Pipeline to Identify Adverse Drug Events
 author: John Snow Labs
 name: explain_clinical_doc_ade
 date: 2021-02-11

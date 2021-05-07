@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Assertion Status (assertion_dl_biobert) - supports confidence scores.
+title: Detect Assertion Status (assertion_dl_biobert) - supports confidence scores
 author: John Snow Labs
 name: assertion_dl_biobert
 date: 2021-01-26
