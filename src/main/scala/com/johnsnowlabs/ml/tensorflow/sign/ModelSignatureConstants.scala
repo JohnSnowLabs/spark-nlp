@@ -4,7 +4,7 @@ import scala.util.matching.Regex
 
 
 /**
- * Based on Hugging Face reference, for instance:
+ * Based on BERT SavedModel reference, for instance:
  *
  * signature_def['serving_default']:
  * The given SavedModel SignatureDef contains the following input(s):
@@ -14,10 +14,10 @@ import scala.util.matching.Regex
  * shape: (-1, -1)
  * name: serving_default_attention_mask:0
  *
-   * inputs['input_ids'] tensor_info:
-   * dtype: DT_INT32
-   * shape: (-1, -1)
-   * name: serving_default_input_ids:0
+ * inputs['input_ids'] tensor_info:
+ * dtype: DT_INT32
+ * shape: (-1, -1)
+ * name: serving_default_input_ids:0
  *
  * inputs['token_type_ids'] tensor_info:
  * dtype: DT_INT32
@@ -37,7 +37,7 @@ import scala.util.matching.Regex
  * name: StatefulPartitionedCall:1
  *
  * Method name is: tensorflow/serving/predict*
-*/
+ */
 
 
 object ModelSignatureConstants {
@@ -123,7 +123,8 @@ object ModelSignatureConstants {
   }
 
   /** Retrieve signature patterns for a given provider
-   * @param modelProvider: the provider library that built the model and the signatures
+   *
+   * @param modelProvider : the provider library that built the model and the signatures
    * @return reference keys array of signature patterns for a given provider
    * */
   def getSignaturePatterns(modelProvider: String): Array[Regex] = {
@@ -138,12 +139,12 @@ object ModelSignatureConstants {
 
       case "TF2" =>
         Array(
-          // TF2 hub
+          // first possible keys
           "(input_word)(.*)(ids)".r,
           "(input)(.*)(mask)".r,
           "(input_type)(.*)(ids)".r,
           "(bert)(.*)(encoder)".r,
-          // Hugging Face hub
+          // second possible keys
           "(input)(.*)(ids)".r,
           "(attention)(.*)(mask)".r,
           "(token_type)(.*)(ids)".r,
@@ -154,7 +155,7 @@ object ModelSignatureConstants {
     referenceKeys
   }
 
-  /** Convert signatures key names to adopted Hugging Face naming conventions */
+  /** Convert signatures key names to normalize naming conventions */
   def toAdoptedKeys(keyName: String): String = {
     keyName match {
       case "input_ids" | "input_word_ids" => InputIds.key
