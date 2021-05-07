@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.generic classifier.GenericClassifierApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.generic classifier.GenericClassifierApproach" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.generic classifier.GenericClassifierApproach" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.generic classifier.GenericClassifierApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,16 +151,16 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="GenericClassifierApproach$.html" title=""></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">GenericClassifierApproach</a>
+                        <a class="class" href="" title="Trains a TensorFlow model for generic classification of feature vectors."></a>
+                        <a href="" title="Trains a TensorFlow model for generic classification of feature vectors.">GenericClassifierApproach</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="GenericClassifierDataEncoder.html" title=""></a>
                         <a href="GenericClassifierDataEncoder.html" title="">GenericClassifierDataEncoder</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="GenericClassifierModel$.html" title=""></a>
-                        <a class="class" href="GenericClassifierModel.html" title="The Generic Classifier is generic single-label classifier which uses pre-generated Tensorflow graphs."></a>
-                        <a href="GenericClassifierModel.html" title="The Generic Classifier is generic single-label classifier which uses pre-generated Tensorflow graphs.">GenericClassifierModel</a>
+                        <a class="class" href="GenericClassifierModel.html" title="Creates a generic single-label classifier which uses pre-generated Tensorflow graphs."></a>
+                        <a href="GenericClassifierModel.html" title="Creates a generic single-label classifier which uses pre-generated Tensorflow graphs.">GenericClassifierModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedGenericClassifier.html" title=""></a>
@@ -199,7 +199,32 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a TensorFlow model for generic classification of feature vectors. It takes FEATURE_VECTOR annotations from
+<a href="../../FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.nlp.FeaturesAssembler"><code>FeaturesAssembler</code></a> as input, classifies them and outputs CATEGORY annotations.
+Please see the Parameters section for required training parameters.</p><p>For a more extensive example please see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/8.Generic_Classifier.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">val</span> features_asm = <span class="kw">new</span> FeaturesAssembler()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"feature_1"</span>, <span class="lit">"feature_2"</span>, <span class="lit">"..."</span>, <span class="lit">"feature_n"</span>))
+  .setOutputCol(<span class="lit">"features"</span>)
+
+<span class="kw">val</span> gen_clf = <span class="kw">new</span> GenericClassifierApproach()
+  .setLabelColumn(<span class="lit">"target"</span>)
+  .setInputCols(<span class="lit">"features"</span>)
+  .setOutputCol(<span class="lit">"prediction"</span>)
+  .setModelFile(<span class="lit">"/path/to/graph_file.pb"</span>)
+  .setEpochsNumber(<span class="num">50</span>)
+  .setBatchSize(<span class="num">100</span>)
+  .setFeatureScaling(<span class="lit">"zscore"</span>)
+  .setlearningRate(<span class="num">0.001</span>f)
+  .setFixImbalance(<span class="kw">true</span>)
+  .setOutputLogsPath(<span class="lit">"logs"</span>)
+  .setValidationSplit(<span class="num">0.2</span>f) <span class="cmt">// keep 20% of the data for validation purposes</span>
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  features_asm,
+  gen_clf
+))
+
+<span class="kw">val</span> clf_model = pipeline.fit(data)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a> for the trained model</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -270,7 +295,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach"></a><a id="&lt;init&gt;:GenericClassifierApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierApproach.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach" title="Permalink">
@@ -285,7 +310,7 @@
         <span class="name">GenericClassifierApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1233,8 +1258,8 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator type : SENTENCE_EMBEDDINGS
-</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : SENTENCE_EMBEDDINGS
+      <p class="shortcomment cmt">Input annotator type : FEATURE_VECTOR
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : FEATURE_VECTOR
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
@@ -2334,20 +2359,20 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="anno">
-              <h3>anno</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
               
-            </div><div class="group" name="getParam">
-              <h3>getParam</h3>
-              
-            </div><div class="group" name="param">
-              <h3>param</h3>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

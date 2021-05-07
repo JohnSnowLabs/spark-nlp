@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -255,8 +255,8 @@
                         <a href="SentenceEntityResolverApproach.html" title="Contains all the parameters and methods to train a SentenceEntityResolverModel.">SentenceEntityResolverApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="SentenceEntityResolverModel$.html" title=""></a>
-                        <a class="class" href="" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset."></a>
-                        <a href="" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset.">SentenceEntityResolverModel</a>
+                        <a class="class" href="" title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g."></a>
+                        <a href="" title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.">SentenceEntityResolverModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="TreeData.html" title=""></a>
@@ -291,10 +291,67 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains all the parameters to transform a dataset with two Input Annotations
-of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators
-and return the Normalized Entity for a particular trained ontology / curated dataset.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html" target="_blank">BertSentenceEmbeddings</a>
+and returns the normalized entity for a particular trained ontology / curated dataset.
+(e.g. ICD-10, RxNorm, SNOMED etc.)</p><p>To use pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><h5>Resolving CPT</h5><p>First define pipeline stages to extract entities</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = SentenceDetectorDLModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> word_embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+<span class="kw">val</span> clinical_ner = MedicalNerModel.pretrained(<span class="lit">"jsl_ner_wip_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> ner_converter = <span class="kw">new</span> NerConverter()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>)
+  .setOutputCol(<span class="lit">"ner_chunk"</span>)
+  .setWhiteList(<span class="lit">"Test"</span>,<span class="lit">"Procedure"</span>)
+<span class="kw">val</span> c2doc = <span class="kw">new</span> Chunk2Doc()
+  .setInputCols(<span class="lit">"ner_chunk"</span>)
+  .setOutputCol(<span class="lit">"ner_chunk_doc"</span>)
+<span class="kw">val</span> sbert_embedder = BertSentenceEmbeddings
+  .pretrained(<span class="lit">"sbiobert_base_cased_mli"</span>,<span class="lit">"en"</span>,<span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"ner_chunk_doc"</span>)
+  .setOutputCol(<span class="lit">"sbert_embeddings"</span>)</pre><p>Then the resolver is defined on the extracted entities and sentence embeddings</p><pre><span class="kw">val</span> cpt_resolver = SentenceEntityResolverModel.pretrained(<span class="lit">"sbiobertresolve_cpt_procedures_augmented"</span>,<span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"ner_chunk"</span>, <span class="lit">"sbert_embeddings"</span>)
+  .setOutputCol(<span class="lit">"cpt_code"</span>)
+  .setDistanceFunction(<span class="lit">"EUCLIDEAN"</span>)
+<span class="kw">val</span> sbert_pipeline_cpt = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  word_embeddings,
+  clinical_ner,
+  ner_converter,
+  c2doc,
+  sbert_embedder,
+  cpt_resolver))</pre><p>Show results</p><pre>sbert_outputs
+  .select(<span class="lit">"explode(arrays_zip(ner_chunk.result ,ner_chunk.metadata, cpt_code.result, cpt_code.metadata, ner_chunk.begin, ner_chunk.end)) as cpt_code"</span>)
+  .selectExpr(
+    <span class="lit">"cpt_code['0'] as chunk"</span>,
+    <span class="lit">"cpt_code['1'].entity as entity"</span>,
+    <span class="lit">"cpt_code['2'] as code"</span>,
+    <span class="lit">"cpt_code['3'].confidence as confidence"</span>,
+    <span class="lit">"cpt_code['3'].all_k_resolutions as all_k_resolutions"</span>,
+    <span class="lit">"cpt_code['3'].all_k_results as all_k_results"</span>
+  ).show(<span class="num">5</span>)
++--------------------+---------+-----+----------+--------------------+--------------------+
+|               chunk|   entity| code|confidence|   all_k_resolutions|         all_k_codes|
++--------------------+---------+-----+----------+--------------------+--------------------+
+|          heart cath|Procedure|<span class="num">93566</span>|    <span class="num">0.1180</span>|CCA - Cardiac cat...|<span class="num">93566</span>:::<span class="num">62319</span>:::<span class="num">9.</span>..|
+|selective coronar...|     Test|<span class="num">93460</span>|    <span class="num">0.1000</span>|Coronary angiogra...|<span class="num">93460</span>:::<span class="num">93458</span>:::<span class="num">9.</span>..|
+|common femoral an...|     Test|<span class="num">35884</span>|    <span class="num">0.1808</span>|Femoral artery by...|<span class="num">35884</span>:::<span class="num">35883</span>:::<span class="num">3.</span>..|
+|   StarClose closure|Procedure|<span class="num">33305</span>|    <span class="num">0.1197</span>|Heart closure:::H...|<span class="num">33305</span>:::<span class="num">33300</span>:::<span class="num">3.</span>..|
+|         stress test|     Test|<span class="num">93351</span>|    <span class="num">0.2795</span>|Cardiovascular st...|<span class="num">93351</span>:::<span class="num">94621</span>:::<span class="num">9.</span>..|
++--------------------+---------+-----+----------+--------------------+--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="SentenceEntityResolverApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> for training a custom model</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -315,7 +372,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -360,7 +417,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel"></a><a id="&lt;init&gt;:SentenceEntityResolverModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" title="Permalink">
@@ -375,7 +432,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">SentenceEntityResolverModel</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -632,7 +689,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#auxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#auxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="auxLabelCol:org.apache.spark.ml.param.Param[String]"></a><a id="auxLabelCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#auxLabelCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -647,7 +704,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">auxLabelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column (Default: aux_label)</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#auxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="auxLabelMap:com.johnsnowlabs.nlp.serialization.StructFeature[scala.collection.Map[String,String]]"></a><a id="auxLabelMap:StructFeature[Map[String,String]]"></a>
       <span class="permalink">
@@ -663,7 +720,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">auxLabelMap</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Collection of Parameters, which are used by method annotate()</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#beforeAnnotate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]"></a><a id="beforeAnnotate(Dataset[_]):Dataset[_]"></a>
       <span class="permalink">
@@ -1176,7 +1233,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getAuxLabelCol():String"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#getAuxLabelCol():String" title="Permalink">
@@ -1191,7 +1248,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">getAuxLabelCol</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getAuxLabelMap():scala.collection.Map[String,String]"></a><a id="getAuxLabelMap():Map[String,String]"></a>
       <span class="permalink">
@@ -1207,7 +1264,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">getAuxLabelMap</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Map[String,String] where key=label and value=auxLabel from a dataset.</p>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#getCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getCaseSensitive:Boolean"></a>
       <span class="permalink">
@@ -1451,7 +1508,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasStorageReader</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getReturnAllKEmbeddings():Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#getReturnAllKEmbeddings():Boolean" title="Permalink">
@@ -1466,8 +1523,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">getReturnAllKEmbeddings</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata. Increase in RAM usage to be expected</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getReturnCosineDistances:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#getReturnCosineDistances:Boolean" title="Permalink">
@@ -1482,8 +1539,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">getReturnCosineDistances</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get whether cosine distances should be calculated between a chunk and the k_candidates result embeddings</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
+Can improve accuracy but increases computation.</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getReturnEuclideanDistances:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#getReturnEuclideanDistances:Boolean" title="Permalink">
@@ -1498,7 +1556,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">getReturnEuclideanDistances</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get whether euclidean distances should be returned or not</p>
+      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token.</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getSearchTree" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getSearchTree:com.johnsnowlabs.ml.search.SerializableKDTree[com.johnsnowlabs.nlp.annotators.resolution.TreeData]"></a><a id="getSearchTree:SerializableKDTree[TreeData]"></a>
       <span class="permalink">
@@ -1547,7 +1605,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getUseAuxLabel():Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#getUseAuxLabel():Boolean" title="Permalink">
@@ -1562,7 +1620,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">getUseAuxLabel</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to use Aux Label or not</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1693,7 +1751,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: SENTENCE_EMBEDDINGS
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: SENTENCE_EMBEDDINGS
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -2115,7 +2175,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: ENTITY
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ENTITY
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2183,7 +2245,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
                 <span class="name">@transient</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="returnAllKEmbeddings:org.apache.spark.ml.param.BooleanParam"></a><a id="returnAllKEmbeddings:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#returnAllKEmbeddings:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2198,8 +2260,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">returnAllKEmbeddings</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
+Increase in RAM usage to be expected (Default: false)</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnCosineDistances:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#returnCosineDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2214,8 +2277,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">returnCosineDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
+Can improve accuracy but increases computation (Default: true)</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="returnEuclideanDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnEuclideanDistances:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#returnEuclideanDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2230,7 +2294,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">returnEuclideanDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token (Default: true)</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2418,7 +2482,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setAuxLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setAuxLabelCol(c:String):SentenceEntityResolverModel.this.type"></a><a id="setAuxLabelCol(String):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#setAuxLabelCol(c:String):SentenceEntityResolverModel.this.type" title="Permalink">
@@ -2433,8 +2497,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setAuxLabelCol</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column.</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setAuxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setAuxLabelMap(m:scala.collection.Map[String,String]):SentenceEntityResolverModel.this.type"></a><a id="setAuxLabelMap(Map[String,String]):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#setAuxLabelMap(m:scala.collection.Map[String,String]):SentenceEntityResolverModel.this.type" title="Permalink">
@@ -2449,7 +2513,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setAuxLabelMap</span><span class="params">(<span name="m">m: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an additional column</p></div></div>
+      <p class="shortcomment cmt">Map[String,String] where key=label and value=auxLabel from a dataset.</p>
     </li><li name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties#setCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setCaseSensitive(value:Boolean):HasCaseSensitiveProperties.this.type"></a><a id="setCaseSensitive(Boolean):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
@@ -2738,7 +2802,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnAllKEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReturnAllKEmbeddings(b:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnAllKEmbeddings(Boolean):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#setReturnAllKEmbeddings(b:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
@@ -2753,8 +2817,8 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setReturnAllKEmbeddings</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata. Increase in RAM usage to be expected</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setReturnCosineDistances(value:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnCosineDistances(Boolean):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#setReturnCosineDistances(value:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
@@ -2769,8 +2833,9 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setReturnCosineDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set whether cosine distances should be calculated between a chunk and the k_candidates result embeddings</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
+Can improve accuracy but increases computation.</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setReturnEuclideanDistances(value:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnEuclideanDistances(Boolean):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#setReturnEuclideanDistances(value:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
@@ -2785,7 +2850,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setReturnEuclideanDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set whether euclidean distances should be returned or not</p>
+      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token.</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setSearchTree" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setSearchTree(tree:com.johnsnowlabs.ml.search.SerializableKDTree[com.johnsnowlabs.nlp.annotators.resolution.TreeData]):SentenceEntityResolverModel.this.type"></a><a id="setSearchTree(SerializableKDTree[TreeData]):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
@@ -2834,7 +2899,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setUseAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setUseAuxLabel(b:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setUseAuxLabel(Boolean):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#setUseAuxLabel(b:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
@@ -2849,7 +2914,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">setUseAuxLabel</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to use Aux Label or not</p>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="storageRef:org.apache.spark.ml.param.Param[String]"></a><a id="storageRef:Param[String]"></a>
       <span class="permalink">
@@ -3027,7 +3092,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a> → Identifiable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#useAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#useAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="useAuxLabel:org.apache.spark.ml.param.BooleanParam"></a><a id="useAuxLabel:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html#useAuxLabel:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -3042,7 +3107,7 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         <span class="name">useAuxLabel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to use Aux Label or not (Default: false)</p>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
@@ -3280,8 +3345,17 @@ and return the Normalized Entity for a particular trained ontology / curated dat
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

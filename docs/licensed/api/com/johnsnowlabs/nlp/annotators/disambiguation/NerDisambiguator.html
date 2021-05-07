@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -215,12 +215,12 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation">disambiguation</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="NerDisambiguator$.html" title=""></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">NerDisambiguator</a>
+                        <a class="class" href="" title="Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB)."></a>
+                        <a href="" title="Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB).">NerDisambiguator</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="NerDisambiguatorModel$.html" title=""></a>
-                        <a class="class" href="NerDisambiguatorModel.html" title=""></a>
-                        <a href="NerDisambiguatorModel.html" title="">NerDisambiguatorModel</a>
+                        <a class="class" href="NerDisambiguatorModel.html" title="Instantiated / pretrained model of the NerDisambiguator."></a>
+                        <a href="NerDisambiguatorModel.html" title="Instantiated / pretrained model of the NerDisambiguator.">NerDisambiguatorModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="SimpleDisambiguationPipeline.html" title=""></a>
@@ -255,7 +255,59 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Links words of interest, such as names of persons, locations and companies, from an input text document to
+a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),
+mentions, or surface forms.
+The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings.html" target="_blank">SentenceEmbeddings</a> and
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html" target="_blank">NerConverter</a>.</p><h4>Example</h4><h5>Extracting Person identities</h5><p>First define pipeline stages that extract entities and embeddings. Entities are filtered for PER type entities.</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"The show also had a contestant named Donald Trump who later defeated Christina Aguilera ..."</span>)
+  .toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> word_embeddings = WordEmbeddingsModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+<span class="kw">val</span> sentence_embeddings = <span class="kw">new</span> SentenceEmbeddings()
+  .setInputCols(<span class="lit">"sentence"</span>,<span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"sentence_embeddings"</span>)
+<span class="kw">val</span> ner_model = NerDLModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> ner_converter = <span class="kw">new</span> NerConverter()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>)
+  .setOutputCol(<span class="lit">"ner_chunk"</span>)
+  .setWhiteList(<span class="lit">"PER"</span>)</pre><p>Then the extracted entities can be disambiguated.</p><pre> <span class="kw">val</span> disambiguator = <span class="kw">new</span> NerDisambiguator()
+  .setS3KnowledgeBaseName(<span class="lit">"i-per"</span>)
+  .setInputCols(<span class="lit">"ner_chunk"</span>, <span class="lit">"sentence_embeddings"</span>)
+  .setOutputCol(<span class="lit">"disambiguation"</span>)
+  .setNumFirstChars(<span class="num">5</span>)
+
+<span class="kw">val</span> nlpPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  word_embeddings,
+  sentence_embeddings,
+  ner_model,
+  ner_converter,
+  disambiguator))
+
+<span class="kw">val</span> model = nlpPipeline.fit(data)
+<span class="kw">val</span> result = model.transform(data)</pre><p>Show results</p><pre>result.selectExpr(<span class="lit">"explode(disambiguation)"</span>)
+  .selectExpr(<span class="lit">"col.metadata.chunk as chunk"</span>, <span class="lit">"col.result as result"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
++------------------+------------------------------------------------------------------------------------------------------------------------+
+|chunk             |result                                                                                                                  |
++------------------+------------------------------------------------------------------------------------------------------------------------+
+|Donald Trump      |http:<span class="cmt">//en.wikipedia.org/?curid=4848272, http://en.wikipedia.org/?curid=31698421, http://en.wikipedia.org/?curid=55907961|</span>
+|Christina Aguilera|http:<span class="cmt">//en.wikipedia.org/?curid=144171, http://en.wikipedia.org/?curid=6636454                                           |</span>
++------------------+------------------------------------------------------------------------------------------------------------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -276,7 +328,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -321,7 +373,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator"></a><a id="&lt;init&gt;:NerDisambiguator"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" title="Permalink">
@@ -336,7 +388,7 @@
         <span class="name">NerDisambiguator</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -662,7 +714,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> → AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#embeddingTypeParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#embeddingTypeParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="embeddingTypeParam:org.apache.spark.ml.param.Param[String]"></a><a id="embeddingTypeParam:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#embeddingTypeParam:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -677,7 +729,7 @@
         <span class="name">embeddingTypeParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Can be 'bow' for word embeddings or 'sentence' for sentences (Default: sentence)</p><div class="fullcomment"><div class="comment cmt"><p>Can be 'bow' for word embeddings or 'sentence' for sentences (Default: sentence)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1027,7 +1079,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getEmbeddingType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getEmbeddingType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getEmbeddingType:String"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getEmbeddingType:String" title="Permalink">
@@ -1042,7 +1094,7 @@
         <span class="name">getEmbeddingType</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Can be 'bow' for word embeddings or 'sentence' for sentences (Default: sentence)</p><div class="fullcomment"><div class="comment cmt"><p>Can be 'bow' for word embeddings or 'sentence' for sentences (Default: sentence)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1075,7 +1127,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getLevenshteinDistanceThresholdParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getLevenshteinDistanceThresholdParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getLevenshteinDistanceThresholdParam:Double"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getLevenshteinDistanceThresholdParam:Double" title="Permalink">
@@ -1090,8 +1142,8 @@
         <span class="name">getLevenshteinDistanceThresholdParam</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getNarrowWithApproximateMatching" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Levenshtein distance threshold to narrow results from prefix search (Default: 0.1)</p><div class="fullcomment"><div class="comment cmt"><p>Levenshtein distance threshold to narrow results from prefix search (Default: 0.1)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getNarrowWithApproximateMatching" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getNarrowWithApproximateMatching:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getNarrowWithApproximateMatching:Boolean" title="Permalink">
@@ -1106,8 +1158,8 @@
         <span class="name">getNarrowWithApproximateMatching</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getNearMatchingGapParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to narrow prefix search results with levenstein distance based matching (Default: true)</p><div class="fullcomment"><div class="comment cmt"><p>Whether to narrow prefix search results with levenstein distance based matching (Default: true)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getNearMatchingGapParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getNearMatchingGapParam:Int"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getNearMatchingGapParam:Int" title="Permalink">
@@ -1122,8 +1174,10 @@
         <span class="name">getNearMatchingGapParam</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getNumFirstChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,
+len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p><div class="fullcomment"><div class="comment cmt"><p>Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,
+len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getNumFirstChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getNumFirstChars:Int"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getNumFirstChars:Int" title="Permalink">
@@ -1138,7 +1192,7 @@
         <span class="name">getNumFirstChars</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">How many characters should be considered for initial prefix search in knowledge base</p><div class="fullcomment"><div class="comment cmt"><p>How many characters should be considered for initial prefix search in knowledge base</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1187,7 +1241,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getPredictionLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getPredictionLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getPredictionLimit:Int"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getPredictionLimit:Int" title="Permalink">
@@ -1202,8 +1256,8 @@
         <span class="name">getPredictionLimit</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getTokenSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Limit on amount of predictions N for topN predictions (Default: 100)</p><div class="fullcomment"><div class="comment cmt"><p>Limit on amount of predictions N for topN predictions (Default: 100)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#getTokenSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getTokenSearch:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#getTokenSearch:Boolean" title="Permalink">
@@ -1218,7 +1272,7 @@
         <span class="name">getTokenSearch</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Whether to search by token or by chunk in knowledge base (Default: true)</p><div class="fullcomment"><div class="comment cmt"><p>Whether to search by token or by chunk in knowledge base (Default: true)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1302,7 +1356,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1317,7 +1371,7 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: CHUNK, SENTENCE_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: CHUNK, SENTENCE_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1398,7 +1452,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#knowledgeBase" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#knowledgeBase" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="knowledgeBase:org.apache.spark.ml.param.Param[String]"></a><a id="knowledgeBase:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#knowledgeBase:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1413,7 +1467,7 @@
         <span class="name">knowledgeBase</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Knowledge base path</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#knowledgeBaseStructure" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="knowledgeBaseStructure:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge]"></a><a id="knowledgeBaseStructure:StructFeature[Knowledge]"></a>
       <span class="permalink">
@@ -1446,7 +1500,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#levenshteinDistanceThresholdParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#levenshteinDistanceThresholdParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="levenshteinDistanceThresholdParam:org.apache.spark.ml.param.DoubleParam"></a><a id="levenshteinDistanceThresholdParam:DoubleParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#levenshteinDistanceThresholdParam:org.apache.spark.ml.param.DoubleParam" title="Permalink">
@@ -1461,7 +1515,7 @@
         <span class="name">levenshteinDistanceThresholdParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Levenshtein distance threshold to narrow results from prefix search (Default: 0.1)</p><div class="fullcomment"><div class="comment cmt"><p>Levenshtein distance threshold to narrow results from prefix search (Default: 0.1)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#log" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="log:org.slf4j.Logger"></a><a id="log:Logger"></a>
       <span class="permalink">
@@ -1670,7 +1724,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#narrowWithApproximateMatching" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#narrowWithApproximateMatching" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="narrowWithApproximateMatching:org.apache.spark.ml.param.BooleanParam"></a><a id="narrowWithApproximateMatching:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#narrowWithApproximateMatching:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1685,7 +1739,7 @@
         <span class="name">narrowWithApproximateMatching</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Whether to narrow prefix search results with levenstein distance based matching (Default: true)</p><div class="fullcomment"><div class="comment cmt"><p>Whether to narrow prefix search results with levenstein distance based matching (Default: true)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1702,7 +1756,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#nearMatchingGapParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#nearMatchingGapParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="nearMatchingGapParam:org.apache.spark.ml.param.IntParam"></a><a id="nearMatchingGapParam:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#nearMatchingGapParam:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1717,7 +1771,9 @@
         <span class="name">nearMatchingGapParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,
+len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p><div class="fullcomment"><div class="comment cmt"><p>Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,
+len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
@@ -1756,7 +1812,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#numFirstChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#numFirstChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="numFirstChars:org.apache.spark.ml.param.IntParam"></a><a id="numFirstChars:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#numFirstChars:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1771,7 +1827,7 @@
         <span class="name">numFirstChars</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">How many characters should be considered for initial prefix search in knowledge base</p><div class="fullcomment"><div class="comment cmt"><p>How many characters should be considered for initial prefix search in knowledge base</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#onTrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="onTrained(model:M,spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="onTrained(NerDisambiguatorModel,SparkSession):Unit"></a>
       <span class="permalink">
@@ -1788,7 +1844,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:NerDisambiguator.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#outputAnnotatorType:NerDisambiguator.this.AnnotatorType" title="Permalink">
@@ -1803,7 +1859,7 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: DISAMBIGUATION</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: DISAMBIGUATION</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1836,7 +1892,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#predictionsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#predictionsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="predictionsLimit:org.apache.spark.ml.param.IntParam"></a><a id="predictionsLimit:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#predictionsLimit:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1851,7 +1907,7 @@
         <span class="name">predictionsLimit</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Limit on amount of predictions N for topN predictions (Default: 100)</p><div class="fullcomment"><div class="comment cmt"><p>Limit on amount of predictions N for topN predictions (Default: 100)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#rocksDbReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="rocksDbReader:com.johnsnowlabs.nlp.annotators.disambiguation.util.read.RocksDbReader"></a><a id="rocksDbReader:RocksDbReader"></a>
       <span class="permalink">
@@ -1868,7 +1924,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#s3KnowledgeBaseName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#s3KnowledgeBaseName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="s3KnowledgeBaseName:org.apache.spark.ml.param.Param[String]"></a><a id="s3KnowledgeBaseName:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#s3KnowledgeBaseName:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1883,7 +1939,7 @@
         <span class="name">s3KnowledgeBaseName</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Knowledge base name in s3</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2119,7 +2175,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setEmbeddingType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setEmbeddingType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setEmbeddingType(v:String):DisambiguatorModelParams.this.type"></a><a id="setEmbeddingType(String):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setEmbeddingType(v:String):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2134,7 +2190,7 @@
         <span class="name">setEmbeddingType</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Can be 'bow' for word embeddings or 'sentence' for sentences (Default: sentence)</p><div class="fullcomment"><div class="comment cmt"><p>Can be 'bow' for word embeddings or 'sentence' for sentences (Default: sentence)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):NerDisambiguator.this.type"></a>
       <span class="permalink">
@@ -2167,7 +2223,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#setKnowledgeBase" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#setKnowledgeBase" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setKnowledgeBase(path:String):NerDisambiguator.this.type"></a><a id="setKnowledgeBase(String):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setKnowledgeBase(path:String):NerDisambiguator.this.type" title="Permalink">
@@ -2182,7 +2238,7 @@
         <span class="name">setKnowledgeBase</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Knowledge base path</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setKnowledgeBaseStructure" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setKnowledgeBaseStructure(kb:com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge):DisambiguatorModelParams.this.type"></a><a id="setKnowledgeBaseStructure(Knowledge):NerDisambiguator.this.type"></a>
       <span class="permalink">
@@ -2215,7 +2271,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setLevenshteinDistanceThresholdParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setLevenshteinDistanceThresholdParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setLevenshteinDistanceThresholdParam(v:Double):DisambiguatorModelParams.this.type"></a><a id="setLevenshteinDistanceThresholdParam(Double):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setLevenshteinDistanceThresholdParam(v:Double):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2230,8 +2286,8 @@
         <span class="name">setLevenshteinDistanceThresholdParam</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setNarrowWithApproximateMatching" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Levenshtein distance threshold to narrow results from prefix search (Default: 0.1)</p><div class="fullcomment"><div class="comment cmt"><p>Levenshtein distance threshold to narrow results from prefix search (Default: 0.1)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setNarrowWithApproximateMatching" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setNarrowWithApproximateMatching(v:Boolean):DisambiguatorModelParams.this.type"></a><a id="setNarrowWithApproximateMatching(Boolean):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setNarrowWithApproximateMatching(v:Boolean):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2246,8 +2302,8 @@
         <span class="name">setNarrowWithApproximateMatching</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setNearMatchingGapParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Whether to narrow prefix search results with levenstein distance based matching (Default: true)</p><div class="fullcomment"><div class="comment cmt"><p>Whether to narrow prefix search results with levenstein distance based matching (Default: true)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setNearMatchingGapParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setNearMatchingGapParam(v:Int):DisambiguatorModelParams.this.type"></a><a id="setNearMatchingGapParam(Int):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setNearMatchingGapParam(v:Int):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2262,8 +2318,10 @@
         <span class="name">setNearMatchingGapParam</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setNumFirstChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,
+len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p><div class="fullcomment"><div class="comment cmt"><p>Puts a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing,
+len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setNumFirstChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setNumFirstChars(v:Int):DisambiguatorModelParams.this.type"></a><a id="setNumFirstChars(Int):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setNumFirstChars(v:Int):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2278,7 +2336,7 @@
         <span class="name">setNumFirstChars</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">How many characters should be considered for initial prefix search in knowledge base</p><div class="fullcomment"><div class="comment cmt"><p>How many characters should be considered for initial prefix search in knowledge base</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):NerDisambiguator.this.type"></a>
       <span class="permalink">
@@ -2295,7 +2353,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setPredictionLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setPredictionLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setPredictionLimit(v:Int):DisambiguatorModelParams.this.type"></a><a id="setPredictionLimit(Int):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setPredictionLimit(v:Int):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2310,8 +2368,8 @@
         <span class="name">setPredictionLimit</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#setS3KnowledgeBaseName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Limit on amount of predictions N for topN predictions (Default: 100)</p><div class="fullcomment"><div class="comment cmt"><p>Limit on amount of predictions N for topN predictions (Default: 100)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#setS3KnowledgeBaseName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setS3KnowledgeBaseName(path:String):NerDisambiguator.this.type"></a><a id="setS3KnowledgeBaseName(String):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setS3KnowledgeBaseName(path:String):NerDisambiguator.this.type" title="Permalink">
@@ -2326,8 +2384,8 @@
         <span class="name">setS3KnowledgeBaseName</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setTokenSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Knowledge base name in s3</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setTokenSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setTokenSearch(v:Boolean):DisambiguatorModelParams.this.type"></a><a id="setTokenSearch(Boolean):NerDisambiguator.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setTokenSearch(v:Boolean):DisambiguatorModelParams.this.type" title="Permalink">
@@ -2342,7 +2400,7 @@
         <span class="name">setTokenSearch</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Whether to search by token or by chunk in knowledge base (Default: true)</p><div class="fullcomment"><div class="comment cmt"><p>Whether to search by token or by chunk in knowledge base (Default: true)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2375,7 +2433,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Identifiable → AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#tokenSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#tokenSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="tokenSearch:org.apache.spark.ml.param.BooleanParam"></a><a id="tokenSearch:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#tokenSearch:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2390,7 +2448,7 @@
         <span class="name">tokenSearch</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
+      <p class="shortcomment cmt">Whether to search by token or by chunk in knowledge base (Default: true)</p><div class="fullcomment"><div class="comment cmt"><p>Whether to search by token or by chunk in knowledge base (Default: true)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#train" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="train(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel"></a><a id="train(Dataset[_],Option[PipelineModel]):NerDisambiguatorModel"></a>
       <span class="permalink">
@@ -2611,8 +2669,20 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -534,8 +534,25 @@ result.selectExpr(<span class="lit">"explode(ngram_tokens)"</span>).show(<span c
       <p class="shortcomment cmt">Annotator which normalizes raw text from clinical documents, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.
 Removes all dirty characters from text following one or more input regex patterns.
 Can apply non wanted character removal which a specific policy.
-Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizerTestSpec.scala" target="_blank">DocumentNormalizer test class</a> for examples examples of usage.
-</p></div></div>
+Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb" target="_blank">Spark NLP Workshop</a> for more examples of usage.</p><h4>Example</h4><pre><span class="kw">val</span> data = <span class="std">Seq</span>(
+  (<span class="lit">"Sodium Chloride/Potassium Chloride 13bag"</span>),
+  (<span class="lit">"interferon alfa-2b 10 million unit ( 1 ml ) injec"</span>),
+  (<span class="lit">"aspirin 10 meq/ 5 ml oral sol"</span>)
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> drugNormalizer = <span class="kw">new</span> DrugNormalizer().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"document_normalized"</span>)
+
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, drugNormalizer))
+<span class="kw">val</span> result = trainingPipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(document_normalized.result) as normalized_text"</span>).show(<span class="kw">false</span>)
++----------------------------------------------------+
+|normalized_text                                     |
++----------------------------------------------------+
+|Sodium Chloride / Potassium Chloride <span class="num">13</span> bag         |
+|interferon alfa - <span class="num">2</span>b <span class="num">10000000</span> unt ( <span class="num">1</span> ml ) injection|
+|aspirin <span class="num">2</span> meq/ml oral solution                      |
++----------------------------------------------------+</pre></div></div>
     </li></ol>
             </div>
 

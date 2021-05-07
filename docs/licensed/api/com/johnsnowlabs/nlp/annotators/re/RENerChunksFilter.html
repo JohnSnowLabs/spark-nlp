@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -159,8 +159,8 @@
                         <a href="DLRelationInstance.html" title="">DLRelationInstance</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="PosologyREModel.html" title=""></a>
-                        <a href="PosologyREModel.html" title="">PosologyREModel</a>
+                        <a class="class" href="PosologyREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites."></a>
+                        <a href="PosologyREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites.">PosologyREModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="REDataEncoder.html" title=""></a>
@@ -171,8 +171,8 @@
                         <a href="REFeatureGenerator$.html" title="">REFeatureGenerator</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="RENerChunksFilter$.html" title=""></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">RENerChunksFilter</a>
+                        <a class="class" href="" title="Filters and outputs combinations of relations between extracted entities, for further processing."></a>
+                        <a href="" title="Filters and outputs combinations of relations between extracted entities, for further processing.">RENerChunksFilter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadRelationExtractionDLModelTensorflowModel.html" title=""></a>
@@ -183,16 +183,16 @@
                         <a href="ReadablePretrainedRelationExtractionDLModel.html" title="">ReadablePretrainedRelationExtractionDLModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="RelationExtractionApproach.html" title=""></a>
-                        <a href="RelationExtractionApproach.html" title="">RelationExtractionApproach</a>
+                        <a class="class" href="RelationExtractionApproach.html" title="Trains a TensorFlow model for relation extraction."></a>
+                        <a href="RelationExtractionApproach.html" title="Trains a TensorFlow model for relation extraction.">RelationExtractionApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="RelationExtractionDLModel$.html" title=""></a>
-                        <a class="class" href="RelationExtractionDLModel.html" title=""></a>
-                        <a href="RelationExtractionDLModel.html" title="">RelationExtractionDLModel</a>
+                        <a class="class" href="RelationExtractionDLModel.html" title="Extracts and classifies instances of relations between named entities."></a>
+                        <a href="RelationExtractionDLModel.html" title="Extracts and classifies instances of relations between named entities.">RelationExtractionDLModel</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="RelationExtractionModel$.html" title=""></a>
-                        <a class="class" href="RelationExtractionModel.html" title="Annotator model, that Extracts and classifies instances of relations between named entities."></a>
-                        <a href="RelationExtractionModel.html" title="Annotator model, that Extracts and classifies instances of relations between named entities.">RelationExtractionModel</a>
+                        <a class="class" href="RelationExtractionModel.html" title="Extracts and classifies instances of relations between named entities."></a>
+                        <a href="RelationExtractionModel.html" title="Extracts and classifies instances of relations between named entities.">RelationExtractionModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="RelationInstance.html" title=""></a>
@@ -227,7 +227,74 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Filters and outputs combinations of relations between extracted entities, for further processing.
+This annotator is especially useful to create inputs for the <a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>.</p><h4>Example</h4><p>Define pipeline stages to extract entities</p><pre><span class="kw">val</span> documenter = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentencer = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentences"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentences"</span>)
+  .setOutputCol(<span class="lit">"tokens"</span>)
+
+<span class="kw">val</span> words_embedder = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+
+<span class="kw">val</span> pos_tagger = PerceptronModel.pretrained(<span class="lit">"pos_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>)
+  .setOutputCol(<span class="lit">"pos_tags"</span>)
+
+<span class="kw">val</span> dependency_parser = DependencyParserModel.pretrained(<span class="lit">"dependency_conllu"</span>, <span class="lit">"en"</span>)
+  .setInputCols(<span class="lit">"sentences"</span>, <span class="lit">"pos_tags"</span>, <span class="lit">"tokens"</span>)
+  .setOutputCol(<span class="lit">"dependencies"</span>)
+
+<span class="kw">val</span> clinical_ner_tagger = MedicalNerModel.pretrained(<span class="lit">"jsl_ner_wip_greedy_clinical"</span>,<span class="lit">"en"</span>,<span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner_tags"</span>)
+
+<span class="kw">val</span> ner_chunker = <span class="kw">new</span> NerConverter()
+  .setInputCols(<span class="lit">"sentences"</span>, <span class="lit">"tokens"</span>, <span class="lit">"ner_tags"</span>)
+  .setOutputCol(<span class="lit">"ner_chunks"</span>)</pre><p>Define the relation pairs and the filter</p><pre><span class="kw">val</span> relationPairs = <span class="std">Array</span>(<span class="lit">"direction-external_body_part_or_region"</span>,
+                      <span class="lit">"external_body_part_or_region-direction"</span>,
+                      <span class="lit">"direction-internal_organ_or_component"</span>,
+                      <span class="lit">"internal_organ_or_component-direction"</span>)
+
+<span class="kw">val</span> re_ner_chunk_filter = <span class="kw">new</span> RENerChunksFilter()
+    .setInputCols(<span class="lit">"ner_chunks"</span>, <span class="lit">"dependencies"</span>)
+    .setOutputCol(<span class="lit">"re_ner_chunks"</span>)
+    .setMaxSyntacticDistance(<span class="num">4</span>)
+    .setRelationPairs(<span class="std">Array</span>(<span class="lit">"internal_organ_or_component-direction"</span>))
+
+<span class="kw">val</span> trained_pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documenter,
+  sentencer,
+  tokenizer,
+  words_embedder,
+  pos_tagger,
+  clinical_ner_tagger,
+  ner_chunker,
+  dependency_parser,
+  re_ner_chunk_filter
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = trained_pipeline.fit(data).transform(data)</pre><p>Show results</p><pre>result.selectExpr(<span class="lit">"explode(re_ner_chunks) as re_chunks"</span>)
+  .selectExpr(<span class="lit">"re_chunks.begin"</span>, <span class="lit">"re_chunks.result"</span>, <span class="lit">"re_chunks.metadata.entity"</span>, <span class="lit">"re_chunks.metadata.paired_to"</span>)
+  .show(<span class="num">6</span>, truncate=<span class="kw">false</span>)
++-----+-------------+---------------------------+---------+
+|begin|result       |entity                     |paired_to|
++-----+-------------+---------------------------+---------+
+|<span class="num">35</span>   |upper        |Direction                  |<span class="num">41</span>       |
+|<span class="num">41</span>   |brain stem   |Internal_organ_or_component|<span class="num">35</span>       |
+|<span class="num">35</span>   |upper        |Direction                  |<span class="num">59</span>       |
+|<span class="num">59</span>   |cerebellum   |Internal_organ_or_component|<span class="num">35</span>       |
+|<span class="num">35</span>   |upper        |Direction                  |<span class="num">81</span>       |
+|<span class="num">81</span>   |basil ganglia|Internal_organ_or_component|<span class="num">35</span>       |
++-----+-------------+---------------------------+---------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a> for BERT based extraction</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -298,7 +365,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter"></a><a id="&lt;init&gt;:RENerChunksFilter"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" title="Permalink">
@@ -313,7 +380,7 @@
         <span class="name">RENerChunksFilter</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1015,8 +1082,7 @@
         <span class="name">getMaxSyntacticDistance</span><span class="result">: <span class="extype" name="scala.Float">Float</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get prediction threshold
-</p>
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1065,7 +1131,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#getRelationPairs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#getRelationPairs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getRelationPairs:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#getRelationPairs:Array[String]" title="Permalink">
@@ -1080,8 +1146,7 @@
         <span class="name">getRelationPairs</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Get relation pairs
-</p>
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1196,9 +1261,7 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator type : SENTENCE_EMBEDDINGS
-</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : SENTENCE_EMBEDDINGS
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator type : CHUNK, DEPENDENCY</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : CHUNK, DEPENDENCY</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1487,7 +1550,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#maxSyntacticDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#maxSyntacticDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxSyntacticDistance:org.apache.spark.ml.param.IntParam"></a><a id="maxSyntacticDistance:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#maxSyntacticDistance:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1502,7 +1565,7 @@
         <span class="name">maxSyntacticDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1604,9 +1667,7 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Output annotator type : CATEGORY
-</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : CATEGORY
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator type : CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1655,7 +1716,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#relationPairs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#relationPairs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="relationPairs:org.apache.spark.ml.param.Param[String]"></a><a id="relationPairs:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#relationPairs:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1670,7 +1731,7 @@
         <span class="name">relationPairs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -1969,8 +2030,7 @@
         <span class="name">setMaxSyntacticDistance</span><span class="params">(<span name="maxSyntacticDistance">maxSyntacticDistance: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set prediction threshold
-</p>
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):RENerChunksFilter.this.type"></a>
       <span class="permalink">
@@ -2003,7 +2063,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#setRelationPairs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#setRelationPairs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setRelationPairs(relationPairs:Array[String]):RENerChunksFilter.this.type"></a><a id="setRelationPairs(Array[String]):RENerChunksFilter.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html#setRelationPairs(relationPairs:Array[String]):RENerChunksFilter.this.type" title="Permalink">
@@ -2018,8 +2078,7 @@
         <span class="name">setRelationPairs</span><span class="params">(<span name="relationPairs">relationPairs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set relation pairs
-</p>
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2340,17 +2399,20 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="anno">
-              <h3>anno</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
               
-            </div><div class="group" name="getParam">
-              <h3>getParam</h3>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>
