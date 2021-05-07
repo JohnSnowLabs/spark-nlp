@@ -18,8 +18,8 @@ Check out the [Spark NLP Annotators page](https://nlp.johnsnowlabs.com/docs/en/a
 <div class="h3-box" markdown="1">
 
 ### AssertionDL
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html">Model scaladocs</a>
 
 A Deep Learning based approach is used to extract Assertion Status from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type annotator inputs, which can be obtained by e.g a DocumentAssembler, NerConverter and WordEmbeddingsModel. The result is an assertion status annotation for each recognized entity. Possible values include `“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”` etc. For pretrained models please see the Models Hub for available models.
 
@@ -133,7 +133,7 @@ result.selectExpr("ner_chunk.result", "assertion.result").show(3, truncate=False
 
 ### AssertionFilterer
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html">Model scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html">Model scaladocs</a>|
 
 Filters entities coming from ASSERTION type annotations and returns the CHUNKS. Filters can be set via a white list on the extracted chunk, the assertion or a regular expression. White list for assertion is enabled by default. To use chunk white list, `criteria` has to be set to `"isin"`. For regex, `criteria` has to be set to `"regex"`.
 
@@ -242,8 +242,8 @@ result.select("filtered.result").show(3, truncate=False)
 <div class="h3-box" markdown="1">
 
 ### AssertionLogReg
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html">Model scaladocs</a>
 
 This annotator classifies each clinically relevant named entity into its assertion:
 
@@ -360,7 +360,7 @@ assertionModel = assertionPipeline.fit(dataset)
 
 ### Chunk2Token
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/Chunk2Token.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/Chunk2Token.html">API scaladocs</a>|
 
 A feature transformer that converts the input array of strings (annotatorType CHUNK) into an array of chunk-based tokens (annotatorType TOKEN). When the input is empty, an empty array is returned. This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels
 
@@ -443,8 +443,8 @@ result.selectExpr("explode(ngram_tokens)").show(5, False)
 <div class="h3-box" markdown="1">
 
 ### ChunkEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverModel.html">Model scaladocs</a>
 
 Contains all the parameters and methods to train a ChunkEntityResolverModel. It transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from e.g. ChunkTokenizer and ChunkEmbeddings Annotators and returns the normalized entity for a particular trained ontology / curated dataset. (e.g. ICD-10, RxNorm, SNOMED etc.) To use pretrained models please use ChunkEntityResolverModel and see the Models Hub for available models.
 
@@ -575,7 +575,7 @@ model = snomedExtractor.fit(snomedData)
 
 ### ChunkFilterer
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html">Model scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html">Model scaladocs</a>|
 
 Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression. White list criteria is enabled by default. To use regex, `criteria` has to be set to `regex`.
 
@@ -925,59 +925,171 @@ result.selectExpr("explode(entity)").show(5, truncate=False)
 <div class="h3-box" markdown="1">
 
 ### DeIdentificator
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentification.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentification.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html">Model scaladocs</a>
 
 Identifies potential pieces of content with personal information about patients and remove them by replacing with semantic tags.
+Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using TextMatchers, RegexMatchers, DateMatchers, NerCRFs or NerDLs Example of pipeline for deidentification.
 
 **Input types:** `DOCUMENT, TOKEN, CHUNK`
 
 **Output type:** `DOCUMENT`
 
-**Example:**
+<details>
+<summary><b>Show Example</b></summary>
 
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
-
-```python
-deid = DeIdentificationApproach() \
-      .setInputCols("sentence", "token", "ner_chunk") \
-      .setOutputCol("deid_sentence") \
-      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
-      .setMode("mask") \
-      .setDateTag("DATE") \
-      .setObfuscateDate(False) \
-      .setDays(5) \
-      .setDateToYear(False) \
-      .setMinYear(1900) \
-      .setDateFormats(["MM-dd-yyyy","MM-dd-yy"]) \
-      .setConsistentObfuscation(True) \
-      .setSameEntityThreshold(0.9)
-```
 ```scala
-val deid = new DeIdentificationApproach()
-      .setInputCols("sentence", "token", "ner_chunk")
-      .setOutputCol("deid_sentence")
-      .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt") \
-      .setMode("mask")
-      .setDateTag("DATE")
-      .setObfuscateDate(false)
-      .setDays(5)
-      .setDateToYear(false)
-      .setMinYear(1900)
-      .setDateFormats(Seq("MM-dd-yyyy","MM-dd-yy"))
-      .setConsistentObfuscation(true)
-      .setSameEntityThreshold(0.9)
-```
+val documentAssembler = new DocumentAssembler()
+     .setInputCol("text")
+     .setOutputCol("document")
 
-</div></div>
+ val sentenceDetector = new SentenceDetector()
+     .setInputCols(Array("document"))
+     .setOutputCol("sentence")
+     .setUseAbbreviations(true)
+
+ val tokenizer = new Tokenizer()
+     .setInputCols(Array("sentence"))
+     .setOutputCol("token")
+
+ val embeddings = WordEmbeddingsModel
+     .pretrained("embeddings_clinical", "en", "clinical/models")
+     .setInputCols(Array("sentence", "token"))
+     .setOutputCol("embeddings")
+
+// Ner entities
+val clinical_sensitive_entities = MedicalNerModel.pretrained("ner_deid_enriched", "en", "clinical/models")
+        .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
+
+ val nerConverter = new NerConverter()
+     .setInputCols(Array("sentence", "token", "ner"))
+     .setOutputCol("ner_con")
+
+// Deidentification
+val deIdentification = new DeIdentification()
+     .setInputCols(Array("ner_chunk", "token", "sentence"))
+     .setOutputCol("dei")
+     // file with custom regex pattern for custom entities
+     .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt")
+     // file with custom obfuscator names for the entities
+     .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt")
+     .setRefFileFormat("csv")
+     .setRefSep("#")
+     .setMode("obfuscate")
+     .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd"))
+     .setObfuscateDate(true)
+     .setDateTag("DATE")
+     .setDays(5)
+     .setObfuscateRefSource("file")
+
+// Pipeline
+val data = Seq(
+  "# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."
+).toDF("text")
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  clinical_sensitive_entities,
+  nerConverter,
+  deIdentification
+))
+val result = pipeline.fit(data).transform(data)
+
+// Show Results
+result.select("dei.result").show(truncate = false)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
++--------------------------------------------------------------------------------------------------+
+```
+```python
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+ sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence") \
+    .setUseAbbreviations(True)
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+embeddings = WordEmbeddingsModel \
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
+
+# Ner entities
+clinical_sensitive_entities = MedicalNerModel \
+    .pretrained("ner_deid_enriched", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
+
+nerConverter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_con")
+
+# Deidentification
+deIdentification = DeIdentification() \
+    .setInputCols(["ner_chunk", "token", "sentence"]) \
+    .setOutputCol("dei") \
+    # file with custom regex pattern for custom entities
+    .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt") \
+    # file with custom obfuscator names for the entities
+    .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt") \
+    .setRefFileFormat("csv") \
+    .setRefSep("#") \
+    .setMode("obfuscate") \
+    .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd")) \
+    .setObfuscateDate(True) \
+    .setDateTag("DATE") \
+    .setDays(5) \
+    .setObfuscateRefSource("file")
+
+# Pipeline
+data = spark.createDataFrame([
+    ["# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."]
+]).toDF("text")
+
+pipeline = Pipeline(stages=[
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    clinical_sensitive_entities,
+    nerConverter,
+    deIdentification
+])
+result = pipeline.fit(data).transform(data)
+
+# Show Results
+result.select("dei.result").show(truncate = False)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
++--------------------------------------------------------------------------------------------------+
+
+```
+</div>
+
+</details>
+
+</div>
 
 <div class="h3-box" markdown="1">
 
 ### DocumentLogRegClassifier
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierModel.html">Model scaladocs</a>
 
 A convenient TFIDF-LogReg classifier that accepts "token" input type and outputs "selector"; an input type mainly used in RecursivePipelineModels
 
@@ -1083,7 +1195,7 @@ model = pipeline.fit(trainingData)
 
 ### DrugNormalizer
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/DrugNormalizer.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/DrugNormalizer.html">API scaladocs</a>|
 
 Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence. Removes all dirty characters from text following one or more input regex patterns. Can apply non wanted character removal which a specific policy. Can apply lower case normalization. See Spark NLP Workshop for more examples of usage.
 
@@ -1152,8 +1264,7 @@ result.selectExpr("explode(document_normalized.result) as normalized_text").show
 
 ### GenericClassifierApproach
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierModel.html">Model scaladocs</a>
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/generic_classifier/GenericClassifierModel.html">Model scaladocs</a>
 
 Trains a TensorFlow model for generic classification of feature vectors. It takes FEATURE_VECTOR annotations from `FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations. Please see the Parameters section for required training parameters. For a more extensive example please see the Spark NLP Workshop.
 
@@ -1230,7 +1341,7 @@ clf_model = pipeline.fit(data)
 
 ### IOBTagger
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger.html">API scaladocs</a>|
 
 Merges token tags and NER labels from chunks in the specified format. For example output columns as inputs from NerConverter and Tokenizer can be used to merge.
 
@@ -1312,7 +1423,7 @@ result.selectExpr("explode(ner_label) as a") \
 
 ### NerChunker
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerChunker.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerChunker.html">API scaladocs</a>|
 
 Extracts phrases that fits into a known pattern using the NER tags. Useful for entity groups with neighboring tokens when there is no pretrained NER model to address certain issues. A Regex needs to be provided to extract the tokens between entities.
 
@@ -1473,7 +1584,7 @@ result.select("ner_chunk.result").show(truncate=False)
 
 ### NerConverterInternal
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerConverterInternal.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerConverterInternal.html">API scaladocs</a>|
 
 Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label. Chunks with no associated entity (tagged "O") are filtered. See also Inside–outside–beginning (tagging) for more information.
 
@@ -1549,7 +1660,7 @@ result.selectExpr("explode(ner_converter_result)").show(5, False)
 
 ### NerDisambiguator
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html">API scaladocs</a>|
 
 Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs), mentions, or surface forms. The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g. SentenceEmbeddings and NerConverter.
 
@@ -1687,12 +1798,81 @@ result.selectExpr("explode(disambiguation)") \
 
 </div>
 
+<div class="h3-box" markdown="1">
+
+### ReIdentification
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/ReIdentification.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/ReIdentificationModel.html">Model scaladocs</a>
+
+Reidentifies obfuscated entities by `DeIdentification`. This annotator requires the outputs from the deidentification as input. Input columns need to be the deidentified document and the deidentification mappings set with DeIdentification.setMappingsColumn. To see how the entities are deidentified, please refer to the example of that annotator.
+
+**Input types:** `DOCUMENT,CHUNK`
+
+**Output type:** `DOCUMENT`
+
+<details>
+<summary><b>Show Example</b></summary>
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+```scala
+// Define the reidentification stage and transform the deidentified documents
+val reideintification = new ReIdentification()
+  .setInputCols("dei", "protectedEntities")
+  .setOutputCol("reid")
+  .transform(result)
+
+// Show results
+result.select("dei.result").show(truncate=false)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
++--------------------------------------------------------------------------------------------------+
+
+reideintification.selectExpr("explode(reid.result)").show(truncate=false)
++-----------------------------------------------------------------------------------+
+|col                                                                                |
++-----------------------------------------------------------------------------------+
+|# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.|
++-----------------------------------------------------------------------------------+
+
+```
+```python
+# Define the reidentification stage and transform the deidentified documents
+reideintification = ReIdentification() \
+  .setInputCols(["dei", "protectedEntities"]) \
+  .setOutputCol("reid") \
+  .transform(result)
+
+# Show results
+result.select("dei.result").show(truncate=False)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
++--------------------------------------------------------------------------------------------------+
+
+reideintification.selectExpr("explode(reid.result)").show(truncate=False)
++-----------------------------------------------------------------------------------+
+|col                                                                                |
++-----------------------------------------------------------------------------------+
+|# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.|
++-----------------------------------------------------------------------------------+
+
+```
+</div>
+
+</details>
+
+</div>
 
 <div class="h3-box" markdown="1">
 
 ### RelationExtraction
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html">Model scaladocs</a>
 
 Extracts and classifies instances of relations between named entities.
 
@@ -1859,7 +2039,7 @@ model = pipeline.fit(trainData)
 
 ### RelationExtractionDL
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel.html">Model scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel.html">Model scaladocs</a>|
 
 Extracts and classifies instances of relations between named entities. In contrast with RelationExtractionModel, RelationExtractionDLModel is based on BERT. For pretrained models please see the Models Hub for available models.
 
@@ -1985,7 +2165,7 @@ result.selectExpr("explode(relations) as relations") \
 
 ### RENerChunksFilter
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html">API scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter.html">API scaladocs</a>|
 
 Filters and outputs combinations of relations between extracted entities, for further processing. This annotator is especially useful to create inputs for the RelationExtractionDLModel.
 
@@ -2162,8 +2342,8 @@ result.selectExpr("explode(re_ner_chunks) as re_chunks") \
 <div class="h3-box" markdown="1">
 
 ### SentenceEntityResolver
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html">Approach scaladocs</a> |
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html">Model scaladocs</a>
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html">Model scaladocs</a>
 
 Assigns a standard code (ICD10 CM, PCS, ICDO; CPT) to sentence embeddings pooled over chunks from TextMatchers or the NER Models.
 This annotator is particularly handy when workING with BertSentenceEmbeddings from the upstream chunks.

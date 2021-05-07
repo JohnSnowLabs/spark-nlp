@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DrugNormalizer</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.DrugNormalizer" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.DrugNormalizer" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DrugNormalizer</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.DrugNormalizer" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.DrugNormalizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -366,8 +366,25 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.
 Removes all dirty characters from text following one or more input regex patterns.
 Can apply non wanted character removal which a specific policy.
-Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizerTestSpec.scala" target="_blank">DocumentNormalizer test class</a> for examples examples of usage.
-</p></div><div class="toggleContainer block">
+Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb" target="_blank">Spark NLP Workshop</a> for more examples of usage.</p><h4>Example</h4><pre><span class="kw">val</span> data = <span class="std">Seq</span>(
+  (<span class="lit">"Sodium Chloride/Potassium Chloride 13bag"</span>),
+  (<span class="lit">"interferon alfa-2b 10 million unit ( 1 ml ) injec"</span>),
+  (<span class="lit">"aspirin 10 meq/ 5 ml oral sol"</span>)
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> drugNormalizer = <span class="kw">new</span> DrugNormalizer().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"document_normalized"</span>)
+
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, drugNormalizer))
+<span class="kw">val</span> result = trainingPipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(document_normalized.result) as normalized_text"</span>).show(<span class="kw">false</span>)
++----------------------------------------------------+
+|normalized_text                                     |
++----------------------------------------------------+
+|Sodium Chloride / Potassium Chloride <span class="num">13</span> bag         |
+|interferon alfa - <span class="num">2</span>b <span class="num">10000000</span> unt ( <span class="num">1</span> ml ) injection|
+|aspirin <span class="num">2</span> meq/ml oral solution                      |
++----------------------------------------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -638,7 +655,7 @@ Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSn
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AnnotatorModel</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer#abbreviations" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Parameters">
+    </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer#abbreviations" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="abbreviations:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]"></a><a id="abbreviations:MapFeature[String,String]"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/DrugNormalizer.html#abbreviations:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]" title="Permalink">
@@ -1654,7 +1671,7 @@ Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSn
         <span class="name">lowercase</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">whether to convert strings to lowercase
+      <p class="shortcomment cmt">whether to convert strings to lowercase (Default: false)
 </p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
@@ -1757,8 +1774,8 @@ Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSn
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.DrugNormalizer.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <p class="shortcomment cmt">Input annotator type : DOCUMENT
-</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type : DOCUMENT
+      <p class="shortcomment cmt">Output annotator type : DOCUMENT
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator type : DOCUMENT
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DrugNormalizer">DrugNormalizer</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
@@ -1808,7 +1825,7 @@ Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSn
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer#patterns" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Parameters">
+    </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer#patterns" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="patterns:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]"></a><a id="patterns:MapFeature[String,String]"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/DrugNormalizer.html#patterns:com.johnsnowlabs.nlp.serialization.MapFeature[String,String]" title="Permalink">
@@ -1823,8 +1840,7 @@ Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSn
         <span class="name">patterns</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">normalization regex patterns which match will be normalized document
-</p>
+      <p class="shortcomment cmt">normalization regex patterns which match will be normalized document</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.DrugNormalizer#policy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="policy:org.apache.spark.ml.param.Param[String]"></a><a id="policy:Param[String]"></a>
       <span class="permalink">
@@ -1840,7 +1856,7 @@ Can apply lower case normalization.</p><p>See <a href="https://github.com/JohnSn
         <span class="name">policy</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">removalPolicy to remove patterns from text with a given policy
+      <p class="shortcomment cmt">removalPolicy to remove patterns from text (Default: 'all')
 </p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
@@ -2510,10 +2526,7 @@ Valid policy values are: &quot;all&quot;, &quot;abbreviations&quot;, &quot;dosag
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Parameters">
-              <h3>Parameters</h3>
-              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
-            </div><div class="group" name="param">
+        <div class="group" name="param">
               <h3>Parameters</h3>
               
             </div><div class="group" name="anno">

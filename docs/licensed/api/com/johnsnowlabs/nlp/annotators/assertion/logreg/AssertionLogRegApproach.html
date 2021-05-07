@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -167,8 +167,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion">assertion</a></dd></dl></div>
     </li><li class="current-entities indented6">
                         <a class="object" href="AssertionLogRegApproach$.html" title=""></a>
-                        <a class="class" href="" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd"></a>
-                        <a href="" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd">AssertionLogRegApproach</a>
+                        <a class="class" href="" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training a AssertionLogRegModel, together with trainWithChunk, trainWithStartEnd."></a>
+                        <a href="" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training a AssertionLogRegModel, together with trainWithChunk, trainWithStartEnd.">AssertionLogRegApproach</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="AssertionLogRegModel$.html" title=""></a>
                         <a class="class" href="AssertionLogRegModel.html" title="This is a main class in AssertionLogReg family."></a>
@@ -220,8 +220,43 @@
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is a classification method, which uses LogisticRegression algorithm
-Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd
-</p></div><div class="toggleContainer block">
+Contains all the methods for training a <a href="AssertionLogRegModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>, together with trainWithChunk, trainWithStartEnd.</p><h4>Example</h4><h5>Training with Glove Embeddings</h5><p>First define pipeline stages to extract embeddings and text chunks</p><pre> <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> glove = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"word_embeddings"</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> chunkAssembler = <span class="kw">new</span> Doc2Chunk()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setChunkCol(<span class="lit">"target"</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)</pre><p>Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.</p><pre><span class="kw">val</span> assertion = <span class="kw">new</span> AssertionLogRegApproach()
+  .setLabelCol(<span class="lit">"label"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"chunk"</span>, <span class="lit">"word_embeddings"</span>)
+  .setOutputCol(<span class="lit">"assertion"</span>)
+  .setReg(<span class="num">0.01</span>)
+  .setBefore(<span class="num">11</span>)
+  .setAfter(<span class="num">13</span>)
+  .setStartCol(<span class="lit">"start"</span>)
+  .setEndCol(<span class="lit">"end"</span>)
+
+<span class="kw">val</span> assertionPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  nerModel,
+  nerConverter,
+  assertion
+))
+
+<span class="kw">val</span> assertionModel = assertionPipeline.fit(dataset)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -242,7 +277,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -302,7 +337,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">AssertionLogRegApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AssertionDLApproach</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -444,7 +479,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → <a href="Windowing.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing">Windowing</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#afterParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#afterParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="afterParam:org.apache.spark.ml.param.IntParam"></a><a id="afterParam:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#afterParam:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -459,7 +494,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">afterParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Amount of tokens from the context after the target</p>
+      <p class="shortcomment cmt">Amount of tokens from the context after the target (Default: 10)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing#applyWindow" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="applyWindow(tokenizedSentence:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence,s:Int,e:Int,embeddingsDim:Int):Array[Double]"></a><a id="applyWindow(WordpieceEmbeddingsSentence,Int,Int,Int):Array[Double]"></a>
       <span class="permalink">
@@ -556,7 +591,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → <a href="Windowing.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing">Windowing</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#beforeParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#beforeParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="beforeParam:org.apache.spark.ml.param.IntParam"></a><a id="beforeParam:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#beforeParam:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -571,7 +606,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">beforeParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Amount of tokens from the context before the target</p>
+      <p class="shortcomment cmt">Amount of tokens from the context before the target (Default: 10)</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
       <span class="permalink">
@@ -708,7 +743,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#eNetParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#eNetParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="eNetParam:org.apache.spark.ml.param.DoubleParam"></a><a id="eNetParam:DoubleParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#eNetParam:org.apache.spark.ml.param.DoubleParam" title="Permalink">
@@ -723,8 +758,8 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">eNetParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Elastic net parameter</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Elastic net parameter (Default: 0.9)</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="endCol:org.apache.spark.ml.param.Param[String]"></a><a id="endCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#endCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1156,7 +1191,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1171,7 +1206,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1268,7 +1303,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Windowing.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing">Windowing</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#label" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#label" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="label:org.apache.spark.ml.param.Param[String]"></a><a id="label:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#label:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1492,7 +1527,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#maxIter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#maxIter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxIter:org.apache.spark.ml.param.IntParam"></a><a id="maxIter:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#maxIter:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1507,7 +1542,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">maxIter</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Max number of iterations for algorithm</p>
+      <p class="shortcomment cmt">Max number of iterations for algorithm (Default: 26)</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1610,7 +1645,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:AssertionLogRegApproach.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#outputAnnotatorType:AssertionLogRegApproach.this.AnnotatorType" title="Permalink">
@@ -1625,7 +1660,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: ASSERTION</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ASSERTION</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1658,7 +1693,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#regParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#regParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="regParam:org.apache.spark.ml.param.DoubleParam"></a><a id="regParam:DoubleParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#regParam:org.apache.spark.ml.param.DoubleParam" title="Permalink">
@@ -1673,7 +1708,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">regParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Regularization parameter</p>
+      <p class="shortcomment cmt">Regularization parameter (Default: 0.00192)</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -1749,7 +1784,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setAfter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setAfter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setAfter(a:Int):AssertionLogRegApproach.this.type"></a><a id="setAfter(Int):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setAfter(a:Int):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1764,8 +1799,8 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setAfter</span><span class="params">(<span name="a">a: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setBefore" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Amount of tokens from the context after the target (Default: 10)</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setBefore" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setBefore(b:Int):AssertionLogRegApproach.this.type"></a><a id="setBefore(Int):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setBefore(b:Int):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1780,7 +1815,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setBefore</span><span class="params">(<span name="b">b: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Amount of tokens from the context before the target (Default: 10)</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
@@ -1813,7 +1848,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setEndCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setEndCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEndCol(end:String):AssertionLogRegApproach.this.type"></a><a id="setEndCol(String):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setEndCol(end:String):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1828,8 +1863,8 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setEndCol</span><span class="params">(<span name="end">end: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setEnet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Column that contains the token number for the end of the target</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setEnet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEnet(enet:Double):AssertionLogRegApproach.this.type"></a><a id="setEnet(Double):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setEnet(enet:Double):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1844,7 +1879,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setEnet</span><span class="params">(<span name="enet">enet: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Elastic net parameter (Default: 0.9)</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
@@ -1877,7 +1912,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setLabelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setLabelCol(label:String):AssertionLogRegApproach.this.type"></a><a id="setLabelCol(String):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setLabelCol(label:String):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1892,7 +1927,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setLabelCol</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column with one label per document</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
@@ -1909,7 +1944,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setMaxIter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setMaxIter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxIter(max:Int):AssertionLogRegApproach.this.type"></a><a id="setMaxIter(Int):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setMaxIter(max:Int):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1924,7 +1959,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setMaxIter</span><span class="params">(<span name="max">max: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Max number of iterations for algorithm (Default: 26)</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
@@ -1941,7 +1976,7 @@ Contains all the methods for training the LogisticRegression Approach, together 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setReg" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setReg" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setReg(lambda:Double):AssertionLogRegApproach.this.type"></a><a id="setReg(Double):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setReg(lambda:Double):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1956,8 +1991,8 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setReg</span><span class="params">(<span name="lambda">lambda: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setStartCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Regularization parameter (Default: 0.00192)</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#setStartCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setStartCol(start:String):AssertionLogRegApproach.this.type"></a><a id="setStartCol(String):AssertionLogRegApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#setStartCol(start:String):AssertionLogRegApproach.this.type" title="Permalink">
@@ -1972,8 +2007,8 @@ Contains all the methods for training the LogisticRegression Approach, together 
         <span class="name">setStartCol</span><span class="params">(<span name="start">start: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#startCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Column that contains the token number for the start of the target</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach#startCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="startCol:org.apache.spark.ml.param.Param[String]"></a><a id="startCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach.html#startCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2258,8 +2293,17 @@ The choice of training happens based on the startCol value of the DL Approach
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
               
             </div>
         </div>

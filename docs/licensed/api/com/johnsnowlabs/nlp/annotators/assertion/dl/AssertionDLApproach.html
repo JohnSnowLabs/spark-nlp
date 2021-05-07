@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -245,7 +245,7 @@ For pretrained models please use AssertionDLModel and see the
 ))
 
 <span class="kw">val</span> assertionModel = trainingPipeline.fit(data)
-<span class="kw">val</span> assertionResults = assertionModel.transform(data).cache()</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></p></span></dd></dl><div class="toggleContainer block">
+<span class="kw">val</span> assertionResults = assertionModel.transform(data).cache()</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> for using pretrained models</p></span><span class="cmt"><p><span class="extype" name="com.johnsnowlabs.nlp.jsl.annotator.AssertionLogRegModel">AssertionLogRegModel</span> for non deep learning based extraction</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -452,7 +452,7 @@ For pretrained models please use AssertionDLModel and see the
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="batchSize:org.apache.spark.ml.param.IntParam"></a><a id="batchSize:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#batchSize:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -467,7 +467,7 @@ For pretrained models please use AssertionDLModel and see the
         <span class="name">batchSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Size for each batch in the optimization process.</p><div class="fullcomment"><div class="comment cmt"><p>Size for each batch in the optimization process. Default: 64</p></div></div>
+      <p class="shortcomment cmt">Size for each batch in the optimization process (Default: 64)</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
       <span class="permalink">
@@ -636,7 +636,7 @@ For pretrained models please use AssertionDLModel and see the
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> → AnnotatorApproach</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#dropout" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#dropout" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="dropout:org.apache.spark.ml.param.FloatParam"></a><a id="dropout:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#dropout:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -651,8 +651,8 @@ For pretrained models please use AssertionDLModel and see the
         <span class="name">dropout</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Dropout at the output of each layer.</p><div class="fullcomment"><div class="comment cmt"><p>Dropout at the output of each layer. Default: 0.05f</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#enableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <p class="shortcomment cmt">Dropout at the output of each layer (Default: 0.05f)</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#enableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="enableOutputLogs:org.apache.spark.ml.param.BooleanParam"></a><a id="enableOutputLogs:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#enableOutputLogs:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -667,7 +667,7 @@ For pretrained models please use AssertionDLModel and see the
         <span class="name">enableOutputLogs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to output to annotators log folder.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to output to annotators log folder. Default: false</p></div></div>
+      <p class="shortcomment cmt">Whether to output to annotators log folder (Default: false)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="endCol:org.apache.spark.ml.param.Param[String]"></a><a id="endCol:Param[String]"></a>
       <span class="permalink">
@@ -684,7 +684,7 @@ For pretrained models please use AssertionDLModel and see the
       </span>
       
       <p class="shortcomment cmt">Column with token number for last target token</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#epochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#epochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="epochs:org.apache.spark.ml.param.IntParam"></a><a id="epochs:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#epochs:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -699,7 +699,7 @@ For pretrained models please use AssertionDLModel and see the
         <span class="name">epochs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Number of epochs for the optimization process.</p><div class="fullcomment"><div class="comment cmt"><p>Number of epochs for the optimization process. Default: 5</p></div></div>
+      <p class="shortcomment cmt">Number of epochs for the optimization process (Default: 5)</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1358,7 +1358,7 @@ For pretrained models please use AssertionDLModel and see the
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#learningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#learningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="learningRate:org.apache.spark.ml.param.FloatParam"></a><a id="learningRate:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#learningRate:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -1373,7 +1373,7 @@ For pretrained models please use AssertionDLModel and see the
         <span class="name">learningRate</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Learning rate for the optimization process.</p><div class="fullcomment"><div class="comment cmt"><p>Learning rate for the optimization process. Default: 0.0012f</p></div></div>
+      <p class="shortcomment cmt">Learning rate for the optimization process (Default: 0.0012f)</p>
     </li><li name="com.johnsnowlabs.ml.tensorflow.Logging#log" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="log(value:=&gt;String,minLevel:com.johnsnowlabs.nlp.annotators.ner.Verbose.Level):Unit"></a><a id="log(⇒String,Level):Unit"></a>
       <span class="permalink">
@@ -1598,7 +1598,7 @@ For pretrained models please use AssertionDLModel and see the
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxSentLen:org.apache.spark.ml.param.IntParam"></a><a id="maxSentLen:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLApproach.html#maxSentLen:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1613,7 +1613,7 @@ For pretrained models please use AssertionDLModel and see the
         <span class="name">maxSentLen</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Max possible length of a sentence, must match graph model.</p><div class="fullcomment"><div class="comment cmt"><p>Max possible length of a sentence, must match graph model. Default: 250</p></div></div>
+      <p class="shortcomment cmt">Max possible length of a sentence, must match graph model (Default: 250)</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">

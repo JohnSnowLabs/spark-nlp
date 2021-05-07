@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -211,10 +211,48 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is a main class in AssertionDL family. It contains all the parameters and main point of interest
-method annotate() which applies functionality from AssertionAnnotationWithLabel
-This class extends the AnnotatorModel by overriding method annotate()
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is a main class in AssertionDL family. A Deep Learning based approach is used to extract Assertion Status
+from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
+annotator inputs, which can be obtained by e.g a
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler" target="_blank">DocumentAssembler</a>,
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter" target="_blank">NerConverter</a>
+and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel" target="_blank">WordEmbeddingsModel</a>.
+The result is an assertion status annotation for each recognized entity.
+Possible values include <code>“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”</code> etc.</p><p>For pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Assertion+Status" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><p>Define pipeline stages to extract NER chunks first</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"Patient with severe fever and sore throat"</span>,
+  <span class="lit">"Patient shows no stomach pain"</span>,
+  <span class="lit">"She was maintained on an epidural and PCA for pain control."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+<span class="kw">val</span> nerModel = MedicalNerModel.pretrained(<span class="lit">"ner_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>).setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> nerConverter = <span class="kw">new</span> NerConverter().setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>).setOutputCol(<span class="lit">"ner_chunk"</span>)</pre><p>Then a pretrained AssertionDLModel is used to extract the assertion status</p><pre><span class="kw">val</span> clinicalAssertion = AssertionDLModel.pretrained(<span class="lit">"assertion_dl"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"ner_chunk"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"assertion"</span>)
+
+<span class="kw">val</span> assertionPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  nerModel,
+  nerConverter,
+  clinicalAssertion
+))
+
+<span class="kw">val</span> assertionModel = assertionPipeline.fit(data)</pre><p>Show results</p><pre><span class="kw">val</span> result = assertionModel.transform(data)
+result.selectExpr(<span class="lit">"ner_chunk.result"</span>, <span class="lit">"assertion.result"</span>).show(<span class="num">3</span>, truncate=<span class="kw">false</span>)
++--------------------------------+--------------------------------+
+|result                          |result                          |
++--------------------------------+--------------------------------+
+|[severe fever, sore throat]     |[present, present]              |
+|[stomach pain]                  |[absent]                        |
+|[an epidural, PCA, pain control]|[present, present, hypothetical]|
++--------------------------------+--------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> for training a custom AssertionDLModel</p></span><span class="cmt"><p><a href="../logreg/AssertionLogRegModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> for non deep learning based extraction</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -535,7 +573,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="batchSize:org.apache.spark.ml.param.IntParam"></a><a id="batchSize:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#batchSize:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -550,7 +588,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">batchSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Parameter, which regulates the size of the batch</p>
+      <p class="shortcomment cmt">Size of every batch</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#beforeAnnotate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]"></a><a id="beforeAnnotate(Dataset[_]):Dataset[_]"></a>
       <span class="permalink">
@@ -585,7 +623,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#classes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#classes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="classes:org.apache.spark.ml.param.StringArrayParam"></a><a id="classes:StringArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#classes:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
@@ -600,7 +638,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">classes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">List of classes used to train the model</p>
+      <p class="shortcomment cmt">List of internal copies of classes used to train for Python</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):AssertionDLModel.this.type"></a>
       <span class="permalink">
@@ -641,7 +679,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="configProtoBytes:org.apache.spark.ml.param.IntArrayParam"></a><a id="configProtoBytes:IntArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#configProtoBytes:org.apache.spark.ml.param.IntArrayParam" title="Permalink">
@@ -656,7 +694,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">This is a collection of parameters to use with protobuff protocol</p>
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel"></a><a id="copy(ParamMap):AssertionDLModel"></a>
       <span class="permalink">
@@ -1035,7 +1073,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       
       <p class="shortcomment cmt">get the tags used to trained this NerDLModel
 </p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getConfigProtoBytes:Option[Array[Byte]]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#getConfigProtoBytes:Option[Array[Byte]]" title="Permalink">
@@ -1050,7 +1088,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">getConfigProtoBytes</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -1247,7 +1285,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#includeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#includeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="includeConfidence:org.apache.spark.ml.param.BooleanParam"></a><a id="includeConfidence:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#includeConfidence:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1262,7 +1300,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">includeConfidence</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">whether to include confidence scores in annotation metadata (Default: false)</p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">
@@ -1295,7 +1333,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1310,7 +1348,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1599,7 +1637,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxSentLen:org.apache.spark.ml.param.IntParam"></a><a id="maxSentLen:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#maxSentLen:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1614,8 +1652,8 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">maxSentLen</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Parameter, which regulates the length of the longest sentence</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#model" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Max possible length of a sentence (Default: 256)</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#model" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="model:com.johnsnowlabs.ml.tensorflow.TensorflowAssertion"></a><a id="model:TensorflowAssertion"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#model:com.johnsnowlabs.ml.tensorflow.TensorflowAssertion" title="Permalink">
@@ -1630,7 +1668,8 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">model</span><span class="result">: <a href="../../../../ml/tensorflow/TensorflowAssertion.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowAssertion">TensorflowAssertion</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Tensorflow model for the AssertionDLModel.</p><div class="fullcomment"><div class="comment cmt"><p>Tensorflow model for the AssertionDLModel. This is used to generate the predictions.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1717,7 +1756,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> → ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:AssertionDLModel.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#outputAnnotatorType:AssertionDLModel.this.AnnotatorType" title="Permalink">
@@ -1732,7 +1771,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: ASSERTION</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ASSERTION</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1920,7 +1959,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setBatchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setBatchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setBatchSize(size:Int):AssertionDLModel.this.type"></a><a id="setBatchSize(Int):AssertionDLModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#setBatchSize(size:Int):AssertionDLModel.this.type" title="Permalink">
@@ -1935,8 +1974,8 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">setBatchSize</span><span class="params">(<span name="size">size: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Size of every batch</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel"></a><a id="setConfigProtoBytes(Array[Int]):AssertionDLModel"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" title="Permalink">
@@ -1951,7 +1990,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setDatasetParams" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setDatasetParams(params:com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams):com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel"></a><a id="setDatasetParams(DatasetEncoderParams):AssertionDLModel"></a>
       <span class="permalink">
@@ -1967,7 +2006,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">setDatasetParams</span><span class="params">(<span name="params">params: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.DatasetEncoderParams">DatasetEncoderParams</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Collection of Parameters, which are used by method annotate()</p>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a><a id="setDefault[T](StructFeature[T],()⇒T):AssertionDLModel.this.type"></a>
       <span class="permalink">
@@ -2129,7 +2168,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setMaxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel#setMaxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxSentLen(len:Int):AssertionDLModel.this.type"></a><a id="setMaxSentLen(Int):AssertionDLModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/dl/AssertionDLModel.html#setMaxSentLen(len:Int):AssertionDLModel.this.type" title="Permalink">
@@ -2144,7 +2183,7 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         <span class="name">setMaxSentLen</span><span class="params">(<span name="len">len: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Max possible length of a sentence.</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):AssertionDLModel.this.type"></a>
       <span class="permalink">
@@ -2629,14 +2668,20 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="getParam">
-              <h3>getParam</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

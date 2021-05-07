@@ -1,9 +1,9 @@
 ---
 layout: model
-title: Universal Sentence Encoder Multilingual Large (tfhub_use_multi_lg)
+title: Universal Sentence Encoder Multilingual (tfhub_use_multi)
 author: John Snow Labs
-name: tfhub_use_multi_lg
-date: 2021-03-11
+name: tfhub_use_multi
+date: 2021-05-06
 tags: [xx, open_source, embeddings]
 task: Embeddings
 language: xx
@@ -29,7 +29,7 @@ Note: This model only works on Linux and macOS operating systems and is not comp
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/tfhub_use_multi_lg_xx_3.0.0_3.0_1615469396910.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/tfhub_use_multi_xx_3.0.0_3.0_1620291657399.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -38,13 +38,13 @@ Note: This model only works on Linux and macOS operating systems and is not comp
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx") \
-      .setInputCols("sentence") \
+embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx") \
+      .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 ```
 ```scala
-val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
-      .setInputCols("sentence")
+val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi", "xx")
+      .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 ```
 
@@ -53,7 +53,7 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_multi_lg", "xx")
 import nlu
 
 text = ["I love NLP", "Me encanta usar SparkNLP"]
-embeddings_df = nlu.load('xx.use.multi_lg').predict(text, output_level='sentence')
+embeddings_df = nlu.load('xx.use.multi').predict(text, output_level='sentence')
 embeddings_df
 ```
 </div>
@@ -61,7 +61,7 @@ embeddings_df
 ## Results
 
 ```bash
-It gives a 512-dimensional vector of the sentences.
+It gives a 512-dimensional vector of the sentences
 
 ```
 
@@ -70,7 +70,7 @@ It gives a 512-dimensional vector of the sentences.
 
 {:.table-model}
 |---|---|
-|Model Name:|tfhub_use_multi_lg|
+|Model Name:|tfhub_use_multi|
 |Compatibility:|Spark NLP 3.0.0+|
 |License:|Open Source|
 |Edition:|Official|
@@ -78,33 +78,29 @@ It gives a 512-dimensional vector of the sentences.
 |Output Labels:|[sentence_embeddings]|
 |Language:|xx|
 
-## Data Source
-
-This embeddings model is imported from [https://tfhub.dev/google/universal-sentence-encoder-multilingual-large/3](https://tfhub.dev/google/universal-sentence-encoder-multilingual-large/3)
-
 ## Benchmarking
 
 ```bash
-- We apply this model to the STS benchmark for semantic similarity. The eval can be seen in the [example notebook](https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb) made available. Results are shown below:
+- We apply this model to the STS benchmark for semantic similarity. 
 
 
 STSBenchmark                       | dev    | test  |
 -----------------------------------|--------|-------|   
-Correlation coefficient of Pearson | 0.837  | 0.825 |
+Correlation coefficient of Pearson | 0.829  | 0.809 |
 
 
-- For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
+ - For semantic similarity retrieval, we evaluate the model on [Quora and AskUbuntu retrieval task.](https://arxiv.org/abs/1811.08008). Results are shown below:
 
 
 Dataset                | Quora | AskUbuntu | Average |
 -----------------------|-------|-----------|---------|
-Mean Average Precision  | 89.1  | 42.3      | 65.7    |
+Mean Average Precision  | 89.2  | 39.9      | 64.6    |
 
 
-- For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
+ - For the translation pair retrieval, we evaluate the model on the United Nation Parallel Corpus. Results are shown below:
 
 Language Pair  | en-es  | en-fr | en-ru | en-zh |
 ---------------|--------|-------|-------|-------|
-Precision@1    | 86.1   | 83.3  | 88.9  | 78.8  |
+Precision@1    | 85.8   | 82.7  | 87.4  | 79.5  |
 
 ```
