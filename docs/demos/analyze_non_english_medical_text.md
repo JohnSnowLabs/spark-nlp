@@ -74,4 +74,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+        - title: Detect Diagnoses And Procedures In Spanish
+          id: detect-diagnoses-and-procedures-in-spanish
+          image: 
+              src: /assets/images/Detect_drugs_and_prescriptions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
+          excerpt: Automatically identify diagnoses and procedures in Spanish clinical documents using the pre-trained Spark NLP clinical model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC_ES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC_ES.ipynb
+        - title: Logical Observation Identifiers Names and Codes (LOINC)
+          id: logical-observation-identifiers-names-and-codes
+          image: 
+              src: /assets/images/Detect_drugs_and_prescriptions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
+          excerpt: Map clinical NER entities to Logical Observation Identifiers Names and Codes (LOINC) using our pre-trained model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb
+        - title: Map Healthcare Codes
+          id: logical-observation-identifiers-names-and-codes
+          image: 
+              src: /assets/images/Detect_traffic_information_in_text.svg
+          image2: 
+              src: /assets/images/Detect_traffic_information_in_text_f.svg
+          excerpt: These pretrained pipelines map various codes (e.g., ICD10CM codes to SNOMED codes) without using any text data.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_CODE_MAPPING/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL
 ---
