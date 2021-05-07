@@ -40,7 +40,7 @@ document_assembler = DocumentAssembler()\
   .setOutputCol("document")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["document"])\
      .setOutputCol("sbert_embeddings")
 

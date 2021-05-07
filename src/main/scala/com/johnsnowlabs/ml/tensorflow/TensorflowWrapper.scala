@@ -18,7 +18,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
-import com.johnsnowlabs.ml.tensorflow.sign.BertTFSignManager
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
@@ -441,8 +441,8 @@ object TensorflowWrapper {
         if (initAllTables) session.runner().addTarget(InitAllTableOP)
 
         // Extract saved model signatures
-        // todo: change the name to something more universal
-        val signatures = BertTFSignManager.extractSignatures(modelProvider = "TF2", model)
+        // TODO: modelProvider either has to be automatic or allow setting it via .read()
+        val signatures = ModelSignatureManager.extractSignatures(modelProvider = "TF2", model)
 
         val saverDef = model.metaGraphDef().getSaverDef
 
