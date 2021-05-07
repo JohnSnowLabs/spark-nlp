@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.ner" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ner" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -311,8 +311,8 @@
                         <a href="NamedEntityConfidence.html" title="">NamedEntityConfidence</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="NerChunker$.html" title=""></a>
-                        <a class="class" href="NerChunker.html" title=""></a>
-                        <a href="NerChunker.html" title="">NerChunker</a>
+                        <a class="class" href="NerChunker.html" title="Extracts phrases that fits into a known pattern using the NER tags."></a>
+                        <a href="NerChunker.html" title="Extracts phrases that fits into a known pattern using the NER tags.">NerChunker</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="NerConverterInternal$.html" title=""></a>
                         <a class="class" href="NerConverterInternal.html" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label."></a>
@@ -516,7 +516,7 @@ result.selectExpr(<span class="lit">"explode(ner_label) as a"</span>)
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerChunker" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerChunker" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NerChunkerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.ner.NerChunker]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.ner.NerChunker]"></a><a id="NerChunker:NerChunker"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerChunker.html" title="Permalink">
@@ -528,10 +528,69 @@ result.selectExpr(<span class="lit">"explode(ner_label) as a"</span>)
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="NerChunker.html"><span class="name">NerChunker</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="NerChunker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerChunker">NerChunker</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="NerChunker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerChunker">NerChunker</a>]</span>
+        <a title="Extracts phrases that fits into a known pattern using the NER tags." href="NerChunker.html"><span class="name">NerChunker</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="NerChunker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerChunker">NerChunker</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="NerChunker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerChunker">NerChunker</a>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Extracts phrases that fits into a known pattern using the NER tags.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts phrases that fits into a known pattern using the NER tags. Useful for entity groups with neighboring tokens
+when there is no pretrained NER model to address certain issues. A Regex needs to be provided to extract the tokens
+between entities.</p><h4>Example</h4><p>Defining pipeline stages for NER</p><pre><span class="kw">val</span> data= <span class="std">Seq</span>(<span class="lit">"She has cystic cyst on her kidney."</span>).toDF(<span class="lit">"text"</span>)
+
+<span class="kw">val</span> documentAssembler=<span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentenceDetector=<span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+  .setUseAbbreviations(<span class="kw">false</span>)
+
+<span class="kw">val</span> tokenizer=<span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>))
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>,<span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> ner = MedicalNerModel.pretrained(<span class="lit">"ner_radiology"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>,<span class="lit">"token"</span>,<span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+  .setIncludeConfidence(<span class="kw">true</span>)</pre><p>Define the NerChunker to combine to chunks</p><pre><span class="kw">val</span> chunker = <span class="kw">new</span> NerChunker()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>,<span class="lit">"ner"</span>))
+  .setOutputCol(<span class="lit">"ner_chunk"</span>)
+  .setRegexParsers(<span class="std">Array</span>(<span class="lit">"&lt;ImagingFindings&gt;.*&lt;BodyPart&gt;"</span>))
+
+<span class="kw">val</span> pipeline=<span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  ner,
+  chunker
+))
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)</pre><p>Show results:</p><pre>result.selectExpr(<span class="lit">"explode(arrays_zip(ner.metadata , ner.result))"</span>)
+  .selectExpr(<span class="lit">"col['0'].word as word"</span> , <span class="lit">"col['1'] as ner"</span>).show(truncate=<span class="kw">false</span>)
++------+-----------------+
+|word  |ner              |
++------+-----------------+
+|She   |O                |
+|has   |O                |
+|cystic|B-ImagingFindings|
+|cyst  |I-ImagingFindings|
+|on    |O                |
+|her   |O                |
+|kidney|B-BodyPart       |
+|.     |O                |
++------+-----------------+
+
+result.select(<span class="lit">"ner_chunk.result"</span>).show(truncate=<span class="kw">false</span>)
++---------------------------+
+|result                     |
++---------------------------+
+|[cystic cyst on her kidney]|
++---------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NerConverterInternalextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal]"></a><a id="NerConverterInternal:NerConverterInternal"></a>
       <span class="permalink">

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,12 +151,12 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="AssertionFilterer$.html" title=""></a>
-                        <a class="class" href="AssertionFilterer.html" title="Merges entities coming from different CHUNK annotations"></a>
-                        <a href="AssertionFilterer.html" title="Merges entities coming from different CHUNK annotations">AssertionFilterer</a>
+                        <a class="class" href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."></a>
+                        <a href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS.">AssertionFilterer</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="ChunkFilterer$.html" title=""></a>
-                        <a class="class" href="" title="Merges entities coming from different CHUNK annotations"></a>
-                        <a href="" title="Merges entities coming from different CHUNK annotations">ChunkFilterer</a>
+                        <a class="class" href="" title="Filters entities coming from CHUNK annotations."></a>
+                        <a href="" title="Filters entities coming from CHUNK annotations.">ChunkFilterer</a>
                       </li>
               </ul>
             </div>
@@ -187,8 +187,53 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Merges entities coming from different CHUNK annotations
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.
+White list criteria is enabled by default. To use regex, <code>criteria</code> has to be set to <code>regex</code>.</p><h4>Example</h4><h5>Filtering POS tags</h5><p>First pipeline stages to extract the POS tags are defined</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Has a past history of gastroenteritis and stomach pain, however patient ..."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> docAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> chunker = <span class="kw">new</span> Chunker()
+  .setInputCols(<span class="lit">"pos"</span>, <span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)
+  .setRegexParsers(<span class="std">Array</span>(<span class="lit">"(&lt;NN&gt;)+"</span>))</pre><p>Then the chunks can be filtered via a white list. Here only terms with &quot;gastroenteritis&quot; remain.</p><pre><span class="kw">val</span> chunkerFilter = <span class="kw">new</span> ChunkFilterer()
+  .setInputCols(<span class="lit">"sentence"</span>,<span class="lit">"chunk"</span>)
+  .setOutputCol(<span class="lit">"filtered"</span>)
+  .setCriteria(<span class="lit">"isin"</span>)
+  .setWhiteList(<span class="lit">"gastroenteritis"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  docAssembler,
+  sentenceDetector,
+  tokenizer,
+  posTagger,
+  chunker,
+  chunkerFilter))
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+result.selectExpr(<span class="lit">"explode(chunk)"</span>).show(truncate=<span class="kw">false</span>)
++---------------------------------------------------------------------------------+
+|col                                                                              |
++---------------------------------------------------------------------------------+
+|{chunk, <span class="num">11</span>, <span class="num">17</span>, history, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>}, []}                        |
+|{chunk, <span class="num">22</span>, <span class="num">36</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}                |
+|{chunk, <span class="num">42</span>, <span class="num">53</span>, stomach pain, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">2</span>}, []}                   |
+|{chunk, <span class="num">64</span>, <span class="num">70</span>, patient, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">3</span>}, []}                        |
+|{chunk, <span class="num">81</span>, <span class="num">110</span>, stomach pain now.We don't care, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}|
+|{chunk, <span class="num">118</span>, <span class="num">132</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">5</span>}, []}              |
++---------------------------------------------------------------------------------+
+
+result.selectExpr(<span class="lit">"explode(filtered)"</span>).show(truncate=<span class="kw">false</span>)
++-------------------------------------------------------------------+
+|col                                                                |
++-------------------------------------------------------------------+
+|{chunk, <span class="num">22</span>, <span class="num">36</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}  |
+|{chunk, <span class="num">118</span>, <span class="num">132</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">5</span>}, []}|
++-------------------------------------------------------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -611,7 +656,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#criteria" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#criteria" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="criteria:org.apache.spark.ml.param.Param[String]"></a><a id="criteria:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html#criteria:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -626,7 +671,7 @@
         <span class="name">criteria</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Tag representing dates in the obfuscate reference file (Default: &quot;isin&quot;)</p>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
@@ -1119,7 +1164,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[ChunkFilterer.this.AnnotatorType]"></a><a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html#inputAnnotatorTypes:Array[ChunkFilterer.this.AnnotatorType]" title="Permalink">
@@ -1134,7 +1179,7 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer.AnnotatorType">AnnotatorType</a>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer">ChunkFilterer</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT,CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT,CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer">ChunkFilterer</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1509,7 +1554,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:ChunkFilterer.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html#outputAnnotatorType:ChunkFilterer.this.AnnotatorType" title="Permalink">
@@ -1524,7 +1569,7 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer">ChunkFilterer</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer">ChunkFilterer</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1573,7 +1618,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#regex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#regex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="regex:org.apache.spark.ml.param.StringArrayParam"></a><a id="regex:StringArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html#regex:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
@@ -1588,7 +1633,7 @@
         <span class="name">regex</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">If defined, list of regex to process the chunks (Default: <code>Array()</code>)</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -1952,8 +1997,7 @@
         <span class="name">setWhiteList</span><span class="params">(<span name="list">list: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer">ChunkFilterer</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels
-</p></div></div>
+      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</p></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2183,7 +2227,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#whiteList" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer#whiteList" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="whiteList:org.apache.spark.ml.param.StringArrayParam"></a><a id="whiteList:StringArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html#whiteList:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
@@ -2198,7 +2242,7 @@
         <span class="name">whiteList</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">If defined, list of entities to process.</p><div class="fullcomment"><div class="comment cmt"><p>If defined, list of entities to process. The rest will be ignored. Does not include IOB prefix on labels (Default: <code>Array()</code>)</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#wrapColumnMetadata" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wrapColumnMetadata(col:org.apache.spark.sql.Column):org.apache.spark.sql.Column"></a><a id="wrapColumnMetadata(Column):Column"></a>
       <span class="permalink">
@@ -2290,11 +2334,17 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="setParam">
-              <h3>setParam</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
               
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
               
             </div>
         </div>

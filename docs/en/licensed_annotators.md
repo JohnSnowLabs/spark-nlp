@@ -944,10 +944,7 @@ Ideally this annotator works in conjunction with Demographic Named EntityRecogni
 ```scala
 val documentAssembler = new DocumentAssembler()
      .setInputCol("text")
-     .setOutputCol("document")*val sentenceDetector = new SentenceDetector()
-     .setInputCols(Array("document"))
-     .setOutputCol("sentence")
-     .setUseAbbreviations(true)
+     .setOutputCol("document")
 
  val sentenceDetector = new SentenceDetector()
      .setInputCols(Array("document"))
@@ -975,10 +972,10 @@ val clinical_sensitive_entities = MedicalNerModel.pretrained("ner_deid_enriched"
 val deIdentification = new DeIdentification()
      .setInputCols(Array("ner_chunk", "token", "sentence"))
      .setOutputCol("dei")
-     // file with custom regex patern for custom entities
-     .setRegexPatternsDictionary("src/test/resources/de-identification/dic_regex_patterns_main_categories.txt")
+     // file with custom regex pattern for custom entities
+     .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt")
      // file with custom obfuscator names for the entities
-     .setObfuscateRefFile("src/test/resources/de-identification/obfuscate_fixed_entities.txt")
+     .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt")
      .setRefFileFormat("csv")
      .setRefSep("#")
      .setMode("obfuscate")
@@ -989,79 +986,92 @@ val deIdentification = new DeIdentification()
      .setObfuscateRefSource("file")
 
 // Pipeline
-val testDataset = Seq(
+val data = Seq(
   "# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."
-  ).toDS.toDF("text")
+).toDF("text")
 
- deIdentificationDataFrame = pipeline.transform(testDataset)
-
- deIdentificationDataFrame.select("dei.result").show(truncate = false)
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  clinical_sensitive_entities,
+  nerConverter,
+  deIdentification
+))
+val result = pipeline.fit(data).transform(data)
 
 // Show Results
+result.select("dei.result").show(truncate = false)
 +--------------------------------------------------------------------------------------------------+
 |result                                                                                            |
 +--------------------------------------------------------------------------------------------------+
 |[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
 +--------------------------------------------------------------------------------------------------+
-
 ```
 ```python
-documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
 
-# Sentence Detector annotator, processes various sentences per line
-sentenceDetector = SentenceDetector()\
-  .setInputCols(["document"])\
-  .setOutputCol("sentence")
+ sentenceDetector = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence") \
+    .setUseAbbreviations(True)
 
-# Tokenizer splits words in a relevant format for NLP
-tokenizer = Tokenizer()\
-  .setInputCols(["sentence"])\
-  .setOutputCol("token")
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
 
-# Clinical word embeddings trained on PubMED dataset
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+embeddings = WordEmbeddingsModel \
+    .pretrained("embeddings_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token"]) \
+    .setOutputCol("embeddings")
 
-# NER model trained on n2c2 (de-identification and Heart Disease Risk Factors Challenge) datasets)
-clinical_ner = NerDLModel.pretrained("ner_deid_large", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
-  .setOutputCol("ner")
+# Ner entities
+clinical_sensitive_entities = MedicalNerModel \
+    .pretrained("ner_deid_enriched", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
 
-ner_converter = NerConverterInternal()\
-  .setInputCols(["sentence", "token", "ner"])\
-  .setOutputCol("ner_chunk") \
-  .setWhiteList(["AGE","LOCATION","NAME"])
+nerConverter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_con")
 
+# Deidentification
+deIdentification = DeIdentification() \
+    .setInputCols(["ner_chunk", "token", "sentence"]) \
+    .setOutputCol("dei") \
+    # file with custom regex pattern for custom entities
+    .setRegexPatternsDictionary("path/to/dic_regex_patterns_main_categories.txt") \
+    # file with custom obfuscator names for the entities
+    .setObfuscateRefFile("path/to/obfuscate_fixed_entities.txt") \
+    .setRefFileFormat("csv") \
+    .setRefSep("#") \
+    .setMode("obfuscate") \
+    .setDateFormats(Array("MM/dd/yy","yyyy-MM-dd")) \
+    .setObfuscateDate(True) \
+    .setDateTag("DATE") \
+    .setDays(5) \
+    .setObfuscateRefSource("file")
 
-nlpPipeline = Pipeline(stages=[
+# Pipeline
+data = spark.createDataFrame([
+    ["# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."]
+]).toDF("text")
+
+pipeline = Pipeline(stages=[
     documentAssembler,
     sentenceDetector,
     tokenizer,
-    word_embeddings,
-    clinical_ner,
-    ner_converter])
-
-deidentification = DeIdentification()\
-    .setInputCols(["sentence", "token", "ner_chunk"])\
-    .setOutputCol("deidentified")\
-    .setMode("mask")
-
-pipeline = Pipeline(stages=[
-    nlpPipeline,
-    deidentification
+    embeddings,
+    clinical_sensitive_entities,
+    nerConverter,
+    deIdentification
 ])
-
-data = spark.createDataFrame([[
-  "# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."
-]])
-model = pipeline.fit(data)
-
-result = model.transform(data).toDF("text")
+result = pipeline.fit(data).transform(data)
 
 # Show Results
+result.select("dei.result").show(truncate = False)
 +--------------------------------------------------------------------------------------------------+
 |result                                                                                            |
 +--------------------------------------------------------------------------------------------------+
@@ -1788,12 +1798,81 @@ result.selectExpr("explode(disambiguation)") \
 
 </div>
 
+<div class="h3-box" markdown="1">
+
+### ReIdentification
+
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/ReIdentification.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/ReIdentificationModel.html">Model scaladocs</a>
+
+Reidentifies obfuscated entities by `DeIdentification`. This annotator requires the outputs from the deidentification as input. Input columns need to be the deidentified document and the deidentification mappings set with DeIdentification.setMappingsColumn. To see how the entities are deidentified, please refer to the example of that annotator.
+
+**Input types:** `DOCUMENT,CHUNK`
+
+**Output type:** `DOCUMENT`
+
+<details>
+<summary><b>Show Example</b></summary>
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+```scala
+// Define the reidentification stage and transform the deidentified documents
+val reideintification = new ReIdentification()
+  .setInputCols("dei", "protectedEntities")
+  .setOutputCol("reid")
+  .transform(result)
+
+// Show results
+result.select("dei.result").show(truncate=false)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
++--------------------------------------------------------------------------------------------------+
+
+reideintification.selectExpr("explode(reid.result)").show(truncate=false)
++-----------------------------------------------------------------------------------+
+|col                                                                                |
++-----------------------------------------------------------------------------------+
+|# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.|
++-----------------------------------------------------------------------------------+
+
+```
+```python
+# Define the reidentification stage and transform the deidentified documents
+reideintification = ReIdentification() \
+  .setInputCols(["dei", "protectedEntities"]) \
+  .setOutputCol("reid") \
+  .transform(result)
+
+# Show results
+result.select("dei.result").show(truncate=False)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , <AGE> years-old , Record date : 2079-11-14.]|
++--------------------------------------------------------------------------------------------------+
+
+reideintification.selectExpr("explode(reid.result)").show(truncate=False)
++-----------------------------------------------------------------------------------+
+|col                                                                                |
++-----------------------------------------------------------------------------------+
+|# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.|
++-----------------------------------------------------------------------------------+
+
+```
+</div>
+
+</details>
+
+</div>
 
 <div class="h3-box" markdown="1">
 
 ### RelationExtraction
 
-|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html">Model scaladocs</a>|
+<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach.html">Approach scaladocs</a> | <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel.html">Model scaladocs</a>
 
 Extracts and classifies instances of relations between named entities.
 
@@ -1960,7 +2039,7 @@ model = pipeline.fit(trainData)
 
 ### RelationExtractionDL
 
-<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel.html">Model scaladocs</a>
+|<a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel.html">Model scaladocs</a>|
 
 Extracts and classifies instances of relations between named entities. In contrast with RelationExtractionModel, RelationExtractionDLModel is based on BERT. For pretrained models please see the Models Hub for available models.
 
