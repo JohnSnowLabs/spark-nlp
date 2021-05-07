@@ -17,12 +17,10 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.ml.tensorflow.sign.BertTFSignManager
+import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-
 import org.slf4j.{Logger, LoggerFactory}
-
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -50,7 +48,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
                      signatures: Option[Map[String, String]] = None
                     ) extends Serializable {
 
-  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(BertTFSignManager.apply())
+  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -96,10 +94,10 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse("ids", "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse("mask", "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse("segs", "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse("out", "missing_pooled_output_key"))
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -154,10 +152,10 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse("ids", "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse("mask", "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse("segs", "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse("s_out", "missing_sequence_output_key"))
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -197,10 +195,10 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
     val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse("ids", "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse("mask", "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse("segs", "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse("s_out", "missing_sequence_output_key"))
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)

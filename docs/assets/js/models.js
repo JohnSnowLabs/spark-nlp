@@ -7,7 +7,11 @@
     let isEmpty = true;
     const searchParams = Object.keys(params).reduce((acc, k) => {
       if (params[k] && k !== 'type') {
-        acc.append(k, params[k]);
+        let value = params[k];
+        if (k === 'supported') {
+          value = Number(value);
+        }
+        acc.append(k, value);
         isEmpty = false;
       }
       return acc;
@@ -20,6 +24,9 @@
     const params = Object.fromEntries(
       new URLSearchParams(window.location.search)
     );
+    if ('supported' in params && params.supported === '1') {
+      params.supported = true;
+    }
     return params;
   };
 
@@ -252,19 +259,42 @@
     ]);
   };
 
-  const ModelItemList = ({ meta, children, onPageChange }) => {
+  const ModelItemList = ({
+    meta,
+    params,
+    children,
+    onPageChange,
+    onSupportedToggle,
+  }) => {
+    const handleSupportedChange = (e) => {
+      const flag = e.target.checked;
+      onSupportedToggle(flag);
+    };
+
     return ReactDOM.createPortal(
       e(Fragment, null, [
         e('div', { key: 'items', className: 'grid--container model-items' }, [
-          meta.totalItems > 0 &&
+          e(
+            'div',
+            {
+              key: 'header',
+              className: 'model-items__header',
+            },
             e(
               'div',
-              {
-                key: 'total-results',
-                className: 'model-items__total-results',
-              },
+              { className: 'model-items__header-total-results' },
               'Models & Pipelines: ' + meta.totalItems
             ),
+            e('label', { className: 'model-items__header-supported' }, [
+              e('input', {
+                type: 'checkbox',
+                name: 'supported',
+                checked: params.supported,
+                onChange: handleSupportedChange,
+              }),
+              e('span', {}, 'Supported models only'),
+            ])
+          ),
           e('div', { key: 'grid', className: 'grid' }, children),
           e(Pagination, { key: 'pagination', ...meta, onChange: onPageChange }),
         ]),
@@ -552,6 +582,10 @@
       send({ type: 'CHANGE_PAGE', page });
     };
 
+    const handleSupportedToggle = (supported) => {
+      send({ type: 'SUBMIT', page: undefined, supported });
+    };
+
     let result;
     switch (true) {
       case Boolean(state.context.data):
@@ -571,7 +605,9 @@
           result = e(ModelItemList, {
             key: 'model-items',
             meta: state.context.meta,
+            params: state.context.params,
             onPageChange: handlePageChange,
+            onSupportedToggle: handleSupportedToggle,
             children,
           });
         }
