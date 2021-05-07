@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -167,12 +167,12 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="AssertionFilterer$.html" title=""></a>
-                        <a class="class" href="AssertionFilterer.html" title="Merges entities coming from different CHUNK annotations"></a>
-                        <a href="AssertionFilterer.html" title="Merges entities coming from different CHUNK annotations">AssertionFilterer</a>
+                        <a class="class" href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."></a>
+                        <a href="AssertionFilterer.html" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS.">AssertionFilterer</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="ChunkFilterer$.html" title=""></a>
-                        <a class="class" href="ChunkFilterer.html" title="Merges entities coming from different CHUNK annotations"></a>
-                        <a href="ChunkFilterer.html" title="Merges entities coming from different CHUNK annotations">ChunkFilterer</a>
+                        <a class="class" href="ChunkFilterer.html" title="Filters entities coming from CHUNK annotations."></a>
+                        <a href="ChunkFilterer.html" title="Filters entities coming from CHUNK annotations.">ChunkFilterer</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.classification" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="classification"></a><a id="classification:classification"></a>
       <span class="permalink">
@@ -396,7 +396,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AssertionFiltererextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer]withLicensed"></a><a id="AssertionFilterer:AssertionFilterer"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html" title="Permalink">
@@ -408,12 +408,49 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Merges entities coming from different CHUNK annotations" href="AssertionFilterer.html"><span class="name">AssertionFilterer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS." href="AssertionFilterer.html"><span class="name">AssertionFilterer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      <p class="shortcomment cmt">Merges entities coming from different CHUNK annotations
-</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Filters entities coming from ASSERTION type annotations and returns the CHUNKS.</p><div class="fullcomment"><div class="comment cmt"><p>Filters entities coming from ASSERTION type annotations and returns the CHUNKS.
+Filters can be set via a white list on the extracted chunk, the assertion or a regular expression.
+White list for assertion is enabled by default. To use chunk white list, <code>criteria</code> has to be set to <code>&quot;isin&quot;</code>.
+For regex, <code>criteria</code> has to be set to <code>&quot;regex&quot;</code>.</p><h4>Example</h4><p>To see how the assertions are extracted, see the example for
+<a href="../assertion/dl/AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>.</p><h5>Define an extra step where the assertions are filtered</h5><pre><span class="kw">val</span> assertionFilterer = <span class="kw">new</span> AssertionFilterer()
+  .setInputCols(<span class="lit">"sentence"</span>,<span class="lit">"ner_chunk"</span>,<span class="lit">"assertion"</span>)
+  .setOutputCol(<span class="lit">"filtered"</span>)
+  .setCriteria(<span class="lit">"assertion"</span>)
+  .setWhiteList(<span class="lit">"present"</span>)
+
+<span class="kw">val</span> assertionPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  nerModel,
+  nerConverter,
+  clinicalAssertion,
+  assertionFilterer
+))
+
+<span class="kw">val</span> assertionModel = assertionPipeline.fit(data)
+<span class="kw">val</span> result = assertionModel.transform(data)</pre><p>Show results:</p><pre>result.selectExpr(<span class="lit">"ner_chunk.result"</span>, <span class="lit">"assertion.result"</span>).show(<span class="num">3</span>, truncate=<span class="kw">false</span>)
++--------------------------------+--------------------------------+
+|result                          |result                          |
++--------------------------------+--------------------------------+
+|[severe fever, sore throat]     |[present, present]              |
+|[stomach pain]                  |[absent]                        |
+|[an epidural, PCA, pain control]|[present, present, hypothetical]|
++--------------------------------+--------------------------------+
+
+result.select(<span class="lit">"filtered.result"</span>).show(<span class="num">3</span>, truncate=<span class="kw">false</span>)
++---------------------------+
+|result                     |
++---------------------------+
+|[severe fever, sore throat]|
+|[]                         |
+|[an epidural, PCA]         |
++---------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../assertion/dl/AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> to extract the assertions</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ChunkFiltererextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer]withLicensed"></a><a id="ChunkFilterer:ChunkFilterer"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer.html" title="Permalink">
@@ -425,11 +462,56 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Merges entities coming from different CHUNK annotations" href="ChunkFilterer.html"><span class="name">ChunkFilterer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Filters entities coming from CHUNK annotations." href="ChunkFilterer.html"><span class="name">ChunkFilterer</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AssertionFilterer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      <p class="shortcomment cmt">Merges entities coming from different CHUNK annotations
-</p>
+      <p class="shortcomment cmt">Filters entities coming from CHUNK annotations.</p><div class="fullcomment"><div class="comment cmt"><p>Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.
+White list criteria is enabled by default. To use regex, <code>criteria</code> has to be set to <code>regex</code>.</p><h4>Example</h4><h5>Filtering POS tags</h5><p>First pipeline stages to extract the POS tags are defined</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Has a past history of gastroenteritis and stomach pain, however patient ..."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> docAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> chunker = <span class="kw">new</span> Chunker()
+  .setInputCols(<span class="lit">"pos"</span>, <span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)
+  .setRegexParsers(<span class="std">Array</span>(<span class="lit">"(&lt;NN&gt;)+"</span>))</pre><p>Then the chunks can be filtered via a white list. Here only terms with &quot;gastroenteritis&quot; remain.</p><pre><span class="kw">val</span> chunkerFilter = <span class="kw">new</span> ChunkFilterer()
+  .setInputCols(<span class="lit">"sentence"</span>,<span class="lit">"chunk"</span>)
+  .setOutputCol(<span class="lit">"filtered"</span>)
+  .setCriteria(<span class="lit">"isin"</span>)
+  .setWhiteList(<span class="lit">"gastroenteritis"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  docAssembler,
+  sentenceDetector,
+  tokenizer,
+  posTagger,
+  chunker,
+  chunkerFilter))
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+result.selectExpr(<span class="lit">"explode(chunk)"</span>).show(truncate=<span class="kw">false</span>)
++---------------------------------------------------------------------------------+
+|col                                                                              |
++---------------------------------------------------------------------------------+
+|{chunk, <span class="num">11</span>, <span class="num">17</span>, history, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>}, []}                        |
+|{chunk, <span class="num">22</span>, <span class="num">36</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}                |
+|{chunk, <span class="num">42</span>, <span class="num">53</span>, stomach pain, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">2</span>}, []}                   |
+|{chunk, <span class="num">64</span>, <span class="num">70</span>, patient, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">3</span>}, []}                        |
+|{chunk, <span class="num">81</span>, <span class="num">110</span>, stomach pain now.We don't care, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}|
+|{chunk, <span class="num">118</span>, <span class="num">132</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">5</span>}, []}              |
++---------------------------------------------------------------------------------+
+
+result.selectExpr(<span class="lit">"explode(filtered)"</span>).show(truncate=<span class="kw">false</span>)
++-------------------------------------------------------------------+
+|col                                                                |
++-------------------------------------------------------------------+
+|{chunk, <span class="num">22</span>, <span class="num">36</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}  |
+|{chunk, <span class="num">118</span>, <span class="num">132</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">5</span>}, []}|
++-------------------------------------------------------------------+</pre></div></div>
     </li></ol>
             </div>
 

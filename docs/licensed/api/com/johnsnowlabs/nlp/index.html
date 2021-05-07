@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -247,8 +247,8 @@
       
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="FeaturesAssembler.html" title=""></a>
-                        <a href="FeaturesAssembler.html" title="">FeaturesAssembler</a>
+                        <a class="class" href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns."></a>
+                        <a href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns.">FeaturesAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasFeaturesJsl.html" title=""></a>
@@ -324,7 +324,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.FeaturesAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.FeaturesAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="FeaturesAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasStorageRefwithLicensed"></a><a id="FeaturesAssembler:FeaturesAssembler"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/FeaturesAssembler.html" title="Permalink">
@@ -336,10 +336,14 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="FeaturesAssembler.html"><span class="name">FeaturesAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <a href="../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="The FeaturesAssembler is used to collect features from different columns." href="FeaturesAssembler.html"><span class="name">FeaturesAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <a href="../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">The FeaturesAssembler is used to collect features from different columns.</p><div class="fullcomment"><div class="comment cmt"><p>The FeaturesAssembler is used to collect features from different columns. It can collect features from single value
+columns (anything which can be cast to a float, if casts fails then the value is set to 0), array columns or
+SparkNLP annotations (if the annotation is an embedding, it takes the embedding, otherwise tries to cast the
+<code>result</code> field). The output of the transformer is a <code>FEATURE_VECTOR</code> annotation (the numeric vector is in the
+<code>embeddings</code> field).</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeaturesJsl" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasFeaturesJslextendsHasFeatures"></a><a id="HasFeaturesJsl:HasFeaturesJsl"></a>
       <span class="permalink">

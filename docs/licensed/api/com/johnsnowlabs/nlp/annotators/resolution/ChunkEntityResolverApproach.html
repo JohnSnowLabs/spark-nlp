@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -255,8 +255,8 @@
                         <a href="SentenceEntityResolverApproach.html" title="Contains all the parameters and methods to train a SentenceEntityResolverModel.">SentenceEntityResolverApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="SentenceEntityResolverModel$.html" title=""></a>
-                        <a class="class" href="SentenceEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset."></a>
-                        <a href="SentenceEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset.">SentenceEntityResolverModel</a>
+                        <a class="class" href="SentenceEntityResolverModel.html" title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g."></a>
+                        <a href="SentenceEntityResolverModel.html" title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.">SentenceEntityResolverModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="TreeData.html" title=""></a>
@@ -656,7 +656,7 @@ and their labels.</p><pre><span class="kw">val</span> document = <span class="kw
       </span>
       
       <p class="shortcomment cmt">Optional column with one extra label per document.</p><div class="fullcomment"><div class="comment cmt"><p>Optional column with one extra label per document. This extra label will be outputted later on in an
-additional column. Default: &quot;aux_label&quot;.</p></div></div>
+additional column (Default: &quot;aux_label&quot;.)</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#auxLabelMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="auxLabelMap:com.johnsnowlabs.nlp.serialization.StructFeature[scala.collection.Map[String,String]]"></a><a id="auxLabelMap:StructFeature[Map[String,String]]"></a>
       <span class="permalink">
@@ -1997,7 +1997,7 @@ Can improve accuracy but increases computation.</p></div></div>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#labelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#labelCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="labelCol:org.apache.spark.ml.param.Param[String]"></a><a id="labelCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverApproach.html#labelCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2012,7 +2012,7 @@ Can improve accuracy but increases computation.</p></div></div>
         <span class="name">labelCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Column name for the value we are trying to resolve.</p><div class="fullcomment"><div class="comment cmt"><p>Column name for the value we are trying to resolve. Default: &quot;code&quot;</p></div></div>
+      <p class="shortcomment cmt">Column name for the value we are trying to resolve (Default: &quot;code&quot;)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#labelColumnName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="labelColumnName:String"></a>
       <span class="permalink">
@@ -2483,7 +2483,7 @@ Can improve accuracy but increases computation.</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
-Increase in RAM usage to be expected. Default: false</p></div></div>
+Increase in RAM usage to be expected (Default: false)</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnCosineDistances:BooleanParam"></a>
       <span class="permalink">
@@ -2500,7 +2500,7 @@ Increase in RAM usage to be expected. Default: false</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
-Can improve accuracy but increases computation. Default: true</p></div></div>
+Can improve accuracy but increases computation (Default: true)</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -3319,7 +3319,7 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach">ChunkEntityResolverApproach</a> → Identifiable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#useAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach#useAuxLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="useAuxLabel:org.apache.spark.ml.param.BooleanParam"></a><a id="useAuxLabel:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/ChunkEntityResolverApproach.html#useAuxLabel:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -3334,7 +3334,7 @@ in such a big KD-tree becomes impractical</p><p>This method is called inside the
         <span class="name">useAuxLabel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to use Aux Label or not.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to use Aux Label or not. Default: false</p></div></div>
+      <p class="shortcomment cmt">Whether to use Aux Label or not (Default: false)</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
