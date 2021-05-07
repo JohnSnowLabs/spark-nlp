@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect mentions of tumor in text
+title: Detect Mentions of Tumors in Text
 author: John Snow Labs
 name: nerdl_tumour_demo
 date: 2021-04-01

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Person, Organization, Location, Facilitie, Product and Event entities in Persian (persian_w2v_cc_300d)
+title: Detect Person, Organization, Location, Facility, Product and Event entities in Persian (persian_w2v_cc_300d)
 author: John Snow Labs
 name: personer_cc_300d
 date: 2020-12-07
