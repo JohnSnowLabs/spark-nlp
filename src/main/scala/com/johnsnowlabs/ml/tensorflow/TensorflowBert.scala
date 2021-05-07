@@ -97,7 +97,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
       .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
       .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
       .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_pooled_output_key"))
+      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
