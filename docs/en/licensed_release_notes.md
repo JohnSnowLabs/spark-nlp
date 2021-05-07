@@ -4,12 +4,15 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2021-04-26
+modify_date: 2021-05-07
 ---
 
 ### 3.0.3
+
 We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
+
 #### Highlights
+
 + Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.
 + New feature for random displacement of dates on deidentification model.
 + Five new pretrained pipelines to map terminologies across each other (from UMLS to ICD10, from RxNorm to MeSH etc.)
@@ -17,6 +20,7 @@ We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
 + Updated documentation (Scaladocs) covering more APIs, and examples. 
 
 #### Five new resolver models:
+
 + `sbiobertresolve_umls_major_concepts`: This model returns CUI (concept unique identifier) codes for Clinical Findings, Medical Devices, Anatomical Structures and Injuries & Poisoning terms.            
 + `sbiobertresolve_umls_findings`: This model returns CUI (concept unique identifier) codes for 200K concepts from clinical findings.
 + `sbiobertresolve_loinc`: Map clinical NER entities to LOINC codes using `sbiobert`.
@@ -30,10 +34,13 @@ We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
 		* OMIM (Online Mendelian Inheritance in Man)
 
   *Related Notebook*: [Resolver Models](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb)
+  
 #### New feature on Deidentification Module
 + isRandomDateDisplacement(True): Be able to apply a random displacement on obfuscation dates. The randomness is based on the seed.
 + Fix random dates when the format is not correct. Now you can repeat an execution using a seed for dates. Random dates will be based on the seed. 
+
 #### Five new healthcare code mapping pipelines:
+
 + `icd10cm_umls_mapping`: This pretrained pipeline maps ICD10CM codes to UMLS codes without using any text data. You’ll just feed white space-delimited ICD10CM codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
 
       {'icd10cm': ['M89.50', 'R82.2', 'R09.01'], 
@@ -60,8 +67,6 @@ We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
          'umls': ['C4546029', 'C3164619', 'C0271267']}
 
   *Related Notebook*: [Healthcare Code Mapping](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb)
-
-
 
 
 ### 3.0.2
