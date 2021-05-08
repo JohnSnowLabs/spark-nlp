@@ -441,7 +441,7 @@ object TensorflowWrapper {
         if (initAllTables) session.runner().addTarget(InitAllTableOP)
 
         // Extract saved model signatures
-        val signatures = ModelSignatureManager.extractSignatures(modelProvider = "TF2", model)
+        val signatures = ModelSignatureManager.extractSignatures(model)
 
         val saverDef = model.metaGraphDef().getSaverDef
 

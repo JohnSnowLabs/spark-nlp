@@ -21,12 +21,13 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.SavedModelBundle
 import org.tensorflow.proto.framework.{SignatureDef, TensorInfo}
 
-import scala.collection.mutable.ListBuffer
-import scala.util.matching.Regex
 import java.util
+import scala.util.matching.Regex
 
 
 object ModelSignatureManager {
+
+  val KnownProviders = Array("TF1", "TF2")
 
   private[ModelSignatureManager] val logger: Logger = LoggerFactory.getLogger("ModelSignatureManager")
 
@@ -90,42 +91,82 @@ object ModelSignatureManager {
 
     val modelSignatures = scala.collection.mutable.Map.empty[String, String]
 
-    def extractSignDefInputs(sigDef: SignatureDef) = {
-      val inputs: util.Map[String, TensorInfo] = sigDef.getInputsMap
-      for (e <- inputs.entrySet.asScala) {
+    /**
+     *  Loop imperatively over signature definition to extract them in a map
+     *
+     *  @param prefix : input or output attribute
+     *  @param signDefinitionsMap : Java signature definition map
+     * */
+
+    def extractSignatureDefinitions(prefix: String, signDefinitionsMap: util.Map[String, TensorInfo]) = {
+      for (e <- signDefinitionsMap.entrySet.asScala) {
+
         val key: String = e.getKey
         val tfInfo: TensorInfo = e.getValue
 
-        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.Name.key}" -> tfInfo.getName)
-        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.DType.key}" -> tfInfo.getDtype.toString)
-        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.DimCount.key}" -> tfInfo.getTensorShape.getDimCount.toString)
-        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.ShapeDimList.key}" -> tfInfo.getTensorShape.getDimList.toString.replaceAll("\n", "").replaceAll("size:", ""))
-        modelSignatures += (s"$InputPrefix$Sep$key$Sep${ModelSignatureConstants.SerializedSize.key}" -> tfInfo.getName)
-      }
-    }
-
-    def extractSignDefOutputs(sigDef: SignatureDef) = {
-      val outputs: util.Map[String, TensorInfo] = sigDef.getOutputsMap
-      for (e <- outputs.entrySet.asScala) {
-        val key: String = e.getKey
-        val tfInfo: TensorInfo = e.getValue
-
-        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.Name.key}" -> tfInfo.getName)
-        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.DType.key}" -> tfInfo.getDtype.toString)
-        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.DimCount.key}" -> tfInfo.getTensorShape.getDimCount.toString)
-        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.ShapeDimList.key}" -> tfInfo.getTensorShape.getDimList.toString.replaceAll("\n", "").replaceAll("size:", ""))
-        modelSignatures += (s"$OutputPrefix$Sep$key$Sep${ModelSignatureConstants.SerializedSize.key}" -> tfInfo.getName)
+        modelSignatures +=
+          (s"$prefix$Sep$key$Sep${ModelSignatureConstants.Name.key}" ->
+            tfInfo.getName)
+        modelSignatures +=
+          (s"$prefix$Sep$key$Sep${ModelSignatureConstants.DType.key}" ->
+            tfInfo.getDtype.toString)
+        modelSignatures +=
+          (s"$prefix$Sep$key$Sep${ModelSignatureConstants.DimCount.key}" ->
+            tfInfo.getTensorShape.getDimCount.toString)
+        modelSignatures +=
+          (s"$prefix$Sep$key$Sep${ModelSignatureConstants.ShapeDimList.key}" ->
+            tfInfo.getTensorShape.getDimList.toString.replaceAll("\n", "").replaceAll("size:", ""))
+        modelSignatures +=
+          (s"$prefix$Sep$key$Sep${ModelSignatureConstants.SerializedSize.key}" ->
+            tfInfo.getName)
       }
     }
 
     if (model.metaGraphDef.hasGraphDef && model.metaGraphDef.getSignatureDefCount > 0) {
       for (sigDef <- model.metaGraphDef.getSignatureDefMap.values.asScala) {
-        extractSignDefInputs(sigDef)
-        extractSignDefOutputs(sigDef)
+        // extract input sign map
+        extractSignatureDefinitions(InputPrefix, sigDef.getInputsMap)
+        // extract output sign map
+        extractSignatureDefinitions(OutputPrefix, sigDef.getOutputsMap)
       }
     }
 
     modelSignatures.toMap
+  }
+
+  /** Regex matcher */
+  def findTFKeyMatch(candidate: String, pattern: Regex) = {
+    val _value = candidate.split("::")(1) // i.e. input::input_ids::name
+    val res = pattern findAllIn _value
+    if(res.length > 0) {
+      println(s"searching $pattern in ${_value}")
+      true
+    }
+    else
+      false
+  }
+
+  /**
+   * Extract the model provider counting the signature pattern matches
+   *
+   * @param signDefNames : the candidate signature definitions inputs and outputs
+   * @param modelProvider : the true model provider in between TF1 and TF2 to evaluate
+   * @return : the model provider name in between TF1 and TF2
+   * */
+  def classifyProvider(signDefNames: Map[String,String], modelProvider: Option[String] = None) = {
+
+    val versionMatchesCount = KnownProviders.map { provider =>
+      provider -> {
+        signDefNames.map { signName =>
+          val patterns: Array[Regex] = ModelSignatureConstants.getSignaturePatterns(provider)
+          val matches = (for (pattern <- patterns if findTFKeyMatch(signName._1, pattern)) yield 1).toList.sum
+          matches
+        }
+      }.sum
+    }.toMap
+
+    val (topModelProvider, _) = versionMatchesCount.toSeq.sortBy(_._2).last
+    topModelProvider
   }
 
   /**
@@ -135,35 +176,13 @@ object ModelSignatureManager {
    * @param model loaded SavedModelBundle
    * @return the list ot matching signatures as tuples
    * */
-  def extractSignatures(modelProvider: String = "TF1", model: SavedModelBundle): Option[Map[String, String]] = {
+  def extractSignatures(model: SavedModelBundle) = {
 
     val signatureCandidates = getSignaturesFromModel(model)
+    val signDefNames: Map[String, String] = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
 
-    /** Regex matcher */
-    def findTFKeyMatch(candidate: String, key: Regex) = {
-      val pattern = key
-      val res = pattern.unapplySeq(candidate)
-      res.isDefined
-    }
+    val modelProvider = classifyProvider(signDefNames)
 
-    /**
-     * Extract matches from candidate key and model signatures
-     *
-     * @param candidate     : the candidate key name
-     * @param modelProvider : the model provider in between default, TF2 and HF to select the proper keys
-     * @return a list of matching keys as strings
-     * */
-    def extractCandidateMatches(candidate: String, modelProvider: String): List[String] = {
-      val ReferenceKeys: Array[Regex] = ModelSignatureConstants.getSignaturePatterns(modelProvider)
-
-      val matches = (
-        for (refKey <- ReferenceKeys if findTFKeyMatch(candidate, refKey)) yield {
-          refKey
-        }).toList
-      if (matches.isEmpty) List("N/A") else matches.mkString(",").split(",").toList
-    }
-
-    val signDefNames = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
     Option(convertToAdoptedKeys(signDefNames))
   }
 }

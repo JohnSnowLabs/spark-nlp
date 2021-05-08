@@ -14,10 +14,10 @@ import scala.util.matching.Regex
  * shape: (-1, -1)
  * name: serving_default_attention_mask:0
  *
-   * inputs['input_ids'] tensor_info:
-   * dtype: DT_INT32
-   * shape: (-1, -1)
-   * name: serving_default_input_ids:0
+ * inputs['input_ids'] tensor_info:
+ * dtype: DT_INT32
+ * shape: (-1, -1)
+ * name: serving_default_input_ids:0
  *
  * inputs['token_type_ids'] tensor_info:
  * dtype: DT_INT32
@@ -37,7 +37,7 @@ import scala.util.matching.Regex
  * name: StatefulPartitionedCall:1
  *
  * Method name is: tensorflow/serving/predict*
-*/
+ */
 
 
 object ModelSignatureConstants {
@@ -65,7 +65,6 @@ object ModelSignatureConstants {
   case object SerializedSize extends TFInfoDescriptor {
     override val key: String = "serialized_size"
   }
-
 
   sealed trait TFInfoNameMapper {
     protected val key: String
@@ -149,7 +148,7 @@ object ModelSignatureConstants {
           "(token_type)(.*)(ids)".r,
           "(last_hidden_state)".r)
 
-      case _ => throw new Exception("Unknown model provider! Please provide one in between JSL, TF2 or HF.")
+      case _ => throw new Exception("Unknown model provider! Please provide one in between TF1 or TF2.")
     }
     referenceKeys
   }
