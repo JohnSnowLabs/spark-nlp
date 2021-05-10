@@ -9,19 +9,27 @@ modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
 ---
 
-
 To create a new project, click on the **Create Project** button on the **Home Page** and choose a name for it. The project can include a short description and annotation instructions/guidelines. 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/image003.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-
-In projects with more than one annotator, the option **Show completions to all users** should be selected only if each team member is allowed to have access to the completions of the other annotators.
+<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/project_creation.png" style="width:60%; align:left; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
 ## Share your project with the annotation team
-When working in teams, projects can be shared with other team members. Fine grained access right can be  assigned to each team member. For example, when working on confidential documents annotation, the options **Create**, **View**, **Update** and **Delete** should be assigned to annotators, while data scientists should also be able to **Import** and **Export** data.
 
- <img class="image image--xl" src="/assets/images/annotation_lab/image005.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+When working in teams, projects can be shared with other team members. 
+
+ <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/project_sharing.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+The user who creates a project is called a **Project Owner**. He/She has complete visibility and ownership of the project for its entire lifecycle. If the Project Owner is removed from the user database, then all his/her projects are transfered to a new project owner. The Project Owner can edit the project configuration, can import/export tasks, can create a project team that will work on his project and can access project analytics.   
+When defining the project team, a project owner has access to three distinct roles: **Annotator**, **Reviewer**, and **Manager**. These are very useful for most of the workflows that our users follow. 
+ - An **Annotator** is able to see the tasks which have been assigned to him or her and can create annotations on the documents. 
+ - The **Reviewer** is able to see the work of the annotators and approve it or reject in case he finds issues that need to be solved.  
+ - The **Manager** is able to see the work of the Annotators and of the Reviewers and he can assign tasks to team members. This is useful for eliminating work overlap and for a better management of the work load.
+
+To add a user to your project team, navigate to the Project Setup page. On the Manage Project Team tab, start typing the name of a user in the available text box. This will populate a list of available users having the username start with the caracters you typed. From the dropdown select the user you want to add to your team. Select a role for the user and click on the "Add to team" button. 
+
+ <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/team_setup.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 
 ## Supported Project Types
 We currently support multiple predefined project configurations. The most popular ones are **Text Classification** and **Named Entity Recognition**. Create a setup from scratch or customize a predefined one according to your needs.

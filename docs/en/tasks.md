@@ -9,17 +9,39 @@ modify_date: "2020-11-19"
 use_language_switcher: "Python-Scala"
 ---
 
-The **Tasks** screen shows a list of all documents that have been imported into the current project. Each task has one of the following two statuses: **completed**(green) or **incomplete**(red). 
+The **Tasks** screen shows a list of all documents that have been imported into the current project. 
+
+Under each task you can see meta data about the task: the time of import, the user who imported the task and the annotators and reviewers assigned to the task. 
+
+<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/tasks_annotator.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+## Task Status
+
+Each task has one of the following four statuses: 
+- **Incomplete**, when none of the assigne annotators has started working on the task. 
+- **In Progress**, when at least one of the assigned annotators has submitted at least one completion for this task.
+- **Submitted**, when all annotators which were assigned to the task have submitted a completion which is set as ground truth (starred).
+- **Reviewed**, in the case there is a reviewer assigned to the task, and the reviewer has reviewed and accepted the submited completion.
+- **To Correct**, in the case the assigned reviewer has rejected the completion created by the Annotator. 
 
 
-<img class="image image--xl" src="/assets/images/annotation_lab/tasks.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+As normally annotation projects involve a large number of tasks, the Task page includes filtering and sorting options which will help the user identify the tasks he/she needs faster. 
+Tasks cam be sorted by time of import ascending or descending. 
 
 
-The following information is available for each task:
-- creation date and user who added the task;
-- date when the last completion was created for the task;
-- the tags which were associated with the task;
-- the initials of the users that created completions for this task.
+<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/sort.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+Tasks can be filtered by the assigned tags, by the user who imported the task and by the status.
+
+
+<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/tags.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+There is also a search functionality which will identify the tasks having a given string on their name. 
+
+
+<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/search.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+The number of tasks visible on the screeen is customizable by selecting the predefined values from the Tasks per page drop-down. 
+
+
+<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/tasks_filter.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 
 
 ## Preannotations
