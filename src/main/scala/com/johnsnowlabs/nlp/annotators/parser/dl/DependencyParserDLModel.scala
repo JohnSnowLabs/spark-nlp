@@ -68,7 +68,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     Seq()
   }
 
-  def getBiLstmInput(sentenceEmbeddings: Array[Operand[TFloat32]], scope: Scope) = {
+  def getBiLstmInput(sentenceEmbeddings: Array[Operand[TFloat32]], scope: Scope): Array[Tensor[TFloat32]] = {
     val timeSteps = sentenceEmbeddings.length
     val reverseSentenceEmbeddings: Array[Operand[TFloat32]] = sentenceEmbeddings.map{ wordEmbeddings =>
       Constant.create(scope, TensorResources.reverseTensor(scope, wordEmbeddings, 1).asInstanceOf[Tensor[TFloat32]])
@@ -80,6 +80,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
     val forwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatSentenceEmbeddings), shape)
     val backwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatReverseSentenceEmbeddings), shape)
+    Array(forwardVector.asInstanceOf[Tensor[TFloat32]], backwardVector.asInstanceOf[Tensor[TFloat32]])
   }
 
   def restoreLstmWeights(): Map[String, Tensor[TFloat32]] = {
