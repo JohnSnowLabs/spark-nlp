@@ -51,6 +51,8 @@ docs-en:
         url:    /docs/en/alab
       - title:  Start Page 
         url:    /docs/en/start_page
+      - title:  User Management
+        url:    /docs/en/user_management
       - title:  Project Setup
         url:    /docs/en/project_setup
       - title:  Import Documents 
