@@ -1,13 +1,17 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import org.tensorflow.ndarray.buffer._
-import org.tensorflow.ndarray.{Shape, StdArrays}
-import org.tensorflow.types.family.TType
+import org.tensorflow.ndarray.{NdArray, Shape, StdArrays}
+import org.tensorflow.types.family.{TNumber, TType}
 import org.tensorflow.types._
-import org.tensorflow.Tensor
+import org.tensorflow.{Operand, Tensor}
+import org.tensorflow.op.Scope
+import org.tensorflow.op.core.{Concat, Constant, Reshape, Reverse}
 
+import java.lang
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.JavaConverters._
 import scala.language.existentials
 
 /**
@@ -134,4 +138,26 @@ object TensorResources {
     source.rawData.asFloats.read(buffer)
     buffer
   }
+
+  def reverseTensor(scope: Scope, tensor: Operand[_], dimension: Int): Tensor[_] = {
+    val axis = Constant.vectorOf(scope, Array[Int](dimension))
+    val reversedTensor = Reverse.create(scope, tensor, axis).asTensor
+    reversedTensor
+  }
+
+  def concatTensors[T <: TNumber](scope: Scope, tensors: Array[Operand[T]], dimension: Int):
+  Tensor[_ >: TFloat32 with TInt32 <: NdArray[_ >: lang.Float with Integer] with TNumber] = {
+    val axis: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](dimension))
+    val tensorType = tensors.head.data() match {
+      case floatType: TFloat32 => Concat.create(scope, tensors.asInstanceOf[Array[Operand[TFloat32]]].toList.asJava, axis)
+      case intType: TInt32 => Concat.create(scope, tensors.asInstanceOf[Array[Operand[TInt32]]].toList.asJava, axis)
+    }
+    tensorType.asTensor()
+  }
+
+  def reshapeTensor(scope: Scope, tensor: Operand[_], shape: Array[Int]): Tensor[_] = {
+    val reshapedTensor = Reshape.create(scope, tensor, Constant.vectorOf(scope, shape))
+    reshapedTensor.asTensor()
+  }
+
 }

@@ -8,17 +8,14 @@ import org.tensorflow._
 
 import java.util
 
-class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int) {
+class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int, scope: Scope) {
 
   val shape: Array[Int] = Array(vocabularySize, embeddingSize)
 
   def initializeTable(initializer: String = "normal", seed: Int = 1): Tensor[TFloat32] = {
 
-    val eagerSession = EagerSession.create()
-    val scope = new Scope(eagerSession)
-
     val embeddingsTable: Tensor[TFloat32] = initializer match {
-      case "normal" => initializeRandomNormal(scope, seed)
+      case "normal" => initializeRandomNormal(seed)
       case _ => throw new IllegalArgumentException("Undefined initializer.")
     }
 
@@ -47,7 +44,7 @@ class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int) {
     embeddingValues
   }
 
-  private def initializeRandomNormal(scope: Scope, seed: Int): Tensor[TFloat32] = {
+  private def initializeRandomNormal(seed: Int): Tensor[TFloat32] = {
     val operandShape: Operand[TInt32] = Constant.vectorOf(scope, shape)
     val operandSeed: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](1, seed))
     val statelessRandomNormal = StatelessRandomNormal.create(scope, operandShape, operandSeed)

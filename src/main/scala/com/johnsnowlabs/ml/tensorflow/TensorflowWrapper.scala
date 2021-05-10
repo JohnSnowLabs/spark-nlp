@@ -684,6 +684,7 @@ object TensorflowWrapper {
     )
 
     val tensor: Tensor[_] = output.get(0)
+    restoredSession.close()
     tensor
   }
 

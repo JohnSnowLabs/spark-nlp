@@ -1,14 +1,15 @@
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
-import com.johnsnowlabs.ml.tensorflow.{TensorflowEmbeddingLookup, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowEmbeddingLookup, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.tensorflow.op.core.Reverse
+import org.tensorflow.op.Scope
+import org.tensorflow.op.core.{Constant, Reverse}
 import org.tensorflow.types.TFloat32
-import org.tensorflow.{SavedModelBundle, Tensor}
+import org.tensorflow.{EagerSession, Operand, SavedModelBundle, Tensor}
 
 class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[DependencyParserDLModel]
   with HasSimpleAnnotate[DependencyParserDLModel] {
@@ -21,6 +22,9 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   private lazy val vocabularySize = $$(vocabulary).size
 
+  private val embeddingsSize = 100
+  private val sampleSize = 1
+
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
     *
@@ -28,24 +32,39 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    println("Implement Annotate")
-    val embeddings = new TensorflowEmbeddingLookup(100, vocabularySize)
+    val session = EagerSession.create
+    val scope = new Scope(session)
+
+    val embeddings = new TensorflowEmbeddingLookup(embeddingsSize, vocabularySize, scope)
     val embeddingsTable = embeddings.initializeTable()
 
     val tokens = annotations
       .filter(_.annotatorType == AnnotatorType.TOKEN)
       .toArray
 
-    val sentenceEmbeddings = tokens.map{ token =>
+    val sentenceEmbeddings: Array[Operand[TFloat32]] = tokens.map{ token =>
       val wordId: Int = $$(vocabulary).getOrElse(token.result, 0)
-      embeddings.lookup(embeddingsTable, Array(wordId))
+      Constant.create(scope, embeddings.lookup(embeddingsTable, Array(wordId)))
     }
-    //TODO: Add infer logic
-//    sentenceEmbeddings.foreach{ embeddings =>
-//      val reverse = new Reverse[TFloat32]
-//    }
+
+    val biLstmInputs = getBiLstmInput(sentenceEmbeddings, scope)
 
     Seq()
+  }
+
+  def getBiLstmInput(sentenceEmbeddings: Array[Operand[TFloat32]], scope: Scope) = {
+    val timeSteps = sentenceEmbeddings.length
+    val reverseSentenceEmbeddings: Array[Operand[TFloat32]] = sentenceEmbeddings.map{ wordEmbeddings =>
+      Constant.create(scope, TensorResources.reverseTensor(scope, wordEmbeddings, 1).asInstanceOf[Tensor[TFloat32]])
+    }
+    val concatSentenceEmbeddings = TensorResources.concatTensors(scope, sentenceEmbeddings, 0)
+    val concatReverseSentenceEmbeddings = TensorResources.concatTensors(scope, reverseSentenceEmbeddings, 0)
+
+    val shape = Array(timeSteps, sampleSize, embeddingsSize)
+
+    val forwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatSentenceEmbeddings), shape)
+    val backwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatReverseSentenceEmbeddings), shape)
+    println("done")
   }
 
   def restoreLstmWeights(): Map[String, Tensor[TFloat32]] = {
