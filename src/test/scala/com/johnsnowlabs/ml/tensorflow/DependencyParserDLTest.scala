@@ -3,7 +3,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import org.scalatest.FlatSpec
 import org.tensorflow.types.{TFloat32, TString}
-import org.tensorflow.{SavedModelBundle, Session, Tensor}
+import org.tensorflow.{AutoCloseableList, SavedModelBundle, Session, Tensor}
 
 class DependencyParserDLTest extends FlatSpec {
 

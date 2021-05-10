@@ -35,7 +35,7 @@ import java.nio.file.{Files, Paths}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 import org.slf4j.{Logger, LoggerFactory}
-import org.tensorflow.types.TString
+import org.tensorflow.types.{TFloat32, TString}
 
 
 case class Variables(variables: Array[Byte], index: Array[Byte])
@@ -671,6 +671,21 @@ object TensorflowWrapper {
       .run()
 
     session
+  }
+
+  def restoreVariable(model: SavedModelBundle, modelPath: String, variableName: String,
+                      prefix: String = "variables/variables"): Tensor[_] = {
+
+    val restoredSession = restoreVariablesSession(model, modelPath, prefix)
+
+    val output = new AutoCloseableList[Tensor[_]](
+      restoredSession.runner()
+        .fetch(variableName)
+        .run()
+    )
+
+    val tensor: Tensor[_] = output.get(0)
+    tensor
   }
 
 }

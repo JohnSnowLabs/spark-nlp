@@ -19,5 +19,5 @@ if __name__ == "__main__":
     signatures = {
         "embeddings_lookup": model.embeddings_lookup
     }
-    export_dir = "../../../src/main/resources/embeddings"
+    export_dir = "../../../src/main/resources/embeddings-lookup"
     tf.saved_model.save(obj=model, export_dir=export_dir, signatures=signatures)

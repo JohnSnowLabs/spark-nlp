@@ -1,11 +1,9 @@
-package com.johnsnowlabs.util
+package com.johnsnowlabs.nlp.util.io
+
+import com.johnsnowlabs.tags.FastTest
+import org.scalatest.FlatSpec
 
 import java.io.{File, FileNotFoundException}
-
-import com.johnsnowlabs.nlp.SparkAccessor
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.scalatest.FlatSpec
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 
 class ResourceHelperTestSpec extends FlatSpec {

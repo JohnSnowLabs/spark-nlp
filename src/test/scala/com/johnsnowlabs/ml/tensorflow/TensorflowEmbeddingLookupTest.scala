@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 import org.tensorflow.Tensor
 import org.tensorflow.types.TFloat32
 
-class TensorflowEmbeddingTest extends FlatSpec {
+class TensorflowEmbeddingLookupTest extends FlatSpec {
 
   val tensorResources = new TensorResources()
 
@@ -13,7 +13,7 @@ class TensorflowEmbeddingTest extends FlatSpec {
     val vocabularySize = 150
     val expectedEmbeddingTableSize = Array(vocabularySize, embeddingsSize)
 
-    val embeddings = new TensorflowEmbedding(embeddingsSize, vocabularySize)
+    val embeddings = new TensorflowEmbeddingLookup(embeddingsSize, vocabularySize)
 
     assert(embeddings.shape sameElements expectedEmbeddingTableSize)
 
@@ -25,7 +25,7 @@ class TensorflowEmbeddingTest extends FlatSpec {
     val seed = 4
     val expectedEmbeddingsValues = Array(1.0017798f, 2.329537f, -0.60242355f)
     val expectedEmbeddingTable = tensorResources.createTensor(Array(expectedEmbeddingsValues))
-    val embeddings = new TensorflowEmbedding(embeddingsSize, vocabularySize)
+    val embeddings = new TensorflowEmbeddingLookup(embeddingsSize, vocabularySize)
 
     val actualEmbeddingsTable = embeddings.initializeTable(seed = seed)
 
@@ -38,7 +38,7 @@ class TensorflowEmbeddingTest extends FlatSpec {
     val embeddingsSize = 3
     val vocabularySize = 1
 
-    val embeddings = new TensorflowEmbedding(embeddingsSize, vocabularySize)
+    val embeddings = new TensorflowEmbeddingLookup(embeddingsSize, vocabularySize)
 
     val errorMessage = intercept[IllegalArgumentException] {
       embeddings.initializeTable("someInitializer")
@@ -56,7 +56,7 @@ class TensorflowEmbeddingTest extends FlatSpec {
     val row3 = Array(1.12f, -9.32f, -7.34f)
     val mockEmbeddingsValues = Array(row0, row1, row2, row3)
     val mockEmbeddingsTable = tensorResources.createTensor(mockEmbeddingsValues).asInstanceOf[Tensor[TFloat32]]
-    val embeddings = new TensorflowEmbedding(3, 4)
+    val embeddings = new TensorflowEmbeddingLookup(3, 4)
     val expectedValues = row1 ++ row3
 
     val actualValues = embeddings.lookup(mockEmbeddingsTable, indexes)
@@ -69,7 +69,7 @@ class TensorflowEmbeddingTest extends FlatSpec {
     val indexes = Array(1, 2, 3)
     val mockEmbeddingsValues = Array(Array(1.01f, 2.32f, -0.60f))
     val mockEmbeddingsTable = tensorResources.createTensor(mockEmbeddingsValues).asInstanceOf[Tensor[TFloat32]]
-    val embeddings = new TensorflowEmbedding(3, 1)
+    val embeddings = new TensorflowEmbeddingLookup(3, 1)
 
     val errorMessage = intercept[IllegalArgumentException] {
       embeddings.lookup(mockEmbeddingsTable, indexes)

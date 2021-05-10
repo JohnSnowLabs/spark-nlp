@@ -2,7 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.scalatest.FlatSpec
 import org.tensorflow.types.TFloat32
-import org.tensorflow.{SavedModelBundle, Tensor}
+import org.tensorflow.{AutoCloseableList, SavedModelBundle, Tensor}
 
 class TensorFlowWrapperTest extends FlatSpec {
 
@@ -15,25 +15,26 @@ class TensorFlowWrapperTest extends FlatSpec {
     assert(model != null)
   }
 
-  it should "restore variables from saved model" in {
+  it should "restore session from saved model to fetch variables" in {
+    val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
+    val modelPath: String = "src/test/resources/tensorflow/models/dependency-parser/bi-lstm/"
+    val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
+
+    val restoredSession = TensorflowWrapper.restoreVariablesSession(model, modelPath)
+
+    assert(restoredSession != null)
+  }
+
+  it should "restore variable from saved model" in {
     val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
     val modelPath: String = "src/test/resources/tensorflow/models/dependency-parser/bi-lstm/"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
     val wigLstm = "bi_lstm_model/FirstBlockLSTMModule/wig_first_lstm/Read/ReadVariableOp"
     val expectedShape: Array[Long] = Array(126)
 
-    val restoredSession = TensorflowWrapper.restoreVariablesSession(model, modelPath)
-    //TODO: Refactor this unit test the code below should go in production code
-    val outputFirstLstm = new AutoCloseableList[Tensor[_]](
-      restoredSession.runner()
-        .fetch(wigLstm)
-        .run()
-    )
+    val tensor = TensorflowWrapper.restoreVariable(model, modelPath, wigLstm)
 
-    outputFirstLstm.forEach{output =>
-      val tensor: Tensor[TFloat32] = output.expect(TFloat32.DTYPE)
-      assert(expectedShape sameElements tensor.shape().asArray())
-    }
+    assert(expectedShape sameElements tensor.shape().asArray())
 
   }
 

@@ -8,7 +8,7 @@ import org.tensorflow._
 
 import java.util
 
-class TensorflowEmbedding(embeddingSize: Int, vocabularySize: Int) {
+class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int) {
 
   val shape: Array[Int] = Array(vocabularySize, embeddingSize)
 
@@ -32,7 +32,7 @@ class TensorflowEmbedding(embeddingSize: Int, vocabularySize: Int) {
     }
 
     val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
-    val modelPath = "src/main/resources/embeddings/"
+    val modelPath = "src/main/resources/embeddings-lookup/"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
     val embeddingsLookup: ConcreteFunction = model.function("embeddings_lookup")
 

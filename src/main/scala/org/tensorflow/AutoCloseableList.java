@@ -1,4 +1,4 @@
-package com.johnsnowlabs.ml.tensorflow;
+package org.tensorflow;
 
 import java.util.ArrayList;
 import java.util.Collection;
