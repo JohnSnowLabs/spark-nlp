@@ -1,13 +1,29 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowEmbeddingLookup, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
-import org.apache.spark.ml.param.{IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.op.Scope
-import org.tensorflow.op.core.{Constant, Reverse}
+import org.tensorflow.op.core.Constant
 import org.tensorflow.types.TFloat32
 import org.tensorflow.{EagerSession, Operand, SavedModelBundle, Tensor}
 
@@ -64,7 +80,6 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
     val forwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatSentenceEmbeddings), shape)
     val backwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatReverseSentenceEmbeddings), shape)
-    println("done")
   }
 
   def restoreLstmWeights(): Map[String, Tensor[TFloat32]] = {
