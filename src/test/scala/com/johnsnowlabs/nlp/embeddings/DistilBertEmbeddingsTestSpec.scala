@@ -17,16 +17,16 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.tensorflow.sign.BertTFSignManager
-import com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
+
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
+
 import org.scalatest._
 
 class DistilBertEmbeddingsTestSpec extends FlatSpec {
@@ -34,7 +34,7 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
 
   "DistilBertEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -75,12 +75,7 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = DistilBertEmbeddings
-      .loadSavedModel(
-        "/Users/maziyar/Downloads/distilbert-base-uncased",
-        ResourceHelper.spark
-      )
-      //      .pretrained("small_bert_L2_128", "en")
+    val embeddings = DistilBertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
@@ -93,7 +88,7 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save BertEmbeddings results") {
+    Benchmark.time("Time to save DistilBertEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
     }
 
@@ -131,11 +126,7 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = DistilBertEmbeddings
-      .loadSavedModel(
-        "/Users/maziyar/Downloads/distilbert-base-uncased",
-        ResourceHelper.spark
-      )
+    val embeddings = DistilBertEmbeddings.pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
