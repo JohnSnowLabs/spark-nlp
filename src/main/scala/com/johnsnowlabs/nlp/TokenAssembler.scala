@@ -7,7 +7,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import scala.collection.mutable.ArrayBuffer
 
-class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler] {
+class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssembler] with HasSimpleAnnotate[TokenAssembler] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -40,10 +40,10 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
           token.end <= sentence.end)
 
       var fullSentence: String = ""
-      var lastEnding: Int = 0
+      var lastEnding: Int = -1
 
       tokens.foreach { case (token) =>
-        if (token.begin > lastEnding && token.begin - lastEnding != 1 && lastEnding != 0) {
+        if (token.begin > lastEnding && token.begin - lastEnding != 1 && lastEnding != -1) {
           if ($(preservePosition)) {
             val tokenBreaks = sentence.result.substring(lastEnding + 1 - sentence.begin, token.begin - sentence.begin)
             val matches = ("[\\r\\t\\f\\v\\n ]+".r).findAllIn(tokenBreaks).mkString

@@ -1,4 +1,156 @@
 ========
+3.0.3
+========
+
+----------------
+New Features
+----------------
+* Add new functionalities for text generation in T5Transformer
+
+----------------
+Bug Fixes
+----------------
+* Fix ChunkEmbeddings Array out of bounds exception
+* Fix pretrained tfhub_use_multi and tfhub_use_multi_lg models in UniversalSentenceEncoder
+* Fix anchorDateMonth in Python and case sensitivity in relative dates
+
+
+========
+3.0.2
+========
+
+----------------
+New Features and Enhancements
+----------------
+* Experimental support for community models and pipelines https://github.com/JohnSnowLabs/spark-nlp/pull/2743
+* Add proper conversions for Scala 2.11/2.12 in ContextSpellChecker to use models from Spark 2.x in Spark 3.x https://github.com/JohnSnowLabs/spark-nlp/pull/2758
+* Provide confidence scores for all available tags in NerDLModel and NerCrfModel https://github.com/JohnSnowLabs/spark-nlp/pull/2760
+```
+# Previously in NerDLModel and NerCrfModel 
+[[named_entity, 0, 4, B-LOC, [word -> Japan, confidence -> 0.9998], []]
+```
+
+```
+# In Spark NLP 3.0.2
+[[named_entity, 0, 4, B-LOC, [B-LOC -> 0.9998, I-ORG -> 0.0, I-MISC -> 0.0, I-LOC -> 0.0, I-PER -> 0.0, B-MISC -> 0.0, B-ORG -> 1.0E-4, word -> Japan, O -> 0.0, B-PER -> 0.0], []]
+```
+* Add confidence score to NerConverter metadata https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+```
+[chunk, 30, 37, john, [entity -> PERSON, sentence -> 0, chunk -> 0, confidence -> 0.44035]
+```
+* Refactoring SentencePiece encoding in AlbertEmbeddings and XlnetEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+----------------
+Bug Fixes
+----------------
+* Fix an exception in NerConverter when the documents/sentences don't carry the used tokens in NerDLModel https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+* Fix an exception in AlbertEmbeddings when the original tokens are longer than the piece tokens https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+
+========
+3.0.1
+========
+
+----------------
+New Features
+----------------
+* Add minLength and maxLength parameters to Normalizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/2614
+* 1 line to setup [Google Colab](https://github.com/JohnSnowLabs/spark-nlp#google-colab-notebook)
+* 1 line to setup [Kaggle Kernel](https://github.com/JohnSnowLabs/spark-nlp#kaggle-kernel)
+
+----------------
+Enhancements
+----------------
+* Adjust shading rule for amazon AWS to support sub-projects from Spark NLP Fat JAR https://github.com/JohnSnowLabs/spark-nlp/pull/2613
+* Fix the missing variables in BertSentenceEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2615
+* Restrict loading Sentencepiece ops only to supported models https://github.com/JohnSnowLabs/spark-nlp/pull/2623
+* improve dependency management and resolvers https://github.com/JohnSnowLabs/spark-nlp/pull/2479
+
+
+========
+3.0.0
+========
+----------------
+New Features
+----------------
+* Support for Apache Spark and PySpark 3.0.x on Scala 2.12
+* Support for Apache Spark and PySpark 3.1.x on Scala 2.12
+* Migrate to TensorFlow v2.3.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x
+* Welcoming 9x new Databricks runtimes to our Spark NLP family:
+  * Databricks 7.3
+  * Databricks 7.3 ML GPU
+  * Databricks 7.4
+  * Databricks 7.4 ML GPU
+  * Databricks 7.5
+  * Databricks 7.5 ML GPU
+  * Databricks 7.6
+  * Databricks 7.6 ML GPU
+  * Databricks 8.0
+  * Databricks 8.0 ML (there is no GPU in 8.0)
+  * Databricks 8.1 Beta
+* Welcoming 2x new EMR 6.x series to our Spark NLP family: 
+  * EMR 6.1.0 (Apache Spark 3.0.0 / Hadoop 3.2.1)
+  * EMR 6.2.0 (Apache Spark 3.0.1 / Hadoop 3.2.1)
+* Starting Spark NLP 3.0.0 the default packages  for CPU and GPU will be based on Apache Spark 3.x and Scala 2.12 (`spark-nlp` and `spark-nlp-gpu` will be compatible only with Apache Spark 3.x and Scala 2.12)
+* Starting Spark NLP 3.0.0 we have two new packages to support Apache Spark 2.4.x and Scala 2.11 (`spark-nlp-spark24` and `spark-nlp-gpu-spark24`)
+* Spark NLP 3.0.0 still is and will be compatible with Apache Spark 2.3.x and Scala 2.11 (`spark-nlp-spark23` and `spark-nlp-gpu-spark23`)
+* Adding a new param to sparknlp.start() function in Python for Apache Spark 2.4.x (`spark24=True`)
+* Adding a new param to adjust Driver memory in sparknlp.start() function (`memory="16G"`)
+
+----------------
+Performance Improvements
+----------------
+Introducing a new batch annotation technique implemented in Spark NLP 3.0.0 for NerDLModel, BertEmbeddings, and BertSentenceEmbeddings annotators to radically improve prediction/inferencing performance. 
+From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. 
+You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it. 
+
+
+----------------
+Breaking changes
+----------------
+There are only 5 annotators that are not compatible with both Scala 2.11 (Apache Spark 2.3 and Apache Spark 2.4) and Scala 2.12 (Apache Spark 3.x). 
+You can either train and use them on Apache Spark 2.3.x/2.4.x or train and use them on Apache Spark 3.x. The rest of our models/pipelines can be used on all Apache Spark and Scala major versions.
+
+- TokenizerModel
+- PerceptronApproach (POS Tagger)
+- WordSegmenter
+- DependencyParser
+- TypedDependencyParser
+
+
+========
+2.7.5
+========
+----------------
+Bugfixes
+----------------
+* Fix BigDecimal error in NerDL when includeConfidence is true
+
+----------------
+Enhancements
+----------------
+* Shade Hadoop AWS and AWS Java SDK dependencies
+
+========
+2.7.4
+========
+----------------
+Bugfixes
+----------------
+* Fix Tensors with a 0 dimension issue in ClassifierDL and SentimentDL
+* Fix index error in TokenAssembler
+* Fix MatchError in DateMatcher and MultiDateMatcher annotators
+* Fix setOutputAsArray and its default value for valueSplitSymbol in Finisher annotator
+
+----------------
+Enhancements
+----------------
+* Implement missing frequencyThreshold and ambiguityThreshold params in WordSegmenterApproach annotator
+* Downgrade Hadoop from 3.2 to 2.7 which caused an issue with S3
+* Update Apache HTTP Client
+
+
+========
 2.7.3
 ========
 ---------------

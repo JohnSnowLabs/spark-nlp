@@ -107,16 +107,52 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * @group Parameters
     **/
   val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
+
   /** Set the minimum allowed length for each token
     *
     * @group Parameters
     **/
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
+
+  /**
+    *
+    * @group setParam
+    **/
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
+
+  /**
+    *
+    * @group getParam
+    **/
+  def getMinLength(value: Int): Int = $(minLength)
+
   /** Set the maximum allowed length for each token
     *
     * @group Parameters
     **/
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
+
+  /**
+    *
+    * @group setParam
+    **/
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${
+      minLength
+    }, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+
+  /**
+    *
+    * @group getParam
+    **/
+  def getMaxLength(value: Int): Int = $(maxLength)
 
 
   /**
@@ -335,40 +371,6 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
   def getSplitChars: Array[String] = {
     $(splitChars)
   }
-
-  /** Set the minimum allowed legth for each token
-    *
-    * @group setParam
-    **/
-  def setMinLength(value: Int): this.type = {
-    require(value >= 0, "minLength must be greater equal than 0")
-    require(value.isValidInt, "minLength must be Int")
-    set(minLength, value)
-  }
-
-  /** Get the minimum allowed legth for each token
-    *
-    * @group getParam
-    **/
-  def getMinLength(value: Int): Int = $(minLength)
-
-  /** Set the maximum allowed legth for each token
-    *
-    * @group setParam
-    **/
-  def setMaxLength(value: Int): this.type = {
-    require(value >= ${
-      minLength
-    }, "maxLength must be greater equal than minLength")
-    require(value.isValidInt, "minLength must be Int")
-    set(maxLength, value)
-  }
-
-  /** Get the maximum allowed legth for each token
-    *
-    * @group getParam
-    **/
-  def getMaxLength(value: Int): Int = $(maxLength)
 
   setDefault(
     inputCols -> Array(DOCUMENT),

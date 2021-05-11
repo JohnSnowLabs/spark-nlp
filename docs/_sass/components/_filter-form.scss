@@ -1,0 +1,57 @@
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: -20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 1200px) {
+    justify-content: center;
+  }
+}
+
+.filter-form__select {
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
+.filter-form__text {
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  display: inline-block;
+
+  @media (max-width: 767px) {
+    font-size: 16px;
+  }
+}
+
+.filter-form__group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.filter-form__button.button {
+  min-width: 104px !important;
+
+  @media (max-width: 768px) {
+    min-width: 122px;
+  }
+}
+
+.filter-form__select--task {
+  width: 220px;
+}
+
+.filter-form__select--language {
+  width: 230px;
+}
+
+.filter-form__select--edition {
+  width: 240px;
+}

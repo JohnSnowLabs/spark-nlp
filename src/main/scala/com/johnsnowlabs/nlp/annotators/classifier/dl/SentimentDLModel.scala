@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow.{ClassifierDatasetEncoder, ClassifierDatasetEncoderParams, ReadTensorflowModel, TensorflowSentiment, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable, HasSimpleAnnotate}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -13,7 +13,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 class SentimentDLModel(override val uid: String)
-  extends AnnotatorModel[SentimentDLModel]
+  extends AnnotatorModel[SentimentDLModel] with HasSimpleAnnotate[SentimentDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -105,7 +105,10 @@ class SentimentDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    getModelIfNotSet.predict(sentences, getConfigProtoBytes, $(threshold), $(thresholdLabel))
+    if(sentences.nonEmpty)
+      getModelIfNotSet.predict(sentences, getConfigProtoBytes, $(threshold), $(thresholdLabel))
+    else Seq.empty[Annotation]
+
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

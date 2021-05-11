@@ -6,6 +6,8 @@ labels: ''
 assignees: maziyarpanahi
 
 ---
+<!--- Please complete this template with required information for us to be able to reproduce it -->
+<!--- If you are reporting an issue, failing to complete this template will result in closing the issue -->
 
 <!--- Provide a general summary of the issue in the Title above -->
 
@@ -34,9 +36,12 @@ assignees: maziyarpanahi
 
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
-* Spark NLP version:
-* Apache NLP version:
-* Java version (java -version):
+* Spark NLP version `sparknlp.version()`:
+* Apache NLP version `spark.version`:
+* Java version `java -version`:
 * Setup and installation (Pypi, Conda, Maven, etc.):
 * Operating System and version:
 * Link to your project (if any):
+
+<!--- Please complete this template with required information for us to be able to reproduce it -->
+<!--- If you are reporting an issue, failing to complete this template will result in closing the issue -->

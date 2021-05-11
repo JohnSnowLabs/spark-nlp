@@ -1,62 +1,79 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
-  * Matches standard date formats into a provided format
-  * Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.
-  *
-  * Reads the following kind of dates:
-  *
-  * 1978-01-28, 1984/04/02,1/02/1980, 2/28/79, The 31st of April in the year 2008, "Fri, 21 Nov 1997" , "Jan 21, ‘97" , Sun, Nov 21, jan 1st, next thursday, last wednesday, today, tomorrow, yesterday, next week, next month, next year, day after, the day before, 0600h, 06:00 hours, 6pm, 5:30 a.m., at 5, 12:59, 23:59, 1988/11/23 6pm, next week at 7.30, 5 am tomorrow
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala]] for further reference on how to use this API
-  *
-  * @param uid internal uid required to generate writable annotators
-  * @@ dateFormat: allows to define expected output format. Follows SimpleDateFormat standard.
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  */
-class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with DateMatcherUtils {
+ * Matches standard date formats into a provided format
+ * Reads from different forms of date and time expressions and converts them to a provided date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.
+ *
+ * Reads the following kind of dates:
+ *
+ * 1978-01-28, 1984/04/02,1/02/1980, 2/28/79, The 31st of April in the year 2008, "Fri, 21 Nov 1997" , "Jan 21, ‘97" , Sun, Nov 21, jan 1st, next thursday, last wednesday, today, tomorrow, yesterday, next week, next month, next year, day after, the day before, 0600h, 06:00 hours, 6pm, 5:30 a.m., at 5, 12:59, 23:59, 1988/11/23 6pm, next week at 7.30, 5 am tomorrow
+ *
+ * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala]] for further reference on how to use this API
+ *
+ * @param uid internal uid required to generate writable annotators
+ * @@ dateFormat: allows to define expected output format. Follows SimpleDateFormat standard.
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
+class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with HasSimpleAnnotate[DateMatcher] with DateMatcherUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Output annotator type: DATE
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: AnnotatorType = DATE
 
   /** Input annotator type: DOCUMENT
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
   /**
-    * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
-    *
-    * @param text input text coming from target document
-    * @return a possible date-time match
-    */
+   * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
+   *
+   * @param text input text coming from target document
+   * @return a possible date-time match
+   */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
     val possibleDate = extractFormalDate(text)
       .orElse(extractRelaxedDate(text))
@@ -69,7 +86,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
 
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
-    formalFactory.findMatchFirstOnly(text).map{ possibleDate =>
+    formalFactory.findMatchFirstOnly(text).map { possibleDate =>
       formalDateContentParse(possibleDate)
     }
   }
@@ -113,19 +130,19 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
-    relativeFactory.findMatchFirstOnly(text).map(possibleDate =>
+    relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
       relativeDateContentParse(possibleDate)
     )
   }
 
   private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
-    tyFactory.findMatchFirstOnly(text).map (possibleDate =>
+    tyFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
       tomorrowYesterdayContentParse(possibleDate)
     )
   }
 
   private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {
-    relativeExactFactory.findMatchFirstOnly(text).map(possibleDate =>
+    relativeExactFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
       relativeExactContentParse(possibleDate)
     )
   }
@@ -141,7 +158,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
       )
       val times = possibleTime.content.subgroups
       val hour = {
-        /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than number 12 e.g. meet you at 5*/
+        /** assuming PM if 2 digits regex-subgroup hour is defined, is ot AM and is less than number 12 e.g. meet you at 5 */
         if (
           times.head != null && // hour is defined
             amDefinition.findFirstIn(text).isDefined && // no explicit am
@@ -150,27 +167,29 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
         else if (times.head.toInt < 25) times.head.toInt
         else 0
       }
-      /** Minutes are valid if regex-subgroup matched and less than number 60*/
+      /** Minutes are valid if regex-subgroup matched and less than number 60 */
       val minutes = {
         if (times(1) != null && times(1).toInt < 60) times(1).toInt
         else 0
       }
-      /** Seconds are valid if regex-subgroup matched and less than number 60*/
+      /** Seconds are valid if regex-subgroup matched and less than number 60 */
       val seconds = {
         if (times(2) != null && times(2).toInt < 60) times(2).toInt
         else 0
       }
       calendarBuild.setTimeOfDay(hour, minutes, seconds)
       MatchedDateTime(calendarBuild.build, possibleTime.content.start, possibleTime.content.end)
-    }}
+    }
+    }
   }
 
   /** One to one relationship between content document and output annotation
-    * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
-    */
+   *
+   * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
+   */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getFormat)
-    annotations.flatMap( annotation =>
+    annotations.flatMap(annotation =>
       extractDate(annotation.result).map(matchedDate => Annotation(
         outputAnnotatorType,
         matchedDate.start,
@@ -182,4 +201,5 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
 }
+
 object DateMatcher extends DefaultParamsReadable[DateMatcher]

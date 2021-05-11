@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -28,7 +28,7 @@ import scala.language.postfixOps
   * @groupprio getParam  5
   * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] {
+class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with HasSimpleAnnotate[Stemmer] {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 

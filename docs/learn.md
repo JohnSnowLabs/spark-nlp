@@ -69,6 +69,14 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_3.jpg)[Get started with Machine Learning in Java using Spark NLP](https://medium.com/parito-labs-blog/get-started-with-machine-learning-in-java-using-spark-nlp-9eb8ef2ea2ce)</span><span class="video-descr">Will Price - August 27, 2020</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_4.jpg)[SPARK NLP 3: MASSIVE SPEEDUPS & THE LATEST COMPUTE PLATFORMS](https://www.johnsnowlabs.com/spark-nlp-3-massive-speedups-the-latest-compute-platforms/)</span><span class="video-descr">Maziyar Panahi - March 25, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[SPARK NLP 2.7: 720+ NEW MODELS &amp; PIPELINES FOR 192 LANGUAGES!](https://www.johnsnowlabs.com/spark-nlp-2-7-720-new-models-pipelines-for-192-languages/)</span><span class="video-descr">David Talby - January 05, 2021</span>
+</div></div>
+
 </div></div>
 
 {:.h2_article}
@@ -138,6 +146,19 @@ modify_date: "2019-05-16"
 <span class="article-inner">![News](/assets/images/Article_4.jpg)[1 line to BERT Word Embeddings with NLU in Python](https://medium.com/spark-nlp/1-line-to-bert-word-embeddings-with-nlu-f50d2b08cddc)</span><span class="video-descr">Christian Kasim Loan - September 21, 2020</span>
 </div></div>
 
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Question answering, intent classification, aspect based ner, and new multilingual models in python’s NLU library](https://www.johnsnowlabs.com/question-answering-intent-classification-aspect-based-ner-and-new-multilingual-models-in-pythons-nlu-library/)</span><span class="video-descr">Christian Kasim Loan - February 12, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Intent and action classification, analyze chinese news and crypto market, 200+ languages &amp; answer questions with NLU 1.1.3](https://www.johnsnowlabs.com/intent-and-action-classification-analyze-chinese-news-and-crypto-market-translate-200-languages-answer-questions-with-nlu-1-1-3/)</span><span class="video-descr">Christian Kasim Loan - March 02, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_5.jpg)[Hindi wordembeddings, bengali named entity recognition, 30+ new models, analyze crypto news with NLU 1.1.2](https://www.johnsnowlabs.com/hindi-wordembeddings-bengali-named-entity-recognition-30-new-models-analyze-crypto-news-with-nlu-1-1-2/)</span><span class="video-descr">Christian Kasim Loan - February 18, 2021</span>
+</div></div>
+
+
 </div></div>
 
 {:.h2_article}
@@ -195,6 +216,11 @@ modify_date: "2019-05-16"
 #### Articles
 
 <div class="grid--container container-aside article-wrapper"><div class="grid">
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[GloVe, ELMo & BERT. A guide to state-of-the-art text classification using Spark NLP
+](https://towardsdatascience.com/glove-elmo-bert-9dbbc9226934)</span><span class="video-descr">Ryan Burke - March 16, 2021</span>
+</div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_2.jpg)[Distributed Topic Modelling using Spark NLP and Spark MLLib(LDA)](https://medium.com/analytics-vidhya/distributed-topic-modelling-using-spark-nlp-and-spark-mllib-lda-6db3f06a4da3)</span><span class="video-descr">Satish Silveri - June 11, 2020</span>
@@ -296,6 +322,10 @@ modify_date: "2019-05-16"
 
 <div class="grid--container container-aside"><div class="grid">
 
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='dSKMNyo8fKw' -%}<div class="video-descr">Advancing the State of the Art in Applied Natural Language Processing | Healthcare NLP Summit 2021. David Talby - 21 Apr 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='mUpNZ6fbzkA' -%}<div class="video-descr">Connecting the Dots in Clinical Document Understanding &amp; Information Extraction I Health NLP Summit. Veysel Kocaman - 15 Apr 2021</div></div></div>
+
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='iHjdqF6iCnU' -%}<div class="video-descr">Advanced Natural Language Processing with Apache Spark NLP. David Talby - 20 Aug 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/413744566" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Applying State-of-the-art Natural Language Processing for Personalized Healthcare. David Talby - April 13, 2020</div></div></div>
@@ -307,6 +337,10 @@ modify_date: "2019-05-16"
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='g6DIb9FYdhQ' -%}<div class="video-descr">NLP and its applications in Healthcare. Veysel Kocaman - 17 May 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/412397682" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Lessons Learned Building Real-World Healthcare AI Systems. Veysel Kocaman - April 13, 2020</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='PJmvEN5wDRc' -%}<div class="video-descr">Application of Spark NLP for Development of Multi-Modal Prediction Model from EHR | Healthcare NLP. Sutanay Choudhury - 14 Apr 2021</div></div></div>
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='u18FeqX-518' -%}<div class="video-descr">Best Practices in Improving NLP Accuracy for Clinical Use Cases I Healthcare NLP Summit 2021. Rajesh Chamarthi, Veysel Kocaman - 15 Apr 2021</div></div></div>
 
 </div></div>
 
@@ -361,6 +395,14 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_1.jpg)[Automated Adverse Drug Event (ADE) Detection from Text in Spark NLP with BioBert](https://towardsdatascience.com/automated-adverse-drug-event-ade-detection-from-text-in-spark-nlp-with-biobert-837c700f5d8c)</span><span class="video-descr">Veysel Kocaman - Octover 4, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[Normalize drug names and dosage units with spark NLP](https://www.johnsnowlabs.com/normalize-drug-names-and-dosage-units-with-spark-nlp/)</span><span class="video-descr">David Cecchini - February 23, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Spark NLP for healthcare 2.7.3 with biobert extraction models, higher accuracy, de-identification, new radiology ner model &amp; more](https://www.johnsnowlabs.com/spark-nlp-for-healthcare-2-7-3-is-available-now-biobert-based-relation-extraction-models-higher-accuracy-entity-resolution-massive-improvements-in-de-identification-extracting-body-part-relations/)</span><span class="video-descr">Veysel Kocaman - February 09, 2021</span>
 </div></div>
 
 </div></div>
@@ -447,9 +489,11 @@ modify_date: "2019-05-16"
 
 <div class="grid--container container-aside"><div class="grid">
 
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='gs1AaSBD-RQ' -%}<div class="video-descr">Accelerating Clinical Data Abstraction and Real-World Data Curation with Active Learning, Dia Trambitas - Apr 15, 2021</div></div></div>
+
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='cv-s-Mg2504' -%}<div class="video-descr">MLOPS Veysel & Dia. Dia Trambitas, Veysel Kocaman - July 16, 2020</div></div></div>
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/423632854" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Best Practices & Tools for Accurate Document Annotation and Data Abstraction. Dia Trambitas - May 27, 2020</div></div></div>
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/423632854" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">Best Practices &amp; Tools for Accurate Document Annotation and Data Abstraction. Dia Trambitas - May 27, 2020</div></div></div>
 
 </div></div>
 
@@ -468,6 +512,18 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
 <span class="article-inner">![News](/assets/images/Article_5.jpg)[Lesson Learned annotating training data for healthcare NLP projects](https://www.nlpsummit.org/lesson-learned-annotating-training-data-for-healthcare-nlp-projects/)</span><span class="video-descr">Rebecca Leung, Marianne Mak - October 8, 2020</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Task review workflows in the annotation lab](https://www.johnsnowlabs.com/task-review-workflows-in-the-annotation-lab/)</span><span class="video-descr">Dia Trambitas - March 08, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_2.jpg)[The annotation lab 1.1 is here with improvements to speed, accuracy, and productivity](https://www.johnsnowlabs.com/the-annotation-lab-1-1-is-here-with-improvements-to-speed-accuracy-and-productivity/)</span><span class="video-descr">Ida Lucente - January 20, 2021</span>
+</div></div>
+
+<div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
+<span class="article-inner">![News](/assets/images/Article_3.jpg)[Tips and tricks on how to annotate assertion in clinical texts](https://www.johnsnowlabs.com/tips-and-tricks-on-how-to-annotate-assertion-in-clinical-texts/)</span><span class="video-descr">Mauro Nievas Offidani - November 24, 2020</span>
 </div></div>
 
 </div></div>

@@ -6,6 +6,7 @@ from test.base import *
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
 unittest.TextTestRunner().run(RegexMatcherTestSpec())
 unittest.TextTestRunner().run(TokenizerTestSpec())
+unittest.TextTestRunner().run(NormalizerTestSpec())
 unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerTestSpec())
 unittest.TextTestRunner().run(LemmatizerWithTrainingDataSetTestSpec())
@@ -51,6 +52,12 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # unittest.TextTestRunner().run(RecursiveTestSpec())
 # unittest.TextTestRunner().run(T5TransformerQATestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryTestSpec())
+# unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingTestSpec())
+# unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec())
+# unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTemperatureTestSpec())
+# unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTopPTestSpec())
+# unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
+
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

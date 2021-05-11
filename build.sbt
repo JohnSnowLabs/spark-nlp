@@ -1,60 +1,48 @@
+import Dependencies._
+import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-val is_gpu = System.getProperty("is_gpu","false")
-val is_spark23 = System.getProperty("is_spark23","false")
-
-val spark23Ver = "2.3.4"
-val spark24Ver = "2.4.7"
-val sparkVer = if(is_spark23=="false") spark24Ver else spark23Ver
-val scalaVer = "2.11.12"
-val scalaTestVersion = "3.0.0"
-
-
-/** Package attributes */
-
-if (is_gpu.equals("true") && is_spark23.equals("true")){
-  name:="spark-nlp-gpu-spark23"
-}else if (is_gpu.equals("true") && is_spark23.equals("false")){
-  name:="spark-nlp-gpu"
-}else if (is_gpu.equals("false") && is_spark23.equals("true")){
-  name:="spark-nlp-spark23"
-}else{
-  name:="spark-nlp"
-}
-
+name:= getPackageName(is_spark23, is_spark24, is_gpu)
 
 organization:= "com.johnsnowlabs.nlp"
 
-version := "2.7.3"
+version := "3.0.3"
 
 scalaVersion in ThisBuild := scalaVer
 
-sparkVersion in ThisBuild := sparkVer
+scalacOptions in ThisBuild += "-target:jvm-1.8"
 
-/** Spark-Package attributes */
-spName in ThisBuild := "JohnSnowLabs/spark-nlp"
+scalacOptions ++= Seq(
+  "-unchecked",
+  "-feature",
+  "-language:implicitConversions"
+)
 
-sparkComponents in ThisBuild ++= Seq("mllib")
+scalacOptions in (Compile, doc) ++= Seq(
+  "-groups",
+  "-doc-title",
+  "Spark NLP " + version.value + " ScalaDoc",
+  "-skip-packages",
+  "com.johnsnowlabs.nlp.annotator:com.johnsnowlabs.nlp.base",
+  "-nowarn"
+)
+
+target in Compile in doc := baseDirectory.value / "docs/api"
 
 licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
-spIncludeMaven in ThisBuild:= false
+resolvers in ThisBuild := m2Resolvers
 
-spAppendScalaVersion := false
-
-resolvers in ThisBuild += "Maven Central" at "https://central.maven.org/maven2/"
-
-resolvers in ThisBuild += "Spring Plugins" at "http://repo.spring.io/plugins-release/"
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll
+)
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(
   includeScala = false
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
-
-ivyScala := ivyScala.value map {
-  _.copy(overrideScalaVersion = true)
-}
 
 /** Bintray settings */
 bintrayPackageLabels := Seq("nlp", "nlu",
@@ -95,87 +83,66 @@ developers in ThisBuild:= List(
   Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
   Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan")),
   Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq")),
-  Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov"))
+  Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov")),
+  Developer(id="alinapetukhova", name="Alina Petukhova", email="alina@johnsnowlabs.com", url=url("https://github.com/alinapetukhova"))
 )
 
-
-scalacOptions in (Compile, doc) ++= Seq(
-  "-doc-title",
-  "Spark NLP " + version.value + " ScalaDoc"
+lazy val analyticsDependencies = Seq(
+  "org.apache.spark" %% "spark-core" % sparkVer % Provided,
+  "org.apache.spark" %% "spark-mllib" % sparkVer % Provided
 )
-target in Compile in doc := baseDirectory.value / "docs/api"
-
-lazy val analyticsDependencies =
-  if(is_spark23=="false"){
-    Seq(
-      "org.apache.spark" %% "spark-core" % sparkVer % "provided",
-      "org.apache.spark" %% "spark-mllib" % sparkVer % "provided"
-    )
-  }else{
-    Seq(
-      "org.apache.spark" %% "spark-core" % spark23Ver % "provided",
-      "org.apache.spark" %% "spark-mllib" % spark23Ver % "provided"
-    )
-  }
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
 )
 
 lazy val utilDependencies = Seq(
-  "com.typesafe" % "config" % "1.3.0",
-  "org.rocksdb" % "rocksdbjni" % "6.5.3",
-  "org.apache.hadoop" % "hadoop-aws" %  "3.2.0"
-    exclude("com.fasterxml.jackson.core", "jackson-annotations")
-    exclude("com.fasterxml.jackson.core", "jackson-databind")
-    exclude("com.fasterxml.jackson.core", "jackson-core")
-    exclude("commons-configuration","commons-configuration")
-    exclude("com.amazonaws","aws-java-sdk-bundle")
-    exclude("org.apache.hadoop" ,"hadoop-common"),
-  "com.amazonaws" % "aws-java-sdk-core" % "1.11.603"
+  typesafe,
+  rocksdbjni,
+  awsjavasdkbundle
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
     exclude("commons-configuration","commons-configuration"),
-  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.603",
-  "com.github.universal-automata" % "liblevenshtein" % "3.0.0"
+  liblevenshtein
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
-  "com.navigamez" % "greex" % "1.0",
-  "org.json4s" %% "json4s-ext" % "3.5.3"
+  greex,
+  json4s
 
 )
-
 
 lazy val typedDependencyParserDependencies = Seq(
-  "net.sf.trove4j" % "trove4j" % "3.0.3",
-  "junit" % "junit" % "4.10" % Test
+  trove4j,
+  junit
 )
+
 val tensorflowDependencies: Seq[sbt.ModuleID] =
-  if (is_gpu.equals("true"))
-    Seq(
-      "org.tensorflow" % "libtensorflow" % "1.15.0",
-      "org.tensorflow" % "libtensorflow_jni_gpu" % "1.15.0"
-    )
+  if(is_gpu.equals("true"))
+    Seq(tensorflowGPU)
   else
-    Seq(
-      "org.tensorflow" % "tensorflow" % "1.15.0"
-    )
+    Seq(tensorflowCPU)
+
+lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
   .settings(
+    crossScalaVersions := supportedScalaVersions,
     libraryDependencies ++=
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies++
-        typedDependencyParserDependencies
+        typedDependencyParserDependencies,
+    // TODO potentially improve this?
+    mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
   )
 
 assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
-  case PathList("org.apache.hadoop", xs @ _*)  => MergeStrategy.first
-  case PathList("com.amazonaws", xs @ _*)  => MergeStrategy.last
+  case PathList("org.apache.hadoop", _ @ _*)  => MergeStrategy.first
+  case PathList("com.amazonaws", _ @ _*)  => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
   case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
@@ -205,20 +172,13 @@ testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowT
 parallelExecution in SlowTest := false
 /** Test tagging end */
 
-scalacOptions ++= Seq(
-  "-feature",
-  "-language:implicitConversions"
-)
-scalacOptions in(Compile, doc) ++= Seq(
-  "-groups"
-)
 /** Enable for debugging */
 testOptions in Test += Tests.Argument("-oF")
 
 /** Disables tests in assembly */
 test in assembly := {}
 
-/** Publish test artificat **/
+/** Publish test artifact **/
 publishArtifact in Test := true
 
 /** Copies the assembled jar to the pyspark/lib dir **/
