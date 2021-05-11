@@ -66,7 +66,6 @@ object ModelSignatureConstants {
     override val key: String = "serialized_size"
   }
 
-
   sealed trait TFInfoNameMapper {
     protected val key: String
     protected val value: String
@@ -150,7 +149,7 @@ object ModelSignatureConstants {
           "(token_type)(.*)(ids)".r,
           "(last_hidden_state)".r)
 
-      case _ => throw new Exception("Unknown model provider! Please provide one in between JSL, TF2 or HF.")
+      case _ => throw new Exception("Unknown model provider! Please provide one in between TF1 or TF2.")
     }
     referenceKeys
   }

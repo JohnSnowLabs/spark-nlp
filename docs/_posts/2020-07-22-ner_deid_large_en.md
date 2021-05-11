@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect PHI information (Deidentification)
+title: Detect PHI (Deidentification)
 author: John Snow Labs
 name: ner_deid_large
 class: NerDLModel

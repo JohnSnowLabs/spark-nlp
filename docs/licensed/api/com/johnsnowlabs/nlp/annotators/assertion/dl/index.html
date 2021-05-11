@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.dl</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.dl" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.dl" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.dl</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.dl" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -309,7 +309,7 @@ For pretrained models please use AssertionDLModel and see the
 ))
 
 <span class="kw">val</span> assertionModel = trainingPipeline.fit(data)
-<span class="kw">val</span> assertionResults = assertionModel.transform(data).cache()</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a></p></span></dd></dl></div>
+<span class="kw">val</span> assertionResults = assertionModel.transform(data).cache()</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> for using pretrained models</p></span><span class="cmt"><p><span class="extype" name="com.johnsnowlabs.nlp.jsl.annotator.AssertionLogRegModel">AssertionLogRegModel</span> for non deep learning based extraction</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AssertionDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]withWriteTensorflowModelwithHasStorageRefwithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]withParamsAndFeaturesWritablewithLicensed"></a><a id="AssertionDLModel:AssertionDLModel"></a>
       <span class="permalink">
@@ -325,10 +325,48 @@ For pretrained models please use AssertionDLModel and see the
         <a title="This is a main class in AssertionDL family." href="AssertionDLModel.html"><span class="name">AssertionDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span> with <a href="../../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      <p class="shortcomment cmt">This is a main class in AssertionDL family.</p><div class="fullcomment"><div class="comment cmt"><p>This is a main class in AssertionDL family. It contains all the parameters and main point of interest
-method annotate() which applies functionality from AssertionAnnotationWithLabel
-This class extends the AnnotatorModel by overriding method annotate()
-</p></div></div>
+      <p class="shortcomment cmt">This is a main class in AssertionDL family.</p><div class="fullcomment"><div class="comment cmt"><p>This is a main class in AssertionDL family. A Deep Learning based approach is used to extract Assertion Status
+from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
+annotator inputs, which can be obtained by e.g a
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler" target="_blank">DocumentAssembler</a>,
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter" target="_blank">NerConverter</a>
+and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel" target="_blank">WordEmbeddingsModel</a>.
+The result is an assertion status annotation for each recognized entity.
+Possible values include <code>“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”</code> etc.</p><p>For pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Assertion+Status" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><p>Define pipeline stages to extract NER chunks first</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"Patient with severe fever and sore throat"</span>,
+  <span class="lit">"Patient shows no stomach pain"</span>,
+  <span class="lit">"She was maintained on an epidural and PCA for pain control."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+<span class="kw">val</span> nerModel = MedicalNerModel.pretrained(<span class="lit">"ner_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>).setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> nerConverter = <span class="kw">new</span> NerConverter().setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>).setOutputCol(<span class="lit">"ner_chunk"</span>)</pre><p>Then a pretrained AssertionDLModel is used to extract the assertion status</p><pre><span class="kw">val</span> clinicalAssertion = AssertionDLModel.pretrained(<span class="lit">"assertion_dl"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"ner_chunk"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"assertion"</span>)
+
+<span class="kw">val</span> assertionPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  nerModel,
+  nerConverter,
+  clinicalAssertion
+))
+
+<span class="kw">val</span> assertionModel = assertionPipeline.fit(data)</pre><p>Show results</p><pre><span class="kw">val</span> result = assertionModel.transform(data)
+result.selectExpr(<span class="lit">"ner_chunk.result"</span>, <span class="lit">"assertion.result"</span>).show(<span class="num">3</span>, truncate=<span class="kw">false</span>)
++--------------------------------+--------------------------------+
+|result                          |result                          |
++--------------------------------+--------------------------------+
+|[severe fever, sore throat]     |[present, present]              |
+|[stomach pain]                  |[absent]                        |
+|[an epidural, PCA, pain control]|[present, present, hypothetical]|
++--------------------------------+--------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionDLApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLApproach">AssertionDLApproach</a> for training a custom AssertionDLModel</p></span><span class="cmt"><p><a href="../logreg/AssertionLogRegModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> for non deep learning based extraction</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.dl.ReadablePretrainedAssertionDL" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedAssertionDLextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel]"></a><a id="ReadablePretrainedAssertionDL:ReadablePretrainedAssertionDL"></a>
       <span class="permalink">

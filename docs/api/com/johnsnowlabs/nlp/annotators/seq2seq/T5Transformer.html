@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -598,7 +598,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="configProtoBytes:org.apache.spark.ml.param.IntArrayParam"></a><a id="configProtoBytes:IntArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#configProtoBytes:org.apache.spark.ml.param.IntArrayParam" title="Permalink">
@@ -613,7 +613,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">ConfigProto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):M"></a><a id="copy(ParamMap):T5Transformer"></a>
       <span class="permalink">
@@ -678,6 +679,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </span>
       
       <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#doSample" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="doSample:org.apache.spark.ml.param.BooleanParam"></a><a id="doSample:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#doSample:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">doSample</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether or not to use sampling; use greedy decoding otherwise
+</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -943,7 +961,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getConfigProtoBytes:Option[Array[Byte]]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getConfigProtoBytes:Option[Array[Byte]]" title="Permalink">
@@ -958,7 +976,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">getConfigProtoBytes</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -975,6 +993,22 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getDoSample" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getDoSample:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getDoSample:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDoSample</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1007,7 +1041,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getMaxOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getMaxOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
       <a id="getMaxOutputLength:Int"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getMaxOutputLength:Int" title="Permalink">
@@ -1022,8 +1056,24 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">getMaxOutputLength</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getMinOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getMinOutputLength:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getMinOutputLength:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMinOutputLength</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
       <a id="getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowT5"></a><a id="getModelIfNotSet:TensorflowT5"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowT5" title="Permalink">
@@ -1038,7 +1088,23 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">getModelIfNotSet</span><span class="result">: <a href="../../../ml/tensorflow/TensorflowT5.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowT5">TensorflowT5</a></span>
       </span>
       
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getNoRepeatNgramSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getNoRepeatNgramSize:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getNoRepeatNgramSize:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getNoRepeatNgramSize</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
       
+      <p class="shortcomment cmt"></p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -1087,6 +1153,86 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getRandomSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getRandomSeed:Option[Long]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getRandomSeed:Option[Long]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRandomSeed</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getRepetitionPenalty" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getRepetitionPenalty:Double"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getRepetitionPenalty:Double" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRepetitionPenalty</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getTemperature" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getTemperature:Double"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getTemperature:Double" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTemperature</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getTopK" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getTopK:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getTopK:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTopK</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#getTopP" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam *">
+      <a id="getTopP:Double"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#getTopP:Double" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTopP</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1186,7 +1332,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="inputAnnotatorTypes:Array[T5Transformer.this.AnnotatorType]"></a><a id="inputAnnotatorTypes:Array[AnnotatorType]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#inputAnnotatorTypes:Array[T5Transformer.this.AnnotatorType]" title="Permalink">
@@ -1496,7 +1642,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#maxOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#maxOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxOutputLength:org.apache.spark.ml.param.IntParam"></a><a id="maxOutputLength:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#maxOutputLength:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1511,7 +1657,25 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">maxOutputLength</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
+      <p class="shortcomment cmt">Maximum length of the sequence to be generated
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#minOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="minOutputLength:org.apache.spark.ml.param.IntParam"></a><a id="minOutputLength:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#minOutputLength:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minOutputLength</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
       
+      <p class="shortcomment cmt">Minimum length of the sequence to be generated
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1544,6 +1708,23 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#noRepeatNgramSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="noRepeatNgramSize:org.apache.spark.ml.param.IntParam"></a><a id="noRepeatNgramSize:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#noRepeatNgramSize:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">noRepeatNgramSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">If set to int &gt; 0, all ngrams of that size can only occur once
+</p>
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
@@ -1598,7 +1779,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a> → <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="outputAnnotatorType:String"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#outputAnnotatorType:String" title="Permalink">
@@ -1664,6 +1845,39 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#randomSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="randomSeed:Option[Long]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#randomSeed:Option[Long]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">randomSeed</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#repetitionPenalty" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="repetitionPenalty:org.apache.spark.ml.param.DoubleParam"></a><a id="repetitionPenalty:DoubleParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#repetitionPenalty:org.apache.spark.ml.param.DoubleParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repetitionPenalty</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">The parameter for repetition penalty.</p><div class="fullcomment"><div class="comment cmt"><p>The parameter for repetition penalty. 1.0 means no penalty. See <code>this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;</code> for more details
+</p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -1803,7 +2017,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setConfigProtoBytes(bytes:Array[Int]):T5Transformer.this.type"></a><a id="setConfigProtoBytes(Array[Int]):T5Transformer.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setConfigProtoBytes(bytes:Array[Int]):T5Transformer.this.type" title="Permalink">
@@ -1818,7 +2032,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a><a id="setDefault[T](StructFeature[T],()⇒T):T5Transformer.this.type"></a>
       <span class="permalink">
@@ -1915,6 +2129,22 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setDoSample" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setDoSample(value:Boolean):T5Transformer.this.type"></a><a id="setDoSample(Boolean):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setDoSample(value:Boolean):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDoSample</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):T5Transformer.this.type"></a>
       <span class="permalink">
@@ -1963,7 +2193,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setMaxOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setMaxOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
       <a id="setMaxOutputLength(value:Int):T5Transformer.this.type"></a><a id="setMaxOutputLength(Int):T5Transformer.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setMaxOutputLength(value:Int):T5Transformer.this.type" title="Permalink">
@@ -1978,8 +2208,24 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setMaxOutputLength</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
       </span>
       
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setMinOutputLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setMinOutputLength(value:Int):T5Transformer.this.type"></a><a id="setMinOutputLength(Int):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setMinOutputLength(value:Int):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMinOutputLength</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tfWrapper:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,spp:com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper):T5Transformer.this.type"></a><a id="setModelIfNotSet(SparkSession,TensorflowWrapper,SentencePieceWrapper):T5Transformer.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tfWrapper:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,spp:com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper):T5Transformer.this.type" title="Permalink">
@@ -1994,7 +2240,23 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setModelIfNotSet</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="tfWrapper">tfWrapper: <a href="../../../ml/tensorflow/TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="spp">spp: <a href="../../../ml/tensorflow/sentencepiece/SentencePieceWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper">SentencePieceWrapper</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
       </span>
       
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setNoRepeatNgramSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setNoRepeatNgramSize(value:Int):T5Transformer.this.type"></a><a id="setNoRepeatNgramSize(Int):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setNoRepeatNgramSize(value:Int):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setNoRepeatNgramSize</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
       
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):T5Transformer.this.type"></a>
       <span class="permalink">
@@ -2027,7 +2289,39 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setTask" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setRandomSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setRandomSeed(value:Long):T5Transformer.this.type"></a><a id="setRandomSeed(Long):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setRandomSeed(value:Long):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRandomSeed</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setRepetitionPenalty" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setRepetitionPenalty(value:Double):T5Transformer.this.type"></a><a id="setRepetitionPenalty(Double):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setRepetitionPenalty(value:Double):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRepetitionPenalty</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setTask" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
       <a id="setTask(value:String):T5Transformer.this.type"></a><a id="setTask(String):T5Transformer.this.type"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setTask(value:String):T5Transformer.this.type" title="Permalink">
@@ -2042,7 +2336,55 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setTask</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
       </span>
       
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setTemperature" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setTemperature(value:Double):T5Transformer.this.type"></a><a id="setTemperature(Double):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setTemperature(value:Double):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTemperature</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
       
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setTopK" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setTopK(value:Int):T5Transformer.this.type"></a><a id="setTopK(Int):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setTopK(value:Int):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTopK</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#setTopP" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam *">
+      <a id="setTopP(value:Double):T5Transformer.this.type"></a><a id="setTopP(Double):T5Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#setTopP(value:Double):T5Transformer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTopP</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer">T5Transformer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2059,7 +2401,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#task" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#task" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="task:org.apache.spark.ml.param.Param[String]"></a><a id="task:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#task:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2074,7 +2416,25 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">task</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
+      <p class="shortcomment cmt">Set transformer task, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>Set transformer task, e.g. 'summarize'
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#temperature" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="temperature:org.apache.spark.ml.param.DoubleParam"></a><a id="temperature:DoubleParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#temperature:org.apache.spark.ml.param.DoubleParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">temperature</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
+      </span>
       
+      <p class="shortcomment cmt">The value used to module the next token probabilities
+</p>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
@@ -2091,6 +2451,40 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Identifiable → AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#topK" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="topK:org.apache.spark.ml.param.IntParam"></a><a id="topK:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#topK:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">topK</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">The number of highest probability vocabulary tokens to keep for top-k-filtering
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer#topP" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="topP:org.apache.spark.ml.param.DoubleParam"></a><a id="topP:DoubleParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/T5Transformer.html#topP:org.apache.spark.ml.param.DoubleParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">topP</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">If set to float &lt; 1, only the most probable tokens with probabilities that add up to <code><code>top_p</code></code> or higher are kept for generation
+</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_]):DataFrame"></a>
       <span class="permalink">
@@ -2451,8 +2845,20 @@ metadata is built at schema level to record annotations structural information o
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="anno">
-              <h3>anno</h3>
+        <div class="group" name="getParam">
+              <h3>getParam</h3>
+              
+            </div><div class="group" name="getParam *">
+              <h3>getParam *</h3>
+              
+            </div><div class="group" name="param">
+              <h3>param</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>setParam</h3>
+              
+            </div><div class="group" name="setParam *">
+              <h3>setParam *</h3>
               
             </div><div class="group" name="Ungrouped">
               <h3>Ungrouped</h3>

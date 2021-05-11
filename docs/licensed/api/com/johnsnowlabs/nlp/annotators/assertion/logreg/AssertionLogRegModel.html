@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -167,8 +167,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion">assertion</a></dd></dl></div>
     </li><li class="current-entities indented6">
                         <a class="object" href="AssertionLogRegApproach$.html" title=""></a>
-                        <a class="class" href="AssertionLogRegApproach.html" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd"></a>
-                        <a href="AssertionLogRegApproach.html" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training the LogisticRegression Approach, together with trainWithChunk, trainWithStartEnd">AssertionLogRegApproach</a>
+                        <a class="class" href="AssertionLogRegApproach.html" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training a AssertionLogRegModel, together with trainWithChunk, trainWithStartEnd."></a>
+                        <a href="AssertionLogRegApproach.html" title="This is a classification method, which uses LogisticRegression algorithm Contains all the methods for training a AssertionLogRegModel, together with trainWithChunk, trainWithStartEnd.">AssertionLogRegApproach</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="AssertionLogRegModel$.html" title=""></a>
                         <a class="class" href="" title="This is a main class in AssertionLogReg family."></a>
@@ -219,11 +219,16 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is a main class in AssertionLogReg family. It contains all the parameters and main point of interest
-method transform() which projects the input dataset into DataFrame.
-Unlike DL Model, this class does not extend AnnotatorModel.
-Instead it extends the RawAnnotator, that's why the main point of interest is method transform()
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status
+from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
+annotator inputs, which can be obtained by e.g a
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler" target="_blank">DocumentAssembler</a>,
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter" target="_blank">NerConverter</a>
+and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel" target="_blank">WordEmbeddingsModel</a>.
+The result is an assertion status annotation for each recognized entity.
+Possible values are <code>&quot;Negated&quot;, &quot;Affirmed&quot; and &quot;Historical&quot;</code>.</p><p>Unlike the DL Model, this class does not extend AnnotatorModel.
+Instead it extends the RawAnnotator, that's why the main point of interest is method transform().</p><p>At the moment there are no pretrained models available for this class. Please refer to AssertionLogRegApproach to
+train your own model.</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="AssertionLogRegApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach">AssertionLogRegApproach</a> to train a custom model</p></span><span class="cmt"><p><a href="../dl/AssertionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel">AssertionDLModel</a> for deep learning extraction</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -244,7 +249,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -494,7 +499,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> → <a href="Windowing.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing">Windowing</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#afterParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#afterParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="afterParam:org.apache.spark.ml.param.IntParam"></a><a id="afterParam:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#afterParam:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -509,7 +514,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">afterParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Length of the context after the target (Default: <code>13</code>)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing#applyWindow" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="applyWindow(tokenizedSentence:com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence,s:Int,e:Int,embeddingsDim:Int):Array[Double]"></a><a id="applyWindow(WordpieceEmbeddingsSentence,Int,Int,Int):Array[Double]"></a>
       <span class="permalink">
@@ -606,7 +611,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> → <a href="Windowing.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.Windowing">Windowing</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#beforeParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#beforeParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="beforeParam:org.apache.spark.ml.param.IntParam"></a><a id="beforeParam:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#beforeParam:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -621,7 +626,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">beforeParam</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Length of the context before the target (Default: <code>11</code>)</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -742,7 +747,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#endCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="endCol:org.apache.spark.ml.param.Param[String]"></a><a id="endCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#endCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -757,7 +762,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">endCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column that contains the token number for the end of the target</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1234,7 +1239,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1249,7 +1254,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: DOCUMENT, CHUNK, WORD_EMBEDDINGS</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1688,7 +1693,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:AssertionLogRegModel.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#outputAnnotatorType:AssertionLogRegModel.this.AnnotatorType" title="Permalink">
@@ -1703,7 +1708,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: ASSERTION</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: ASSERTION</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1891,7 +1896,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setAfter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setAfter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setAfter(after:Int):AssertionLogRegModel.this.type"></a><a id="setAfter(Int):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#setAfter(after:Int):AssertionLogRegModel.this.type" title="Permalink">
@@ -1906,8 +1911,8 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">setAfter</span><span class="params">(<span name="after">after: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setBefore" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Length of the context after the target (Default: <code>13</code>)</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setBefore" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setBefore(before:Int):AssertionLogRegModel.this.type"></a><a id="setBefore(Int):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#setBefore(before:Int):AssertionLogRegModel.this.type" title="Permalink">
@@ -1922,7 +1927,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">setBefore</span><span class="params">(<span name="before">before: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Length of the context before the target (Default: <code>11</code>)</p>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a><a id="setDefault[T](StructFeature[T],()⇒T):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
@@ -2019,7 +2024,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setEndCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setEndCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEndCol(end:String):AssertionLogRegModel.this.type"></a><a id="setEndCol(String):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#setEndCol(end:String):AssertionLogRegModel.this.type" title="Permalink">
@@ -2034,7 +2039,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">setEndCol</span><span class="params">(<span name="end">end: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column that contains the token number for the end of the target</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
@@ -2147,7 +2152,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setStartCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#setStartCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setStartCol(start:String):AssertionLogRegModel.this.type"></a><a id="setStartCol(String):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#setStartCol(start:String):AssertionLogRegModel.this.type" title="Permalink">
@@ -2162,7 +2167,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">setStartCol</span><span class="params">(<span name="start">start: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel">AssertionLogRegModel</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column that contains the token number for the start of the target</p>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#setStorageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setStorageRef(value:String):HasStorageRef.this.type"></a><a id="setStorageRef(String):AssertionLogRegModel.this.type"></a>
       <span class="permalink">
@@ -2179,7 +2184,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasStorageRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#startCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel#startCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="startCol:org.apache.spark.ml.param.Param[String]"></a><a id="startCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel.html#startCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2194,7 +2199,7 @@ Instead it extends the RawAnnotator, that's why the main point of interest is me
         <span class="name">startCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Column that contains the token number for the start of the target</p>
     </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="storageRef:org.apache.spark.ml.param.Param[String]"></a><a id="storageRef:Param[String]"></a>
       <span class="permalink">
@@ -2565,8 +2570,17 @@ This method utilises chunk groups, word piece embeddings and conversion to chunk
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
               
             </div>
         </div>

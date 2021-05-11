@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -251,8 +251,8 @@
                         <a href="DeIdentification.html" title="Contains all the methods for training a DeIdentificationModel model.">DeIdentification</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="DeIdentificationModel$.html" title=""></a>
-                        <a class="class" href="DeIdentificationModel.html" title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS"></a>
-                        <a href="DeIdentificationModel.html" title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS">DeIdentificationModel</a>
+                        <a class="class" href="DeIdentificationModel.html" title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS."></a>
+                        <a href="DeIdentificationModel.html" title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS.">DeIdentificationModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="DeIdentificationParams.html" title="A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators"></a>
@@ -261,6 +261,10 @@
                         <span class="separator"></span>
                         <a class="object" href="DefaultRegex$.html" title=""></a>
                         <a href="DefaultRegex$.html" title="">DefaultRegex</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="MySentnece.html" title=""></a>
+                        <a href="MySentnece.html" title="">MySentnece</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="object" href="Obfuscator$.html" title=""></a>
@@ -277,6 +281,10 @@
                         <a class="object" href="ObfuscatorParams$.html" title=""></a>
                         <a class="trait" href="ObfuscatorParams.html" title=""></a>
                         <a href="ObfuscatorParams.html" title="">ObfuscatorParams</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="ReIdentification.html" title="Reidentifies obfuscated entities by DeIdentification."></a>
+                        <a href="ReIdentification.html" title="Reidentifies obfuscated entities by DeIdentification.">ReIdentification</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDeId.html" title=""></a>
@@ -472,8 +480,13 @@
       </span>
       
       <p class="shortcomment cmt">Contains all the methods for training a DeIdentificationModel model.</p><div class="fullcomment"><div class="comment cmt"><p>Contains all the methods for training a DeIdentificationModel model.
-This module can obfuscate or mask the entities that contains personal information.
-The configuration params for that module are in trait DeIdentificationParams.</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a></p></span><span class="cmt"><p><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></p></span><span class="cmt"><p><a href="DeIdentification.html#train(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#train">train</a>
+This module can obfuscate or mask the entities that contains personal information. These can be set with a file of
+regex patterns with <a href="DeIdentification.html#setRegexPatternsDictionary(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):DeIdentification.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#setRegexPatternsDictionary">setRegexPatternsDictionary</a>, where each line is a mapping of
+entity to regex.</p><pre>DATE \d{<span class="num">4</span>}
+AID \d{<span class="num">6</span>,<span class="num">7</span>}</pre><p>Additionally, obfuscation strings can be defined with <a href="DeIdentification.html#setObfuscateRefFile(f:String):DeIdentification.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#setObfuscateRefFile">setObfuscateRefFile</a>, where each line
+is a mapping of string to entity. The format and seperator can be speficied with
+<a href="DeIdentification.html#setRefFileFormat(f:String):DeIdentification.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#setRefFileFormat">setRefFileFormat</a> and <a href="DeIdentification.html#setRefSep(f:String):DeIdentification.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#setRefSep">setRefSep</a>.</p><pre>Dr. Gregory House#DOCTOR
+<span class="num">01010101</span>#MEDICALRECORD</pre><p>The configuration params for that module are in trait DeIdentificationParams.</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a></p></span><span class="cmt"><p><a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a></p></span><span class="cmt"><p><a href="DeIdentification.html#train(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#train">train</a>
 Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$TextMatcher$" target="_blank">TextMatchers</a>,
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$RegexMatcher$" target="_blank">RegexMatchers</a>,
@@ -482,10 +495,7 @@ Ideally this annotator works in conjunction with Demographic Named EntityRecogni
 <a href="https://nlp.johnsnowlabs.com/api/#com.johnsnowlabs.nlp.annotator.package$$NerDLApproach$" target="_blank">NerDLs</a>
 Example of pipeline for deidentification.</p><h4>Example</h4><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
     .setInputCol(<span class="lit">"text"</span>)
-    .setOutputCol(<span class="lit">"document"</span>)*<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
-    .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
-    .setOutputCol(<span class="lit">"sentence"</span>)
-    .setUseAbbreviations(<span class="kw">true</span>)
+    .setOutputCol(<span class="lit">"document"</span>)
 
 <span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
     .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
@@ -507,10 +517,10 @@ Example of pipeline for deidentification.</p><h4>Example</h4><pre><span class="k
     .setOutputCol(<span class="lit">"ner_con"</span>)</pre><h4>Deidentification</h4><pre><span class="kw">val</span> deIdentification = <span class="kw">new</span> DeIdentification()
     .setInputCols(<span class="std">Array</span>(<span class="lit">"ner_chunk"</span>, <span class="lit">"token"</span>, <span class="lit">"sentence"</span>))
     .setOutputCol(<span class="lit">"dei"</span>)
-    <span class="cmt">// file with custom regex patern for custom entities</span>
-    .setRegexPatternsDictionary(<span class="lit">"src/test/resources/de-identification/dic_regex_patterns_main_categories.txt"</span>)
+    <span class="cmt">// file with custom regex pattern for custom entities</span>
+    .setRegexPatternsDictionary(<span class="lit">"path/to/dic_regex_patterns_main_categories.txt"</span>)
     <span class="cmt">// file with custom obfuscator names for the entities</span>
-    .setObfuscateRefFile(<span class="lit">"src/test/resources/de-identification/obfuscate_fixed_entities.txt"</span>)
+    .setObfuscateRefFile(<span class="lit">"path/to/obfuscate_fixed_entities.txt"</span>)
     .setRefFileFormat(<span class="lit">"csv"</span>)
     .setRefSep(<span class="lit">"#"</span>)
     .setMode(<span class="lit">"obfuscate"</span>)
@@ -518,24 +528,28 @@ Example of pipeline for deidentification.</p><h4>Example</h4><pre><span class="k
     .setObfuscateDate(<span class="kw">true</span>)
     .setDateTag(<span class="lit">"DATE"</span>)
     .setDays(<span class="num">5</span>)
-    .setObfuscateRefSource(<span class="lit">"file"</span>)</pre><h4>Pipeline</h4><pre><span class="kw">val</span> testDataset = <span class="std">Seq</span>(
- <span class="lit">"# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."</span>
- ).toDS.toDF(<span class="lit">"text"</span>)
+    .setObfuscateRefSource(<span class="lit">"file"</span>)</pre><h4>Pipeline</h4><pre><span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09."</span>
+).toDF(<span class="lit">"text"</span>)
 
-deIdentificationDataFrame = pipeline.transform(testDataset)
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  clinical_sensitive_entities,
+  nerConverter,
+  deIdentification
+))
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
 
-deIdentificationDataFrame.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)</pre><p>+--------------------------------------------------------------------------------------------------+</p><table class="doctbl">
-      <thead>
-        <tr><th class="doctbl-left"><p>result                                                                                            </p></th></tr>
-      </thead>
-      
-    </table><p>+--------------------------------------------------------------------------------------------------+</p><table class="doctbl">
-      <thead>
-        <tr><th class="doctbl-left"><p>[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]</p></th></tr>
-      </thead>
-      
-    </table><p>+--------------------------------------------------------------------------------------------------+</p></span></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)</pre><p>Show Results</p><pre>result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# <span class="num">01010101</span> Date : <span class="num">01</span>/<span class="num">18</span>/<span class="num">93</span> PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : <span class="num">2079</span>-<span class="num">11</span>-<span class="num">14.</span>]|
++--------------------------------------------------------------------------------------------------+</pre></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DeIdentificationModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withDeIdentificationParamswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withLicensed"></a><a id="DeIdentificationModel:DeIdentificationModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html" title="Permalink">
@@ -547,13 +561,15 @@ deIdentificationDataFrame.select(<span class="lit">"dei.result"</span>).show(tru
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS" href="DeIdentificationModel.html"><span class="name">DeIdentificationModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS." href="DeIdentificationModel.html"><span class="name">DeIdentificationModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
       <p class="shortcomment cmt">Contains all the parameters to transform a dataset with three Input Annotations
 of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either
-masking or obfuscating the given CHUNKS
-</p>
+masking or obfuscating the given CHUNKS.</p><div class="fullcomment"><div class="comment cmt"><p>Contains all the parameters to transform a dataset with three Input Annotations
+of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either
+masking or obfuscating the given CHUNKS.</p><p>To create an configured DeIdentificationModel, please see the example of <a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification">DeIdentification</a>.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification">DeIdentification</a> to train your own model</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="DeIdentificationParamsextendsParams"></a><a id="DeIdentificationParams:DeIdentificationParams"></a>
       <span class="permalink">
@@ -570,6 +586,22 @@ masking or obfuscating the given CHUNKS
       </span>
       
       <p class="shortcomment cmt">A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators</p><div class="fullcomment"><div class="comment cmt"><p>A trait that contains all the params that are common between DeIdentificationModel and DeIdentification annotators</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification">DeIdentification</a></p></span><span class="cmt"><p><a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a></p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.MySentnece" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MySentneceextendsProductwithSerializable"></a><a id="MySentnece:MySentnece"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/MySentnece.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="MySentnece.html"><span class="name">MySentnece</span></a><span class="params">(<span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="start">start: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="index">index: <span class="extype" name="scala.Int">Int</span></span>, <span name="originalIndex">originalIndex: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.ObfuscatorAnnotatorApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ObfuscatorAnnotatorApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.deid.ObfuscatorAnnotatorModel]withObfuscatorParams"></a><a id="ObfuscatorAnnotatorApproach:ObfuscatorAnnotatorApproach"></a>
       <span class="permalink">
@@ -618,6 +650,40 @@ masking or obfuscating the given CHUNKS
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.ReIdentification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ReIdentificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withLicensed"></a><a id="ReIdentification:ReIdentification"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/ReIdentification.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Reidentifies obfuscated entities by DeIdentification." href="ReIdentification.html"><span class="name">ReIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Reidentifies obfuscated entities by <a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification"><code>DeIdentification</code></a>.</p><div class="fullcomment"><div class="comment cmt"><p>Reidentifies obfuscated entities by <a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification"><code>DeIdentification</code></a>. This annotator requires the outputs
+from the deidentification as input. Input columns need to be the deidentified document and the deidentification
+mappings set with <a href="DeIdentification.html#setMappingsColumn(s:String):DeIdentificationParams.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification#setMappingsColumn">DeIdentification.setMappingsColumn</a>.
+To see how the entities are deidentified, please refer to the example of that class.</p><h4>Example</h4><p>Define the reidentification stage and transform the deidentified documents</p><pre><span class="kw">val</span> reideintification = <span class="kw">new</span> ReIdentification()
+  .setInputCols(<span class="lit">"dei"</span>, <span class="lit">"protectedEntities"</span>)
+  .setOutputCol(<span class="lit">"reid"</span>)
+  .transform(result)</pre><p>Show results</p><pre>result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)
++--------------------------------------------------------------------------------------------------+
+|result                                                                                            |
++--------------------------------------------------------------------------------------------------+
+|[# <span class="num">01010101</span> Date : <span class="num">01</span>/<span class="num">18</span>/<span class="num">93</span> PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : <span class="num">2079</span>-<span class="num">11</span>-<span class="num">14.</span>]|
++--------------------------------------------------------------------------------------------------+
+
+reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).show(<span class="kw">false</span>)
++-----------------------------------------------------------------------------------+
+|col                                                                                |
++-----------------------------------------------------------------------------------+
+|# <span class="num">7194334</span> Date : <span class="num">01</span>/<span class="num">13</span>/<span class="num">93</span> PCP : Oliveira , <span class="num">25</span> years-old , Record date : <span class="num">2079</span>-<span class="num">11</span>-<span class="num">09.</span>|
++-----------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification">DeIdentification</a> for deidentification of entities</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.ReadablePretrainedDeId" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedDeIdextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]"></a><a id="ReadablePretrainedDeId:ReadablePretrainedDeId"></a>
       <span class="permalink">

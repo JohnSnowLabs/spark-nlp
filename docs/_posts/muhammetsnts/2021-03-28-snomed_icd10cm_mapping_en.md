@@ -7,7 +7,7 @@ date: 2021-03-28
 tags: [snomed, icd10cm, en, licensed]
 task: Pipeline Healthcare
 language: en
-edition: Spark NLP 2.7.5
+edition: Spark NLP for Healthcare 2.7.5
 spark_version: 2.4
 article_header:
   type: cover
@@ -57,7 +57,7 @@ val result = pipeline.annotate('721617001 733187009 109006')
 |---|---|
 |Model Name:|snomed_icd10cm_mapping|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 2.7.5+|
+|Compatibility:|Spark NLP for Healthcare 2.7.5+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

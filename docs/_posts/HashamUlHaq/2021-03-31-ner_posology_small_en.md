@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Drug Information (Small).
+title: Detect Drug Information (Small)
 author: John Snow Labs
 name: ner_posology_small
 date: 2021-03-31

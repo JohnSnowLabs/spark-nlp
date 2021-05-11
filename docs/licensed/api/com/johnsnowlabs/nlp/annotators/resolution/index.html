@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -431,8 +431,8 @@
                         <a href="SentenceEntityResolverApproach.html" title="Contains all the parameters and methods to train a SentenceEntityResolverModel.">SentenceEntityResolverApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="SentenceEntityResolverModel$.html" title=""></a>
-                        <a class="class" href="SentenceEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset."></a>
-                        <a href="SentenceEntityResolverModel.html" title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset.">SentenceEntityResolverModel</a>
+                        <a class="class" href="SentenceEntityResolverModel.html" title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g."></a>
+                        <a href="SentenceEntityResolverModel.html" title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.">SentenceEntityResolverModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="TreeData.html" title=""></a>
@@ -854,7 +854,7 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   .setCaseSensitive(<span class="kw">false</span>)
 
 <span class="kw">val</span> snomedModel = bertExtractor.fit(snomedData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></p></span></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="SentenceEntityResolverModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel]withSentenceResolverParamswithHasStorageModelwithHasEmbeddingsPropertieswithHasCaseSensitivePropertieswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel]withLicensed"></a><a id="SentenceEntityResolverModel:SentenceEntityResolverModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel.html" title="Permalink">
@@ -866,12 +866,70 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Contains all the parameters to transform a dataset with two Input Annotations of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators and return the Normalized Entity for a particular trained ontology / curated dataset." href="SentenceEntityResolverModel.html"><span class="name">SentenceEntityResolverModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>] with <a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</span> with <span class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g." href="SentenceEntityResolverModel.html"><span class="name">SentenceEntityResolverModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>] with <a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageModel">HasStorageModel</span> with <span class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
       </span>
       
-      <p class="shortcomment cmt">Contains all the parameters to transform a dataset with two Input Annotations
-of types TOKEN and WORD_EMBEDDINGS, coming from ChunkTokenizer and ChunkEmbeddings Annotators
-and return the Normalized Entity for a particular trained ontology / curated dataset.</p>
+      <p class="shortcomment cmt">The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</p><div class="fullcomment"><div class="comment cmt"><p>The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
+<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html" target="_blank">BertSentenceEmbeddings</a>
+and returns the normalized entity for a particular trained ontology / curated dataset.
+(e.g. ICD-10, RxNorm, SNOMED etc.)</p><p>To use pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution" target="_blank">Models Hub</a> for available models.</p><h4>Example</h4><h5>Resolving CPT</h5><p>First define pipeline stages to extract entities</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = SentenceDetectorDLModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> word_embeddings = WordEmbeddingsModel.pretrained(<span class="lit">"embeddings_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+<span class="kw">val</span> clinical_ner = MedicalNerModel.pretrained(<span class="lit">"jsl_ner_wip_clinical"</span>, <span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+<span class="kw">val</span> ner_converter = <span class="kw">new</span> NerConverter()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>)
+  .setOutputCol(<span class="lit">"ner_chunk"</span>)
+  .setWhiteList(<span class="lit">"Test"</span>,<span class="lit">"Procedure"</span>)
+<span class="kw">val</span> c2doc = <span class="kw">new</span> Chunk2Doc()
+  .setInputCols(<span class="lit">"ner_chunk"</span>)
+  .setOutputCol(<span class="lit">"ner_chunk_doc"</span>)
+<span class="kw">val</span> sbert_embedder = BertSentenceEmbeddings
+  .pretrained(<span class="lit">"sbiobert_base_cased_mli"</span>,<span class="lit">"en"</span>,<span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"ner_chunk_doc"</span>)
+  .setOutputCol(<span class="lit">"sbert_embeddings"</span>)</pre><p>Then the resolver is defined on the extracted entities and sentence embeddings</p><pre><span class="kw">val</span> cpt_resolver = SentenceEntityResolverModel.pretrained(<span class="lit">"sbiobertresolve_cpt_procedures_augmented"</span>,<span class="lit">"en"</span>, <span class="lit">"clinical/models"</span>)
+  .setInputCols(<span class="lit">"ner_chunk"</span>, <span class="lit">"sbert_embeddings"</span>)
+  .setOutputCol(<span class="lit">"cpt_code"</span>)
+  .setDistanceFunction(<span class="lit">"EUCLIDEAN"</span>)
+<span class="kw">val</span> sbert_pipeline_cpt = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceDetector,
+  tokenizer,
+  word_embeddings,
+  clinical_ner,
+  ner_converter,
+  c2doc,
+  sbert_embedder,
+  cpt_resolver))</pre><p>Show results</p><pre>sbert_outputs
+  .select(<span class="lit">"explode(arrays_zip(ner_chunk.result ,ner_chunk.metadata, cpt_code.result, cpt_code.metadata, ner_chunk.begin, ner_chunk.end)) as cpt_code"</span>)
+  .selectExpr(
+    <span class="lit">"cpt_code['0'] as chunk"</span>,
+    <span class="lit">"cpt_code['1'].entity as entity"</span>,
+    <span class="lit">"cpt_code['2'] as code"</span>,
+    <span class="lit">"cpt_code['3'].confidence as confidence"</span>,
+    <span class="lit">"cpt_code['3'].all_k_resolutions as all_k_resolutions"</span>,
+    <span class="lit">"cpt_code['3'].all_k_results as all_k_results"</span>
+  ).show(<span class="num">5</span>)
++--------------------+---------+-----+----------+--------------------+--------------------+
+|               chunk|   entity| code|confidence|   all_k_resolutions|         all_k_codes|
++--------------------+---------+-----+----------+--------------------+--------------------+
+|          heart cath|Procedure|<span class="num">93566</span>|    <span class="num">0.1180</span>|CCA - Cardiac cat...|<span class="num">93566</span>:::<span class="num">62319</span>:::<span class="num">9.</span>..|
+|selective coronar...|     Test|<span class="num">93460</span>|    <span class="num">0.1000</span>|Coronary angiogra...|<span class="num">93460</span>:::<span class="num">93458</span>:::<span class="num">9.</span>..|
+|common femoral an...|     Test|<span class="num">35884</span>|    <span class="num">0.1808</span>|Femoral artery by...|<span class="num">35884</span>:::<span class="num">35883</span>:::<span class="num">3.</span>..|
+|   StarClose closure|Procedure|<span class="num">33305</span>|    <span class="num">0.1197</span>|Heart closure:::H...|<span class="num">33305</span>:::<span class="num">33300</span>:::<span class="num">3.</span>..|
+|         stress test|     Test|<span class="num">93351</span>|    <span class="num">0.2795</span>|Cardiovascular st...|<span class="num">93351</span>:::<span class="num">94621</span>:::<span class="num">9.</span>..|
++--------------------+---------+-----+----------+--------------------+--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="SentenceEntityResolverApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a> for training a custom model</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.TreeData" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TreeDataextendsProductwithSerializable"></a><a id="TreeData:TreeData"></a>
       <span class="permalink">

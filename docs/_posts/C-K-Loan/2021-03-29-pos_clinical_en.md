@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Parts of Speech Tagger pretraiend of clinical data
+title: Part of Speech Tagger Pretrained with Clinical Data
 author: John Snow Labs
 name: pos_clinical
 date: 2021-03-29

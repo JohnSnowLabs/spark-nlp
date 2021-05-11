@@ -283,10 +283,11 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession, tags: Array[String] = Array("serve")): BertEmbeddings = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertEmbeddings = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
+
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
@@ -295,6 +296,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     )
 
     val vocab = new File(tfModelPath + "/assets", "vocab.txt")
+
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
@@ -302,12 +304,17 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true, tags = tags)
+    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
-    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
+    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
     new BertEmbeddings()
       .setVocabulary(words)
-      .setSignatures(signatures.get)
+      .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
   }
 }
