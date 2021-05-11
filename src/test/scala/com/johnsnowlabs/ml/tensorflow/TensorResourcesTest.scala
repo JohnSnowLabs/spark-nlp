@@ -2,7 +2,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.junit.Assert.{assertArrayEquals, assertEquals}
 import org.scalatest.FlatSpec
-import org.tensorflow.Operand
+import org.tensorflow.{Operand, Tensor}
 import org.tensorflow.ndarray.{FloatNdArray, IntNdArray, StdArrays}
 import org.tensorflow.op.core.Constant
 import org.tensorflow.types.{TFloat32, TInt32}
@@ -53,7 +53,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
 
     val reshapeTensor = TensorResources.reshapeTensor(scope, tensor, shape)
 
-    assertArrayEquals(Array[Long](3, 1, 4), reshapeTensor.shape.asArray)
+    assertArrayEquals(shape.map(_.toLong), reshapeTensor.shape.asArray)
   }
 
 }

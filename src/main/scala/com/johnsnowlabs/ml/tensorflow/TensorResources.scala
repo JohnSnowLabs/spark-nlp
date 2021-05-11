@@ -4,9 +4,9 @@ import org.tensorflow.ndarray.buffer._
 import org.tensorflow.ndarray.{NdArray, Shape, StdArrays}
 import org.tensorflow.types.family.{TNumber, TType}
 import org.tensorflow.types._
-import org.tensorflow.{Operand, Tensor}
+import org.tensorflow.{DataType, Operand, Tensor}
 import org.tensorflow.op.Scope
-import org.tensorflow.op.core.{Concat, Constant, Reshape, Reverse}
+import org.tensorflow.op.core.{Concat, Constant, Reshape, Reverse, Zeros}
 
 import java.lang
 import scala.collection.mutable
@@ -155,7 +155,7 @@ object TensorResources {
     tensorType.asTensor()
   }
 
-  def reshapeTensor(scope: Scope, tensor: Operand[_], shape: Array[Int]): Tensor[_] = {
+  def reshapeTensor(scope: Scope, tensor: Operand[_ <: TType], shape: Array[Int]): Tensor[_ <: TType] = {
     val reshapedTensor = Reshape.create(scope, tensor, Constant.vectorOf(scope, shape))
     reshapedTensor.asTensor()
   }
