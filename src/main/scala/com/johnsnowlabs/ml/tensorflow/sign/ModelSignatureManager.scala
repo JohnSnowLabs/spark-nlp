@@ -19,7 +19,7 @@ package com.johnsnowlabs.ml.tensorflow.sign
 
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.SavedModelBundle
-import org.tensorflow.proto.framework.{SignatureDef, TensorInfo}
+import org.tensorflow.proto.framework.TensorInfo
 
 import java.util
 import scala.util.matching.Regex
@@ -27,7 +27,7 @@ import scala.util.matching.Regex
 
 object ModelSignatureManager {
 
-  val KnownProviders = Array("TF1", "TF2")
+  val KnownProviders: Array[String] = Array("TF1", "TF2")
 
   private[ModelSignatureManager] val logger: Logger = LoggerFactory.getLogger("ModelSignatureManager")
 
@@ -73,8 +73,8 @@ object ModelSignatureManager {
   def convertToAdoptedKeys(matched: Map[String, String]): Map[String, String] = {
     val SecondaryIndexSep = "::"
     matched
-      .map{case(k, v) => k.split(SecondaryIndexSep)(1) -> v}// signature def name
-      .map{case(k, v) => ModelSignatureConstants.toAdoptedKeys(k) -> v}
+      .map { case (k, v) => k.split(SecondaryIndexSep)(1) -> v } // signature def name
+      .map { case (k, v) => ModelSignatureConstants.toAdoptedKeys(k) -> v }
   }
 
   /** Extract signatures from actual model
@@ -82,7 +82,7 @@ object ModelSignatureManager {
    * @param model : a SavedModelBundle object
    * @return a list of tuples of type (OperationType, key, TFInfoName)
    * */
-  def getSignaturesFromModel(model: SavedModelBundle) = {
+  def getSignaturesFromModel(model: SavedModelBundle): Map[String, String] = {
     import collection.JavaConverters._
 
     val InputPrefix = "input"
@@ -92,13 +92,13 @@ object ModelSignatureManager {
     val modelSignatures = scala.collection.mutable.Map.empty[String, String]
 
     /**
-     *  Loop imperatively over signature definition to extract them in a map
+     * Loop imperatively over signature definition to extract them in a map
      *
-     *  @param prefix : input or output attribute
-     *  @param signDefinitionsMap : Java signature definition map
+     * @param prefix             : input or output attribute
+     * @param signDefinitionsMap : Java signature definition map
      * */
 
-    def extractSignatureDefinitions(prefix: String, signDefinitionsMap: util.Map[String, TensorInfo]) = {
+    def extractSignatureDefinitions(prefix: String, signDefinitionsMap: util.Map[String, TensorInfo]): Unit = {
       for (e <- signDefinitionsMap.entrySet.asScala) {
 
         val key: String = e.getKey
@@ -135,13 +135,11 @@ object ModelSignatureManager {
   }
 
   /** Regex matcher */
-  def findTFKeyMatch(candidate: String, pattern: Regex) = {
+  def findTFKeyMatch(candidate: String, pattern: Regex): Boolean = {
     val _value = candidate.split("::")(1) // i.e. input::input_ids::name
     val res = pattern findAllIn _value
-    if(res.length > 0) {
-      println(s"searching $pattern in ${_value}")
+    if (res.nonEmpty)
       true
-    }
     else
       false
   }
@@ -149,11 +147,11 @@ object ModelSignatureManager {
   /**
    * Extract the model provider counting the signature pattern matches
    *
-   * @param signDefNames : the candidate signature definitions inputs and outputs
+   * @param signDefNames  : the candidate signature definitions inputs and outputs
    * @param modelProvider : the true model provider in between TF1 and TF2 to evaluate
    * @return : the model provider name in between TF1 and TF2
    * */
-  def classifyProvider(signDefNames: Map[String,String], modelProvider: Option[String] = None) = {
+  def classifyProvider(signDefNames: Map[String, String], modelProvider: Option[String] = None): String = {
 
     val versionMatchesCount = KnownProviders.map { provider =>
       provider -> {
@@ -165,7 +163,7 @@ object ModelSignatureManager {
       }.sum
     }.toMap
 
-    val (topModelProvider, _) = versionMatchesCount.toSeq.sortBy(_._2).last
+    val (topModelProvider, _) = versionMatchesCount.toSeq.maxBy(_._2)
     topModelProvider
   }
 
@@ -173,10 +171,10 @@ object ModelSignatureManager {
    * Extract input and output signatures from TF saved models
    *
    * @param modelProvider model framework provider, i.e. TF1 or TF2, default TF1
-   * @param model loaded SavedModelBundle
+   * @param model         loaded SavedModelBundle
    * @return the list ot matching signatures as tuples
    * */
-  def extractSignatures(model: SavedModelBundle) = {
+  def extractSignatures(model: SavedModelBundle): Option[Map[String, String]] = {
 
     val signatureCandidates = getSignaturesFromModel(model)
     val signDefNames: Map[String, String] = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
