@@ -491,7 +491,7 @@ object PythonResourceDownloader {
     "T5Transformer" -> T5Transformer,
     "MarianTransformer" -> MarianTransformer,
     "WordSegmenterModel" -> WordSegmenterModel,
-    "DistilBertEmbeddings" -> DistilBertEmbeddings,
+    "DistilBertEmbeddings" -> DistilBertEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
