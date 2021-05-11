@@ -343,11 +343,6 @@ object TensorflowWrapper {
                                     variablesDir: String,
                                     variablesKey: String = VariablesKey) = {
 
-    // FIXME - throwing [ERROR] org.tensorflow.exceptions.TFFailedPreconditionException:
-    //  Error while reading resource variable transformer/layer_1/self_attention/attention_output/kernel from Container: localhost.
-    //  This could mean that the variable was uninitialized. Not found: Container localhost does not exist.
-    //  (Could not find resource: localhost/transformer/layer_1/self_attention/attention_output/kernel)
-    //	 [[{{node transformer/layer_1/self_attention/attention_output/kernel/Read/ReadVariableOp}}]]
 
     lazy val legacySessionRunner = session.runner
       .addTarget(SaveRestoreAllOP)
