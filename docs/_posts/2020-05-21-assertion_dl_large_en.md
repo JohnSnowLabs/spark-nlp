@@ -4,9 +4,13 @@ title: Detect Assertion Status (DL Large)
 author: John Snow Labs
 name: assertion_dl_large_en
 date: 2020-05-21
+task: Assertion Status
+language: en
+edition: Spark NLP for Healthcare 2.5.0
 tags: [ner, en, clinical, licensed]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

@@ -71,6 +71,48 @@ element: struct (containsNull = true)
 | width | float |  The width of the rectangle |
 | height | float |  The height of the rectangle |
 
+
+<div class="h3-box" markdown="1">
+
+## PageMatrix Schema
+
+```
+element: struct (containsNull = true)
+ |    |    |-- mappings: array[struct] (nullable = false)
+```
+
+{:.table-model-big}
+| Field name | Type | Description |
+| --- | --- | --- |
+| mappings | Array[Mapping] | Array of mappings |
+
+
+<div class="h3-box" markdown="1">
+
+## Mapping Schema
+
+```
+element: struct (containsNull = true)
+ |    |    |-- c: string (nullable = false)
+ |    |    |-- p: integer (nullable = false)
+ |    |    |-- x: float (nullable = false)
+ |    |    |-- y: float (nullable = false)
+ |    |    |-- width: float (nullable = false)
+ |    |    |-- height: float (nullable = false)
+ |    |    |-- fontSize: integer (nullable = false)
+```
+
+{:.table-model-big}
+| Field name | Type | Description |
+| --- | --- | --- |
+| c | string | Character |
+| p | integer | Page number |
+| x | float | The lower left x coordinate |
+| y | float |  The lower left y coordinate |
+| width | float |  The width of the rectangle |
+| height | float |  The height of the rectangle |
+| fontSize | integer | Font size in points |
+
 <div class="h3-box" markdown="1">
 
 ## Enums
@@ -109,6 +151,25 @@ element: struct (containsNull = true)
   * ***TEXTLINE***: Line within a paragraph.
   * ***WORD***: Word within a text line.
   * ***SYMBOL***: Symbol/character within a word.
+  
+</div><div class="h3-box" markdown="1">
+
+### Language
+
+  * ***ENG***: English
+  * ***FRA***: French
+  * ***SPA***: Spanish
+  * ***RUS***: Russian
+  * ***DEU***: German
+  * ***VIE***: Vietnamese
+  
+</div><div class="h3-box" markdown="1">
+
+### ModelType
+
+  * ***BASE***: Block of text/image/separator line.
+  * ***BEST***: Paragraph within a block.
+  * ***FAST***: Line within a paragraph.
 
 </div><div class="h3-box" markdown="1">
 
@@ -264,13 +325,67 @@ Show images on Databrics notebook.
 
 </div><div class="h3-box" markdown="1">
 
+## Jupyter Python helpers
+
+### display_image
+
+Show single image with methadata in Jupyter notebook.
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_image
+from sparkocr.transformers import BinaryToImage
+
+images_path = "/tmp/ocr/images/*.tif"
+images_example_df = spark.read.format("binaryFile").load(images_path).cache()
+
+display_image(BinaryToImage().transform(images_example_df).collect()[0].image)
+```
+
+### display_images
+
+Show images from dataframe.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| field | string | image | input column name with image struct |
+| limit | integer | 5 | count of rows for display  |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_images
+from sparkocr.transformers import BinaryToImage
+
+images_path = "/tmp/ocr/images/*.tif"
+images_example_df = spark.read.format("binaryFile").load(images_path).cache()
+
+display_images(BinaryToImage().transform(images_example_df), limit=3)
+```
+![image](/assets/images/ocr/showImage1.png)
+
 ## Databricks Python helpers
 
 ### display_images
 
-Show images.
+Show images from dataframe.
 
-</div>
 
 #### Parameters
 

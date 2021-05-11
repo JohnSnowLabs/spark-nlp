@@ -4,7 +4,11 @@ title: Toxic Comment Classification
 author: John Snow Labs
 name: multiclassifierdl_use_toxic
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP 2.7.1
 tags: [en, open_source, text_classification]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

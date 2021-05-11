@@ -4,7 +4,11 @@ title: Stop Words Cleaner for Sesotho
 author: John Snow Labs
 name: stopwords_st
 date: 2020-07-14 19:03:00 +0800
+task: Stop Words Removal
+language: st
+edition: Spark NLP 2.5.4
 tags: [stopwords, st]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -24,7 +28,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,17 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_st", "st")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
 val result = pipeline.fit(Seq.empty["Ntle le ho ba morena oa leboea, John Snow ke ngaka ea Lenyesemane ebile ke moetapele nts'etsopele ea anesthesia le bohloeki ba bongaka."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Ntle le ho ba morena oa leboea, John Snow ke ngaka ea Lenyesemane ebile ke moetapele nts'etsopele ea anesthesia le bohloeki ba bongaka."""]
+stopword_df = nlu.load('st.stopwords').predict(text)
+stopword_df[['cleanTokens']]
+```
+
+</div>
 
 {:.h2_title}
 ## Results

@@ -1,13 +1,16 @@
 ---
 layout: model
-title: Detect Drug Information (Small).
+title: Detect Drug Information (Small)
 author: John Snow Labs
 name: ner_posology_small
 class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-04-21
+task: Named Entity Recognition
+edition: Spark NLP for Healthcare 2.4.2
 tags: [clinical,licensed,ner,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

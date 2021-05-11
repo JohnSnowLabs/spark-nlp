@@ -39,7 +39,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   *
   **/
 class ClassifierDLModel(override val uid: String)
-  extends AnnotatorModel[ClassifierDLModel]
+  extends AnnotatorModel[ClassifierDLModel] with HasSimpleAnnotate[ClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {
@@ -147,7 +147,10 @@ class ClassifierDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    getModelIfNotSet.predict(sentences, getConfigProtoBytes)
+    if(sentences.nonEmpty)
+      getModelIfNotSet.predict(sentences, getConfigProtoBytes)
+    else Seq.empty[Annotation]
+
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

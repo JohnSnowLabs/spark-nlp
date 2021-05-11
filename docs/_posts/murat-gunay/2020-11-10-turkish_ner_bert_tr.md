@@ -4,7 +4,11 @@ title: Detect Persons, Locations and Organization Entities in Turkish (bert_mult
 author: John Snow Labs
 name: turkish_ner_bert
 date: 2020-11-10
+task: Named Entity Recognition
+language: tr
+edition: Spark NLP 2.6.2
 tags: [tr, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

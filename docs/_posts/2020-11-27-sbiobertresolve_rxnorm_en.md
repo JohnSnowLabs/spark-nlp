@@ -6,7 +6,10 @@ name: sbiobertresolve_rxnorm
 language: en
 repository: clinical/models
 date: 2020-11-27
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.4
 tags: [clinical,entity_resolution,en]
+supported: true
 article_header:
     type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,7 +39,7 @@ RxNorm Codes and their normalized definition with ``sbiobert_base_cased_mli`` em
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
  
@@ -57,7 +60,7 @@ results = model.transform(data)
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
  
@@ -98,7 +101,7 @@ val result = pipeline.fit(Seq.empty["This is an 82 - year-old male with a histor
 |---------------|---------------------|
 | Name:         | sbiobertresolve_rxnorm        |
 | Type:          | SentenceEntityResolverModel     |
-| Compatibility: | Spark NLP 2.6.5 +               |
+| Compatibility: | Spark NLP 2.6.4 +               |
 | License:       | Licensed            |
 | Edition:       | Official          |
 |Input labels:        | [ner_chunk, chunk_embeddings]     |

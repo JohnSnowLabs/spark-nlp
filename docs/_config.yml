@@ -160,7 +160,7 @@ pageview:
 ## => Search 
 ##############################
 search:
-  provider: default # "default" (default), false, "google", "custom"
+  provider: false # "default" (default), false, "google", "custom"
 
   ## Google Custom Search Engine
   google:
@@ -169,13 +169,13 @@ search:
 
 ## => Analytics
 ##############################
-analytics:
-  provider: "google" # false (default), "google", "custom"
+## analytics:
+##  provider: "google" # false (default), "google", "custom"
 
   ## Google Analytics
-  google:
-    tracking_id : UA-70312582-2 # Google Analytics id for the site
-    anonymize_ip: false # Anonymize IP tracking for Analytics
+##  google:
+ ##   tracking_id : UA-70312582-2 # Google Analytics id for the site
+ ##   anonymize_ip: false # Anonymize IP tracking for Analytics
 
 
 ## => Build
@@ -213,6 +213,7 @@ defaults:
       aside:
         toc: true  
       license: false
+      demomenu: false
       show_edit_on_github: true
       show_date: true
       header:

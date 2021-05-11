@@ -4,7 +4,11 @@ title: Relation extraction between dates and clinical entities
 author: John Snow Labs
 name: re_date_clinical
 date: 2021-01-18
+task: Relation Extraction
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, relation_extraction, clinical, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,7 +35,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-ner_tagger = sparknlp.annotators.NerDLModel()\ .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\ 
+ner_tagger = sparknlp.annotators.NerDLModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\ 
   .setInputCols("sentences", "tokens", "embeddings")\ 
   .setOutputCol("ner_tags")
 
@@ -41,13 +45,33 @@ re_model = RelationExtractionModel()
 .setOutputCol("relations")
 .setMaxSyntacticDistance(3)\ #default: 0 .setPredictionThreshold(0.9)\ #default: 0.5 .setRelationPairs(["test-date", "symptom-date"]) # Possible relation pairs. Default: All Relations.
 
-nlp_pipeline = Pipeline(stages=[ documenter, sentencer,tokenizer, words_embedder, pos_tagger, ner_tagger,ner_chunker, dependency_parser,re_model])
+nlp_pipeline = Pipeline(stages=[documenter, sentencer,tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser,re_model])
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate('''This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.''')
 ```
 
+```scala
+...
+val ner_tagger = sparknlp.annotators.NerDLModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
+      .setInputCols("sentences", "tokens", "embeddings")
+      .setOutputCol("ner_tags")
+
+val re_model = RelationExtractionModel()
+        .pretrained("re_date", "en", 'clinical/models')
+        .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+        .setOutputCol("relations")
+        .setMaxSyntacticDistance(3) #default: 0 
+        .setPredictionThreshold(0.9) #default: 0.5 
+        .setRelationPairs(Array("test-date", "symptom-date")) # Possible relation pairs. Default: All Relations.
+
+val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser,re_model))
+
+val light_pipeline = LightPipeline(nlpPipeline.fit(Seq.empty[""].toDS.toDF("text")))
+
+val annotations = light_pipeline.fullAnnotate('''This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.''')
+```
 
 </div>
 

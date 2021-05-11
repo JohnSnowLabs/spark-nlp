@@ -4,9 +4,13 @@ title: Detect Assertion Status (assertion_ml_en)
 author: John Snow Labs
 name: assertion_ml_en
 date: 2020-01-30
+task: Assertion Status
+language: en
+edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical, licensed, ner, en]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

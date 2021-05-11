@@ -6,7 +6,10 @@ name: sbiobertresolve_icd10cm_augmented
 language: en
 repository: clinical/models
 date: 2020-12-13
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.6.5
 tags: [clinical,entity_resolution,en]
+supported: true
 article_header:
     type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,7 +39,7 @@ ICD10-CM Codes and their normalized definition with ``sbiobert_base_cased_mli`` 
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
  

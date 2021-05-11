@@ -4,7 +4,11 @@ title: ALBERT Embeddings (XXLarge Uncase)
 author: John Snow Labs
 name: albert_xxlarge_uncased
 date: 2020-04-28
+task: Embeddings
+language: en
+edition: Spark NLP 2.5.0
 tags: [embeddings, en, open_source]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -22,23 +26,47 @@ ALBERT is "A Lite" version of BERT, a popular unsupervised language representati
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 embeddings = AlbertEmbeddings.pretrained("albert_xxlarge_uncased", "en") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP"]})))
 ```
 
 ```scala
-
+...
 val embeddings = AlbertEmbeddings.pretrained("albert_xxlarge_uncased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["I love NLP"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP"]
+embeddings_df = nlu.load('en.embed.albert.xxlarge_uncased').predict(text, output_level='token')
+embeddings_df
 ```
 
 </div>
+
+{:.h2_title}
+## Results
+```bash
+	token	en_embed_albert_xxlarge_uncased_embeddings
+	
+	I	[-0.07972775399684906, 0.06297606974840164, 0....
+	love	[-0.07597140967845917, 0.05237535387277603, 0....
+	NLP	[0.005398618057370186, -0.0253510233014822, 0....
+```
 
 {:.model-param}
 ## Model Information

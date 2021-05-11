@@ -4,9 +4,13 @@ title: Part of Speech for Swedish
 author: John Snow Labs
 name: pos_ud_tal
 date: 2020-05-04 23:32:00 +0800
+task: Part of Speech Tagging
+language: sv
+edition: Spark NLP 2.5.0
 tags: [pos, es]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +28,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,17 @@ val pos = PerceptronModel.pretrained("pos_ud_tal", "sv")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Förutom att vara kungen i norr är John Snow en engelsk läkare och en ledare inom utveckling av anestesi och medicinsk hygien."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Förutom att vara kungen i norr är John Snow en engelsk läkare och en ledare inom utveckling av anestesi och medicinsk hygien."""]
+pos_df = nlu.load('sv.pos.ud_tal').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

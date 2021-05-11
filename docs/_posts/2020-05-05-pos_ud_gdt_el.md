@@ -4,9 +4,13 @@ title: Part of Speech for Greek
 author: John Snow Labs
 name: pos_ud_gdt
 date: 2020-05-05 16:56:00 +0800
+task: Part of Speech Tagging
+language: el
+edition: Spark NLP 2.5.0
 tags: [pos, el]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +28,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,17 @@ val pos = PerceptronModel.pretrained("pos_ud_gdt", "el")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Εκτός από το ότι είναι ο βασιλιάς του Βορρά, ο John Snow είναι Άγγλος γιατρός και ηγέτης στην ανάπτυξη της αναισθησίας και της ιατρικής υγιεινής."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Εκτός από το ότι είναι ο βασιλιάς του Βορρά, ο John Snow είναι Άγγλος γιατρός και ηγέτης στην ανάπτυξη της αναισθησίας και της ιατρικής υγιεινής."""]
+pos_df = nlu.load('el.pos.ud_gdt').predict(text)
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

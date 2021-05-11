@@ -1,12 +1,16 @@
 ---
 layout: model
-title: Detect Clinical Entities, Assign Assertion and Find Relations.
+title: Detect Clinical Entities, Assign Assertion and Find Relations
 author: John Snow Labs
 name: explain_clinical_doc_era
 date: 2020-09-30
+task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
+language: en
+edition: Spark NLP for Healthcare 2.6.0
 tags: [pipeline, en, licensed, clinical]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
  

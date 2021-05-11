@@ -1,10 +1,14 @@
 ---
 layout: model
-title: Detect Person, Organization, Location, Facilitie, Product and Event entities in Persian (persian_w2v_cc_300d)
+title: Detect Person, Organization, Location, Facility, Product and Event entities in Persian (persian_w2v_cc_300d)
 author: John Snow Labs
 name: personer_cc_300d
 date: 2020-12-07
+task: Named Entity Recognition
+language: fa
+edition: Spark NLP 2.7.0
 tags: [ner, fa, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -4,9 +4,13 @@ title: Part of Speech for Dutch
 author: John Snow Labs
 name: pos_ud_alpino
 date: 2020-05-04 01:47:00 +0800
+task: Part of Speech Tagging
+language: nl
+edition: Spark NLP 2.5.0
 tags: [pos, nl]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +28,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,16 @@ val pos = PerceptronModel.pretrained("pos_ud_alpino", "nl")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Behalve dat hij de koning van het noorden is, is John Snow een Engelse arts en een leider in de ontwikkeling van anesthesie en medische hygiëne."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Behalve dat hij de koning van het noorden is, is John Snow een Engelse arts en een leider in de ontwikkeling van anesthesie en medische hygiëne."""]
+pos_df = nlu.load('nl.pos.ud_alpino').predict(text, output_level='token')
+pos_df
+```
+
 </div>
 
 {:.h2_title}

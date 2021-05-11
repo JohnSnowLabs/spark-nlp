@@ -4,9 +4,13 @@ title: Part of Speech for Latin
 author: John Snow Labs
 name: pos_ud_llct
 date: 2020-07-29 23:34:00 +0800
+task: Part of Speech Tagging
+language: la
+edition: Spark NLP 2.5.5
 tags: [pos, la]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +28,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,17 @@ val pos = PerceptronModel.pretrained("pos_ud_llct", "la")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["Alius est esse regem Aquilonis, et de Anglis medicus et nives Ioannes dux in progressus medicinae anesthesia et hygiene."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Alius est esse regem Aquilonis, et de Anglis medicus et nives Ioannes dux in progressus medicinae anesthesia et hygiene."""]
+pos_df = nlu.load('la.pos').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

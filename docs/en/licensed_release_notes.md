@@ -4,10 +4,931 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: "2020-12-18"
+modify_date: 2021-05-07
 ---
 
-<div class="h3-box" markdown="1">
+### 3.0.3
+
+We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
+
+#### Highlights
+
++ Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.
++ New feature for random displacement of dates on deidentification model.
++ Five new pretrained pipelines to map terminologies across each other (from UMLS to ICD10, from RxNorm to MeSH etc.)
++ AnnotationToolReader support for Spark 2.3. The tool that helps model training on Spark-NLP to leverage data annotated using JSL Annotation Tool now has support for Spark 2.3.
++ Updated documentation (Scaladocs) covering more APIs, and examples. 
+
+#### Five new resolver models:
+
++ `sbiobertresolve_umls_major_concepts`: This model returns CUI (concept unique identifier) codes for Clinical Findings, Medical Devices, Anatomical Structures and Injuries & Poisoning terms.            
++ `sbiobertresolve_umls_findings`: This model returns CUI (concept unique identifier) codes for 200K concepts from clinical findings.
++ `sbiobertresolve_loinc`: Map clinical NER entities to LOINC codes using `sbiobert`.
++ `sbluebertresolve_loinc`: Map clinical NER entities to LOINC codes using `sbluebert`.
++ `sbiobertresolve_HPO`: This model returns Human Phenotype Ontology (HPO) codes for phenotypic abnormalities encountered in human diseases. It also returns associated codes from the following vocabularies for each HPO code:
+
+		* MeSH (Medical Subject Headings)
+		* SNOMED
+		* UMLS (Unified Medical Language System )
+		* ORPHA (international reference resource for information on rare diseases and orphan drugs)
+		* OMIM (Online Mendelian Inheritance in Man)
+
+  *Related Notebook*: [Resolver Models](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb)
+  
+#### New feature on Deidentification Module
++ isRandomDateDisplacement(True): Be able to apply a random displacement on obfuscation dates. The randomness is based on the seed.
++ Fix random dates when the format is not correct. Now you can repeat an execution using a seed for dates. Random dates will be based on the seed. 
+
+#### Five new healthcare code mapping pipelines:
+
++ `icd10cm_umls_mapping`: This pretrained pipeline maps ICD10CM codes to UMLS codes without using any text data. You’ll just feed white space-delimited ICD10CM codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'icd10cm': ['M89.50', 'R82.2', 'R09.01'], 
+          'umls': ['C4721411', 'C0159076', 'C0004044']}
+
++ `mesh_umls_mapping`: This pretrained pipeline maps MeSH codes to UMLS codes without using any text data. You’ll just feed white space-delimited MeSH codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'mesh': ['C028491', 'D019326', 'C579867'],
+         'umls': ['C0970275', 'C0886627', 'C3696376']}
+
++ `rxnorm_umls_mapping`: This pretrained pipeline maps RxNorm codes to UMLS codes without using any text data. You’ll just feed white space-delimited RxNorm codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'rxnorm': ['1161611', '315677', '343663'],
+         'umls': ['C3215948', 'C0984912', 'C1146501']}
+
++ `rxnorm_mesh_mapping`: This pretrained pipeline maps RxNorm codes to MeSH codes without using any text data. You’ll just feed white space-delimited RxNorm codes and it will return the corresponding MeSH codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'rxnorm': ['1191', '6809', '47613'],
+         'mesh': ['D001241', 'D008687', 'D019355']}
+
++ `snomed_umls_mapping`: This pretrained pipeline maps SNOMED codes to UMLS codes without using any text data. You’ll just feed white space-delimited SNOMED codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'snomed': ['733187009', '449433008', '51264003'],
+         'umls': ['C4546029', 'C3164619', 'C0271267']}
+
+  *Related Notebook*: [Healthcare Code Mapping](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb)
+
+
+### 3.0.2
+
+We are very excited to announce that **Spark NLP for Healthcare 3.0.2** has been released! This release includes bug fixes and some compatibility improvements.
+
+#### Highlights
+
+* Dictionaries for Obfuscator were augmented with more than 10K names.
+* Improved support for spark 2.3 and spark 2.4.
+* Bug fixes in `DrugNormalizer`.
+
+#### New Features
+Provide confidence scores for all available tags in `MedicalNerModel`,
+
+##### MedicalNerModel before 3.0.2
+```
+[[named_entity, 0, 9, B-PROBLEM, [word -> Pneumonia, confidence -> 0.9998], []]
+```
+##### Now in Spark NLP for Healthcare 3.0.2
+```
+[[named_entity, 0, 9, B-PROBLEM, [B-PROBLEM -> 0.9998, I-TREATMENT -> 0.0, I-PROBLEM -> 0.0, I-TEST -> 0.0, B-TREATMENT -> 1.0E-4, word -> Pneumonia, B-TEST -> 0.0], []]
+```
+
+### 3.0.1
+
+We are very excited to announce that **Spark NLP for Healthcare 3.0.1** has been released! 
+
+#### Highlights:
+
+* Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).
+* Fixes in the internal implementation of DeIdentificationModel/Obfuscator.
+* Being able to disable the use of regexes in the Deidentification process 
+* Other minor bug fixes & general improvements.
+
+#### DeIdentificationModel Annotator
+
+##### New `seed` parameter.
+Now we have the possibility of using a seed to guide the process of obfuscating entities and returning the same result across different executions. To make that possible a new method setSeed(seed:Int) was introduced.
+
+**Example:**
+Return obfuscated documents in a repeatable manner based on the same seed.
+##### Scala
+```scala
+deIdentification = DeIdentification()
+      .setInputCols(Array("ner_chunk", "token", "sentence"))
+      .setOutputCol("dei")
+      .setMode("obfuscate")
+      .setObfuscateRefSource("faker")
+      .setSeed(10)
+      .setIgnoreRegex(true)
+```
+##### Python
+```python
+de_identification = DeIdentification() \
+            .setInputCols(["ner_chunk", "token", "sentence"]) \
+            .setOutputCol("dei") \
+            .setMode("obfuscate") \
+            .setObfuscateRefSource("faker") \
+            .setSeed(10) \
+            .setIgnoreRegex(True)
+
+```
+
+This seed controls how the obfuscated values are picked from a set of obfuscation candidates. Fixing the seed allows the process to be replicated.
+
+**Example:**
+
+Given the following input to the deidentification:
+```
+"David Hale was in Cocke County Baptist Hospital. David Hale"
+```
+
+If the annotator is set up with a seed of 10:
+##### Scala
+```
+val deIdentification = new DeIdentification()
+      .setInputCols(Array("ner_chunk", "token", "sentence"))
+      .setOutputCol("dei")
+      .setMode("obfuscate")
+      .setObfuscateRefSource("faker")
+      .setSeed(10)
+      .setIgnoreRegex(true)
+```
+##### Python
+```python
+de_identification = DeIdentification() \
+            .setInputCols(["ner_chunk", "token", "sentence"]) \
+            .setOutputCol("dei") \
+            .setMode("obfuscate") \
+            .setObfuscateRefSource("faker") \
+            .setSeed(10) \
+            .setIgnoreRegex(True)
+
+```
+
+The result will be the following for any execution,
+
+```
+"Brendan Kitten was in New Megan.Brendan Kitten"
+```
+Now if we set up a seed of 32,
+##### Scala
+
+```scala
+val deIdentification = new DeIdentification()
+      .setInputCols(Array("ner_chunk", "token", "sentence"))
+      .setOutputCol("dei")
+      .setMode("obfuscate")
+      .setObfuscateRefSource("faker")
+      .setSeed(32)
+      .setIgnoreRegex(true)
+```
+##### Python
+```python
+de_identification = DeIdentification() \
+            .setInputCols(["ner_chunk", "token", "sentence"]) \
+            .setOutputCol("dei") \
+            .setMode("obfuscate") \
+            .setObfuscateRefSource("faker") \
+            .setSeed(10) \
+            .setIgnoreRegex(True)
+```
+
+The result will be the following for any execution,
+
+```
+"Louise Pear was in Lake Edward.Louise Pear"
+```
+
+##### New `ignoreRegex` parameter.
+You can now choose to completely disable the use of regexes in the deidentification process by setting the setIgnoreRegex param to True.
+**Example:**
+##### Scala
+
+```scala
+DeIdentificationModel.setIgnoreRegex(true)
+```
+##### Python
+```python
+DeIdentificationModel().setIgnoreRegex(True)
+```
+
+The default value for this param is `False` meaning that regexes will be used by default.
+
+##### New supported entities for Deidentification & Obfuscation:
+
+We added new entities to the default supported regexes:
+
+* `SSN - Social security number.`
+* `PASSPORT - Passport id.`
+* `DLN - Department of Labor Number.`
+* `NPI - National Provider Identifier.`
+* `C_CARD - The id number for credits card.`
+* `IBAN - International Bank Account Number.`
+* `DEA - DEA Registration Number, which is an identifier assigned to a health care provider by the United States Drug Enforcement Administration.`
+
+We also introduced new Obfuscator cases for these new entities.
+
+
+### 3.0.0
+
+We are very excited to announce that **Spark NLP for Healthcare 3.0.0** has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.
+
+#### Highlights:
+
+Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.
+
+#### Highlights:
+* Support for Apache Spark and PySpark 3.0.x on Scala 2.12
+* Support for Apache Spark and PySpark 3.1.x on Scala 2.12
+* Migrate to TensorFlow v2.3.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x
+* A brand new `MedicalNerModel` annotator to train & load the licensed clinical NER models.
+*  **Two times faster NER and Entity Resolution** due to new batch annotation technique.
+* Welcoming 9x new Databricks runtimes to our Spark NLP family:
+  * Databricks 7.3
+  * Databricks 7.3 ML GPU
+  * Databricks 7.4
+  * Databricks 7.4 ML GPU
+  * Databricks 7.5
+  * Databricks 7.5 ML GPU
+  * Databricks 7.6
+  * Databricks 7.6 ML GPU
+  * Databricks 8.0
+  * Databricks 8.0 ML (there is no GPU in 8.0)
+  * Databricks 8.1 Beta
+* Welcoming 2x new EMR 6.x series to our Spark NLP family:
+  * EMR 6.1.0 (Apache Spark 3.0.0 / Hadoop 3.2.1)
+  * EMR 6.2.0 (Apache Spark 3.0.1 / Hadoop 3.2.1)
+* Starting Spark NLP for Healthcare 3.0.0 the default packages  for CPU and GPU will be based on Apache Spark 3.x and Scala 2.12.
+
+##### Deprecated
+
+Text2SQL annotator is deprecated and will not be maintained going forward. We are working on a better and faster version of Text2SQL at the moment and will announce soon.
+
+#### 1. MedicalNerModel Annotator
+
+Starting Spark NLP for Healthcare 3.0.0, the licensed clinical and biomedical pretrained NER models will only work with this brand new annotator called `MedicalNerModel` and will not work with `NerDLModel` in open source version.
+
+In order to make this happen, we retrained all the clinical NER models (more than 80) and uploaded to models hub.
+
+Example:
+
+
+    clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
+
+#### 2. Speed Improvements
+
+A new batch annotation technique implemented in Spark NLP 3.0.0 for `NerDLModel`,`BertEmbeddings`, and `BertSentenceEmbeddings` annotators will be reflected in `MedicalNerModel` and it improves prediction/inferencing performance radically. From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. You can control the throughput when you are on accelerated hardware such as GPU to fully utilise it. Here are the overall speed comparison:
+
+Now, NER inference and Entity Resolution are **two times faster** on CPU and three times faster on GPU.
+
+
+#### 3. JSL Clinical NER Model
+
+We are releasing the richest clinical NER model ever, spanning over 80 entities. It has been under development for the last 6 months and we manually annotated more than 4000 clinical notes to cover such a high number of entities in a single model. It has 4 variants at the moment:
+
+- `jsl_ner_wip_clinical`
+- `jsl_ner_wip_greedy_clinical`
+- `jsl_ner_wip_modifier_clinical`
+- `jsl_rd_ner_wip_greedy_clinical`
+
+##### Entities:
+
+`Kidney_Disease`, `HDL`, `Diet`, `Test`, `Imaging_Technique`, `Triglycerides`, `Obesity`, `Duration`, `Weight`, `Social_History_Header`, `ImagingTest`, `Labour_Delivery`, `Disease_Syndrome_Disorder`, `Communicable_Disease`, `Overweight`, `Units`, `Smoking`, `Score`, `Substance_Quantity`, `Form`, `Race_Ethnicity`, `Modifier`, `Hyperlipidemia`, `ImagingFindings`, `Psychological_Condition`, `OtherFindings`, `Cerebrovascular_Disease`, `Date`, `Test_Result`, `VS_Finding`, `Employment`, `Death_Entity`, `Gender`, `Oncological`, `Heart_Disease`, `Medical_Device`, `Total_Cholesterol`, `ManualFix`, `Time`, `Route`, `Pulse`, `Admission_Discharge`, `RelativeDate`, `O2_Saturation`, `Frequency`, `RelativeTime`, `Hypertension`, `Alcohol`, `Allergen`, `Fetus_NewBorn`, `Birth_Entity`, `Age`, `Respiration`, `Medical_History_Header`, `Oxygen_Therapy`, `Section_Header`, `LDL`, `Treatment`, `Vital_Signs_Header`, `Direction`, `BMI`, `Pregnancy`, `Sexually_Active_or_Sexual_Orientation`, `Symptom`, `Clinical_Dept`, `Measurements`, `Height`, `Family_History_Header`, `Substance`, `Strength`, `Injury_or_Poisoning`, `Relationship_Status`, `Blood_Pressure`, `Drug`, `Temperature`, `EKG_Findings`, `Diabetes`, `BodyPart`, `Vaccine`, `Procedure`, `Dosage`
+
+
+#### 4. JSL Clinical Assertion Model
+
+We are releasing a brand new clinical assertion model, supporting 8 assertion statuses.
+
+- `jsl_assertion_wip`
+
+
+##### Assertion Labels :
+
+`Present`, `Absent`, `Possible`, `Planned`, `Someoneelse`, `Past`, `Family`, `Hypotetical`
+
+#### 5. Library Version Compatibility Table :
+
+Spark NLP for Healthcare 3.0.0 is compatible with Spark NLP 3.0.1
+
+#### 6. Pretrained Models Version Control (Beta):
+
+Due to active release cycle, we are adding & training new pretrained models at each release and it might be tricky to maintain the backward compatibility or keep up with the latest models, especially for the users using our models locally in air-gapped networks.
+
+We are releasing a new utility class to help you check your local & existing models with the latest version of everything we have up to date. You will not need to specify your AWS credentials from now on. This is the second version of the model checker we released with 2.7.6 and will replace that soon.
+
+    from sparknlp_jsl.compatibility_beta import CompatibilityBeta
+
+    compatibility = CompatibilityBeta(spark)
+
+    print(compatibility.findVersion("ner_deid"))
+
+
+#### 7. Updated Pretrained Models:
+
+ (requires fresh `.pretraned()`)
+
+None
+
+
+### 2.7.6
+
+We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!
+
+#### Highlights:
+
+- New pretrained **Radiology Assertion Status** model to assign `Confirmed`, `Suspected`, `Negative` assertion scopes to imaging findings or any clinical tests.
+
+- **Obfuscating** the same sensitive information (patient or doctor name) with the same fake names across the same clinical note.
+
+- Version compatibility checker for the pretrained clinical models and builds to keep up with the latest development efforts in production.
+
+- Adding more English names to faker module in **Deidentification**.
+
+- Updated & improved clinical **SentenceDetectorDL** model.
+
+- New upgrades on `ner_deid_large` and `ner_deid_enriched` NER models to cover more use cases with better resolutions.
+
+- Adding more [examples](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/scala/healthcare) to workshop repo for _Scala_ users to practice more on healthcare annotators. 
+
+- Bug fixes & general improvements.
+
+#### 1. Radiology Assertion Status Model
+
+We trained a new assertion model to assign `Confirmed`, `Suspected`, `Negative` assertion scopes to imaging findings or any clinical tests. It will try to assign these statuses to any named entity you would feed to the assertion annotater in the same pipeline.
+
+     radiology_assertion = AssertionDLModel.pretrained("assertion_dl_radiology", "en", "clinical/models")\
+     .setInputCols(["sentence", "ner_chunk", "embeddings"])\
+     .setOutputCol("assertion")
+
+`text = Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs.`
+
+
+|sentences |chunk | ner_label |sent_id|assertion|
+|-----------:|:-----:|:---------:|:------:|:------|
+|Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion.|Blunting           |ImagingFindings|0      |Confirmed|
+|Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion.|effusion           |ImagingFindings|0      |Suspected|
+|No right-sided pleural effusion or pneumothorax is definitively seen.                                          |effusion           |ImagingFindings|1      |Negative |
+|No right-sided pleural effusion or pneumothorax is definitively seen.                                          |pneumothorax       |ImagingFindings|1      |Negative |
+|There are mildly displaced fractures of the left lateral 8th and likely 9th ribs.                              |displaced fractures|ImagingFindings|2      |Confirmed|
+
+You can also use this with `AssertionFilterer` to return clinical findings from a note only when it is i.e. `confirmed` or `suspected`.
+
+     assertion_filterer = AssertionFilterer()\
+     .setInputCols("sentence","ner_chunk","assertion")\
+     .setOutputCol("assertion_filtered")\
+     .setWhiteList(["confirmed","suspected"])
+
+     >> ["displaced fractures", "effusion"]
+
+#### 2. **Obfuscating** with the same fake name across the same note:
+
+     obfuscation = DeIdentification()\
+      .setInputCols(["sentence", "token", "ner_chunk"]) \
+      .setOutputCol("deidentified") \
+      .setMode("obfuscate")\
+      .setObfuscateDate(True)\
+      .setSameEntityThreshold(0.8)\
+      .setObfuscateRefSource("faker")
+
+      
+    text =''' Provider: David Hale, M.D.
+              Pt: Jessica Parker 
+              David told  Jessica that she will need to visit the clinic next month.'''
+
+
+
+|    | sentence                                                               | obfuscated                                                          |
+|---:|:-----------------------------------------------------------------------|:----------------------------------------------------------------------|
+|  0 | Provider: `David Hale`, M.D.                                             | Provider: `Dennis Perez`, M.D.                                          |
+|  1 | Pt: `Jessica Parker`                                                     | Pt: `Gerth Bayer`                                                       |
+|  2 | `David` told  `Jessica` that she will need to visit the clinic next month. | `Dennis` told  `Gerth` that she will need to visit the clinic next month. |
+
+#### 3. Library Version Compatibility Table :
+
+We are releasing the version compatibility table to help users get to see which Spark NLP licensed version is built against which core (open source) version. We are going to release a detailed one after running some tests across the jars from each library.
+
+| Healthcare| Public |
+|-----------|--------|
+| 2.7.6     | 2.7.4  |
+| 2.7.5     | 2.7.4  |
+| 2.7.4     | 2.7.3  |
+| 2.7.3     | 2.7.3  |
+| 2.7.2     | 2.6.5  |
+| 2.7.1     | 2.6.4  |
+| 2.7.0     | 2.6.3  |
+| 2.6.2     | 2.6.2  |
+| 2.6.0     | 2.6.0  |
+| 2.5.5     | 2.5.5  |
+| 2.5.3     | 2.5.3  |
+| 2.5.2     | 2.5.2  |
+| 2.5.0     | 2.5.0  |
+| 2.4.7     | 2.4.5  |
+| 2.4.6     | 2.4.5  |
+| 2.4.5     | 2.4.5  |
+| 2.4.2     | 2.4.2  |
+| 2.4.1     | 2.4.1  |
+| 2.4.0     | 2.4.0  |
+| 2.3.6     | 2.3.6  |
+| 2.3.5     | 2.3.5  |
+| 2.3.4     | 2.3.4  |
+
+
+#### 4. Pretrained Models Version Control :
+
+Due to active release cycle, we are adding & training new pretrained models at each release and it might be tricky to maintain the backward compatibility or keep up with the latest models, especially for the users using our models locally in air-gapped networks. 
+
+We are releasing a new utility class to help you check your local & existing models with the latest version of everything we have up to date. This is an highly experimental feature of which we plan to improve and add more capability later on.
+
+
+    from sparknlp_jsl.check_compatibility import Compatibility
+
+     checker = sparknlp_jsl.Compatibility()
+
+     result = checker.find_version(aws_access_key_id=license_keys['AWS_ACCESS_KEY_ID'],
+                            aws_secret_access_key=license_keys['AWS_SECRET_ACCESS_KEY'],
+                            metadata_path=None,
+                            model = 'all' , # or a specific model name
+                            target_version='all',
+                            cache_pretrained_path='/home/ubuntu/cache_pretrained')
+
+     >> result['outdated_models']
+     
+      [{'model_name': 'clinical_ner_assertion',
+        'current_version': '2.4.0',
+        'latest_version': '2.6.4'},
+       {'model_name': 'jsl_rd_ner_wip_greedy_clinical',
+        'current_version': '2.6.1',
+        'latest_version': '2.6.2'},
+       {'model_name': 'ner_anatomy',
+        'current_version': '2.4.2',
+        'latest_version': '2.6.4'},
+       {'model_name': 'ner_aspect_based_sentiment',
+        'current_version': '2.6.2',
+        'latest_version': '2.7.2'},
+       {'model_name': 'ner_bionlp',
+        'current_version': '2.4.0',
+        'latest_version': '2.7.0'},
+       {'model_name': 'ner_cellular',
+        'current_version': '2.4.2',
+        'latest_version': '2.5.0'}]
+
+      >> result['version_comparison_dict']
+      
+      [{'clinical_ner_assertion': {'current_version': '2.4.0', 'latest_version': '2.6.4'}}, {'jsl_ner_wip_clinical': {'current_version': '2.6.5', 'latest_version': '2.6.1'}}, {'jsl_ner_wip_greedy_clinical': {'current_version': '2.6.5', 'latest_version': '2.6.5'}}, {'jsl_ner_wip_modifier_clinical': {'current_version': '2.6.4', 'latest_version': '2.6.4'}}, {'jsl_rd_ner_wip_greedy_clinical': {'current_version': '2.6.1','latest_version': '2.6.2'}}]
+
+#### 5. Updated Pretrained Models:
+
+ (requires fresh `.pretraned()`)
+ 
+- ner_deid_large
+- ner_deid_enriched
+
+
+### 2.7.5
+
+We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!  
+
+#### Highlights:
+
+- New pretrained **Relation Extraction** model to link clinical tests to test results and dates to clinical entities: `re_test_result_date`
+- Adding two new `Admission` and `Discharge` entities to `ner_events_clinical` and renaming it to `ner_events_admission_clinical`
+- Improving `ner_deid_enriched` NER model to cover `Doctor` and `Patient` name entities in various context and notations.
+- Bug fixes & general improvements.
+
+#### 1. re_test_result_date :
+
+text = "Hospitalized with pneumonia in June, confirmed by a positive PCR of any specimen, evidenced by SPO2 </= 93% or PaO2/FiO2 < 300 mmHg"
+
+|    | Chunk-1   | Entity-1   | Chunk-2   | Entity-2    | Relation     |
+|---:|:----------|:-----------|:----------|:------------|:-------------|
+|  0 | pneumonia | Problem    | june      | Date        | is_date_of   |
+|  1 | PCR       | Test       | positive  | Test_Result | is_result_of |
+|  2 | SPO2      | Test       | 93%       | Test_Result | is_result_of |
+|  3 | PaO2/FiO2 | Test       | 300 mmHg  | Test_Result | is_result_of |
+
+#### 2. `ner_events_admission_clinical` :
+
+`ner_events_clinical` NER model is updated & improved to include `Admission` and `Discharge` entities.
+
+text ="She is diagnosed as cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"
+
+|    | chunk        | entity        |
+|---:|:-------------|:--------------|
+|  0 | diagnosed    | OCCURRENCE    |
+|  1 | cancer       | PROBLEM       |
+|  2 | 1991         | DATE          |
+|  3 | admitted     | ADMISSION     |
+|  4 | Mayo Clinic  | CLINICAL_DEPT |
+|  5 | May 2000     | DATE          |
+|  6 | discharged   | DISCHARGE     |
+|  7 | October 2001 | DATE          |
+
+
+#### 3. Improved `ner_deid_enriched` :
+
+PHI NER model is retrained to cover `Doctor` and `Patient` name entities even there is a punctuation between tokens as well as all upper case or lowercased.
+
+text ="A . Record date : 2093-01-13 , DAVID HALE , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 month years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street"
+
+|    | chunk                         | entity        |
+|---:|:------------------------------|:--------------|
+|  0 | 2093-01-13                    | MEDICALRECORD |
+|  1 | DAVID HALE                    | DOCTOR        |
+|  2 | Hendrickson , Ora             | PATIENT       |
+|  3 | 7194334                       | MEDICALRECORD |
+|  4 | 01/13/93                      | DATE          |
+|  5 | Oliveira                      | DOCTOR        |
+|  6 | 25                            | AGE           |
+|  7 | 2079-11-09                    | MEDICALRECORD |
+|  8 | Cocke County Baptist Hospital | HOSPITAL      |
+|  9 | 0295 Keats Street             | STREET        |
+
+
+### 2.7.4
+
+We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!  
+
+#### Highlights:
+
+- Introducing a new annotator to extract chunks with NER tags using regex-like patterns: **NerChunker**.
+- Introducing two new annotators to filter chunks: **ChunkFilterer** and **AssertionFilterer**.
+- Ability to change the entity type in **NerConverterInternal** without using ChunkMerger (`setReplaceDict`).
+- In **DeIdentification** model, ability to use `faker` and static look-up lists at the same time randomly in `Obfuscation` mode.
+- New **De-Identification NER** model, augmented with synthetic datasets to detect uppercased name entities.
+- Bug fixes & general improvements.
+
+#### 1. NerChunker:
+
+Similar to what we used to do in **POSChunker** with POS tags, now we can also extract phrases that fits into a known pattern using the NER tags. **NerChunker** would be quite handy to extract entity groups with neighboring tokens when there is no pretrained NER model to address certain issues. Lets say we want to extract clinical findings and body parts together as a single chunk even if there are some unwanted tokens between. 
+
+**How to use:**
+
+    ner_model = NerDLModel.pretrained("ner_radiology", "en", "clinical/models")\
+        .setInputCols("sentence","token","embeddings")\
+        .setOutputCol("ner")
+                
+    ner_chunker = NerChunker().\
+        .setInputCols(["sentence","ner"])\
+        .setOutputCol("ner_chunk")\
+        .setRegexParsers(["<IMAGINGFINDINGS>*<BODYPART>"])
+
+    text = 'She has cystic cyst on her kidney.'
+
+    >> ner tags: [(cystic, B-IMAGINGFINDINGS), (cyst,I-IMAGINGFINDINGS), (kidney, B-BODYPART)
+    >> ner_chunk: ['cystic cyst on her kidney']
+
+
+#### 2. ChunkFilterer:
+
+**ChunkFilterer** will allow you to filter out named entities by some conditions or predefined look-up lists, so that you can feed these entities to other annotators like Assertion Status or Entity Resolvers.  It can be used with two criteria: **isin** and **regex**.
+
+**How to use:**
+
+    ner_model = NerDLModel.pretrained("ner_clinical", "en", "clinical/models")\
+          .setInputCols("sentence","token","embeddings")\
+          .setOutputCol("ner")
+
+    ner_converter = NerConverter() \
+          .setInputCols(["sentence", "token", "ner"]) \
+          .setOutputCol("ner_chunk")
+          
+    chunk_filterer = ChunkFilterer()\
+          .setInputCols("sentence","ner_chunk")\
+          .setOutputCol("chunk_filtered")\
+          .setCriteria("isin") \ 
+          .setWhiteList(['severe fever','sore throat'])
+
+    text = 'Patient with severe fever, sore throat, stomach pain, and a headache.'
+
+    >> ner_chunk: ['severe fever','sore throat','stomach pain','headache']
+    >> chunk_filtered: ['severe fever','sore throat']
+
+
+#### 3. AssertionFilterer:
+
+**AssertionFilterer** will allow you to filter out the named entities by the list of acceptable assertion statuses. This annotator would be quite handy if you want to set a white list for the acceptable assertion statuses like `present` or `conditional`; and do not want `absent` conditions get out of your pipeline.
+
+**How to use:**
+
+    clinical_assertion = AssertionDLModel.pretrained("assertion_dl", "en", "clinical/models") \
+      .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+      .setOutputCol("assertion")
+    
+    assertion_filterer = AssertionFilterer()\
+      .setInputCols("sentence","ner_chunk","assertion")\
+      .setOutputCol("assertion_filtered")\
+      .setWhiteList(["present"])
+
+
+    text = 'Patient with severe fever and sore throat, but no stomach pain.'
+
+    >> ner_chunk: ['severe fever','sore throat','stomach pain','headache']
+    >> assertion_filtered: ['severe fever','sore throat']
+
+ 
+### 2.7.3
+
+We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!  
+
+#### Highlights:
+
+- Introducing a brand-new **RelationExtractionDL Annotator** – Achieving SOTA results in clinical relation extraction using **BioBert**.
+- Massive Improvements & feature enhancements in **De-Identification** module:
+    - Introduction of **faker** augmentation in Spark NLP for Healthcare to generate random data for obfuscation in de-identification module.
+    - Brand-new annotator for **Structured De-Identification**.
+- **Drug Normalizer:**  Normalize medication-related phrases (dosage, form and strength) and abbreviations in text and named entities extracted by NER models.
+- **Confidence scores** in **assertion** output : just like NER output, assertion models now also support confidence scores for each prediction.
+- **Cosine similarity** metrics in entity resolvers to get more informative and semantically correct results.
+- **AuxLabel** in the metadata of entity resolvers to return additional mappings.
+- New **Relation Extraction** models to extract relations between **body parts** and clinical entities.
+- New **Entity Resolver** models to extract billable medical codes.
+- New **Clinical Pretrained NER** models.
+- Bug fixes & general improvements.
+- Matching the version with Spark NLP open-source v2.7.3.
+
+
+#### 1. Improvements in De-Identification Module:
+
+Integration of `faker` library to automatically generate random data like names, dates, addresses etc so users dont have to specify dummy data (custom obfuscation files can still be used). It also improves the obfuscation results due to a bigger pool of random values.
+
+**How to use:**
+
+Set the flag `setObfuscateRefSource` to `faker`
+
+    deidentification = DeIdentification()
+        .setInputCols(["sentence", "token", "ner_chunk"])\
+		.setOutputCol("deidentified")\
+		.setMode("obfuscate") \
+		.setObfuscateRefSource("faker")
+
+For more details: Check out this [notebook ](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb)
+
+#### 2. Structured De-Identification Module:
+
+Introduction of a new annotator to handle de-identification of structured data. it  allows users to define a mapping of columns and their obfuscation policy. Users can also provide dummy data and map them to columns they want to replace values in.
+
+**How to use:**
+
+	obfuscator = StructuredDeidentification \
+		(spark,{"NAME":"PATIENT","AGE":"AGE"},
+		obfuscateRefSource = "faker")
+
+	obfuscator_df = obfuscator.obfuscateColumns(df)
+
+	obfuscator_df.select("NAME","AGE").show(truncate=False)
+
+**Example:**
+
+Input Data:
+
+Name  | Age
+------------- | -------------
+Cecilia Chapman|83
+Iris Watson    |9  
+Bryar Pitts    |98
+Theodore Lowe  |16
+Calista Wise   |76
+
+Deidentified:
+
+Name  | Age
+------------- | -------------
+Menne Erdôs|20
+ Longin Robinson     |31  
+ Flynn Fiedlerová   |50
+ John Wakeland  |21
+Vanessa Andersson   |12
+
+
+For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb).
+
+#### 3. Introducing SOTA relation extraction model using BioBert
+
+A brand-new end-to-end trained BERT model, resulting in massive improvements. Another new annotator (`ReChunkFilter`) is also developed for this new model to allow syntactic features work well with BioBert to extract relations.
+
+**How to use:**
+
+    re_ner_chunk_filter = RENerChunksFilter()\
+        .setInputCols(["ner_chunks", "dependencies"])\
+        .setOutputCol("re_ner_chunks")\
+        .setRelationPairs(pairs)\
+        .setMaxSyntacticDistance(4)
+
+    re_model = RelationExtractionDLModel()\
+        .pretrained(“redl_temporal_events_biobert”, "en", "clinical/models")\
+        .setPredictionThreshold(0.9)\
+        .setInputCols(["re_ner_chunks", "sentences"])\
+        .setOutputCol("relations")
+
+
+##### Benchmarks:
+
+**on benchmark datasets**
+
+model                           | Spark NLP ML model | Spark NLP DL model | benchmark
+---------------------------------|-----------|-----------|-----------
+re_temporal_events_clinical     | 68.29     | 71.0      | 80.2 [1](https://arxiv.org/pdf/2012.08790.pdf)
+re_clinical                     | 56.45     | **69.2**      | 68.2      [2](ncbi.nlm.nih.gov/pmc/articles/PMC7153059/)
+re_human_pheotype_gene_clinical | -         | **87.9**      | 67.2 [3](https://arxiv.org/pdf/1903.10728.pdf)
+re_drug_drug_interaction        | -         | 72.1      | 83.8 [4](https://www.aclweb.org/anthology/2020.knlp-1.4.pdf)
+re_chemprot                     | 76.69     | **94.1**      | 83.64 [5](https://www.aclweb.org/anthology/D19-1371.pdf)
+
+**on in-house annotations**
+
+model                           | Spark NLP ML model | Spark NLP DL model
+---------------------------------|-----------|-----------
+re_bodypart_problem             | 84.58     | 85.7
+re_bodypart_procedure           | 61.0      | 63.3
+re_date_clinical                | 83.0      | 84.0  
+re_bodypart_direction           | 93.5      | 92.5  
+
+
+For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb) or [modelshub](https://nlp.johnsnowlabs.com/models?tag=relation_extraction).
+
+
+
+#### 4. Drug Normalizer:
+
+Standardize units of drugs and handle abbreviations in raw text or drug chunks identified by any NER model. This normalization significantly improves performance of entity resolvers.  
+
+**How to use:**
+
+    drug_normalizer = DrugNormalizer()\
+        .setInputCols("document")\
+        .setOutputCol("document_normalized")\
+        .setPolicy("all") #all/abbreviations/dosages
+
+**Examples:**
+
+`drug_normalizer.transform("adalimumab 54.5 + 43.2 gm”)`
+
+    >>> "adalimumab 97700 mg"
+
+**Changes:** _combine_ `54.5` + `43.2` and _normalize_ `gm` to `mg`
+
+`drug_normalizer.transform("Agnogenic one half cup”)`
+
+    >>> "Agnogenic 0.5 oral solution"
+
+**Changes:** _replace_ `one half` to the `0.5`, _normalize_ `cup` to the `oral solution`
+
+`drug_normalizer.transform("interferon alfa-2b 10 million unit ( 1 ml ) injec”)`
+
+    >>> "interferon alfa - 2b 10000000 unt ( 1 ml ) injection "
+
+**Changes:** _convert_ `10 million unit` to the `10000000 unt`, _replace_ `injec` with `injection`
+
+For more details: Check out this [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/23.Drug_Normalizer.ipynb)
+
+#### 5. Assertion models to support confidence in output:
+
+Just like NER output, assertion models now also provides _confidence scores_ for each prediction.
+
+chunks  | entities | assertion | confidence
+-----------|-----------|------------|-------------
+a headache | PROBLEM | present |0.9992
+anxious | PROBLEM | conditional |0.9039
+alopecia | PROBLEM | absent |0.9992
+pain | PROBLEM | absent |0.9238
+
+`.setClasses()` method is deprecated in `AssertionDLApproach`  and users do not need to specify number of classes while training, as it will be inferred from the dataset.
+
+
+#### 6. New Relation Extraction Models:
+
+
+We are also releasing new relation extraction models to link the clinical entities to body parts and dates. These models are trained using binary relation extraction approach for better accuracy.
+
+**- re_bodypart_direction :**  Relation Extraction between `Body Part` and `Direction` entities.
+
+**Example:**
+
+**Text:** _“MRI demonstrated infarction in the upper brain stem , left cerebellum and right basil ganglia”_
+
+relations | entity1                     | chunk1     | entity2                     | chunk2        | confidence
+-----------|-----------------------------|------------|-----------------------------|---------------|------------
+1         | Direction                   | upper      | bodyPart | brain stem    | 0.999
+0         | Direction                   | upper      | bodyPart | cerebellum    | 0.999
+0         | Direction                   | upper      | bodyPart | basil ganglia | 0.999
+0         | bodyPart | brain stem | Direction                   | left          | 0.999
+0         | bodyPart | brain stem | Direction                   | right         | 0.999
+1         | Direction                   | left       | bodyPart | cerebellum    | 1.0         
+0         | Direction                   | left       | bodyPart | basil ganglia | 0.976
+0         | bodyPart | cerebellum | Direction                   | right         | 0.953
+1         | Direction                   | right      | bodyPart | basil ganglia | 1.0       
+
+
+**- re_bodypart_problem :** Relation Extraction between `Body Part` and `Problem` entities.
+
+**Example:**
+
+**Text:** _“No neurologic deficits other than some numbness in his left hand.”_
+
+relation | entity1   | chunk1              | entity2                      | chunk2   | confidence  
+--|------------------|--------------------|-----------------------------|---------|-----------  
+0 | Symptom   | neurologic deficits | bodyPart | hand     |          1
+1 | Symptom   | numbness            | bodyPart | hand     |          1
+
+
+**- re_bodypart_proceduretest :**  Relation Extraction between `Body Part` and `Procedure`, `Test` entities.
+
+**Example:**
+
+**Text:** _“TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.”_
+
+relation | entity1                      | chunk1   | entity2   | chunk2              | confidence  
+---------|-----------------------------|---------|----------|--------------------|-----------
+1 | bodyPart | chest    | Test      | portable ultrasound |    0.999
+
+**-re_date_clinical :** Relation Extraction between `Date` and different clinical entities.   
+
+**Example:**
+
+**Text:** _“This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.”_
+
+relations | entity1 | chunk1                                   | entity2 | chunk2  | confidence
+-----------|---------|------------------------------------------|---------|---------|------------|
+1         | Test    | CT                                       | Date    | 1/12/95 | 1.0
+1         | Symptom | progressive memory and cognitive decline | Date    | 8/11/94 | 1.0
+
+
+**How to use:**
+
+    re_model = RelationExtractionModel()\
+        .pretrained("re_bodypart_direction","en","clinical/models")\
+        .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+        .setOutputCol("relations")\
+        .setMaxSyntacticDistance(4)\
+        .setRelationPairs([‘Internal_organ_or_component’, ‘Direction’])
+
+
+
+For more details: Check out the [notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb) or [modelshub](https://nlp.johnsnowlabs.com/models?tag=relation_extraction).
+
+
+**New matching scheme for entity resolvers - improved accuracy:** Adding the option to use `cosine similarity` to resolve entities and find closest matches, resulting in better, more semantically correct results.
+
+#### 7. New Resolver Models using `JSL SBERT`:
+
++ `sbiobertresolve_icd10cm_augmented`
+
++ `sbiobertresolve_cpt_augmented`
+
++ `sbiobertresolve_cpt_procedures_augmented`
+
++ `sbiobertresolve_icd10cm_augmented_billable_hcc`
+
++ `sbiobertresolve_hcc_augmented`
+
+
+**Returning auxilary columns mapped to resolutions:**  Chunk entity resolver and sentence entity resolver now returns auxilary data that is mapped the resolutions during training. This will allow users to get multiple resolutions with single model without using any other annotator in the pipeline (In order to get billable codes otherwise there needs to be other modules in the same pipeline)
+
+**Example:**
+
+`sbiobertresolve_icd10cm_augmented_billable_hcc`
+**Input Text:** _"bladder cancer"_
+
+idx | chunks | code | resolutions | all_codes | billable | hcc_status | hcc_score | all_distances   
+---|---------------|-------|-------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|--------------------------|--------------------------|---------------------------|---------------------------------------------------
+ 0 | bladder cancer | C679 | ['bladder cancer', 'suspected bladder cancer', 'cancer in situ of urinary bladder', 'tumor of bladder neck', 'malignant tumour of bladder neck'] | ['C679', 'Z126', 'D090', 'D494', 'C7911'] | ['1', '1', '1', '1', '1'] | ['1', '0', '0', '0', '1'] | ['11', '0', '0', '0', '8'] | ['0.0000', '0.0904', '0.0978', '0.1080', '0.1281'] |
+
+`sbiobertresolve_cpt_augmented`  
+**Input Text:** _"ct abdomen without contrast"_
+
+idx|  cpt code |   distance |resolutions                                                       
+---:|------:|-----------:|:-------------------------------------------------------------------
+0 | 74150 |     0.0802 | Computed tomography, abdomen; without contrast material            |
+1 | 65091 |     0.1312 | Evisceration of ocular contents; without implant                   |
+2 | 70450 |     0.1323 | Computed tomography, head or brain; without contrast material      |
+3 | 74176 |     0.1333 | Computed tomography, abdomen and pelvis; without contrast material |
+4 | 74185 |     0.1343 | Magnetic resonance imaging without contrast                        |
+5 | 77059 |     0.1343 | Magnetic resonance imaging without contrast                        |
+
+#### 8. New Pretrained Clinical NER Models
+
++ NER Radiology
+**Input Text:** _"Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma."_
+
+|idx | chunks                | entities                  |
+|----|-----------------------|---------------------------|
+| 0  | Bilateral             | Direction                 |
+| 1  | breast                | BodyPart                  |
+| 2  | ultrasound            | ImagingTest               |
+| 3  | ovoid mass            | ImagingFindings           |
+| 4  | 0.5 x 0.5 x 0.4       | Measurements              |
+| 5  | cm                    | Units                     |
+| 6  | anteromedial aspect   | Direction                 |
+| 7  | left                  | Direction                 |
+| 8  | shoulder              | BodyPart                  |
+| 9  | mass                  | ImagingFindings           |
+| 10 | isoechoic echotexture | ImagingFindings           |
+| 11 | muscle                | BodyPart                  |
+| 12 | internal color flow   | ImagingFindings           |
+| 13 | benign fibrous tissue | ImagingFindings           |
+| 14 | lipoma                | Disease_Syndrome_Disorder |
+
+
 
 ### 2.7.2
 
@@ -269,7 +1190,7 @@ Using this new resolver and some other resources like Snomed Resolver, RxTerm, M
 
 
  ```python
- 
+
 c2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
@@ -291,18 +1212,18 @@ We are glad to announce that Spark NLP for Healthcare 2.7.1 has been released !
 
 In this release, we introduce the following features:
 
-#### 1. Sentence BioBert and Bluebert Transformers that are fine tuned on [MedNLI](https://physionet.org/content/mednli/) dataset. 
+#### 1. Sentence BioBert and Bluebert Transformers that are fine tuned on [MedNLI](https://physionet.org/content/mednli/) dataset.
 
 Sentence Transformers offers a framework that provides an easy method to compute dense vector representations for sentences and paragraphs (also known as sentence embeddings). The models are based on BioBert and BlueBert, and are tuned specifically to meaningful sentence embeddings such that sentences with similar meanings are close in vector space. These are the first PyTorch based models we managed to port into Spark NLP.
 
 Here is how you can load these:
-```python 
+```python
 sbiobert_embeddins = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 ```
-```python 
+```python
 sbluebert_embeddins = BertSentenceEmbeddings\
      .pretrained("sbluebert_base_cased_mli",'en','clinical/models')\
      .setInputCols(["ner_chunk_doc"])\
@@ -328,8 +1249,8 @@ sbiobertresolve_cpt
 Code sample:
 
 (after getting the chunk from ChunkConverter)
- 
-```python 
+
+```python
 c2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
@@ -436,7 +1357,7 @@ For now, it only comes with one pretrained model (trained on Spider
 dataset) and new pretrained models will be released soon.
 
 Check out the
-Colab notebook to  see more examples and run on your data. 
+Colab notebook to  see more examples and run on your data.
 
 
 #### 2. SentenceEntityResolvers
@@ -454,7 +1375,7 @@ SNOMED_CT (findings): `biobertresolve_snomed_findings`
 SNOMED_INT (clinical_findings): `biobertresolve_snomed_findings_int`    
 RXNORM (branded and clinical drugs): `biobertresolve_rxnorm_bdcd`  
 
-Example: 
+Example:
 ```python
 text = 'He has a starvation ketosis but nothing significant for dry oral mucosa'
 df = get_icd10_codes (light_pipeline_icd10, 'icd10cm_code', text)
@@ -463,10 +1384,10 @@ df = get_icd10_codes (light_pipeline_icd10, 'icd10cm_code', text)
 |    | chunks               |   begin |   end | code |
 |---:|:---------------------|--------:|------:|:-------|
 |  0 | a starvation ketosis |       7 |    26 | E71121 |                                                                                                                                                   
-|  1 | dry oral mucosa      |      66 |    80 | K136   | 
+|  1 | dry oral mucosa      |      66 |    80 | K136   |
 
 
-Check out the Colab notebook to  see more examples and run on your data. 
+Check out the Colab notebook to  see more examples and run on your data.
 
 You can also train your own entity resolver using any medical terminology like MedRa and UMLS. Check this notebook to
 learn more about training from scratch.
@@ -479,10 +1400,10 @@ model by overlapping. Now it has a new parameter to avoid merging overlapping en
 to return all the entities regardless of char indices. It will be quite useful to analyze what every NER module returns on the same text.
 
 
-#### 4. Starting SparkSession 
+#### 4. Starting SparkSession
 
 
-We now support starting SparkSession with a different version of the open source jar and not only the one it was built 
+We now support starting SparkSession with a different version of the open source jar and not only the one it was built
 against by `sparknlp_jsl.start(secret, public="x.x.x")` for extreme cases.
 
 
@@ -541,7 +1462,7 @@ In addition to these, we release two new German NER models:
 
 Successful evidence-based medicine (EBM) applications rely on answering clinical questions by analyzing large medical literature databases. In order to formulate
 a well-defined, focused clinical question, a framework called PICO is widely used, which identifies the sentences in a given medical text that belong to the four components: Participants/Problem (P)  (e.g., diabetic patients), Intervention (I) (e.g., insulin),
-Comparison (C) (e.g., placebo)  and Outcome (O) (e.g., blood glucose levels). 
+Comparison (C) (e.g., placebo)  and Outcome (O) (e.g., blood glucose levels).
 
 Spark NLP now introduces a pretrained PICO Classifier that
 is trained with Biobert embeddings.
@@ -551,7 +1472,7 @@ Example:
 ```python
 text = “There appears to be no difference in smoking cessation effectiveness between 1mg and 0.5mg varenicline.”
 pico_lp_pipeline.annotate(text)['class'][0]
- 
+
 ans: CONCLUSIONS
 ```
 
@@ -589,7 +1510,7 @@ More information and examples [here](https://colab.research.google.com/github/Jo
 By combining ADE NER and Classifier, we are releasing a new pretrained clinical pipeline for ADE tasks to save you from building pipelines from scratch. Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 ```python
 pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
- 
+
 pipeline.annotate('my string')
 ```
 `explain_clinical_doc_ade` is bundled with `ner_ade_clinicalBert`, and `classifierdl_ade_clinicalBert`. It can extract ADE and DRUG clinical entities, and then assign ADE status to a text (`True` means ADE, `False` means not related to ADE).
@@ -633,7 +1554,7 @@ The first time ever, we are releasing 3 licensed German models for healthcare an
 
 ##### Pretrained Pipelines:
 
-The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch. 
+The first time ever, we release three pretrained clinical pipelines to save you from building pipelines from scratch.
 Pretrained pipelines are already fitted using certain annotators and transformers according to various use cases and you can use them as easy as follows:
 
 ```python

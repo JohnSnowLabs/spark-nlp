@@ -4,7 +4,11 @@ title: Recognize Entities OntoNotes - BERT Mini
 author: John Snow Labs
 name: onto_recognize_entities_bert_mini
 date: 2020-12-09
+task: [Named Entity Recognition, Sentence Detection, Embeddings, Pipeline Public]
+language: en
+edition: Spark NLP 2.7.0
 tags: [en, pipeline, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -24,7 +28,7 @@ A pre-trained pipeline containing NerDl Model. The NER model trained on OntoNote
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 from sparknlp.pretrained import PretrainedPipeline
@@ -40,6 +44,16 @@ val pipeline = new PretrainedPipeline("onto_recognize_entities_bert_base")
 
 val result = pipeline.annotate("Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament.")
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament."""]
+ner_df = nlu.load('en.ner.onto.bert.mini').predict(text, output_level='chunk')
+ner_df[["entities", "entities_class"]]
+```
+
 </div>
 
 {:.h2_title}

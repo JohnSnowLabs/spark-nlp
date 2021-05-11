@@ -4,7 +4,11 @@ title: Part of Speech for Hebrew
 author: John Snow Labs
 name: pos_ud_htb
 date: 2020-12-09
+task: Part of Speech Tagging
+language: he
+edition: Spark NLP 2.7.0
 tags: [pos, open_source, he]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -24,7 +28,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 Use as part of an nlp pipeline after tokenization.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,16 @@ val pos = PerceptronModel.pretrained("pos_ud_htb", "he")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"]
+pos_df = nlu.load('he.pos.ud_htb').predict(text, output_level='token')
+pos_df
+```
+
 </div>
 
 ## Results

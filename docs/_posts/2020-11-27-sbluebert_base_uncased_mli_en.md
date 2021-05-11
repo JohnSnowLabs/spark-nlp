@@ -4,7 +4,11 @@ title: Sentence Embeddings - Bluebert uncased (MedNLI)
 author: John Snow Labs
 name: sbluebert_base_uncased_mli
 date: 2020-11-27
+task: Embeddings
+language: en
+edition: Spark NLP for Healthcare 2.6.4
 tags: [embeddings, en, licensed]
+supported: true
 article_header:
     type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,7 +36,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-     .pretrained("sbluebert_base_uncased_mli",'en','clinical/models')\
+     .pretrained("sbluebert_base_uncased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 
@@ -40,7 +44,7 @@ sbiobert_embeddings = BertSentenceEmbeddings\
 
 ```scala
 
-val sbiobert_embeddings = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli",'en','clinical/models')
+val sbiobert_embeddings = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli","en","clinical/models")
     .setInputCols(Array("ner_chunk_doc"))
     .setOutputCol("sbert_embeddings")
 

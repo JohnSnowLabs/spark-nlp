@@ -7,7 +7,7 @@ key: docs-ocr
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
-Spark OCR is another commercial extension of Spark NLP for optical character recognition from images, scanned PDF documents, and DICOM files. f you want to try it out on your own documents click on the below button:
+Spark OCR is another commercial extension of Spark NLP for optical character recognition from images, scanned PDF documents, Microsoft DOCX and DICOM files. If you want to try it out on your own documents click on the below button:
 
 {:.btn-block}
 [Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
@@ -23,6 +23,7 @@ Spark OCR is built on top of ```Apache Spark``` and offers the following capabil
   - Removing background objects
 - Text recognition, by combining NLP and OCR pipelines:
   - Extracting text from images (optical character recognition)
+  - Support English, German, French, Spanish, Russian and Vietnamese languages
   - Extracting data from tables
   - Recognizing and highlighting named entities in PDF documents
   - Masking sensitive text in order to de-identify images

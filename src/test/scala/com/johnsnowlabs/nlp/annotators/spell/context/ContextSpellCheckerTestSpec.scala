@@ -12,11 +12,7 @@ import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
 
-import java.io.File
-import java.io.FileOutputStream
-import java.io.ObjectOutputStream
-import java.io.FileInputStream
-import java.io.ObjectInputStream
+import java.io._
 
 
 class ContextSpellCheckerTestSpec extends FlatSpec {
@@ -41,7 +37,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       result
     }
 
-    val data = Seq.fill(120)("This is a correct sentence .").toDF("text")
+    val data = Seq("This is a correct sentence .", "This is a correct bananas .").toDF("text")
 
     val documentAssembler =
       new DocumentAssembler().
@@ -81,29 +77,29 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       new DateToken)
 
     specialClasses.foreach { specialClass =>
-        val dataPathObject = "/tmp/object"
+      val dataPathObject = "/tmp/object"
 
-        val f = new File(dataPathObject)
-        if (f.exists()) FileUtils.deleteDirectory(f)
+      val f = new File(dataPathObject)
+      if (f.exists()) FileUtils.deleteDirectory(f)
 
-        // persist object
-        FileUtils.deleteDirectory(new File(dataPathObject))
-        spark.sparkContext.parallelize(Seq(specialClass)).
-          saveAsObjectFile(dataPathObject)
+      // persist object
+      FileUtils.deleteDirectory(new File(dataPathObject))
+      spark.sparkContext.parallelize(Seq(specialClass)).
+        saveAsObjectFile(dataPathObject)
 
-        // load object
-        val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
-        assert(sc.transducer != null)
-        sc match {
-          case vp:VocabParser => assert(vp.vocab != null)
-          case _ =>
-        }
+      // load object
+      val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
+      assert(sc.transducer != null)
+      sc match {
+        case vp:VocabParser => assert(vp.vocab != null)
+        case _ =>
+      }
 
-        sc.transducer.transduce("aaa")
+      sc.transducer.transduce("aaa")
     }
   }
 
-  "Special classes" should "serialize/deserialize properly - during execution" in {
+  "Special classes" should "serialize/deserialize properly - during execution" taggedAs SlowTest in {
 
     val specialClasses = Seq(new AgeToken, new UnitToken, new NumberToken,
       new LocationClass("./src/test/resources/spell/locations.txt"),
@@ -140,19 +136,19 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
 
-  "weighted Levenshtein distance" should "work from file" in new distFile {
+  "weighted Levenshtein distance" should "work from file" taggedAs SlowTest in new distFile {
     assert(wLevenshteinDist("water", "Water", weights) < 1.0f)
     assert(wLevenshteinDist("50,000", "50,C00", weights) < 1.0f)
   }
 
 
-  "weighted Levenshtein distance" should "produce weighted results" in new Scope {
+  "weighted Levenshtein distance" should "produce weighted results" taggedAs SlowTest in new Scope {
     assert(wLevenshteinDist("clean", "c1ean", weights) > wLevenshteinDist("clean", "c!ean", weights))
     assert(wLevenshteinDist("clean", "crean", weights) > wLevenshteinDist("clean", "c!ean", weights))
     assert(wLevenshteinDist("Patient", "Fatient", weights) < wLevenshteinDist("Patient", "Aatient", weights))
   }
 
-  "weighted Levenshtein distance" should "handle insertions and deletions" in new Scope {
+  "weighted Levenshtein distance" should "handle insertions and deletions" taggedAs SlowTest in new Scope {
     override val weights = loadWeights("src/test/resources/distance.psv")
 
     val cost1 = weights("F")("P") + weights("a")("e")
@@ -362,14 +358,13 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     import scala.collection.JavaConversions._
 
-    val ocrSpellModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
+    val ocrSpellModel = ContextSpellCheckerModel.pretrained()
+    assert(ocrSpellModel.specialTransducers.getOrDefault.size == 5, "default pretrained should come with 5 classes")
 
-    ocrSpellModel.setSpecialClassesTransducers(Seq(new UnitToken))
-
+    // now we update the classes, and persist/unpersist the model
+    ocrSpellModel.setSpecialClassesTransducers(Seq(new DateToken, new NumberToken))
     ocrSpellModel.write.overwrite.save("./test_spell_checker")
     val loadedModel = ContextSpellCheckerModel.read.load("./test_spell_checker")
-
-    assert(loadedModel.specialTransducers.getOrDefault.size == 2, "default pretrained should come with 2 classes")
 
     // cope with potential change in element order in list
     val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)

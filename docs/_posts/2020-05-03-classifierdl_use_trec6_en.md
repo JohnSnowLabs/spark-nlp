@@ -7,7 +7,10 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/05/2020
+task: Text Classification
+edition: Spark NLP 2.5.0
 tags: [classifier]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -27,7 +30,7 @@ Classify open-domain, fact-based questions into one of the following broad seman
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
@@ -60,6 +63,16 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_c
 
 val result = pipeline.fit(Seq.empty["When did the construction of stone circles begin in the UK?"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""When did the construction of stone circles begin in the UK?"""]
+trec6_df = nlu.load('en.classify.trec6.use').predict(text, output_level='document')
+trec6_df[["document", "trec6"]]
+```
+
 </div>
 
 {:.h2_title}

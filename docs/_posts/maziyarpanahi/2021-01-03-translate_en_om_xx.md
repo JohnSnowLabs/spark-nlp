@@ -4,7 +4,11 @@ title: Translate English to Oromo Pipeline
 author: John Snow Labs
 name: translate_en_om
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: om
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, om, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,9 +22,9 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 
 Note that this is a very computationally expensive module especially on larger sequence. The use of an accelerator such as GPU is recommended.
 
-source languages: en
+- source languages: `en`
 
-target languages: om
+- target languages: `om`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -32,7 +36,7 @@ target languages: om
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from sparknlp.pretrained import PretrainedPipeline 
 pipeline = PretrainedPipeline("translate_en_om", lang = "xx") 
@@ -46,6 +50,16 @@ val pipeline = new PretrainedPipeline("translate_en_om", lang = "xx")
 
 pipeline.annotate("Your sentence to translate!")
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["text to translate"]
+translate_df = nlu.load('xx.en.translate_to.om').predict(text, output_level='sentence')
+translate_df
+```
+
 </div>
 
 {:.model-param}

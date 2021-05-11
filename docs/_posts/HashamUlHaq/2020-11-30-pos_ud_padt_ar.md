@@ -4,7 +4,11 @@ title: Part of Speech for Arabic
 author: John Snow Labs
 name: pos_ud_padt
 date: 2020-11-30
+task: Part of Speech Tagging
+language: ar
+edition: Spark NLP 2.7.0
 tags: [pos, ar]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -22,7 +26,7 @@ This model annotates the part of speech of tokens in a text. The parts of speech
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -41,6 +45,16 @@ val pos = PerceptronModel.pretrained("pos_ud_padt", "ar")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["كرستيانو رونالدو لاعب برتغالي محترف يلعب في صفوف منتخب البرتغال لكرة القدم"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""كرستيانو رونالدو لاعب برتغالي محترف يلعب في صفوف منتخب البرتغال لكرة القدم"""]
+pos_df = nlu.load('ar.pos').predict(text)
+pos_df
+```
+
 </div>
 
 ## Results

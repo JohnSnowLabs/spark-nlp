@@ -4,7 +4,11 @@ title: Universal Sentence Encoder Large
 author: John Snow Labs
 name: tfhub_use_lg
 date: 2020-04-17
+task: Embeddings
+language: en
+edition: Spark NLP 2.4.0
 tags: [embeddings, en, open_source]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -26,23 +30,46 @@ The details are described in the paper "[Universal Sentence Encoder](https://arx
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-
+...
 embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en") \
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP", "Many thanks"]})))
 ```
 
 ```scala
-
+...
 val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
+val result = pipeline.fit(Seq.empty["I love NLP", "Many thanks"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP", "Many thanks"]
+embeddings_df = nlu.load('en.embed_sentence.tfhub_use.lg').predict(text, output_level='sentence')
+embeddings_df
 ```
 
 </div>
+
+{:.h2_title}
+## Results
+```bash
+        en_embed_sentence_tfhub_use_lg_embeddings	        sentence
+		
+0	[0.05463508144021034, 0.013395714573562145, 0....	I love NLP
+1	[0.03631748631596565, 0.006253095343708992, 0....	Many thanks
+```
 
 {:.model-param}
 ## Model Information

@@ -4,7 +4,11 @@ title: Named Entity Recognition for Bengali (GloVe 840B 300d)
 author: John Snow Labs
 name: ner_jifs_glove_840B_300d
 date: 2021-01-27
+task: Named Entity Recognition
+language: bn
+edition: Spark NLP 2.7.0
 tags: [bn, ner, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,64 +36,39 @@ Persons - `PER`, Locations - `LOC`, Organizations - `ORG`, Object - `OBJ`, and O
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
-        .setInputCol("text") \
-        .setOutputCol("document")
-
-sentence_detector = SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
-
-tokenizer = Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
-
+...
 embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
           .setInputCols("document", "token") \
           .setOutputCol("embeddings")
-
-
 ner = NerDLModel.pretrained("ner_jifs_glove_840B_300d", "bn") \
         .setInputCols(["document", "token", "embeddings"]) \
         .setOutputCol("ner")
-
-pipeline = Pipeline(stages=[
-        document_assembler,
-        sentence_detector,
-        tokenizer,
-        embeddings,
-        ner])
-
+pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner])
 example = spark.createDataFrame(pd.DataFrame({'text': ["৯০ এর দশকের শুরুর দিকে বৃহৎ আকারে মার্কিন যুক্তরাষ্ট্রে এর প্রয়োগের প্রক্রিয়া শুরু হয়'"]}))
-
 result = pipeline.fit(example).transform(example)
 ```
+
 ```scala
-val document_assembler = DocumentAssembler()
-        .setInputCol("text")
-        .setOutputCol("document")
-
-val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
-        .setOutputCol("sentence")
-
-val tokenizer = Tokenizer()
-        .setInputCols(["sentence"])
-        .setOutputCol("token")
-
+...
 val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
-          .setInputCols("document", "token")
-          .setOutputCol("embeddings")
-
+        .setInputCols(Array("document", "token"))
+        .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_jifs_glove_840B_300d", "bn")
-        .setInputCols(["document", "token", "embeddings"])
+        .setInputCols(Array("document", "token", "embeddings"))
         .setOutputCol("ner")
-
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner))
-
 val result = pipeline.fit(Seq.empty["৯০ এর দশকের শুরুর দিকে বৃহৎ আকারে মার্কিন যুক্তরাষ্ট্রে এর প্রয়োগের প্রক্রিয়া শুরু হয়"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["৯০ এর দশকের শুরুর দিকে বৃহৎ আকারে মার্কিন যুক্তরাষ্ট্রে এর প্রয়োগের প্রক্রিয়া শুরু হয়"]
+ner_df = nlu.load('bn.ner').predict(text, output_level='token')
+ner_df
+```
+
 </div>
 
 ## Results

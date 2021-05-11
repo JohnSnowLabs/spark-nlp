@@ -49,6 +49,27 @@ class FinisherTestSpec extends FlatSpec {
     result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
   }
 
+  "A Finisher with default settings without split parameters" should "return clean results" taggedAs FastTest in {
+
+    val finisher = new Finisher()
+      .setInputCols("token", "embeddings")
+      .setOutputAsArray(false)
+      .setIncludeMetadata(false)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        embeddings,
+        finisher
+      ))
+
+    val result = pipeline.fit(data).transform(data)
+
+    assert(result.columns.length == 5, "because finisher did not clean annotations or did not return proper columns")
+    result.select("finished_token").as[String].collect.foreach(s => assert(s.contains("@"), "because @ separator string was not found"))
+  }
+
   "A Finisher with custom settings" should "behave accordingly" taggedAs FastTest in {
 
     val finisher = new Finisher()

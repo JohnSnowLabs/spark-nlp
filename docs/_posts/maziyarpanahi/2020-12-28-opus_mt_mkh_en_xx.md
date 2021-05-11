@@ -4,7 +4,11 @@ title: Fast Neural Machine Translation Model from Mon-Khmer Languages to English
 author: John Snow Labs
 name: opus_mt_mkh_en
 date: 2020-12-28
+task: Translation
+language: mkh
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, mkh, en, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -29,7 +33,7 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\ 
  .setInputCol("text")\ 
@@ -64,6 +68,16 @@ val marian = MarianTransformer.pretrained("opus_mt_mkh_en", "xx")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentence, marian))
 val result = pipeline.fit(Seq.empty[String].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["text to translate"]
+opus_df = nlu.load('xx.mkh.marian.translate_to.en').predict(text, output_level='sentence')
+opus_df
+```
+
 </div>
 
 {:.model-param}

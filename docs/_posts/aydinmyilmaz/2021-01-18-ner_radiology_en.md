@@ -4,7 +4,11 @@ title: Detect Radiology Related Entities
 author: John Snow Labs
 name: ner_radiology
 date: 2021-01-18
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.0
 tags: [en, ner, licensed, clinical]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,15 +38,23 @@ Use as part of an NLP pipeline with the following stages: DocumentAssembler, Sen
 radiology_ner = NerDLModel.pretrained("ner_radiology", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter])
-
+...
 model = nlpPipeline.fit(spark.createDataFrame([['''Bilateral breast ultrasound was subsequently performed, which demonstrated an ovoid mass measuring approximately 0.5 x 0.5 x 0.4 cm in diameter located within the anteromedial aspect of the left shoulder. This mass demonstrates isoechoic echotexture to the adjacent muscle, with no evidence of internal color flow. This may represent benign fibrous tissue or a lipoma.''']]).toDF("text"))
 
 results = model.transform(data)
 ```
 
+```scala
+...
+val radiology_ner = NerDLModel().pretrained("ner_radiology", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
 
+val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
+val result = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text")).transform(data)
+
+```
 </div>
 
 ## Results

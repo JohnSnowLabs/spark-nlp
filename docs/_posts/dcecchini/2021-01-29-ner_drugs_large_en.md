@@ -4,9 +4,13 @@ title: Detect Drug Chemicals
 author: John Snow Labs
 name: ner_drugs_large_en
 date: 2021-01-29
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [ner, en, licensed, clinical]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 {:.h2_title}
@@ -16,7 +20,7 @@ Pretrained named entity recognition deep learning model for Drugs. The model com
 
 {:.h2_title}
 ## Predicted Entities 
-``DRUG``
+`DRUG`
 
 
 {:.btn-box}

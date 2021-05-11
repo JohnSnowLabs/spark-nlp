@@ -4,9 +4,13 @@ title: Detect Diagnosis, Symptoms, Drugs, Labs and Demographics (ner_jsl_enriche
 author: John Snow Labs
 name: ner_jsl_enriched_en
 date: 2020-04-22
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.2
 tags: [ner, en, clinical, licensed]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

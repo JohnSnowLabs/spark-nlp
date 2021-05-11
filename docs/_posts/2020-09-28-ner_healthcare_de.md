@@ -4,9 +4,13 @@ title: Detect Symptoms, Treatments and Other Entities in German
 author: John Snow Labs
 name: ner_healthcare
 date: 2020-09-28
+task: Named Entity Recognition
+language: de
+edition: Spark NLP for Healthcare 2.6.0
 tags: [ner, clinical, de, licensed]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
  

@@ -4,7 +4,11 @@ title: BioBERT Embeddings (Pubmed)
 author: John Snow Labs
 name: biobert_pubmed_base_cased
 date: 2020-09-19
+task: Embeddings
+language: en
+edition: Spark NLP 2.6.2
 tags: [embeddings, en, open_source]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -22,13 +26,16 @@ This model contains a pre-trained weights of BioBERT, a language representation 
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 
 embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer"]})))
 ```
 
 ```scala
@@ -36,9 +43,30 @@ embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en") \
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val result = pipeline.fit(Seq.empty["I hate cancer"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I hate cancer"]
+embeddings_df = nlu.load('en.embed.biobert.pubmed_base_cased').predict(text, output_level='token')
+embeddings_df
 ```
 
 </div>
+
+{:.h2_title}
+## Results
+```bash
+        token	en_embed_biobert_pubmed_base_cased_embeddings
+
+	I	[0.4227580428123474, -0.01985771767795086, -0....
+	hate	[0.04862901195883751, 0.2535072863101959, -0.5...
+	cancer	[0.05491625890135765, 0.09395376592874527, -0....
+```
 
 {:.model-param}
 ## Model Information

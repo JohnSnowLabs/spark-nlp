@@ -7,7 +7,10 @@ class: ClassifierDLModel
 language: en
 repository: public/models
 date: 03/07/2020
+task: Text Classification
+edition: Spark NLP 2.5.3
 tags: [classifier]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -27,7 +30,7 @@ Determine if news articles are Real or Fake.
 ## How to use 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 documentAssembler = DocumentAssembler()\
@@ -59,6 +62,15 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_fakenew
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
 val result = pipeline.fit(Seq.empty["Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton"].toDS.toDF("text")).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton"""]
+fake_df = nlu.load('classify.fakenews.use').predict(text, output_level='document')
+fake_df[["document", "fakenews"]]
 ```
 
 </div>

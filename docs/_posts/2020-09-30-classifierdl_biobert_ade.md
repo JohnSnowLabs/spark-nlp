@@ -4,9 +4,13 @@ title: Classifier for Adverse Drug Events
 author: John Snow Labs
 name: classifierdl_ade_biobert
 date: 2020-09-30
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.6.2
 tags: [classifier, en, clinical, licensed]
+supported: true
 article_header:
-type: cover
+  type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

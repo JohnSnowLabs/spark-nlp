@@ -4,7 +4,11 @@ title: Japanese Word Segmentation
 author: John Snow Labs
 name: wordseg_gsd_ud
 date: 2021-01-03
+task: Word Segmentation
+language: ja
+edition: Spark NLP 2.7.0
 tags: [word_segmentation, ja, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -29,39 +33,39 @@ References:
 Use as part of an nlp pipeline as a substitute of the Tokenizer stage.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
+...
 word_segmenter = WordSegmenterModel.pretrained('wordseg_gsd_ud', 'ja')\
         .setInputCols("document")\
-        .setOutputCol("token")
-        
+        .setOutputCol("token")     
 pipeline = Pipeline(stages=[
         document_assembler,
         word_segmenter
         ])
-
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-
 example = spark.createDataFrame(pd.DataFrame({'text': ["""清代は湖北省が置かれ、そのまま現代の行政区分になっている。"""]}))
-
 result = model.transform(example)
 ```
+
 ```scala
-
 ...
-
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
         .setInputCols("document")
         .setOutputCol("token")
-
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-
 val result = pipeline.fit(Seq.empty["清代は湖北省が置かれ、そのまま現代の行政区分になっている。"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""清代は湖北省が置かれ、そのまま現代の行政区分になっている。"""]
+token_df = nlu.load('ja.segment_words').predict(text, output_level='token')
+token_df
+```
+
 </div>
 
 ## Results

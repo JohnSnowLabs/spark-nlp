@@ -10,7 +10,7 @@ body {
 	font-size: 16px;
 	line-height: 24px;
 	color: $color-darkblue;
-	height: auto;
+	height: 100%;
 	overflow-x: hidden;
 	font-family: 'Roboto', sans-serif;
 }
@@ -280,7 +280,7 @@ h2.h2_doc {
 
 .article__header--overlay {
 	.hero.hero--center {
-		background: url('../../assets/images/bg_hero.png') 0 0 no-repeat;
+		background: #20a5df url('../../assets/images/bg_hero.png') 0 0 no-repeat;
 		background-size: cover;
 		padding-top: 151px;
 		p.overlay__excerpt {
@@ -755,6 +755,7 @@ ul.list1 {
 
 .page__main-inner {
 	min-height: calc(100vh - 70px);
+	height: 100%;
 }
 
 .layout--page--sidebar {	 
@@ -776,7 +777,8 @@ ul.list1 {
 	}
 }
 .article__header {
-	margin-top: 54px;
+	margin-top: 0;
+	padding: 54px 5px 0;
 	position: relative;
 	header,
 	h1 {
@@ -1065,6 +1067,89 @@ ul.list1 {
 	}
 }
 
+.subtitle {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 800;
+	font-size: 20px;
+	padding: 0 10px;
+	line-height: 26px;
+	color: #536B76;
+	margin-bottom: 56px;
+	strong {
+		font-weight: normal;
+		color: #1E77B7;
+	}
+	img {
+		width: 18px !important;
+		display: inline-block !important;
+		margin: 0 8px !important;
+	}
+}
+
+.demopage {
+	min-height: 1010px;
+	position: relative;
+}
+
+.demopage_content {
+	padding-left: 250px;
+}
+
+.demopage-sidemenu {
+	height: calc(100% + 20px);
+	position: absolute;
+	left: 0;
+	background: #fff;
+	top: -20px;
+	z-index: 8;	
+	transition: all 300ms ease;
+	width: 250px;
+	padding: 64px 28px 0 37px;
+	&:before {
+		content: '';
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 15px;
+		background: #F5F5F5;
+		display: block;
+	}
+}
+
+.sidemenu {
+	list-style-type: none;
+	margin: 0;
+	li {
+		padding: 3px 0;
+		strong {
+			display: block;
+			padding: 10px 0;
+			font-weight: bold;
+			font-size: 16px;
+			line-height: 19px;
+			color: #1E77B7;			
+		}
+		&.active a {
+			color: #ff8a00 !important;
+			font-weight: bold;
+		}
+		a {
+			font-size: 14px;
+			font-weight: normal;
+			line-height: 16px;
+			color: #536B76 !important;			
+			transition: all 300ms ease;
+			&:hover {
+				text-decoration: none !important;
+				color: #ff8a00 !important;
+			}
+		}
+	}
+}
+
+
+
 /****Footer****/
 
 .page__footer {
@@ -1082,10 +1167,6 @@ ul.list1 {
 			a {
 				font-weight: normal;
 				color:$color-lightblue;
-				-webkit-transition: all 300ms ease;
-				-moz-transition: all 300ms ease;
-				-ms-transition: all 300ms ease;
-				-o-transition: all 300ms ease;
 				transition: all 300ms ease;
 				&:hover {
 					color: $color-orange !important;
@@ -1195,6 +1276,14 @@ ul.list1 {
 			a {
 				min-width: 20px;
 				width: 100%;
+				&.button--blue_btn {
+					background: #0098DA;
+					border-color: #0098da;
+					&:hover {
+						background: #FF8A00;
+						border-color: #FF8A00;
+					}
+				}
 			}
 		}
 	}	
@@ -1257,6 +1346,14 @@ ul.list1 {
 	&:hover {
 		background:$color-lightblue;
 		padding: 5px 15px 30px;
+		.tab-menu li a.button--blue_btn {
+			background: #FF8A00;
+			border-color: #FF8A00;
+			&:hover {
+				background: #1E77B7;
+				border-color: #1E77B7;
+			}
+		}
 		.tab_fig_white {
 			display: inline-block;
 		}
@@ -1347,6 +1444,7 @@ ul.list1 {
 
 .page__content {
 	flex: 1 1 auto;
+	position: relative;
 }
 
 .tab-wrapper-inner {
@@ -2032,7 +2130,10 @@ code {
 				width: 50%;
 			}
 		}
-	}	
+	}
+	.demopage .main-big {
+		width: 100% !important;
+	}
 }
 
 @media (max-width: 1400px) {
@@ -2241,7 +2342,21 @@ code {
 @media (max-width: 1023px) {
 	.show-sidebar .page__mask {
 		opacity: 0.5;
-	}		
+	}
+	.demopage-sidemenu {		
+		left: auto;
+		right: -250px;
+		&:before {
+			right: auto;
+			left: 0;
+		}
+		&.open {
+			right: 0;
+		}
+	}
+	.demopage_content {
+		padding-left: 0;
+	}
 	.layout--page--sidebar {		
 		.page__content,
 		header.header {
@@ -2339,10 +2454,6 @@ code {
 		height: calc(100vh - 70px);
 		width: 50%;
 		background: #fff;
-		-webkit-transition: all 300ms ease;
-		-moz-transition: all 300ms ease;
-		-ms-transition: all 300ms ease;
-		-o-transition: all 300ms ease;
 		transition: all 300ms ease;
 		z-index: 6;
 		top: 70px;

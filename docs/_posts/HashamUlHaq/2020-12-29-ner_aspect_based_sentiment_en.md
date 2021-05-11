@@ -4,7 +4,11 @@ title: Aspect based Sentiment Analysis for restaurant reviews
 author: John Snow Labs
 name: ner_aspect_based_sentiment
 date: 2020-12-29
+task: Named Entity Recognition
+language: en
+edition: Spark NLP 2.6.2
 tags: [sentiment, open_source, en, ner]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,7 +32,7 @@ Automatically detect positive, negative and neutral aspects about restaurants fr
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, NerDLModel. Add the NerConverter to the end of the pipeline to convert entity tokens into full entity chunks.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
@@ -54,6 +58,16 @@ val ner_model = NerDLModel.pretrained("ner_aspect_based_sentiment")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner_model, ner_converter))
 val result = pipeline.fit(Seq.empty["Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+text = ["""Came for lunch my sister. We loved our Thai-style main which amazing with lots of flavours very impressive for vegetarian. But the service was below average and the chips were too terrible to finish."""]
+
+ner_df = nlu.load('en.ner.aspect_sentiment').predict(text, output_level='token')
+list(zip(ner_df["entities"].values[0], ner_df["entities_confidence"].values[0])
+```
+
 </div>
 
 ## Results

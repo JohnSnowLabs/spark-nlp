@@ -35,7 +35,7 @@ conda config --set anaconda_upload no
 Build `spark-nlp` from the latest PyPI tar:
 
 ```bash
-conda build . --python=3.6 && conda build . --python=3.7
+conda build . --python=3.6 && conda build . --python=3.7 && conda build . --python=3.8
 ```
 
 Example of uploading Conda package to Anaconda Cloud:
@@ -59,10 +59,6 @@ conda install -c johnsnowlabs spark-nlp
 ## Project's website
 
 Take a look at our official spark-nlp page: [http://nlp.johnsnowlabs.com/](http://nlp.johnsnowlabs.com/) for user documentation and examples
-
-## Slack community channel
-
-[Join Slack](https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLTM4ZDliMjU5OWZmMDE1ZGVkMjg0MWFjMjU3NjY4YThlMTJkNmNjNjM3NTMwYzlhMWY4MGMzODI2NDBkOWU4ZDE)
 
 ## License
 

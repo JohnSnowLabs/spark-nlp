@@ -4,9 +4,13 @@ title: Detect Relations Between Genes and Phenotypes
 author: John Snow Labs
 name: re_human_phenotype_gene_clinical
 date: 2020-09-30
+task: Relation Extraction
+language: en
+edition: Spark NLP for Healthcare 2.6.0
 tags: [re, en, licensed, clinical]
+supported: true
 article_header:
-type: cover
+    type: cover
 use_language_switcher: "Python"
 ---
 

@@ -4,7 +4,11 @@ title: Named Entity Recognition for Korean (GloVe 840B 300d)
 author: John Snow Labs
 name: ner_kmou_glove_840B_300d
 date: 2021-01-03
+task: Named Entity Recognition
+language: ko
+edition: Spark NLP 2.7.0
 tags: [ko, ner, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,7 +32,7 @@ Dates-`DT`, Locations-`LC`, Organizations-`OG`, Persons-`PS`, Time-`TI`.
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")\
@@ -61,6 +65,15 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val result = pipeline.fit(Seq.empty["라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미"].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미"]
+ner_df = nlu.load('ko.ner').predict(text)
+ner_df
+```
+
 </div>
 
 ## Results
@@ -69,18 +82,9 @@ val result = pipeline.fit(Seq.empty["라이프니츠 의 주도 로 베를린 �
 +------------+----+
 |token       |ner |
 +------------+----+
-|라이프니츠  |B-PS|
-|의          |O   |
-|주도        |O   |
-|로          |O   |
-|베를린      |O   |
-|에          |O   |
-|세우        |O   |
-|어          |O   |
-|지          |O   |
-|ㄴ          |O   |
+|라이프니츠   |B-PS|
 |베를린      |B-OG|
-|과학아카데미|I-OG|
+|과학아카데미  |I-OG|
 +------------+----+
 ```
 

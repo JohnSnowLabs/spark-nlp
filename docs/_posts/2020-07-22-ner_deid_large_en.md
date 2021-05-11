@@ -1,13 +1,16 @@
 ---
 layout: model
-title: Detect PHI information (Deidentification)
+title: Detect PHI (Deidentification)
 author: John Snow Labs
 name: ner_deid_large
 class: NerDLModel
 language: en
 repository: clinical/models
 date: 2020-07-22
+task: Named Entity Recognition
+edition: Spark NLP for Healthcare 2.4.2
 tags: [clinical,licensed,ner,deidentify,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -42,7 +42,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   *
   **/
 class MultiClassifierDLModel(override val uid: String)
-  extends AnnotatorModel[MultiClassifierDLModel]
+  extends AnnotatorModel[MultiClassifierDLModel] with HasSimpleAnnotate[MultiClassifierDLModel]
     with WriteTensorflowModel
     with HasStorageRef
     with ParamsAndFeaturesWritable {

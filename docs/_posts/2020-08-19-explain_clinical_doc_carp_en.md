@@ -4,7 +4,11 @@ title: Explain Document Pipeline - CARP
 author: John Snow Labs
 name: explain_clinical_doc_carp
 date: 2020-08-19
+task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
+language: en
+edition: Spark NLP for Healthcare 2.5.5
 tags: [pipeline, en, clinical, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

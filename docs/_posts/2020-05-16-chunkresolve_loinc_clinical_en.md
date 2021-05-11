@@ -7,7 +7,10 @@ class: ChunkEntityResolverModel
 language: en
 repository: clinical/models
 date: 2020-05-16
+task: Entity Resolution
+edition: Spark NLP for Healthcare 2.5.0
 tags: [clinical,licensed,entity_resolution,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

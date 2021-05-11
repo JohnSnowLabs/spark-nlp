@@ -4,7 +4,11 @@ title: Ner DL Model Clinical
 author: John Snow Labs
 name: ner_clinical
 date: 2020-11-05
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.2
 tags: [en, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

@@ -4,7 +4,11 @@ title: Fast and Accurate Language Identification - 21 Languages (CNN)
 author: John Snow Labs
 name: ld_wiki_tatoeba_cnn_21
 date: 2020-12-05
+task: Language Detection
+language: xx
+edition: Spark NLP 2.7.0
 tags: [open_source, language_detection, xx]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -32,7 +36,7 @@ This model can detect the following languages:
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
 language_detector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_21", "xx")\
@@ -50,6 +54,16 @@ val languageDetector = LanguageDetectorDL.pretrained("ld_wiki_tatoeba_cnn_21", "
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, languageDetector))
 val result = pipeline.fit(Seq.empty["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala."]
+lang_df = nlu.load('xx.classify.wiki_21').predict(text, output_level='sentence')
+lang_df
+```
+
 </div>
 
 ## Results

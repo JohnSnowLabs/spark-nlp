@@ -1108,6 +1108,118 @@ data.select("image").show()
 
 </div>
 
+### GPUImageTransformer
+
+`GPUImageTransformer` allows to run image pre-processing operations on GPU.
+
+It supports following operations:
+- Scaling
+- Otsu thresholding
+- Huang thresholding
+- Erosion
+- Dilation
+
+`GPUImageTransformer` allows to add few operations. For add  operations need to call
+one of the methods with params:
+
+{:.table-model-big}
+| Method name | Params  | Description |
+|addScalingTransform| factor| Scale image by scaling factor. |
+|addOtsuTransform| | The automatic thresholder utilizes the Otsu threshold method. |
+|addHuangTransform| | The automatic thresholder utilizes the Huang threshold method. |
+|addDilateTransform| width, height | Computes the local maximum of a pixels rectangular neighborhood. The rectangles size is specified by its half-width and half-height. |
+|addErodeTransform| width, height | Computes the local minimum of a pixels rectangular neighborhood. The rectangles size is specified by its half-width and half-height|
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+##### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| imageType | [ImageType](ocr_structures#imagetype) | `ImageType.TYPE_BYTE_BINARY` | Type of the output image |
+| gpuName   | string  | "" | GPU device name.|
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | transformed_image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.GPUImageTransformer
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new GPUImageTransformer()
+  .setInputCol("image")
+  .setOutputCol("transformed_image")
+  .addHuangTransform()
+  .addScalingTransform(3)
+  .addDilateTransform(2, 2)
+  .setImageType(ImageType.TYPE_BYTE_BINARY)
+
+val data = transformer.transform(df)
+
+data.storeImage("transformed_image")
+```
+
+```python
+from sparkocr.transformers import *
+from sparkocr.enums import ImageType
+from sparkocr.utils import display_images
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+  .format("binaryFile") \
+  .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+transformer = GPUImageTransformer() \
+  .setInputCol("image") \
+  .setOutputCol("transformed_image") \
+  .addHuangTransform() \
+  .addScalingTransform(3) \
+  .addDilateTransform(2, 2) \
+  .setImageType(ImageType.TYPE_BYTE_BINARY)
+
+pipeline = PipelineModel(stages=[
+            binary_to_image,
+            transformer
+        ])
+
+result = pipeline.transform(df)
+
+display_images(result, "transformed_image")
+```
+
+</div>
+
 ### ImageBinarizer
 
 `ImageBinarizer` transforms image to binary color schema by threshold.
@@ -2357,11 +2469,15 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | pageSegMode | [PageSegmentationMode](ocr_structures#pagesegmentationmode) | AUTO | page segmentation mode |
 | pageIteratorLevel | [PageIteratorLevel](ocr_structures#pageiteratorlevel) | BLOCK | page iteration level |
 | ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY| OCR engine mode |
-| language | string | eng | language |
+| language | [Language](ocr_structures#language) | Language.ENG | language |
 | confidenceThreshold | int | 0 | Confidence threshold. |
 | ignoreResolution | bool | true | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 | pdfCoordinates | bool | false | Transform coordinates in positions to PDF points. |
+| modelData | string | | Path to the local model data. |
+| modelType | [ModelType](ocr_structures#modeltype) | ModelType.BASE | Model type|
+| downloadModelData | bool | false | Download model data from JSL S3 |
+| withSpaces | bool | false | Include spaces to output positions.|
 
 #### Output Columns
 
@@ -2369,7 +2485,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | text | Recognized text |
-| positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) | 
+| positionsCol| string| positions | Positions of each block of text (related to `pageIteratorLevel`) in [PageMatrix](ocr_structures#pagematrix) | 
 
 **Example:**
 
@@ -3169,4 +3285,129 @@ Output:
     "additional_assays" : [ "Tumor Mutation  Burden  (TMB)", "Microsatellite  Status  (MS)" ]
   }
 }
+```
+
+### VisualDocumentClassifier
+
+`VisualDocumentClassifier` is a DL model for classification documents using text and layout data.
+Currently available pretrained model on the Tabacco3482 dataset.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document |
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| maxSentenceLength | int | 128 | Maximum sentence length. |
+| caseSensitive | boolean | false | Determines whether model is case sensitive. |
+| confidenceThreshold | float | 0f| Confidence threshold. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| labelCol | string | label | Name of output column with the predicted label. |
+| confidenceCol | string | confidence | Name of output column with confidence. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val visualDocumentClassifier = VisualDocumentClassifier
+  .pretrained("visual_document_classifier_tobacco3482", "en", "clinical/ocr")
+  .setMaxSentenceLength(128)
+  .setInputCol("hocr")
+  .setLabelCol("label")
+  .setConfidenceCol("conf")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  visualDocumentClassifier
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("label").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+document_classifier = VisualDocumentClassifier() \
+  .pretrained("visual_document_classifier_tobacco3482", "en", "clinical/ocr") \
+  .setMaxSentenceLength(128) \
+  .setInputCol("hocr") \
+  .setLabelCol("label") \
+  .setConfidenceCol("conf")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    document_classifier,
+    
+])
+
+result = pipeline.transform(df)
+result.select("label").show()
+```
+
+</div>
+
+Output:
+
+```
++------+
+| label|
++------+
+|Letter|
++------+
+
 ```

@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.ml.crf.{FbCalculator, LinearChainCrfModel}
@@ -11,79 +28,81 @@ import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.Dataset
 
+import scala.collection.Map
+
 
 /**
-  * Algorithm for training Named Entity Recognition Model
-  *
-  * This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
-  * Optionally the user can provide an entity dictionary file for better accuracy
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf]] for further reference on this API.
-  */
-class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasStorageRef {
+ * Algorithm for training Named Entity Recognition Model
+ *
+ * This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning algorithm. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
+ * Optionally the user can provide an entity dictionary file for better accuracy
+ *
+ * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf]] for further reference on this API.
+ */
+class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] with HasSimpleAnnotate[NerCrfModel] with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("NER"))
 
   /** List of Entities to recognize
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   **/
   val entities = new StringArrayParam(this, "entities", "List of Entities to recognize")
   /** crfModel
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   **/
   val model: StructFeature[LinearChainCrfModel] = new StructFeature[LinearChainCrfModel](this, "crfModel")
   /** dictionaryFeatures
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   **/
   val dictionaryFeatures: MapFeature[String, String] = new MapFeature[String, String](this, "dictionaryFeatures")
   /** whether or not to calculate prediction confidence by token, includes in metadata
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   **/
   val includeConfidence = new BooleanParam(this, "includeConfidence", "whether or not to calculate prediction confidence by token, includes in metadata")
 
   /** A  LinearChainCrfModel
-    *
-    * @group setParam
-    **/
+   *
+   * @group setParam
+   **/
   def setModel(crf: LinearChainCrfModel): NerCrfModel = set(model, crf)
 
   /** DictionaryFeatures
-    *
-    * @group setParam
-    **/
+   *
+   * @group setParam
+   **/
   def setDictionaryFeatures(dictFeatures: DictionaryFeatures): this.type = set(dictionaryFeatures, dictFeatures.dict)
 
   /** Entities to detect
-    *
-    * @group setParam
-    **/
+   *
+   * @group setParam
+   **/
   def setEntities(toExtract: Array[String]): NerCrfModel = set(entities, toExtract)
 
   /** Whether or not to calculate prediction confidence by token, includes in metadata
-    *
-    * @group setParam
-    **/
+   *
+   * @group setParam
+   **/
   def setIncludeConfidence(c: Boolean): this.type = set(includeConfidence, c)
 
   /** Whether or not to calculate prediction confidence by token, includes in metadata
-    *
-    * @group getParam
-    **/
+   *
+   * @group getParam
+   **/
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
   setDefault(dictionaryFeatures, () => Map.empty[String, String])
   setDefault(includeConfidence, false)
 
   /**
-    * Predicts Named Entities in input sentences
-    *
-    * @param sentences POS tagged sentences.
-    * @return sentences with recognized Named Entities
-    */
+   * Predicts Named Entities in input sentences
+   *
+   * @param sentences POS tagged and WordpieceEmbeddings sentences
+   * @return sentences with recognized Named Entities
+   */
   def tag(sentences: Seq[(PosTaggedSentence, WordpieceEmbeddingsSentence)]): Seq[NerTaggedSentence] = {
     require(model.isSet, "model must be set before tagging")
 
@@ -108,15 +127,17 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
           val label = crf.metadata.labels(labelId)
 
           val alpha = if ($(includeConfidence)) {
-            Some(confidenceValues.apply(idx).max)
+            val scores = Some(confidenceValues.apply(idx))
+            Some(crf.metadata.labels
+              .zipWithIndex
+              .filter(x=> x._2 != 0)
+              .map {case (t, i) => Map(t -> scores.getOrElse(Array.empty[String]).lift(i).getOrElse(0.0f).toString)})
           } else None
 
-          if (!isDefined(entities) || $(entities).isEmpty || $(entities).contains(label)) {
+          if (!isDefined(entities) || $(entities).isEmpty || $(entities).contains(label))
             Some(IndexedTaggedWord(word.word, label, word.begin, word.end, alpha))
-          }
-          else {
+          else
             None
-          }
         }
 
       TaggedSentence(words)
@@ -137,14 +158,14 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
 
   def shrink(minW: Float): NerCrfModel = set(model, $$(model).shrink(minW))
 
-  override val inputAnnotatorTypes = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS)
 
   override val outputAnnotatorType: AnnotatorType = NAMED_ENTITY
 
 }
 
 trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] with HasPretrained[NerCrfModel] {
-  override val defaultModelName = Some("ner_crf")
+  override val defaultModelName: Option[String] = Some("ner_crf")
   /** Java compliant-overrides */
   override def pretrained(): NerCrfModel = super.pretrained()
   override def pretrained(name: String): NerCrfModel = super.pretrained(name)

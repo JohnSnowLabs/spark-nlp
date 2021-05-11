@@ -4,7 +4,11 @@ title: Detect Clinical Entities (jsl_ner_wip_clinical)
 author: John Snow Labs
 name: jsl_ner_wip_clinical
 date: 2021-01-18
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.0
 tags: [ner, en, clinical, licensed]
+supported: true
 article_header:
     type: cover
 use_language_switcher: "Python-Scala-Java"

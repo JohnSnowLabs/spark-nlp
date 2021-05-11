@@ -4,7 +4,11 @@ title: Detect Drugs - Generalized Single Entity (ner_drugs_greedy)
 author: John Snow Labs
 name: ner_drugs_greedy
 date: 2020-12-14
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.5
 tags: [ner, licensed, en, clinical]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

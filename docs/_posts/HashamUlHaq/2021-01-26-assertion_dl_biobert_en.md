@@ -1,10 +1,14 @@
 ---
 layout: model
-title: Detect Assertion Status (assertion_dl_biobert) - supports confidence scores.
+title: Detect Assertion Status (assertion_dl_biobert) - supports confidence scores
 author: John Snow Labs
 name: assertion_dl_biobert
 date: 2021-01-26
+task: Assertion Status
+language: en
+edition: Spark NLP for Healthcare 2.7.2
 tags: [assertion, en, licensed, clinical]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

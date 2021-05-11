@@ -4,9 +4,13 @@ title: Detect Temporal Relations for Clinical Events
 author: John Snow Labs
 name: re_temporal_events_clinical
 date: 2020-09-28
+task: Relation Extraction
+language: en
+edition: Spark NLP for Healthcare 2.6.0
 tags: [re, en, clinical, licensed]
+supported: true
 article_header:
-type: cover
+    type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
  

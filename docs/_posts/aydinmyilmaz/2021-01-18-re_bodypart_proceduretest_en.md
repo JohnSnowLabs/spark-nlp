@@ -4,7 +4,11 @@ title: Relation extraction between body parts and procedures
 author: John Snow Labs
 name: re_bodypart_proceduretest
 date: 2021-01-18
+task: Relation Extraction
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, relation_extraction, clinical, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,7 +37,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 ```python
 
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -52,6 +56,24 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 annotations = light_pipeline.fullAnnotate(''''TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.'''')
 ```
 
+```scala
+...
+val ner_tagger = sparknlp.annotators.NerDLModel().pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
+    .setInputCols("sentences", "tokens", "embeddings")
+    .setOutputCol("ner_tags") 
+
+val re_model = RelationExtractionModel().pretrained("re_bodypart_proceduretest", "en", 'clinical/models')
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(4) #default: 0
+    .setPredictionThreshold(0.9) #default: 0.5
+    .setRelationPairs(Array("external_body_part_or_region-test")) # Possible relation pairs. Default: All Relations.
+
+val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, words_embedder, pos_tagger,  clinical_ner_tagger,ner_chunker, dependency_parser,re_model))
+val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+
+val annotations = light_pipeline.fullAnnotate(''''TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.'''')
+```
 
 </div>
 

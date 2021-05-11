@@ -4,7 +4,11 @@ title: Named Entity Recognition for Chinese (BERT-MSRA Dataset)
 author: John Snow Labs
 name: ner_msra_bert_768d
 date: 2021-01-03
+task: Named Entity Recognition
+language: zh
+edition: Spark NLP 2.7.0
 tags: [zh, cn, ner, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,7 +32,7 @@ Persons-`PER`, Locations-`LOC`, Organizations-`ORG`.
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -62,6 +66,15 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 val result = pipeline.fit(Seq.empty["马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。"].toDS.toDF("text")).transform(data)
 ```
 
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。"""]
+ner_df = nlu.load('zh.ner.msra.bert_768D').predict(text, output_level='token')
+ner_df
+```
+
 </div>
 
 ## Results
@@ -71,17 +84,11 @@ val result = pipeline.fit(Seq.empty["马云在浙江省杭州市出生，是阿�
 |token       |ner|
 +------------+---+
 |马云        |PER|
-|在          |O  |
 |浙江省      |LOC|
 |杭州市      |LOC|
 |出生        |ORG|
-|，          |O  |
-|是          |O  |
 |阿里巴巴集团|ORG|
-|的          |O  |
-|主要        |O  |
 |创始人      |PER|
-|。          |O  |
 +------------+---+
 ```
 

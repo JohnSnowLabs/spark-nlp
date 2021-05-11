@@ -175,23 +175,27 @@ class ChunkTokenizerTestSpec(unittest.TestCase):
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = SparkContextForTest.data
+        self.session = SparkContextForTest.spark
+        # self.data = SparkContextForTest.data
 
     def runTest(self):
+        data = self.session.createDataFrame([("this is some/text I wrote",)], ["text"])
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token")
-        lemmatizer = Normalizer() \
+        normalizer = Normalizer() \
             .setInputCols(["token"]) \
-            .setOutputCol("normalized_token") \
-            .setLowercase(False)
+            .setOutputCol("normalized") \
+            .setLowercase(False) \
+            .setMinLength(4) \
+            .setMaxLength(10)
 
-        assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.fit(assembled).transform(assembled)
-        lemmatizer.transform(tokenized).show()
+        assembled = document_assembler.transform(data)
+        tokens = tokenizer.fit(assembled).transform(assembled)
+        normalizer.fit(tokens).transform(tokens).show()
 
 
 class DateMatcherTestSpec(unittest.TestCase):
@@ -1408,7 +1412,7 @@ class WordSegmenterTestSpec(unittest.TestCase):
         ])
 
         model = pipeline.fit(self.train)
-        model.transform(self.data).show(truncate=False)                                   
+        model.transform(self.data).show(truncate=False)
 
 class LanguageDetectorDLTestSpec(unittest.TestCase):
 
@@ -1422,7 +1426,7 @@ class LanguageDetectorDLTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        
+
         sentence_detector = SentenceDetectorDLModel.pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
@@ -1500,7 +1504,7 @@ class T5TransformerSummaryTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        t5 = T5Transformer.pretrained()\
+        t5 = T5Transformer.pretrained() \
             .setTask("summarize:") \
             .setMaxOutputLength(200) \
             .setInputCols(["documents"]) \
@@ -1511,3 +1515,188 @@ class T5TransformerSummaryTestSpec(unittest.TestCase):
 
         results.select("summaries.result").show(truncate=False)
 
+
+class T5TransformerSummaryWithSamplingTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries")
+
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setTopK(0)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setTopK(50) \
+            .setTemperature(0.7)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setTopK(0) \
+            .setTopP(0.7)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setRepetitionPenalty(2)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)

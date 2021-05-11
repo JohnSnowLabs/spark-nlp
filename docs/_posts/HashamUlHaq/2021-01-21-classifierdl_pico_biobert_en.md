@@ -1,10 +1,14 @@
 ---
 layout: model
-title: PICO Classifier - SparkNLP 2.7.1+
+title: PICO Classifier
 author: John Snow Labs
 name: classifierdl_pico_biobert
 date: 2021-01-21
+task: Text Classification
+language: en
+edition: Spark NLP for Healthcare 2.7.1
 tags: [en, licensed, clinical, classifier]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -51,7 +55,6 @@ nlp_pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, sente
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = light_pipeline.fullAnnotate(["""A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.""", """When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced."""])
-
 ```
 
 </div>

@@ -4,9 +4,13 @@ title: Part of Speech for Hindi
 author: John Snow Labs
 name: pos_ud_hdtb
 date: 2020-07-29 23:34:00 +0800
+task: Part of Speech Tagging
+language: hi
+edition: Spark NLP 2.5.5
 tags: [pos, hi]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -24,7 +28,7 @@ This model annotates the part of speech of tokens in a text. The [parts of speec
 
 <div class="tabs-box" markdown="1">
 
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 ...
@@ -44,6 +48,17 @@ val pos = PerceptronModel.pretrained("pos_ud_hdtb", "hi")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 val result = pipeline.fit(Seq.empty["उत्तर के राजा होने के अलावा, जॉन स्नो एक अंग्रेजी चिकित्सक और संज्ञाहरण और चिकित्सा स्वच्छता के विकास में अग्रणी है।"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["""उत्तर के राजा होने के अलावा, जॉन स्नो एक अंग्रेजी चिकित्सक और संज्ञाहरण और चिकित्सा स्वच्छता के विकास में अग्रणी है।"""]
+pos_df = nlu.load('hi.pos').predict(text, output_level='token')
+pos_df
+```
+
+</div>
 
 {:.h2_title}
 ## Results

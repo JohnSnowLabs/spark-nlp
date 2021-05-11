@@ -1,10 +1,14 @@
 ---
 layout: model
-title: Sentiment Analysis for Urdu (IMDB Review dataset) - Spark NLP 2.7.1+
+title: Sentiment Analysis for Urdu (IMDB Review dataset)
 author: John Snow Labs
 name: sentimentdl_urduvec_imdb
 date: 2021-01-09
+task: Sentiment Analysis
+language: ur
+edition: Spark NLP 2.7.1
 tags: [ur, open_source, sentiment]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,7 +32,7 @@ Analyse sentiment in reviews by classifying them as `positive`, `negative` or `n
 Use as part of an nlp pipeline with the following stages: DocumentAssembler, SentenceDetector, Tokenizer, WordEmbeddingsModel, SentenceEmbeddings.
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -61,6 +65,15 @@ light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).to
 
 annotations = light_pipeline.fullAnnotate(["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ",
                                                                           "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"])
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["مجھے واقعی یہ شو سند ہے۔ یہی وجہ ہے کہ مجھے حال ہی میں یہ جان کر مایوسی ہوئی ہے کہ جارج لوپیز ایک ", "بالکل بھی اچھ ،ی کام نہیں کیا گیا ، پوری فلم صرف گرڈج تھی اور کہیں بھی بے ترتیب لوگوں کو ہلاک نہیں"]
+urdusent_df = nlu.load('ur.sentiment').predict(text, output_level='sentence')
+urdusent_df
 ```
 
 </div>

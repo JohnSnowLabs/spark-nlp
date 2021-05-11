@@ -8,7 +8,10 @@ reference embedding: healthcare_embeddings
 language: en
 repository: clinical/models
 date: 2020-09-23
+task: Assertion Status
+edition: Spark NLP for Healthcare 2.6.0
 tags: [clinical,licensed,assertion,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

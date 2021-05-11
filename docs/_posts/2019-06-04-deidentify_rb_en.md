@@ -7,7 +7,10 @@ class: DeIdentificationModel
 language: en
 repository: clinical/models
 date: 2019-06-04
+task: De-identification
+edition: Spark NLP for Healthcare 2.0.2
 tags: [clinical,licensed,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

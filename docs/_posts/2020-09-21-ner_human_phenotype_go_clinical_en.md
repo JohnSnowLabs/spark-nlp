@@ -4,9 +4,13 @@ title: Detect Normalized Genes and Human Phenotypes
 author: John Snow Labs
 name: ner_human_phenotype_go_clinical
 date: 2020-09-21
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.6.0
 tags: [ner, en, licensed, clinical]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

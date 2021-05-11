@@ -4,7 +4,11 @@ title: Sentiment Analysis of IMDB Reviews
 author: John Snow Labs
 name: sentimentdl_glove_imdb
 date: 2021-01-09
+task: Sentiment Analysis
+language: en
+edition: Spark NLP 2.7.1
 tags: [open_source, en, sentiment]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,41 +32,40 @@ Classify IMDB reviews in negative and positive categories.
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-sentencer = SentenceDetectorDLModel().pretrained("sentence_detector_dl", "en")\
-    .setInputCols("document")\
-    .setOutputCol("sentence")
-
-tokenizer = Tokenizer().setInputCols('sentence').setOutputCol('tokens')
-
-embeddings = WordEmbeddingsModel().pretrained("glove_840B_300", "xx")\
-    .setInputCols(['document','tokens']).setOutputCol('word_embeddings')
-
+...
+embeddings = WordEmbeddingsModel().pretrained("glove_100d)\
+    .setInputCols(['document','tokens'])\
+    .setOutputCol('word_embeddings')
 sentence_embeddings = SentenceEmbeddings() \
       .setInputCols(["document", "word_embeddings"]) \
       .setOutputCol("sentence_embeddings") \
       .setPoolingStrategy("AVERAGE")
-
 classifier = SentimentDLModel().pretrained('sentimentdl_glove_imdb')\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("sentiment")
-
-nlp_pipeline = Pipeline(stages=[document_assembler, 
-                                sentencer, tokenizer,
-                                embeddings, sentence_embeddings,
-                                classifier
-                                ])
-
+nlp_pipeline = Pipeline(stages=[document_assembler, sentencer, tokenizer, embeddings, sentence_embeddings, classifier])
 l_model = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 annotations = l_model.fullAnnotate('Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!')
+```
 
+```scala
+...
+val embeddings = WordEmbeddingsModel().pretrained("glove_100d)
+    .setInputCols(Array('document','tokens'))
+    .setOutputCol('word_embeddings')
+val sentence_embeddings = SentenceEmbeddings()
+      .setInputCols(Array("document", "word_embeddings"))
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+val classifier = SentimentDLModel().pretrained('sentimentdl_glove_imdb')
+    .setInputCols(Array("sentence_embeddings"))
+    .setOutputCol("sentiment")
 
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentencer, tokenizer, embeddings, sentence_embeddings, classifier))
+val result = pipeline.fit(Seq.empty["Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!"].toDS.toDF("text")).transform(data)
 ```
 
 </div>

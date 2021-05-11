@@ -4,7 +4,11 @@ title: Translate Lingala to English Pipeline
 author: John Snow Labs
 name: translate_ln_en
 date: 2021-01-03
+task: [Translation, Pipeline Public]
+language: ln
+edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, ln, en, xx]
+supported: false
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,9 +22,9 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 
 Note that this is a very computationally expensive module especially on larger sequence. The use of an accelerator such as GPU is recommended.
 
-source languages: ln
+- source languages: `ln`
 
-target languages: en
+- target languages: `en`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -32,7 +36,7 @@ target languages: en
 
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from sparknlp.pretrained import PretrainedPipeline 
 pipeline = PretrainedPipeline("translate_ln_en", lang = "xx") 
@@ -46,6 +50,16 @@ val pipeline = new PretrainedPipeline("translate_ln_en", lang = "xx")
 
 pipeline.annotate("Your sentence to translate!")
 ```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["text to translate"]
+translate_df = nlu.load('xx.ln.translate_to.en').predict(text, output_level='sentence')
+translate_df
+```
+
 </div>
 
 {:.model-param}

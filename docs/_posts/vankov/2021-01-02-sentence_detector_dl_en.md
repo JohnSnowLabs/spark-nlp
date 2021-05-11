@@ -4,7 +4,11 @@ title: Sentence Detection in English Texts
 author: John Snow Labs
 name: sentence_detector_dl
 date: 2021-01-02
+task: Sentence Detection
+language: en
+edition: Spark NLP 2.7.0
 tags: [en, sentence_detection, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

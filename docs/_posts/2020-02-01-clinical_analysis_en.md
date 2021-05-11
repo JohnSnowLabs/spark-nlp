@@ -7,7 +7,10 @@ class: PipelineModel
 language: en
 repository: clinical/models
 date: 2020-02-01
+task: Pipeline Healthcare
+edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical,licensed,pipeline,en]
+supported: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"

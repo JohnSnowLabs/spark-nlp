@@ -4,7 +4,11 @@ title: Detect Problem, Test and Treatment Entities  (ner_clinical)
 author: John Snow Labs
 name: ner_clinical
 date: 2021-01-27
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.7.2
 tags: [en, clinical, ner, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,12 +35,9 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-
-
 clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
-
 ...
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter])
@@ -44,6 +45,19 @@ nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer,
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = model.transform(data)
+```
+
+```scala
+...
+val clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/models")
+  .setInputCols(Array("sentence", "token", "embeddings"))
+  .setOutputCol("ner")
+
+val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter))
+
+val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+
+val results = LightPipeline(model).fullAnnotate(data)
 ```
 
 </div>

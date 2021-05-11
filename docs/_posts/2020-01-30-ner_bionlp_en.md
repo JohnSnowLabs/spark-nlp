@@ -4,9 +4,13 @@ title: Detect Cancer Genetics
 author: John Snow Labs
 name: ner_bionlp_en
 date: 2020-01-30
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 2.4.0
 tags: [clinical, licensed, ner, en]
+supported: true
 article_header:
-type: cover
+   type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 

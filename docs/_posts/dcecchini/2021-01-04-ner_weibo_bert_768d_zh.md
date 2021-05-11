@@ -4,7 +4,11 @@ title: Named Entity Recognition for Chinese (BERT-Weibo Dataset)
 author: John Snow Labs
 name: ner_weibo_bert_768d
 date: 2021-01-04
+task: Named Entity Recognition
+language: zh
+edition: Spark NLP 2.7.0
 tags: [zh, ner, open_source]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,7 +40,7 @@ This model uses the pre-trained `bert_base_chinese` embeddings model from `BertE
 ## How to use
 
 <div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPython.html %}
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
 word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")\
@@ -53,6 +57,7 @@ pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmente
 example = spark.createDataFrame(pd.DataFrame({'text': ["""张三去中国山东省泰安市爬中国五岳的泰山了"""]}))
 result = pipeline.fit(example).transform(example)
 ```
+
 ```scala
 ...
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
@@ -68,6 +73,16 @@ val ner = NerDLModel.pretrained("ner_weibo_bert_768d", "zh")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner))
 val result = pipeline.fit(Seq.empty["张三去中国山东省泰安市爬中国五岳的泰山了"].toDS.toDF("text")).transform(data)
 ```
+
+{:.nlu-block}
+```python
+import nlu
+text = ["张三去中国山东省泰安市爬中国五岳的泰山了"]
+
+ner_df = nlu.load('zh.ner.weibo.bert_768d').predict(text)
+ner_df
+```
+
 </div>
 
 ## Results
@@ -77,15 +92,10 @@ val result = pipeline.fit(Seq.empty["张三去中国山东省泰安市爬中国�
 |token   |ner    |
 +--------+-------+
 |张三    |PER.NAM|
-|去      |O      |
 |中国    |GPE.NAM|
 |山东省  |GPE.NAM|
-|泰安市  |O      |
-|爬      |O      |
 |中国五岳|GPE.NAM|
-|的      |O      |
 |泰山    |GPE.NAM|
-|了      |O      |
 +--------+-------+
 ```
 

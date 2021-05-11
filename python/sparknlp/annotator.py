@@ -1,6 +1,17 @@
-##
-# Prototyping for py4j to pipeline from Python
-##
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 
 import sys
 from sparknlp.common import *
@@ -531,13 +542,24 @@ class Normalizer(AnnotatorApproach):
                             "slang dictionary is a delimited text. needs 'delimiter' in options",
                             typeConverter=TypeConverters.identity)
 
+    minLength = Param(Params._dummy(),
+                      "minLength",
+                      "Set the minimum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
+    maxLength = Param(Params._dummy(),
+                      "maxLength",
+                      "Set the maximum allowed legth for each token",
+                      typeConverter=TypeConverters.toInt)
+
     @keyword_only
     def __init__(self):
         super(Normalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Normalizer")
         self._setDefault(
             cleanupPatterns=["[^\\pL+]"],
             lowercase=False,
-            slangMatchCase=False
+            slangMatchCase=False,
+            minLength=0
         )
 
     def setCleanupPatterns(self, value):
@@ -551,6 +573,12 @@ class Normalizer(AnnotatorApproach):
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
+
+    def setMinLength(self, value):
+        return self._set(minLength=value)
+
+    def setMaxLength(self, value):
+        return self._set(maxLength=value)
 
     def _create_model(self, java_model):
         return NormalizerModel(java_model=java_model)
@@ -712,7 +740,8 @@ class DateMatcherUtils(Params):
         return self._set(anchorDateYear=value)
 
     def setAnchorDateMonth(self, value):
-        return self._set(anchorDateMonth=value)
+        normalizedMonth = value - 1
+        return self._set(anchorDateMonth=normalizedMonth)
 
     def setAnchorDateDay(self, value):
         return self._set(anchorDateDay=value)
@@ -1606,7 +1635,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         )
 
 
-class NerDLModel(AnnotatorModel, HasStorageRef):
+class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
@@ -1614,7 +1643,10 @@ class NerDLModel(AnnotatorModel, HasStorageRef):
             classname=classname,
             java_model=java_model
         )
-        self._setDefault(includeConfidence=False)
+        self._setDefault(
+            includeConfidence=False,
+            batchSize=8
+        )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()", TypeConverters.toListString)
     includeConfidence = Param(Params._dummy(), "includeConfidence",
@@ -1859,7 +1891,11 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         HasStorageModel.loadStorages(path, spark, storage_ref, WordEmbeddingsModel.databases)
 
 
-class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class BertEmbeddings(AnnotatorModel,
+                     HasEmbeddingsProperties,
+                     HasCaseSensitiveProperties,
+                     HasStorageRef,
+                     HasBatchedAnnotate):
 
     name = "BertEmbeddings"
 
@@ -1867,11 +1903,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                               "maxSentenceLength",
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -1884,9 +1915,6 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):
         super(BertEmbeddings, self).__init__(
@@ -1895,7 +1923,7 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         )
         self._setDefault(
             dimension=768,
-            batchSize=32,
+            batchSize=8,
             maxSentenceLength=128,
             caseSensitive=False
         )
@@ -1913,7 +1941,11 @@ class BertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return ResourceDownloader.downloadModel(BertEmbeddings, name, lang, remote_loc)
 
 
-class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class BertSentenceEmbeddings(AnnotatorModel,
+                             HasEmbeddingsProperties,
+                             HasCaseSensitiveProperties,
+                             HasStorageRef,
+                             HasBatchedAnnotate):
 
     name = "BertSentenceEmbeddings"
 
@@ -1921,11 +1953,6 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
                               "maxSentenceLength",
                               "Max sentence length to process",
                               typeConverter=TypeConverters.toInt)
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     isLong = Param(Params._dummy(),
                    "isLong",
@@ -1943,9 +1970,6 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     def setIsLong(self, value):
         return self._set(isLong=value)
 
@@ -1957,7 +1981,7 @@ class BertSentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSen
         )
         self._setDefault(
             dimension=768,
-            batchSize=32,
+            batchSize=8,
             maxSentenceLength=128,
             caseSensitive=False
         )
@@ -3186,7 +3210,7 @@ class WordSegmenterApproach(AnnotatorApproach):
         super(WordSegmenterApproach, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach")
         self._setDefault(
-            nIterations=5, frequencyThreshold=20, ambiguityThreshold=0.97
+            nIterations=5, frequencyThreshold=5, ambiguityThreshold=0.97
         )
 
     def setPosCol(self, value):
@@ -3195,14 +3219,20 @@ class WordSegmenterApproach(AnnotatorApproach):
     def setIterations(self, value):
         return self._set(nIterations=value)
 
-    def setFrequencyThreshold(self):
-        return self.getOrDefault(self.frequencyThreshold)
+    def setFrequencyThreshold(self, value):
+        return self._set(frequencyThreshold=value)
 
-    def setAmbiguityThreshold(self):
-        return self.getOrDefault(self.ambiguityThreshold)
+    def setAmbiguityThreshold(self, value):
+        return self._set(ambiguityThreshold=value)
 
     def getNIterations(self):
         return self.getOrDefault(self.nIterations)
+
+    def getFrequencyThreshold(self):
+        return self.getOrDefault(self.frequencyThreshold)
+
+    def getAmbiguityThreshold(self):
+        return self.getOrDefault(self.ambiguityThreshold)
 
     def _create_model(self, java_model):
         return WordSegmenterModel(java_model=java_model)
@@ -3218,7 +3248,7 @@ class WordSegmenterModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="wordseg_weibo", lang="zh", remote_loc=None):
+    def pretrained(name="wordseg_pku", lang="zh", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
@@ -3234,7 +3264,14 @@ class T5Transformer(AnnotatorModel):
 
     task = Param(Params._dummy(), "task", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
 
-    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Set the maximum length of output text", typeConverter=TypeConverters.toInt)
+    minOutputLength = Param(Params._dummy(),  "minOutputLength", "Minimum length of the sequence to be generated", typeConverter=TypeConverters.toInt)
+    maxOutputLength = Param(Params._dummy(),  "maxOutputLength", "Maximum length of output text", typeConverter=TypeConverters.toInt)
+    doSample = Param(Params._dummy(), "doSample", "Whether or not to use sampling; use greedy decoding otherwise", typeConverter=TypeConverters.toBoolean)
+    temperature = Param(Params._dummy(),  "temperature", "The value used to module the next token probabilities", typeConverter=TypeConverters.toFloat)
+    topK = Param(Params._dummy(),  "topK", "The number of highest probability vocabulary tokens to keep for top-k-filtering", typeConverter=TypeConverters.toInt)
+    topP = Param(Params._dummy(),  "topP", "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation", typeConverter=TypeConverters.toFloat)
+    repetitionPenalty = Param(Params._dummy(),  "repetitionPenalty", "The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details", typeConverter=TypeConverters.toFloat)
+    noRepeatNgramSize = Param(Params._dummy(),  "noRepeatNgramSize", "If set to int > 0, all ngrams of that size can only occur once", typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
@@ -3242,8 +3279,30 @@ class T5Transformer(AnnotatorModel):
     def setTask(self, value):
         return self._set(task=value)
 
+    def setMinOutputLength(self, value):
+        return self._set(minOutputLength=value)
+
     def setMaxOutputLength(self, value):
         return self._set(maxOutputLength=value)
+
+    def setDoSample(self, value):
+        return self._set(doSample=value)
+
+    def setTemperature(self, value):
+        return self._set(temperature=value)
+
+    def setTopK(self, value):
+        return self._set(topK=value)
+
+    def setTopP(self, value):
+        return self._set(topP=value)
+
+    def setRepetitionPenalty(self, value):
+        return self._set(repetitionPenalty=value)
+
+    def setNoRepeatNgramSize(self, value):
+        return self._set(noRepeatNgramSize=value)
+
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer", java_model=None):
