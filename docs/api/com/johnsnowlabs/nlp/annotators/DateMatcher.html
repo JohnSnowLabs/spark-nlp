@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcher</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcher" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcher" />
+          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcher</title>
+          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcher" />
+          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -847,7 +847,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
 The first day of the month has value 1
 Example: 11
 By default it will use the current day
-Default: -1</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+Default: -1
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#anchorDateMonth" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="anchorDateMonth:org.apache.spark.ml.param.Param[Int]"></a><a id="anchorDateMonth:Param[Int]"></a>
       <span class="permalink">
@@ -866,7 +867,8 @@ Default: -1</p></div><dl class="attributes block"> <dt>Definition Classes</dt><d
       <p class="shortcomment cmt">Add an anchor month for the relative dates such as a day after tomorrow.</p><div class="fullcomment"><div class="comment cmt"><p>Add an anchor month for the relative dates such as a day after tomorrow.
 Month value is 1-based. e.g., 1 for January.
 By default it will use the current month
-Default: -1</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+Default: -1
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#anchorDateYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="anchorDateYear:org.apache.spark.ml.param.Param[Int]"></a><a id="anchorDateYear:Param[Int]"></a>
       <span class="permalink">
@@ -886,7 +888,8 @@ Default: -1</p></div><dl class="attributes block"> <dt>Definition Classes</dt><d
 If not set it will use the current year.
 Example: 2021
 By default it will use the current year
-Default: -1</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+Default: -1
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcher#annotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="annotate(annotations:Seq[com.johnsnowlabs.nlp.Annotation]):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="annotate(Seq[Annotation]):Seq[Annotation]"></a>
       <span class="permalink">
@@ -902,9 +905,7 @@ Default: -1</p></div><dl class="attributes block"> <dt>Definition Classes</dt><d
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">One to one relationship between content document and output annotation
-</p><div class="fullcomment"><div class="comment cmt"><p>One to one relationship between content document and output annotation
-</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>Any found date, empty if not. Final format is <a href="#dateFormat:org.apache.spark.ml.param.Param[String]" class="extmbr" name="com.johnsnowlabs.nlp.annotators.DateMatcher#dateFormat">dateFormat</a> or default yyyy/MM/dd</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a> → <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">One to one relationship between content document and output annotation</p><div class="fullcomment"><div class="comment cmt"><p>One to one relationship between content document and output annotation</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>Any found date, empty if not. Final format is <a href="#dateFormat:org.apache.spark.ml.param.Param[String]" class="extmbr" name="com.johnsnowlabs.nlp.annotators.DateMatcher#dateFormat">dateFormat</a> or default yyyy/MM/dd</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a> → <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -2755,9 +2756,11 @@ Auto completes short versions of months. Any two digit year is considered to be 
       
       <p class="shortcomment cmt">Searches for times of the day
 dateTime If any dates found previously, keep it as part of the final result
-text target document</p><div class="fullcomment"><div class="comment cmt"><p>Searches for times of the day
+text target document
+</p><div class="fullcomment"><div class="comment cmt"><p>Searches for times of the day
 dateTime If any dates found previously, keep it as part of the final result
-text target document</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a final possible date if any found</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+text target document
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a final possible date if any found</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
