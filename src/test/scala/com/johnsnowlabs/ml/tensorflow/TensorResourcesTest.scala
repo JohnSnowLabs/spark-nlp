@@ -2,12 +2,13 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.junit.Assert.{assertArrayEquals, assertEquals}
 import org.scalatest.FlatSpec
-import org.tensorflow.{Operand, Tensor}
+import org.tensorflow.Operand
 import org.tensorflow.ndarray.{FloatNdArray, IntNdArray, StdArrays}
 import org.tensorflow.op.core.Constant
 import org.tensorflow.types.{TFloat32, TInt32}
 
 class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
+
 
   "Tensor Resource" should "reverse a tensor" in {
     val matrix = StdArrays.ndCopyOf(Array[Array[Float]](Array(1.9f, 2.8f, 3.7f, 4.6f, 5.5f, 6.4f)))
@@ -16,7 +17,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
 
     val reversedTensor = TensorResources.reverseTensor(scope, tensor, 1)
 
-    val actualReverseValues = TensorResources.extractFloats(reversedTensor)
+    val actualReverseValues = TensorResources.extractFloats(reversedTensor.asTensor())
     assertArrayEquals(expectedReverseValues, actualReverseValues, 0.1f)
   }
 
@@ -28,7 +29,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
 
     val actualConcat = TensorResources.concatTensors(scope, tensors, 0)
 
-    assertArrayEquals(Array[Long](2, 5), actualConcat.shape.asArray)
+    assertArrayEquals(Array[Long](2, 5), actualConcat.asTensor().shape.asArray)
     assertEquals(expectedConcat, actualConcat.data)
   }
 
@@ -41,7 +42,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
 
     val actualConcat = TensorResources.concatTensors(scope, tensors, 0)
 
-    assertArrayEquals(Array[Long](2, 5), actualConcat.shape.asArray)
+    assertArrayEquals(Array[Long](2, 5), actualConcat.asTensor().shape.asArray)
     assertEquals(expectedConcat, actualConcat.data)
   }
 
@@ -53,7 +54,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
 
     val reshapeTensor = TensorResources.reshapeTensor(scope, tensor, shape)
 
-    assertArrayEquals(shape.map(_.toLong), reshapeTensor.shape.asArray)
+    assertArrayEquals(shape.map(_.toLong), reshapeTensor.asTensor().shape.asArray)
   }
 
 }

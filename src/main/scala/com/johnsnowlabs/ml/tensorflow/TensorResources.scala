@@ -6,7 +6,8 @@ import org.tensorflow.types.family.{TNumber, TType}
 import org.tensorflow.types._
 import org.tensorflow.{DataType, Operand, Tensor}
 import org.tensorflow.op.Scope
-import org.tensorflow.op.core.{Concat, Constant, Reshape, Reverse, Zeros}
+import org.tensorflow.op.core.{Concat, Constant, Reshape, Reverse, Slice, Zeros}
+import org.tensorflow.op.linalg.MatMul
 
 import java.lang
 import scala.collection.mutable
@@ -139,25 +140,33 @@ object TensorResources {
     buffer
   }
 
-  def reverseTensor(scope: Scope, tensor: Operand[_], dimension: Int): Tensor[_] = {
+  def reverseTensor[T <: TNumber](scope: Scope, tensor: Operand[T], dimension: Int): Operand[T] = {
     val axis = Constant.vectorOf(scope, Array[Int](dimension))
-    val reversedTensor = Reverse.create(scope, tensor, axis).asTensor
-    reversedTensor
+    Reverse.create(scope, tensor, axis)
   }
 
-  def concatTensors[T <: TNumber](scope: Scope, tensors: Array[Operand[T]], dimension: Int):
-  Tensor[_ >: TFloat32 with TInt32 <: NdArray[_ >: lang.Float with Integer] with TNumber] = {
+  def concatTensors[T <: TNumber](scope: Scope, tensors: Array[Operand[T]], dimension: Int): Operand[T] = {
     val axis: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](dimension))
     val tensorType = tensors.head.data() match {
       case floatType: TFloat32 => Concat.create(scope, tensors.asInstanceOf[Array[Operand[TFloat32]]].toList.asJava, axis)
       case intType: TInt32 => Concat.create(scope, tensors.asInstanceOf[Array[Operand[TInt32]]].toList.asJava, axis)
     }
-    tensorType.asTensor()
+    tensorType.asInstanceOf[Operand[T]]
   }
 
-  def reshapeTensor(scope: Scope, tensor: Operand[_ <: TType], shape: Array[Int]): Tensor[_ <: TType] = {
+  def reshapeTensor[T <: TNumber](scope: Scope, tensor: Operand[T], shape: Array[Int]): Operand[T] = {
     val reshapedTensor = Reshape.create(scope, tensor, Constant.vectorOf(scope, shape))
-    reshapedTensor.asTensor()
+    reshapedTensor
+  }
+
+  def sliceTensor[T <: TNumber](scope: Scope, tensor: Operand[T], begin: Array[Int], size: Array[Int]): Operand[T] = {
+    val slicedTensor = Slice.create(scope, tensor, Constant.vectorOf(scope, begin), Constant.vectorOf(scope, size))
+    slicedTensor
+  }
+
+  def matmulTensors[T <: TNumber](scope: Scope, tensorA: Operand[T], tensorB: Operand[T]): Operand[T] = {
+    val matmul = MatMul.create(scope, tensorA, tensorB)
+    matmul
   }
 
 }

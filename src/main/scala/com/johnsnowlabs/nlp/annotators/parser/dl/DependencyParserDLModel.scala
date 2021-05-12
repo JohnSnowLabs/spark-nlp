@@ -25,7 +25,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.op.Scope
 import org.tensorflow.op.core.{Constant, Slice, Zeros}
 import org.tensorflow.op.nn.BlockLSTM
-import org.tensorflow.types.{TFloat32, TInt64}
+import org.tensorflow.types.{TFloat32, TInt32, TInt64}
 import org.tensorflow.{EagerSession, Operand, SavedModelBundle, Tensor}
 
 import scala.language.postfixOps
@@ -50,12 +50,15 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     ("wfg_first_lstm", "weightForgetGate"), ("wog_first_lstm", "weightOutputGate"))
   private val nextLstmVariables =  List(("w_next_lstm", "weightMatrix"), ("wig_next_lstm", "weightInputGate"),
     ("wfg_next_lstm", "weightForgetGate"), ("wog_next_lstm", "weightOutputGate"))
+  private val headsVariables = List("hidLayerFOH", "hidLayerFOM")
 
   private lazy val weightsFirstLstm = restoreLstmWeights(firstLstmVariables)
   private lazy val weightsNextLstm = restoreLstmWeights(nextLstmVariables)
+  private lazy val weightsHead = restoreHeadsWeights(headsVariables)
 
   private val EMBEDDINGS_SIZE = 100
   private val SAMPLE_SIZE = 1
+  private var timeSteps: Int = 0
 
   /**
     * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -76,60 +79,72 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       val wordId: Int = $$(vocabulary).getOrElse(token.result, 0)
       Constant.create(scope, embeddings.lookup(embeddingsTable, Array(wordId)))
     }
-
+    timeSteps = sentenceEmbeddings.length
     val biLstmInputs = getBiLstmInput(sentenceEmbeddings)
-    computeBiLstmOutput(biLstmInputs, sentenceEmbeddings.length)
+    val biLstmOutputs = computeBiLstmOutput(biLstmInputs)
+    val resForward = biLstmOutputs(0)
+    val resBackward = biLstmOutputs(1)
+
+    val headsFeatures = (0 until timeSteps).toArray.map{ timeStep =>
+      val size = Array(1, -1)
+      val lstmForward = TensorResources.sliceTensor(scope, resForward, begin = Array(timeStep, 0), size)
+      val lstmBackward = TensorResources.sliceTensor(scope, resBackward, begin = Array(timeSteps - timeStep - 1, 0), size)
+      val concatLstm = TensorResources.concatTensors(scope, Array(lstmForward, lstmBackward), 1)
+      val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOH"))
+      val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOM"))
+      val headFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFoh)
+      val modFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFom)
+      Array(headFov, modFov)
+    }
     Seq()
   }
 
-  def getBiLstmInput(sentenceEmbeddings: Array[Operand[TFloat32]]): Array[Tensor[TFloat32]] = {
-    val timeSteps = sentenceEmbeddings.length
+  def getBiLstmInput(sentenceEmbeddings: Array[Operand[TFloat32]]): Array[Operand[TFloat32]] = {
     val reverseSentenceEmbeddings: Array[Operand[TFloat32]] = sentenceEmbeddings.map{ wordEmbeddings =>
-      Constant.create(scope, TensorResources.reverseTensor(scope, wordEmbeddings, 1).asInstanceOf[Tensor[TFloat32]])
+      TensorResources.reverseTensor(scope, wordEmbeddings, 1)
     }
     val concatSentenceEmbeddings = TensorResources.concatTensors(scope, sentenceEmbeddings, 0)
     val concatReverseSentenceEmbeddings = TensorResources.concatTensors(scope, reverseSentenceEmbeddings, 0)
 
     val shape = Array(timeSteps, SAMPLE_SIZE, EMBEDDINGS_SIZE)
 
-    val forwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatSentenceEmbeddings), shape)
-    val backwardVector = TensorResources.reshapeTensor(scope, Constant.create(scope, concatReverseSentenceEmbeddings), shape)
-    Array(forwardVector.asInstanceOf[Tensor[TFloat32]], backwardVector.asInstanceOf[Tensor[TFloat32]])
+    val forwardVector = TensorResources.reshapeTensor(scope, concatSentenceEmbeddings, shape)
+    val backwardVector = TensorResources.reshapeTensor(scope, concatReverseSentenceEmbeddings, shape)
+    Array(forwardVector, backwardVector)
   }
 
-  def computeBiLstmOutput(biLstmInputs: Array[Tensor[TFloat32]], timeSteps: Int) = {
+  private def computeBiLstmOutput(biLstmInputs: Array[Operand[TFloat32]]): Array[Operand[TFloat32]] = {
     val (blockLSTMForward, lstmDims) = getLstmOutput(biLstmInputs(0), weightsFirstLstm)
     val (blockLSTMBackward, _) = getLstmOutput(biLstmInputs(1), weightsFirstLstm)
+
+    val nextLstmInputs = computeNextLstmInput(Array(blockLSTMForward, blockLSTMBackward), lstmDims)
+
+    val (blockNextLSTMForward, _) = getLstmOutput(nextLstmInputs(0), weightsNextLstm)
+    val (blockNextLSTMBackward, _) = getLstmOutput(nextLstmInputs(1), weightsNextLstm)
+
+    Array(TensorResources.reshapeTensor(scope, blockNextLSTMForward, Array(timeSteps, lstmDims)),
+      TensorResources.reshapeTensor(scope, blockNextLSTMBackward, Array(timeSteps, lstmDims)))
+  }
+
+  private def computeNextLstmInput(lstmOutputs: Array[Operand[TFloat32]], lstmDims: Int): Array[Operand[TFloat32]] = {
+    val blockLSTMForward = lstmOutputs(0)
+    val blockLSTMBackward = lstmOutputs(1)
     val resShape = Array(SAMPLE_SIZE, timeSteps, lstmDims)
+    val resForward = TensorResources.reshapeTensor(scope, blockLSTMForward, resShape)
+    val resBackward = TensorResources.reshapeTensor(scope, blockLSTMBackward, resShape)
 
-    val resForward = TensorResources.reshapeTensor(scope, Constant.create(scope, blockLSTMForward),
-      resShape).asInstanceOf[Tensor[TFloat32]]
-    val resBackward = TensorResources.reshapeTensor(scope, Constant.create(scope, blockLSTMBackward),
-      resShape).asInstanceOf[Tensor[TFloat32]]
+    val vecShape = Array(timeSteps, SAMPLE_SIZE, -1)
+    val resTensors = Array(resForward, TensorResources.reverseTensor(scope, resBackward, 1))
+    val vecForward = TensorResources.reshapeTensor(scope,
+      TensorResources.concatTensors(scope, resTensors, 2), vecShape)
+    val vecBackward = TensorResources.reverseTensor(scope, vecForward, 0)
 
-    val indexes = (0 until resForward.shape().size(1).toInt).toList
-    val size = Constant.vectorOf(scope, Array (1, 1, -1))
-
-    val transformedResForward: Array[Operand[TFloat32]] = indexes.map { i =>
-      val begin = Constant.vectorOf(scope, Array(0, i, 0))
-      val slicedTensor = Slice.create(scope, Constant.create(scope, resForward), begin, size)
-      slicedTensor
-    }.toArray
-
-    val reversedIndexes = indexes.reverse
-
-    val transformedResBackward: Array[Operand[TFloat32]] = reversedIndexes.map { i =>
-      val begin = Constant.vectorOf(scope, Array(0, i, 0))
-      val slicedTensor = Slice.create(scope, Constant.create(scope, resBackward), begin, size)
-      slicedTensor
-    }.toArray
-
+    Array(vecForward, vecBackward)
   }
 
   private def restoreLstmWeights(weightsVariables: List[(String, String)]): Map[String, Tensor[TFloat32]] = {
-    val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
-    val modelPath: String = "src/test/resources/tensorflow/models/dependency-parser/bi-lstm/"
-    val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
+    val modelPath: String = "src/main/resources/dependency-parser-dl/bi-lstm/"
+    val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
 
     weightsVariables.map{ weightVariable =>
       var blockName = "FirstBlockLSTMModule"
@@ -143,16 +158,26 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   }
 
+  private def restoreHeadsWeights(weightsVariables: List[String]): Map[String, Tensor[TFloat32]] = {
+    val modelPath: String = "src/main/resources/dependency-parser-dl/heads/"
+    val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
 
-  private def getLstmOutput(lstmInput: Tensor[TFloat32], weights: Map[String, Tensor[TFloat32]]):
-  (Tensor[TFloat32], Int) = {
+    weightsVariables.map{ weightVariable =>
+      val variableName = s"$weightVariable/Read/ReadVariableOp"
+      val tensor = TensorflowWrapper.restoreVariable(model, modelPath, variableName)
+      (weightVariable, tensor.expect(TFloat32.DTYPE))
+    }.toMap
 
-    val inputSequence: Operand[TFloat32]= Constant.create(scope, lstmInput)
+  }
+
+  private def getLstmOutput(inputSequence: Operand[TFloat32], weights: Map[String, Tensor[TFloat32]]):
+  (Operand[TFloat32], Int) = {
+
     val weightMatrix: Operand[TFloat32] = Constant.create(scope, weights("weightMatrix"))
     val weightInputGate: Operand[TFloat32] = Constant.create(scope, weights("weightInputGate"))
     val weightForgetGate: Operand[TFloat32] = Constant.create(scope, weights("weightForgetGate"))
     val weightOutputGate: Operand[TFloat32] = Constant.create(scope, weights("weightOutputGate"))
-    val seqLenMax: Operand[TInt64] = Constant.arrayOf(scope, lstmInput.shape().asArray()(0))
+    val seqLenMax: Operand[TInt64] = Constant.arrayOf(scope, inputSequence.asTensor().shape().asArray()(0))
     val lstmDims = weightInputGate.asTensor().shape().size().toInt
 
     val shape = Array(SAMPLE_SIZE, lstmDims)
@@ -166,7 +191,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       initialCellState, initialHiddenState, weightMatrix, weightInputGate,
       weightForgetGate, weightOutputGate, bias)
 
-    (blockLSTM.h().asTensor(), lstmDims)
+    (blockLSTM.h(), lstmDims)
 
   }
 
