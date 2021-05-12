@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece}
@@ -7,16 +24,16 @@ import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 
 /**
-  * A BPE Tokenizer based on GPT2's tokenization scheme.
-  * The tokenization can then be used for models based on this scheme (e.g. GPT2, roBERTa, DeBERTa)
-  * TODO: truncation assumed?
-  */
+ * A BPE Tokenizer based on GPT2's tokenization scheme.
+ * The tokenization can then be used for models based on this scheme (e.g. GPT2, roBERTa, DeBERTa)
+ * TODO: truncation assumed?
+ */
 private[nlp] class BpeTokenizer(
-    merges: Array[String],
-    vocab: Map[String, Int],
-    modelType: String = "roberta",
-    padWithSentenceTokens: Boolean = false
-) {
+                                 merges: Array[String],
+                                 vocab: Map[String, Int],
+                                 modelType: String = "roberta",
+                                 padWithSentenceTokens: Boolean = false
+                               ) {
 
   val bpeRanks: Map[(String, String), Int] = {
     val bytePairs: Array[(String, String)] =
@@ -25,20 +42,20 @@ private[nlp] class BpeTokenizer(
   }
 
   /**
-    * Rankings for the byte pairs. Derived from merges.txt
-    */
+   * Rankings for the byte pairs. Derived from merges.txt
+   */
   def getBpeRanking: ((String, String)) => Int =
     (bytePair: (String, String)) => bpeRanks.getOrElse(bytePair, Integer.MAX_VALUE)
 
   /**
-    * cache for already encoded tokens
-    */
+   * cache for already encoded tokens
+   */
   private val cache: mutable.Map[String, Array[TokenPiece]] = mutable.Map()
 
   /**
-    * Mapping for bytes to a different set of unicode characters (especially white spaces).
-    * This improved model performance for gpt-2.
-    */
+   * Mapping for bytes to a different set of unicode characters (especially white spaces).
+   * This improved model performance for gpt-2.
+   */
   private val bytesToUnicodeMapping: Map[Int, String] = {
     val bytes: ListBuffer[Int] = ListBuffer.range(
       '!',
@@ -59,18 +76,19 @@ private[nlp] class BpeTokenizer(
     (tok: String) => tok.foldLeft("")(_ + bytesToUnicodeMapping(_))
 
   /**
-    * Create a sequence of byte-pairs of the word
-    */
+   * Create a sequence of byte-pairs of the word
+   */
   private def getBytePairs(word: Array[String]): Set[(String, String)] = {
     val createPairs = (i: Int) => (word(i), word(i + 1))
     (0 until (word.length - 1)).map(createPairs).toSet
   }
 
   /**
-    * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
-    * If not possible, the word is split into smaller subwords, until they are known.
-    * @return Array of TokenPieces, corresponding to encoded token
-    */
+   * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
+   * If not possible, the word is split into smaller subwords, until they are known.
+   *
+   * @return Array of TokenPieces, corresponding to encoded token
+   */
   private def bpe(indToken: IndexedToken): Array[TokenPiece] = {
     val encodedToken = encodeByte(indToken.token)
     if (cache.contains(encodedToken))
@@ -88,7 +106,7 @@ private[nlp] class BpeTokenizer(
         // while we still have byte-pairs from our vocabulary
         while (bpeRanks.contains(bytePair) && !done) {
           val (first, second) = bytePair
-          var newWord: ListBuffer[String] = ListBuffer()
+          val newWord: ListBuffer[String] = ListBuffer()
           var i = 0
           var j = 0
           // keep combining characters with the current byte-pair
@@ -141,12 +159,12 @@ private[nlp] class BpeTokenizer(
   }
 
   /**
-    * Split the the individual sub texts on special tokens, e.g. masking etc.
-    */
+   * Split the the individual sub texts on special tokens, e.g. masking etc.
+   */
   private def splitOnSpecialToken(
-      specialToken: TokenTransformations,
-      text: String
-  ): ListBuffer[String] = {
+                                   specialToken: TokenTransformations,
+                                   text: String
+                                 ): ListBuffer[String] = {
     val isControl = (c: Char) => {
       if (c == '\t' || c == '\n' || c == '\r') false // count as whitespace
       else c.isControl
@@ -159,7 +177,7 @@ private[nlp] class BpeTokenizer(
     val isEndOfWord = (text: String) => isWordBorder(text.last)
     val isStartOfWord = (text: String) => isWordBorder(text.head)
 
-    var result: ListBuffer[String] = ListBuffer()
+    val result: ListBuffer[String] = ListBuffer()
     val tok = specialToken.content
     val splitText = text.split(tok)
     var fullWord = ""
@@ -203,16 +221,16 @@ private[nlp] class BpeTokenizer(
   }
 
   /**
-    * Special tokens of the model for processing
-    */
+   * Special tokens of the model for processing
+   */
   val (specialTokens: Map[String, TokenTransformations], sentencePadding: (String, String)) = {
     val bpeSpecialTokens = new BpeSpecialTokens(modelType)
     (bpeSpecialTokens.getSpecialTokens, bpeSpecialTokens.getSentencePadding)
   }
 
   /**
-    * split pattern based on gpt2's bpe tokenizer
-    */
+   * split pattern based on gpt2's bpe tokenizer
+   */
   private def splitOnPattern(text: String, indexOffset: Int): Array[IndexedToken] = {
     val splitPattern: Regex = raw"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+".r
     splitPattern
@@ -222,15 +240,15 @@ private[nlp] class BpeTokenizer(
   }
 
   /**
-    * Tokenize considering special tokens and split pattern
-    */
+   * Tokenize considering special tokens and split pattern
+   */
   def tokenize(
-      sentence: Sentence
-  ): Array[IndexedToken] = {
+                sentence: Sentence
+              ): Array[IndexedToken] = {
     var text = sentence.content
     if (text.trim.isEmpty) Array[IndexedToken]()
     else {
-      var splitTexts: ListBuffer[String] = ListBuffer()
+      val splitTexts: ListBuffer[String] = ListBuffer()
       var textList: ListBuffer[String] = ListBuffer(text)
 
       for ((_, transformations) <- specialTokens) {
@@ -282,5 +300,6 @@ private[nlp] class BpeTokenizer(
         )
       )
   }
+
   def encode(indTokens: Array[IndexedToken]): Array[TokenPiece] = indTokens.flatMap(encode(_))
 }
