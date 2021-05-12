@@ -211,7 +211,7 @@ class TensorflowWrapper(var variables: Variables,
     }
 
     Try(runSessionLegacy) match {
-      case Success(_) => logger.warn("Running legacy session to save variables...")
+      case Success(_) => logger.debug("Running legacy session to save variables...")
       case Failure(_) => runSessionNew
     }
 
@@ -340,11 +340,6 @@ object TensorflowWrapper {
                                     variablesDir: String,
                                     variablesKey: String = VariablesKey) = {
 
-    // FIXME - throwing [ERROR] org.tensorflow.exceptions.TFFailedPreconditionException:
-    //  Error while reading resource variable transformer/layer_1/self_attention/attention_output/kernel from Container: localhost.
-    //  This could mean that the variable was uninitialized. Not found: Container localhost does not exist.
-    //  (Could not find resource: localhost/transformer/layer_1/self_attention/attention_output/kernel)
-    //	 [[{{node transformer/layer_1/self_attention/attention_output/kernel/Read/ReadVariableOp}}]]
 
     lazy val legacySessionRunner = session.runner
       .addTarget(SaveRestoreAllOP)
@@ -372,12 +367,12 @@ object TensorflowWrapper {
 
     if (initAllTables) {
       Try(runRestoreLegacyInit) match {
-        case Success(_) => logger.warn("Running restore legacy with init...")
+        case Success(_) => logger.debug("Running restore legacy with init...")
         case Failure(_) => runRestoreNewInit
       }
     } else {
       Try(runRestoreLegacyNoInit) match {
-        case Success(_) => logger.warn("Running restore legacy with no init...")
+        case Success(_) => logger.debug("Running restore legacy with no init...")
         case Failure(_) => runRestoreNewNoInit
       }
     }

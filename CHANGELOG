@@ -1,4 +1,21 @@
 ========
+3.0.3
+========
+
+----------------
+New Features
+----------------
+* Add new functionalities for text generation in T5Transformer
+
+----------------
+Bug Fixes
+----------------
+* Fix ChunkEmbeddings Array out of bounds exception
+* Fix pretrained tfhub_use_multi and tfhub_use_multi_lg models in UniversalSentenceEncoder
+* Fix anchorDateMonth in Python and case sensitivity in relative dates
+
+
+========
 3.0.2
 ========
 
