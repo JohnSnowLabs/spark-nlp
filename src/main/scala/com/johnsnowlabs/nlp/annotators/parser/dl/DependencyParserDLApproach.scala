@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dl
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.util.io.SparkSqlHelper
+import com.johnsnowlabs.util.spark.SparkSqlHelper
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset

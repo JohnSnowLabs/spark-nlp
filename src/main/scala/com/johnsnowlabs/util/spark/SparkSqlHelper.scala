@@ -1,5 +1,6 @@
-package com.johnsnowlabs.nlp.util.io
+package com.johnsnowlabs.util.spark
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Version
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -10,8 +11,8 @@ object SparkSqlHelper {
 
   lazy val sparkVersion: Float = {
     val version = Version.parse(ResourceHelper.spark.version)
-    val versionParts = version.parts.map( v => v.toString)
-    versionParts.reduceLeft((x, y) => x + "." + y).slice(0 ,1).toFloat
+    val versionParts = version.parts.map(v => v.toString)
+    versionParts.reduceLeft((x, y) => x + "." + y).slice(0, 1).toFloat
   }
 
   def uniqueArrayElements(dataset: Dataset[_], column: String): Dataset[_] = {

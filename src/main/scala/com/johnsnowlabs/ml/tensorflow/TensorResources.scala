@@ -1,18 +1,17 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import org.tensorflow.ndarray.buffer._
-import org.tensorflow.ndarray.{NdArray, Shape, StdArrays}
-import org.tensorflow.types.family.{TNumber, TType}
-import org.tensorflow.types._
-import org.tensorflow.{DataType, Operand, Tensor}
+import org.tensorflow.ndarray.{Shape, StdArrays}
 import org.tensorflow.op.Scope
-import org.tensorflow.op.core.{Concat, Constant, Reshape, Reverse, Slice, Zeros}
+import org.tensorflow.op.core._
 import org.tensorflow.op.linalg.MatMul
+import org.tensorflow.types._
+import org.tensorflow.types.family.{TNumber, TType}
+import org.tensorflow.{Operand, Tensor}
 
-import java.lang
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
-import scala.collection.JavaConverters._
 import scala.language.existentials
 
 /**
@@ -145,13 +144,13 @@ object TensorResources {
     Reverse.create(scope, tensor, axis)
   }
 
-  def concatTensors[T <: TNumber](scope: Scope, tensors: Array[Operand[T]], dimension: Int): Operand[T] = {
+  def concatTensors[T <: TNumber](scope: Scope, tensors: Seq[Operand[T]], dimension: Int): Operand[T] = {
     val axis: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](dimension))
-    val tensorType = tensors.head.data() match {
-      case floatType: TFloat32 => Concat.create(scope, tensors.asInstanceOf[Array[Operand[TFloat32]]].toList.asJava, axis)
-      case intType: TInt32 => Concat.create(scope, tensors.asInstanceOf[Array[Operand[TInt32]]].toList.asJava, axis)
+    val concatTensor = tensors.head.data() match {
+      case float: TFloat32 => Concat.create(scope, tensors.asInstanceOf[Seq[Operand[TFloat32]]].toList.asJava, axis)
+      case int: TInt32 => Concat.create(scope, tensors.asInstanceOf[Seq[Operand[TInt32]]].toList.asJava, axis)
     }
-    tensorType.asInstanceOf[Operand[T]]
+    concatTensor.asInstanceOf[Operand[T]]
   }
 
   def reshapeTensor[T <: TNumber](scope: Scope, tensor: Operand[T], shape: Array[Int]): Operand[T] = {
@@ -167,6 +166,14 @@ object TensorResources {
   def matmulTensors[T <: TNumber](scope: Scope, tensorA: Operand[T], tensorB: Operand[T]): Operand[T] = {
     val matmul = MatMul.create(scope, tensorA, tensorB)
     matmul
+  }
+
+  def stackTensors[T <: TNumber](scope: Scope, tensors: Seq[Operand[T]]): Operand[T] = {
+    val stackedTensor = tensors.head.data() match {
+      case float: TFloat32 => Stack.create(scope, tensors.asInstanceOf[Seq[Operand[TFloat32]]].toList.asJava)
+      case int: TInt32 =>   Stack.create(scope, tensors.asInstanceOf[Seq[Operand[TInt32]]].toList.asJava)
+    }
+    stackedTensor.asInstanceOf[Operand[T]]
   }
 
 }

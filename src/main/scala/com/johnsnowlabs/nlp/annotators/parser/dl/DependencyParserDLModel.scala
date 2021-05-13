@@ -17,15 +17,16 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
-import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowEmbeddingLookup, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.{TensorMathResources, TensorResources, TensorflowEmbeddingLookup, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.op.Scope
-import org.tensorflow.op.core.{Constant, Slice, Zeros}
+import org.tensorflow.op.core.{Constant, Zeros}
+import org.tensorflow.op.math.Tanh
 import org.tensorflow.op.nn.BlockLSTM
-import org.tensorflow.types.{TFloat32, TInt32, TInt64}
+import org.tensorflow.types.{TFloat32, TInt64}
 import org.tensorflow.{EagerSession, Operand, SavedModelBundle, Tensor}
 
 import scala.language.postfixOps
@@ -50,7 +51,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     ("wfg_first_lstm", "weightForgetGate"), ("wog_first_lstm", "weightOutputGate"))
   private val nextLstmVariables =  List(("w_next_lstm", "weightMatrix"), ("wig_next_lstm", "weightInputGate"),
     ("wfg_next_lstm", "weightForgetGate"), ("wog_next_lstm", "weightOutputGate"))
-  private val headsVariables = List("hidLayerFOH", "hidLayerFOM")
+  private val headsVariables = List("hidLayerFOH", "hidLayerFOM", "hidBias", "outLayer", "outBias")
 
   private lazy val weightsFirstLstm = restoreLstmWeights(firstLstmVariables)
   private lazy val weightsNextLstm = restoreLstmWeights(nextLstmVariables)
@@ -85,17 +86,20 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val resForward = biLstmOutputs(0)
     val resBackward = biLstmOutputs(1)
 
-    val headsFeatures = (0 until timeSteps).toArray.map{ timeStep =>
+    val headsFeatures: Array[Array[Operand[TFloat32]]] = (0 until timeSteps).map{ index =>
       val size = Array(1, -1)
-      val lstmForward = TensorResources.sliceTensor(scope, resForward, begin = Array(timeStep, 0), size)
-      val lstmBackward = TensorResources.sliceTensor(scope, resBackward, begin = Array(timeSteps - timeStep - 1, 0), size)
+      val lstmForward = TensorResources.sliceTensor(scope, resForward, begin = Array(index, 0), size)
+      val lstmBackward = TensorResources.sliceTensor(scope, resBackward, begin = Array(timeSteps - index - 1, 0), size)
       val concatLstm = TensorResources.concatTensors(scope, Array(lstmForward, lstmBackward), 1)
       val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOH"))
       val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOM"))
       val headFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFoh)
       val modFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFom)
       Array(headFov, modFov)
-    }
+    }.toArray
+
+    val predictedScores = computeScores(headsFeatures)
+
     Seq()
   }
 
@@ -186,13 +190,36 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val initialHiddenState: Operand[TFloat32] = Zeros.create(scope, Constant.vectorOf(scope, shape), TFloat32.DTYPE)
     val bias: Operand[TFloat32] = Zeros.create(scope, Constant.vectorOf(scope, biasShape), TFloat32.DTYPE)
 
-
     val blockLSTM = BlockLSTM.create(scope, seqLenMax, inputSequence,
       initialCellState, initialHiddenState, weightMatrix, weightInputGate,
       weightForgetGate, weightOutputGate, bias)
 
     (blockLSTM.h(), lstmDims)
 
+  }
+
+  private def computeScores(headFeatures: Array[Array[Operand[TFloat32]]]) = {
+
+    val indexes = (0 until timeSteps).toList
+
+    val expressions: List[Operand[TFloat32]] = indexes.map{ i =>
+      val result = (0 until timeSteps).toList.map{ j =>
+        val headFov = headFeatures(i)(0)
+        val modFov = headFeatures(j)(1)
+        val hidBias = Constant.create(scope, weightsHead("hidBias"))
+        val activation = Tanh.create(scope, TensorMathResources.sumTensors(scope, Array(headFov, modFov, hidBias)))
+        val outLayer = Constant.create(scope, weightsHead("outLayer"))
+        val outBias = Constant.create(scope, weightsHead("outBias"))
+        val matmulResult = TensorResources.matmulTensors(scope, activation, outLayer)
+        TensorMathResources.sumTensors(scope, Array(matmulResult, outBias))
+      }
+      TensorResources.stackTensors(scope, result)
+    }
+
+    val scores = TensorResources.reshapeTensor(scope, TensorResources.stackTensors(scope, expressions),
+      Array(timeSteps, timeSteps))
+
+    scores
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */

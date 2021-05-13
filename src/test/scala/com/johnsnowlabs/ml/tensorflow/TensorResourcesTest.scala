@@ -9,7 +9,6 @@ import org.tensorflow.types.{TFloat32, TInt32}
 
 class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
 
-
   "Tensor Resource" should "reverse a tensor" in {
     val matrix = StdArrays.ndCopyOf(Array[Array[Float]](Array(1.9f, 2.8f, 3.7f, 4.6f, 5.5f, 6.4f)))
     val tensor: Operand[TFloat32] = Constant.tensorOf(scope, matrix)
@@ -55,6 +54,17 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
     val reshapeTensor = TensorResources.reshapeTensor(scope, tensor, shape)
 
     assertArrayEquals(shape.map(_.toLong), reshapeTensor.asTensor().shape.asArray)
+  }
+
+  it should "stack tensors" in {
+    val tensorX: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](1, 4))
+    val tensorY: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](2, 5))
+    val tensorZ: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](3, 6))
+    val expectedShape: Array[Long] = Array(3, 2)
+
+    val actualStackedTensor = TensorResources.stackTensors(scope, Array(tensorX, tensorY, tensorZ))
+
+    assertArrayEquals(expectedShape, actualStackedTensor.asTensor().shape().asArray())
   }
 
 }

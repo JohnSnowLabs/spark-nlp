@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.util.io
+package com.johnsnowlabs.util.spark
 
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.tags.FastTest
