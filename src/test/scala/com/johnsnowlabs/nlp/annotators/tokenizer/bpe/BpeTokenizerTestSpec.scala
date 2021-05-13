@@ -16,6 +16,7 @@
  */
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
+
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
@@ -133,18 +134,21 @@ class BpeTokenizerTestSpec extends FlatSpec {
     }
 
   }
-  "BpeTokenizer" should "throw exception when a word is not in the vocabulary" taggedAs FastTest in {
-    val text = "not in vocabulary"
+  "BpeTokenizer" should "handle unknown words" taggedAs FastTest in {
+    val text = "???"
     val sentence = Sentence(text, 0, text.length - 1, 0)
 
     val tokenized = bpeTokenizer.tokenize(sentence)
-    assertThrows[IllegalArgumentException] {
-      bpeTokenizer.encode(tokenized)
-    }
+    val encoded = bpeTokenizer.encode(tokenized)
+
+    println(tokenized.mkString("Array(\n  ", ",\n  ", "\n)"))
+    println(encoded.mkString("Array(\n  ", ",\n  ", "\n)"))
+
+    assert(encoded.forall(_.pieceId == 3))
   }
   "BpeTokenizer" should "throw exception when an unsupported model type is used" taggedAs FastTest in {
     assertThrows[IllegalArgumentException] {
-      BpeTokenizer.forModel("deberta", merges, vocab)
+      BpeTokenizer.forModel("unsupported", merges, vocab)
     }
   }
 }
