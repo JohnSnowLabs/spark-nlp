@@ -38,10 +38,11 @@ class RobertaTokenizer(
   /**
     * Special tokens of the model for processing
     */
-  protected val (specialTokens: Map[String, TokenTransformations], sentencePadding: (String, String)) = {
+  override val specialTokens: SpecialTokens = {
     val bpeSpecialTokens = new BpeSpecialTokens("roberta")
-    (bpeSpecialTokens.getSpecialTokens, bpeSpecialTokens.getSentencePadding)
+    bpeSpecialTokens.getSpecialTokens
   }
+  val sentencePadding: (String, String) = (specialTokens.start.content, specialTokens.end.content)
 
   /**
     * split pattern based on gpt2's bpe tokenizer
@@ -66,7 +67,7 @@ class RobertaTokenizer(
       var splitTexts: ListBuffer[String] = ListBuffer()
       var textList: ListBuffer[String] = ListBuffer(text)
 
-      for ((_, transformations) <- specialTokens) {
+      for (transformations <- specialTokens.iterator) {
         splitTexts.clear()
         for (subText <- textList) {
           if (!specialTokens.contains(subText))

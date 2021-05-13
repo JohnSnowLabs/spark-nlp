@@ -17,73 +17,79 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
+import scala.collection.immutable.HashSet
+
 // TODO: How to do this properly?
 private[nlp] class BpeSpecialTokens(modelType: String) {
   val availableModels: Array[String] = Array("roberta")
-  require(availableModels.contains(modelType), "Model type \"" + modelType + "\" not supported yet.")
 
   def getSentencePadding: (String, String) =
     modelType match {
       case "roberta" => ("<s>", "</s>")
-      //      "gpt2" -> Map("cls_token_id" -> "<|endoftext|>", "sep_token_id" -> "<|endoftext|>")
     }
 
-  def getSpecialTokens: Map[String, TokenTransformations] =
+  def getSpecialTokens: SpecialTokens =
     modelType match {
-      case "roberta" => SpecialTokens.robertaSpecialTokens
+      case "roberta" => SpecialTokens.getRobertaSpecialTokens
     }
+}
+
+private[nlp] case class SpecialTokens(
+                                       start: SpecialToken,
+                                       end: SpecialToken,
+                                       unk: SpecialToken,
+                                       pad: SpecialToken,
+                                       mask: SpecialToken,
+                                       //                                       cls: SpecialToken,
+                                     ) {
+  val allTokens: HashSet[SpecialToken] = HashSet[SpecialToken](start, end, unk, pad, mask)
+
+  def contains(s: String): Boolean = allTokens.contains(SpecialToken(content = s, id = 0))
+
+  def iterator: Iterator[SpecialToken] = allTokens.iterator
 }
 
 private object SpecialTokens {
-  val robertaSpecialTokens: Map[String, TokenTransformations] = Map(
-    "<s>" -> TokenTransformations(
-      normalized = true,
-      id = 0,
-      singleWord = false,
-      rstrip = false,
+  def getRobertaSpecialTokens: SpecialTokens = SpecialTokens(
+    SpecialToken(
       content = "<s>",
-      lstrip = false
+      id = 0,
     ),
-    "<pad>" -> TokenTransformations(
-      normalized = true,
-      id = 1,
-      singleWord = false,
-      rstrip = false,
-      content = "<pad>",
-      lstrip = false
-    ),
-    "</s>" -> TokenTransformations(
-      normalized = true,
-      id = 2,
-      singleWord = false,
-      rstrip = false,
+    SpecialToken(
       content = "</s>",
-      lstrip = false
+      id = 2,
     ),
-    "<unk>" -> TokenTransformations(
-      normalized = true,
-      id = 3,
-      singleWord = false,
-      rstrip = false,
+    SpecialToken(
       content = "<unk>",
-      lstrip = false
+      id = 3,
     ),
-    "<mask>" -> TokenTransformations(
-      normalized = true,
-      id = 50264,
-      singleWord = false,
-      rstrip = false,
+    SpecialToken(
+      content = "<pad>",
+      id = 1,
+    ),
+    SpecialToken(
       content = "<mask>",
+      id = 50264,
       lstrip = true
-    )
+    ),
   )
 }
 
-case class TokenTransformations(
-                                 normalized: Boolean,
-                                 id: Int,
-                                 singleWord: Boolean,
-                                 rstrip: Boolean,
-                                 lstrip: Boolean,
-                                 content: String
-                               ) {}
+private[nlp] case class SpecialToken(
+                         content: String,
+                         id: Int,
+                         singleWord: Boolean = false,
+                         lstrip: Boolean = false,
+                         rstrip: Boolean = false,
+                       ) {
+//  implicit def convertToString(s: SpecialToken): String = s.content
+  override def hashCode(): Int = content.hashCode
+  override def canEqual(that: Any): Boolean = that.isInstanceOf[SpecialToken]
+
+  override def equals(obj: Any): Boolean = obj match {
+    case obj: SpecialToken => obj.content == content
+    case _ => false
+  }
+
+  override def toString: String = content
+}

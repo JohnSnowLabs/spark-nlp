@@ -6,9 +6,9 @@ import org.scalatest.FlatSpec
 class MosesTokenizerTest extends FlatSpec {
   val moses = new MosesTokenizer("en")
 
-  "MosesTokenizer" should "encode words correclty" taggedAs FastTest in {
-    val text = "This, is a sentence with weird\xbb symbols\u2026 appearing everywhere\xbf"
-    val expected = "This , is a sentence with weird \\xbb symbols \\u2026 appearing everywhere \\xbf"
+  "MosesTokenizer" should "encode words correctly" taggedAs FastTest in {
+    val text = "This,    is a sentence with weird» symbols… appearing everywhere¿"
+    val expected = "This , is a sentence with weird » symbols … appearing everywhere ¿"
     val tokenized = moses.tokenize(text).mkString(" ")
     assert(tokenized == expected)
   }

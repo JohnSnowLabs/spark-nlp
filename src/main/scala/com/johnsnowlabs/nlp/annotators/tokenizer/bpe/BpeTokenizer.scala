@@ -1,4 +1,3 @@
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -57,6 +56,8 @@ private[nlp] abstract class BpeTokenizer(
     val createPairs = (i: Int) => (word(i), word(i + 1))
     (0 until (word.length - 1)).map(createPairs).toSet
   }
+
+  val specialTokens: SpecialTokens
 
   /**
     * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
@@ -119,18 +120,19 @@ private[nlp] abstract class BpeTokenizer(
           }
         }
       }
-      val indexOffset = indToken.begin
+      var indexOffset = indToken.begin
       val wordIndexes = word.map((subWord: String) => {
         val startIndex = processedToken.indexOf(subWord) + indexOffset
-        (startIndex, startIndex + subWord.length) // TODO
+        indexOffset = startIndex + subWord.length
+        (startIndex, startIndex + subWord.length)
       })
       val result = word
         .zip(wordIndexes)
         .map {
           case (subWord: String, indexes: (Int, Int)) =>
-            val isWordStart = processedToken.head == subWord.head
-            require(vocab.contains(subWord), "token \"" + subWord + "\" not found in vocabulary")
-            TokenPiece(subWord, processedToken, vocab(subWord), isWordStart, indexes._1, indexes._2)
+            val isWordStart = indToken.begin == indexes._1
+            val subWordId = if (vocab.contains(subWord)) vocab(subWord) else specialTokens.unk.id  // Set unknown id
+            TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
         }
       cache += (processedToken -> result)
       result
@@ -141,7 +143,7 @@ private[nlp] abstract class BpeTokenizer(
     * Split the the individual sub texts on special tokens, e.g. masking etc.
     */
   protected def splitOnSpecialToken(
-                                     specialToken: TokenTransformations,
+                                     specialToken: SpecialToken,
                                      text: String
                                    ): ListBuffer[String] = {
     val isControl = (c: Char) => {
@@ -218,7 +220,7 @@ object BpeTokenizer {
 
     modelType match {
       case "roberta" => new RobertaTokenizer(merges, vocab, padWithSentenceTokens)
-      case "xlm" => new XlmTokenizer(merges, vocab, padWithSentenceTokens)
+      //      case "xlm" => new XlmTokenizer(merges, vocab, padWithSentenceTokens)
     }
   }
 }

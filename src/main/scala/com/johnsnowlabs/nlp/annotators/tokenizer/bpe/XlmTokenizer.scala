@@ -10,11 +10,11 @@ class XlmTokenizer(
                     lang: String = "en",
                     padWithSentenceTokens: Boolean = false
                   ) extends BpeTokenizer(merges, vocab) {
-
+  require(lang == "en", "Only English is supported currently.")
   override def tokenize(sentence: Sentence): Array[IndexedToken] = ???
 
   override def encode(indToken: IndexedToken): Array[TokenPiece] = ???
-
+  override val specialTokens: SpecialTokens = ???
   val mosesNormalizer = new MosesPunctNormalizer()
   val mosesTokenizer = new MosesTokenizer(lang)
 }
