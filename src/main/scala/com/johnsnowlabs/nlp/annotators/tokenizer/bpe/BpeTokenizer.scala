@@ -29,7 +29,8 @@ import scala.collection.mutable.ListBuffer
   */
 private[nlp] abstract class BpeTokenizer(
                                           merges: Array[String],
-                                          vocab: Map[String, Int]
+                                          vocab: Map[String, Int],
+                                          specialTokens: SpecialTokens
                                         ) {
 
   protected val bpeRanks: Map[(String, String), Int] = {
@@ -47,7 +48,7 @@ private[nlp] abstract class BpeTokenizer(
   /**
     * cache for already encoded tokens
     */
-  protected val cache: mutable.Map[String, Array[TokenPiece]] = mutable.Map()
+  protected val cache: mutable.Map[String, Array[String]] = mutable.Map()
 
   /**
     * Create a sequence of byte-pairs of the word
@@ -56,8 +57,6 @@ private[nlp] abstract class BpeTokenizer(
     val createPairs = (i: Int) => (word(i), word(i + 1))
     (0 until (word.length - 1)).map(createPairs).toSet
   }
-
-  val specialTokens: SpecialTokens
 
   /**
     * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
@@ -71,11 +70,13 @@ private[nlp] abstract class BpeTokenizer(
                    ): Array[TokenPiece] = {
     val processedToken = preProcess(indToken.token)
 
-    if (cache.contains(processedToken))
-      cache(processedToken)
+    var word: Array[String] = Array[String]()
+    if (cache.contains(processedToken)) {
+      word = cache(processedToken)
+    }
     else {
       // split the word into characters, to be combined into subwords
-      var word: Array[String] = processedToken.map(_.toString).toArray
+      word = processedToken.map(_.toString).toArray
       var pairs: Set[(String, String)] = getBytePairs(word)
       if (pairs.isEmpty) word = Array(processedToken) // TODO: check if correct
       else {
@@ -120,23 +121,24 @@ private[nlp] abstract class BpeTokenizer(
           }
         }
       }
-      var indexOffset = indToken.begin
-      val wordIndexes = word.map((subWord: String) => {
-        val startIndex = processedToken.indexOf(subWord) + indexOffset
-        indexOffset = startIndex + subWord.length
-        (startIndex, startIndex + subWord.length)
-      })
-      val result = word
-        .zip(wordIndexes)
-        .map {
-          case (subWord: String, indexes: (Int, Int)) =>
-            val isWordStart = indToken.begin == indexes._1
-            val subWordId = if (vocab.contains(subWord)) vocab(subWord) else specialTokens.unk.id  // Set unknown id
-            TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
-        }
-      cache += (processedToken -> result)
-      result
+      cache += (processedToken -> word)
     }
+
+    var currentIndex = indToken.begin
+    val wordIndexes = word.map((subWord: String) => {
+      val startIndex = currentIndex
+      currentIndex = startIndex + subWord.length
+      (startIndex, startIndex + subWord.length)
+    })
+    val result = word
+      .zip(wordIndexes)
+      .map {
+        case (subWord: String, indexes: (Int, Int)) =>
+          val isWordStart = indToken.begin == indexes._1
+          val subWordId = if (vocab.contains(subWord)) vocab(subWord) else specialTokens.unk.id // Set unknown id
+          TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
+      }
+    result
   }
 
   /**
@@ -213,13 +215,19 @@ object BpeTokenizer {
                 modelType: String,
                 merges: Array[String],
                 vocab: Map[String, Int],
-                padWithSentenceTokens: Boolean = false
+                padWithSentenceTokens: Boolean,
+                specialTokens: Option[SpecialTokens] = None
               ): BpeTokenizer = {
     val availableModels = Array("roberta")
     require(availableModels.contains(modelType), "Model type \"" + modelType + "\" not supported yet.")
 
     modelType match {
-      case "roberta" => new RobertaTokenizer(merges, vocab, padWithSentenceTokens)
+      case "roberta" =>
+        val robertaSpecialTokens = specialTokens match {
+          case Some(specialTok) => specialTok
+          case None => SpecialTokens(vocab, "<s>", "</s>", "<unk>", "<mask>", "<pad>")
+        }
+        new RobertaTokenizer(merges, vocab, robertaSpecialTokens, padWithSentenceTokens)
       //      case "xlm" => new XlmTokenizer(merges, vocab, padWithSentenceTokens)
     }
   }

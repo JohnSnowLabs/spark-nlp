@@ -9,8 +9,9 @@ import scala.util.matching.Regex
 class RobertaTokenizer(
                         merges: Array[String],
                         vocab: Map[String, Int],
-                        padWithSentenceTokens: Boolean = false
-                      ) extends BpeTokenizer(merges, vocab) {
+                        specialTokens: SpecialTokens,
+                        padWithSentenceTokens: Boolean = false,
+                      ) extends BpeTokenizer(merges, vocab, specialTokens) {
 
   /**
     * Mapping for bytes to a different set of unicode characters (especially white spaces).
@@ -38,11 +39,11 @@ class RobertaTokenizer(
   /**
     * Special tokens of the model for processing
     */
-  override val specialTokens: SpecialTokens = {
-    val bpeSpecialTokens = new BpeSpecialTokens("roberta")
-    bpeSpecialTokens.getSpecialTokens
-  }
-  val sentencePadding: (String, String) = (specialTokens.start.content, specialTokens.end.content)
+  //  override val specialTokens: SpecialTokens = {
+  //    val bpeSpecialTokens = new BpeSpecialTokens("roberta")
+  //    bpeSpecialTokens.getSpecialTokens
+  //  }
+  val sentencePadding: (String, String) = (specialTokens.sentenceStart.content, specialTokens.sentenceEnd.content)
 
   /**
     * split pattern based on gpt2's bpe tokenizer
@@ -67,7 +68,7 @@ class RobertaTokenizer(
       var splitTexts: ListBuffer[String] = ListBuffer()
       var textList: ListBuffer[String] = ListBuffer(text)
 
-      for (transformations <- specialTokens.iterator) {
+      for (transformations <- specialTokens.allTokens) {
         splitTexts.clear()
         for (subText <- textList) {
           if (!specialTokens.contains(subText))
@@ -82,9 +83,10 @@ class RobertaTokenizer(
         splitTexts.prepend(sentencePadding._1)
         splitTexts.append(sentencePadding._2)
       }
+      var currentIndex = 0
       val result = mutable.ArrayBuffer[IndexedToken]()
       for (subText <- splitTexts) {
-        val subTextIndex = text.indexOf(subText)
+        val subTextIndex = sentence.start + text.indexOf(subText, currentIndex)
         if (!specialTokens.contains(subText)) {
           val splitSubText = splitOnPattern(subText, sentence.start + subTextIndex)
           result.append(splitSubText: _*)
@@ -92,10 +94,11 @@ class RobertaTokenizer(
           result.append(
             IndexedToken(
               subText,
-              begin = sentence.start + subTextIndex,
-              end = sentence.start + subTextIndex + subText.length // TODO
+              begin = subTextIndex,
+              end = subTextIndex + subText.length
             )
           )
+        currentIndex = subTextIndex + subText.length
       }
       result.toArray
     }
