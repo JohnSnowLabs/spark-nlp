@@ -135,8 +135,11 @@ private[nlp] abstract class BpeTokenizer(
       .map {
         case (subWord: String, indexes: (Int, Int)) =>
           val isWordStart = indToken.begin == indexes._1
-          val subWordId = if (vocab.contains(subWord)) vocab(subWord) else specialTokens.unk.id // Set unknown id
-          TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
+          val subWordId: Int = if (subWord(0) != 'Ġ' && isWordStart)
+            vocab.getOrElse("Ġ" + subWord, specialTokens.unk.id) // TODO do this for non roberta case
+          else vocab.getOrElse(subWord, specialTokens.unk.id) // Set unknown id
+
+          TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2 - 1)
       }
     result
   }
