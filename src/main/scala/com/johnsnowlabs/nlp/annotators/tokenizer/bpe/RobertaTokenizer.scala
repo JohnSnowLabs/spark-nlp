@@ -52,7 +52,7 @@ class RobertaTokenizer(
     val splitPattern: Regex = raw"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+".r
     splitPattern
       .findAllMatchIn(text)
-      .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset)) // TODO Expected -1?
+      .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1)) // TODO Expected -1?
       .toArray
   }
 
@@ -88,14 +88,14 @@ class RobertaTokenizer(
       for (subText <- splitTexts) {
         val subTextIndex = sentence.start + text.indexOf(subText, currentIndex)
         if (!specialTokens.contains(subText)) {
-          val splitSubText = splitOnPattern(subText, sentence.start + subTextIndex)
+          val splitSubText = splitOnPattern(subText, subTextIndex)
           result.append(splitSubText: _*)
         } else // subtext is just the special token
           result.append(
             IndexedToken(
               subText,
               begin = subTextIndex,
-              end = subTextIndex + subText.length
+              end = subTextIndex + subText.length - 1
             )
           )
         currentIndex = subTextIndex + subText.length
