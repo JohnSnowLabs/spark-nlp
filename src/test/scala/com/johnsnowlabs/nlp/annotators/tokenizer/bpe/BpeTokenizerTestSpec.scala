@@ -44,7 +44,8 @@ class BpeTokenizerTestSpec extends FlatSpec {
 //        "ĠAs",
 //        "Ġ!",
       ).zipWithIndex.toMap
-    val merges: Array[String] = Array(
+
+    val merges: Map[(String, String), Int] = Array(
       "o u",
       "l y",
       "Ġ g",
@@ -72,7 +73,8 @@ class BpeTokenizerTestSpec extends FlatSpec {
       "Ġun amb",
       "Ġgo od",
       "Ġ 3",
-    )
+    ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+
   val bpeTokenizer: BpeTokenizer = BpeTokenizer.forModel(
     "roberta",
     merges,
