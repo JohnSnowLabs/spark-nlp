@@ -220,7 +220,7 @@ object BpeTokenizer {
       case "roberta" =>
         val robertaSpecialTokens = specialTokens match {
           case Some(specialTok) => specialTok
-          case None => SpecialTokens(vocab, "<s>", "</s>", "<unk>", "<mask>", "<pad>")
+          case None => new SpecialTokens(vocab, "<s>", "</s>", "<unk>", "<mask>", "<pad>")
         }
         new RobertaTokenizer(merges, vocab, robertaSpecialTokens, padWithSentenceTokens)
       //      case "xlm" => new XlmTokenizer(merges, vocab, padWithSentenceTokens)
