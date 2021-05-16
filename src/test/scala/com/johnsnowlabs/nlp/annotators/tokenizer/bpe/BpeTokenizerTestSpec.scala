@@ -39,7 +39,7 @@ class BpeTokenizerTestSpec extends FlatSpec {
         "d",
         "Ġ!",
         "<unk>",
-        "<pad>",
+        "<pad>"
 //        "ĠI",
 //        "ĠAs",
 //        "Ġ!",
@@ -72,7 +72,7 @@ class BpeTokenizerTestSpec extends FlatSpec {
       "s d",
       "Ġun amb",
       "Ġgo od",
-      "Ġ 3",
+      "Ġ 3"
     ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
   val bpeTokenizer: BpeTokenizer = BpeTokenizer.forModel(
