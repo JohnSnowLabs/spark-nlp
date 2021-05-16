@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.moses
 
 /**
-  * Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
-  */
+ * Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
+ */
 private[johnsnowlabs] class MosesTokenizer(lang: String) {
   require(lang == "en", "Only english is supported at the moment.")
   private final val DEDUPLICATE_SPACE = (raw"""\s+""", " ")
@@ -57,6 +57,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     for ((token, i) <- tokens.zipWithIndex) {
       // Checks if token ends with a fullstop.
       val tokenEndsWithPeriod = raw"""^(\S+)\.$$""".r.findFirstMatchIn(token)
+      //TODO match may not be exhaustive. It would fail on the following input: None
       tokenEndsWithPeriod match {
         case Some(prefixMatch) =>
           val prefix = prefixMatch.group(1)

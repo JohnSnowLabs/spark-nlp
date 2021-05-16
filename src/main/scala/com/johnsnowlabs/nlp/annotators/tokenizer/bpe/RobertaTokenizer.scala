@@ -27,13 +27,13 @@ class RobertaTokenizer(
                         merges: Map[(String, String), Int],
                         vocab: Map[String, Int],
                         specialTokens: SpecialTokens,
-                        padWithSentenceTokens: Boolean = false,
+                        padWithSentenceTokens: Boolean = false
                       ) extends BpeTokenizer(merges, vocab, specialTokens) {
 
   /**
-    * Mapping for bytes to a different set of unicode characters (especially white spaces).
-    * This improved model performance for gpt-2. TODO: Only for gpt-2 type bpe
-    */
+   * Mapping for bytes to a different set of unicode characters (especially white spaces).
+   * This improved model performance for gpt-2. TODO: Only for gpt-2 type bpe
+   */
   private val bytesToUnicodeMapping: Map[Int, String] = {
     val bytes: ListBuffer[Int] = ListBuffer.range(
       '!',
@@ -54,8 +54,8 @@ class RobertaTokenizer(
     (tok: String) => tok.foldLeft("")(_ + bytesToUnicodeMapping(_))
 
   /**
-    * Special tokens of the model for processing
-    */
+   * Special tokens of the model for processing
+   */
   //  override val specialTokens: SpecialTokens = {
   //    val bpeSpecialTokens = new BpeSpecialTokens("roberta")
   //    bpeSpecialTokens.getSpecialTokens
@@ -63,8 +63,8 @@ class RobertaTokenizer(
   val sentencePadding: (String, String) = (specialTokens.sentenceStart.content, specialTokens.sentenceEnd.content)
 
   /**
-    * split pattern based on gpt2's bpe tokenizer
-    */
+   * split pattern based on gpt2's bpe tokenizer
+   */
   private def splitOnPattern(text: String, indexOffset: Int): Array[IndexedToken] = {
     val splitPattern: Regex = raw"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+".r
     splitPattern
@@ -74,8 +74,8 @@ class RobertaTokenizer(
   }
 
   /**
-    * Tokenize considering special tokens and split pattern
-    */
+   * Tokenize considering special tokens and split pattern
+   */
   override def tokenize(
                          sentence: Sentence
                        ): Array[IndexedToken] = {

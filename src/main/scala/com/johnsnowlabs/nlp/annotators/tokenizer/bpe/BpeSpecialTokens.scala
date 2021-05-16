@@ -33,14 +33,14 @@ import scala.collection.immutable.HashSet
 //      case "roberta" => SpecialTokens.getRobertaSpecialTokens(vocab)
 //    }
 //}
-private[nlp] case class SpecialTokens(
-                                       vocab: Map[String, Int],
-                                       startTokenString: String,
-                                       endTokenString: String,
-                                       unkTokenString: String,
-                                       maskTokenString: String,
-                                       padTokenString: String,
-                                     ) {
+private[nlp] class SpecialTokens(
+                                  vocab: Map[String, Int],
+                                  startTokenString: String,
+                                  endTokenString: String,
+                                  unkTokenString: String,
+                                  maskTokenString: String,
+                                  padTokenString: String
+                                ) {
   for (specialTok <- Array(startTokenString, endTokenString, unkTokenString, maskTokenString, padTokenString))
     require(vocab.contains(specialTok), s"Special Token '$specialTok' needs to be in vocabulary.")
   val sentenceStart: SpecialToken = SpecialToken(startTokenString, vocab(startTokenString))
@@ -84,13 +84,13 @@ private[nlp] case class SpecialTokens(
 //  )
 //}
 
-private[nlp] case class SpecialToken(
-                                      content: String,
-                                      id: Int,
-                                      singleWord: Boolean = false,
-                                      lstrip: Boolean = false,
-                                      rstrip: Boolean = false,
-                                    ) {
+case class SpecialToken(
+                         content: String,
+                         id: Int,
+                         singleWord: Boolean = false,
+                         lstrip: Boolean = false,
+                         rstrip: Boolean = false
+                       ) {
   //  implicit def convertToString(s: SpecialToken): String = s.content
   override def hashCode(): Int = content.hashCode
 
