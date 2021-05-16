@@ -250,6 +250,7 @@ class RoBertaEmbeddings(override val uid: String)
     val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
       TokenizedWithSentence.unpack(annotations).toArray
     ).toArray
+    
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
