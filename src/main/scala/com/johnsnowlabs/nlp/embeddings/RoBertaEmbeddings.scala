@@ -96,7 +96,7 @@ class RoBertaEmbeddings(override val uid: String)
   }
 
   /**
-   * Vocabulary used to encode the words to ids with WordPieceEncoder
+   * Vocabulary used to encode the words to ids with bpeTokenizer.encode
    *
    * @group param
    * */
@@ -107,10 +107,9 @@ class RoBertaEmbeddings(override val uid: String)
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /**
-   *
+   * Holding merges.txt coming from RoBERTa model
    * @group param
    */
-  //  val merges: StringArrayParam = new StringArrayParam(this, "merges", "list of merges")
   val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
 
   /** @group setParam */
