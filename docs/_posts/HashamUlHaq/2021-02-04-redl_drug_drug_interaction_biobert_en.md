@@ -6,7 +6,7 @@ name: redl_drug_drug_interaction_biobert
 date: 2021-02-04
 task: Relation Extraction
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -129,7 +129,7 @@ val result = pipeline.fit(Seq.empty["When carbamazepine is withdrawn from the co
 {:.table-model}
 |---|---|
 |Model Name:|redl_drug_drug_interaction_biobert|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:|Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
