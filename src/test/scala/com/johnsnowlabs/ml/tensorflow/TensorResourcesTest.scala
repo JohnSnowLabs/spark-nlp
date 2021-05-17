@@ -2,9 +2,9 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.junit.Assert.{assertArrayEquals, assertEquals}
 import org.scalatest.FlatSpec
-import org.tensorflow.Operand
+import org.tensorflow.{Operand, Tensor}
 import org.tensorflow.ndarray.{FloatNdArray, IntNdArray, StdArrays}
-import org.tensorflow.op.core.Constant
+import org.tensorflow.op.core.{Constant, Helpers, Variable, Zeros}
 import org.tensorflow.types.{TFloat32, TInt32}
 
 class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
@@ -23,7 +23,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
   it should "concat int tensors" in {
     val tensor1: Operand[TInt32] = Constant.tensorOf(scope, Array[Array[Int]](Array(1, 2, 3, 4, 5)))
     val tensor2: Operand[TInt32] = Constant.tensorOf(scope, Array[Array[Int]](Array(6, 7, 8, 9, 10)))
-    val tensors = Array(tensor1, tensor2)
+    val tensors = List(tensor1, tensor2)
     val expectedConcat: IntNdArray = StdArrays.ndCopyOf(Array[Array[Int]](Array(1, 2, 3, 4, 5), Array(6, 7, 8, 9, 10)))
 
     val actualConcat = TensorResources.concatTensors(scope, tensors, 0)
@@ -35,7 +35,7 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
   it should "concat float tensors" in {
     val tensor1: Operand[TFloat32] = Constant.tensorOf(scope, Array[Array[Float]](Array(1f, 2f, 3f, 4f, 5f)))
     val tensor2: Operand[TFloat32] = Constant.tensorOf(scope, Array[Array[Float]](Array(6f, 7f, 8f, 9f, 10f)))
-    val tensors = Array(tensor1, tensor2)
+    val tensors = List(tensor1, tensor2)
     val expectedConcat: FloatNdArray = StdArrays.ndCopyOf(Array[Array[Float]](Array(1f, 2f, 3f, 4f, 5f),
       Array(6f, 7f, 8f, 9f, 10f)))
 
@@ -62,9 +62,39 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
     val tensorZ: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](3, 6))
     val expectedShape: Array[Long] = Array(3, 2)
 
-    val actualStackedTensor = TensorResources.stackTensors(scope, Array(tensorX, tensorY, tensorZ))
+    val actualStackedTensor = TensorResources.stackTensors(scope, List(tensorX, tensorY, tensorZ))
 
     assertArrayEquals(expectedShape, actualStackedTensor.asTensor().shape().asArray())
+
+  }
+
+  it should "slice a tensor" in {
+    val matrix: Array[Array[Int]] = Array(
+      Array(1, 2, 3),
+      Array(4, 5, 6),
+      Array(7, 8, 9)
+    )
+    val tensor: Operand[TInt32] = Constant.tensorOf(scope, matrix)
+    val expectedSliceShape: Array[Long] = Array(1, 3)
+    val expectedTensorValues = Array(4, 5, 6)
+
+    val actualTensor = TensorResources.sliceTensor(scope, tensor, Array(1, 0), Array(1, -1))
+
+    assertArrayEquals(expectedSliceShape, actualTensor.asTensor().shape().asArray())
+    assertArrayEquals(expectedTensorValues, TensorResources.extractInts(actualTensor.asTensor()))
+  }
+
+  it should "extract values from a tensor on each dimension" in {
+    val matrix: Array[Array[Int]] = Array(
+      Array(1, 2, 3),
+      Array(4, 5, 6),
+      Array(7, 8, 9)
+    )
+    val tensor: Operand[TInt32] = Constant.tensorOf(scope, matrix)
+
+    val actualMatrix: Array[Array[Int]] = TensorResources.extractTwoDimInts(scope, tensor)
+
+    matrix.zipWithIndex.foreach{ case (expectedRow, index) => assertArrayEquals(expectedRow, actualMatrix(index)) }
   }
 
 }

@@ -3,7 +3,7 @@ package com.johnsnowlabs.ml.tensorflow
 import org.junit.Assert.assertArrayEquals
 import org.scalatest.FlatSpec
 import org.tensorflow.Operand
-import org.tensorflow.op.core.Constant
+import org.tensorflow.op.core.{Constant, OnesLike, Zeros}
 import org.tensorflow.types.TInt32
 
 class TensorMathResourcesTest extends FlatSpec with EagerSessionBuilder {
@@ -18,6 +18,19 @@ class TensorMathResourcesTest extends FlatSpec with EagerSessionBuilder {
 
     assertArrayEquals(expectedShape, actualSum.asTensor().shape().asArray())
     assertArrayEquals(expectedSum, TensorResources.extractInts(actualSum.asTensor()))
+  }
+
+  it should "subtract tensors" in {
+    val shape = Constant.vectorOf(scope, Array(2, 2))
+    val tensorA = Zeros.create(scope, shape, TInt32.DTYPE)
+    val tensorB = OnesLike.create(scope, tensorA)
+    val expectedShape = tensorA.asTensor().shape().asArray()
+    val expectedSub = Array(-1, -1, -1, -1)
+
+    val actualSub = TensorMathResources.subtractTensors(scope, tensorA, tensorB)
+
+    assertArrayEquals(expectedShape, actualSub.asTensor().shape().asArray())
+    assertArrayEquals(expectedSub, TensorResources.extractInts(actualSub.asTensor()))
   }
 
 }

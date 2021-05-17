@@ -76,10 +76,10 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       .filter(_.annotatorType == AnnotatorType.TOKEN)
       .toArray
 
-    val sentenceEmbeddings: Array[Operand[TFloat32]] = tokens.map{ token =>
+    val sentenceEmbeddings: List[Operand[TFloat32]] = tokens.map{ token =>
       val wordId: Int = $$(vocabulary).getOrElse(token.result, 0)
       Constant.create(scope, embeddings.lookup(embeddingsTable, Array(wordId)))
-    }
+    }.toList
     timeSteps = sentenceEmbeddings.length
     val biLstmInputs = getBiLstmInput(sentenceEmbeddings)
     val biLstmOutputs = computeBiLstmOutput(biLstmInputs)
@@ -90,7 +90,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       val size = Array(1, -1)
       val lstmForward = TensorResources.sliceTensor(scope, resForward, begin = Array(index, 0), size)
       val lstmBackward = TensorResources.sliceTensor(scope, resBackward, begin = Array(timeSteps - index - 1, 0), size)
-      val concatLstm = TensorResources.concatTensors(scope, Array(lstmForward, lstmBackward), 1)
+      val concatLstm = TensorResources.concatTensors(scope, List(lstmForward, lstmBackward), 1)
       val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOH"))
       val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOM"))
       val headFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFoh)
@@ -98,13 +98,14 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       Array(headFov, modFov)
     }.toArray
 
-    val predictedScores = computeScores(headsFeatures)
-
+    val predictedScores: Operand[TFloat32] = computeScores(headsFeatures)
+    val predictedScoreMatrix = TensorResources.extractTwoDimFloats(scope, predictedScores)
+    val predictedHeads = ProjectiveDependencyTree.parse(predictedScoreMatrix)
     Seq()
   }
 
-  def getBiLstmInput(sentenceEmbeddings: Array[Operand[TFloat32]]): Array[Operand[TFloat32]] = {
-    val reverseSentenceEmbeddings: Array[Operand[TFloat32]] = sentenceEmbeddings.map{ wordEmbeddings =>
+  def getBiLstmInput(sentenceEmbeddings: List[Operand[TFloat32]]): List[Operand[TFloat32]] = {
+    val reverseSentenceEmbeddings: List[Operand[TFloat32]] = sentenceEmbeddings.map{ wordEmbeddings =>
       TensorResources.reverseTensor(scope, wordEmbeddings, 1)
     }
     val concatSentenceEmbeddings = TensorResources.concatTensors(scope, sentenceEmbeddings, 0)
@@ -114,11 +115,11 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
     val forwardVector = TensorResources.reshapeTensor(scope, concatSentenceEmbeddings, shape)
     val backwardVector = TensorResources.reshapeTensor(scope, concatReverseSentenceEmbeddings, shape)
-    Array(forwardVector, backwardVector)
+    List(forwardVector, backwardVector)
   }
 
-  private def computeBiLstmOutput(biLstmInputs: Array[Operand[TFloat32]]): Array[Operand[TFloat32]] = {
-    val (blockLSTMForward, lstmDims) = getLstmOutput(biLstmInputs(0), weightsFirstLstm)
+  private def computeBiLstmOutput(biLstmInputs: List[Operand[TFloat32]]): Array[Operand[TFloat32]] = {
+    val (blockLSTMForward, lstmDims) = getLstmOutput(biLstmInputs.head, weightsFirstLstm)
     val (blockLSTMBackward, _) = getLstmOutput(biLstmInputs(1), weightsFirstLstm)
 
     val nextLstmInputs = computeNextLstmInput(Array(blockLSTMForward, blockLSTMBackward), lstmDims)
@@ -138,7 +139,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val resBackward = TensorResources.reshapeTensor(scope, blockLSTMBackward, resShape)
 
     val vecShape = Array(timeSteps, SAMPLE_SIZE, -1)
-    val resTensors = Array(resForward, TensorResources.reverseTensor(scope, resBackward, 1))
+    val resTensors = List(resForward, TensorResources.reverseTensor(scope, resBackward, 1))
     val vecForward = TensorResources.reshapeTensor(scope,
       TensorResources.concatTensors(scope, resTensors, 2), vecShape)
     val vecBackward = TensorResources.reverseTensor(scope, vecForward, 0)
@@ -198,7 +199,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   }
 
-  private def computeScores(headFeatures: Array[Array[Operand[TFloat32]]]) = {
+  private def computeScores(headFeatures: Array[Array[Operand[TFloat32]]]): Operand[TFloat32] = {
 
     val indexes = (0 until timeSteps).toList
 

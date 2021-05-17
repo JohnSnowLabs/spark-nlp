@@ -144,11 +144,11 @@ object TensorResources {
     Reverse.create(scope, tensor, axis)
   }
 
-  def concatTensors[T <: TNumber](scope: Scope, tensors: Seq[Operand[T]], dimension: Int): Operand[T] = {
+  def concatTensors[T <: TNumber](scope: Scope, tensors: List[Operand[T]], dimension: Int): Operand[T] = {
     val axis: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](dimension))
     val concatTensor = tensors.head.data() match {
-      case float: TFloat32 => Concat.create(scope, tensors.asInstanceOf[Seq[Operand[TFloat32]]].toList.asJava, axis)
-      case int: TInt32 => Concat.create(scope, tensors.asInstanceOf[Seq[Operand[TInt32]]].toList.asJava, axis)
+      case float: TFloat32 => Concat.create(scope, tensors.asInstanceOf[List[Operand[TFloat32]]].asJava, axis)
+      case int: TInt32 => Concat.create(scope, tensors.asInstanceOf[List[Operand[TInt32]]].asJava, axis)
     }
     concatTensor.asInstanceOf[Operand[T]]
   }
@@ -168,12 +168,30 @@ object TensorResources {
     matmul
   }
 
-  def stackTensors[T <: TNumber](scope: Scope, tensors: Seq[Operand[T]]): Operand[T] = {
+  def stackTensors[T <: TNumber](scope: Scope, tensors: List[Operand[T]]): Operand[T] = {
     val stackedTensor = tensors.head.data() match {
-      case float: TFloat32 => Stack.create(scope, tensors.asInstanceOf[Seq[Operand[TFloat32]]].toList.asJava)
-      case int: TInt32 =>   Stack.create(scope, tensors.asInstanceOf[Seq[Operand[TInt32]]].toList.asJava)
+      case float: TFloat32 => Stack.create(scope, tensors.asInstanceOf[List[Operand[TFloat32]]].asJava)
+      case int: TInt32 =>   Stack.create(scope, tensors.asInstanceOf[List[Operand[TInt32]]].asJava)
     }
     stackedTensor.asInstanceOf[Operand[T]]
+  }
+
+  def extractTwoDimInts(scope: Scope, source: Operand[TInt32]): Array[Array[Int]] = {
+    val lengthFirstDimension = source.asTensor().shape().asArray().head.toInt
+    val matrix = (0 until lengthFirstDimension).toList.map{ index =>
+      val tensor = sliceTensor(scope, source, Array(index, 0), Array(1, -1)).asTensor()
+      extractInts(tensor)
+    }.toArray
+    matrix
+  }
+
+  def extractTwoDimFloats(scope: Scope, source: Operand[TFloat32]): Array[Array[Float]] = {
+    val lengthFirstDimension = source.asTensor().shape().asArray().head.toInt
+    val matrix = (0 until lengthFirstDimension).toList.map{ index =>
+      val tensor = sliceTensor(scope, source, Array(index, 0), Array(1, -1)).asTensor()
+      extractFloats(tensor)
+    }.toArray
+    matrix
   }
 
 }

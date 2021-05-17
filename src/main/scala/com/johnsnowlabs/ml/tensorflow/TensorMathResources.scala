@@ -2,9 +2,9 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.tensorflow.Operand
 import org.tensorflow.op.Scope
-import org.tensorflow.op.math.{AccumulateN, AddN}
-import org.tensorflow.types.{TFloat32, TInt32}
+import org.tensorflow.op.math.{AddN, Sub}
 import org.tensorflow.types.family.TNumber
+import org.tensorflow.types.{TFloat32, TInt32}
 
 import scala.collection.JavaConverters._
 
@@ -16,6 +16,11 @@ object TensorMathResources {
       case int: TInt32 => AddN.create(scope, tensors.asInstanceOf[Seq[Operand[TInt32]]].toList.asJava)
     }
     elementWiseSum.asInstanceOf[Operand[T]]
+  }
+
+  def subtractTensors[T <: TNumber](scope: Scope, tensorX: Operand[T], tensorY: Operand[T]): Operand[T] = {
+    val elementWiseSub = Sub.create(scope, tensorX, tensorY)
+    elementWiseSub.asInstanceOf[Operand[T]]
   }
 
 }
