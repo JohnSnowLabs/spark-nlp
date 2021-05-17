@@ -6,7 +6,7 @@ name: sbiobertresolve_icd10cm_augmented_billable_hcc
 date: 2021-02-06
 task: Entity Resolution
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, entity_resolution]
 supported: true
 article_header:
@@ -87,7 +87,7 @@ val result = bert_pipeline_icd.fit(Seq.empty["metastatic lung cancer"].toDS.toDF
 {:.table-model}
 |---|---|
 |Model Name:|sbiobertresolve_icd10cm_augmented_billable_hcc|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:|Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
