@@ -1,0 +1,358 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.johnsnowlabs.nlp.embeddings
+
+import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
+import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.storage.HasStorageRef
+
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.{DataFrame, SparkSession}
+
+import java.io.File
+
+/**
+ * The RoBERTa model was proposed in '''RoBERTa: A Robustly Optimized BERT Pretraining Approach''' [[https://arxiv.org/abs/1907.11692>]]
+ * by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.
+ * It is based on Google's BERT model released in 2018.
+ *
+ * It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
+ * The abstract from the paper is the following:
+ *
+ * Language model pretraining has led to significant performance gains but careful comparison between different
+ * approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes,
+ * and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication
+ * study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and
+ * training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every
+ * model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results
+ * highlight the importance of previously overlooked design choices, and raise questions about the source of recently
+ * reported improvements. We release our models and code.*
+ *
+ * Tips:
+ *
+ * - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
+ *
+ * - RoBERTa doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`</s>`)
+ *
+ * The original code can be found ```here``` [[https://github.com/pytorch/fairseq/tree/master/examples/roberta]].
+ *
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
+class RoBertaEmbeddings(override val uid: String)
+  extends AnnotatorModel[RoBertaEmbeddings]
+    with HasBatchedAnnotate[RoBertaEmbeddings]
+    with WriteTensorflowModel
+    with HasEmbeddingsProperties
+    with HasStorageRef
+    with HasCaseSensitiveProperties {
+
+  def this() = this(Identifiable.randomUID("ROBERTA_EMBEDDINGS"))
+
+  /** @group setParam */
+  def sentenceStartTokenId: Int = {
+    $$(vocabulary)("<s>")
+  }
+
+  /** @group setParam */
+  def sentenceEndTokenId: Int = {
+    $$(vocabulary)("</s>")
+  }
+
+  def padTokenId: Int = {
+    $$(vocabulary)("<pad>")
+  }
+
+  /**
+   * Vocabulary used to encode the words to ids with bpeTokenizer.encode
+   *
+   * @group param
+   * */
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+
+
+  /** @group setParam */
+  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
+
+  /**
+   * Holding merges.txt coming from RoBERTa model
+   * @group param
+   */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
+
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+   *
+   * @group param
+   * */
+  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+
+  /** @group setParam */
+  def setConfigProtoBytes(bytes: Array[Int]): RoBertaEmbeddings.this.type = set(this.configProtoBytes, bytes)
+
+  /** @group getParam */
+  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
+
+  /** Max sentence length to process
+   *
+   * @group param
+   * */
+  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
+
+  /** @group setParam */
+  def setMaxSentenceLength(value: Int): this.type = {
+    require(value <= 512, "RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value >= 1, "The maxSentenceLength must be at least 1")
+    set(maxSentenceLength, value)
+    this
+  }
+
+  /** @group getParam */
+  def getMaxSentenceLength: Int = $(maxSentenceLength)
+
+  /**
+   * It contains TF model signatures for the laded saved model
+   *
+   * @group param
+   * */
+  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+
+  /** @group setParam */
+  def setSignatures(value: Map[String, String]): this.type = {
+    if (get(signatures).isEmpty)
+      set(signatures, value)
+    this
+  }
+
+  /** @group getParam */
+  def getSignatures: Option[Map[String, String]] = get(this.signatures)
+
+  private var _model: Option[Broadcast[TensorflowRoBerta]] = None
+
+  /** @group setParam */
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): RoBertaEmbeddings = {
+    if (_model.isEmpty) {
+      _model = Some(
+        spark.sparkContext.broadcast(
+          new TensorflowRoBerta(
+            tensorflowWrapper,
+            sentenceStartTokenId,
+            sentenceEndTokenId,
+            padTokenId,
+            configProtoBytes = getConfigProtoBytes,
+            signatures = getSignatures
+          )
+        )
+      )
+    }
+
+    this
+  }
+
+  /** @group getParam */
+  def getModelIfNotSet: TensorflowRoBerta = _model.get.value
+
+  /** Set Embeddings dimensions for the RoBERTa model
+   * Only possible to set this when the first time is saved
+   * dimension is not changeable, it comes from RoBERTa config file
+   *
+   * @group setParam
+   * */
+  override def setDimension(value: Int): this.type = {
+    if (get(dimension).isEmpty)
+      set(this.dimension, value)
+    this
+  }
+
+  /** Whether to lowercase tokens or not
+   *
+   * @group setParam
+   * */
+  override def setCaseSensitive(value: Boolean): this.type = {
+    if (get(caseSensitive).isEmpty)
+      set(this.caseSensitive, value)
+    this
+  }
+
+  setDefault(
+    dimension -> 768,
+    batchSize -> 8,
+    maxSentenceLength -> 128,
+    caseSensitive -> true
+  )
+
+  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
+
+    val bpeTokenizer = BpeTokenizer.forModel(
+      "roberta",
+      merges = $$(merges),
+      vocab = $$(vocabulary),
+      padWithSentenceTokens = false
+    )
+
+    tokens.map { tokenIndex =>
+      // filter empty and only whitespace tokens
+      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
+        val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
+        val sentenceBegin = token.begin
+        val sentenceEnd = token.end
+        val sentenceInedx = tokenIndex.sentenceIndex
+        val result = bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        if (result.nonEmpty) result.head else IndexedToken("")
+      }
+      val wordpieceTokens = bertTokens.flatMap(token => bpeTokenizer.encode(token)).take($(maxSentenceLength))
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+  }
+
+  /**
+   * takes a document and annotations and produces new annotations of this annotator's annotation type
+   *
+   * @param batchedAnnotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+   * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+   */
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
+      TokenizedWithSentence.unpack(annotations).toArray
+    ).toArray
+    
+    /*Return empty if the real tokens are empty*/
+    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
+      val tokenized = tokenizeWithAlignment(tokenizedSentences)
+
+      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
+        tokenized,
+        tokenizedSentences,
+        $(batchSize),
+        $(maxSentenceLength),
+        $(caseSensitive)
+      )
+      WordpieceEmbeddingsSentence.pack(withEmbeddings)
+    }) else {
+      Seq(Seq.empty[Annotation])
+    }
+  }
+
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+  }
+
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    super.onWrite(path, spark)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_roberta", RoBertaEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+  }
+
+}
+
+trait ReadablePretrainedRobertaModel extends ParamsAndFeaturesReadable[RoBertaEmbeddings] with HasPretrained[RoBertaEmbeddings] {
+  override val defaultModelName: Some[String] = Some("roberta_base")
+
+  /** Java compliant-overrides */
+  override def pretrained(): RoBertaEmbeddings = super.pretrained()
+
+  override def pretrained(name: String): RoBertaEmbeddings = super.pretrained(name)
+
+  override def pretrained(name: String, lang: String): RoBertaEmbeddings = super.pretrained(name, lang)
+
+  override def pretrained(name: String, lang: String, remoteLoc: String): RoBertaEmbeddings = super.pretrained(name, lang, remoteLoc)
+}
+
+trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[RoBertaEmbeddings] =>
+
+  override val tfFile: String = "roberta_tensorflow"
+
+  def readTensorflow(instance: RoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
+
+    val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
+    instance.setModelIfNotSet(spark, tf)
+  }
+
+  addReader(readTensorflow)
+
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): RoBertaEmbeddings = {
+
+    val f = new File(tfModelPath)
+    val savedModel = new File(tfModelPath, "saved_model.pb")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(
+      savedModel.exists(),
+      s"savedModel file saved_model.pb not found in folder $tfModelPath"
+    )
+
+    val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(vocabFile.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
+
+    val mergesFile = new File(tfModelPath + "/assets", "merges.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
+
+    val vocabResource = new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+
+    val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val merges = ResourceHelper.parseLines(mergesResource)
+
+    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+
+    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
+    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
+    new RoBertaEmbeddings()
+      .setVocabulary(words)
+      .setMerges(bytePairs)
+      .setSignatures(_signatures)
+      .setModelIfNotSet(spark, wrapper)
+  }
+}
+
+
+object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel
