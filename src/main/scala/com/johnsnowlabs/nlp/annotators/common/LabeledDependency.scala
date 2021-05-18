@@ -7,10 +7,10 @@ object LabeledDependency extends Annotated[ConllSentence] {
   val ROOT_HEAD: Int = -1
   val ROOT_INDEX: Int = 1
 
-  override def annotatorType: String = AnnotatorType.POS
+  override def annotatorType: String = AnnotatorType.LABELED_DEPENDENCY
 
   override def unpack(annotations: Seq[Annotation]): Seq[ConllSentence] = {
-    val posTagged = annotations.filter(_.annotatorType == annotatorType).toArray
+    val posTagged = annotations.filter(_.annotatorType == AnnotatorType.POS).toArray
     val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN).toArray
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
@@ -35,11 +35,20 @@ object LabeledDependency extends Annotated[ConllSentence] {
       val head = arrangedSentence.head
       if (head != ROOT_HEAD) {
         val label = arrangedSentence.deprel
-        Annotation(AnnotatorType.LABELED_DEPENDENCY, arrangedSentence.begin, arrangedSentence.end,
+        Annotation(annotatorType, arrangedSentence.begin, arrangedSentence.end,
           label, Map())
       }
     }
     annotations.drop(ROOT_INDEX).asInstanceOf[Seq[Annotation]]
+  }
+
+  def packDependencyRelations(dependencyRelations: Seq[DependencyParsedSentence]): Seq[Annotation] = {
+    dependencyRelations.flatMap{ dependencyParsedSentence =>
+      dependencyParsedSentence.wordsWithDependency.map { wordWithDependency =>
+        Annotation(annotatorType, wordWithDependency.begin, wordWithDependency.end, wordWithDependency.dependencyRelation,
+          Map())
+      }
+    }
   }
 
   def moveToFront[A](y: A, xs: List[A]): List[A] = {

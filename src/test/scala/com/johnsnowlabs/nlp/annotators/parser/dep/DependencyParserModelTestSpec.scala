@@ -97,11 +97,10 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
   }
 
   "DependencyParser" should "A dependency parser (trained through TreeBank format file) with input text of two sentences" taggedAs SlowTest in {
-    behave like {
       val text = "I solved the problem with statistics. I saw a girl with a telescope"
       val testDataSet = Seq(text).toDS.toDF("text")
       relationshipsBetweenWordsPredictor(testDataSet, pipelineTreeBank)
-    }
+  }
 
     "DependencyParser" should "A dependency parser (trained through TreeBank format file) with an input text of several rows" taggedAs SlowTest in {
       val text = Seq(
@@ -139,7 +138,5 @@ class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehavi
 
       relationshipsBetweenWordsPredictor(testDataSet, pipelineConllU)
     }
-
-  }
 
 }

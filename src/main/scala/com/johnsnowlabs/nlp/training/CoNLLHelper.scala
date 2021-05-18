@@ -1,14 +1,15 @@
 package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{DependencyParsedSentence, IndexedTaggedWord, TaggedSentence, WordWithDependency}
 
 import scala.collection.mutable.ArrayBuffer
 
 object CoNLLHelper {
 
   case class CoNLLTokenCols(uPosTokens: IndexedTaggedWord, xPosTokens: IndexedTaggedWord, lemma: IndexedTaggedWord,
-                            sentenceIndex: Int)
-  case class CoNLLSentenceCols(uPos: TaggedSentence, xPos: TaggedSentence, lemma: TaggedSentence)
+                            wordWithDependency: WordWithDependency, sentenceIndex: Int)
+  case class CoNLLSentenceCols(uPos: TaggedSentence, xPos: TaggedSentence, lemma: TaggedSentence,
+                               dependencyRelations: DependencyParsedSentence)
 
   def readLines(lines: Array[String], explodeSentences: Boolean): Seq[CoNLLUDocument] = {
 
@@ -23,7 +24,9 @@ object CoNLLHelper {
       val uPos = TaggedSentence(uPosTokens)
       val xPos = TaggedSentence(xPosTokens)
       val lemma = TaggedSentence(lemmaTokens)
-      val taggedCoNLLSentence = CoNLLSentenceCols(uPos, xPos, lemma)
+      val wordsWithDependency = lastSentence.map(t => t.wordWithDependency).toArray
+      val dependencyParseSentence = DependencyParsedSentence(wordsWithDependency)
+      val taggedCoNLLSentence = CoNLLSentenceCols(uPos, xPos, lemma, dependencyParseSentence)
 
       sentences.append(taggedCoNLLSentence)
       lastSentence.clear()
@@ -81,7 +84,8 @@ object CoNLLHelper {
       val uPos = textSentence.map(t => t.uPos)
       val xPos = textSentence.map(t => t.xPos)
       val lemma = textSentence.map(t => t.lemma)
-      CoNLLUDocument(text, uPos, xPos, lemma)
+      val dependencyRelations = textSentence.map(t => t.dependencyRelations)
+      CoNLLUDocument(text, uPos, xPos, lemma, dependencyRelations)
     }
   }
 
@@ -97,12 +101,15 @@ object CoNLLHelper {
     val uPosTag = items(CoNLLUCols.UPOS.id)
     val xPosTag = items(CoNLLUCols.XPOS.id)
     val lemmaValue = items(CoNLLUCols.LEMMA.id)
+    val head =  items(CoNLLUCols.HEAD.id).toInt
+    val dependencyRelation =  items(CoNLLUCols.DEPREL.id)
 
     val uPos = IndexedTaggedWord(word, uPosTag, begin, end)
     val xPos = IndexedTaggedWord(word, xPosTag, begin, end)
     val lemma = IndexedTaggedWord(lemmaValue, "", begin, end)
+    val wordWithDependency = WordWithDependency(word, head, dependencyRelation, begin, end)
 
-    CoNLLTokenCols(uPos, xPos, lemma, sentenceIndex)
+    CoNLLTokenCols(uPos, xPos, lemma, wordWithDependency, sentenceIndex)
   }
 
 }

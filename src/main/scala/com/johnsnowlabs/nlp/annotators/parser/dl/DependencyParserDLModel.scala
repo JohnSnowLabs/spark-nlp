@@ -40,6 +40,10 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
+  protected val relationsVocabulary: MapFeature[Int, String] = new MapFeature[Int, String](this, "relations vocabulary to search relations by id")
+
+  def setRelationsVocabulary(value: Map[Int, String]): this.type = set(relationsVocabulary, value)
+
   private lazy val vocabularySize = $$(vocabulary).size
 
   private lazy val scope = {
@@ -52,10 +56,12 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   private val nextLstmVariables =  List(("w_next_lstm", "weightMatrix"), ("wig_next_lstm", "weightInputGate"),
     ("wfg_next_lstm", "weightForgetGate"), ("wog_next_lstm", "weightOutputGate"))
   private val headsVariables = List("hidLayerFOH", "hidLayerFOM", "hidBias", "outLayer", "outBias")
+  private val relationsVariables = List("rhidLayerFOH", "rhidLayerFOM", "rhidBias", "routLayer", "routBias")
 
   private lazy val weightsFirstLstm = restoreLstmWeights(firstLstmVariables)
   private lazy val weightsNextLstm = restoreLstmWeights(nextLstmVariables)
-  private lazy val weightsHead = restoreHeadsWeights(headsVariables)
+  private lazy val weightsHeads = restoreDependencyWeights(headsVariables, "heads")
+  private lazy val weightsRelations = restoreDependencyWeights(relationsVariables, "relations")
 
   private val EMBEDDINGS_SIZE = 100
   private val SAMPLE_SIZE = 1
@@ -86,21 +92,43 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val resForward = biLstmOutputs(0)
     val resBackward = biLstmOutputs(1)
 
-    val headsFeatures: Array[Array[Operand[TFloat32]]] = (0 until timeSteps).map{ index =>
+    val dependencyFeatures: Array[DependencyFeatures] = (0 until timeSteps).map{ index =>
       val size = Array(1, -1)
       val lstmForward = TensorResources.sliceTensor(scope, resForward, begin = Array(index, 0), size)
       val lstmBackward = TensorResources.sliceTensor(scope, resBackward, begin = Array(timeSteps - index - 1, 0), size)
       val concatLstm = TensorResources.concatTensors(scope, List(lstmForward, lstmBackward), 1)
-      val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOH"))
-      val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsHead("hidLayerFOM"))
+      val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsHeads("hidLayerFOH"))
+      val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsHeads("hidLayerFOM"))
       val headFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFoh)
       val modFov = TensorResources.matmulTensors(scope, concatLstm, hidLayerFom)
-      Array(headFov, modFov)
+      DependencyFeatures(Array(headFov, modFov), concatLstm)
     }.toArray
 
-    val predictedScores: Operand[TFloat32] = computeScores(headsFeatures)
+    val predictedScores: Operand[TFloat32] = computeScores(dependencyFeatures)
     val predictedScoreMatrix = TensorResources.extractTwoDimFloats(scope, predictedScores)
     val predictedHeads = ProjectiveDependencyTree.parse(predictedScoreMatrix)
+
+    val predictedRelationScores: List[Operand[TFloat32]] = predictedHeads.tail.zipWithIndex.map{ case (predictedHead, modifier) =>
+      val concatLstmHead =  dependencyFeatures(predictedHead).concatLstm
+      val concatLstmModifier = dependencyFeatures(modifier + 1).concatLstm
+      val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidLayerFOH"))
+      val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidLayerFOM"))
+      val relationHeadFov = TensorResources.matmulTensors(scope, concatLstmHead, hidLayerFoh)
+      val relationModFov = TensorResources.matmulTensors(scope, concatLstmModifier, hidLayerFom)
+      val relationHidBias: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidBias"))
+      val sumRelations = TensorMathResources.sumTensors(scope, Array(relationHeadFov, relationModFov, relationHidBias))
+      val activation = Tanh.create(scope, sumRelations)
+      val relationOutLayer = Constant.create(scope, weightsRelations("routLayer"))
+      val relationOutBias = Constant.create(scope, weightsRelations("routBias"))
+      TensorMathResources.sumTensors(scope, Array(TensorResources.matmulTensors(scope, activation, relationOutLayer),
+        relationOutBias)
+      )
+    }
+    val predictedRelations = predictedRelationScores.map{predictedRelationScore =>
+      val scores = TensorResources.extractFloats(predictedRelationScore.asTensor())
+      val indexRelation = scores.zipWithIndex.maxBy(_._1)._2
+      $$(relationsVocabulary).getOrElse(indexRelation, "unknown")
+    }
     Seq()
   }
 
@@ -163,8 +191,8 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   }
 
-  private def restoreHeadsWeights(weightsVariables: List[String]): Map[String, Tensor[TFloat32]] = {
-    val modelPath: String = "src/main/resources/dependency-parser-dl/heads/"
+  private def restoreDependencyWeights(weightsVariables: List[String], module: String): Map[String, Tensor[TFloat32]] = {
+    val modelPath: String = s"src/main/resources/dependency-parser-dl/$module/"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
 
     weightsVariables.map{ weightVariable =>
@@ -199,18 +227,18 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   }
 
-  private def computeScores(headFeatures: Array[Array[Operand[TFloat32]]]): Operand[TFloat32] = {
+  private def computeScores(dependencyFeatures: Array[DependencyFeatures]): Operand[TFloat32] = {
 
     val indexes = (0 until timeSteps).toList
 
     val expressions: List[Operand[TFloat32]] = indexes.map{ i =>
       val result = (0 until timeSteps).toList.map{ j =>
-        val headFov = headFeatures(i)(0)
-        val modFov = headFeatures(j)(1)
-        val hidBias = Constant.create(scope, weightsHead("hidBias"))
+        val headFov = dependencyFeatures(i).headsFeatures(0)
+        val modFov = dependencyFeatures(j).headsFeatures(1)
+        val hidBias = Constant.create(scope, weightsHeads("hidBias"))
         val activation = Tanh.create(scope, TensorMathResources.sumTensors(scope, Array(headFov, modFov, hidBias)))
-        val outLayer = Constant.create(scope, weightsHead("outLayer"))
-        val outBias = Constant.create(scope, weightsHead("outBias"))
+        val outLayer = Constant.create(scope, weightsHeads("outLayer"))
+        val outBias = Constant.create(scope, weightsHeads("outBias"))
         val matmulResult = TensorResources.matmulTensors(scope, activation, outLayer)
         TensorMathResources.sumTensors(scope, Array(matmulResult, outBias))
       }
@@ -222,6 +250,8 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
     scores
   }
+
+  case class DependencyFeatures(headsFeatures: Array[Operand[TFloat32]], concatLstm: Operand[TFloat32])
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array[String](DOCUMENT, TOKEN)

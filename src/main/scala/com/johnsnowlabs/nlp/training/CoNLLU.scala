@@ -10,7 +10,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 case class CoNLLUDocument(text: String,
                           uPosTagged: Seq[PosTaggedSentence],
                           xPosTagged: Seq[PosTaggedSentence],
-                          lemma: Seq[PosTaggedSentence]
+                          lemma: Seq[PosTaggedSentence],
+                          dependencyRelations: Seq[DependencyParsedSentence]
                         )
 
 case class CoNLLU(explodeSentences: Boolean = true) {
@@ -39,8 +40,10 @@ case class CoNLLU(explodeSentences: Boolean = true) {
       val uPosTagged = packPosTagged(doc.uPosTagged)
       val xPosTagged = packPosTagged(doc.xPosTagged)
       val lemma = packTokenized(doc.lemma)
+      val dependency = DependencyParsed.packDependencyRelations(doc.dependencyRelations)
+      val labeledDependency = LabeledDependency.packDependencyRelations(doc.dependencyRelations)
 
-      (text, docs, sentences, tokenized, uPosTagged, xPosTagged, lemma)
+      (text, docs, sentences, tokenized, uPosTagged, xPosTagged, lemma, dependency, labeledDependency)
     }.toDF.rdd
 
     spark.createDataFrame(rows, schema)
@@ -76,6 +79,10 @@ case class CoNLLU(explodeSentences: Boolean = true) {
     PosTagged.pack(sentences)
   }
 
+  def packDependencyParsed(dependencyParseSentences: Seq[DependencyParsedSentence]): Seq[Annotation] = {
+    DependencyParsed.pack(dependencyParseSentences)
+  }
+
   def readDocs(er: ExternalResource): Seq[CoNLLUDocument] = {
     val lines = ResourceHelper.parseLines(er)
     CoNLLHelper.readLines(lines, explodeSentences)
@@ -89,8 +96,10 @@ case class CoNLLU(explodeSentences: Boolean = true) {
     val uPos = getAnnotationType(CoNLLUCols.UPOS.toString.toLowerCase, AnnotatorType.POS)
     val xPos = getAnnotationType(CoNLLUCols.XPOS.toString.toLowerCase, AnnotatorType.POS)
     val lemma = getAnnotationType(CoNLLUCols.LEMMA.toString.toLowerCase, AnnotatorType.TOKEN)
+    val dependency = getAnnotationType(CoNLLUCols.DEPS.toString.toLowerCase, AnnotatorType.DEPENDENCY)
+    val labeledDependency = getAnnotationType(CoNLLUCols.DEPREL.toString.toLowerCase, AnnotatorType.LABELED_DEPENDENCY)
 
-    StructType(Seq(text, doc, sentence, token, uPos, xPos, lemma))
+    StructType(Seq(text, doc, sentence, token, uPos, xPos, lemma, dependency, labeledDependency))
   }
 
   def getAnnotationType(column: String, annotatorType: String, addMetadata: Boolean = true): StructField = {

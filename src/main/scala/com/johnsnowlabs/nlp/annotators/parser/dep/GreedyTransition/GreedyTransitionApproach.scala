@@ -12,8 +12,8 @@ object GreedyTransitionApproach {
     val words = posTagged.indexedTaggedWords
       .zip(dependencies)
       .map{
-        case (word, dependency) =>
-          WordWithDependency(word.word, word.begin, word.end, dependency)
+        case (word, head) =>
+          WordWithDependency(word.word, head, "", word.begin, word.end)
       }
 
     DependencyParsedSentence(words)

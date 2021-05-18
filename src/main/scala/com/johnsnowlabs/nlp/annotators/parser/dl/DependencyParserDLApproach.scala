@@ -43,8 +43,18 @@ class DependencyParserDLApproach(override val uid: String) extends AnnotatorAppr
 
     val vocabulary: Map[String, Int] = uniqueWords.zipWithIndex.map( word => (word._1, word._2)).toMap
 
+    val dataSetWithUniqueDependencyRelations =
+      SparkSqlHelper.uniqueArrayElements(dataset.withColumn("relations", col("deprel.result")), "relations")
+
+    val uniqueDependencyRelations = Seq("rroot") ++ dataSetWithUniqueDependencyRelations
+      .select("unique_relations_elements").rdd.map(rows =>
+      rows.getSeq(0).asInstanceOf[Seq[String]]).collect().flatten.distinct
+
+    val relationsVocabulary: Map[Int, String] = uniqueDependencyRelations.zipWithIndex.map( word => (word._2, word._1)).toMap
+
     new DependencyParserDLModel()
       .setVocabulary(vocabulary)
+      .setRelationsVocabulary(relationsVocabulary)
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
