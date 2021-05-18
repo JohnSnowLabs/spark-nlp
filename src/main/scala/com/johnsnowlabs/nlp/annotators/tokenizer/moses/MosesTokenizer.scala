@@ -39,20 +39,19 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
   private def replaceMultidots(text: String): String = {
     var processed: String = text
     processed = processed.replaceAll(raw"""\.([\.]+)""", " DOTMULTI$1")
-    val multidotRegex = raw""""DOTMULTI\.""".r
-    while (multidotRegex.findFirstIn(text).isDefined) // re.search(raw""""DOTMULTI\.", text)
+    while (processed.indexOf("DOTMULTI.") >= 0) { // re.search(raw""""DOTMULTI\.", text)
       processed = processed.replaceAll(raw"""DOTMULTI\.([^\.])""", "DOTDOTMULTI $1")
-    processed = processed.replaceAll(raw"""DOTMULTI\.""", "DOTDOTMULTI")
-    text
+      processed = processed.replaceAll(raw"""DOTMULTI\.""", "DOTDOTMULTI")
+    }
+    processed
   }
 
-  //(s.toSet intersect IsAlnum.toSet).nonEmpty
-  private def isAnyAlpha(s: String): Boolean = IsAlnum.r.findFirstIn(s) match {
+  private def isAnyAlpha(s: String): Boolean = s"[$IsAlnum]".r.findFirstIn(s) match {
     case Some(_) => true
-    case _ => false
+    case None => false
   }
 
-  // (s.toSet diff IsLower.toSet).isEmpty
+
   private def isLower(s: String): Boolean = s.matches(raw"""\p{Ll}*""") // TODO Some languages missing
 
   def handlesNonBreakingPrefixes(text: String): String = {
@@ -60,9 +59,8 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     val tokens = text.split(" ")
     val numTokens = tokens.length
     for ((token, i) <- tokens.zipWithIndex) {
-      // Checks if token ends with a fullstop.
+      // Checks if token ends with a full stop
       val tokenEndsWithPeriod = raw"""^(\S+)\.$$""".r.findFirstMatchIn(token)
-      //TODO match may not be exhaustive. It would fail on the following input: None
       tokenEndsWithPeriod match {
         case None => tokenEndsWithPeriod
         case Some(prefixMatch) =>
@@ -79,15 +77,16 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
           // No change to the token.
           // Checks if the prefix is in NUMERIC_ONLY_PREFIXES
           // and ensures that the next word is a digit.
-          val containsFullStopAndisAlpha = ((prefix contains ".") && isAnyAlpha(prefix)) ||
-            (NONBREAKING_PREFIXES.contains(prefix) && (!NUMERIC_ONLY_PREFIXES.contains(prefix))) ||
+          def containsFullStopAndisAlpha = ((prefix contains ".") && isAnyAlpha(prefix)) ||
+            (NONBREAKING_PREFIXES.contains(prefix) && !NUMERIC_ONLY_PREFIXES.contains(prefix)) ||
             (
               (i != numTokens - 1)
                 && tokens(i + 1).nonEmpty
                 && isLower(tokens(i + 1)(0).toString)
               )
+
           // No change to the token.
-          val isNonBreakingAndNumericOnly = (
+          def isNonBreakingAndNumericOnly = (
             NONBREAKING_PREFIXES.contains(prefix)
               && ((i + 1) < numTokens)
               && raw"""^[0-9]+""".r.findFirstIn(tokens(i + 1)).isDefined
@@ -107,7 +106,6 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     processed.replace("DOTMULTI", ".")
   }
 
-  // TODO: TEST
   def tokenize(text: String): Array[String] = {
     var processed = text
 
@@ -122,8 +120,11 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     processed = applySubstitution(processed, DEDUPLICATE_SPACE, ASCII_JUNK)
     processed = processed.trim()
 
+    //    if (protectedPatterns) ???
+
     processed = applySubstitution(processed, PAD_NOT_ISALNUM)
 
+    //    if (aggressiveDashSplits) ???
 
     processed = replaceMultidots(processed)
 
@@ -138,6 +139,9 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     processed = applySubstitution(processed, DEDUPLICATE_SPACE).trim()
 
     processed = applySubstitution(processed, TRAILING_DOT_APOSTROPHE)
+
+    // Restore the protected tokens.
+    // if (protectedPatterns) ???
 
     processed = restoreMultidots(processed)
     processed.split(" ")

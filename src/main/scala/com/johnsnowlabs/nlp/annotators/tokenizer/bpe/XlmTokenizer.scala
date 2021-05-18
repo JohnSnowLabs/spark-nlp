@@ -23,27 +23,29 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 
 /**
   * XLM Tokenizer
-  * @param merges Combinations of byte pairs with ranking
-  * @param vocab Mapping from byte pair to an id
-  * @param lang Langauge of the text (Currenlty only english supported)
-  * @param specialTokens Special Tokens of the model to not split on
+  *
+  * @param merges                     Combinations of byte pairs with ranking
+  * @param vocab                      Mapping from byte pair to an id
+  * @param lang                       Langauge of the text (Currenlty only english supported)
+  * @param specialTokens              Special Tokens of the model to not split on
   * @param doLowercaseAndRemoveAccent True for current supported model (v1.2.0), False for XLM-17 & 100
   */
 private[nlp] class XlmTokenizer(
-                    merges: Map[(String, String), Int],
-                    vocab: Map[String, Int],
-                    lang: String = "en",
-                    specialTokens: SpecialTokens,
-                    doLowercaseAndRemoveAccent: Boolean = true
-                  ) extends BpeTokenizer(merges, vocab, specialTokens) {
+                                 merges: Map[(String, String), Int],
+                                 vocab: Map[String, Int],
+                                 specialTokens: SpecialTokens,
+                                 padWithSentenceTokens: Boolean = false,
+                                 lang: String = "en",
+                                 doLowercaseAndRemoveAccent: Boolean = true
+                               ) extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
   require(lang == "en", "Only English is supported currently.")
 
   /**
     * Lowercase and strips accents from a piece of text based on
     * https://github.com/facebookresearch/XLM/blob/master/tools/lowercase_and_remove_accent.py
     */
-  def lowercaseAndRemoveAccent(input: Array[String]): Array[String] = {
-    var text = input.mkString(" ")
+  def lowercaseAndRemoveAccent(input: String): String = {
+    var text = input
     text = text.toLowerCase()
     text = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD)
     //    output = []
@@ -54,22 +56,10 @@ private[nlp] class XlmTokenizer(
     //    output.append(char)
     //    return "".join(output).lower().split(" ")
     text.toCharArray
-      .filter(Character.getType(_) != Character.NON_SPACING_MARK)  // Unicode Category "Mn"
+      .filter(Character.getType(_) != Character.NON_SPACING_MARK) // Unicode Category "Mn"
       .mkString
       .toLowerCase
-      .split(" ")
   }
-
-
-  override def tokenize(sentence: Sentence): Array[IndexedToken] = {
-    var text = sentence.content
-    var mosesTokenized = mosesPipeline(text)
-    if (doLowercaseAndRemoveAccent)
-      mosesTokenized = lowercaseAndRemoveAccent(mosesTokenized)
-    ???
-  }
-
-  override def encode(indToken: IndexedToken): Array[TokenPiece] = ???
 
   val mosesNormalizer = new MosesPunctNormalizer()
   val mosesTokenizer = new MosesTokenizer(lang)
@@ -80,4 +70,24 @@ private[nlp] class XlmTokenizer(
     processed = mosesNormalizer.removeNonPrintingChar(processed)
     mosesTokenizer.tokenize(processed)
   }
+
+  override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
+    val mosesTokenized = mosesPipeline(text)
+
+    val processedText = if (doLowercaseAndRemoveAccent)
+      lowercaseAndRemoveAccent(mosesTokenized.mkString(" "))
+    else mosesTokenized.mkString(" ")
+
+    val indexedTokens = processedText.split(" ").map((token: String) => {
+      val tokenTextIndex = processedText.indexOf(token)
+      IndexedToken(
+        token,
+        indexOffset + tokenTextIndex,
+        indexOffset + tokenTextIndex + token.length - 1
+      ) // TODO: What if special characters were removed?
+    })
+    indexedTokens
+  }
+
+  override def preProcessTokenForBpe(token: String): String = token + "</w>" // TODO
 }
