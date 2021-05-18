@@ -1,12 +1,30 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
+
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
+import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
+import com.johnsnowlabs.util.FileHelper
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
-import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
-import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -18,7 +36,7 @@ trait WriteTensorflowModel {
                             path: String,
                             spark: SparkSession,
                             tensorflow: TensorflowWrapper,
-                            suffix: String, filename:String,
+                            suffix: String, filename: String,
                             configProtoBytes: Option[Array[Byte]] = None
                           ): Unit = {
 
@@ -45,7 +63,7 @@ trait WriteTensorflowModel {
                               path: String,
                               spark: SparkSession,
                               tensorflow: TensorflowWrapper,
-                              suffix: String, filename:String,
+                              suffix: String, filename: String,
                               configProtoBytes: Option[Array[Byte]] = None
                             ): Unit = {
 
@@ -104,9 +122,9 @@ trait ReadTensorflowModel {
                            path: String,
                            spark: SparkSession,
                            suffix: String,
-                           zipped:Boolean = true,
-                           useBundle:Boolean = false,
-                           tags:Array[String]=Array.empty,
+                           zipped: Boolean = true,
+                           useBundle: Boolean = false,
+                           tags: Array[String] = Array.empty,
                            initAllTables: Boolean = false
                          ): TensorflowWrapper = {
 
@@ -116,14 +134,14 @@ trait ReadTensorflowModel {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12)+ suffix)
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath.toString
 
     // 2. Copy to local dir
     fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
 
     // 3. Read Tensorflow state
-    val tf = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
+    val (tf, _) = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
       zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables)
 
     // 4. Remove tmp folder
@@ -136,14 +154,14 @@ trait ReadTensorflowModel {
                                  path: String,
                                  spark: SparkSession,
                                  suffix: String,
-                                 zipped:Boolean = true,
-                                 useBundle:Boolean = false,
-                                 tags:Array[String]=Array.empty,
+                                 zipped: Boolean = true,
+                                 useBundle: Boolean = false,
+                                 tags: Array[String] = Array.empty,
                                  initAllTables: Boolean = false,
                                  loadSP: Boolean = false
                                ): TensorflowWrapper = {
 
-    if(loadSP){
+    if (loadSP) {
       LoadSentencepiece.loadSPToCluster(spark)
     }
 
@@ -151,7 +169,7 @@ trait ReadTensorflowModel {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12)+ suffix)
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath.toString
 
     // 2. Copy to local dir
@@ -171,8 +189,8 @@ trait ReadTensorflowModel {
                                path: String,
                                spark: SparkSession,
                                suffix: String,
-                               zipped:Boolean = true,
-                               tags:Array[String]=Array.empty,
+                               zipped: Boolean = true,
+                               tags: Array[String] = Array.empty,
                                initAllTables: Boolean = false
                              ): TensorflowWrapper = {
 
@@ -182,7 +200,7 @@ trait ReadTensorflowModel {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12)+ suffix)
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath.toString
 
     // 2. Copy to local dir
@@ -202,9 +220,9 @@ trait ReadTensorflowModel {
                          path: String,
                          spark: SparkSession,
                          suffix: String,
-                         zipped:Boolean = true,
-                         useBundle:Boolean = false,
-                         tags:Array[String]=Array.empty
+                         zipped: Boolean = true,
+                         useBundle: Boolean = false,
+                         tags: Array[String] = Array.empty
                        ): TensorflowWrapper = {
 
 
@@ -212,7 +230,7 @@ trait ReadTensorflowModel {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12)+ suffix)
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath.toString
 
     // 2. Copy to local dir
@@ -220,7 +238,7 @@ trait ReadTensorflowModel {
     fs.copyToLocalFile(new Path(path, "variables"), new Path(tmpFolder))
 
     // 3. Read Tensorflow state
-    val tf = TensorflowWrapper.read(new Path(tmpFolder).toString,
+    val (tf, _) = TensorflowWrapper.read(new Path(tmpFolder).toString,
       zipped, tags = tags, useBundle = useBundle)
 
     // 4. Remove tmp folder

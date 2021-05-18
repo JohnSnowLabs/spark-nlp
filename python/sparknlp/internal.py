@@ -313,3 +313,13 @@ class _MarianLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MarianLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer.loadSavedModel", path, jspark)
+
+
+class _DistilBertLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DistilBertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings.loadSavedModel", path, jspark)
+
+
+class _RoBertaLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings.loadSavedModel", path, jspark)
