@@ -1,14 +1,13 @@
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions.{col, size, explode}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest._
 
 class BertEmbeddingsTestSpec extends FlatSpec {
@@ -132,4 +131,34 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     assert(totalTokens == totalEmbeddings)
   }
 
+  "Bert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Something is weird on the notebooks, something is happening."
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tfModelPath = "src/test/resources/tf-hub-bert/model"
+
+    val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("bert")
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    // FIXME write is working - load is not
+    pipeline.fit(ddd).write.overwrite().save("./tmp_bert_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
+
+    pipelineModel.transform(ddd)
+  }
 }

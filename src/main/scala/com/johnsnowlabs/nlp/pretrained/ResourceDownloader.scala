@@ -1,4 +1,3 @@
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,9 +17,6 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.amazonaws.AmazonClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
 import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
@@ -39,13 +35,11 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, RoBertaEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
-
-import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
@@ -54,16 +48,20 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
+import com.amazonaws.AmazonClientException
+import com.amazonaws.auth.profile.ProfileCredentialsProvider
+import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
+import org.apache.hadoop.fs.FileSystem
 
 
 trait ResourceDownloader {
 
   /**
-    * Download resource to local file
-    *
-    * @param request Resource request
-    * @return downloaded file or None if resource is not found
-    */
+   * Download resource to local file
+   *
+   * @param request Resource request
+   * @return downloaded file or None if resource is not found
+   */
   def download(request: ResourceRequest): Option[String]
 
   def getDownloadSize(request: ResourceRequest): Option[Long]
@@ -71,6 +69,7 @@ trait ResourceDownloader {
   def clearCache(request: ResourceRequest): Unit
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
+
   val fs: FileSystem = ResourceDownloader.fs
 
 }
@@ -136,7 +135,7 @@ object ResourceDownloader {
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
-    val spark_version = if(ResourceHelper.spark.version.startsWith("2.3")) "2.4.4" else ResourceHelper.spark.version
+    val spark_version = if (ResourceHelper.spark.version.startsWith("2.3")) "2.4.4" else ResourceHelper.spark.version
     Version.parse(spark_version)
   }
 
@@ -149,16 +148,16 @@ object ResourceDownloader {
   var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
 
   /**
-    * Reset the cache and recreate ResourceDownloader S3 credentials
-    */
+   * Reset the cache and recreate ResourceDownloader S3 credentials
+   */
   def resetResourceDownloader(): Unit = {
     cache.empty
     this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
   }
 
   /**
-    * List all pretrained models in public name_lang
-    */
+   * List all pretrained models in public name_lang
+   */
   def listPublicModels(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
@@ -171,9 +170,10 @@ object ResourceDownloader {
   def showPublicModels(lang: String, version: String): Unit = {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang, Version.parse(version)), ResourceType.MODEL))
   }
+
   /**
-    * List all pretrained pipelines in public
-    */
+   * List all pretrained pipelines in public
+   */
   def listPublicPipelines(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
@@ -186,11 +186,12 @@ object ResourceDownloader {
   def showPublicPipelines(lang: String, version: String): Unit = {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang, Version.parse(version)), ResourceType.PIPELINE))
   }
+
   /**
-    * Returns models or pipelines in metadata json which has not been categorized yet.
-    *
-    * @return list of models or pipelines which are not categorized in metadata json
-    */
+   * Returns models or pipelines in metadata json which has not been categorized yet.
+   *
+   * @return list of models or pipelines which are not categorized in metadata json
+   */
   def listUnCategorizedResources(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
@@ -250,13 +251,14 @@ object ResourceDownloader {
     sb.toString()
 
   }
+
   /**
-    * List all resources after parsing the metadata json from the given folder in the S3 location
-    *
-    * @param folder folder inside S3 bucket
-    * @param resourceType type of the resources, ml for models and pl for pipelines
-    * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
-    */
+   * List all resources after parsing the metadata json from the given folder in the S3 location
+   *
+   * @param folder       folder inside S3 bucket
+   * @param resourceType type of the resources, ml for models and pl for pipelines
+   * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
+   */
   def listPretrainedResources(folder: String, resourceType: ResourceType): List[String] = {
     val resourceList = new ListBuffer[String]()
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
@@ -308,23 +310,23 @@ object ResourceDownloader {
   }
 
   /**
-    * Loads resource to path
-    *
-    * @param name     Name of Resource
-    * @param folder   Subfolder in s3 where to search model (e.g. medicine)
-    * @param language Desired language of Resource
-    * @return path of downloaded resource
-    */
+   * Loads resource to path
+   *
+   * @param name     Name of Resource
+   * @param folder   Subfolder in s3 where to search model (e.g. medicine)
+   * @param language Desired language of Resource
+   * @return path of downloaded resource
+   */
   def downloadResource(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
     downloadResource(ResourceRequest(name, language, folder))
   }
 
   /**
-    * Loads resource to path
-    *
-    * @param request Request for resource
-    * @return path of downloaded resource
-    */
+   * Loads resource to path
+   *
+   * @param request Request for resource
+   * @return path of downloaded resource
+   */
   def downloadResource(request: ResourceRequest): String = {
     val f = Future {
       if (request.folder.equals(publicLoc)) {
@@ -485,7 +487,9 @@ object PythonResourceDownloader {
     "SentenceDetectorDLModel" -> SentenceDetectorDLModel,
     "T5Transformer" -> T5Transformer,
     "MarianTransformer" -> MarianTransformer,
-    "WordSegmenterModel" -> WordSegmenterModel
+    "WordSegmenterModel" -> WordSegmenterModel,
+    "DistilBertEmbeddings" -> DistilBertEmbeddings,
+    "RoBertaEmbeddings" -> RoBertaEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
