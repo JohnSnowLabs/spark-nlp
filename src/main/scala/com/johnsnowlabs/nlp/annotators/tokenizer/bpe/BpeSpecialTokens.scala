@@ -17,22 +17,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import scala.collection.immutable.HashSet
 
-// TODO: How to do this properly?
-//private[nlp] class BpeSpecialTokens(modelType: String, vocab: Map[String, Int]) {
-//  val availableModels: Array[String] = Array("roberta")
-//
-//  def getSentencePadding: (String, String) =
-//    modelType match {
-//      case "roberta" => ("<s>", "</s>")
-//    }
-//
-//  def getSpecialTokens: SpecialTokens =
-//    modelType match {
-//      case "roberta" => SpecialTokens.getRobertaSpecialTokens(vocab)
-//    }
-//}
 private[nlp] class SpecialTokens(
                                   vocab: Map[String, Int],
                                   startTokenString: String,
@@ -58,31 +43,6 @@ private[nlp] class SpecialTokens(
   def contains(s: String): Boolean = allTokens.contains(SpecialToken(content = s, id = 0))
 }
 
-//private object SpecialTokens {
-//  def getRobertaSpecialTokens(vocab: Map[String, Int]): SpecialTokens = SpecialTokens(
-//    SpecialToken(
-//      content = "<s>",
-//      id = vocab("<s>"),
-//    ),
-//    SpecialToken(
-//      content = "</s>",
-//      id = vocab("</s>"),
-//    ),
-//    SpecialToken(
-//      content = "<unk>",
-//      id = vocab("<unk>"),
-//    ),
-//    SpecialToken(
-//      content = "<pad>",
-//      id = vocab("<pad>"),
-//    ),
-//    SpecialToken(
-//      content = "<mask>",
-//      id = vocab("<mask>"),
-//      lstrip = true
-//    ),
-//  )
-//}
 
 case class SpecialToken(
                          content: String,
@@ -91,7 +51,7 @@ case class SpecialToken(
                          lstrip: Boolean = false,
                          rstrip: Boolean = false
                        ) {
-  //  implicit def convertToString(s: SpecialToken): String = s.content
+
   override def hashCode(): Int = content.hashCode
 
   override def canEqual(that: Any): Boolean = that.isInstanceOf[SpecialToken]
