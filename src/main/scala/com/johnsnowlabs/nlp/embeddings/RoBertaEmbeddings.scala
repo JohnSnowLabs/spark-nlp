@@ -96,7 +96,7 @@ class RoBertaEmbeddings(override val uid: String)
   }
 
   /**
-   * Vocabulary used to encode the words to ids with WordPieceEncoder
+   * Vocabulary used to encode the words to ids with bpeTokenizer.encode
    *
    * @group param
    * */
@@ -107,10 +107,9 @@ class RoBertaEmbeddings(override val uid: String)
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /**
-   *
+   * Holding merges.txt coming from RoBERTa model
    * @group param
    */
-  //  val merges: StringArrayParam = new StringArrayParam(this, "merges", "list of merges")
   val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
 
   /** @group setParam */
@@ -251,6 +250,7 @@ class RoBertaEmbeddings(override val uid: String)
     val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
       TokenizedWithSentence.unpack(annotations).toArray
     ).toArray
+    
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
@@ -309,7 +309,7 @@ trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession, tags: Array[String] = Array("serve")): RoBertaEmbeddings = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): RoBertaEmbeddings = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -338,7 +338,7 @@ trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
 
     val bytePairs: Map[(String, String), Int] = merges.map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true, tags = tags)
+    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     val _signatures = signatures match {
       case Some(s) => s
