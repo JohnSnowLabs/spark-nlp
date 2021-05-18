@@ -20,7 +20,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
@@ -33,32 +33,29 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import java.io.File
 
 /**
- * The DistilBERT model was proposed in the paper '''DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter'''
- * [[https://arxiv.org/abs/1910.01108]].
- * DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
- * `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT's performances as measured on the GLUE language understanding benchmark.
+ * The RoBERTa model was proposed in '''RoBERTa: A Robustly Optimized BERT Pretraining Approach''' [[https://arxiv.org/abs/1907.11692>]]
+ * by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.
+ * It is based on Google's BERT model released in 2018.
  *
+ * It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
  * The abstract from the paper is the following:
  *
- * As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
- * operating these large models in on-the-edge and/or under constrained computational training or inference budgets
- * remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
- * model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
- * counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
- * knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
- * 40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
- * biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
- * distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
- * demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
- * study.
+ * Language model pretraining has led to significant performance gains but careful comparison between different
+ * approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes,
+ * and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication
+ * study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and
+ * training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every
+ * model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results
+ * highlight the importance of previously overlooked design choices, and raise questions about the source of recently
+ * reported improvements. We release our models and code.*
  *
  * Tips:
  *
- * - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just
- * separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
+ * - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
  *
- * - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input). This could be added if
- * necessary though, just let us know if you need this option.
+ * - RoBERTa doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`</s>`)
+ *
+ * The original code can be found ```here``` [[https://github.com/pytorch/fairseq/tree/master/examples/roberta]].
  *
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
@@ -74,35 +71,50 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class DistilBertEmbeddings(override val uid: String)
-  extends AnnotatorModel[DistilBertEmbeddings]
-    with HasBatchedAnnotate[DistilBertEmbeddings]
+class RoBertaEmbeddings(override val uid: String)
+  extends AnnotatorModel[RoBertaEmbeddings]
+    with HasBatchedAnnotate[RoBertaEmbeddings]
     with WriteTensorflowModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties {
 
-  def this() = this(Identifiable.randomUID("DISTILBERT_EMBEDDINGS"))
+  def this() = this(Identifiable.randomUID("ROBERTA_EMBEDDINGS"))
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
+    $$(vocabulary)("<s>")
   }
 
   /** @group setParam */
   def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
+    $$(vocabulary)("</s>")
+  }
+
+  def padTokenId: Int = {
+    $$(vocabulary)("<pad>")
   }
 
   /**
-   * Vocabulary used to encode the words to ids with WordPieceEncoder
+   * Vocabulary used to encode the words to ids with bpeTokenizer.encode
    *
    * @group param
    * */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
 
+
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
+
+  /**
+   * Holding merges.txt coming from RoBERTa model
+   * @group param
+   */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
@@ -111,7 +123,7 @@ class DistilBertEmbeddings(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertEmbeddings.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): RoBertaEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -124,7 +136,7 @@ class DistilBertEmbeddings(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 512, "RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -150,17 +162,18 @@ class DistilBertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBert]] = None
+  private var _model: Option[Broadcast[TensorflowRoBerta]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertEmbeddings = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): RoBertaEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBert(
+          new TensorflowRoBerta(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
+            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )
@@ -172,11 +185,11 @@ class DistilBertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBert = _model.get.value
+  def getModelIfNotSet: TensorflowRoBerta = _model.get.value
 
-  /** Set Embeddings dimensions for the DistilBERT model
+  /** Set Embeddings dimensions for the RoBERTa model
    * Only possible to set this when the first time is saved
-   * dimension is not changeable, it comes from DistilBERT config file
+   * dimension is not changeable, it comes from RoBERTa config file
    *
    * @group setParam
    * */
@@ -200,12 +213,17 @@ class DistilBertEmbeddings(override val uid: String)
     dimension -> 768,
     batchSize -> 8,
     maxSentenceLength -> 128,
-    caseSensitive -> false
+    caseSensitive -> true
   )
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
+
+    val bpeTokenizer = BpeTokenizer.forModel(
+      "roberta",
+      merges = $$(merges),
+      vocab = $$(vocabulary),
+      padWithSentenceTokens = false
+    )
 
     tokens.map { tokenIndex =>
       // filter empty and only whitespace tokens
@@ -214,10 +232,10 @@ class DistilBertEmbeddings(override val uid: String)
         val sentenceBegin = token.begin
         val sentenceEnd = token.end
         val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        val result = bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
         if (result.nonEmpty) result.head else IndexedToken("")
       }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
+      val wordpieceTokens = bertTokens.flatMap(token => bpeTokenizer.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -232,6 +250,7 @@ class DistilBertEmbeddings(override val uid: String)
     val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
       TokenizedWithSentence.unpack(annotations).toArray
     ).toArray
+    
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
@@ -259,38 +278,38 @@ class DistilBertEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert", DistilBertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_roberta", RoBertaEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedDistilBertModel extends ParamsAndFeaturesReadable[DistilBertEmbeddings] with HasPretrained[DistilBertEmbeddings] {
-  override val defaultModelName: Some[String] = Some("distilbert_base_uncased")
+trait ReadablePretrainedRobertaModel extends ParamsAndFeaturesReadable[RoBertaEmbeddings] with HasPretrained[RoBertaEmbeddings] {
+  override val defaultModelName: Some[String] = Some("roberta_base")
 
   /** Java compliant-overrides */
-  override def pretrained(): DistilBertEmbeddings = super.pretrained()
+  override def pretrained(): RoBertaEmbeddings = super.pretrained()
 
-  override def pretrained(name: String): DistilBertEmbeddings = super.pretrained(name)
+  override def pretrained(name: String): RoBertaEmbeddings = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertEmbeddings = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): RoBertaEmbeddings = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertEmbeddings = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): RoBertaEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[DistilBertEmbeddings] =>
+trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[RoBertaEmbeddings] =>
 
-  override val tfFile: String = "distilbert_tensorflow"
+  override val tfFile: String = "roberta_tensorflow"
 
-  def readTensorflow(instance: DistilBertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: RoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_distilbert_tf", initAllTables = false)
+    val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertEmbeddings = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): RoBertaEmbeddings = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -301,23 +320,39 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
 
-    val vocab = new File(tfModelPath + "/assets", "vocab.txt")
+    val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
+    require(vocabFile.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
 
-    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val mergesFile = new File(tfModelPath + "/assets", "merges.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
+
+    val vocabResource = new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+
+    val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val merges = ResourceHelper.parseLines(mergesResource)
+
+    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
     val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
     /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
-    new DistilBertEmbeddings()
+    new RoBertaEmbeddings()
       .setVocabulary(words)
-      .setSignatures(signatures.get)
+      .setMerges(bytePairs)
+      .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
   }
 }
 
 
-object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertTensorflowModel
+object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel

@@ -51,8 +51,14 @@ docs-en:
         url:    /docs/en/alab
       - title:  Start Page 
         url:    /docs/en/start_page
+      - title:  User Management
+        url:    /docs/en/user_management
       - title:  Project Setup
         url:    /docs/en/project_setup
+      - title:  Preannotations with Spark NLP
+        url:    /docs/en/preannotations
+      - title:  Active Learning
+        url:    /docs/en/active_learning
       - title:  Import Documents 
         url:    /docs/en/import
       - title:  Tasks

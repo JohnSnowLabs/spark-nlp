@@ -35,12 +35,11 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, RoBertaEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
-
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
@@ -49,11 +48,9 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-
 import com.amazonaws.AmazonClientException
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
-
 import org.apache.hadoop.fs.FileSystem
 
 
@@ -491,7 +488,8 @@ object PythonResourceDownloader {
     "T5Transformer" -> T5Transformer,
     "MarianTransformer" -> MarianTransformer,
     "WordSegmenterModel" -> WordSegmenterModel,
-    "DistilBertEmbeddings" -> DistilBertEmbeddings
+    "DistilBertEmbeddings" -> DistilBertEmbeddings,
+    "RoBertaEmbeddings" -> RoBertaEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

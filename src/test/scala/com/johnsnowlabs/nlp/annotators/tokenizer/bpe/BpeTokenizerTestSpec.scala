@@ -17,125 +17,113 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.Sentence
+import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.FlatSpec
 
 class BpeTokenizerTestSpec extends FlatSpec {
+    val vocab: Map[String, Int] =
+      Array(
+        "<s>",
+        "</s>",
+        "<mask>",
+        "ĠI",
+        "Ġunamb",
+        "ig",
+        "ou",
+        "os",
+        "ly",
+        "Ġgood",
+        "Ġ3",
+        "ĠAs",
+        "d",
+        "Ġ!",
+        "<unk>",
+        "<pad>"
+//        "ĠI",
+//        "ĠAs",
+//        "Ġ!",
+      ).zipWithIndex.toMap
 
-  val vocab: Map[String, Int] =
-    Array(
-      "<s>",
-      "</s>",
-      "<mask>",
-      "I",
-      "Ġunamb",
-      "ig",
-      "ou",
-      "os",
-      "ly",
-      "Ġgood",
-      "Ġ3",
-      "As",
-      "d",
-      "!"
-    ).zipWithIndex.toMap
+    val merges: Map[(String, String), Int] = Array(
+      "o u",
+      "l y",
+      "Ġ g",
+      "a m",
+      "i g",
+      "Ġ u",
+      "o d",
+      "u n",
+      "o s",
+      "Ġg o",
+      "Ġu n",
+      "o od",
+      "A s",
+      "m b",
+      "g o",
+      "o o",
+      "n a",
+      "am b",
+      "s l",
+      "n am",
+      "b i",
+      "b ig",
+      "u o",
+      "s d",
+      "Ġun amb",
+      "Ġgo od",
+      "Ġ 3"
+    ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
-  val merges: Array[String] = Array(
-    "o u",
-    "l y",
-    "Ġ g",
-    "a m",
-    "i g",
-    "Ġ u",
-    "o d",
-    "u n",
-    "o s",
-    "Ġg o",
-    "Ġu n",
-    "o od",
-    "A s",
-    "m b",
-    "g o",
-    "o o",
-    "n a",
-    "am b",
-    "s l",
-    "n am",
-    "b i",
-    "b ig",
-    "u o",
-    "s d",
-    "Ġun amb",
-    "Ġgo od",
-    "Ġ 3"
+  val bpeTokenizer: BpeTokenizer = BpeTokenizer.forModel(
+    "roberta",
+    merges,
+    vocab,
+    padWithSentenceTokens = false
   )
 
-  val bpeTokenizer = new BpeTokenizer(merges, vocab)
-
-  /**
-   * TODO Remove this example, this is for review only
-   * Example Output:
-   * {{{
-   * Array(
-   *   IndexedToken(I,0,1),
-   *   IndexedToken( unambigouosly,1,15),
-   *   IndexedToken( good,15,20),
-   *   IndexedToken( 3,20,22),
-   *   IndexedToken(Asd,22,25),
-   *   IndexedToken(!,25,26)
-   * )
-   * Array(
-   *   TokenPiece(I,I,3,true,0,1),
-   *   TokenPiece(Ġunamb,Ġunambigouosly,4,true,1,7),
-   *   TokenPiece(ig,Ġunambigouosly,5,false,7,9),
-   *   TokenPiece(ou,Ġunambigouosly,6,false,9,11),
-   *   TokenPiece(os,Ġunambigouosly,7,false,11,13),
-   *   TokenPiece(ly,Ġunambigouosly,8,false,13,15),
-   *   TokenPiece(Ġgood,Ġgood,9,true,15,20),
-   *   TokenPiece(Ġ3,Ġ3,10,true,20,22),
-   *   TokenPiece(As,Asd,11,true,22,24),
-   *   TokenPiece(d,Asd,12,false,24,25),
-   *   TokenPiece(!,!,13,true,25,26)
-   * )
-   * }}}
-   */
-
-  "BpeTokenizer" should "encode words correctly" taggedAs FastTest in {
-    val text = "I unambigouosly good 3Asd!"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!")
-    val expectedIds = Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
-
-    val tokenized = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenized)
+  private def assertEncodedCorrectly(text: String,
+                                     encoded: Array[TokenPiece],
+                                     expected: Array[String],
+                                     expectedIds: Array[Int]): Unit = {
+    println(encoded.mkString("Array(\n  ", ",\n  ", "\n)"))
     for (i <- encoded.indices) {
       val piece = encoded(i)
       assert(piece.wordpiece == expected(i))
       assert(piece.pieceId == expectedIds(i))
 
-      assert(text.slice(piece.begin, piece.end) == piece.wordpiece.replace("Ġ", " "))
+      assert(text.slice(piece.begin, piece.end + 1) == piece.wordpiece.replace("Ġ", " "))
     }
   }
 
-  "BpeTokenizer" should "encode sentences with special tokens correctly" taggedAs FastTest in {
-    val text = "I unambigouosly <mask> 3Asd!"
-
+  "RobertaTokenizer" should "encode words correctly" taggedAs FastTest in {
+    val text = "I unambigouosly good 3Asd!"
     val sentence = Sentence(text, 0, text.length - 1, 0)
-    val expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġ3", "As", "d", "!")
-    val expectedIds = Array(3, 4, 5, 6, 7, 8, 2, 10, 11, 12, 13)
+
+    val expected: Array[String] = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!")
+    val expectedIds: Array[Int] = Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
 
     val tokenized = bpeTokenizer.tokenize(sentence)
     val encoded = bpeTokenizer.encode(tokenized)
 
-    for (i <- encoded.indices) {
-      assert(encoded(i).wordpiece == expected(i))
-      assert(encoded(i).pieceId == expectedIds(i))
-    }
+    assertEncodedCorrectly(text, encoded, expected, expectedIds)
+
   }
 
-  "BpeTokenizer" should "handle empty sentences" taggedAs FastTest in {
+  "RobertaTokenizer" should "encode sentences with special tokens correctly" taggedAs FastTest in {
+    val text = "I unambigouosly <mask> 3Asd!"
+    val sentence = Sentence(text, 0, text.length - 1, 0)
+
+    val expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġ3", "As", "d", "!")
+    val expectedIds = Array(3, 4, 5, 6, 7, 8, 2, 10, 11, 12, 13)
+
+    val tokenizedWithMask = bpeTokenizer.tokenize(sentence)
+    val encoded = bpeTokenizer.encode(tokenizedWithMask)
+
+    assertEncodedCorrectly(text, encoded, expected, expectedIds)
+  }
+
+  "RobertaTokenizer" should "handle empty sentences" taggedAs FastTest in {
     val text = " \n"
     val sentence = Sentence(text, 0, text.length - 1, 0)
 
@@ -145,42 +133,59 @@ class BpeTokenizerTestSpec extends FlatSpec {
     assert(encoded.isEmpty)
   }
 
-  "BpeTokenizer" should "add sentence padding correctly if requested" taggedAs FastTest in {
-    val tokenizer = new BpeTokenizer(merges, vocab, padWithSentenceTokens = true)
+  "RobertaTokenizer" should "add sentence padding correctly if requested" taggedAs FastTest in {
+    val tokenizer = BpeTokenizer.forModel("roberta", merges, vocab, padWithSentenceTokens = true)
 
     val text = "I unambigouosly <mask> 3Asd!"
-
     val sentence = Sentence(text, 0, text.length - 1, 0)
+
     val expected = Array("<s>", "I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġ3", "As", "d", "!", "</s>")
     val expectedIds = Array(0, 3, 4, 5, 6, 7, 8, 2, 10, 11, 12, 13, 1)
 
     val tokenized = tokenizer.tokenize(sentence)
     val encoded = tokenizer.encode(tokenized)
 
+    val textPadded = "<s>I unambigouosly <mask> 3Asd!</s>"
+    assertEncodedCorrectly(textPadded, encoded, expected, expectedIds)
+
     assert(tokenized.head.token == "<s>")
     assert(tokenized.last.token == "</s>")
-    for (i <- encoded.indices) {
-      assert(encoded(i).wordpiece == expected(i))
-      assert(encoded(i).pieceId == expectedIds(i))
-    }
 
   }
-
-  "BpeTokenizer" should "throw exception when a word is not in the vocabulary" taggedAs FastTest in {
-    val tokenizer = new BpeTokenizer(merges, vocab, padWithSentenceTokens = true)
-
-    val text = "not in vocabulary"
+  "RobertaTokenizer" should "handle unknown words" taggedAs FastTest in {
+    val text = "???"
     val sentence = Sentence(text, 0, text.length - 1, 0)
 
-    val tokenized = tokenizer.tokenize(sentence)
+    val tokenized = bpeTokenizer.tokenize(sentence)
+    val encoded = bpeTokenizer.encode(tokenized)
+    assert(encoded.forall(_.pieceId == vocab("<unk>")))
+  }
+  "RobertaTokenizer" should "throw exception when an unsupported model type is used" taggedAs FastTest in {
     assertThrows[IllegalArgumentException] {
-      tokenizer.encode(tokenized)
+      BpeTokenizer.forModel("unsupported", merges, vocab, padWithSentenceTokens = false)
     }
   }
 
-  "BpeTokenizer" should "throw exception when an unsupported model type is used" taggedAs FastTest in {
-    assertThrows[IllegalArgumentException] {
-      new BpeTokenizer(merges, vocab, "deberta")
-    }
-  }
+//  "RobertaTokenizer" should "encode 2" taggedAs FastTest in {
+//    val text = "Rare Hendrix song draft sells for almost $17,000"
+////    val sentence = Sentence(text, 0, text.length - 1, 0)
+//    val indexedTokens = text.split(" ").map(
+//      tok => IndexedToken(tok, text.indexOf(tok), text.indexOf(tok) + tok.length - 1)
+//    )
+//    println(indexedTokens.mkString("Array(\n  ", ",\n  ", "\n)"))
+//
+//    val indexedTokSentences: Array[IndexedToken] = indexedTokens
+//      .map(tok => Sentence(tok.token, tok.begin, tok.begin + tok.token.length - 1, 0))
+//      .flatMap(bpeTokenizer.tokenize)
+//    println(indexedTokSentences.mkString("Array(\n  ", ",\n  ", "\n)"))
+//
+//    val encoded = bpeTokenizer.encode(indexedTokSentences)
+//    println(encoded.mkString("Array(\n  ", ",\n  ", "\n)"))
+//    for (i <- encoded.indices) {
+//      val piece = encoded(i)
+//      println("asserting ", text.slice(piece.begin, piece.end + 1), piece.wordpiece.replace("Ġ", " "))
+//      assert(text.slice(piece.begin, piece.end + 1) == piece.wordpiece.replace("Ġ", " "))
+//
+//    }
+//  }
 }
