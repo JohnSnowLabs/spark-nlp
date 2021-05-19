@@ -35,6 +35,22 @@ object functions {
       }
       dataset.withColumn(outputCol, func(col(column)).as(outputCol, meta))
     }
+  
+    def mapAnnotationsCol[T: TypeTag](firstCol: String, secondCol:String, outputCol: String, function: (Seq[Annotation], Seq[Annotation]) => T): DataFrame = {
+      val firstMeta = dataset.schema(firstCol).metadata
+      val secondMeta = dataset.schema(secondCol).metadata
+
+      // TODO wanna impose some constraints? do it here :)
+      val mergedMetadata = firstMeta
+
+      val func = udf {
+        (firstColAnnotations: Seq[Row], secondColAnnotations: Seq[Row]) =>
+          function(firstColAnnotations.map(Annotation(_)), secondColAnnotations.map(Annotation(_)))
+      }
+      dataset.withColumn(outputCol, func(col(firstCol), col(secondCol)).as(outputCol, mergedMetadata))
+    }
+
+
   }
 
   implicit class EachAnnotations(dataset: DataFrame) {
