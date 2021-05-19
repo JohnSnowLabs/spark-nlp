@@ -21,14 +21,14 @@ from sparknlp.annotation import Annotation
 
 def map_annotations(f, output_type: DataType):
     return udf(
-        lambda content: f(content),
+        lambda content: [ Annotation.toRow(a) for a in f([Annotation.fromRow(r) for r in content])],
         output_type
     )
 
 
 def map_annotations_strict(f):
     return udf(
-        lambda content: f(content),
+        lambda content: [ Annotation.toRow(a) for a in f([Annotation.fromRow(r) for r in content])],
         ArrayType(Annotation.dataType())
     )
 
