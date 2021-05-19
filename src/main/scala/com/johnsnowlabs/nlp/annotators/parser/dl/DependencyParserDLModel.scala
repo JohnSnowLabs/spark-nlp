@@ -18,7 +18,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
 import com.johnsnowlabs.ml.tensorflow.{TensorMathResources, TensorResources, TensorflowEmbeddingLookup, TensorflowWrapper}
-import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABELED_DEPENDENCY, TOKEN}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.util.Identifiable
@@ -26,23 +26,18 @@ import org.tensorflow.op.Scope
 import org.tensorflow.op.core.{Constant, Zeros}
 import org.tensorflow.op.math.Tanh
 import org.tensorflow.op.nn.BlockLSTM
-import org.tensorflow.types.{TFloat32, TInt64}
+import org.tensorflow.types.{TFloat32, TInt64, TString}
 import org.tensorflow.{EagerSession, Operand, SavedModelBundle, Tensor}
 
-import scala.language.postfixOps
 
 class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[DependencyParserDLModel]
   with HasSimpleAnnotate[DependencyParserDLModel] {
 
-  def this() = this(Identifiable.randomUID(DEPENDENCY))
+  def this() = this(Identifiable.randomUID("DEPENDENCY_PARSER_DL"))
 
   protected val vocabulary: MapFeature[String, Int] = new MapFeature[String, Int](this, "vocabulary to lookup embeddings based on word id")
 
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
-  protected val relationsVocabulary: MapFeature[Int, String] = new MapFeature[Int, String](this, "relations vocabulary to search relations by id")
-
-  def setRelationsVocabulary(value: Map[Int, String]): this.type = set(relationsVocabulary, value)
 
   private lazy val vocabularySize = $$(vocabulary).size
 
@@ -62,6 +57,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   private lazy val weightsNextLstm = restoreLstmWeights(nextLstmVariables)
   private lazy val weightsHeads = restoreDependencyWeights(headsVariables, "heads")
   private lazy val weightsRelations = restoreDependencyWeights(relationsVariables, "relations")
+  private lazy val relationsVocabulary = restoreRelationsVocabulary()
 
   private val EMBEDDINGS_SIZE = 100
   private val SAMPLE_SIZE = 1
@@ -82,10 +78,13 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       .filter(_.annotatorType == AnnotatorType.TOKEN)
       .toArray
 
-    val sentenceEmbeddings: List[Operand[TFloat32]] = tokens.map{ token =>
+    val tokensWithRoot = Array(Annotation(AnnotatorType.TOKEN, -1, -1, "*root*", Map())) ++ tokens
+
+    val sentenceEmbeddings: List[Operand[TFloat32]] = tokensWithRoot.map{ token =>
       val wordId: Int = $$(vocabulary).getOrElse(token.result, 0)
       Constant.create(scope, embeddings.lookup(embeddingsTable, Array(wordId)))
     }.toList
+
     timeSteps = sentenceEmbeddings.length
     val biLstmInputs = getBiLstmInput(sentenceEmbeddings)
     val biLstmOutputs = computeBiLstmOutput(biLstmInputs)
@@ -107,29 +106,19 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val predictedScores: Operand[TFloat32] = computeScores(dependencyFeatures)
     val predictedScoreMatrix = TensorResources.extractTwoDimFloats(scope, predictedScores)
     val predictedHeads = ProjectiveDependencyTree.parse(predictedScoreMatrix)
+    val predictedRelations = predictRelations(predictedHeads, dependencyFeatures)
 
-    val predictedRelationScores: List[Operand[TFloat32]] = predictedHeads.tail.zipWithIndex.map{ case (predictedHead, modifier) =>
-      val concatLstmHead =  dependencyFeatures(predictedHead).concatLstm
-      val concatLstmModifier = dependencyFeatures(modifier + 1).concatLstm
-      val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidLayerFOH"))
-      val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidLayerFOM"))
-      val relationHeadFov = TensorResources.matmulTensors(scope, concatLstmHead, hidLayerFoh)
-      val relationModFov = TensorResources.matmulTensors(scope, concatLstmModifier, hidLayerFom)
-      val relationHidBias: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidBias"))
-      val sumRelations = TensorMathResources.sumTensors(scope, Array(relationHeadFov, relationModFov, relationHidBias))
-      val activation = Tanh.create(scope, sumRelations)
-      val relationOutLayer = Constant.create(scope, weightsRelations("routLayer"))
-      val relationOutBias = Constant.create(scope, weightsRelations("routBias"))
-      TensorMathResources.sumTensors(scope, Array(TensorResources.matmulTensors(scope, activation, relationOutLayer),
-        relationOutBias)
-      )
+    val predictedDependencies = predictedHeads.tail zip predictedRelations
+    predictedDependencies.zipWithIndex.map{ case (predictedDependency, index) =>
+      val tokenAnnotation = tokensWithRoot(index)
+      val head = predictedDependency._1
+      val headAnnotation = tokensWithRoot(head)
+      val dependencyRelation = predictedDependency._2
+      //TODO: Check how to handle root index. Is it head 0 or -1?
+      Annotation(LABELED_DEPENDENCY, tokenAnnotation.begin, tokenAnnotation.end, dependencyRelation,
+        Map("head" -> head.toString, "word" -> tokenAnnotation.result, "head_word" -> headAnnotation.result,
+        "head_begin" -> headAnnotation.begin.toString, "head_end" -> headAnnotation.end.toString))
     }
-    val predictedRelations = predictedRelationScores.map{predictedRelationScore =>
-      val scores = TensorResources.extractFloats(predictedRelationScore.asTensor())
-      val indexRelation = scores.zipWithIndex.maxBy(_._1)._2
-      $$(relationsVocabulary).getOrElse(indexRelation, "unknown")
-    }
-    Seq()
   }
 
   def getBiLstmInput(sentenceEmbeddings: List[Operand[TFloat32]]): List[Operand[TFloat32]] = {
@@ -203,6 +192,17 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   }
 
+  private def restoreRelationsVocabulary(): Map[Int, String] = {
+    val modelPath: String = "src/main/resources/dependency-parser-dl/relations/"
+    val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
+    val variableName = "rVocabulary/Read/ReadVariableOp"
+    val tensor = TensorflowWrapper.restoreVariable(model, modelPath, variableName).expect(TString.DTYPE)
+
+    val relationsVocabulary = TensorResources.extractStrings(scope, tensor)
+
+    relationsVocabulary.zipWithIndex.map( relation => (relation._2, relation._1)).toMap
+  }
+
   private def getLstmOutput(inputSequence: Operand[TFloat32], weights: Map[String, Tensor[TFloat32]]):
   (Operand[TFloat32], Int) = {
 
@@ -251,10 +251,38 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     scores
   }
 
+  private def predictRelations(predictedHeads: List[Int], dependencyFeatures: Array[DependencyFeatures]): List[String] = {
+
+    val predictedRelationScores: List[Operand[TFloat32]] = predictedHeads.tail.zipWithIndex.map{ case (predictedHead, modifier) =>
+      val concatLstmHead =  dependencyFeatures(predictedHead).concatLstm
+      val concatLstmModifier = dependencyFeatures(modifier + 1).concatLstm
+      val hidLayerFoh: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidLayerFOH"))
+      val hidLayerFom: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidLayerFOM"))
+      val relationHeadFov = TensorResources.matmulTensors(scope, concatLstmHead, hidLayerFoh)
+      val relationModFov = TensorResources.matmulTensors(scope, concatLstmModifier, hidLayerFom)
+      val relationHidBias: Operand[TFloat32] = Constant.create(scope, weightsRelations("rhidBias"))
+      val sumRelations = TensorMathResources.sumTensors(scope, Array(relationHeadFov, relationModFov, relationHidBias))
+      val activation = Tanh.create(scope, sumRelations)
+      val relationOutLayer = Constant.create(scope, weightsRelations("routLayer"))
+      val relationOutBias = Constant.create(scope, weightsRelations("routBias"))
+      TensorMathResources.sumTensors(scope, Array(TensorResources.matmulTensors(scope, activation, relationOutLayer),
+        relationOutBias)
+      )
+    }
+
+    val predictedRelations = predictedRelationScores.map{predictedRelationScore =>
+      val scores = TensorResources.extractFloats(predictedRelationScore.asTensor())
+      val indexRelation = scores.zipWithIndex.maxBy(_._1)._2
+      relationsVocabulary.getOrElse(indexRelation, "unknown") //TODO: Set unknown or rise exception??
+    }
+
+    predictedRelations
+  }
+
   case class DependencyFeatures(headsFeatures: Array[Operand[TFloat32]], concatLstm: Operand[TFloat32])
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array[String](DOCUMENT, TOKEN)
-  override val outputAnnotatorType: AnnotatorType = DEPENDENCY
+  override val outputAnnotatorType: AnnotatorType = LABELED_DEPENDENCY
 
 }

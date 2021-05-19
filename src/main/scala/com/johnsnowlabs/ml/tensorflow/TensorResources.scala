@@ -139,6 +139,14 @@ object TensorResources {
     buffer
   }
 
+  def extractStrings(scope: Scope, source: Tensor[TString], size: Option[Int] = None): Array[String] = {
+    val realSize = calculateTensorSize(source, size)
+    (0 until realSize).toArray.map{ index =>
+      val stringTensor = sliceTensor(scope, Constant.create(scope, source), Array(index), Array(1))
+      stringTensor.data().getObject()
+    }
+  }
+
   def reverseTensor[T <: TNumber](scope: Scope, tensor: Operand[T], dimension: Int): Operand[T] = {
     val axis = Constant.vectorOf(scope, Array[Int](dimension))
     Reverse.create(scope, tensor, axis)
@@ -158,7 +166,7 @@ object TensorResources {
     reshapedTensor
   }
 
-  def sliceTensor[T <: TNumber](scope: Scope, tensor: Operand[T], begin: Array[Int], size: Array[Int]): Operand[T] = {
+  def sliceTensor[T <: TType](scope: Scope, tensor: Operand[T], begin: Array[Int], size: Array[Int]): Operand[T] = {
     val slicedTensor = Slice.create(scope, tensor, Constant.vectorOf(scope, begin), Constant.vectorOf(scope, size))
     slicedTensor
   }

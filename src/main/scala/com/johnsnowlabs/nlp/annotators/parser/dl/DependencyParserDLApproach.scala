@@ -18,7 +18,7 @@
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABELED_DEPENDENCY, TOKEN}
 import com.johnsnowlabs.util.spark.SparkSqlHelper
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
@@ -27,7 +27,7 @@ import org.apache.spark.sql.functions.col
 
 class DependencyParserDLApproach(override val uid: String) extends AnnotatorApproach[DependencyParserDLModel] {
 
-  def this() = this(Identifiable.randomUID(DEPENDENCY))
+  def this() = this(Identifiable.randomUID("DEPENDENCY_PARSER_DL"))
 
   override val description: String = "Dependency Parser DL finds a grammatical relation between two words in a sentence"
 
@@ -43,21 +43,11 @@ class DependencyParserDLApproach(override val uid: String) extends AnnotatorAppr
 
     val vocabulary: Map[String, Int] = uniqueWords.zipWithIndex.map( word => (word._1, word._2)).toMap
 
-    val dataSetWithUniqueDependencyRelations =
-      SparkSqlHelper.uniqueArrayElements(dataset.withColumn("relations", col("deprel.result")), "relations")
-
-    val uniqueDependencyRelations = Seq("rroot") ++ dataSetWithUniqueDependencyRelations
-      .select("unique_relations_elements").rdd.map(rows =>
-      rows.getSeq(0).asInstanceOf[Seq[String]]).collect().flatten.distinct
-
-    val relationsVocabulary: Map[Int, String] = uniqueDependencyRelations.zipWithIndex.map( word => (word._2, word._1)).toMap
-
     new DependencyParserDLModel()
       .setVocabulary(vocabulary)
-      .setRelationsVocabulary(relationsVocabulary)
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
-  override val outputAnnotatorType: AnnotatorType = DEPENDENCY
+  override val outputAnnotatorType: AnnotatorType = LABELED_DEPENDENCY
 }

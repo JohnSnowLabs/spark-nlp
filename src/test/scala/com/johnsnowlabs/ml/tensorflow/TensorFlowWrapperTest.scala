@@ -28,7 +28,7 @@ class TensorFlowWrapperTest extends FlatSpec {
 
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
 
-    assert(model != null)
+    assert(model.metaGraphDef().toString.startsWith("meta_info_def"))
   }
 
   it should "restore session from saved model to fetch variables" in {
