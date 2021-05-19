@@ -78,8 +78,9 @@ private[nlp] class XlmTokenizer(
       lowercaseAndRemoveAccent(mosesTokenized.mkString(" "))
     else mosesTokenized.mkString(" ")
 
+    val textForIndexing = if (doLowercaseAndRemoveAccent) lowercaseAndRemoveAccent(text) else text
     val indexedTokens = processedText.split(" ").map((token: String) => {
-      val tokenTextIndex = processedText.indexOf(token)
+      val tokenTextIndex = textForIndexing.indexOf(token)
       IndexedToken(
         token,
         indexOffset + tokenTextIndex,
@@ -89,5 +90,6 @@ private[nlp] class XlmTokenizer(
     indexedTokens
   }
 
-  override def preProcessTokenForBpe(token: String): String = token + "</w>" // TODO
+  override val appendForPieceId: Option[String] = Some("</w>")
+
 }

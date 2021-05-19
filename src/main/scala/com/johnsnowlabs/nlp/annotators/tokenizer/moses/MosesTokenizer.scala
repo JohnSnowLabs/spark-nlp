@@ -77,7 +77,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
           // No change to the token.
           // Checks if the prefix is in NUMERIC_ONLY_PREFIXES
           // and ensures that the next word is a digit.
-          def containsFullStopAndisAlpha = ((prefix contains ".") && isAnyAlpha(prefix)) ||
+          def containsFullStopAndIsAlpha = ((prefix contains ".") && isAnyAlpha(prefix)) ||
             (NONBREAKING_PREFIXES.contains(prefix) && !NUMERIC_ONLY_PREFIXES.contains(prefix)) ||
             (
               (i != numTokens - 1)
@@ -92,7 +92,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
               && raw"""^[0-9]+""".r.findFirstIn(tokens(i + 1)).isDefined
             )
           // Otherwise, adds a space after the tokens before a dot.
-          if (!containsFullStopAndisAlpha && !isNonBreakingAndNumericOnly) tokens(i) = prefix + " ."
+          if (!containsFullStopAndIsAlpha && !isNonBreakingAndNumericOnly) tokens(i) = prefix + " ."
       }
     }
     tokens.mkString(" ") // Stitch the tokens back.

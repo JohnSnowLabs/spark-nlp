@@ -85,7 +85,7 @@ class RobertaTokenizerTestSpec extends FlatSpec {
                                      encoded: Array[TokenPiece],
                                      expected: Array[String],
                                      expectedIds: Array[Int]): Unit = {
-    //    println(encoded.mkString("Array(\n  ", ",\n  ", "\n)"))
+//    println(encoded.mkString("Array(\n  ", ",\n  ", "\n)"))
     for (i <- encoded.indices) {
       val piece = encoded(i)
       assert(piece.wordpiece == expected(i))
