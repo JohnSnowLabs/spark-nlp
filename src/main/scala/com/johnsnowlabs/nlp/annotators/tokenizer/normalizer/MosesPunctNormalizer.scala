@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.normalizer
 
-private [johnsnowlabs] class MosesPunctNormalizer() {
+private[johnsnowlabs] class MosesPunctNormalizer() {
 
   def normalize(text: String): String = {
 
@@ -137,17 +137,17 @@ private [johnsnowlabs] class MosesPunctNormalizer() {
     acc
   }
 
+  private val printingCharTypes = Set(
+    Character.CONTROL,
+    Character.DIRECTIONALITY_COMMON_NUMBER_SEPARATOR,
+    Character.FORMAT,
+    Character.PRIVATE_USE,
+    Character.SURROGATE,
+    Character.UNASSIGNED
+  )
+
   //  Port of https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/remove-non-printing-char.perl
   def removeNonPrintingChar(t: String): String = {
-    val printingCharTypes = Set(
-      Character.CONTROL,
-      Character.DIRECTIONALITY_COMMON_NUMBER_SEPARATOR,
-      Character.FORMAT,
-      Character.PRIVATE_USE,
-      Character.SURROGATE,
-      Character.UNASSIGNED
-    )
-
     def isNonPrintingChar(c: Char): Boolean = !printingCharTypes.contains(Character.getType(c).toByte)
 
     t.toCharArray.filter(isNonPrintingChar).mkString

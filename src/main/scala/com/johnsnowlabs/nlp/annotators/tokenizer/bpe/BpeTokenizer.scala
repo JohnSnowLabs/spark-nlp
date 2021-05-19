@@ -51,24 +51,28 @@ private[nlp] abstract class BpeTokenizer(
 
   /**
     * Create a sequence of byte-pairs of the word
+    * TODO: XLM has to append to end
     */
   protected def getBytePairs(word: Array[String]): Set[(String, String)] = {
     val createPairs = (i: Int) => (word(i), word(i + 1))
     (0 until (word.length - 1)).map(createPairs).toSet
   }
 
+  // Can be overridden in inherited class
+  protected val prependForPieceId: Option[String] = None
+  protected val appendForPieceId: Option[String] = None
+
   /**
     * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
     * If not possible, the word is split into smaller subwords, until they are known.
-    * TODO: Flag to prepend / append tokens to word pieces
+    *
     * @return Array of TokenPieces, corresponding to encoded token
     */
-  protected def bpe(
-                     indToken: IndexedToken,
-                     preProcess: String => String = (s: String) => s
+  protected def bpe(indToken: IndexedToken,
                    ): Array[TokenPiece] = {
-    val processedToken = preProcess(indToken.token)
+    val processedToken = preProcessTokenForBpe(indToken.token)
 
+    // TODO: Caching
     var word: Array[String] = Array[String]()
     // split the word into characters, to be combined into subwords
     word = processedToken.map(_.toString).toArray
@@ -121,18 +125,32 @@ private[nlp] abstract class BpeTokenizer(
     val wordIndexes = word.map((subWord: String) => {
       val startIndex = currentIndex
       currentIndex = startIndex + subWord.length
-      (startIndex, startIndex + subWord.length)
+      (startIndex, startIndex + subWord.length - 1)
     })
     val result = word
       .zip(wordIndexes)
       .map {
         case (subWord: String, indexes: (Int, Int)) =>
           val isWordStart = indToken.begin == indexes._1
-          val subWordId: Int = if (subWord(0) != 'Ġ' && isWordStart)
-            vocab.getOrElse("Ġ" + subWord, specialTokens.unk.id) // TODO do this for non roberta case
-          else vocab.getOrElse(subWord, specialTokens.unk.id) // Set unknown id
+          var processedSubWord = subWord
+          processedSubWord = prependForPieceId match {
+            case None => processedSubWord
+            case Some(prepend) =>
+              if (isWordStart && subWord.indexOf(prepend) < 0) prepend + processedSubWord
+              else processedSubWord
+          }
+          processedSubWord = appendForPieceId match {
+            case None => processedSubWord
+            case Some(append) =>
+              val isWordEnd = indToken.end == indexes._2
+              if (isWordEnd && subWord.indexOf(append) < 0) processedSubWord + append
+              else processedSubWord
+          }
+          // Set unknown id if not found
+          val subWordId: Int = vocab.getOrElse(processedSubWord, specialTokens.unk.id)
 
-          TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2 - 1)
+          TokenPiece(subWord, processedToken, subWordId, isWordStart, indexes._1, indexes._2)
+
       }
     result
   }
@@ -261,7 +279,7 @@ private[nlp] abstract class BpeTokenizer(
 
   def encode(indToken: IndexedToken): Array[TokenPiece] = {
     if (!specialTokens.contains(indToken.token))
-      bpe(indToken, preProcessTokenForBpe)
+      bpe(indToken)
     else
       Array(
         TokenPiece(

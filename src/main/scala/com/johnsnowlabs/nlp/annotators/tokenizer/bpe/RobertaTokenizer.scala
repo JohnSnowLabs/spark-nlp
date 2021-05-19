@@ -50,6 +50,7 @@ class RobertaTokenizer(
     }
     (bytes zip characters.map(_.toChar.toString)).toMap
   }
+  override val prependForPieceId: Option[String] = Some("Ġ")
 
   override def preProcessTokenForBpe(token: String): String =
     token.foldLeft("")(_ + bytesToUnicodeMapping(_))
