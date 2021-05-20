@@ -61,6 +61,11 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 |Language:|nl|
 |Case sensitive:|true|
 
+## Data Source
+
+https://huggingface.co/dbmdz/bert-base-german-cased
+
+
 ## Benchmarking
 
 ```bash
