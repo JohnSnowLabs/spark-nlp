@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German BERT models
+title: German BERT Base Cased Model
 author: John Snow Labs
 name: bert_base_german_cased
 date: 2021-05-20

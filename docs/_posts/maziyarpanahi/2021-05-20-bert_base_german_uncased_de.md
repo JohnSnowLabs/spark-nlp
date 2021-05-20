@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German BERT models
+title: German BERT Base Uncased Model
 author: John Snow Labs
 name: bert_base_german_uncased
 date: 2021-05-20
