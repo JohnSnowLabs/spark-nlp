@@ -72,14 +72,14 @@ private[nlp] class XlmTokenizer(
   }
 
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
+    var indexedTokens: Array[IndexedToken] = Array()
     val mosesTokenized = mosesPipeline(text)
-
     val processedText = if (doLowercaseAndRemoveAccent)
       lowercaseAndRemoveAccent(mosesTokenized.mkString(" "))
     else mosesTokenized.mkString(" ")
 
     val textForIndexing = if (doLowercaseAndRemoveAccent) lowercaseAndRemoveAccent(text) else text
-    val indexedTokens = processedText.split(" ").map((token: String) => {
+    indexedTokens = processedText.split(" ").map((token: String) => {
       val tokenTextIndex = textForIndexing.indexOf(token)
       IndexedToken(
         token,
@@ -92,4 +92,30 @@ private[nlp] class XlmTokenizer(
 
   override val appendForPieceId: Option[String] = Some("</w>")
 
+  override def bpe(indToken: IndexedToken
+                  ): Array[TokenPiece] = {
+    val processedToken = preProcessTokenForBpe(indToken.token)
+
+    var word: Array[String] = Array[String]()
+    // split the word into characters, to be combined into subwords
+    word = processedToken.map(_.toString).toArray
+    val pairs: Array[(String, String)] = getBytePairs(word)
+
+    // XLM Specific: append word end indicator
+    if (pairs.isEmpty) {
+      word = Array(processedToken)
+    }
+    else {
+      pairs(pairs.length - 1) = pairs(pairs.length - 1) match {
+        case (s, s1) => (s, s1 + "</w>")
+      }
+      word(word.length - 1) += "</w>"
+      word = performMerges(word, pairs)
+
+      // remove end token again for correct indexes
+      word = word.map(_.replace("</w>", ""))
+    }
+
+    getTokenPieces(indToken, word, processedToken)
+  }
 }

@@ -53,74 +53,64 @@ private[nlp] abstract class BpeTokenizer(
     * Create a sequence of byte-pairs of the word
     * TODO: XLM has to append to end
     */
-  protected def getBytePairs(word: Array[String]): Set[(String, String)] = {
+  protected def getBytePairs(word: Array[String]): Array[(String, String)] = {
     val createPairs = (i: Int) => (word(i), word(i + 1))
-    (0 until (word.length - 1)).map(createPairs).toSet
+    (0 until (word.length - 1)).map(createPairs).toArray
   }
 
   // Can be overridden in inherited class
   protected val prependForPieceId: Option[String] = None
   protected val appendForPieceId: Option[String] = None
 
-  /**
-    * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
-    * If not possible, the word is split into smaller subwords, until they are known.
-    *
-    * @return Array of TokenPieces, corresponding to encoded token
-    */
-  protected def bpe(indToken: IndexedToken,
-                   ): Array[TokenPiece] = {
-    val processedToken = preProcessTokenForBpe(indToken.token)
-
-    // TODO: Caching
-    var word: Array[String] = Array[String]()
-    // split the word into characters, to be combined into subwords
-    word = processedToken.map(_.toString).toArray
-    var pairs: Set[(String, String)] = getBytePairs(word)
-    if (pairs.isEmpty) word = Array(processedToken) // TODO: check if correct
-    else {
-      // get highest priority byte-pair first
-      var bytePair: (String, String) =
-        pairs.toArray.sortWith(getBpeRanking(_) < getBpeRanking(_))(0)
-      var done = false
-      // while we still have byte-pairs from our vocabulary
-      while (bpeRanks.contains(bytePair) && !done) {
-        val (first, second) = bytePair
-        val newWord: ListBuffer[String] = ListBuffer()
-        var i = 0
-        var j = 0
-        // keep combining characters with the current byte-pair
-        while ((i < word.length) && (j != -1)) {
-          j = word.indexOf(first, i)
-          if (j == -1) newWord ++= word.drop(i)
-          else {
-            newWord ++= word.slice(i, j)
-            i = j
-            val bpIsAtIndex =
-              (word(i) == first) && (i < word.length - 1) && word(
-                i + 1
-              ) == second
-            if (bpIsAtIndex) {
-              newWord += (first + second)
-              i += 2
-            } else {
-              newWord += word(i)
-              i += 1
-            }
+  protected def performMerges(wordChars: Array[String], charPairs: Array[(String, String)]): Array[String] = {
+    var word = wordChars
+    var pairs = charPairs
+    // get highest priority byte-pair first
+    var bytePair: (String, String) =
+      pairs.sortWith(getBpeRanking(_) < getBpeRanking(_))(0)
+    var done = false
+    // while we still have byte-pairs from our vocabulary
+    while (bpeRanks.contains(bytePair) && !done) {
+      val (first, second) = bytePair
+      val newWord: ListBuffer[String] = ListBuffer()
+      var i = 0
+      var j = 0
+      // keep combining characters with the current byte-pair
+      while ((i < word.length) && (j != -1)) {
+        j = word.indexOf(first, i)
+        if (j == -1) newWord ++= word.drop(i)
+        else {
+          newWord ++= word.slice(i, j)
+          i = j
+          val bpIsAtIndex =
+            (word(i) == first) && (i < word.length - 1) && word(
+              i + 1
+            ) == second
+          if (bpIsAtIndex) {
+            newWord += (first + second)
+            i += 2
+          } else {
+            newWord += word(i)
+            i += 1
           }
         }
-        word = newWord.toArray
-        // if we were able to create a whole word that was in the vocabulary, we're done
-        if (word.length == 1) {
-          done = true
-        } else {
-          // do it again with the next byte-pair
-          pairs = getBytePairs(word)
-          bytePair = pairs.toArray.sortWith(getBpeRanking(_) < getBpeRanking(_))(0)
-        }
+      }
+      word = newWord.toArray
+      // if we were able to create a whole word that was in the vocabulary, we're done
+      if (word.length == 1) {
+        done = true
+      } else {
+        // do it again with the next byte-pair
+        pairs = getBytePairs(word)
+        bytePair = pairs.sortWith(getBpeRanking(_) < getBpeRanking(_))(0)
       }
     }
+    word
+  }
 
+  protected def getTokenPieces(indToken: IndexedToken,
+                               word: Array[String],
+                               processedToken: String): Array[TokenPiece] = {
     var currentIndex = indToken.begin
     val wordIndexes = word.map((subWord: String) => {
       val startIndex = currentIndex
@@ -153,6 +143,30 @@ private[nlp] abstract class BpeTokenizer(
 
       }
     result
+  }
+
+  /**
+    * Do the BPE algorithm. Goal is to find the token as the largest words in the known vocabulary.
+    * If not possible, the word is split into smaller subwords, until they are known.
+    *
+    * @return Array of TokenPieces, corresponding to encoded token
+    */
+  protected def bpe(indToken: IndexedToken
+                   ): Array[TokenPiece] = {
+    val processedToken = preProcessTokenForBpe(indToken.token)
+
+    // TODO: Caching
+    var word: Array[String] = Array[String]()
+    // split the word into characters, to be combined into subwords
+    word = processedToken.map(_.toString).toArray
+    val pairs: Array[(String, String)] = getBytePairs(word)
+
+    if (pairs.isEmpty)
+      word = Array(processedToken)
+    else
+      word = performMerges(word, pairs)
+
+    getTokenPieces(indToken, word, processedToken)
   }
 
   /**
@@ -275,7 +289,7 @@ private[nlp] abstract class BpeTokenizer(
     }
   }
 
-  def preProcessTokenForBpe(token: String): String = token
+  protected def preProcessTokenForBpe(token: String): String = token
 
   def encode(indToken: IndexedToken): Array[TokenPiece] = {
     if (!specialTokens.contains(indToken.token))

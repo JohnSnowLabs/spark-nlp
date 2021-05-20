@@ -32,7 +32,7 @@ private[nlp] class SpecialTokens(
     endTokenString,
     unkTokenString,
     maskTokenString,
-    padTokenString,
+    padTokenString
   ) ++ additionalStrings
   for (specialTok <- allTokenStrings)
     require(vocab.contains(specialTok), s"Special Token '$specialTok' needs to be in vocabulary.")
@@ -57,7 +57,7 @@ private[nlp] class SpecialTokens(
 }
 
 private[nlp] object SpecialTokens {
-  def getSpecialTokensForModel(modelType:String, vocab: Map[String, Int]): SpecialTokens = modelType match {
+  def getSpecialTokensForModel(modelType: String, vocab: Map[String, Int]): SpecialTokens = modelType match {
     case "roberta" => new SpecialTokens(vocab, "<s>", "</s>", "<unk>", "<mask>", "<pad>")
     case "xlm" => new SpecialTokens(
       vocab,
@@ -75,7 +75,7 @@ private[nlp] object SpecialTokens {
         "<special6>",
         "<special7>",
         "<special8>",
-        "<special9>",
+        "<special9>"
       )
     )
   }
