@@ -52,7 +52,7 @@ class MosesTokenizerTestSpec extends FlatSpec {
       "?",
       "Don",
       "'t",
-      "?",
+      "?"
     )
     assertTokenization(moses.tokenize(text), expected)
   }
