@@ -1,6 +1,6 @@
 ---
 layout: model
-title: LeNER-Br: Named Entity Recognition for (Brazilian) Portuguese Legal Text
+title: LeNER-Br Named Entity Recognition for (Brazilian) Portuguese Legal Text
 author: John Snow Labs
 name: ner_lener
 date: 2021-05-19

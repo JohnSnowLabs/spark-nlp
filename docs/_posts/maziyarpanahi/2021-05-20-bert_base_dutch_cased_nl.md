@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERTje: A Dutch BERT model
+title: BERTje A Dutch BERT model
 author: John Snow Labs
 name: bert_base_dutch_cased
 date: 2021-05-20
@@ -64,7 +64,6 @@ val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detec
 ## Data Source
 
 https://huggingface.co/dbmdz/bert-base-german-cased
-
 
 ## Benchmarking
 
