@@ -32,7 +32,7 @@ This model uses the pre-trained `bert_portuguese_base_cased` embeddings model fr
 - `O`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/NER_PT/){:.button.button-orange}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_lener_pt_2.7.3_2.4_1621449805482.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
