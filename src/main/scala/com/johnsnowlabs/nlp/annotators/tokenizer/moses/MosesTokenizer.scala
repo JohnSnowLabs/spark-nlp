@@ -1,47 +1,61 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.moses
 
+import scala.util.matching.Regex
+
 /**
   * Scala Port of the Moses Tokenizer from [[https://github.com/alvations/sacremoses scaremoses]].
   */
 private[johnsnowlabs] class MosesTokenizer(lang: String) {
   require(lang == "en", "Only english is supported at the moment.")
-  private final val DEDUPLICATE_SPACE = (raw"""\s+""", " ")
-  private final val ASCII_JUNK = (raw"""[\000-\037]""", "")
+  private val DEDUPLICATE_SPACE = (raw"""\s+""".r, " ")
+  private val ASCII_JUNK = (raw"""[\000-\037]""".r, "")
 
-  private final val IsAlpha = raw"""\p{L}"""
-  private final val IsN = raw"""\p{N}"""
+  private val IsAlpha = raw"""\p{L}"""
+  private val IsN = raw"""\p{N}"""
+  private val IsAlnum = IsAlpha + IsN // TODO: Lesser used languages like Tibetan, Khmer, Cham etc.
+  private val PAD_NOT_ISALNUM = (raw"""([^$IsAlnum\s\.'\`\,\-])""".r, " $1 ")
 
-  private final val IsAlnum = IsAlpha + IsN // TODO: Lesser used languages like Tibetan, Khmer, Cham etc.
-  private final val PAD_NOT_ISALNUM = (raw"""([^$IsAlnum\s\.'\`\,\-])""", " $1 ")
+  private val COMMA_SEPARATE_1 = (raw"""([^$IsN])[,]""".r, "$1 , ")
+  private val COMMA_SEPARATE_2 = (raw"""[,]([^$IsN])""".r, " , $1")
+  private val COMMA_SEPARATE_3 = (raw"""([$IsN])[,]$$""".r, "$1 , ")
 
-  private final val COMMA_SEPARATE_1 = (raw"""([^$IsN])[,]""", "$1 , ")
-  private final val COMMA_SEPARATE_2 = (raw"""[,]([^$IsN])""", " , $1")
-  private final val COMMA_SEPARATE_3 = (raw"""([$IsN])[,]$$""", "$1 , ")
-
-  private final val EN_SPECIFIC_1 = (raw"""([^$IsAlpha])[']([^$IsAlpha])""", "$1 ' $2")
-  private final val EN_SPECIFIC_2 = (raw"""([^$IsAlpha$IsN])[']([$IsAlpha])""", "$1 ' $2")
-  private final val EN_SPECIFIC_3 = (raw"""([$IsAlpha])[']([^$IsAlpha])""", "$1 ' $2")
-  private final val EN_SPECIFIC_4 = (raw"""([$IsAlpha])[']([$IsAlpha])""", "$1 '$2")
-  private final val EN_SPECIFIC_5 = (raw"""([$IsN])[']([s])""", "$1 '$2")
-  private final val ENGLISH_SPECIFIC_APOSTROPHE = Array(
+  private val EN_SPECIFIC_1 = (raw"""([^$IsAlpha])[']([^$IsAlpha])""".r, "$1 ' $2")
+  private val EN_SPECIFIC_2 = (raw"""([^$IsAlpha$IsN])[']([$IsAlpha])""".r, "$1 ' $2")
+  private val EN_SPECIFIC_3 = (raw"""([$IsAlpha])[']([^$IsAlpha])""".r, "$1 ' $2")
+  private val EN_SPECIFIC_4 = (raw"""([$IsAlpha])[']([$IsAlpha])""".r, "$1 '$2")
+  private val EN_SPECIFIC_5 = (raw"""([$IsN])[']([s])""".r, "$1 '$2")
+  private val ENGLISH_SPECIFIC_APOSTROPHE = Array(
     EN_SPECIFIC_1,
     EN_SPECIFIC_2,
     EN_SPECIFIC_3,
     EN_SPECIFIC_4,
     EN_SPECIFIC_5
   )
-  private final val NON_SPECIFIC_APOSTROPHE = (raw"""\'""", " ' ")
-  private final val TRAILING_DOT_APOSTROPHE = (raw"""\.' ?$$""", " . ' ")
+  private val NON_SPECIFIC_APOSTROPHE = (raw"""\'""".r, " ' ")
+  private val TRAILING_DOT_APOSTROPHE = (raw"""\.' ?$$""".r, " . ' ")
   // TODO: Dynamic from file
-  private final val NONBREAKING_PREFIXES = Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Adj", "Adm", "Adv", "Asst", "Bart", "Bldg", "Brig", "Bros", "Capt", "Cmdr", "Col", "Comdr", "Con", "Corp", "Cpl", "DR", "Dr", "Drs", "Ens", "Gen", "Gov", "Hon", "Hr", "Hosp", "Insp", "Lt", "MM", "MR", "MRS", "MS", "Maj", "Messrs", "Mlle", "Mme", "Mr", "Mrs", "Ms", "Msgr", "Op", "Ord", "Pfc", "Ph", "Prof", "Pvt", "Rep", "Reps", "Res", "Rev", "Rt", "Sen", "Sens", "Sfc", "Sgt", "Sr", "St", "Supt", "Surg", "v", "vs", "i.e", "rev", "e.g", "No #NUMERIC_ONLY#", "Nos", "Art #NUMERIC_ONLY#", "Nr", "pp #NUMERIC_ONLY#", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-  private final val NUMERIC_ONLY_PREFIXES = Array("No", "Art", "pp")
+  private val NONBREAKING_PREFIXES = Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Adj", "Adm", "Adv", "Asst", "Bart", "Bldg", "Brig", "Bros", "Capt", "Cmdr", "Col", "Comdr", "Con", "Corp", "Cpl", "DR", "Dr", "Drs", "Ens", "Gen", "Gov", "Hon", "Hr", "Hosp", "Insp", "Lt", "MM", "MR", "MRS", "MS", "Maj", "Messrs", "Mlle", "Mme", "Mr", "Mrs", "Ms", "Msgr", "Op", "Ord", "Pfc", "Ph", "Prof", "Pvt", "Rep", "Reps", "Res", "Rev", "Rt", "Sen", "Sens", "Sfc", "Sgt", "Sr", "St", "Supt", "Surg", "v", "vs", "i.e", "rev", "e.g", "No #NUMERIC_ONLY#", "Nos", "Art #NUMERIC_ONLY#", "Nr", "pp #NUMERIC_ONLY#", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  private val NUMERIC_ONLY_PREFIXES = Array("No", "Art", "pp")
 
-  private def replaceMultidots(text: String): String = {
+  def applySubstitution(text: String, patternReplacements: (Regex, String)*): String = {
+    var processed = text
+    for ((pattern, sub) <- patternReplacements) {
+      processed = pattern.replaceAllIn(processed, sub)
+      //        processed = processed.replaceAll(pattern, sub)
+    }
+    processed
+  }
+
+  private val MULTIDOT = (raw"""\.([\.]+)""".r, " DOTMULTI$1")
+  private val MULTIDOT_SUB_1 = (raw"""DOTMULTI\.([^\.])""".r, "DOTDOTMULTI $1")
+  private val MULTIDOT_SUB_2 = (raw"""DOTMULTI\.""".r, "DOTDOTMULTI")
+
+  private def replaceMultiDots(text: String): String = {
     var processed: String = text
-    processed = processed.replaceAll(raw"""\.([\.]+)""", " DOTMULTI$1")
-    while (processed.indexOf("DOTMULTI.") >= 0) { // re.search(raw""""DOTMULTI\.", text)
-      processed = processed.replaceAll(raw"""DOTMULTI\.([^\.])""", "DOTDOTMULTI $1")
-      processed = processed.replaceAll(raw"""DOTMULTI\.""", "DOTDOTMULTI")
+    processed = applySubstitution(processed, MULTIDOT)
+    while (processed.indexOf("DOTMULTI.") >= 0) {
+      processed = applySubstitution(processed, MULTIDOT_SUB_1)
+      processed = applySubstitution(processed, MULTIDOT_SUB_2)
     }
     processed
   }
@@ -51,8 +65,10 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     case None => false
   }
 
+  private def isLower(s: String): Boolean = s.forall(_.isLower) // TODO Some languages missing
 
-  private def isLower(s: String): Boolean = s.matches(raw"""\p{Ll}*""") // TODO Some languages missing
+  private val IS_NUMERIC_ONLY = raw"""^[0-9]+""".r
+  private val ENDS_WITH_PERIOD = raw"""^(\S+)\.$$""".r
 
   def handlesNonBreakingPrefixes(text: String): String = {
     // Splits the text into tokens to check for nonbreaking prefixes.
@@ -60,7 +76,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     val numTokens = tokens.length
     for ((token, i) <- tokens.zipWithIndex) {
       // Checks if token ends with a full stop
-      val tokenEndsWithPeriod = raw"""^(\S+)\.$$""".r.findFirstMatchIn(token)
+      val tokenEndsWithPeriod = ENDS_WITH_PERIOD.findFirstMatchIn(token)
       tokenEndsWithPeriod match {
         case None => tokenEndsWithPeriod
         case Some(prefixMatch) =>
@@ -86,11 +102,13 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
               )
 
           // No change to the token.
-          def isNonBreakingAndNumericOnly = (
-            NONBREAKING_PREFIXES.contains(prefix)
-              && ((i + 1) < numTokens)
-              && raw"""^[0-9]+""".r.findFirstIn(tokens(i + 1)).isDefined
-            )
+          def isNonBreakingAndNumericOnly = {
+            (
+              NONBREAKING_PREFIXES.contains(prefix)
+                && ((i + 1) < numTokens)
+                && IS_NUMERIC_ONLY.findFirstIn(tokens(i + 1)).isDefined
+              )
+          }
           // Otherwise, adds a space after the tokens before a dot.
           if (!containsFullStopAndIsAlpha && !isNonBreakingAndNumericOnly) tokens(i) = prefix + " ."
       }
@@ -98,24 +116,19 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     tokens.mkString(" ") // Stitch the tokens back.
   }
 
-  private def restoreMultidots(text: String) = {
+  private val RESTORE_MULTIDOT_1 = ("DOTDOTMULTI".r, "DOTMULTI.")
+  private val RESTORE_MULTIDOT_2 = ("DOTMULTI".r, ".")
+
+  private def restoreMultiDots(text: String) = {
     var processed = text
     while (processed.indexOf("DOTDOTMULTI") > 0) { // re.search(r"DOTDOTMULTI", text):
-      processed = processed.replace("DOTDOTMULTI", "DOTMULTI.")
+      processed = applySubstitution(processed, RESTORE_MULTIDOT_1)
     }
-    processed.replace("DOTMULTI", ".")
+    applySubstitution(processed, RESTORE_MULTIDOT_2)
   }
 
   def tokenize(text: String): Array[String] = {
     var processed = text
-
-    def applySubstitution(text: String, patternReplacements: (String, String)*): String = {
-      var processed = text
-      for ((pattern, sub) <- patternReplacements) {
-        processed = processed.replaceAll(pattern, sub)
-      }
-      processed
-    }
 
     processed = applySubstitution(processed, DEDUPLICATE_SPACE, ASCII_JUNK)
     processed = processed.trim()
@@ -126,7 +139,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
 
     //    if (aggressiveDashSplits) ???
 
-    processed = replaceMultidots(processed)
+    processed = replaceMultiDots(processed)
 
     processed = applySubstitution(processed, COMMA_SEPARATE_1, COMMA_SEPARATE_2, COMMA_SEPARATE_3)
 
@@ -143,7 +156,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
     // Restore the protected tokens.
     // if (protectedPatterns) ???
 
-    processed = restoreMultidots(processed)
+    processed = restoreMultiDots(processed)
     processed.split(" ")
   }
 }

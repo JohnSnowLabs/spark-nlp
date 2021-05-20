@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.moses
 
-import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.{Assertion, FlatSpec}
 
 /**
@@ -9,7 +8,6 @@ import org.scalatest.{Assertion, FlatSpec}
   */
 class MosesTokenizerTestSpec extends FlatSpec {
   val moses = new MosesTokenizer("en")
-  val mosesNormalizer = new MosesPunctNormalizer()
 
   def assertTokenization(tokens: Array[String], expected: Array[String]): Assertion =
     assert(tokens.mkString(" ") == expected.mkString(" "))
