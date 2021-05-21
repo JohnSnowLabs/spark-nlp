@@ -290,7 +290,7 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession, tags: Array[String] = Array("serve")): DistilBertEmbeddings = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertEmbeddings = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -309,7 +309,7 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true, tags = tags)
+    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
     /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
     new DistilBertEmbeddings()
