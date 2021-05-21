@@ -17,7 +17,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 import com.johnsnowlabs.nlp.annotators.tokenizer.moses.MosesTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 
