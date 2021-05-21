@@ -38,10 +38,11 @@ class DependencyParserDLApproach(override val uid: String) extends AnnotatorAppr
     val dataSetWithUniqueWords =
       SparkSqlHelper.uniqueArrayElements(dataset.withColumn("words", col("lemma.result")), "words")
 
-    val uniqueWords = Seq("*INITIAL*") ++ dataSetWithUniqueWords.select("unique_words_elements").rdd.map(rows =>
+    val uniqueWords = Seq("*PAD*", "*INITIAL*", "*root*") ++
+      dataSetWithUniqueWords.select("unique_words_elements").rdd.map(rows =>
       rows.getSeq(0).asInstanceOf[Seq[String]]).collect().flatten.distinct
 
-    val vocabulary: Map[String, Int] = uniqueWords.zipWithIndex.map( word => (word._1, word._2)).toMap
+    val vocabulary: Map[String, Int] = uniqueWords.zipWithIndex.map( word => (word._1, word._2 + 1)).toMap
 
     new DependencyParserDLModel()
       .setVocabulary(vocabulary)

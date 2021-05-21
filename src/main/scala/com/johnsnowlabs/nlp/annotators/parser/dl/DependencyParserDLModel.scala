@@ -27,7 +27,9 @@ import org.tensorflow.op.core.{Constant, Zeros}
 import org.tensorflow.op.math.Tanh
 import org.tensorflow.op.nn.BlockLSTM
 import org.tensorflow.types.{TFloat32, TInt64, TString}
-import org.tensorflow.{EagerSession, Operand, SavedModelBundle, Tensor}
+import org.tensorflow.{ConcreteFunction, EagerSession, Operand, SavedModelBundle, Tensor}
+
+import java.util
 
 
 class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[DependencyParserDLModel]
@@ -39,7 +41,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
 
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
-  private lazy val vocabularySize = $$(vocabulary).size
+  private lazy val vocabularySize = $$(vocabulary).size + 1
 
   private lazy val scope = {
     val session = EagerSession.create
@@ -107,24 +109,30 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val predictedScoreMatrix = TensorResources.extractTwoDimFloats(scope, predictedScores)
     val predictedHeads = ProjectiveDependencyTree.parse(predictedScoreMatrix)
     val predictedRelations = predictRelations(predictedHeads, dependencyFeatures)
-
     val predictedDependencies = predictedHeads.tail zip predictedRelations
+
     predictedDependencies.zipWithIndex.map{ case (predictedDependency, index) =>
-      val tokenAnnotation = tokensWithRoot(index)
+      val tokenAnnotation = tokens(index)
       val head = predictedDependency._1
       val headAnnotation = tokensWithRoot(head)
-      val dependencyRelation = predictedDependency._2
-      //TODO: Check how to handle root index. Is it head 0 or -1?
-      Annotation(LABELED_DEPENDENCY, tokenAnnotation.begin, tokenAnnotation.end, dependencyRelation,
-        Map("head" -> head.toString, "word" -> tokenAnnotation.result, "head_word" -> headAnnotation.result,
-        "head_begin" -> headAnnotation.begin.toString, "head_end" -> headAnnotation.end.toString))
+      val headBegin = headAnnotation.begin.toString
+      val headEnd = headAnnotation.end.toString
+      var dependencyRelation = predictedDependency._2
+      if (head == 0 && dependencyRelation != "root") {
+        dependencyRelation = "root"
+      }
+      val begin = if (head != 0) tokenAnnotation.begin else -1
+      val end = if (head != 0) tokenAnnotation.end else -1
+
+      Annotation(LABELED_DEPENDENCY, begin, end, dependencyRelation, Map("head" -> head.toString,
+        "word" -> tokenAnnotation.result, "head_word" -> headAnnotation.result,
+        "head_begin" -> headBegin, "head_end" -> headEnd))
     }
+
   }
 
   def getBiLstmInput(sentenceEmbeddings: List[Operand[TFloat32]]): List[Operand[TFloat32]] = {
-    val reverseSentenceEmbeddings: List[Operand[TFloat32]] = sentenceEmbeddings.map{ wordEmbeddings =>
-      TensorResources.reverseTensor(scope, wordEmbeddings, 1)
-    }
+    val reverseSentenceEmbeddings = sentenceEmbeddings.reverse
     val concatSentenceEmbeddings = TensorResources.concatTensors(scope, sentenceEmbeddings, 0)
     val concatReverseSentenceEmbeddings = TensorResources.concatTensors(scope, reverseSentenceEmbeddings, 0)
 
@@ -136,13 +144,13 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   }
 
   private def computeBiLstmOutput(biLstmInputs: List[Operand[TFloat32]]): Array[Operand[TFloat32]] = {
-    val (blockLSTMForward, lstmDims) = getLstmOutput(biLstmInputs.head, weightsFirstLstm)
-    val (blockLSTMBackward, _) = getLstmOutput(biLstmInputs(1), weightsFirstLstm)
+    val (blockLSTMForward, lstmDims) = getLstmOutputFromSavedModel(biLstmInputs.head, weightsFirstLstm)
+    val (blockLSTMBackward, _) = getLstmOutputFromSavedModel(biLstmInputs(1), weightsFirstLstm)
 
     val nextLstmInputs = computeNextLstmInput(Array(blockLSTMForward, blockLSTMBackward), lstmDims)
 
-    val (blockNextLSTMForward, _) = getLstmOutput(nextLstmInputs(0), weightsNextLstm)
-    val (blockNextLSTMBackward, _) = getLstmOutput(nextLstmInputs(1), weightsNextLstm)
+    val (blockNextLSTMForward, _) = getLstmOutputFromSavedModel(nextLstmInputs(0), weightsNextLstm)
+    val (blockNextLSTMBackward, _) = getLstmOutputFromSavedModel(nextLstmInputs(1), weightsNextLstm)
 
     Array(TensorResources.reshapeTensor(scope, blockNextLSTMForward, Array(timeSteps, lstmDims)),
       TensorResources.reshapeTensor(scope, blockNextLSTMBackward, Array(timeSteps, lstmDims)))
@@ -210,7 +218,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val weightInputGate: Operand[TFloat32] = Constant.create(scope, weights("weightInputGate"))
     val weightForgetGate: Operand[TFloat32] = Constant.create(scope, weights("weightForgetGate"))
     val weightOutputGate: Operand[TFloat32] = Constant.create(scope, weights("weightOutputGate"))
-    val seqLenMax: Operand[TInt64] = Constant.arrayOf(scope, inputSequence.asTensor().shape().asArray()(0))
+    val seqLenMax: Operand[TInt64] = Constant.vectorOf(scope, Array(timeSteps))
     val lstmDims = weightInputGate.asTensor().shape().size().toInt
 
     val shape = Array(SAMPLE_SIZE, lstmDims)
@@ -224,6 +232,45 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
       weightForgetGate, weightOutputGate, bias)
 
     (blockLSTM.h(), lstmDims)
+
+  }
+
+  private def getLstmOutputFromSavedModel(inputSequence: Operand[TFloat32], weights: Map[String, Tensor[TFloat32]]):
+  (Operand[TFloat32], Int) = {
+
+    val weightMatrix: Operand[TFloat32] = Constant.create(scope, weights("weightMatrix"))
+    val weightInputGate: Operand[TFloat32] = Constant.create(scope, weights("weightInputGate"))
+    val weightForgetGate: Operand[TFloat32] = Constant.create(scope, weights("weightForgetGate"))
+    val weightOutputGate: Operand[TFloat32] = Constant.create(scope, weights("weightOutputGate"))
+    val seqLenMax: Operand[TInt64] = Constant.vectorOf(scope, Array(timeSteps))
+    val lstmDims = weightInputGate.asTensor().shape().size().toInt
+
+    val shape = Array(SAMPLE_SIZE, lstmDims)
+    val biasShape = Array(lstmDims * 4)
+    val initialCellState: Operand[TFloat32] = Zeros.create(scope, Constant.vectorOf(scope, shape), TFloat32.DTYPE)
+    val initialHiddenState: Operand[TFloat32] = Zeros.create(scope, Constant.vectorOf(scope, shape), TFloat32.DTYPE)
+    val bias: Operand[TFloat32] = Zeros.create(scope, Constant.vectorOf(scope, biasShape), TFloat32.DTYPE)
+
+    val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
+    val modelPath = "src/main/resources/dependency-parser-dl/utils"
+    val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
+    val blockLSTM: ConcreteFunction = model.function("lstm_output")
+
+    val args: util.Map[String, Tensor[_]] = new util.HashMap()
+    args.put("time_steps", seqLenMax.asTensor())
+    args.put("input_sequence", inputSequence.asTensor())
+    args.put("ini_cell_state", initialCellState.asTensor())
+    args.put("ini_hidden_state", initialHiddenState.asTensor())
+    args.put("weight_matrix", weightMatrix.asTensor())
+    args.put("weight_input_gate", weightInputGate.asTensor())
+    args.put("weight_forget_gate", weightForgetGate.asTensor())
+    args.put("weight_output_gate", weightOutputGate.asTensor())
+    args.put("bias", bias.asTensor())
+    val output = blockLSTM.call(args)
+
+    val hiddenOutput = output.get("output_0").expect(TFloat32.DTYPE)
+
+    (Constant.create(scope, hiddenOutput), lstmDims)
 
   }
 

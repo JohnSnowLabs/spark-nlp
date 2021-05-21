@@ -29,7 +29,9 @@ class DependencyParserDLTestSpec extends FlatSpec {
       .setInputCols("document", "lemma")
       .setOutputCol("dependency")
 
-    dependencyParser.fit(conllDataSet).transform(conllDataSet).show(false)
+    dependencyParser.fit(conllDataSet).transform(conllDataSet)
+      .select("dependency")
+      .show(false)
   }
 
 }

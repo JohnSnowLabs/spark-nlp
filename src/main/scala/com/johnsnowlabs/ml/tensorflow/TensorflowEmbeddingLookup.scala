@@ -46,7 +46,7 @@ class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int, scope: 
     }
 
     val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
-    val modelPath = "src/main/resources/embeddings-lookup/"
+    val modelPath = "src/main/resources/dependency-parser-dl/utils"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
     val embeddingsLookup: ConcreteFunction = model.function("embeddings_lookup")
 
