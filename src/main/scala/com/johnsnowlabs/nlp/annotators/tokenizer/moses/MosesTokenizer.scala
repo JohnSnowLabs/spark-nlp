@@ -121,7 +121,7 @@ private[johnsnowlabs] class MosesTokenizer(lang: String) {
 
   private def restoreMultiDots(text: String) = {
     var processed = text
-    while (processed.indexOf("DOTDOTMULTI") > 0) { // re.search(r"DOTDOTMULTI", text):
+    while (processed.indexOf("DOTDOTMULTI") >= 0) { // re.search(r"DOTDOTMULTI", text):
       processed = applySubstitution(processed, RESTORE_MULTIDOT_1)
     }
     applySubstitution(processed, RESTORE_MULTIDOT_2)

@@ -83,7 +83,10 @@ class MosesTokenizerTestSpec extends FlatSpec {
 
   }
   "MosesTokenizer" should "handle multi dots" taggedAs FastTest in {
-    val expected = Array("Truncated", "[", "...", "]", "text", "...")
+    var expected = Array("Truncated", "[", "...", "]", "text", "...")
     assertTokenization(moses.tokenize("Truncated [...] text..."), expected)
+
+    expected = Array("...")
+    assertTokenization(moses.tokenize("..."), expected)
   }
 }
