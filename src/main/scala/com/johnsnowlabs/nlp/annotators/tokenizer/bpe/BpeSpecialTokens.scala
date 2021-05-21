@@ -24,10 +24,19 @@ private[nlp] class SpecialTokens(
                                   endTokenString: String,
                                   unkTokenString: String,
                                   maskTokenString: String,
-                                  padTokenString: String
+                                  padTokenString: String,
+                                  additionalStrings: Array[String] = Array()
                                 ) {
-  for (specialTok <- Array(startTokenString, endTokenString, unkTokenString, maskTokenString, padTokenString))
+  val allTokenStrings: Array[String] = Array(
+    startTokenString,
+    endTokenString,
+    unkTokenString,
+    maskTokenString,
+    padTokenString
+  ) ++ additionalStrings
+  for (specialTok <- allTokenStrings)
     require(vocab.contains(specialTok), s"Special Token '$specialTok' needs to be in vocabulary.")
+
   val sentenceStart: SpecialToken = SpecialToken(startTokenString, vocab(startTokenString))
   val sentenceEnd: SpecialToken = SpecialToken(endTokenString, vocab(endTokenString))
   val unk: SpecialToken = SpecialToken(unkTokenString, vocab(unkTokenString))
@@ -38,11 +47,39 @@ private[nlp] class SpecialTokens(
   )
   val pad: SpecialToken = SpecialToken(padTokenString, vocab(padTokenString))
 
-  val allTokens: Set[SpecialToken] = Set(sentenceStart, sentenceEnd, unk, mask, pad)
+  val additionalTokens: Array[SpecialToken] = additionalStrings.map(
+    (tok: String) => SpecialToken(tok, vocab(tok))
+  )
+
+  val allTokens: Set[SpecialToken] = Set(sentenceStart, sentenceEnd, unk, mask, pad) ++ additionalTokens
 
   def contains(s: String): Boolean = allTokens.contains(SpecialToken(content = s, id = 0))
 }
 
+private[nlp] object SpecialTokens {
+  def getSpecialTokensForModel(modelType: String, vocab: Map[String, Int]): SpecialTokens = modelType match {
+    case "roberta" => new SpecialTokens(vocab, "<s>", "</s>", "<unk>", "<mask>", "<pad>")
+    case "xlm" => new SpecialTokens(
+      vocab,
+      "<s>",
+      "</s>",
+      "<unk>",
+      "<special1>",
+      "<pad>",
+      Array(
+        "<special0>",
+        "<special2>",
+        "<special3>",
+        "<special4>",
+        "<special5>",
+        "<special6>",
+        "<special7>",
+        "<special8>",
+        "<special9>"
+      )
+    )
+  }
+}
 
 case class SpecialToken(
                          content: String,
