@@ -17,7 +17,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-// TODO: How to do this properly?
+
 private[nlp] class SpecialTokens(
                                   vocab: Map[String, Int],
                                   startTokenString: String,
@@ -88,7 +88,7 @@ case class SpecialToken(
                          lstrip: Boolean = false,
                          rstrip: Boolean = false
                        ) {
-  //  implicit def convertToString(s: SpecialToken): String = s.content
+
   override def hashCode(): Int = content.hashCode
 
   override def canEqual(that: Any): Boolean = that.isInstanceOf[SpecialToken]
