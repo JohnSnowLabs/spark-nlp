@@ -73,5 +73,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/NER_HE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb           
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Turkish News Classifier
+          id: turkish_news_classifier
+          image: 
+              src: /assets/images/Flag_of_Turkey.png
+          image2: 
+              src: /assets/images/Flag_of_Turkey.png
+          excerpt: Classify Turkish news text using our pre-trained model
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_TR_NEWS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_NEWS.ipynb  
 ---

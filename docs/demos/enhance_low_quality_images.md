@@ -60,5 +60,33 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/NATURAL_SCENE.ipynb
+        - title: Enhance Faxes or Scanned Documents
+          id: enhance_faxes_scanned_documents
+          image: 
+              src: /assets/images/Image_to_Text.svg
+          image2: 
+              src: /assets/images/Image_to_Text_f.svg
+          excerpt: Improve quality of (old) faxes/scanned documents using Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/ENHANCE_OLD_FAXES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRGPUOperations.ipynb
+        - title: Enhance Photo of Documents
+          id: enhance_photo_documents
+          image: 
+              src: /assets/images/Image_to_Text.svg
+          image2: 
+              src: /assets/images/Image_to_Text_f.svg
+          excerpt: Improve quality of documents in image format using Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/ENHANCE_DOC_PHOTO/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRGPUOperations.ipynb
         
 ---
