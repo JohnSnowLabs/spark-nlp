@@ -3414,7 +3414,7 @@ class DistilBertEmbeddings(AnnotatorModel,
 
 
     @staticmethod
-    def pretrained(name="distilbert_base_uncased", lang="en", remote_loc=None):
+    def pretrained(name="distilbert_base_cased", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DistilBertEmbeddings, name, lang, remote_loc)
 

@@ -265,7 +265,7 @@ class DistilBertEmbeddings(override val uid: String)
 }
 
 trait ReadablePretrainedDistilBertModel extends ParamsAndFeaturesReadable[DistilBertEmbeddings] with HasPretrained[DistilBertEmbeddings] {
-  override val defaultModelName: Some[String] = Some("distilbert_base_uncased")
+  override val defaultModelName: Some[String] = Some("distilbert_base_cased")
 
   /** Java compliant-overrides */
   override def pretrained(): DistilBertEmbeddings = super.pretrained()
