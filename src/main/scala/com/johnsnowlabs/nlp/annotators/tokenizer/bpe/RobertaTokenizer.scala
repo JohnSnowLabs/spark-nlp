@@ -55,9 +55,10 @@ class RobertaTokenizer(
   override def preProcessTokenForBpe(token: String): String =
     token.foldLeft("")(_ + bytesToUnicodeMapping(_))
 
+  val splitPattern: Regex = raw"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""".r
+
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     // split pattern based on gpt2's bpe tokenizer
-    val splitPattern: Regex = raw"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+".r
     splitPattern
       .findAllMatchIn(text)
       .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
