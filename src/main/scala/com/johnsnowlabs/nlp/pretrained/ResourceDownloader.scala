@@ -35,7 +35,7 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, RoBertaEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
+import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, RoBertaEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlmRoBertaEmbeddings, XlnetEmbeddings}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -489,7 +489,8 @@ object PythonResourceDownloader {
     "MarianTransformer" -> MarianTransformer,
     "WordSegmenterModel" -> WordSegmenterModel,
     "DistilBertEmbeddings" -> DistilBertEmbeddings,
-    "RoBertaEmbeddings" -> RoBertaEmbeddings
+    "RoBertaEmbeddings" -> RoBertaEmbeddings,
+    "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

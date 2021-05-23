@@ -231,4 +231,7 @@ package object annotator {
   type RoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings
   object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel
 
+  type XlmRoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings
+  object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaTensorflowModel
+
 }

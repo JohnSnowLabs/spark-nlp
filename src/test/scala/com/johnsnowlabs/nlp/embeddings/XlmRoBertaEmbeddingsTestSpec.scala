@@ -173,7 +173,7 @@ class XlmRoBertaEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = XlmRoBertaEmbeddings
+    val embeddings = XlmRoBertaEmbeddings.pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
