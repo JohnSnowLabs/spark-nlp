@@ -1121,7 +1121,12 @@ ul.list1 {
 	list-style-type: none;
 	margin: 0;
 	li {
-		padding: 3px 0;
+		padding: 6px 0;
+		line-height: 16px;
+		position: relative;
+		&.free_link {
+			padding-right: 40px;
+		}
 		strong {
 			display: block;
 			padding: 10px 0;
@@ -1129,6 +1134,23 @@ ul.list1 {
 			font-size: 16px;
 			line-height: 19px;
 			color: #1E77B7;			
+		}
+		span {
+			position: absolute;
+			padding: 3px 5px;
+			display: inline-block;
+			right: 0;
+			top: 0;
+			font-weight: bold;
+			color: #fff;
+			text-transform: uppercase;
+			font-size: 10px;
+			line-height: 12px;
+			background: #5E31DF;
+			font-family: 'Montserrat', sans-serif;
+			height: 19px;
+			margin: auto;
+			bottom: 0;
 		}
 		&.active a {
 			color: #ff8a00 !important;
