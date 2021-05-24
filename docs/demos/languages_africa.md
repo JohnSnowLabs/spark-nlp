@@ -18,7 +18,7 @@ data:
           activemenu: languages_africa
       source: yes
       source: 
-        - title: Translate Entities in Hausa
+        - title: Translate text from Hausa to English
           id: translate-entities-in-hausa
           image: 
               src: /assets/images/Flag_of_Niger.png
@@ -32,7 +32,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:        
-        - title: Translate Entities in Swahili
+        - title: Translate text from Swahili to English
           id: translate-entities-in-swahili
           image: 
               src: /assets/images/Flag_of_Tanzania.png
@@ -46,7 +46,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: 
-        - title: Translate Entities in Afrikaans
+        - title: Translate text from Afrikaans to English
           id: translate-entities-in-afrikaans
           image: 
               src: /assets/images/Flag_of_South_Africa.svg.png
