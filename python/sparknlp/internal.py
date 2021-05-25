@@ -323,3 +323,8 @@ class _DistilBertLoader(ExtendedJavaWrapper):
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_RoBertaLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings.loadSavedModel", path, jspark)
+
+
+class _XlmRoBertaLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings.loadSavedModel", path, jspark)
