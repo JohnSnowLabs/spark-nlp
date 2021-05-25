@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Twitter-XLM-Roberta-base (twitter_xlm_roberta_base)
+title: Twitter XLM-RoBERTa Base (twitter_xlm_roberta_base)
 author: John Snow Labs
 name: twitter_xlm_roberta_base
 date: 2021-05-25
