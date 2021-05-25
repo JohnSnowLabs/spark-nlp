@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver for Billable ICD10-CM HCC Codes (slim)
+title: Sentence Entity Resolver for Billable ICD10-CM HCC Codes (sbiobertresolve_icd10cm_slim_billable_hcc)
 author: John Snow Labs
 name: sbiobertresolve_icd10cm_slim_billable_hcc
 date: 2021-05-25
@@ -45,10 +45,11 @@ sbert_embedder = BertSentenceEmbeddings\
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc ","en", "clinical/models") \
      .setInputCols(["document", "sbert_embeddings"]) \
      .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+     .setDistanceFunction("EUCLIDEAN")\
+     .setReturnCosineDistances(True)
 bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
 
-model = bert_pipeline_icd.fit(spark.createDataFrame([["metastatic lung cancer"]]).toDF("text"))
+model = bert_pipeline_icd.fit(spark.createDataFrame([["bladder cancer"]]).toDF("text"))
 results = model.transform(data)
 ```
 ```scala
@@ -64,7 +65,7 @@ val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
-val result = bert_pipeline_icd.fit(Seq.empty["metastatic lung cancer"].toDS.toDF("text")).transform(data)
+val result = bert_pipeline_icd.fit(Seq.empty["bladder cancer"].toDS.toDF("text")).transform(data)
 ```
 </div>
 
