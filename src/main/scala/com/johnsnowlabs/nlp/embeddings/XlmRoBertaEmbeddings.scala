@@ -237,7 +237,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlmroberta", XlmRoBertaEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlmroberta", XlmRoBertaEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
     writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlmroberta", XlmRoBertaEmbeddings.sppFile)
   }
 
