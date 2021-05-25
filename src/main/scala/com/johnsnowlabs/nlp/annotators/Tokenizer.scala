@@ -21,7 +21,30 @@ import scala.collection.mutable.ArrayBuffer
   *
   * Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for examples examples of usage.
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import org.apache.spark.ml.Pipeline
+  *
+  * import spark.implicits._
+  *
+  * val data = Seq("I'd like to say we didn't expect that. Jane's boyfriend.").toDF("text")
+  * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+  * val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
+  *
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer)).fit(data)
+  * val result = pipeline.transform(data)
+  *
+  * result.selectExpr("token.result").show(false)
+  * +-----------------------------------------------------------------------+
+  * |output                                                                 |
+  * +-----------------------------------------------------------------------+
+  * |[I'd, like, to, say, we, didn't, expect, that, ., Jane's, boyfriend, .]|
+  * +-----------------------------------------------------------------------+
+  * }}}
+  *
+  * @see [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for extended examples of usage.
   *
   * @param uid required uid for storing annotator to disk
   * @groupname anno Annotator types
