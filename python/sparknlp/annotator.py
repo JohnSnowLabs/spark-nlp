@@ -3467,3 +3467,53 @@ class RoBertaEmbeddings(AnnotatorModel,
     def pretrained(name="roberta_base", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(RoBertaEmbeddings, name, lang, remote_loc)
+
+
+class XlmRoBertaEmbeddings(AnnotatorModel,
+                           HasEmbeddingsProperties,
+                           HasCaseSensitiveProperties,
+                           HasStorageRef,
+                           HasBatchedAnnotate):
+
+    name = "XlmRoBertaEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings", java_model=None):
+        super(XlmRoBertaEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _XlmRoBertaLoader
+        jModel = _XlmRoBertaLoader(folder, spark_session._jsparkSession)._java_obj
+        return XlmRoBertaEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="xlm_roberta_base", lang="xx", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(XlmRoBertaEmbeddings, name, lang, remote_loc)

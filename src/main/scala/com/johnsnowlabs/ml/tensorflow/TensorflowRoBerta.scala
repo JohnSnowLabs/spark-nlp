@@ -191,7 +191,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
       val encoded = encode(batch, maxSentenceLength)
       val vectors = tag(encoded)
-      //      val vectors = Seq.empty[Array[Array[Float]]]
+
       /*Combine tokens and calculated embeddings*/
       batch.zip(vectors).map { case (sentence, tokenVectors) =>
         val tokenLength = sentence._1.tokens.length
