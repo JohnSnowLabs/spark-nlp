@@ -18,8 +18,9 @@
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
 import com.johnsnowlabs.ml.tensorflow.{TensorMathResources, TensorResources, TensorflowEmbeddingLookup, TensorflowWrapper}
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABELED_DEPENDENCY, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{LABELED_DEPENDENCY, TOKEN}
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.op.Scope
@@ -27,8 +28,9 @@ import org.tensorflow.op.core.{Constant, Zeros}
 import org.tensorflow.op.math.Tanh
 import org.tensorflow.op.nn.BlockLSTM
 import org.tensorflow.types.{TFloat32, TInt64, TString}
-import org.tensorflow.{ConcreteFunction, EagerSession, Operand, SavedModelBundle, Tensor}
+import org.tensorflow._
 
+import java.nio.file.{Files, Paths}
 import java.util
 
 
@@ -72,7 +74,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
+    //TODO: Confirm whether pretrained feature will be added
     val embeddings = new TensorflowEmbeddingLookup(EMBEDDINGS_SIZE, vocabularySize, scope)
     val embeddingsTable = embeddings.initializeTable()
 
@@ -173,6 +175,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   }
 
   private def restoreLstmWeights(weightsVariables: List[(String, String)]): Map[String, Tensor[TFloat32]] = {
+    //TODO: Use WriteTensorflowModel.readTensorflowHub to load final model
     val modelPath: String = "src/main/resources/dependency-parser-dl/bi-lstm/"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
 
@@ -189,7 +192,8 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   }
 
   private def restoreDependencyWeights(weightsVariables: List[String], module: String): Map[String, Tensor[TFloat32]] = {
-    val modelPath: String = s"src/main/resources/dependency-parser-dl/$module/"
+    //TODO: Use WriteTensorflowModel.readTensorflowHub to load final model
+    val modelPath = s"src/main/resources/dependency-parser-dl/$module/"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
 
     weightsVariables.map{ weightVariable =>
@@ -201,6 +205,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   }
 
   private def restoreRelationsVocabulary(): Map[Int, String] = {
+    //TODO: Use WriteTensorflowModel.readTensorflowHub to load final model
     val modelPath: String = "src/main/resources/dependency-parser-dl/relations/"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(Array(), savedModelDir = modelPath)
     val variableName = "rVocabulary/Read/ReadVariableOp"
@@ -252,6 +257,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val bias: Operand[TFloat32] = Zeros.create(scope, Constant.vectorOf(scope, biasShape), TFloat32.DTYPE)
 
     val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
+    //TODO: Use WriteTensorflowModel.readTensorflowHub to load model
     val modelPath = "src/main/resources/dependency-parser-dl/utils"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
     val blockLSTM: ConcreteFunction = model.function("lstm_output")
@@ -320,7 +326,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
     val predictedRelations = predictedRelationScores.map{predictedRelationScore =>
       val scores = TensorResources.extractFloats(predictedRelationScore.asTensor())
       val indexRelation = scores.zipWithIndex.maxBy(_._1)._2
-      relationsVocabulary.getOrElse(indexRelation, "unknown") //TODO: Set unknown or rise exception??
+      relationsVocabulary.getOrElse(indexRelation, "*unknown*")
     }
 
     predictedRelations
@@ -329,7 +335,7 @@ class DependencyParserDLModel(override val uid: String) extends AnnotatorModel[D
   case class DependencyFeatures(headsFeatures: Array[Operand[TFloat32]], concatLstm: Operand[TFloat32])
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[String] = Array[String](DOCUMENT, TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array[String](TOKEN)
   override val outputAnnotatorType: AnnotatorType = LABELED_DEPENDENCY
 
 }

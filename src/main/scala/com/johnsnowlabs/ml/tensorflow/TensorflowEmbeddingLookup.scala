@@ -17,12 +17,14 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.tensorflow.op.Scope
 import org.tensorflow.op.core.Constant
 import org.tensorflow.op.random.StatelessRandomNormal
 import org.tensorflow.types.{TFloat32, TInt32}
 import org.tensorflow._
 
+import java.nio.file.Paths
 import java.util
 
 class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int, scope: Scope) {
@@ -46,6 +48,7 @@ class TensorflowEmbeddingLookup(embeddingSize: Int, vocabularySize: Int, scope: 
     }
 
     val tags: Array[String] = Array(SavedModelBundle.DEFAULT_TAG)
+    //TODO: Use WriteTensorflowModel.readTensorflowHub to load model
     val modelPath = "src/main/resources/dependency-parser-dl/utils"
     val model: SavedModelBundle = TensorflowWrapper.withSafeSavedModelBundleLoader(tags = tags, savedModelDir = modelPath)
     val embeddingsLookup: ConcreteFunction = model.function("embeddings_lookup")

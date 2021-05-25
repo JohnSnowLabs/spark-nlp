@@ -40,6 +40,7 @@ unittest.TextTestRunner().run(YakeModelTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
+unittest.TextTestRunner().run(DependencyParserDLTestSpec())
 
 # Should be locally tested
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())

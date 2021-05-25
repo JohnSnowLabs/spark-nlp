@@ -668,7 +668,7 @@ object TensorflowWrapper {
   }
 
   def restoreVariable(model: SavedModelBundle, modelPath: String, variableName: String,
-                      prefix: String = "variables/variables"): Tensor[_] = {
+                      prefix: String = "/variables/variables"): Tensor[_] = {
 
     val restoredSession = restoreVariablesSession(model, modelPath, prefix)
 

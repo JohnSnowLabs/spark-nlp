@@ -35,4 +35,12 @@ object AssertAnnotations {
     }
   }
 
+  def assertFieldsStruct(dataSet: Dataset[_], expectedColumnName: String, expectedAnnotatorType: String): Unit = {
+    val expectedDatasetSchemaField = dataSet.schema.fields.find(field =>
+      field.metadata.contains("annotatorType") && field.name == expectedColumnName &&
+        field.metadata.getString("annotatorType") == expectedAnnotatorType)
+
+    assert(expectedDatasetSchemaField.isDefined)
+  }
+
 }

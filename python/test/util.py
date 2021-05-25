@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 
 import os
 
+
 class SparkSessionForTest:
     spark = SparkSession.builder \
         .master("local[*]") \
@@ -12,6 +13,7 @@ class SparkSessionForTest:
         .config("spark.kryoserializer.buffer.max", "500m") \
         .getOrCreate()
     spark.sparkContext.setLogLevel("WARN")
+
 
 class SparkContextForTest:
     spark = SparkSessionForTest.spark

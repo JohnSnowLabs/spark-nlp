@@ -18,9 +18,10 @@
 package com.johnsnowlabs.nlp.annotators.parser.dl
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, LABELED_DEPENDENCY, TOKEN}
+import com.johnsnowlabs.nlp.AnnotatorType.{LABELED_DEPENDENCY, TOKEN}
 import com.johnsnowlabs.util.spark.SparkSqlHelper
 import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.param.{DoubleParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.functions.col
@@ -31,12 +32,23 @@ class DependencyParserDLApproach(override val uid: String) extends AnnotatorAppr
 
   override val description: String = "Dependency Parser DL finds a grammatical relation between two words in a sentence"
 
+  protected val sampleFraction = new DoubleParam(this, "sampleFraction", "Sample fraction to take from dataset to compute vocabulary for embeddings lookup. By default reads all dataset")
+
+  def setSampleFraction(value: Double): this.type = set(sampleFraction, value)
+
+  protected val vocabularyCol = new Param[String](this, "vocabularyCol", "The column used to compute the vocabulary from. By default uses lemma column")
+
+  def setVocabularyColumn(value: String): this.type = set(vocabularyCol, value)
+
+  setDefault(sampleFraction -> 1D, vocabularyCol -> "lemma")
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DependencyParserDLModel = {
-    //TODO: Check if column embeddings are in the dataset to avoid computing vocabulary
-    //TODO: Control that either dataset is sent with CoNLLU format or create a parameter for lemma.result
-    //TODO: Add a parameter to take a sample from dataset to compute vocabulary
+
+    require($(sampleFraction) <= 1D & $(sampleFraction) >= 0D, "The sampleFraction must be between 0 and 1")
+
     val dataSetWithUniqueWords =
-      SparkSqlHelper.uniqueArrayElements(dataset.withColumn("words", col("lemma.result")), "words")
+      SparkSqlHelper.uniqueArrayElements(dataset.sample($(sampleFraction))
+        .withColumn("words", col($(vocabularyCol) + ".result")), "words")
 
     val uniqueWords = Seq("*PAD*", "*INITIAL*", "*root*") ++
       dataSetWithUniqueWords.select("unique_words_elements").rdd.map(rows =>
@@ -49,6 +61,6 @@ class DependencyParserDLApproach(override val uid: String) extends AnnotatorAppr
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
+  override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
   override val outputAnnotatorType: AnnotatorType = LABELED_DEPENDENCY
 }

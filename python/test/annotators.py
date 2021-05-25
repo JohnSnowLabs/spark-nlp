@@ -1700,3 +1700,32 @@ class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("summaries.result").show(truncate=False)
+
+
+class DependencyParserDLTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([["What if Google"]]).toDF("text").cache()
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols("document") \
+            .setOutputCol("sentence")
+
+        token = Tokenizer() \
+            .setInputCols("sentence") \
+            .setOutputCol("token")
+
+        dependency_parser_dl = DependencyParserDLApproach() \
+            .setInputCols("token") \
+            .setOutputCol("dependencies") \
+            .setVocabularyCol("token")
+
+        pipeline = Pipeline(stages=[document_assembler, sentence_detector, token, dependency_parser_dl])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()

@@ -3367,3 +3367,44 @@ class MarianTransformer(AnnotatorModel):
     def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)
+
+
+class DependencyParserDLApproach(AnnotatorApproach):
+    name = "DependencyParserDLApproach"
+
+    sampleFraction = Param(
+        Params._dummy(),
+        "sampleFraction",
+        "Sample fraction to take from dataset to compute vocabulary for embeddings lookup. By default reads all dataset",
+        typeConverter=TypeConverters.toFloat)
+
+    vocabularyCol = Param(Params._dummy(),
+                          "vocabularyCol",
+                          "The column used to compute the vocabulary from. By default uses lemma column",
+                          typeConverter=TypeConverters.toString)
+
+    def setSampleFraction(self, value):
+        return self._set(sampleFraction=value)
+
+    def setVocabularyCol(self, value):
+        return self._set(vocabularyCol=value)
+
+    @keyword_only
+    def __init__(self):
+        super(DependencyParserDLApproach, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.parser.dl.DependencyParserDLApproach")
+        self._setDefault(
+            sampleFraction=1, vocabularyCol="lemma")
+
+    def _create_model(self, java_model):
+        return DependencyParserDLModel(java_model=java_model)
+
+
+class DependencyParserDLModel(AnnotatorModel):
+    name = "DependencyParserDLModel"
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.parser.dl.DependencyParserDLModel", java_model=None):
+        super(DependencyParserDLModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )

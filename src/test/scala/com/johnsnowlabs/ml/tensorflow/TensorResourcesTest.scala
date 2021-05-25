@@ -2,10 +2,9 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.junit.Assert.{assertArrayEquals, assertEquals}
 import org.scalatest.FlatSpec
-import org.tensorflow.{Operand, Tensor}
+import org.tensorflow.Operand
 import org.tensorflow.ndarray.{FloatNdArray, IntNdArray, StdArrays}
-import org.tensorflow.op.core.{Constant, Helpers, Variable, Zeros}
-import org.tensorflow.op.random.StatelessRandomNormal
+import org.tensorflow.op.core.Constant
 import org.tensorflow.types.{TFloat32, TInt32}
 
 class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
@@ -96,22 +95,6 @@ class TensorResourcesTest extends FlatSpec with EagerSessionBuilder {
     val actualMatrix: Array[Array[Int]] = TensorResources.extractTwoDimInts(scope, tensor)
 
     matrix.zipWithIndex.foreach{ case (expectedRow, index) => assertArrayEquals(expectedRow, actualMatrix(index)) }
-  }
-
-  it should "random" in {
-      val inputSize = 2
-      val cellSize = 3
-      val weightShape = Array(inputSize + cellSize, cellSize * 4)
-      val weightGatesShape = Array(cellSize)
-
-      val operandShape: Operand[TInt32] = Constant.vectorOf(scope, weightShape)
-      val seed: Operand[TInt32] = Constant.vectorOf(scope, Array[Int](1, 1))
-      val weightMatrix = StatelessRandomNormal.create(scope, operandShape, seed)
-      val weightGate = StatelessRandomNormal.create(scope, Constant.vectorOf(scope, weightGatesShape), seed).asTensor()
-
-      val weightMatrixValues = TensorResources.extractTwoDimFloats(scope, weightMatrix)
-      val weightGateValues = TensorResources.extractFloats(weightGate)
-      println("Copy to VCode")
   }
 
 }
