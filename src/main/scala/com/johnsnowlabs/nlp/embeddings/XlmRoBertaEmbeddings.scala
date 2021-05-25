@@ -99,28 +99,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
     1
   }
 
-  /**
-   * Vocabulary used to encode the words to ids with bpeTokenizer.encode
-   *
-   * @group param
-   * */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
-  /**
-   * Holding merges.txt coming from XLM-RoBERTa model
-   *
-   * @group param
-   */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
-
-  /** @group setParam */
-  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
-
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
@@ -267,6 +245,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
 
 trait ReadablePretrainedXlmRobertaModel extends ParamsAndFeaturesReadable[XlmRoBertaEmbeddings] with HasPretrained[XlmRoBertaEmbeddings] {
   override val defaultModelName: Some[String] = Some("xlm_roberta_base")
+  override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
   override def pretrained(): XlmRoBertaEmbeddings = super.pretrained()
