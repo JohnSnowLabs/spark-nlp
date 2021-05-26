@@ -64,7 +64,8 @@ trait WriteTensorflowModel {
                               spark: SparkSession,
                               tensorflow: TensorflowWrapper,
                               suffix: String, filename: String,
-                              configProtoBytes: Option[Array[Byte]] = None
+                              configProtoBytes: Option[Array[Byte]] = None,
+                              savedSignatures: Option[Map[String, String]] = None
                             ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
@@ -77,7 +78,7 @@ trait WriteTensorflowModel {
     val tfFile = Paths.get(tmpFolder, filename).toString
 
     // 2. Save Tensorflow state
-    tensorflow.saveToFileV1V2(tfFile, configProtoBytes)
+    tensorflow.saveToFileV1V2(tfFile, configProtoBytes, savedSignatures = savedSignatures)
 
     // 3. Copy to dest folder
     fs.copyFromLocalFile(new Path(tfFile), new Path(path))
@@ -85,7 +86,6 @@ trait WriteTensorflowModel {
     // 4. Remove tmp folder
     FileUtils.deleteDirectory(new File(tmpFolder))
   }
-
 
   def writeTensorflowHub(
                           path: String,
@@ -125,7 +125,8 @@ trait ReadTensorflowModel {
                            zipped: Boolean = true,
                            useBundle: Boolean = false,
                            tags: Array[String] = Array.empty,
-                           initAllTables: Boolean = false
+                           initAllTables: Boolean = false,
+                           savedSignatures: Option[Map[String, String]] = None
                          ): TensorflowWrapper = {
 
     LoadsContrib.loadContribToCluster(spark)
@@ -142,7 +143,7 @@ trait ReadTensorflowModel {
 
     // 3. Read Tensorflow state
     val (tf, _) = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
-      zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables)
+      zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables, savedSignatures = savedSignatures)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
