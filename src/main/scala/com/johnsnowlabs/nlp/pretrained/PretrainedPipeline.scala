@@ -4,6 +4,14 @@ import com.johnsnowlabs.nlp.LightPipeline
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.DataFrame
 
+/**
+  * TODO
+  * @param downloadName
+  * @param lang
+  * @param source
+  * @param parseEmbeddingsVectors
+  * @param diskLocation
+  */
 case class PretrainedPipeline(
                                downloadName: String,
                                lang: String = "en",

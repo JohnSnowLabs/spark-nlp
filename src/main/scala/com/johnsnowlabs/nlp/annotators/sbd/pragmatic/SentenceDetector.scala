@@ -25,7 +25,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class SentenceDetector(override val uid: String) extends AnnotatorModel[SentenceDetector] with HasSimpleAnnotate[SentenceDetector] with SentenceDetectorParams {
 
