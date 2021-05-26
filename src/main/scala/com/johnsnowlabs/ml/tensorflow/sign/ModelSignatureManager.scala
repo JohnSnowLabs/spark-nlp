@@ -182,9 +182,7 @@ object ModelSignatureManager {
 
     val modelProvider = classifyProvider(signDefNames)
 
-    var adoptedKeys = convertToAdoptedKeys(signDefNames)
-
-    adoptedKeys = Map(
+    val adoptedKeys = convertToAdoptedKeys(signDefNames) + (
       "filenameTensorName_" -> saverDef.getFilenameTensorName.replaceAll(":0", ""),
       "restoreOpName_" -> saverDef.getRestoreOpName.replaceAll(":0", ""),
       "saveTensorName_" -> saverDef.getSaveTensorName.replaceAll(":0", "")
