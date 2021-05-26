@@ -4,7 +4,7 @@ title: LeNER-Br Named Entity Recognition for (Brazilian) Portuguese Legal Text
 author: John Snow Labs
 name: ner_lener
 date: 2021-05-19
-tags: [ner, open_source, pt, br]
+tags: [ner, legal, pt, br]
 task: Named Entity Recognition
 language: pt
 edition: Spark NLP 2.7.3
@@ -231,7 +231,7 @@ ner_df
 |Model Name:|ner_lener|
 |Type:|ner|
 |Compatibility:|Spark NLP 2.7.3+|
-|License:|Open Source|
+|License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
