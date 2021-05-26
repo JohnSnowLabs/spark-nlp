@@ -20,10 +20,10 @@ import scala.collection.JavaConverters._
  * MarianNMT [[https://marian-nmt.github.io/]]
  * Marian: Fast Neural Machine Translation in C++ [[https://www.aclweb.org/anthology/P18-4020/]]
  *
- * @param tensorflow           LanguageDetectorDL Model wrapper with TensorFlow Wrapper
- * @param configProtoBytes     Configuration for TensorFlow session
- * @param sppSrc               Contains the vocabulary for the target language.
- * @param sppTrg               Contains the vocabulary for the source language
+ * @param tensorflow       LanguageDetectorDL Model wrapper with TensorFlow Wrapper
+ * @param configProtoBytes Configuration for TensorFlow session
+ * @param sppSrc           Contains the vocabulary for the target language.
+ * @param sppTrg           Contains the vocabulary for the source language
  */
 class TensorflowMarian(val tensorflow: TensorflowWrapper,
                        val sppSrc: SentencePieceWrapper,
@@ -46,12 +46,9 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val tensorEncoder = new TensorResources()
     val inputDim = batch.length * maxSentenceLength
 
-    //    val encoderInputIdsBuffers = tensorEncoder.createLongBuffer(batch.length * maxSentenceLength)
-    //    val encoderAttentionMaskBuffers = tensorEncoder.createLongBuffer(batch.length * maxSentenceLength)
-    //    val decoderAttentionMaskBuffers = tensorEncoder.createLongBuffer(batch.length  * maxSentenceLength)
     val encoderInputIdsBuffers = tensorEncoder.createIntBuffer(batch.length * maxSentenceLength)
     val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(batch.length * maxSentenceLength)
-    val decoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(batch.length  * maxSentenceLength)
+    val decoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(batch.length * maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
@@ -62,7 +59,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
       val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(paddingTokenId)
       encoderInputIdsBuffers.offset(offset).write(s)
-      val mask = s.map(x =>  if (x != paddingTokenId) 1 else 0)
+      val mask = s.map(x => if (x != paddingTokenId) 1 else 0)
       encoderAttentionMaskBuffers.offset(offset).write(mask)
       decoderAttentionMaskBuffers.offset(offset).write(mask)
     }
@@ -89,7 +86,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
     // Run decoder
     val decoderEncoderStateBuffers = tensorEncoder.createFloatBuffer(batch.length * maxSentenceLength * dim)
-    batch.zipWithIndex.foreach{case (_, index) =>
+    batch.zipWithIndex.foreach { case (_, index) =>
       var offset = index * maxSentenceLength * dim
       encoderOutsBatch(index).foreach(encoderOutput => {
         decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
@@ -106,14 +103,14 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
     var stopDecoder = false
 
-    while(!stopDecoder){
+    while (!stopDecoder) {
 
       val decoderInputLength = decoderInputs.head.length
       val tensorDecoder = new TensorResources()
 
       val decoderInputBuffers = tensorDecoder.createIntBuffer(batch.length * decoderInputLength)
 
-      decoderInputs.zipWithIndex.foreach{ case (pieceIds, idx) =>
+      decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
         val offset = idx * decoderInputLength
         decoderInputBuffers.offset(offset).write(pieceIds)
       }
@@ -182,7 +179,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       // remove language code from the source text
       val sentWithoutLangId = langCodeRe.replaceFirstIn(s.result, "").trim
       val normalizedSent = normalizer.normalize(sentWithoutLangId)
-      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(normalizedSent).toArray.map(x=>x.toString)
+      val pieceTokens = sppSrc.getSppModel.encodeAsPieces(normalizedSent).toArray.map(x => x.toString)
 
       val pieceIds = pieceTokens.map {
         piece =>
@@ -194,7 +191,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
           }
       }
 
-      if(langId > 0)
+      if (langId > 0)
         Array(langId) ++ pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
       else
         pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
@@ -205,7 +202,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
   /*
   * Batch size more than 1 is not performing well on CPU
   *
-  * */
+  */
   def generateSeq2Seq(sentences: Seq[Annotation],
                       batchSize: Int = 1,
                       maxInputLength: Int,
@@ -237,7 +234,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     }
 
     var sentBegin, nextSentEnd = 0
-    batchDecoder.zip(sentences).map{
+    batchDecoder.zip(sentences).map {
       case (content, sent) =>
         nextSentEnd += content.length - 1
         val annots = new Annotation(
