@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver for RxNorm (``sbiobert_base_cased_mli`` embeddings)
+title: Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
 name: sbiobertresolve_rxnorm
 date: 2021-05-16

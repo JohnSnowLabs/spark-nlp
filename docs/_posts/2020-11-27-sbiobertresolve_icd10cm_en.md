@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver for ICD10-CM (``sbiobert_base_cased_mli`` embeddings)
+title: Sentence Entity Resolver for ICD10-CM (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
 name: sbiobertresolve_icd10cm
 language: en
