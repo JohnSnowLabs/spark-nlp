@@ -47,7 +47,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
  * @groupprio Ungrouped 3
  * @groupprio setParam  4
  * @groupprio getParam  5
- * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with HasSimpleAnnotate[DateMatcher] with DateMatcherUtils {
 
