@@ -21,16 +21,14 @@ import org.apache.commons.lang.StringUtils
 
 import scala.util.matching.Regex
 
-private[johnsnowlabs] class MosesPunctNormalizer() {
+private[johnsnowlabs] class MosesPunctNormalizer(language: String = "en") {
 
   private val COMBINED_REPLACEMENT = List(
-    (raw"""\r|\u00A0«\u00A0|«\u00A0|«|\u00A0»\u00A0|\u00A0»|»|“|《|》|」|「""".r, raw""""""),
+    (raw"""\r|\u00A0«\u00A0|«\u00A0|«|\u00A0»\u00A0|\u00A0»|»|“|」|「""".r, raw""""""),
 
-    (raw""" +""".r, raw""" """),
+    (raw""" ?\( ?""".r, raw"""("""),
 
-    (raw"""\( ?""".r, raw"""("""),
-
-    (raw""" ?\)""".r, raw""")"""),
+    (raw""" ?\) ?""".r, raw""")"""),
 
     (raw""" :|\u00A0:|∶|：""".r, raw""":"""),
 
@@ -40,6 +38,7 @@ private[johnsnowlabs] class MosesPunctNormalizer() {
 
     (raw"""''|„|“|”|''|´´""".r, raw""" " """)
   )
+
   private val EXTRA_WHITESPACE = List(
     (raw"""(""", raw""" ("""),
     (raw""")""", raw""") """),
@@ -60,26 +59,28 @@ private[johnsnowlabs] class MosesPunctNormalizer() {
     (raw"""nº\u00A0""".r, raw"""nº """),
     (raw"""\u00A0ºC""".r, raw""" ºC"""),
     (raw"""\u00A0cm""".r, raw""" cm"""),
-    (raw"""\u00A0\\?""".r, raw"""?"""),
-    (raw"""\u00A0\\!""".r, raw"""!"""),
+    (raw"""\u00A0\?""".r, raw"""?"""),
+    (raw"""\u00A0\!""".r, raw"""!"""),
     (raw""""".,\u00A0""".r, raw""""", """)
   )
 
-  private val EN_QUOTATION_FOLLOWED_BY_COMMA = List(
-    (raw""""([,.]+)""".r, raw"""$$1""")
-  )
+  private val QUOTATION_FOLLOWED_BY_COMMA = if (language == "en")
+    List(
+      (raw""""([,.]+)""".r, raw"""$$1"""")
+    )
+  else if (Array("de", "es", "fr").contains(language))
+    List(
+      (raw""","""", raw"""","""),
+      (raw"""(\.+)"(\s*?[^<])""".r, raw""""$$1$$2""")
+    )
+  else List()
 
-  private val DE_ES_FR_QUOTATION_FOLLOWED_BY_COMMA = List(
-    (raw""","""", raw"""","""),
-    (raw"""(\.+)"(\s*?[^<])""".r, raw""""$$1$$2""")
-  )
-
-  private val DE_ES_CZ_CS_FR = List(
-    (raw"""(\\d)\u00A0(\\d)""".r, raw"""$$1,$$2""")
-  )
-
-  private val OTHER = List(
-    (raw"""(\\d)\u00A0(\\d)""".r, raw"""$$1.$$2""")
+  private val NORM_NUMBERS = if (Array("de", "es", "cz", "cs", "fr").contains(language))
+    List(
+      (raw"""(\d)\u00A0(\d)""".r, raw"""$$1,$$2""")
+    )
+  else List(
+    (raw"""(\d)\u00A0(\d)""".r, raw"""$$1.$$2""")
   )
 
   private val REPLACE_UNICODE_PUNCTUATION = List(
@@ -106,19 +107,22 @@ private[johnsnowlabs] class MosesPunctNormalizer() {
     (raw"""〉""", raw""">"""),
     (raw"""【""", raw"""["""),
     (raw"""】""", raw"""]"""),
-    (raw"""％""", raw"""%""")
+    (raw"""％""", raw"""%"""),
+    (raw"""《""", "\""),
+    (raw"""》""", "\"")
   )
+
+  private val DEDUPLICATE_SPACE = List((raw""" +""".r, raw""" """))
 
   private val substitutions = List.concat(
     COMBINED_REPLACEMENT,
     EXTRA_WHITESPACE,
     NORMALIZE_UNICODE,
     HANDLE_PSEUDO_SPACES,
-    EN_QUOTATION_FOLLOWED_BY_COMMA,
-    DE_ES_FR_QUOTATION_FOLLOWED_BY_COMMA,
-    DE_ES_CZ_CS_FR,
-    OTHER,
-    REPLACE_UNICODE_PUNCTUATION)
+    QUOTATION_FOLLOWED_BY_COMMA,
+    NORM_NUMBERS,
+    REPLACE_UNICODE_PUNCTUATION,
+    DEDUPLICATE_SPACE)
 
   def normalize(text: String): String = {
     var acc: String = text

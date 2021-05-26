@@ -26,7 +26,7 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
   *
   * @param merges                     Combinations of byte pairs with ranking
   * @param vocab                      Mapping from byte pair to an id
-  * @param lang                       Langauge of the text (Currenlty only english supported)
+  * @param lang                       Language of the text (Currently only english supported)
   * @param specialTokens              Special Tokens of the model to not split on
   * @param doLowercaseAndRemoveAccent True for current supported model (v1.2.0), False for XLM-17 & 100
   */
@@ -48,13 +48,6 @@ private[nlp] class XlmTokenizer(
     var text = input
     text = text.toLowerCase()
     text = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD)
-    //    output = []
-    //    for char in text:
-    //      cat = unicodedata.category(char)
-    //    if cat == "Mn":
-    //      continue
-    //    output.append(char)
-    //    return "".join(output).lower().split(" ")
     text.toCharArray
       .filter(Character.getType(_) != Character.NON_SPACING_MARK) // Unicode Category "Mn"
       .mkString
