@@ -196,7 +196,8 @@ class MarianTransformer(override val uid: String) extends
             tensorflow,
             sppSrc,
             sppTrg,
-            configProtoBytes = getConfigProtoBytes
+            configProtoBytes = getConfigProtoBytes,
+            signatures = getSignatures
           )
         )
       )
