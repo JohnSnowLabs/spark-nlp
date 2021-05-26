@@ -121,6 +121,41 @@ object ModelSignatureConstants {
     override val value: String = "pooled_output:0"
   }
 
+  case object EncoderInputIds extends TFInfoNameMapper {
+    override val key: String = "encoder_input_ids"
+    override val value: String = "encoder_encoder_input_ids:0"
+  }
+
+  case object EncoderAttentionMask extends TFInfoNameMapper {
+    override val key: String = "encoder_attention_mask"
+    override val value: String = "encoder_encoder_attention_mask:0"
+  }
+
+  case object EncoderOutput extends TFInfoNameMapper {
+    override val key: String = "last_hidden_state"
+    override val value: String = "StatefulPartitionedCall_1:0"
+  }
+
+  case object DecoderInputIds extends TFInfoNameMapper {
+    override val key: String = "decoder_input_ids"
+    override val value: String = "decoder_decoder_input_ids:0"
+  }
+
+  case object DecoderEncoderInputIds extends TFInfoNameMapper {
+    override val key: String = "encoder_state"
+    override val value: String = "decoder_encoder_state:0"
+  }
+
+  case object DecoderAttentionMask extends TFInfoNameMapper {
+    override val key: String = "encoder_attention_mask"
+    override val value: String = "decoder_encoder_attention_mask:0"
+  }
+
+  case object DecoderOutput extends TFInfoNameMapper {
+    override val key: String = "output_0"
+    override val value: String = "StatefulPartitionedCall:0"
+  }
+
   /** Retrieve signature patterns for a given provider
    *
    * @param modelProvider : the provider library that built the model and the signatures
