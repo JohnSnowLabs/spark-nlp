@@ -23,11 +23,10 @@ import scala.collection.mutable.ArrayBuffer
   *
   * ==Example==
   * {{{
-  * import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
   * import com.johnsnowlabs.nlp.annotators.Tokenizer
   * import org.apache.spark.ml.Pipeline
-  *
-  * import spark.implicits._
   *
   * val data = Seq("I'd like to say we didn't expect that. Jane's boyfriend.").toDF("text")
   * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
@@ -59,7 +58,7 @@ import scala.collection.mutable.ArrayBuffer
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerModel] {
 
