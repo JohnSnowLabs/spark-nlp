@@ -15,6 +15,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+  * import com.johnsnowlabs.nlp.Chunk2Doc
   *
   * val data = Seq((1, "New York and New Jersey aren't that far apart actually.")).toDF("id", "text")
   *
