@@ -311,10 +311,15 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
 
     val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
     /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
     new DistilBertEmbeddings()
       .setVocabulary(words)
-      .setSignatures(signatures.get)
+      .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
   }
 }

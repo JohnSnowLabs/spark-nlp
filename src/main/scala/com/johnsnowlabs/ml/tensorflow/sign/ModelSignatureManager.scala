@@ -20,6 +20,7 @@ package com.johnsnowlabs.ml.tensorflow.sign
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.SavedModelBundle
 import org.tensorflow.proto.framework.TensorInfo
+import org.tensorflow.proto.util.SaverDef
 
 import java.util
 import scala.util.matching.Regex
@@ -174,13 +175,19 @@ object ModelSignatureManager {
    * @param model         loaded SavedModelBundle
    * @return the list ot matching signatures as tuples
    * */
-  def extractSignatures(model: SavedModelBundle): Option[Map[String, String]] = {
+  def extractSignatures(model: SavedModelBundle, saverDef: SaverDef): Option[Map[String, String]] = {
 
     val signatureCandidates = getSignaturesFromModel(model)
     val signDefNames: Map[String, String] = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
 
     val modelProvider = classifyProvider(signDefNames)
 
-    Option(convertToAdoptedKeys(signDefNames))
+    val adoptedKeys = convertToAdoptedKeys(signDefNames) + (
+      "filenameTensorName_" -> saverDef.getFilenameTensorName.replaceAll(":0", ""),
+      "restoreOpName_" -> saverDef.getRestoreOpName.replaceAll(":0", ""),
+      "saveTensorName_" -> saverDef.getSaveTensorName.replaceAll(":0", "")
+    )
+
+    Option(adoptedKeys)
   }
 }
