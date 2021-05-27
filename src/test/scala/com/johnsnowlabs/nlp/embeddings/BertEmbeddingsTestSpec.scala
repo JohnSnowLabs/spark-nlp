@@ -152,10 +152,10 @@ class BertEmbeddingsTestSpec extends FlatSpec {
     val embeddings = BertEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
+      .setStorageRef("tf_hub_bert_test")
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
-    // FIXME write is working - load is not
     pipeline.fit(ddd).write.overwrite().save("./tmp_bert_pipeline")
     val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
 

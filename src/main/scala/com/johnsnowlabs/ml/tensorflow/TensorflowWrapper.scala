@@ -191,8 +191,9 @@ class TensorflowWrapper(var variables: Variables,
   /*
   * saveToFileV2 is V2 compatible
   * */
-  def saveToFileV1V2(file: String, configProtoBytes: Option[Array[Byte]] = None): Unit = {
+  def saveToFileV1V2(file: String, configProtoBytes: Option[Array[Byte]] = None, savedSignatures: Option[Map[String, String]] = None): Unit = {
     val t = new TensorResources()
+    val _tfSignatures: Map[String, String] = savedSignatures.getOrElse(ModelSignatureManager.apply())
 
     // 1. Create tmp director
     val folder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ner")
@@ -207,9 +208,16 @@ class TensorflowWrapper(var variables: Variables,
         .run()
     }
 
+    /**
+     * addTarget operation is the result of '''saverDef.getSaveTensorName()'''
+     * feed operation is the result of '''saverDef.getFilenameTensorName()'''
+     *
+     * @return List[Tensor]
+     */
     def runSessionNew = {
-      getSession(configProtoBytes).runner.addTarget("StatefulPartitionedCall_1")
-        .feed("saver_filename", t.createTensor(variablesFile))
+      getSession(configProtoBytes).runner
+        .addTarget(_tfSignatures.getOrElse("saveTensorName_", "StatefulPartitionedCall_1"))
+        .feed(_tfSignatures.getOrElse("filenameTensorName_", "saver_filename"), t.createTensor(variablesFile))
         .run()
     }
 
@@ -341,16 +349,23 @@ object TensorflowWrapper {
                                     tensorResources: TensorResources,
                                     session: Session,
                                     variablesDir: String,
-                                    variablesKey: String = VariablesKey) = {
+                                    variablesKey: String = VariablesKey,
+                                    savedSignatures: Option[Map[String, String]] = None) = {
 
+
+    val _tfSignatures: Map[String, String] = savedSignatures.getOrElse(ModelSignatureManager.apply())
 
     lazy val legacySessionRunner = session.runner
       .addTarget(SaveRestoreAllOP)
       .feed(SaveConstOP, tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
 
+    /**
+     * addTarget operation is the result of '''saverDef.getRestoreOpName()'''
+     * feed operation is the result of '''saverDef.getFilenameTensorName()'''
+     */
     lazy val newSessionRunner = session.runner
-      .addTarget("StatefulPartitionedCall_2")
-      .feed("saver_filename", tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
+      .addTarget(_tfSignatures.getOrElse("restoreOpName_", "StatefulPartitionedCall_2"))
+      .feed(_tfSignatures.getOrElse("filenameTensorName_", "saver_filename"), tensorResources.createTensor(Paths.get(variablesDir, variablesKey).toString))
 
     def runRestoreNewNoInit = {
       newSessionRunner.run()
@@ -411,7 +426,8 @@ object TensorflowWrapper {
            zipped: Boolean = true,
            useBundle: Boolean = false,
            tags: Array[String] = Array.empty[String],
-           initAllTables: Boolean = false): (TensorflowWrapper, Option[Map[String, String]]) = {
+           initAllTables: Boolean = false,
+           savedSignatures: Option[Map[String, String]] = None): (TensorflowWrapper, Option[Map[String, String]]) = {
 
     val t = new TensorResources()
 
@@ -436,14 +452,13 @@ object TensorflowWrapper {
         if (initAllTables) session.runner().addTarget(InitAllTableOP)
 
         // Extract saved model signatures
-        val signatures = ModelSignatureManager.extractSignatures(model)
-
         val saverDef = model.metaGraphDef().getSaverDef
+        val signatures = ModelSignatureManager.extractSignatures(model, saverDef)
 
         (graph, session, varPath, idxPath, signatures)
       } else {
         val (graph, session, varPath, idxPath) = unpackWithoutBundle(folder)
-        processInitAllTableOp(initAllTables, t, session, folder)
+        processInitAllTableOp(initAllTables, t, session, folder, savedSignatures = savedSignatures)
 
         (graph, session, varPath, idxPath, None)
       }

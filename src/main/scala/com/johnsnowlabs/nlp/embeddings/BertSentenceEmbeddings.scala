@@ -177,6 +177,24 @@ class BertSentenceEmbeddings(override val uid: String)
     isLong -> false
   )
 
+  /**
+   * It contains TF model signatures for the laded saved model
+   *
+   * @group param
+   * */
+  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+
+  /** @group setParam */
+  def setSignatures(value: Map[String, String]): this.type = {
+    if (get(signatures).isEmpty)
+      set(signatures, value)
+    this
+  }
+
+  /** @group getParam */
+  def getSignatures: Option[Map[String, String]] = get(this.signatures)
+
+
   private var _model: Option[Broadcast[TensorflowBert]] = None
 
   /** @group getParam */
@@ -297,10 +315,16 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
     val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true)
+
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
 
     new BertSentenceEmbeddings()
       .setVocabulary(words)
+      .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
   }
 }

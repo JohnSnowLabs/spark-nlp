@@ -20,8 +20,8 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
@@ -164,6 +164,23 @@ class MarianTransformer(override val uid: String) extends
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /**
+   * It contains TF model signatures for the laded saved model
+   *
+   * @group param
+   * */
+  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+
+  /** @group setParam */
+  def setSignatures(value: Map[String, String]): this.type = {
+    if (get(signatures).isEmpty)
+      set(signatures, value)
+    this
+  }
+
+  /** @group getParam */
+  def getSignatures: Option[Map[String, String]] = get(this.signatures)
+
+  /**
    * The Tensorflow Marian Model
    *
    * @group param
@@ -179,7 +196,8 @@ class MarianTransformer(override val uid: String) extends
             tensorflow,
             sppSrc,
             sppTrg,
-            configProtoBytes = getConfigProtoBytes
+            configProtoBytes = getConfigProtoBytes,
+            signatures = getSignatures
           )
         )
       )
@@ -221,7 +239,7 @@ class MarianTransformer(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_marian", MarianTransformer.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_marian", MarianTransformer.tfFile, configProtoBytes = getConfigProtoBytes, savedSignatures = getSignatures)
     writeSentencePieceModel(path, spark, getModelIfNotSet.sppSrc, "_src_marian", MarianTransformer.sppFile + "_src")
     writeSentencePieceModel(path, spark, getModelIfNotSet.sppTrg, "_trg_marian", MarianTransformer.sppFile + "_trg")
 
@@ -250,7 +268,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
   override val sppFile: String = "marian_spp"
 
   def readTensorflow(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_marian_tf")
+    val tf = readTensorflowModel(path, spark, "_marian_tf", savedSignatures = instance.getSignatures)
     val sppSrc = readSentencePieceModel(path, spark, "_src_marian", sppFile + "_src")
     val sppTrg = readSentencePieceModel(path, spark, "_trg_marian", sppFile + "_trg")
     instance.setModelIfNotSet(spark, tf, sppSrc, sppTrg)
@@ -281,12 +299,19 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     val words = ResourceHelper.parseLines(vocabResource)
       .zipWithIndex.toMap.toSeq.sortBy(_._2).map(x => x._1.mkString).toArray
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
     val sppSrc = SentencePieceWrapper.read(sppSrcModel.toString)
     val sppTrg = SentencePieceWrapper.read(sppTrgModel.toString)
 
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
+    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
     val marianMT = new MarianTransformer()
       .setVocabulary(words)
+      .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper, sppSrc, sppTrg)
 
     marianMT
