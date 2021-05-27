@@ -23,6 +23,7 @@ import scala.collection.mutable.ArrayBuffer
   * import com.johnsnowlabs.nlp.TokenAssembler
   * import org.apache.spark.ml.Pipeline
   *
+  * // First, the text is tokenized and cleaned
   * val documentAssembler = new DocumentAssembler()
   *   .setInputCol("text")
   *   .setOutputCol("document")
@@ -45,6 +46,7 @@ import scala.collection.mutable.ArrayBuffer
   *   .setOutputCol("cleanTokens")
   *   .setCaseSensitive(false)
   *
+  * // Then the TokenAssembler turns the cleaned tokens into a `DOCUMENT` type structure.
   * val tokenAssembler = new TokenAssembler()
   *   .setInputCols("sentences", "cleanTokens")
   *   .setOutputCol("cleanText")
