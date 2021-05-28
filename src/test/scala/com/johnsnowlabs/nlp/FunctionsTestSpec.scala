@@ -43,11 +43,11 @@ class FunctionsTestSpec extends FlatSpec {
 
     import functions._
 
-    val mapped = data.mapAnnotationsCol("pos", "modpos", (annotations: Seq[Annotation]) => {
+    val mapped = data.mapAnnotationsCol("pos", "modpos","pos", (annotations: Seq[Annotation]) => {
       annotations.filter(_.result == "JJ")
     })
 
-    val modified = data.mapAnnotationsCol("pos", "modpos", (_: Seq[Annotation]) => {
+    val modified = data.mapAnnotationsCol("pos", "modpos","pos", (_: Seq[Annotation]) => {
       "hello world"
     })
 
@@ -89,7 +89,7 @@ class FunctionsTestSpec extends FlatSpec {
     }
     import functions._
 
-    val lowerDf = documentAssembler.transform(df.select("text")).mapAnnotationsCol[Seq[Annotation]](Seq("document"),"tail_document",lower,"document")
+    val lowerDf = documentAssembler.transform(df.select("text")).mapAnnotationsCol[Seq[Annotation]](Seq("document"),"tail_document","document",lower)
     val tail_annotation = Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
     assertEquals(tail_annotation.head.result, "pablito clavo un palito")
     assertEquals(tail_annotation.last.result, "un clavito chiquitillo")
@@ -117,7 +117,7 @@ class FunctionsTestSpec extends FlatSpec {
     }
 
     import functions._
-    val lowerDf = documentAssembler2.transform(df2Documents).mapAnnotationsCol[Seq[Annotation]](Seq("document","document2"),"tail_document",lower,"document")
+    val lowerDf = documentAssembler2.transform(df2Documents).mapAnnotationsCol[Seq[Annotation]](Seq("document","document2"),"tail_document","document",lower)
     val tail_annotation = Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
     assertEquals(tail_annotation.head.result, "pablito clavo un palito")
     assertEquals(tail_annotation(1).result, "tres tristes tigres")
