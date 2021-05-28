@@ -1,10 +1,11 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.functions.{array, col, explode, udf}
-import org.apache.spark.sql.types.DataType
-
+import org.apache.spark.sql.types.{DataType, MetadataBuilder}
+import com.johnsnowlabs.nlp.AnnotatorType
 import scala.reflect.runtime.universe._
 
 object functions {
@@ -36,18 +37,17 @@ object functions {
       dataset.withColumn(outputCol, func(col(column)).as(outputCol, meta))
     }
   
-    def mapAnnotationsCol[T: TypeTag](firstCol: String, secondCol:String, outputCol: String, function: (Seq[Annotation], Seq[Annotation]) => T): DataFrame = {
-      val firstMeta = dataset.schema(firstCol).metadata
-      val secondMeta = dataset.schema(secondCol).metadata
-
-      // TODO wanna impose some constraints? do it here :)
-      val mergedMetadata = firstMeta
-
+    def mapAnnotationsCol[T: TypeTag](cols: Seq[String], outputCol: String, function: Seq[Annotation] => T,annotatorType: String): DataFrame = {
+      val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+      val meta = metadataBuilder.putString("annotatorType", annotatorType).build( )
       val func = udf {
-        (firstColAnnotations: Seq[Row], secondColAnnotations: Seq[Row]) =>
-          function(firstColAnnotations.map(Annotation(_)), secondColAnnotations.map(Annotation(_)))
+        (cols: Seq[Seq[Row]]) =>
+          function {
+            cols.flatMap(aa => aa.map(Annotation(_)))
+          }
       }
-      dataset.withColumn(outputCol, func(col(firstCol), col(secondCol)).as(outputCol, mergedMetadata))
+      val inputCols = cols.map(col)
+      dataset.withColumn(outputCol, func(array(inputCols:_*)).as(outputCol, meta))
     }
 
 

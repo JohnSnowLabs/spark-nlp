@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.types.ArrayType
+import org.junit.Assert.assertEquals
 import org.scalatest._
 
 class FunctionsTestSpec extends FlatSpec {
@@ -70,5 +71,59 @@ class FunctionsTestSpec extends FlatSpec {
     udfed.show(1)
     udfed2.show(1)
   }
+
+
+  "A mapAnnotationsCol" should "transform document to lower case" in {
+    import SparkAccessor.spark.implicits._
+    val df  = Seq(
+      ("Pablito clavo un palito"),
+      ("Un clavito chiquitillo")
+    ).toDS.toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+
+
+    val lower = (annotations: Seq[Annotation]) => {
+      annotations.map(an => an.copy(result = an.result.toLowerCase))
+    }
+    import functions._
+
+    val lowerDf = documentAssembler.transform(df.select("text")).mapAnnotationsCol[Seq[Annotation]](Seq("document"),"tail_document",lower,"document")
+    val tail_annotation = Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
+    assertEquals(tail_annotation.head.result, "pablito clavo un palito")
+    assertEquals(tail_annotation.last.result, "un clavito chiquitillo")
+  }
+
+
+
+  "A mapAnnotationsCol" should "transform 2 documents columns to lower case" in {
+    import SparkAccessor.spark.implicits._
+    val df  = Seq(
+      ("Pablito clavo un palito","Tres tristes tigres"),
+      ("Un clavito chiquitillo","Comian trigo en un trigal")
+    ).toDS.toDF("text","text2")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+    val documentAssembler2 = new DocumentAssembler()
+      .setInputCol("text2")
+      .setOutputCol("document2")
+    val df2Documents =  documentAssembler.transform(df)
+
+    val lower = (annotations: Seq[Annotation]) => {
+      annotations.map(an => an.copy(result = an.result.toLowerCase))
+    }
+
+    import functions._
+    val lowerDf = documentAssembler2.transform(df2Documents).mapAnnotationsCol[Seq[Annotation]](Seq("document","document2"),"tail_document",lower,"document")
+    val tail_annotation = Annotation.collect(lowerDf, "tail_document").flatten.toSeq.sortBy(_.begin)
+    assertEquals(tail_annotation.head.result, "pablito clavo un palito")
+    assertEquals(tail_annotation(1).result, "tres tristes tigres")
+    assertEquals(tail_annotation(2).result, "un clavito chiquitillo")
+    assertEquals(tail_annotation.last.result,"comian trigo en un trigal")
+  }
+
 
 }
