@@ -3526,6 +3526,6 @@ Output:
 +------------------------------------------------------------------------+
 |entities                                                                |
 +------------------------------------------------------------------------+
-|[[entity, 0, 0, O, [word -> 0£0, token -> 0£0], []], [entity, 0, 0, O, [word -> 0£0, token -> 0£0], []], [entity, 0, 0, O, [word -> 0£0, token -> 0£0], []], [entity, 0, 0, O, [word -> 2-2,, token -> 2], []], [entity, 0, 0, O, [word -> 2-2,, token -> -], []], [entity, 0, 0, O, [word -> 2-2,, token -> 2], []], [entity, 0, 0, O, [word -> 2-2,, token -> ,], []], [entity, 0, 0, B-COMPANY, [word -> AEON, token -> aeon], []], [entity, 0, 0, B-COMPANY, [word -> AEON, token -> aeon], []], [entity, 0, 0, B-COMPANY, [word -> CO., token -> co], ... |
+|[[entity, 0, 0, O, [word -> 0£0, token -> 0£0], []], [entity, 0, 0, B-COMPANY, [word -> AEON, token -> aeon], []], [entity, 0, 0, B-COMPANY, [word -> CO., token -> co], ... |
 +------------------------------------------------------------------------+
 ```
