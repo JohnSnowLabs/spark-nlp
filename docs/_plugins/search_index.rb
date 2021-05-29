@@ -104,6 +104,26 @@ class Extractor
   end
 end
 
+class BulkIndexer
+  def initialize(client)
+    @client = client
+    @buffer = []
+  end
+
+  def index(id, data)
+    @buffer << { index: { _id: id, data: data } }
+    self.execute if @buffer.length >= 100
+  end
+
+  def execute
+    return nil unless @client
+    return nil if @buffer.empty?
+    puts "Indexing #{@buffer.length} models..."
+    @client.bulk(index: 'models', body: @buffer)
+    @buffer.clear
+  end
+end
+
 editions = Set.new
 uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
@@ -172,15 +192,24 @@ end
 client = nil
 unless ENV['ELASTICSEARCH_URL'].to_s.empty?
   puts "Connecting to Elasticsearch..."
-  client = Elasticsearch::Client.new url: ENV['ELASTICSEARCH_URL'], transport_options: {
-    headers: {
-      'Authorization': "Bearer #{ENV['ELASTICSEARCH_ACCESS_TOKEN']}"
-    }
-  }
+  client = Elasticsearch::Client.new(
+    url: ENV['ELASTICSEARCH_URL'],
+    transport_options: {
+      headers: {
+        'Authorization': "Bearer #{ENV['ELASTICSEARCH_ACCESS_TOKEN']}"
+      },
+      request: {
+        open_timeout: 60,
+        timeout: 60,
+      },
+    },
+  )
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
   force_reindex = editions_changed?(editions)
+  bulk_indexer = BulkIndexer.new(client)
+
   uniq_to_models_mapping.each do |uniq, items|
     items.sort_by! { |v| v[:edition_short] }
     model_editions = items.map { |v| v[:edition_short] }.uniq
@@ -196,12 +225,12 @@ Jekyll::Hooks.register :site, :post_render do |site|
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)
           id = model.delete(:id)
-          puts "Indexing #{id}..."
-          client.index index: 'models', id: id, body: model
+          bulk_indexer.index(id, model)
         end
       end
     end
   end
+  bulk_indexer.execute
 
   # remove renamed or deleted posts from the index
   if client
