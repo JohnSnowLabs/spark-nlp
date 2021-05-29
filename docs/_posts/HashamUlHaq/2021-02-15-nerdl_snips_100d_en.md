@@ -20,7 +20,7 @@ Understand user commands and find relevant entities and actions and tag them to 
 
 ## Predicted Entities
 
-'playlist_owner`, `served_dish`, `track`, `poi`, `cuisine`, `spatial_relation`, `object_type`, `facility`, `album`, `country`, `geographic_poi`, `location_name`, `object_part_of_series_type`, `object_select`, `artist`, `rating_value`, `best_rating`, `sort`, `party_size_description`, `party_size_number`, `restaurant_name`, `object_location_type`, `playlist`, `service`, `city`, `O`, `genre`, `movie_name`, `current_location`, `rating_unit`, `restaurant_type`, `condition_temperature`, `condition_description`, `entity_name`, `movie_type`, `object_name`, `state`, `year`, `music_item`, `timeRange'
+`playlist_owner`, `served_dish`, `track`, `poi`, `cuisine`, `spatial_relation`, `object_type`, `facility`, `album`, `country`, `geographic_poi`, `location_name`, `object_part_of_series_type`, `object_select`, `artist`, `rating_value`, `best_rating`, `sort`, `party_size_description`, `party_size_number`, `restaurant_name`, `object_location_type`, `playlist`, `service`, `city`, `O`, `genre`, `movie_name`, `current_location`, `rating_unit`, `restaurant_type`, `condition_temperature`, `condition_description`, `entity_name`, `movie_type`, `object_name`, `state`, `year`, `music_item`, `timeRange`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_CLS_SNIPS){:.button.button-orange}

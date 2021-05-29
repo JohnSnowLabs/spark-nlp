@@ -16,7 +16,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 This model can be used to detect normalized mentions of genes (go) and human phenotypes (hp) in medical text.
-## Predicted Entities: 
+## Predicted Entities
 `GO`, `HP`
 
 {:.btn-box}

@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 This is a pre-trained model that can be used to automatically detect all chemical compounds and gene mentions from medical texts. 
 
-## Predicted Entities: 
+## Predicted Entities
 `CHEMICAL`, `GENE-Y`, `GENE-N`
 
 {:.btn-box}

@@ -15,8 +15,8 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-This model detects mentions of genes and human phenotypes (hp) in medical text. 
-## Predicted Entities: 
+This model detects mentions of genes and human phenotypes (hp) in medical text.
+## Predicted Entities
 `GENE`, `HP`
 
 {:.btn-box}
