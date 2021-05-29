@@ -34,7 +34,9 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
 
   "DistilBertEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
+    val smallCorpus = ResourceHelper
+      .spark.read.option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -50,7 +52,7 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
       .setStopWords(Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
       .setCaseSensitive(false)
 
-    val embeddings = DistilBertEmbeddings.pretrained("", "en")
+    val embeddings = DistilBertEmbeddings.pretrained()
       .setInputCols("document", "cleanTokens")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -143,7 +145,11 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
     }
 
     Benchmark.time("Time to save DistilBertEmbeddings model") {
-      pipelineModel.stages.last.asInstanceOf[DistilBertEmbeddings].write.overwrite().save("./tmp_distilbert_model")
+      pipelineModel
+        .stages.last
+        .asInstanceOf[DistilBertEmbeddings]
+        .write.overwrite()
+        .save("./tmp_distilbert_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_distilbert_pipeline")

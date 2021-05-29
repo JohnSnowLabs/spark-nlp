@@ -1,0 +1,514 @@
+-DOCSTART- O
+
+Liam PER
+Smith PER
+be O
+of O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+be O
+of O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+be O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+be O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+be O
+in O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+be O
+in O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+be O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+be O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+have O
+of O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+have O
+of O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+have O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+have O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+have O
+in O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+have O
+in O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Smith PER
+have O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Smith PER
+have O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+of O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+of O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+in O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+in O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+be O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+of O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+of O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+in O
+Walmart ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+in O
+Walmart ORG
+India LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Liam PER
+Johnson PER
+have O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+of O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+of O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+in O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+in O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+be O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+of O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+of O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+in O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+in O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Smith PER
+have O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+of O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+of O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+in O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+in O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+be O
+in O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+of O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+of O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+of O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+of O
+Amazon.com ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+in O
+Walmart ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+in O
+Walmart ORG
+India LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+in O
+Amazon.com ORG
+China LOC
+. O
+
+Olivia PER
+Johnson PER
+have O
+in O
+Amazon.com ORG
+India LOC
+. O
+

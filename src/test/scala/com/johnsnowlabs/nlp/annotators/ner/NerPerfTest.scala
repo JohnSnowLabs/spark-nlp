@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
@@ -194,8 +195,14 @@ class NerPerfTest extends FlatSpec {
       setInputCols("document", "token").
       setOutputCol("pos")
 
+    val word_embeddings = WordEmbeddingsModel.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+
+    //document, token, pos, word_embeddings
     val ner = NerCrfModel.pretrained().
-      setInputCols("sentence", "token", "pos").
+      setInputCols("sentence", "token", "pos", "word_embeddings").
       setOutputCol("ner")
 
     val converter = new NerConverter()
@@ -211,6 +218,7 @@ class NerPerfTest extends FlatSpec {
         sentenceDetector,
         tokenizer,
         pos,
+        word_embeddings,
         ner,
         converter,
         finisher
