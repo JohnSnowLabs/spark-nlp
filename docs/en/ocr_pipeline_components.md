@@ -3411,3 +3411,124 @@ Output:
 +------+
 
 ```
+
+
+### VisualDocumentNER
+
+`VisualDocumentNER` is a DL model for NER documents using text and layout data.
+Currently available pre-trained model on the SROIE dataset.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document |
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| maxSentenceLength | int | 512 | Maximum sentence length. |
+| caseSensitive | boolean | false | Determines whether model is case sensitive. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | entities | Name of output column with entities Annotation. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val visualDocumentNER = VisualDocumentNER
+  .pretrained("visual_document_NER_SROIE0526", "en", "public/ocr/models")
+  .setMaxSentenceLength(512)
+  .setInputCol("hocr")
+
+val pipeline = new Pipeline()
+
+pipeline.setStages(Array(
+  imageToHocr,
+  visualDocumentNER
+))
+
+val modelPipeline = pipeline.fit(df)
+val result =  modelPipeline.transform(df)
+
+result.select("entities").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+document_ner = VisualDocumentNer() \
+  .pretrained("visual_document_NER_SROIE0526", "en", "public/ocr/models") \
+  .setMaxSentenceLength(512) \
+  .setInputCol("hocr") \
+  .setLabelCol("label") 
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    document_ner,    
+])
+
+result = pipeline.transform(df)
+result.select("entities").show()
+```
+
+</div>
+
+Output:
+
+```
++-------------------------------------------------------------------------+
+|entities                                                                 |
++-------------------------------------------------------------------------+
+|[[entity, 0, 0, O, [word -> 0£0, token -> 0£0], []], [entity, 0, 0,      |
+| B-COMPANY, [word -> AEON, token -> aeon], []], [entity, 0, 0, B-COMPANY,|
+| [word -> CO., token -> co], ...                                         |
++-------------------------------------------------------------------------+
+```
