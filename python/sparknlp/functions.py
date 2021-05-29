@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from pyspark.sql.functions import udf
+from pyspark.sql.functions import udf, array
 from pyspark.sql.types import *
 from pyspark.sql import DataFrame
 from sparknlp.annotation import Annotation
@@ -21,20 +21,32 @@ from sparknlp.annotation import Annotation
 
 def map_annotations(f, output_type: DataType):
     return udf(
-        lambda content: f(content),
+        lambda content: [ Annotation.toRow(a) for a in f([Annotation.fromRow(r) for r in content])],
         output_type
     )
 
+def map_annotations_array(f, output_type: DataType):
+    return udf(
+        lambda cols: [Annotation.toRow(item) for item in f([Annotation.fromRow(r) for col in cols for r in col])],
+        output_type
+    )
 
 def map_annotations_strict(f):
     return udf(
-        lambda content: f(content),
+        lambda content: [ Annotation.toRow(a) for a in f([Annotation.fromRow(r) for r in content])],
         ArrayType(Annotation.dataType())
     )
 
 
-def map_annotations_col(dataframe: DataFrame, f, column, output_column, output_type):
-    return dataframe.withColumn(output_column, map_annotations(f, output_type)(column))
+def map_annotations_col(dataframe: DataFrame, f, column: str, output_column: str, annotatyon_type: str,
+                        output_type: DataType = Annotation.arrayType()):
+    return dataframe.withColumn(output_column, map_annotations(f, output_type)(column).alias(output_column, metadata={
+        'annotatorType': annotatyon_type}))
+
+def map_annotations_cols(dataframe: DataFrame, f, columns: list, output_column: str, annotatyon_type: str,
+                        output_type: DataType = Annotation.arrayType()):
+    return dataframe.withColumn(output_column, map_annotations_array(f, output_type)(array(*columns)).alias(output_column, metadata={
+        'annotatorType': annotatyon_type}))
 
 
 def filter_by_annotations_col(dataframe, f, column):
