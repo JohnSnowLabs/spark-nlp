@@ -99,6 +99,7 @@ class Extractor
 
   def newline_separated_predicted_entities(buf)
     return nil unless buf.include? "\n"
+    return nil if buf.strip.start_with? '-'
     buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').strip }.select { |v| !v.empty? }
   end
 end
@@ -179,9 +180,7 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
-  # force_reindex = editions_changed?(editions)
-  force_reindex = true
-
+  force_reindex = editions_changed?(editions)
   uniq_to_models_mapping.each do |uniq, items|
     items.sort_by! { |v| v[:edition_short] }
     model_editions = items.map { |v| v[:edition_short] }.uniq
@@ -192,7 +191,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
         model[:edition_short]
       )
       model[:edition_short] = next_edition_short
-      models_json[model[:id]][:compatible_editions] = Array(next_edition_short)
+      models_json[model[:id]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)

@@ -20,30 +20,30 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 
 ## Predicted Entities
 
-PHONE
-PATIENT
-COUNTRY
-USERNAME
-LOCATION-OTHER
-DATE
-ID
-DOCTOR
-HOSPITAL
-IDNUM
-AGE
-MEDICALRECORD
-CITY
-FAX
-ZIP
-HEALTHPLAN
-PROFESSION
-BIOID
-URL
-EMAIL
-STATE
-ORGANIZATION
-STREET
-DEVICE
+- PHONE
+- PATIENT
+- COUNTRY
+- USERNAME
+- LOCATION-OTHER
+- DATE
+- ID
+- DOCTOR
+- HOSPITAL
+- IDNUM
+- AGE
+- MEDICALRECORD
+- CITY
+- FAX
+- ZIP
+- HEALTHPLAN
+- PROFESSION
+- BIOID
+- URL
+- EMAIL
+- STATE
+- ORGANIZATION
+- STREET
+- DEVICE
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
