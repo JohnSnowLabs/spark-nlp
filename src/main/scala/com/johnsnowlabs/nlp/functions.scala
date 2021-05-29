@@ -3,8 +3,7 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.functions.{array, col, explode, udf}
-import org.apache.spark.sql.types.DataType
-
+import org.apache.spark.sql.types.{ MetadataBuilder}
 import scala.reflect.runtime.universe._
 
 object functions {
@@ -27,14 +26,30 @@ object functions {
     udf { annotatorProperties: Seq[Row] => function(annotatorProperties.map(Annotation(_))) }
 
   implicit class MapAnnotations(dataset: DataFrame) {
-    def mapAnnotationsCol[T: TypeTag](column: String, outputCol: String, function: Seq[Annotation] => T): DataFrame = {
-      val meta = dataset.schema(column).metadata
+    def mapAnnotationsCol[T: TypeTag](column: String, outputCol: String,annotatorType: String, function: Seq[Annotation] => T): DataFrame = {
+      val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+      val meta = metadataBuilder.putString("annotatorType", annotatorType).build( )
       val func = udf {
         annotatorProperties: Seq[Row] =>
           function(annotatorProperties.map(Annotation(_)))
       }
       dataset.withColumn(outputCol, func(col(column)).as(outputCol, meta))
     }
+  
+    def mapAnnotationsCol[T: TypeTag](cols: Seq[String], outputCol: String,annotatorType: String, function: Seq[Annotation] => T): DataFrame = {
+      val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+      val meta = metadataBuilder.putString("annotatorType", annotatorType).build( )
+      val func = udf {
+        (cols: Seq[Seq[Row]]) =>
+          function {
+            cols.flatMap(aa => aa.map(Annotation(_)))
+          }
+      }
+      val inputCols = cols.map(col)
+      dataset.withColumn(outputCol, func(array(inputCols:_*)).as(outputCol, meta))
+    }
+
+
   }
 
   implicit class EachAnnotations(dataset: DataFrame) {

@@ -1,4 +1,5 @@
 from test.annotators import *
+from test.functions import FunctionMapColumnsTestSpec, FunctionMapColumnTestSpec
 from test.misc import *
 from test.base import *
 
@@ -60,6 +61,11 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 
 
 # Misc tests
+
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
+
+#Functions tests
+unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
+unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
 

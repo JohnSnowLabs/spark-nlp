@@ -38,7 +38,7 @@ documenter = DocumentAssembler()\
     .setOutputCol("document")
     
 sentencerDL = SentenceDetectorDLModel\
-  .load("./abc") \
+  .pretrained("sentence_detector_dl_healthcare","en","clinical/models") \
   .setInputCols(["document"]) \
   .setOutputCol("sentences")
 

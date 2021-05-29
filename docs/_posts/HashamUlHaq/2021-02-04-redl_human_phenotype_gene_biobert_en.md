@@ -6,7 +6,7 @@ name: redl_human_phenotype_gene_biobert
 date: 2021-02-04
 task: Relation Extraction
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -133,7 +133,7 @@ Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for t
 {:.table-model}
 |---|---|
 |Model Name:|redl_human_phenotype_gene_biobert|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:| Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -26,6 +26,9 @@ class Annotation:
         self.metadata = metadata
         self.embeddings = embeddings
 
+    def copy(self, result):
+        return Annotation(self.annotator_type, self.begin, self.end, result, self.metadata, self.embeddings)
+
     def __str__(self):
         return "Annotation(%s, %i, %i, %s, %s)" % (
             self.annotator_type,
@@ -52,3 +55,14 @@ class Annotation:
     @staticmethod
     def arrayType():
         return ArrayType(Annotation.dataType())
+
+    @staticmethod
+    def fromRow(row):
+        return Annotation(row.annotatorType, row.begin, row.end, row.result, row.metadata, row.embeddings)
+
+    @staticmethod
+    def toRow(annotation):
+        from pyspark.sql import Row
+        return Row(annotation.annotator_type, annotation.begin, annotation.end, annotation.result, annotation.metadata, annotation.embeddings)
+
+
