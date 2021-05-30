@@ -59,7 +59,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val results = time {
       pipeline.transform(data).
         select("checked").
-        mapAnnotationsCol("checked", "checked","language", x => x.head.metadata.get("cost")).
+        mapAnnotationsCol[Option[String]]("checked", "checked","language", (x:Seq[Annotation]) => x.head.metadata.get("cost")).
         collect.map(_.getString(0).toDouble)
     }
 
