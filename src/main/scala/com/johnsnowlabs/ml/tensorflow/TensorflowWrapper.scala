@@ -258,40 +258,6 @@ class TensorflowWrapper(var variables: Variables,
     t.clearTensors()
   }
 
-  @throws(classOf[IOException])
-  private def writeObject(out: ObjectOutputStream): Unit = {
-    // 1. Create tmp file
-    val file = Files.createTempFile("tf", "zip")
-
-    // 2. save to file
-    this.saveToFile(file.toString)
-
-    // 3. Read state as bytes array
-    val result = Files.readAllBytes(file)
-
-    // 4. Save to out stream
-    out.writeObject(result)
-
-    // 5. Remove tmp archive
-    FileHelper.delete(file.toAbsolutePath.toString)
-  }
-
-  @throws(classOf[IOException])
-  private def readObject(in: ObjectInputStream): Unit = {
-    // 1. Create tmp file
-    val file = Files.createTempFile("tf", "zip")
-    val bytes = in.readObject().asInstanceOf[Array[Byte]]
-    Files.write(file.toAbsolutePath, bytes)
-
-    // 2. Read from file
-    val (tf, _) = TensorflowWrapper.read(file.toString)
-
-    this.m_session = tf.getSession()
-    this.graph = tf.graph
-
-    // 3. Delete tmp file
-    FileHelper.delete(file.toAbsolutePath.toString)
-  }
 }
 
 /** Companion object */
