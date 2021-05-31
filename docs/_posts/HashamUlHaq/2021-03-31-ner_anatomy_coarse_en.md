@@ -21,7 +21,7 @@ An NER model to extract all types of anatomical references in text using "embedd
 
 ## Predicted Entities
 
-Anatomy
+`Anatomy`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_ANATOMY/){:.button.button-orange}
