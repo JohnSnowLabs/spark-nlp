@@ -21,7 +21,7 @@ Automatically detect positive, negative and neutral aspects about restaurants fr
 
 ## Predicted Entities
 
-`NEG` `POS`
+`NEG`, `POS`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/ASPECT_BASED_SENTIMENT_RESTAURANT/){:.button.button-orange}

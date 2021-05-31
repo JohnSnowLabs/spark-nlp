@@ -21,8 +21,6 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 
 ## Predicted Entities
 
-## Predicted Entities
-
 - PROPN
 - PUNCT
 - ADJ
