@@ -59,7 +59,8 @@ val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical"
     
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model))
 
-val result = pipeline.fit(Seq.empty["He has a starvation ketosis but nothing found for significant for dry oral mucosa"].toDS.toDF("text")).transform(data)
+val data = Seq("He has a starvation ketosis but nothing found for significant for dry oral mucosa").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

@@ -98,7 +98,8 @@ val pos = PerceptronModel.pretrained("pos_ud_att", "am")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 
-val result = pipeline.fit(Seq.empty["ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።"].toDS.toDF("text")).transform(data)
+val data = Seq("ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

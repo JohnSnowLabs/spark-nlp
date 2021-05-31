@@ -57,7 +57,8 @@ val ner = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/mo
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-val result = pipeline.fit(Seq.empty["Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."].toDS.toDF("text")).transform(data)
+val data = Seq("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

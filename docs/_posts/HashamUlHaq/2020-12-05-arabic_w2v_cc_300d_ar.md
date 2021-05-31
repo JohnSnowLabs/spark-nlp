@@ -49,7 +49,8 @@ val embeddings = WordEmbeddingsModel.pretrained("arabic_w2v_cc_300d", "ar")
         .setInputCols(Array("document", "token"))
         .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val result = pipeline.fit(Seq.empty["أنا أحب التعلم الآلي"].toDS.toDF("text")).transform(data)
+val data = Seq("أنا أحب التعلم الآلي").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

@@ -46,7 +46,8 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_zu", "zu")
         .setInputCols(Array("token"))
         .setOutputCol("cleanTokens")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
-val result = pipeline.fit(Seq.empty["Ngaphandle kokuba yinkosi yasenyakatho, uJohn Snow ungudokotela waseNgilandi futhi ungumholi ekwenziweni kwe-anesthesia kanye nenhlanzeko yezokwelapha."].toDS.toDF("text")).transform(data)
+val data = Seq("Ngaphandle kokuba yinkosi yasenyakatho, uJohn Snow ungudokotela waseNgilandi futhi ungumholi ekwenziweni kwe-anesthesia kanye nenhlanzeko yezokwelapha.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

@@ -77,7 +77,8 @@ val pos = PerceptronModel.pretrained("pos_ud_bhtb", "bh")
     .setOutputCol("pos")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।"].toDS.toDF("text")).transform(data)
+val data = Seq("ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

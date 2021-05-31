@@ -59,7 +59,8 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_emotion
   .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
-val result = pipeline.fit(Seq.empty["@Mira I just saw you on live t.v!!"].toDS.toDF("text")).transform(data)
+val data = Seq("@Mira I just saw you on live t.v!!").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

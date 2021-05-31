@@ -81,7 +81,8 @@ val pos = PerceptronModel.pretrained("pos_ud_gsd", "zh")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, pos))
 
-val result = pipeline.fit(Seq.empty["然而，这样的处理也衍生了一些问题。"].toDS.toDF("text")).transform(data)
+val data = Seq("然而，这样的处理也衍生了一些问题。").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

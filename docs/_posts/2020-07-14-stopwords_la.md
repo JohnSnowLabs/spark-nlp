@@ -46,7 +46,8 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_la", "la")
         .setInputCols(Array("token"))
         .setOutputCol("cleanTokens")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
-val result = pipeline.fit(Seq.empty["Alius est esse regem Aquilonis, et de Anglis medicus et nives Ioannes dux in progressus medicinae anesthesia et hygiene."].toDS.toDF("text")).transform(data)
+val data = Seq("Alius est esse regem Aquilonis, et de Anglis medicus et nives Ioannes dux in progressus medicinae anesthesia et hygiene.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

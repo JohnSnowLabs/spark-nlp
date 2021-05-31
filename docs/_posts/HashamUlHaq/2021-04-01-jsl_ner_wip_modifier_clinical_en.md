@@ -55,7 +55,7 @@ val ner = MedicalNerModel.pretrained("jsl_ner_wip_modifier_clinical", "en", "cli
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
-val result = pipeline.fit(Seq.empty[""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
 </div>
 

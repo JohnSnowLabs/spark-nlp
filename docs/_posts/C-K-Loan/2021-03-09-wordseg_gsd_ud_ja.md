@@ -47,7 +47,8 @@ val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-val result = pipeline.fit(Seq.empty["ジョンスノーラボからこんにちは！ "].toDS.toDF("text")).transform(data)
+val data = Seq("ジョンスノーラボからこんにちは！ ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 

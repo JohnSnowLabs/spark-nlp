@@ -51,7 +51,8 @@ val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_xling_en_de", "x
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))
-val result = pipeline.fit(Seq.empty["I love NLP", "Ich benutze gerne SparkNLP"].toDS.toDF("text")).transform(data)
+val data = Seq("I love NLP", "Ich benutze gerne SparkNLP").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

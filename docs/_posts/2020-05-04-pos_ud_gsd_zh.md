@@ -46,7 +46,8 @@ val pos = PerceptronModel.pretrained("pos_ud_gsd", "zh")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["除了担任北方国王之外，约翰·斯诺（John Snow）是一位英国医师，也是麻醉和医疗卫生发展的领导者。"].toDS.toDF("text")).transform(data)
+val data = Seq("除了担任北方国王之外，约翰·斯诺（John Snow）是一位英国医师，也是麻醉和医疗卫生发展的领导者。").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

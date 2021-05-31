@@ -44,7 +44,8 @@ val embeddings = BertEmbeddings.pretrained("bert_portuguese_base_cased", "pt")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val result = pipeline.fit(Seq.empty["Eu amo PNL"].toDS.toDF("text")).transform(data)
+val data = Seq("Eu amo PNL").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

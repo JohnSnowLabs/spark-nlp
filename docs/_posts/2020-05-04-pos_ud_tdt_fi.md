@@ -46,7 +46,8 @@ val pos = PerceptronModel.pretrained("pos_ud_tdt", "fi")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["Sen lisäksi, että hän on pohjoisen kuningas, John Snow on englantilainen lääkäri ja johtava anestesian ja lääketieteellisen hygienian kehittämisessä."].toDS.toDF("text")).transform(data)
+val data = Seq("Sen lisäksi, että hän on pohjoisen kuningas, John Snow on englantilainen lääkäri ja johtava anestesian ja lääketieteellisen hygienian kehittämisessä.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

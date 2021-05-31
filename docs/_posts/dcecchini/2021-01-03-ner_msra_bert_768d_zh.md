@@ -63,7 +63,8 @@ val ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh")
         .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter))
-val result = pipeline.fit(Seq.empty["马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。"].toDS.toDF("text")).transform(data)
+val data = Seq("马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

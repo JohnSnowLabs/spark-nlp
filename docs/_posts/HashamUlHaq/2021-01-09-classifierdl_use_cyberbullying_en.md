@@ -59,7 +59,8 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_cyberbu
   .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
-val result = pipeline.fit(Seq.empty["@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked"].toDS.toDF("text")).transform(data)
+val data = Seq("@geeky_zekey Thanks for showing again that blacks are the biggest racists. Blocked").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

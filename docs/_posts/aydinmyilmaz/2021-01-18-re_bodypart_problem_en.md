@@ -66,7 +66,7 @@ val reModel = RelationExtractionModel().pretrained("re_bodypart_problem","en","c
     .setRelationPairs(Array('symptom-external_body_part_or_region'))
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel))
-val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 val results = LightPipeline(model).fullAnnotate('''No neurologic deficits other than some numbness in his left hand.''')
 ```

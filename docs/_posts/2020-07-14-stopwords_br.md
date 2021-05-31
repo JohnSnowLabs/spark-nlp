@@ -46,7 +46,8 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_br", "br")
         .setInputCols(Array("token"))
         .setOutputCol("cleanTokens")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
-val result = pipeline.fit(Seq.empty["Distaolit dimp hon dleoù evel m'hor bo ivez distaolet d'hon dleourion."].toDS.toDF("text")).transform(data)
+val data = Seq("Distaolit dimp hon dleoù evel m"hor bo ivez distaolet d"hon dleourion.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

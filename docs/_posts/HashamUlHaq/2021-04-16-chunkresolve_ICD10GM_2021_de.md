@@ -54,7 +54,7 @@ val resolver = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM_2021","
     
 val pipeline = new Pipeline().setStages(Array(document_assembler, sbert_embedder, resolver))
 
-val data = Seq.empty["metastatic lung cancer"].toDS.toDF("text")
+val data = Seq("metastatic lung cancer").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 

@@ -67,7 +67,8 @@ val classifier = ClassifierDLModel.pretrained('classifierdl_pico_biobert', 'en',
     .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
-val result = pipeline.fit(Seq.empty[Array("A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.", "When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced.")].toDS.toDF("text")).transform(data)
+val data = Seq("A total of 10 adult daily smokers who reported at least one stressful event and coping episode and provided post-quit data.", "When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

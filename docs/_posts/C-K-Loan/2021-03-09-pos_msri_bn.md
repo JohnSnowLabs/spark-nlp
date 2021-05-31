@@ -103,7 +103,8 @@ val pos = PerceptronModel.pretrained("pos_msri", "bn")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["জন স্নো ল্যাবস থেকে হ্যালো! "].toDS.toDF("text")).transform(data)
+val data = Seq("জন স্নো ল্যাবস থেকে হ্যালো! ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 

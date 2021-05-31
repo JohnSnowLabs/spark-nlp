@@ -55,7 +55,7 @@ val radiology_ner = MedicalNerModel().pretrained("ner_radiology", "en", "clinica
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, radiology_ner, ner_converter))
 
-val result = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 ```
 

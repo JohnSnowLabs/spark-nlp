@@ -106,7 +106,8 @@ val re_model = RelationExtractionDLModel()
     .setOutputCol("relations")
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia"].toDS.toDF("text")).transform(data)
+val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

@@ -62,7 +62,7 @@ val rxnorm_resolver = ChunkEntityResolverModel()
     
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, rxnorm_resolver))
 
-val result = pipeline.fit(Seq.empty[''].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
 </div>
 

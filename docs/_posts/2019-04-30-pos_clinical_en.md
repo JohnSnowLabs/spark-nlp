@@ -48,7 +48,8 @@ val pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
 	.setOutputCol("pos")
     
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety."].toDS.toDF("text")).transform(data)
+val data = Seq("He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

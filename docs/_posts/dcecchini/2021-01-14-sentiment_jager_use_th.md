@@ -56,7 +56,8 @@ val sentimentdl = SentimentDLModel.pretrained("sentiment_jager_use", "th")
     .setInputCols(Array("sentence_embeddings"))
     .setOutputCol("sentiment")
 val pipeline = new Pipeline().setStages(Array(document_assembler, use, sentimentdl))
-val result = pipeline.fit(Seq.empty["เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555"].toDS.toDF("text")).transform(data)
+val data = Seq("เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

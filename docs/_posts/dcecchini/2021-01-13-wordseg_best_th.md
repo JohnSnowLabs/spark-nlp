@@ -52,7 +52,8 @@ val word_segmenter = WordSegmenterModel.pretrained("wordseg_best", "th")
         .setInputCols("document")
         .setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-val result = pipeline.fit(Seq.empty["จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ"].toDS.toDF("text")).transform(data)
+val data = Seq("จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

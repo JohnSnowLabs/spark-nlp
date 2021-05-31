@@ -71,7 +71,8 @@ val ner = NerDLModel.pretrained("ner_weibo_bert_768d", "zh")
      .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, embeddings, ner))
-val result = pipeline.fit(Seq.empty["张三去中国山东省泰安市爬中国五岳的泰山了"].toDS.toDF("text")).transform(data)
+val data = Seq("张三去中国山东省泰安市爬中国五岳的泰山了").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

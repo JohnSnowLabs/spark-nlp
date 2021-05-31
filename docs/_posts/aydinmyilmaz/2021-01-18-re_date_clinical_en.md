@@ -68,7 +68,7 @@ val re_model = RelationExtractionModel()
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser,re_model))
 
-val light_pipeline = LightPipeline(nlpPipeline.fit(Seq.empty[""].toDS.toDF("text")))
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 val annotations = light_pipeline.fullAnnotate('''This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.''')
 ```

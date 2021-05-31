@@ -83,7 +83,8 @@ val pos = PerceptronModel.pretrained("pos_icepahc", "is")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["Númerið blikkaði á skjánum eins og einmana vekjaraklukka um nótt á níundu hæð í gamalli blokk í austurbæ Reykjavíkur ."].toDS.toDF("text")).transform(data)
+val data = Seq("Númerið blikkaði á skjánum eins og einmana vekjaraklukka um nótt á níundu hæð í gamalli blokk í austurbæ Reykjavíkur .").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

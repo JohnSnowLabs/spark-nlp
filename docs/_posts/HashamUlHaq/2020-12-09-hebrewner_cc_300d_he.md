@@ -57,7 +57,8 @@ val ner_model = NerDLModel.pretrained("hebrewner_cc_300d", "he")
         .setOutputCol("ner")
 val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
-val result = pipeline.fit(Seq.empty["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה. אבו-ג'וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים."].toDS.toDF("text")).transform(data)
+val data = Seq("ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג"וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה. אבו-ג"וייד התכוון להקים חוליות טרור בגדה ובקרב ערביי ישראל , לבצע פיגוע ברכבת ישראל בנהריה , לפגוע במטרות ישראליות בירדן ולחטוף חיילים כדי לשחרר אסירים ביטחוניים.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

@@ -55,7 +55,7 @@ val deid_ner = NerDLModel.pretrained("ner_deid_large", "en", "clinical/models")
 
 val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, deid_ner, ner_converter))
 
-val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 val results = LightPipeline(model).fullAnnotate("""Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D.""")
 

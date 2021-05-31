@@ -61,7 +61,8 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_fakenew
   .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
-val result = pipeline.fit(Seq.empty["Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton"].toDS.toDF("text")).transform(data)
+val data = Seq("Donald Trump a KGB Spy? 11/02/2016 In today’s video, Christopher Greene of AMTV reports Hillary Clinton").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

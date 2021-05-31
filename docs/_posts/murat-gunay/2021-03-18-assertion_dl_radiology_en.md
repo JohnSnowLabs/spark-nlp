@@ -81,7 +81,8 @@ val radiology_assertion = AssertionDLModel.pretrained("assertion_dl_radiology", 
 
 val nlpPipeline = new Pipeline().setStages(Array(documentAssembler,  sentenceDetector, tokenizer, word_embeddings, radiology_ner, ner_converter, radiology_assertion))
 
-val result = pipeline.fit(Seq.empty["Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs."].toDS.toDF("text")).transform(data)
+val data = Seq("Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

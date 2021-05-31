@@ -92,7 +92,8 @@ val pos = PerceptronModel.pretrained("pos_ud_lvtb", "lv")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["Sveiki no John Sniega Labs! "].toDS.toDF("text")).transform(data)
+val data = Seq("Sveiki no John Sniega Labs! ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 

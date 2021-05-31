@@ -65,7 +65,8 @@ val classifier = SentimentDLModel().pretrained('sentimentdl_glove_imdb')
     .setOutputCol("sentiment")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentencer, tokenizer, embeddings, sentence_embeddings, classifier))
-val result = pipeline.fit(Seq.empty["Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!"].toDS.toDF("text")).transform(data)
+val data = Seq("Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>
