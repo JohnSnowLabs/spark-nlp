@@ -177,8 +177,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   }
 
   def generateNoBeamSearch(inputIds: Seq[Array[Long]],
-                           decoderEncoderStateTensors: Tensor,
-                           encoderAttentionMaskTensors: Tensor,
+                           decoderEncoderStateTensors: Tensor[_],
+                           encoderAttentionMaskTensors: Tensor[_],
                            maxOutputLength: Int,
                            minOutputLength: Int,
                            doSample: Boolean,
