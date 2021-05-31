@@ -1,4 +1,2 @@
-.github/workflows/create_search_index.yml
-docs/_plugins/models_json.rb
-.github/workflows/create_search_index.yml
-docs/_plugins/models_json.rb
+docs/_posts/C-K-Loan/2021-03-08-pos_ud_hdt_de.md
+docs/_posts/C-K-Loan/2021-03-08-pos_ud_hdt_de.md
