@@ -1,0 +1,20 @@
+{
+  "name": "jquery.scrollto",
+  "version": "2.1.1",
+  "description": "Lightweight, cross-browser and highly customizable animated scrolling with jQuery",
+  "main": "jquery.scrollTo.js",
+  "license": "MIT",
+  "ignore": ["**/.*","demo","tests","CHANGELOG","README.md","composer.json","bower.json"],
+  "dependencies": { "jquery": ">=1.8" },
+  "homepage": "https://github.com/flesler/jquery.scrollTo/",
+  "docs": "https://github.com/flesler/jquery.scrollTo/",
+  "demo": "http://demos.flesler.com/jquery/scrollTo/",
+  "bugs": "https://github.com/flesler/jquery.scrollTo/issues",
+  "download": "https://github.com/flesler/jquery.scrollTo/releases",
+  "repository": "git://github.com/flesler/jquery.scrollTo",
+  "keywords": ["browser","animated","animation","scrolling","scroll","links","anchors","jquery","jquery-plugin", "ecosystem:jquery"],
+  "author": {
+    "name": "Ariel Flesler",
+    "web": "http://flesler.blogspot.com/"
+  }
+}

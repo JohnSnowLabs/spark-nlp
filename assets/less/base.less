@@ -1,0 +1,308 @@
+/* ======= Base ======= */
+body {
+    font-family: 'Open Sans', arial, sans-serif;
+    color: @text-color;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    height: 100%;
+}
+
+.page-wrapper {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -50px; 
+    &:after {
+        content: "";
+        display: block;
+        height: 50px;
+    }
+}
+
+.footer {
+    height: 50px;
+}
+
+p {
+    line-height: 1.5;
+}
+
+a {
+    color: darken(@color-primary, 5%);
+    .transition (all 0.4s ease-in-out);
+    &:hover {
+        text-decoration: underline;
+        color: darken(@color-primary, 10%);        
+    }
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+
+code {
+    background: #222;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    padding:2px 8px;
+    padding-top: 4px;
+    display: inline-block;
+}
+
+.btn, a.btn {
+	.transition (all 0.4s ease-in-out);
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 1.5;
+	.fa {
+		margin-right: 5px;
+	}
+}
+
+.btn-primary, a.btn-primary {
+	background: @color-primary;
+	border: 1px solid @color-primary;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-primary, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-primary, 5%);
+	}
+}
+
+.btn-green, a.btn-green {
+    background: @color-green;
+	border: 1px solid @color-green;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-green, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-green, 5%);
+	}
+	.body-green & {
+    	color: #fff !important;
+    	&:hover, &:focus, &:active, &.active, &.hover {
+        	color: #fff !important;
+    	}
+	}
+}
+
+.btn-blue, a.btn-blue {
+    background: @color-blue;
+	border: 1px solid @color-blue;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-blue, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-blue, 5%);
+	}
+}
+
+.btn-orange, a.btn-orange {
+    background: @color-orange;
+	border: 1px solid @color-orange;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-orange, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-orange, 5%);
+	}
+}
+
+.btn-red, a.btn-red {
+    background: @color-red;
+	border: 1px solid @color-red;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-red, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-red, 5%);
+	}
+}
+
+.btn-pink, a.btn-pink {
+    background: @color-pink;
+	border: 1px solid @color-pink;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-pink, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-pink, 5%);
+	}
+
+}
+
+.btn-purple, a.btn-purple {
+    background: @color-purple;
+	border: 1px solid @color-purple;
+	color: #fff !important;
+	&:hover, &:focus, &:active, &.active, &.hover {
+		background: darken(@color-purple, 5%);
+		color: #fff !important;
+		border: 1px solid darken(@color-purple, 5%);
+	}
+}
+
+.btn-cta {
+    padding: 7px 15px;
+}
+
+.form-control {
+   .box-shadow(none);
+    height: 40px;
+    border-color: @divider;
+    .placeholder(lighten(@grey, 5%));
+    &:focus {
+        border-color: darken(@divider, 5%);
+        .box-shadow(none);
+    }    
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"],
+input[type="button"], 
+textarea,
+select {
+    appearance: none;  /* for mobile safari */
+    -webkit-appearance: none;
+}
+
+#topcontrol {
+    background: @color-primary;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    border: none;
+    .border-radius(4px);
+    .transition (all 0.4s ease-in-out);
+    z-index: 30;
+    &:hover {
+        background: lighten(@color-primary, 5%);
+    }
+    .fa {
+        position: relative;
+        top: 3px;
+        font-size: 25px;
+    }
+}
+
+.video-container iframe {
+    max-width: 100%;    
+}
+
+
+/* ====== Header ====== */
+.header {
+    background: @text-color;
+    color: rgba(256, 256, 256, 0.85);
+    border-top: 5px solid @color-primary;
+    padding: 30px 0;
+    a {
+        color: #fff;
+    }
+}
+.branding {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    .logo {
+        font-size: 28px;
+        margin-top: 0;
+        margin-bottom: 0;
+        a {
+            text-decoration: none;
+        }
+    }
+    .text-highlight {
+        color: @color-primary;
+        .body-green & {
+            color: @color-green;
+        }
+        .body-blue & {
+            color: @color-blue;
+        }
+        .body-orange & {
+            color: @color-orange;
+        }
+        .body-red & {
+            color: @color-red;
+        }
+        .body-pink & {
+            color: @color-pink;
+        }
+        .body-purple & {
+            color: @color-purple;
+        }
+    }
+    .text-bold {
+        font-weight: 800;
+        color: #fff;
+    }
+    .icon {
+        font-size: 24px;
+        color: @color-primary;
+        .body-green & {
+            color: @color-green;
+        }
+        .body-blue & {
+            color: @color-blue;
+        }
+        .body-orange & {
+              color: @color-orange;
+        }
+        .body-red & {
+            color: @color-red;
+        }
+        .body-pink & {
+            color: @color-pink;
+        }
+        .body-purple & {
+            color: @color-purple;
+        }
+    }
+}
+
+.breadcrumb {
+    background: none;
+    margin-bottom: 0;
+    padding: 0;
+    li {
+        color: rgba(256, 256, 256, 0.5);
+        &.active {
+            color: rgba(256, 256, 256, 0.5);
+        }
+        a {
+            color: rgba(256, 256, 256, 0.5);
+            &:hover {
+                color: #fff;
+            }
+        }
+    } 
+    
+}
+
+.breadcrumb>li+li:before {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+
+/* ====== Footer ====== */
+.footer {
+    background: darken(@text-color, 15%);
+    color: rgba(256, 256, 256, 0.6);
+    padding: 15px 0;
+    a {
+        color: @color-primary;
+    }
+    .fa-heart {
+        color: @color-pink;
+    }
+}

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bootstrap 3 Lightbox</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../dist/ekko-lightbox.css" rel="stylesheet">
+
+        <style type="text/css">
+            /* i like padding - you can ignore this css. see the actual css / less files in the repository for styling the gallery navigation */
+            div.row > div > div.row {
+                margin-bottom: 15px;
+            }
+
+            body {
+                padding-bottom: 50px;
+            }
+
+            div.top-header {
+                margin-bottom:100px;
+            }
+
+            h3.page-header {
+                margin-top: 50px;
+            }
+
+            figure {
+                position: relative;
+            }
+
+            figure figcaption {
+                font-size: 22px;
+                color: #fff;
+                text-decoration: none;
+                bottom: 10px;
+                right: 20px;
+                position: absolute;
+                background-color: #000;
+            }
+			code {
+				white-space: pre-wrap;       /* css-3 */
+				white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+				white-space: -pre-wrap;      /* Opera 4-6 */
+				white-space: -o-pre-wrap;    /* Opera 7 */
+				word-wrap: break-word;       /* Internet Explorer 5.5+ */
+			}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div class="top-header">
+                        <h1 class="page-header">Lightbox for Bootstrap 3</h1>
+                        <p class="lead">Utilizes Bootstraps modal plugin to implement a lightbox gallery - <a href="https://github.com/ashleydw/lightbox">GitHub</a></p>
+						<div class="text-center">
+							<iframe src="http://ghbtns.com/github-btn.html?user=ashleydw&repo=lightbox&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100	" height="20"></iframe>
+							<iframe src="http://ghbtns.com/github-btn.html?user=ashleydw&repo=lightbox&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+							<iframe src="http://ghbtns.com/github-btn.html?user=ashleydw&repo=lightbox&type=follow&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="160" height="20"></iframe>
+						</div>
+                    </div>
+
+                    <div class="top-header">
+                        <h2>Usage</h2>
+                        <h3>Via data attributes</h3>
+                        <pre>&lt;a href=&quot;someurl&quot; data-toggle=&quot;lightbox&quot;&gt;Launch modal&lt;/a&gt;</pre>
+                        <h3>Via Javascript</h3>
+                        <pre>&lt;a href=&quot;someurl&quot; id=&quot;mylink&quot;&gt;Open lightbox&lt;/a&gt;<br/>$(&#39;#mylink&#39;).ekkoLightbox(options);</pre>
+                    </div>
+
+                    <div class="top-header">
+                        <h2>Implementation</h2>
+                        <p>Obviously, you need the modal component that comes with Bootstrap, and jQuery. The delegate function used on this page is:</p>
+<code style="white-space: pre-wrap">$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});</code>
+						<br /><br />
+						<p>If you plan on having galleries, be sure to include the LESS / CSS files.</p>
+                    </div>
+
+                    <div class="top-header">
+                        <h2>Options</h2>
+                        <p>Options are passed down to the modal object so you can also use any of the <a href="http://getbootstrap.com/javascript/#modals-usage">original modal options</a>.</p>
+						<p>Pass the options to the calling function as an object, or set defaults using <code>$.fn.ekkoLightbox.defaults</code> (excluding modal default options, notable: title, footer, remote)</p>
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead>
+								<tr>
+									<th>Name</th>
+									<th>type</th>
+									<th>default</th>
+									<th>description</th>
+									<th>data-*</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>remote</td>
+										<td>string</td>
+										<td></td>
+										<td>If you can't/don't want to set the href property of an element</td>
+										<td><code>data-remote="http://www...."</code></td>
+									</tr>
+									<tr>
+										<td>gallery</td>
+										<td>string</td>
+										<td></td>
+										<td>For grouping elements</td>
+										<td><code>data-gallery="galleryname"</code></td>
+									</tr>
+									<tr>
+										<td>gallery_parent_selector</td>
+										<td>string</td>
+										<td><code>document.body</code></td>
+										<td>If you have multiple galleries per page, this will restrict the gallery items to the parent that matches this selector.</td>
+										<td><code>data-parent="any valid selector"</code></td>
+									</tr>
+									<tr>
+										<td>left_arrow_class</td>
+										<td>string</td>
+										<td><code>.glyphicon .glyphicon-chevron-left</code></td>
+										<td>The css classes to give to the left arrow</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>right_arrow_class</td>
+										<td>string</td>
+										<td><code>.glyphicon .glyphicon-chevron-right</code></td>
+										<td>The css classes to give to the right arrow</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>type</td>
+										<td>string</td>
+										<td></td>
+										<td>Force the lightbox into image/YouTube mode.</td>
+										<td><code>data-type="(image|youtube|vimeo)"</code></td>
+									</tr>
+									<tr>
+										<td>width (videos only; height is calculated by ratio)</td>
+										<td>integer</td>
+										<td></td>
+										<td>Force the width</td>
+										<td><code>data-width="[0-9]+"</code></td>
+									</tr>
+									<tr>
+										<td>always_show_close</td>
+										<td>boolean</td>
+										<td><code>true</code></td>
+										<td>Always show the close button, even if no title is present</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>onNavigate</td>
+										<td>callable</td>
+										<td><code>false</code></td>
+										<td>Function call when navigate right or left. First argument is the direction</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>loadingMessage</td>
+										<td>string</td>
+										<td><code>Loading...</code></td>
+										<td>Message injected for loading</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+                    	</div>
+                    </div>
+
+					<h1 class="page-header">Themes</h1>
+					<p>Some quick themes to show how customisation is possible.</p>
+					<ul>
+						<li><a href="dark.html">Dark, full screen</a></li>
+						<li><a href="nyan.html">Nyan</a></li>
+					</ul>
+
+
+                    <h1 class="page-header">Examples</h1>
+                    <p>Images from Instagrams <a href="http://blog.instagram.com/post/58570728864/twoi92">"The Week on Instagram | 92"</a></p>
+                    <ul>
+                        <li><a href="#single-image">Example #1: Single Image</a></li>
+                        <li><a href="#image-gallery">Example #2: Gallery of Images</a></li>
+                        <li><a href="#single-youtube">Example #3: Single YouTube & Vimeo Video. Forced width</a></li>
+                        <li><a href="#youtube-gallery">Example #4: Gallery of YouTube / Vimeo Videos</a></li>
+                        <li><a href="#mixed-gallery">Example #5: Mixed gallery</a></li>
+                        <li><a href="#programatically-call">Example #6: Programatically call</a></li>
+                        <li><a href="#data-remote">Example #7: Via <code>data-remote</code></a></li>
+                        <li><a href="#different-sizes">Example #8: Gallery of different sized images</a></li>
+                        <li><a href="#too-large">Example #9: Images too wide for display</a></li>
+                        <li><a href="#wrappers">Example #11: Column wrappers</a></li>
+                        <li><a href="#global-galleries">Example #12: Global galleries</a></li>
+                        <li><a href="#check-is-image">Example #13: No-extension images / presume everything is an image</a></li>
+                        <li><a href="#on-navigate">Example #14: On navigate event example</a></li>
+                        <li><a href="#hidden-elements">Example #15: Hidden elements</a></li>
+                        <li><a href="#remote-content">Example #16: Remote content</a></li>
+                        <li><a href="#navigateTo">Example #17: navigateTo</a></li>
+                    </ul>
+
+                    <h3 class="page-header" id="single-image">Example #1: Single Image</h3>
+                    <p>Note: uses modal plugin title option via <code>data-title</code>, and the custom footer tag using <code>data-footer</code></p>
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-3">
+                            <a href="http://41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                                <img src="//41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="image-gallery">Example #2: Gallery of Images</h3>
+                    <p>By default, gallery images must be wrapped in a tag (probably <code>&lt;div&gt;</code>) - which doesn't have the class <code>.row</code>. This is so you can create columns/rows.</p>
+                    <p>A custom selector for the parent can be used, see <a href="#wrappers">example #11</a>. Note how the final image is not in the gallery intentionally.</p>
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="row">
+                                <a href="http://41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="People walking down stairs" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Man getting wet" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/e06a3513b0b36843f54bee99aeac689a/tumblr_mrn3dc10Wa1r1thfzo2_1280.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Someone lost their dress" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/e06a3513b0b36843f54bee99aeac689a/tumblr_mrn3dc10Wa1r1thfzo2_1280.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                            <div class="row">
+                                <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-gallery="multiimages" data-footer="Big ass waterfall- using footer instead of title" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-gallery="multiimages" data-title="Cool bottle" data-footer="Now fill it with whiskey" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://36.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_1280.jpg" data-toggle="lightbox" class="col-sm-4">
+                                    <img src="//36.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_1280.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="single-youtube">Example #3: Single YouTube / Vimeo Video</h3>
+                    <h4>YouTube</h4>
+                    <p>You can use various YouTube URL formats, the regex used is: <code>/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/</code></p>
+                    <p><a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox">Ghostpoet - Cash and Carry Me Home</a></p>
+                    <p><a href="http://youtu.be/b0jqPvpn3sY" data-toggle="lightbox">Tame Impala - Elephant (using youtu.be link)</a></p>
+                    <br />
+                    <h4>Vimeo</h4>
+                    <p>You cannot embed Vimeo videos using the standard url (ie http://vimeo.com/80629469); you must link to the embed source (ie player.vimeo.com/video/80629469). This will mean your link url - if the JavaScript fails, will open the full screen player (try opening the first link below in a new tab); the solution to this is to set the lightbox source directly - the second link below does this.</p>
+                    <p><a href="http://player.vimeo.com/video/80629469" data-toggle="lightbox">City Lights - from Colin Rich (using embed link)</a></p>
+                    <p><a href="http://vimeo.com/80629469" data-remote="http://player.vimeo.com/video/80629469" data-toggle="lightbox">City Lights - from Colin Rich</a> (with reccommended <code>data-remote</code> setting)</p>
+                    <br />
+                    <h4>Instagram</h4>
+                    <p></p>
+                    <p><a href="http://instagram.com/p/pZfG1fPfuX/" data-toggle="lightbox" data-title="Plug for our new service">GOtags.co.uk</a></p>
+                    <p>This also works with photos: <a href="https://instagram.com/p/0wbypvPfmQ/" data-toggle="lightbox">GOtags.co.uk</a></p>
+                    <br />
+                    <h4>Forcing width</h4>
+                    <p>Set the width of the video</p>
+                    <p><a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox">Ghostpoet - Cash and Carry Me Home (standard)</a></p>
+                    <p><a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox" data-width="640">Ghostpoet - Cash and Carry Me Home (640 x 360)</a></p>
+                    <p><a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox" data-width="1280">Ghostpoet - Cash and Carry Me Home (1280 x 780)</a></p>
+
+                    <h3 class="page-header" id="youtube-gallery">Example #4: Gallery of YouTube Videos</h3>
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="row">
+                                <a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox" data-gallery="youtubevideos" class="col-sm-4">
+                                    <img src="//i1.ytimg.com/vi/yP11r5n5RNg/mqdefault.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://youtu.be/iQ4D273C7Ac" data-toggle="lightbox" data-gallery="youtubevideos" class="col-sm-4">
+                                    <img src="//i1.ytimg.com/vi/iQ4D273C7Ac/mqdefault.jpg" class="img-responsive">
+                                </a>
+                                <a href="//www.youtube.com/embed/b0jqPvpn3sY" data-toggle="lightbox" data-gallery="youtubevideos" class="col-sm-4">
+                                    <img src="//i1.ytimg.com/vi/b0jqPvpn3sY/mqdefault.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="mixed-gallery">Example #5: Mixed gallery</h3>
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="row">
+                                <a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox" data-gallery="mixedgallery" class="col-sm-4">
+                                    <img src="//i1.ytimg.com/vi/yP11r5n5RNg/mqdefault.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-gallery="mixedgallery" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://vimeo.com/80629469" data-remote="http://player.vimeo.com/video/80629469" data-toggle="lightbox" data-gallery="mixedgallery" class="col-sm-4">
+                                    <img src="//b.vimeocdn.com/ts/458/070/458070637_200.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="programatically-call">Example #6: Programatically call</h3>
+                    <p>These two examples are opened via the JavaScript at the bottom of the source.</p>
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="row">
+                                <a href="http://41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" id="open-image" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://youtu.be/iQ4D273C7Ac" id="open-youtube" class="col-sm-4">
+                                    <img src="//i1.ytimg.com/vi/iQ4D273C7Ac/mqdefault.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="data-remote">Example #7: Via <code>data-remote</code></h3>
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="row">
+                                <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-remote="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive col-sm-4">
+                                <img src="//i1.ytimg.com/vi/b0jqPvpn3sY/mqdefault.jpg" data-toggle="lightbox" data-remote="//www.youtube.com/embed/b0jqPvpn3sY" class="img-responsive col-sm-4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="different-sizes">Example #8: Gallery of different sized images</h3>
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="row">
+                                <a href="https://lh5.googleusercontent.com/-jl_I19YyRVM/T0oJ3PCKZuI/AAAAAAAARRs/-gfmn1LxMJ8/s1280/tilt%2520shift%2520baseball.jpg" data-toggle="lightbox" data-gallery="imagesizes" class="col-sm-3">
+                                    <img src="//lh5.googleusercontent.com/-jl_I19YyRVM/T0oJ3PCKZuI/AAAAAAAARRs/-gfmn1LxMJ8/s128/tilt%20shift%20baseball.jpg" class="img-responsive">
+                                </a>
+                                <a href="https://lh4.googleusercontent.com/-lB-KDQlhdAE/T0oJGy0-UOI/AAAAAAAAQyw/K-1hc5M7EQM/s800/IMG_1193%2520-%2520original.jpg" data-toggle="lightbox" data-gallery="imagesizes" class="col-sm-3">
+                                    <img src="//lh4.googleusercontent.com/-lB-KDQlhdAE/T0oJGy0-UOI/AAAAAAAAQyw/K-1hc5M7EQM/s128/IMG_1193%20-%20original.jpg" class="img-responsive">
+                                </a>
+                                <a href="https://lh5.googleusercontent.com/-cfT_8CMK26k/T0oJMAxOl2I/AAAAAAAAQzI/TaDocinT6So/s912/P1010046%2520-%2520original.jpg" data-toggle="lightbox" data-gallery="imagesizes" class="col-sm-3">
+                                    <img src="//lh5.googleusercontent.com/-cfT_8CMK26k/T0oJMAxOl2I/AAAAAAAAQzI/TaDocinT6So/s128/P1010046%20-%20original.jpg" class="img-responsive">
+                                </a>
+                                <a href="https://lh3.googleusercontent.com/-kgMllZrb20s/T0oJD2nFklI/AAAAAAAAQyg/pnMfqLAGNJs/s1024/IMG_0736%2520-%2520original.jpg" data-toggle="lightbox" data-gallery="imagesizes" class="col-sm-3">
+                                    <img src="//lh3.googleusercontent.com/-kgMllZrb20s/T0oJD2nFklI/AAAAAAAAQyg/pnMfqLAGNJs/s128/IMG_0736%20-%20original.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="too-large">Example #9: Images too wide for display</h3>
+                    <p>All examples on this page are this example. Too high images don't count, scrolling works fine with the original modal.</p>
+
+                    <h3 class="page-header" id="semantic">Example #10: Semantic code</h3>
+                    <p>So you want to use <code>&lt;figure&gt;</code></p>
+                    <div class="row">
+                        <a href="http://25.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_1280.jpg" class="col-sm-3" data-toggle="lightbox">
+                            <figure>
+                                <img src="//25.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_400.jpg" class="img-responsive" alt="">
+                                <figcaption>@gregfoster</figcaption>
+                            </figure>
+                        </a>
+                    </div>
+
+                    <h3 class="page-header" id="wrappers">Example #11: Column wrappers</h3>
+                    <p>This shows that the images do not need to be columns as per the other examples. Use <code>data-parent</code> on the gallery item, or set it via the options.</p>
+                    <div class="row wrapper-parent">
+                        <div class="col-sm-3">
+                            <a href="http://www.youtube.com/watch?v=k6mFF3VmVAs" data-toggle="lightbox" data-gallery="columnwrappers" data-parent=".wrapper-parent">
+                                <img src="//i1.ytimg.com/vi/yP11r5n5RNg/mqdefault.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-gallery="columnwrappers" data-parent=".wrapper-parent">
+                                <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="//www.youtube.com/embed/b0jqPvpn3sY" data-toggle="lightbox" data-gallery="columnwrappers" data-parent=".wrapper-parent">
+                                <img src="//i1.ytimg.com/vi/b0jqPvpn3sY/mqdefault.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="global-galleries">Example #12: Global galleries</h3>
+                    <p>If you're gallery images have different parents you may wish to have all images with the same gallery tag to open regardless of their parent. To do this, set <code>data-parent</code> to the highest element you know of - on this page it is the <code>div.container</code>.</p>
+                    <p>You can also leave the <code>data-parent</code> attribute empty, and it will default to <code>document.body</code>. This example uses a combination of the two.</p>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <a href="http://25.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_1280.jpg" data-gallery="global-gallery" data-parent="" data-toggle="lightbox">
+                                <figure>
+                                    <img src="//25.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_400.jpg" class="img-responsive" alt="">
+                                    <figcaption>@gregfoster</figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-gallery="global-gallery" data-parent="">
+                                <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="https://lh4.googleusercontent.com/-lB-KDQlhdAE/T0oJGy0-UOI/AAAAAAAAQyw/K-1hc5M7EQM/s800/IMG_1193%2520-%2520original.jpg" data-toggle="lightbox"  data-gallery="global-gallery" data-parent=".container">
+                                <img src="//lh4.googleusercontent.com/-lB-KDQlhdAE/T0oJGy0-UOI/AAAAAAAAQyw/K-1hc5M7EQM/s800/IMG_1193%2520-%2520original.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="https://lh5.googleusercontent.com/-jl_I19YyRVM/T0oJ3PCKZuI/AAAAAAAARRs/-gfmn1LxMJ8/s1280/tilt%2520shift%2520baseball.jpg" data-toggle="lightbox"  data-gallery="global-gallery" data-parent=".container">
+                                <img src="//lh5.googleusercontent.com/-jl_I19YyRVM/T0oJ3PCKZuI/AAAAAAAARRs/-gfmn1LxMJ8/s1280/tilt%2520shift%2520baseball.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="//www.youtube.com/embed/b0jqPvpn3sY" data-toggle="lightbox" data-gallery="global-gallery" data-parent="">
+                                <img src="//i1.ytimg.com/vi/b0jqPvpn3sY/mqdefault.jpg" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="check-is-image">Example #13: No-extension images / presume everything is an image</h3>
+                    <p>If the images you are linking to have no extension, the lightbox cannot detect that is an image; therefore you need to tell the lightbox what <code>data-type</code> it is.</p>
+                    <p><a href="http://nla.gov.au/nla.pic-an22199070-gd600n" data-title="Force image display" data-footer="The remote of this modal has no extension: http://nla.gov.au/nla.pic-an22199070-gd600n" data-toggle="lightbox" data-type="image">Click here for an image, but with no extension.</a></p>
+                    <p><a href="http://nla.gov.au/nla.pic-an22199070-gd600n" data-toggle="lightbox">This link is missing the type attribute, and will not work.</a></p>
+                    <p><a href="http://www.youtube.com/watch?v=b0jqPvpn3sY" data-toggle="lightbox" data-type="image">This link is linking to a YouTube video, but forcing an image.</a></p>
+
+                    <h3 class="page-header" id="on-navigate">Example #14: On navigate event example</h3>
+                    <p>The argument given is the direction of navigation. Open your developer console and use any gallery example.</p>
+
+                    <h3 class="page-header" id="hidden-elements">Example #15: Hidden elements</h3>
+                    <p>Facebook style, only show a few images but have a large gallery</p>
+					<div class="row">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="row">
+                                <a href="http://41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" data-toggle="lightbox" data-gallery="hiddenimages" data-title="People walking down stairs" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" data-toggle="lightbox" data-gallery="hiddenimages" data-title="Man getting wet" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/e06a3513b0b36843f54bee99aeac689a/tumblr_mrn3dc10Wa1r1thfzo2_1280.jpg" data-toggle="lightbox" data-gallery="hiddenimages" data-title="Someone lost their dress" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/e06a3513b0b36843f54bee99aeac689a/tumblr_mrn3dc10Wa1r1thfzo2_1280.jpg" class="img-responsive">
+                                </a>
+								<!-- elements not showing, use data-remote -->
+								<div data-toggle="lightbox" data-gallery="hiddenimages" data-remote="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-title="Hidden item 1"></div>
+								<div data-toggle="lightbox" data-gallery="hiddenimages" data-remote="//www.youtube.com/embed/b0jqPvpn3sY" data-title="Hidden item 2"></div>
+								<div data-toggle="lightbox" data-gallery="hiddenimages" data-remote="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-title="Hidden item 3"></div>
+								<div data-toggle="lightbox" data-gallery="hiddenimages" data-remote="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-title="Hidden item 4"></div>
+								<div data-toggle="lightbox" data-gallery="hiddenimages" data-remote="http://36.media.tumblr.com/de356cd6570d7c26e73979467f296f67/tumblr_mrn3dc10Wa1r1thfzo6_1280.jpg" data-title="Hidden item 5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="remote-content">Example #16: Remote content</h3>
+                    <p>The Bootstrap modal originally allowed for remote loading, but this is to be removed in v4; this functionality demonstrates the work around.</p>
+					<p>Given a URL, that is not an image or video (including unforced types [see example 13]), load the content using jQuery load(). An image and video is given below as proof gallery.</p>
+					<div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="row">
+                                <p class="col-sm-3"><a href="./remote/page1.html" data-title="Page 1" data-toggle="lightbox" data-parent="" data-gallery="remoteload">Open up local Page 1</a></p>
+                                <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-parent="" data-toggle="lightbox" data-gallery="remoteload" class="col-sm-3">
+                                    <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                                </a>
+								<p class="col-sm-3"><a href="./remote/page2.html" data-title="Page 2" data-toggle="lightbox" data-parent="" data-gallery="remoteload">Open up local Page 2</a></p>
+                                <a href="http://vimeo.com/80629469" data-remote="http://player.vimeo.com/video/80629469" data-toggle="lightbox" data-parent="" data-gallery="remoteload" class="col-sm-3">
+                                    <img src="//b.vimeocdn.com/ts/458/070/458070637_200.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                            <div class="row">
+                                <p class="col-sm-3"><a href="http://news.bbc.co.uk" data-title="BBC News - not responsive" data-toggle="lightbox" data-parent="" data-gallery="remoteload">Open up BBC news</a></p>
+                                <a href="http://vimeo.com/80629469" data-remote="http://player.vimeo.com/video/80629469" data-toggle="lightbox" data-parent="" data-gallery="remoteload" class="col-sm-3">
+                                    <img src="//b.vimeocdn.com/ts/458/070/458070637_200.jpg" class="img-responsive">
+                                </a>
+								<p class="col-sm-3"><a href="http://getbootstrap.com" data-title="Bootstrap - Responsive" data-toggle="lightbox" data-parent="" data-gallery="remoteload">Open up Bootstrap</a></p>
+                                <a href="http://41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" data-toggle="lightbox" data-parent="" data-gallery="remoteload" class="col-sm-3">
+                                    <img src="//41.media.tumblr.com/9d3e6a9c89a856a2ad0be3ab4ca598b2/tumblr_mrn3dc10Wa1r1thfzo4_1280.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="page-header" id="navigateTo">Example #17: navigateTo</h3>
+					<p>Must be setup programatically to run the setup (view the source of this page)</p>
+					<div class="row">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="row">
+                                <a href="http://41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" data-toggle="lightbox" data-gallery="navigateTo" data-footer="Click <a href='#'>here</a> to jump to image 3" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/f37ac708134914c471073e4c0b47328d/tumblr_mrn3dc10Wa1r1thfzo8_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" data-toggle="lightbox" data-gallery="navigateTo" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/838b44224e39c30cd43490deb11b919d/tumblr_mrn3dc10Wa1r1thfzo1_1280.jpg" class="img-responsive">
+                                </a>
+                                <a href="http://41.media.tumblr.com/e06a3513b0b36843f54bee99aeac689a/tumblr_mrn3dc10Wa1r1thfzo2_1280.jpg" data-toggle="lightbox" data-gallery="navigateTo" class="col-sm-4">
+                                    <img src="//41.media.tumblr.com/e06a3513b0b36843f54bee99aeac689a/tumblr_mrn3dc10Wa1r1thfzo2_1280.jpg" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script src="//code.jquery.com/jquery.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="../dist/ekko-lightbox.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function ($) {
+                // delegate calls to data-toggle="lightbox"
+                $(document).delegate('*[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', 'click', function(event) {
+                    event.preventDefault();
+                    return $(this).ekkoLightbox({
+                        onShown: function() {
+                            if (window.console) {
+                                return console.log('Checking our the events huh?');
+                            }
+                        },
+						onNavigate: function(direction, itemIndex) {
+                            if (window.console) {
+                                return console.log('Navigating '+direction+'. Current item: '+itemIndex);
+                            }
+						}
+                    });
+                });
+
+                //Programatically call
+                $('#open-image').click(function (e) {
+                    e.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+                $('#open-youtube').click(function (e) {
+                    e.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+
+				// navigateTo
+                $(document).delegate('*[data-gallery="navigateTo"]', 'click', function(event) {
+                    event.preventDefault();
+
+                    var lb;
+                    return $(this).ekkoLightbox({
+                        onShown: function() {
+
+                            lb = this;
+
+							$(lb.modal_content).on('click', '.modal-footer a', function(e) {
+
+								e.preventDefault();
+								lb.navigateTo(2);
+
+							});
+
+                        }
+                    });
+                });
+
+
+            });
+        </script>
+    </body>
+</html>
