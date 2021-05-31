@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7
           working-directory: docs
           bundler-cache: true
       - name: Index changed posts
