@@ -40,7 +40,7 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/GRAMMAR_EN/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/german/pretrained-german-models.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pos_ud_hdt_de_3.0.0_3.0_1615230160154.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -50,30 +50,32 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-
-document_assembler = DocumentAssembler()
-  .setInputCol("text")
+document_assembler = DocumentAssembler() \
+  .setInputCol("text") \
   .setOutputCol("document")
 
-sentence_detector = SentenceDetector()
-  .setInputCols(["document"])
-  .setOutputCol("sentence")
+sentence_detector = SentenceDetector() \
+.setInputCols(["document"]) \
+.setOutputCol("sentence")
 
-pos = PerceptronModel.pretrained("pos_ud_hdt", "de")
-  .setInputCols(["document", "token"])
-  .setOutputCol("pos")
+tokenizer = Tokenizer() \
+.setInputCols("sentence") \
+.setOutputCol("token")
+
+posTagger = PerceptronModel.pretrained("pos_ud_hdt", "de") \
+.setInputCols(["document", "token"]) \
+.setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
-  document_assembler,
-  sentence_detector,
-  posTagger
+    document_assembler,
+    sentence_detector,
+    tokenizer,
+    posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["Hallo aus John Snow Labs! "]}))
+data = spark.createDataFrame([["Hallo aus John Snow Labs! "]], ["text"])
 
-result = pipeline.fit(example).transform(example)
-
-
+result = pipeline.fit(data).transform(data)
 ```
 ```scala
 
@@ -91,7 +93,8 @@ val pos = PerceptronModel.pretrained("pos_ud_hdt", "de")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["Hallo aus John Snow Labs! "].toDS.toDF("text")).transform(data)
+val data = Seq("Hallo aus John Snow Labs! ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 
@@ -99,7 +102,7 @@ val result = pipeline.fit(Seq.empty["Hallo aus John Snow Labs! "].toDS.toDF("tex
 ```python
 
 import nlu
-text = [""Hallo aus John Snow Labs! ""]
+text = ["Hallo aus John Snow Labs!"]
 token_df = nlu.load('de.pos').predict(text)
 token_df
     
