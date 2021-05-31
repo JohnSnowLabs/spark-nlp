@@ -27,3 +27,8 @@ jobs:
           git diff --name-only HEAD~1..HEAD > changes.txt
           git diff --name-only HEAD..HEAD~1 >> changes.txt
           bundle exec jekyll build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_site
