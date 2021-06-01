@@ -7,7 +7,7 @@ date: 2021-06-01
 tags: [en, clinical, ner, licensed, deid]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.0.3
+edition: Spark NLP for Healthcare 3.1.0
 spark_version: 3.0
 supported: true
 article_header:
