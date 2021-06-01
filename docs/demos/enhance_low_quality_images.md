@@ -63,9 +63,9 @@ data:
         - title: Enhance Faxes or Scanned Documents
           id: enhance_faxes_scanned_documents
           image: 
-              src: /assets/images/Image_to_Text.svg
+              src: /assets/images/Healthcare_Enhancelowquality.svg
           image2: 
-              src: /assets/images/Image_to_Text_f.svg
+              src: /assets/images/Healthcare_Enhancelowquality_f.svg
           excerpt: Improve quality of (old) faxes/scanned documents using Spark OCR.
           actions:
           - text: Live Demo
@@ -77,9 +77,9 @@ data:
         - title: Enhance Photo of Documents
           id: enhance_photo_documents
           image: 
-              src: /assets/images/Image_to_Text.svg
+              src: /assets/images/Healthcare_EnhancePhotoofDocuments.svg
           image2: 
-              src: /assets/images/Image_to_Text_f.svg
+              src: /assets/images/Healthcare_EnhancePhotoofDocuments_f.svg
           excerpt: Improve quality of documents in image format using Spark OCR.
           actions:
           - text: Live Demo

@@ -1140,7 +1140,7 @@ ul.list1 {
 			padding: 3px 5px;
 			display: inline-block;
 			right: 0;
-			top: 0;
+			top: 15px;
 			font-weight: bold;
 			color: #fff;
 			text-transform: uppercase;
@@ -1150,7 +1150,6 @@ ul.list1 {
 			font-family: 'Montserrat', sans-serif;
 			height: 19px;
 			margin: auto;
-			bottom: 0;
 		}
 		&.active a {
 			color: #ff8a00 !important;
