@@ -46,7 +46,7 @@ deid_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "en", "clini
 
 ner_converter = NerConverter()\
       .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk_absolute")
+      .setOutputCol("ner_chunk_generic")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -65,7 +65,7 @@ val deid_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "en", "c
 
 val ner_converter = NerConverter()\
       .setInputCols(Array("sentence", "token", "ner"))\
-      .setOutputCol("ner_chunk_absolute")
+      .setOutputCol("ner_chunk_generic")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
