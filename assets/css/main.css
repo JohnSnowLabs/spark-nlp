@@ -6196,7 +6196,7 @@ ul.list1 {
       padding: 3px 5px;
       display: inline-block;
       right: 0;
-      top: 0;
+      top: 15px;
       font-weight: bold;
       color: #fff;
       text-transform: uppercase;
@@ -6205,8 +6205,7 @@ ul.list1 {
       background: #5E31DF;
       font-family: 'Montserrat', sans-serif;
       height: 19px;
-      margin: auto;
-      bottom: 0; }
+      margin: auto; }
     .sidemenu li.active a {
       color: #ff8a00 !important;
       font-weight: bold; }
