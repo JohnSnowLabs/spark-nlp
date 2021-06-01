@@ -33,8 +33,8 @@ Model is trained with the 'embeddings_clinical' word embeddings model, so be sur
 ```python
 ...
 
-model = NerDLModel.pretrained("ner_deidentify_dl","en","clinical/models")
-    .setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_deidentify_dl","en","clinical/models") \
+    .setInputCols("sentence","token","word_embeddings") \
     .setOutputCol("ner")
 
 ...

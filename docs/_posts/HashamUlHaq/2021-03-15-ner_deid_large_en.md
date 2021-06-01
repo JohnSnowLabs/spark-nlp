@@ -39,8 +39,8 @@ Deidentification NER (Large) is a Named Entity Recognition model that annotates 
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
-model = NerDLModel.pretrained("ner_deid_large","en","clinical/models")
-    .setInputCols("sentence","token","embeddings")
+model = NerDLModel.pretrained("ner_deid_large","en","clinical/models") \
+    .setInputCols("sentence","token","embeddings") \
     .setOutputCol("ner")
 ...
 nlp_pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, model, ner_converter])               

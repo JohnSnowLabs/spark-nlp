@@ -43,7 +43,7 @@ ner_tagger = sparknlp.annotators.NerDLModel()\
 
 reModel = RelationExtractionModel.pretrained("re_bodypart_problem","en","clinical/models")\
     .setInputCols(["word_embeddings","chunk","pos","dependency"])\
-    .setOutput("relations")
+    .setOutput("relations") \
     .setRelationPairs(['symptom-external_body_part_or_region'])
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel)

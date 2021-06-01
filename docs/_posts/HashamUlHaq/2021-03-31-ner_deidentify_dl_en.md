@@ -37,8 +37,8 @@ Named Entity Recognition annotator (NERDLModel) allows for a generic model to be
 ```python
 ...
 
-model = MedicalNerModel.pretrained("ner_deidentify_dl","en","clinical/models")
-    .setInputCols("sentence","token","word_embeddings")
+model = MedicalNerModel.pretrained("ner_deidentify_dl","en","clinical/models") \
+    .setInputCols("sentence","token","word_embeddings") \
     .setOutputCol("ner")
 
 ...

@@ -52,16 +52,16 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
-document_assembler = DocumentAssembler()
-  .setInputCol("text")
+document_assembler = DocumentAssembler() \
+  .setInputCol("text") \
   .setOutputCol("document")
 
-sentence_detector = SentenceDetector()
-  .setInputCols(["document"])
+sentence_detector = SentenceDetector() \
+  .setInputCols(["document"]) \
   .setOutputCol("sentence")
 
-pos = PerceptronModel.pretrained("pos_ud_snk", "sk")
-  .setInputCols(["document", "token"])
+pos = PerceptronModel.pretrained("pos_ud_snk", "sk") \
+  .setInputCols(["document", "token"]) \
   .setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
