@@ -69,7 +69,8 @@ val genderClassifier = ClassifierDLModel.pretrained("classifierdl_gender_biobert
        .setOutputCol("gender")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, biobert_embeddings, sentence_embeddings, gender_classifier))
 
-val result = pipeline.fit(Seq.empty["social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer."].toDS.toDF("text")).transform(data)
+val data = Seq("social history: shows that  does not smoke cigarettes or drink alcohol, lives in a nursing home. family history: shows a family history of breast cancer.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

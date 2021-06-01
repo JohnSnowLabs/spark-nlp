@@ -53,7 +53,7 @@ pipeline = Pipeline(stages=[
         posTagger
     ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["""院長と話をしたところ、腰痛治療も得意なようです。"""]}))
+example = spark.createDataFrame([['院長と話をしたところ、腰痛治療も得意なようです。']], ["text"])
 
 result = pipeline.fit(example).transform(example)
 
@@ -77,7 +77,8 @@ val pos = PerceptronModel.pretrained("pos_ud_gsd", "ja")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, pos))
 
-val result = pipeline.fit(Seq.empty["院長と話をしたところ、腰痛治療も得意なようです。"].toDS.toDF("text")).transform(data)
+val data = Seq("院長と話をしたところ、腰痛治療も得意なようです。").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

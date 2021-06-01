@@ -40,7 +40,7 @@ embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") \
         .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["من یادگیری ماشین را دوست دارم"]})))
+result = pipeline_model.transform(spark.createDataFrame([['من یادگیری ماشین را دوست دارم']], ["text"]))
 ```
 
 ```scala
@@ -48,7 +48,8 @@ val embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa")
         .setInputCols(Array("document", "token"))
         .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val result = pipeline.fit(Seq.empty["من یادگیری ماشین را دوست دارم"].toDS.toDF("text")).transform(data)
+val data = Seq("من یادگیری ماشین را دوست دارم").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

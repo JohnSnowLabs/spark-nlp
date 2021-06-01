@@ -57,7 +57,8 @@ val ner = MedicalNerModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinic
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner, ner_converter))
-val result = pipeline.fit(Seq.empty["content in the lung tissue"].toDS.toDF("text")).transform(data)
+val data = Seq("content in the lung tissue").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

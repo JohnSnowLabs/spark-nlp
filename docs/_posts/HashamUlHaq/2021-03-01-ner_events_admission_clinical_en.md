@@ -57,7 +57,8 @@ val ner = NerDLModel.pretrained("ner_events_admission_clinical", "en", "clinical
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-val result = pipeline.fit(Seq.empty["The patient presented to the emergency room last evening"].toDS.toDF("text")).transform(data)
+val data = Seq("The patient presented to the emergency room last evening").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 </div>

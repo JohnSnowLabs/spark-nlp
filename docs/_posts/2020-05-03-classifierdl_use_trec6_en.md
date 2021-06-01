@@ -61,7 +61,8 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_trec6",
   .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
-val result = pipeline.fit(Seq.empty["When did the construction of stone circles begin in the UK?"].toDS.toDF("text")).transform(data)
+val data = Seq("When did the construction of stone circles begin in the UK?").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

@@ -62,7 +62,8 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_use_sarcasm
   .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
-val result = pipeline.fit(Seq.empty["If I could put into words how much I love waking up at am on Tuesdays I would"].toDS.toDF("text")).transform(data)
+val data = Seq("If I could put into words how much I love waking up at am on Tuesdays I would").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

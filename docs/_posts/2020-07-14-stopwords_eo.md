@@ -46,7 +46,8 @@ val stopWords = StopWordsCleaner.pretrained("stopwords_eo", "eo")
         .setInputCols(Array("token"))
         .setOutputCol("cleanTokens")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, stopWords))
-val result = pipeline.fit(Seq.empty["Krom esti la norda reĝo, John Snow estas angla kuracisto kaj gvidanto en la disvolviĝo de anestezo kaj medicina higieno."].toDS.toDF("text")).transform(data)
+val data = Seq("Krom esti la norda reĝo, John Snow estas angla kuracisto kaj gvidanto en la disvolviĝo de anestezo kaj medicina higieno.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

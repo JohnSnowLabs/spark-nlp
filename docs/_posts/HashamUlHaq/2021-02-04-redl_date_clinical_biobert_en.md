@@ -107,7 +107,8 @@ val re_model = RelationExtractionDLModel()
     .setOutputCol("relations")
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94."].toDS.toDF("text")).transform(data)
+val data = Seq("This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>

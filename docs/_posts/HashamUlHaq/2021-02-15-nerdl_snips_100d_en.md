@@ -70,7 +70,8 @@ val ner_converter = NerConverter.setInputCols(Array('document', 'token', 'ner'))
     .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))
-val result = pipeline.fit(Seq.empty["book a spot for nona gray  myrtle and alison at a top-rated brasserie that is distant from wilson av on nov  the 4th  2030 that serves ouzeri"].toDS.toDF("text")).transform(data)
+val data = Seq("book a spot for nona gray  myrtle and alison at a top-rated brasserie that is distant from wilson av on nov  the 4th  2030 that serves ouzeri").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ...
 ```

@@ -46,7 +46,8 @@ val pos = PerceptronModel.pretrained("pos_ud_ytb", "yo")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["Yato si jijẹ ọba ariwa, John Snow jẹ oṣoogun ara Gẹẹsi kan ati adari ninu idagbasoke anaesthesia ati imototo ilera."].toDS.toDF("text")).transform(data)
+val data = Seq("Yato si jijẹ ọba ariwa, John Snow jẹ oṣoogun ara Gẹẹsi kan ati adari ninu idagbasoke anaesthesia ati imototo ilera.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

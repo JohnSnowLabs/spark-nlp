@@ -51,16 +51,16 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
-document_assembler = DocumentAssembler()
-  .setInputCol("text")
+document_assembler = DocumentAssembler() \
+  .setInputCol("text") \
   .setOutputCol("document")
 
-sentence_detector = SentenceDetector()
-  .setInputCols(["document"])
+sentence_detector = SentenceDetector() \
+  .setInputCols(["document"]) \
   .setOutputCol("sentence")
 
-pos = PerceptronModel.pretrained("pos_ud_hdtb", "hi")
-  .setInputCols(["document", "token"])
+pos = PerceptronModel.pretrained("pos_ud_hdtb", "hi") \
+  .setInputCols(["document", "token"]) \
   .setOutputCol("pos")
 
 pipeline = Pipeline(stages=[
@@ -69,7 +69,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["जॉन स्नो लैब्स से नमस्ते! "]}))
+example = spark.createDataFrame([['जॉन स्नो लैब्स से नमस्ते! ']], ["text"])
 
 result = pipeline.fit(example).transform(example)
 
@@ -91,7 +91,8 @@ val pos = PerceptronModel.pretrained("pos_ud_hdtb", "hi")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["जॉन स्नो लैब्स से नमस्ते! "].toDS.toDF("text")).transform(data)
+val data = Seq("जॉन स्नो लैब्स से नमस्ते! ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 

@@ -45,7 +45,8 @@ val pos = PerceptronModel.pretrained("pos_ud_udtb", "ur")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["شمال کا بادشاہ ہونے کے علاوہ ، جان سن ایک انگریزی معالج ہے۔"].toDS.toDF("text")).transform(data)
+val data = Seq("شمال کا بادشاہ ہونے کے علاوہ ، جان سن ایک انگریزی معالج ہے۔").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

@@ -50,7 +50,7 @@ data = ["""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 60 mg per
 
 model = pipeline_snomed.fit(spark.createDataFrame([['']]).toDF("text"))
 
-results = model.transform(spark.createDataFrame(pd.DataFrame({"text": data})))
+results = model.transform(spark.createDataFrame([['William Henry Gates III (geboren 28 oktober 1955) is een Amerikaanse zakenmagnaat, softwareontwikkelaar, investeerder en filantroop. Hij is vooral bekend als medeoprichter van Microsoft Corporation. Tijdens zijn carrière bij Microsoft bekleedde Gates de functies van voorzitter, chief executive officer (CEO), president en chief software architect, terwijl hij ook de grootste individuele aandeelhouder was tot mei 2014. Hij is een van de bekendste ondernemers en pioniers van de microcomputerrevolutie van de jaren 70 en 80. Gates, geboren en getogen in Seattle, Washington, richtte in 1975 samen met jeugdvriend Paul Allen Microsoft op in Albuquerque, New Mexico; het werd "s werelds grootste personal computer softwarebedrijf. Gates leidde het bedrijf als voorzitter en CEO totdat hij in januari 2000 aftrad als CEO, maar hij bleef voorzitter en werd chief software architect. Eind jaren negentig kreeg Gates kritiek vanwege zijn zakelijke tactieken, die als concurrentiebeperkend werden beschouwd. Deze mening is bevestigd door tal van gerechtelijke uitspraken. In juni 2006 kondigde Gates aan dat hij zou overgaan naar een parttime functie bij Microsoft en fulltime gaan werken bij de Bill & Melinda Gates Foundation, de particuliere liefdadigheidsstichting die hij en zijn vrouw, Melinda Gates, in 2000 hebben opgericht. Hij droeg geleidelijk zijn taken over aan Ray Ozzie en Craig Mundie. Hij trad in februari 2014 af als voorzitter van Microsoft en nam een nieuwe functie aan als technologieadviseur ter ondersteuning van de nieuw aangestelde CEO Satya Nadella.']], ["text"]))
 ```
 
 ```scala
@@ -68,7 +68,7 @@ val data = Array("""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 
 
 """Tylenol 650 mg p.o . q . 4-6h p.r.n . headache or pain ; acyclovir 400 mg p.o . t.i.d .; acyclovir topical t.i.d . to be applied to lesion on corner of mouth ; Peridex 15 ml p.o . b.i.d .; Mycelex 1 troche p.o . t.i.d .; g-csf 404 mcg subcu q.d .; folic acid 1 mg p.o . q.d .; lorazepam 1-2 mg p.o . q . 4-6h p.r.n . nausea and vomiting ; Miracle Cream topical q.d . p.r.n . perianal irritation ; Eucerin Cream topical b.i.d .; Zantac 150 mg p.o . b.i.d .; Restoril 15-30 mg p.o . q . h.s . p.r.n . insomnia ; multivitamin 1 tablet p.o . q.d .; viscous lidocaine 15 ml p.o . q . 3h can be applied to corner of mouth or lips p.r.n . pain control .""")
 
-val result = pipeline.fit(Seq.empty[''].toDS.toDF("text")).transform(data)    
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 ```
 </div>

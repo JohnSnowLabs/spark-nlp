@@ -76,7 +76,8 @@ val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en"
     .setOutputCol("assertion")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion_ml))
-val result = pipeline.fit(Seq.empty["Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain"].toDS.toDF("text")).transform(data)
+val data = Seq("Patient has a headache for the last 2 weeks and appears anxious when she walks fast. No alopecia noted. She denies pain").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>

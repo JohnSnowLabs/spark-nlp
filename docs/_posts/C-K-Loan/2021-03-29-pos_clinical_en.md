@@ -55,7 +55,7 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
     tokenizer          =  new Tokenizer().setInputCols("document").setOutputCol("token")
     pos                =  PerceptronModel.pretrained("pos_clinical","en","clinical/models").setInputCols("token","document")
     pipeline = Pipeline(stages=[document_assembler, tokenizer, pos])
-    df = spark.createDataFrame(pd.DataFrame({'text': ["POS assigns each token in a sentence a grammatical label"]}))
+    df = spark.createDataFrame([['POS assigns each token in a sentence a grammatical label']], ["text"])
     result = pipeline.fit(df).transform(df)
     result.select("pos.result").show(false)
 ```

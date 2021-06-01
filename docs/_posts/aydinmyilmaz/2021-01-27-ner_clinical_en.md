@@ -55,7 +55,7 @@ val clinical_ner = NerDLModel.pretrained("ner_clinical_large", "en", "clinical/m
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings_clinical, clinical_ner, ner_converter))
 
-val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 val results = LightPipeline(model).fullAnnotate(data)
 ```

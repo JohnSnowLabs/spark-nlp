@@ -37,7 +37,7 @@ documentAssembler = DocumentAssembler()\
 tokenizer = RecursiveTokenizer()\
   .setInputCols(["document"])\
   .setOutputCol("token")\
-  .setPrefixes(["\"", "“", "(", "[", "\n", "."])
+  .setPrefixes(["\"", "“", "(", "[", "\n", "."]) \
   .setSuffixes(["\"", "”", ".", ",", "?", ")", "]", "!", ";", ":", "'s", "’s"])
 
 spellModel = ContextSpellCheckerModel\
