@@ -69,7 +69,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["جان برف لیبز سے ہیلو! "]}))
+example = spark.createDataFrame([['جان برف لیبز سے ہیلو! ']], ["text"])
 
 result = pipeline.fit(example).transform(example)
 

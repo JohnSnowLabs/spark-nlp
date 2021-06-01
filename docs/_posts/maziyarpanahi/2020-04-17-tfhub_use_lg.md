@@ -39,7 +39,7 @@ embeddings = UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP", "Many thanks"]})))
+result = pipeline_model.transform(spark.createDataFrame([['I love NLP', 'Many thanks']], ["text"]))
 ```
 
 ```scala

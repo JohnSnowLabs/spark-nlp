@@ -44,7 +44,7 @@ pipeline = Pipeline(stages=[
         word_segmenter
         ])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-example = spark.createDataFrame(pd.DataFrame({'text': ["""清代は湖北省が置かれ、そのまま現代の行政区分になっている。"""]}))
+example = spark.createDataFrame([['清代は湖北省が置かれ、そのまま現代の行政区分になっている。']], ["text"])
 result = model.transform(example)
 ```
 

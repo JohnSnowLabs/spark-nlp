@@ -46,7 +46,7 @@ ner = NerDLModel.pretrained("ner_kmou_glove_840B_300d", "ko") \
       .setOutputCol("ner")
 ...
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
-example = spark.createDataFrame(pd.DataFrame({'text': ["라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미"]}))
+example = spark.createDataFrame([['라이프니츠 의 주도 로 베를린 에 세우 어 지 ㄴ 베를린 과학아카데미']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

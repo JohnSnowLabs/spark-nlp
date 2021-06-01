@@ -34,7 +34,7 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 ```python
 ...
 nlp_pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter])
-result = nlp_pipeline.transform(spark.createDataFrame(pd.DataFrame({'text': ["""Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D."""]})))
+result = nlp_pipeline.transform(spark.createDataFrame([['Patient AIQING, 25 month years-old , born in Beijing, was transfered to the The Johns Hopkins Hospital. Phone number: (541) 754-3010. MSW 100009632582 for his colonic polyps. He wants to know the results from them. He is not taking hydrochlorothiazide and is curious about his blood pressure. He said he has cut his alcohol back to 6 pack once a week. He has cut back his cigarettes to one time per week. P:   Follow up with Dr. Hobbs in 3 months. Gilbert P. Perez, M.D.']], ["text"]))
 
 obfuscation = DeIdentificationModel.pretrained("deidentify_large", "en", "clinical/models") \
       .setInputCols(["sentence", "token", "ner_chunk"]) \

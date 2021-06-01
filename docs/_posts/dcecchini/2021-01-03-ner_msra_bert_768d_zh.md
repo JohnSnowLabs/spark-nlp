@@ -47,7 +47,7 @@ ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh") \
         .setOutputCol("ner")
 ...
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
-example = spark.createDataFrame(pd.DataFrame({'text': ["""马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。"""]}))
+example = spark.createDataFrame([['马云在浙江省杭州市出生，是阿里巴巴集团的主要创始人。']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

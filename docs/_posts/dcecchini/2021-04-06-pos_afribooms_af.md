@@ -66,7 +66,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["Die kodes wat gebruik word , moet duidelik en verstaanbaar vir leerders en ouers wees ."]}))
+example = spark.createDataFrame([['Die kodes wat gebruik word , moet duidelik en verstaanbaar vir leerders en ouers wees .']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

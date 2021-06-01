@@ -40,7 +40,7 @@ word_segmenter = WordSegmenterModel.pretrained('wordseg_best', 'th')\
         .setInputCols("document")\
         .setOutputCol("token")       
 pipeline = Pipeline(stages=[document_assembler, word_segmenter])
-example = spark.createDataFrame(pd.DataFrame({'text': ["จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ"]}))
+example = spark.createDataFrame([['จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ']], ["text"])
 result = pipeline.fit(example ).transform(example)
 ```
 

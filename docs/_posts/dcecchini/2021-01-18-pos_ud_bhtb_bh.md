@@ -56,7 +56,7 @@ pipeline = Pipeline(stages=[
         pos
     ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।"]}))
+example = spark.createDataFrame([['ओहु लोग के मालूम बा कि श्लील होखते भोजपुरी के नींव हिल जाई ।']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

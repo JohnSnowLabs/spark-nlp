@@ -44,7 +44,7 @@ ner = NerDLModel.pretrained("bengaliner_cc_300d", "bn") \
         .setOutputCol("ner")
 ...
 pipeline = Pipeline(stages=[document_assembler, tokenizer, embeddings, ner, ner_converter])
-example = spark.createDataFrame(pd.DataFrame({'text': ["১৯৪৮ সালে ইয়াজউদ্দিন আহম্মেদ মুন্সিগঞ্জ উচ্চ বিদ্যালয় থেকে মেট্রিক পাশ করেন এবং ১৯৫০ সালে মুন্সিগঞ্জ হরগঙ্গা কলেজ থেকে ইন্টারমেডিয়েট পাশ করেন"]}))
+example = spark.createDataFrame([['১৯৪৮ সালে ইয়াজউদ্দিন আহম্মেদ মুন্সিগঞ্জ উচ্চ বিদ্যালয় থেকে মেট্রিক পাশ করেন এবং ১৯৫০ সালে মুন্সিগঞ্জ হরগঙ্গা কলেজ থেকে ইন্টারমেডিয়েট পাশ করেন']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

@@ -39,7 +39,7 @@ embeddings = BertEmbeddings.pretrained("bert_finnish_uncased", "fi") \
       .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["Rakastan NLP: tä"]})))
+result = pipeline_model.transform(spark.createDataFrame([['Rakastan NLP: tä']], ["text"]))
 ```
 
 ```scala

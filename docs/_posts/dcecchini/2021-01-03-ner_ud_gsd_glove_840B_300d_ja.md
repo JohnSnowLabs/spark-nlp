@@ -47,7 +47,7 @@ ner = NerDLModel.pretrained("ner_ud_gsd_glove_840B_300d", "ja") \
         .setOutputCol("ner")
 ...
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, embeddings, ner, ner_converter])
-example = spark.createDataFrame(pd.DataFrame({'text': ["""5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。"""]}))
+example = spark.createDataFrame([['5月13日に放送されるフジテレビ系「僕らの音楽」にて、福原美穂とAIという豪華共演が決定した。']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

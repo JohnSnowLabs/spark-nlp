@@ -43,7 +43,7 @@ sentimentdl = SentimentDLModel.pretrained("sentiment_jager_use", "th")\
     .setOutputCol("sentiment")
 pipeline = Pipeline(stages = [document_assembler, use, sentimentdl])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555"]}))
+example = spark.createDataFrame([['เเพ้ตอนnctโผล่มาตลอดเลยค่ะเเอด5555555']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 

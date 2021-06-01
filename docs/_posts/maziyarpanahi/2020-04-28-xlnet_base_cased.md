@@ -35,7 +35,7 @@ embeddings = XlnetEmbeddings.pretrained("xlnet_base_cased", "en") \
       .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP"]})))
+result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
 ```
 
 ```scala

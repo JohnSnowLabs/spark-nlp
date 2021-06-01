@@ -41,7 +41,7 @@ word_segmenter = WordSegmenterModel.pretrained('wordseg_msr', 'zh')\
         .setOutputCol("token")    
 pipeline = Pipeline(stages=[document_assembler, word_segmenter])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-example = spark.createDataFrame(pd.DataFrame({'text': ["""然而，这样的处理也衍生了一些问题。"""]}))
+example = spark.createDataFrame([['然而，这样的处理也衍生了一些问题。']], ["text"])
 result = model.transform(example)
 ```
 ```scala

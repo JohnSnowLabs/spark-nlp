@@ -64,7 +64,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["' Medicinsk bildtolk ' också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord ."]}))
+example = spark.createDataFrame([["' Medicinsk bildtolk ' också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord ."]], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

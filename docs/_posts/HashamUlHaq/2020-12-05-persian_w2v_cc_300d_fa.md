@@ -40,7 +40,7 @@ embeddings = WordEmbeddingsModel.pretrained("persian_w2v_cc_300d", "fa") \
         .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["من یادگیری ماشین را دوست دارم"]})))
+result = pipeline_model.transform(spark.createDataFrame([['من یادگیری ماشین را دوست دارم']], ["text"]))
 ```
 
 ```scala

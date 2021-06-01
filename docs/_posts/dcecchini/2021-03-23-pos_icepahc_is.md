@@ -65,7 +65,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["Númerið blikkaði á skjánum eins og einmana vekjaraklukka um nótt á níundu hæð í gamalli blokk í austurbæ Reykjavíkur ."]}))
+example = spark.createDataFrame([['Númerið blikkaði á skjánum eins og einmana vekjaraklukka um nótt á níundu hæð í gamalli blokk í austurbæ Reykjavíkur .']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala

@@ -49,7 +49,7 @@ resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_HPO", "en", "
 
 pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokens, embeddings, ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-model = LightPipeline(pipeline.fit(spark.createDataFrame(pd.DataFrame({'text':['']}))))
+model = LightPipeline(pipeline.fit(spark.createDataFrame([['']], ["text"])))
 
 text="""These disorders include cancer, bipolar disorder, schizophrenia, autism, Cri-du-chat syndrome, myopia, cortical cataract-linked Alzheimer's disease, and infectious diseases"""
 

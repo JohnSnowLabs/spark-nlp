@@ -35,7 +35,7 @@ embeddings = BertEmbeddings.pretrained("sent_bert_multi_cased", "xx") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I hate cancer", "Antibiotics aren't painkiller"]})))
+result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Antibiotics aren't painkiller"]], ["text"]))
 ```
 
 ```scala
