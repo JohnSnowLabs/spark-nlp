@@ -445,7 +445,7 @@
 
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, word_segmenter, pos])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["""然而，这样的处理也衍生了一些问题。"""]}))
+example = spark.createDataFrame([['然而，这样的处理也衍生了一些问题。']], ["</span><span class="n">text</span><span class="s">"])
 
 result = pipeline.fit(example).transform(example)
 
@@ -468,7 +468,8 @@ result = pipeline.fit(example).transform(example)
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">word_segmenter</span><span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">然而</span><span class="err">，</span><span class="kt">这样的处理也衍生了一些问题</span><span class="err">。"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"然而，这样的处理也衍生了一些问题。"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>

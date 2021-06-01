@@ -527,7 +527,7 @@
         <span class="n">posTagger</span>
     <span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።"</span><span class="p">]}))</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -549,7 +549,8 @@
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">ልጅ</span> <span class="kt">ኡ</span> <span class="kt">ን</span> <span class="kt">ሥራ</span> <span class="kt">ው</span> <span class="kt">ን</span> <span class="kt">አስጨርስ</span> <span class="kt">ኧው</span> <span class="kt">ኣል</span> <span class="kt">ኧሁ</span> <span class="err">።"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"ልጅ ኡ ን ሥራ ው ን አስጨርስ ኧው ኣል ኧሁ ።"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>

@@ -435,7 +435,7 @@
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">lemmatizer</span><span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"Tất cả đều hồi hộp ."</span><span class="p">]]}))</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'Tất cả đều hồi hộp .'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
@@ -452,7 +452,8 @@
         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">lemmatizer</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">Tất</span> <span class="kt">cả</span> <span class="kt">đều</span> <span class="kt">hồi</span> <span class="kt">hộp</span> <span class="kt">.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Tất cả đều hồi hộp ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 </code></pre></div>  </div>
 

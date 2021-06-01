@@ -457,7 +457,7 @@
   <span class="n">posTagger</span>
 <span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">"Zarobki wszystkich nauczycieli będą rosły co rok ."</span><span class="p">]}))</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'Zarobki wszystkich nauczycieli będą rosły co rok .'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
@@ -474,7 +474,8 @@
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">pos</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">Zarobki</span> <span class="kt">wszystkich</span> <span class="kt">nauczycieli</span> <span class="kt">będą</span> <span class="kt">rosły</span> <span class="kt">co</span> <span class="kt">rok</span> <span class="kt">.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Zarobki wszystkich nauczycieli będą rosły co rok ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
 </code></pre></div>  </div>
 
