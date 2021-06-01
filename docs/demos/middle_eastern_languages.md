@@ -77,9 +77,9 @@ data:
         - title: Turkish News Classifier
           id: turkish_news_classifier
           image: 
-              src: /assets/images/Flag_of_Turkey.png
+              src: /assets/images/Healthcare_TurkishNewsClassifier.svg
           image2: 
-              src: /assets/images/Flag_of_Turkey.png
+              src: /assets/images/Healthcare_TurkishNewsClassifier_f.svg
           excerpt: Classify Turkish news text using our pre-trained model
           actions:
           - text: Live Demo
