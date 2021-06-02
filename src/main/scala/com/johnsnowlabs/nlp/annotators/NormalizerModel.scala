@@ -7,12 +7,9 @@ import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
 /**
-  * Annotator that cleans out tokens. Requires stems, hence tokens.
+  * Instantiated Model of the [[Normalizer]]. For usage and examples, please see the documentation of that class.
   *
-  * Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala]] for examples on how to use the API
-  *
+  * @see [[Normalizer]] for the base class
   * @param uid required internal uid for saving annotator
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -114,7 +111,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   /** Set the minimum allowed length for each token
     *
-    * @group Parameters
+    * @group param
     */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
@@ -137,7 +134,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
   /** Set the maximum allowed length for each token
     *
-    * @group Parameters
+    * @group param
     */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 

@@ -11,8 +11,45 @@ import scala.language.postfixOps
   */
 
 /**
-  * Hard stemming of words for cut-of into standard word references.
-  * See [[ https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StemmerTestSpec.scala ]] for examples of how to use this API
+  * Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.{Stemmer, Tokenizer}
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val stemmer = new Stemmer()
+  *   .setInputCols("token")
+  *   .setOutputCol("stem")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   stemmer
+  * ))
+  *
+  * val data = Seq("Peter Pipers employees are picking pecks of pickled peppers.")
+  *   .toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("stem.result").show(truncate = false)
+  * +-------------------------------------------------------------+
+  * |result                                                       |
+  * +-------------------------------------------------------------+
+  * |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
+  * +-------------------------------------------------------------+
+  * }}}
   * @param uid internal uid element for storing annotator into disk
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -32,31 +69,34 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with Has
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /** this is the language of the text. default is English
-    *
+  /**
+    * Language of the text (Default: `"english"`)
     * @group param
     **/
-  val language: Param[String] = new Param(this, "language", "this is the language of the text")
+  val language: Param[String] = new Param(this, "language", "Language of the text")
   setDefault(language, "english")
 
-  /** Output annotator type : TOKEN
-    *
+  /**
+    * Output annotator type : TOKEN
     * @group anno
     **/
   override val outputAnnotatorType: AnnotatorType = TOKEN
-  /** Input annotator type : TOKEN
-    *
+  /**
+    * Input annotator type : TOKEN
     * @group anno
     **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  /** this is the language of the text. default is English
-    *
-    * @group param
+  /**
+    * Language of the text (Default: `"english"`)
+    * @group setParam
     **/
   def setLanguage(value: String): Stemmer = set(language, value)
 
-  /** Language for text   */
+  /**
+    * Language of the text (Default: `"english"`)
+    * @group getParam
+    */
   def getLanguage: String = $(language)
 
   def this() = this(Identifiable.randomUID("STEMMER"))
@@ -171,7 +211,6 @@ object EnglishStemmer {
     * Pattern that is matched against the word.
     * Usually, the end of the word is compared to suffix,
     * and the beginning is checked to satisfy a condition.
-
     */
   private case class Pattern(condition: Condition, suffix: String)
 

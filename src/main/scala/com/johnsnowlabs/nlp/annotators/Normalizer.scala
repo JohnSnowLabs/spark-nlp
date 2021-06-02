@@ -13,8 +13,46 @@ import org.apache.spark.sql.Dataset
   * Annotator that cleans out tokens. Requires stems, hence tokens.
   * Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala]] for examples on how to use the API
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
   *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.{Normalizer, Tokenizer}
+  * import org.apache.spark.ml.Pipeline
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val normalizer = new Normalizer()
+  *   .setInputCols("token")
+  *   .setOutputCol("normalized")
+  *   .setLowercase(true)
+  *   .setCleanupPatterns(Array("""[^\w\d\s]""")) // remove punctuations (keep alphanumeric chars)
+  * // if we don't set CleanupPatterns, it will only keep alphabet letters ([^A-Za-z])
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   normalizer
+  * ))
+  *
+  * val data = Seq("John and Peter are brothers. However they don't support each other that much.")
+  *   .toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("normalized.result").show(truncate = false)
+  * +----------------------------------------------------------------------------------------+
+  * |result                                                                                  |
+  * +----------------------------------------------------------------------------------------+
+  * |[john, and, peter, are, brothers, however, they, dont, support, each, other, that, much]|
+  * +----------------------------------------------------------------------------------------+
+  * }}}
   * @param uid required internal uid for saving annotator
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -47,52 +85,50 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     */
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN) // Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
 
-  /** normalization regex patterns which match will be removed from token
+  /** Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
     *
     * @group param
     */
-  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from token")
+  val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns", "Normalization regex patterns which match will be removed from token")
 
   /**
-    *
-    *
+    * Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
     * @group getParam
     */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
   /**
-    *
-    *
+    * Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
     * @group setParam
     */
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /** whether to convert strings to lowercase
+  /** Whether to convert strings to lowercase (Default: `false`)
     *
     * @group param
     */
-  val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
+  val lowercase = new BooleanParam(this, "lowercase", "Whether to convert strings to lowercase (Default: `false`)")
 
   /**
-    *
+    * Whether to convert strings to lowercase (Default: `false`)`
     * @group getParam
     */
   def getLowercase: Boolean = $(lowercase)
 
   /**
-    *
+    * Whether to convert strings to lowercase (Default: `false`)
     * @group setParam
     */
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /** delimited file with list of custom words to be manually corrected
+  /** Delimited file with list of custom words to be manually corrected
     *
     * @group param
     */
-  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "delimited file with list of custom words to be manually corrected")
+  val slangDictionary = new ExternalResourceParam(this, "slangDictionary", "Delimited file with list of custom words to be manually corrected")
 
   /**
-    *
+    * Delimited file with list of custom words to be manually corrected
     * @group setParam
     */
   def setSlangDictionary(value: ExternalResource): this.type = {
@@ -101,7 +137,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   }
 
   /**
-    *
+    * Delimited file with list of custom words to be manually corrected
     * @group setParam
     */
   def setSlangDictionary(path: String,
@@ -110,32 +146,32 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
                          options: Map[String, String] = Map("format" -> "text")): this.type =
     set(slangDictionary, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
-  /** whether or not to be case sensitive to match slangs. Defaults to false.
+  /** Whether or not to be case sensitive to match slangs (Default: `false`)
     *
     * @group param
     */
-  val slangMatchCase = new BooleanParam(this, "slangMatchCase", "whether or not to be case sensitive to match slangs. Defaults to false.")
+  val slangMatchCase = new BooleanParam(this, "slangMatchCase", "Whether or not to be case sensitive to match slangs. Defaults to false.")
 
   /**
-    *
+    * Whether or not to be case sensitive to match slangs (Default: `false`)
     * @group setParam
     */
   def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
 
   /**
-    *
+    * Whether or not to be case sensitive to match slangs (Default: `false`)
     * @group getParam
     */
   def getSlangMatchCase: Boolean = $(slangMatchCase)
 
-  /** Set the minimum allowed length for each token
+  /** Set the minimum allowed length for each token (Default: `0`)
     *
-    * @group Parameters
+    * @group param
     */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
   /**
-    *
+    * Set the minimum allowed length for each token (Default: `0`)
     * @group setParam
     */
   def setMinLength(value: Int): this.type = {
@@ -145,7 +181,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   }
 
   /**
-    *
+    * Set the minimum allowed length for each token (Default: `0`)
     * @group getParam
     */
   def getMinLength: Int = $(minLength)
@@ -153,12 +189,12 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
   /** Set the maximum allowed length for each token
     *
-    * @group Parameters
+    * @group param
     */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 
   /**
-    *
+    * Set the maximum allowed length for each token
     * @group setParam
     */
   def setMaxLength(value: Int): this.type = {
@@ -170,7 +206,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   }
 
   /**
-    *
+    * Set the maximum allowed length for each token
     * @group getParam
     */
   def getMaxLength: Int = $(maxLength)
