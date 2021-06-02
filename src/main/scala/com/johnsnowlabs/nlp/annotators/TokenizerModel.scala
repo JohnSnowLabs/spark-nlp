@@ -12,7 +12,7 @@ import org.apache.spark.ml.util.Identifiable
   *
   * This class represents an already fitted Tokenizer model.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for examples examples of usage.
+  * See the main class [[Tokenizer]] for more examples of usage.
   *
   * @param uid required uid for storing annotator to disk
   * @groupname anno Annotator types

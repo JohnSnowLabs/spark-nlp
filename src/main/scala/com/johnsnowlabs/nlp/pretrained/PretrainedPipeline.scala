@@ -5,10 +5,41 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.DataFrame
 
 /**
-  * TODO
-  * @param downloadName
-  * @param lang
-  * @param source
+  * Represents a fully constructed and trained Spark NLP pipeline, ready to be used. This way, a whole pipeline can be
+  * defined in 1 line. Additionally, the [[LightPipeline]] version of the model can be retrieved with member
+  * `lightModel`.
+  *
+  * For more extended examples see the [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines page]] and our
+  * [[https://github.com/JohnSnowLabs/spark-nlp-models Github Model Repository]] for available pipeline models.
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+  * import com.johnsnowlabs.nlp.SparkNLP
+  * val testData = spark.createDataFrame(Seq(
+  * (1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
+  * (2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
+  * )).toDF("id", "text")
+  *
+  * val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
+  *
+  * val annotation = pipeline.transform(testData)
+  *
+  * annotation.select("entities.result").show(false)
+  *
+  * /*
+  * +----------------------------------+
+  * |result                            |
+  * +----------------------------------+
+  * |[Google, TensorFlow]              |
+  * |[Donald John Trump, United States]|
+  * +----------------------------------+
+  * */
+  * }}}
+  *
+  * @param downloadName Name of the Pipeline Model
+  * @param lang Language of the defined pipeline (Default: "en")
+  * @param source Source where to get the Pipeline Model
   * @param parseEmbeddingsVectors
   * @param diskLocation
   */

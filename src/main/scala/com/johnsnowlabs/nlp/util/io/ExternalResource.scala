@@ -4,7 +4,11 @@ import com.johnsnowlabs.nlp.annotators.param.WritableAnnotatorComponent
 import com.johnsnowlabs.nlp.serialization.SerializedExternalResource
 
 /** This represents an external source which contains information into
-  * how an external resource shall be read by Spark-NLP's Resource Helper */
+  * how an external resource shall be read by Spark-NLP's Resource Helper
+  * @param path Path to the resource
+  * @param readAs How to interpret the resource. Possible values are `ReadAs.SPARK, ReadAs.TEXT, ReadAs.BINARY`
+  * @param options Options for Spark. Option `format` needs to be set if `readAs` is set to `ReadAs.SPARK`
+  * */
 case class ExternalResource(
                              path: String,
                              readAs: ReadAs.Format,

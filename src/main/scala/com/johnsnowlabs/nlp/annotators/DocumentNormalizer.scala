@@ -17,8 +17,55 @@ import scala.xml.XML
   * Can apply not wanted character removal with a specific policy.
   * Can apply lower case normalization.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentNormalizerTestSpec.scala DocumentNormalizer test class]] for examples examples of usage.
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
   *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.DocumentNormalizer
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val cleanUpPatterns = Array("<[^>]*>")
+  *
+  * val documentNormalizer = new DocumentNormalizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("normalizedDocument")
+  *   .setAction("clean")
+  *   .setPatterns(cleanUpPatterns)
+  *   .setReplacement(" ")
+  *   .setPolicy("pretty_all")
+  *   .setLowercase(true)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   documentNormalizer
+  * ))
+  *
+  * val text =
+  *   """
+  * <div id="theworldsgreatest" class='my-right my-hide-small my-wide toptext' style="font-family:'Segoe UI',Arial,sans-serif">
+  *   THE WORLD'S LARGEST WEB DEVELOPER SITE
+  *   <h1 style="font-size:300%;">THE WORLD'S LARGEST WEB DEVELOPER SITE</h1>
+  *   <p style="font-size:160%;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum..</p>
+  * </div>
+  *
+  * </div>"""
+  * val data = Seq(text).toDF("text")
+  * val pipelineModel = pipeline.fit(data)
+  *
+  * val result = pipelineModel.transform(data)
+  * result.selectExpr("normalizedDocument.result").show(truncate=false)
+  * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+  * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the 1960s with the release of letraset sheets containing lorem ipsum passages, and more recently with desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
+  * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * }}}
   * @param uid required uid for storing annotator to disk
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -57,41 +104,41 @@ class DocumentNormalizer(override val uid: String)
 
   def this() = this(Identifiable.randomUID("DOCUMENT_NORMALIZER"))
 
-  /** action to perform applying regex patterns on text
+  /** Action to perform applying regex patterns on text
     *
     * @group param
     **/
-  val action: Param[String] = new Param(this, "action", "action to perform applying regex patterns on text")
+  val action: Param[String] = new Param(this, "action", "Action to perform applying regex patterns on text")
 
-  /** normalization regex patterns which match will be removed from document
-    *
-    * @group Parameters
-    **/
-  val patterns: StringArrayParam = new StringArrayParam(this, "patterns", "normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
-
-  /** replacement string to apply when regexes match
+  /** Normalization regex patterns which match will be removed from document (Default: `Array("<[^>]*>")`)
     *
     * @group param
     **/
-  val replacement: Param[String] = new Param(this, "replacement", "replacement string to apply when regexes match")
+  val patterns: StringArrayParam = new StringArrayParam(this, "patterns", "Normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
 
-  /** whether to convert strings to lowercase
+  /** Replacement string to apply when regexes match (Default: `" "`)
     *
     * @group param
     **/
-  val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
+  val replacement: Param[String] = new Param(this, "replacement", "Replacement string to apply when regexes match")
 
-  /** removalPolicy to remove patterns from text with a given policy
+  /** Whether to convert strings to lowercase (Default: `false`)
     *
     * @group param
     **/
-  val policy: Param[String] = new Param(this, "policy", "removalPolicy to remove pattern from text")
+  val lowercase = new BooleanParam(this, "lowercase", "Whether to convert strings to lowercase (Default: `false`)")
 
-  /** file encoding to apply on normalized documents
+  /** RemovalPolicy to remove patterns from text with a given policy (Default: `"pretty_all"`).
+    * Possible values are `"all", "pretty_all", "first", "pretty_first"`
+    * @group param
+    **/
+  val policy: Param[String] = new Param(this, "policy", "RemovalPolicy to remove pattern from text")
+
+  /** File encoding to apply on normalized documents (Default: `"disable"`)
     *
     * @group param
     **/
-  val encoding: Param[String] = new Param(this, name = "encoding", "file encoding to apply on normalized documents")
+  val encoding: Param[String] = new Param(this, name = "encoding", "File encoding to apply on normalized documents (Default: `disable`)")
 
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
   setDefault(
@@ -104,7 +151,7 @@ class DocumentNormalizer(override val uid: String)
     encoding -> "disable"
   )
 
-  /** Action to perform on text. Default "clean".
+  /** Action to perform on text. (Default `"clean"`).
     *
     * @group getParam
     **/
@@ -116,62 +163,62 @@ class DocumentNormalizer(override val uid: String)
     **/
   def getPatterns: Array[String] = $(patterns)
 
-  /** Replacement string to apply when regexes match
+  /** Replacement string to apply when regexes match (Default: `" "`)
     *
     * @group getParam
     **/
   def getReplacement: String = $(replacement)
 
-  /** Lowercase tokens, default false
+  /** Lowercase tokens (Default: `false`)
     *
     * @group getParam
     **/
   def getLowercase: Boolean = $(lowercase)
 
-  /** Policy to remove patterns from text. Defaults "pretty_all".
+  /** Policy to remove patterns from text (Default: `"pretty_all"`)
     *
     * @group getParam
     **/
   def getPolicy: String = $(policy)
 
-  /** Encoding to apply to normalized documents.
+  /** Encoding to apply to normalized documents (Default: `"disable"`)
     *
     * @group getParam
     **/
   def getEncoding: String = $(encoding)
 
-  /** Action to perform on text. Default "clean".
+  /** Action to perform on text. (Default `"clean"`).
     *
     * @group getParam
     **/
   def setAction(value: String): this.type = set(action, value)
 
-  /** Regular expressions list for normalization.
+  /** Regular expressions list for normalization (Default: `Array("<[^>]*>")`)
     *
     * @group setParam
     **/
   def setPatterns(value: Array[String]): this.type = set(patterns, value)
 
-  /** Replacement string to apply when regexes match
+  /** Replacement string to apply when regexes match (Default: `" "`)
     *
     * @group getParam
     **/
   def setReplacement(value: String): this.type = set(replacement, value)
 
-  /** Lower case tokens, default false
+  /** Lower case tokens default false
     *
     * @group setParam
     **/
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /** Removal policy to apply.
+  /** Removal policy to apply (Default: `"pretty_all"`).
     * Valid policy values are: "all", "pretty_all", "first", "pretty_first"
     *
     * @group setParam
     **/
   def setPolicy(value: String): this.type = set(policy, value)
 
-  /** Encoding to apply. Default is UTF-8.
+  /** Encoding to apply. Default is `"UTF-8"`.
     * Valid encoding are values are: UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE
     *
     * @group setParam
