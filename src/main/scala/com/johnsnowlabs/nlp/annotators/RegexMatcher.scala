@@ -11,24 +11,56 @@ import org.apache.spark.sql.Dataset
 
 
 /**
-  * Uses a reference file to match a set of regular expressions and put them inside a provided key. File must be comma separated.
+  * Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
   *
-  * Matches regular expressions and maps them to specified values optionally provided
+  * A dictionary of predefined regular expressions must be provided with `setRules`.
+  * The dictionary can be set in either in the form of a delimited text file or directly as an
+  * [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
   *
-  * Rules are provided from external source file
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala RegexMatcherTestSpec]].
+  *
+  * ==Example==
+  * In this example, the `rules.txt` has the form of
+  * {{{
+  * the\s\w+, followed by 'the'
+  * ceremonies, ceremony
+  * }}}
+  * where each regex is separated by the identifier by `","`
+  * {{{
+  * import ResourceHelper.spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.SentenceDetector
+  * import com.johnsnowlabs.nlp.annotators.RegexMatcher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+  *
+  * val regexMatcher = new RegexMatcher()
+  *   .setRules("src/test/resources/regex-matcher/rules.txt",  ",")
+  *   .setInputCols(Array("sentence"))
+  *   .setOutputCol("regex")
+  *   .setStrategy("MATCH_ALL")
+  *
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, sentence, regexMatcher))
+  *
+  * val data = Seq(
+  *   "My first sentence with the first rule. This is my second sentence with ceremonies rule."
+  * ).toDF("text")
+  * val results = pipeline.fit(data).transform(data)
+  *
+  * results.selectExpr("explode(regex) as result").show(false)
+  * +--------------------------------------------------------------------------------------------+
+  * |result                                                                                      |
+  * +--------------------------------------------------------------------------------------------+
+  * |[chunk, 23, 31, the first, [identifier -> followed by 'the', sentence -> 0, chunk -> 0], []]|
+  * |[chunk, 71, 80, ceremonies, [identifier -> ceremony, sentence -> 1, chunk -> 0], []]        |
+  * +--------------------------------------------------------------------------------------------+
+  * }}}
   *
   * @param uid internal element required for storing annotator to disk
-  * @@ rules: Set of rules to be mattched
-  * @@ strategy:
-  *
-  *    -- MATCH_ALL brings one-to-many results
-  *
-  *    -- MATCH_FIRST catches only first match
-  *
-  *    -- MATCH_COMPLETE returns only if match is entire target.
-  *
-  *
-  *    See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala]] for example on how to use this API.
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -36,11 +68,11 @@ import org.apache.spark.sql.Dataset
   * @groupname setParam Parameter setters
   * @groupname getParam Parameter getters
   * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
+  * @groupprio anno  1
+  * @groupprio param  2
+  * @groupprio setParam  3
+  * @groupprio getParam  4
+  * @groupprio Ungrouped 5
   * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatcherModel] {
@@ -59,16 +91,20 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  /** external resource to rules, needs 'delimiter' in options
-    *
+  /**
+    * external resource to rules, needs 'delimiter' in options
     * @group param
     **/
   val rules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
-  /** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE
-    *
+  /**
+    * Strategy for which to match the expressions (Default: `"MATCH_ALL"`).
+    * Possible values are:
+    *  - MATCH_ALL brings one-to-many results
+    *  - MATCH_FIRST catches only first match
+    *  - MATCH_COMPLETE returns only if match is entire target.
     * @group param
     **/
-  val strategy: Param[String] = new Param(this, "strategy", "MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE")
+  val strategy: Param[String] = new Param(this, "strategy", "Strategy for which to match the expressions (MATCH_ALL, MATCH_FIRST, MATCH_COMPLETE")
 
   setDefault(
     inputCols -> Array(DOCUMENT),
@@ -77,8 +113,21 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
-  /** Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
-    *
+  /**
+    * External dictionary already in the form of [[ExternalResource]], for which the Map member `options`
+    * has `"delimiter"` defined.
+    * ==Example==
+    * {{{
+    * val regexMatcher = new RegexMatcher()
+    *   .setRules(ExternalResource(
+    *     "src/test/resources/regex-matcher/rules.txt",
+    *     ReadAs.TEXT,
+    *     Map("delimiter" -> ",")
+    *   ))
+    *   .setInputCols("sentence")
+    *   .setOutputCol("regex")
+    *   .setStrategy(strategy)
+    * }}}
     * @group setParam
     **/
   def setRules(value: ExternalResource): this.type = {
@@ -87,10 +136,11 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
   }
 
 
-  /** Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
-    *
+  /**
+    * External dictionary to be used by the lemmatizer, which needs `delimiter` set for parsing
+    * the resource
     * @group setParam
-    **/
+    * */
   def setRules(path: String,
                delimiter: String,
                readAs: ReadAs.Format = ReadAs.TEXT,
@@ -98,8 +148,8 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     set(rules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
 
-  /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
-    *
+  /**
+    * Strategy for which to match the expressions (Default: `"MATCH_ALL"`)
     * @group setParam
     **/
   def setStrategy(value: String): this.type = {
@@ -107,8 +157,8 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
     set(strategy, value.toUpperCase)
   }
 
-  /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
-    *
+  /**
+    * Strategy for which to match the expressions (Default: `"MATCH_ALL"`)
     * @group getParam
     **/
   def getStrategy: String = $(strategy).toString

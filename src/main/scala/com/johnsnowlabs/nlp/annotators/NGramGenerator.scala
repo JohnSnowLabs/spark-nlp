@@ -15,8 +15,54 @@ import org.apache.spark.ml.util.Identifiable
   * When the input array length is less than n (number of elements per n-gram), no n-grams are
   * returned.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala]] for reference on how to use this API.
+  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala NGramGeneratorTestSpec]].
   *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.SentenceDetector
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.NGramGenerator
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols(Array("sentence"))
+  *   .setOutputCol("token")
+  *
+  * val nGrams = new NGramGenerator()
+  *   .setInputCols("token")
+  *   .setOutputCol("ngrams")
+  *   .setN(2)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *     documentAssembler,
+  *     sentence,
+  *     tokenizer,
+  *     nGrams
+  *   ))
+  *
+  * val data = Seq("This is my sentence.").toDF("text")
+  * val results = pipeline.fit(data).transform(data)
+  *
+  * results.selectExpr("explode(ngrams) as result").show(false)
+  * +------------------------------------------------------------+
+  * |result                                                      |
+  * +------------------------------------------------------------+
+  * |[chunk, 0, 6, This is, [sentence -> 0, chunk -> 0], []]     |
+  * |[chunk, 5, 9, is my, [sentence -> 0, chunk -> 1], []]       |
+  * |[chunk, 8, 18, my sentence, [sentence -> 0, chunk -> 2], []]|
+  * |[chunk, 11, 19, sentence ., [sentence -> 0, chunk -> 3], []]|
+  * +------------------------------------------------------------+
+  * }}}
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -49,38 +95,37 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
   def this() = this(Identifiable.randomUID("NGRAM_GENERATOR"))
 
   /**
-    * Minimum n-gram length, greater than or equal to 1.
-    * Default: 2, bigram features
+    * Minimum n-gram length, greater than or equal to 1 (Default: `2`, bigram features)
     *
     * @group param
     */
-  val n: IntParam = new IntParam(this, "n", "number elements per n-gram (>=1)",
+  val n: IntParam = new IntParam(this, "n", "Number elements per n-gram (>=1)",
     ParamValidators.gtEq(1))
 
-  /** whether to calculate just the actual n-grams or all n-grams from 1 through n
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n (Default: `false`)
     *
     * @group param
     **/
-  val enableCumulative: BooleanParam = new BooleanParam(this, "enableCumulative", "whether to calculate just the actual n-grams or all n-grams from 1 through n")
-  /** Glue character used to join the tokens
+  val enableCumulative: BooleanParam = new BooleanParam(this, "enableCumulative", "Whether to calculate just the actual n-grams or all n-grams from 1 through n")
+  /** Glue character used to join the tokens (Default: `" "`)
     *
     * @group param
     **/
   val delimiter: Param[String] = new Param[String](this, "delimiter", "Glue character used to join the tokens")
 
-  /** Number elements per n-gram (>=1)
+  /** Number elements per n-gram (>=1) (Default: `2`)
     *
     * @group setParam
     **/
   def setN(value: Int): this.type = set(n, value)
 
-  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n (Default: `false`)
     *
     * @group setParam
     **/
   def setEnableCumulative(value: Boolean): this.type = set(enableCumulative, value)
 
-  /** Glue character used to join the tokens
+  /** Glue character used to join the tokens (Default: `" "`)
     *
     * @group setParam
     **/
@@ -89,19 +134,19 @@ class NGramGenerator (override val uid: String) extends AnnotatorModel[NGramGene
     set(delimiter, value)
   }
 
-  /** Number elements per n-gram (>=1)
+  /** Number elements per n-gram (>=1) (Default: `2`)
     *
     * @group getParam
     **/
   def getN: Int = $(n)
 
-  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n
+  /** Whether to calculate just the actual n-grams or all n-grams from 1 through n (Default: `false`)
     *
     * @group getParam
     **/
   def getEnableCumulative: Boolean = $(enableCumulative)
 
-  /** Glue character used to join the tokens
+  /** Glue character used to join the tokens (Default: `" "`)
     *
     * @group getParam
     **/
