@@ -171,19 +171,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
-        - title: Detect Clinical Entities in Radiology Reports
-          id: detect_clinical_entities_in_radiology_reports
-          image: 
-              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports.svg
-          image2: 
-              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports_f.svg
-          excerpt: Automatically identify entities such as body parts, imaging tests, imaging results and diseases using a pre-trained Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
-          - text: Colab Netbook
-            type: blue_btn
-            url:       
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb     
 ---
