@@ -15,7 +15,7 @@ import scala.collection.mutable
 /**
   * Class to find lemmas out of words with the objective of returning a base dictionary word.
   * Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with `setDictionary`.
-  * The dictionary can be set in either the form of a delimited text file or directly as an
+  * The dictionary can be set in either in the form of a delimited text file or directly as an
   * [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
   * Pretrained models can be loaded with [[LemmatizerModel LemmatizerModel.pretrained]].
   *
@@ -133,8 +133,20 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     **/
   def getDictionary: ExternalResource = $(dictionary)
 
-  /** External dictionary already in the form of [[ExternalResource]], for which the `options`
-    * 'keyDelimiter' and 'valueDelimiter' are already set
+  /** External dictionary already in the form of [[ExternalResource]], for which the Map member `options`
+    * has entries defined for `"keyDelimiter"` and `"valueDelimiter"`.
+    * ==Example==
+    * {{{
+    * val resource = ExternalResource(
+    *   "src/test/resources/regex-matcher/rules.txt",
+    *   ReadAs.TEXT,
+    *   Map("keyDelimiter" -> "->", "valueDelimiter" -> "\t")
+    * )
+    * val lemmatizer = new Lemmatizer()
+    *   .setInputCols(Array("token"))
+    *   .setOutputCol("lemma")
+    *   .setDictionary(resource)
+    * }}}
     * @group setParam
     * */
   def setDictionary(value: ExternalResource): this.type = {
@@ -143,7 +155,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
     set(dictionary, value)
   }
 
-  /** External dictionary to be used by the lemmatizer, which needs 'keyDelimiter' and 'valueDelimiter' for parsing
+  /** External dictionary to be used by the lemmatizer, which needs `keyDelimiter` and `valueDelimiter` for parsing
     * the resource
     * @group setParam
     **/
