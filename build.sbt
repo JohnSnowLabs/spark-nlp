@@ -84,7 +84,8 @@ developers in ThisBuild:= List(
   Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan")),
   Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq")),
   Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov")),
-  Developer(id="alinapetukhova", name="Alina Petukhova", email="alina@johnsnowlabs.com", url=url("https://github.com/alinapetukhova"))
+  Developer(id="alinapetukhova", name="Alina Petukhova", email="alina@johnsnowlabs.com", url=url("https://github.com/alinapetukhova")),
+  Developer(id="hatrungduc", name="Devin Ha", email="trung@johnsnowlabs.com", url=url("https://github.com/hatrungduc"))
 )
 
 lazy val analyticsDependencies = Seq(
