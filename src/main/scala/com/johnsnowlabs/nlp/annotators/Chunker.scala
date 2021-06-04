@@ -36,6 +36,7 @@ import scala.util.matching.Regex
   * import com.johnsnowlabs.nlp.annotators.{Chunker, Tokenizer}
   * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
   * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+  * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
   *   .setInputCol("text")
