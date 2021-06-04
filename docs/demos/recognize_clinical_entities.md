@@ -157,19 +157,19 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_RISK_FACTORS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb
-        - title: Identify diagnosis and symptoms assertion status
-          id: identify_diagnosis_and_symptoms_assertion_status
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb        
+        - title: Detect Clinical Entities in Radiology Reports
+          id: detect_clinical_entities_in_radiology_reports
           image: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports.svg
           image2: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
-          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+              src: /assets/images/Detect_Clinical_Entities_in_Radiology_Reports_f.svg
+          excerpt: Automatically identify entities such as body parts, imaging tests, imaging results and diseases using a pre-trained Spark NLP model.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb     
+            url:  
 ---
