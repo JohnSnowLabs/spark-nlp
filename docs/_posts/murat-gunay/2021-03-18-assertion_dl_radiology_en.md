@@ -30,7 +30,8 @@ Assign assertion status to clinical entities extracted by Radiology NER based on
 
 ## How to use
 
-Extract radiology entities using the radiology NER model in the pipeline and assign assertion status for them with `assertion_dl_radiology` pretrained model.
+Extract radiology entities using the radiology NER model in the pipeline and assign assertion status for them with `assertion_dl_radiology` pretrained model. Note: Example for demo purpose taken from: https://www.mtsamples.com/site/pages/sample.asp?Type=95-Radiology&Sample=1391-Chest%20PA%20&%20Lateral
+
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
@@ -40,7 +41,7 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "c
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
 
-radiology_ner = NerDLModel.pretrained("ner_radiology", "en", "clinical/models") \
+radiology_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 
@@ -55,10 +56,13 @@ radiology_assertion = AssertionDLModel.pretrained("assertion_dl_radiology", "en"
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, word_embeddings, radiology_ner, ner_converter, radiology_assertion])
 
 empty_data = spark.createDataFrame([[""]]).toDF("text")
-model = nlpPipeline.fit(empty_data)
-text = """Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs."""
+model = LightPipeline(nlpPipeline.fit(empty_data))
 
-result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
+text = """
+INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation."""
+
+result = model.fullAnnotate(text)
+
 ```
 ```scala
 ...
@@ -66,7 +70,7 @@ val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en"
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
 
-val radiology_ner = NerDLModel.pretrained("ner_radiology", "en", "clinical/models")
+val radiology_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
 
@@ -81,7 +85,10 @@ val radiology_assertion = AssertionDLModel.pretrained("assertion_dl_radiology", 
 
 val nlpPipeline = new Pipeline().setStages(Array(documentAssembler,  sentenceDetector, tokenizer, word_embeddings, radiology_ner, ner_converter, radiology_assertion))
 
-val data = Seq("Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs.").toDF("text")
+text = """
+INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation."""
+
+val data = Seq("text").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
@@ -89,15 +96,18 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+---------------------------------------------------------------------------------------------------------------+-------------------+---------------+-------+---------+
-|sentences                                                                                                      |chunk              |ner_label      |sent_id|assertion|
-+---------------------------------------------------------------------------------------------------------------+-------------------+---------------+-------+---------+
-|Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion.|Blunting           |ImagingFindings|0      |Confirmed|
-|Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion.|effusion           |ImagingFindings|0      |Suspected|
-|No right-sided pleural effusion or pneumothorax is definitively seen.                                          |effusion           |ImagingFindings|1      |Negative |
-|No right-sided pleural effusion or pneumothorax is definitively seen.                                          |pneumothorax       |ImagingFindings|1      |Negative |
-|There are mildly displaced fractures of the left lateral 8th and likely 9th ribs.                              |displaced fractures|ImagingFindings|2      |Confirmed|
-+---------------------------------------------------------------------------------------------------------------+-------------------+---------------+-------+---------+
+|    | ner_chunk                     | assertion   |
+|---:|:------------------------------|:------------|
+|  0 | pneumothorax                  | Confirmed   |
+|  1 | complete collapse             | Confirmed   |
+|  2 | aerated                       | Confirmed   |
+|  3 | thickening                    | Confirmed   |
+|  4 | acute air space consolidation | Negative    |
+|  5 | within normal limits          | Confirmed   |
+|  6 | acute fracture                | Negative    |
+|  7 | malalignment                  | Negative    |
+|  8 | dislocation                   | Negative    |
+
 ```
 
 {:.model-param}
