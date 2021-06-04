@@ -421,7 +421,7 @@
 
 <h2 id="how-to-use">How to use</h2>
 
-<p>Extract radiology entities using the radiology NER model in the pipeline and assign assertion status for them with <code class="language-plaintext highlighter-rouge">assertion_dl_radiology</code> pretrained model.</p>
+<p>Extract radiology entities using the radiology NER model in the pipeline and assign assertion status for them with <code class="language-plaintext highlighter-rouge">assertion_dl_radiology</code> pretrained model. Note: Example for demo purpose taken from: https://www.mtsamples.com/site/pages/sample.asp?Type=95-Radiology&amp;Sample=1391-Chest%20PA%20&amp;%20Lateral</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
@@ -432,7 +432,7 @@
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">radiology_ner</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_radiology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+<span class="n">radiology_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_radiology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
@@ -447,17 +447,20 @@
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">radiology_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">radiology_assertion</span><span class="p">])</span>
 
 <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs."""</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">))</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""
+INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation."""</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">radiology_ner</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_radiology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">radiology_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_radiology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
@@ -472,22 +475,28 @@
 
 <span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span>  <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">radiology_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">radiology_assertion</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion. No right-sided pleural effusion or pneumothorax is definitively seen. There are mildly displaced fractures of the left lateral 8th and likely 9th ribs."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="n">text</span> <span class="k">=</span> <span class="s">"""
+INTERPRETATION: There has been interval development of a moderate left-sided pneumothorax with near complete collapse of the left upper lobe. The lower lobe appears aerated. There is stable, diffuse, bilateral interstitial thickening with no definite acute air space consolidation. The heart and pulmonary vascularity are within normal limits. Left-sided port is seen with Groshong tip at the SVC/RA junction. No evidence for acute fracture, malalignment, or dislocation."""</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"text"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------------------------------------------------------------+-------------------+---------------+-------+---------+
-|sentences                                                                                                      |chunk              |ner_label      |sent_id|assertion|
-+---------------------------------------------------------------------------------------------------------------+-------------------+---------------+-------+---------+
-|Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion.|Blunting           |ImagingFindings|0      |Confirmed|
-|Blunting of the left costophrenic angle on the lateral view posteriorly suggests a small left pleural effusion.|effusion           |ImagingFindings|0      |Suspected|
-|No right-sided pleural effusion or pneumothorax is definitively seen.                                          |effusion           |ImagingFindings|1      |Negative |
-|No right-sided pleural effusion or pneumothorax is definitively seen.                                          |pneumothorax       |ImagingFindings|1      |Negative |
-|There are mildly displaced fractures of the left lateral 8th and likely 9th ribs.                              |displaced fractures|ImagingFindings|2      |Confirmed|
-+---------------------------------------------------------------------------------------------------------------+-------------------+---------------+-------+---------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | ner_chunk                     | assertion   |
+|---:|:------------------------------|:------------|
+|  0 | pneumothorax                  | Confirmed   |
+|  1 | <span class="nb">complete </span>collapse             | Confirmed   |
+|  2 | aerated                       | Confirmed   |
+|  3 | thickening                    | Confirmed   |
+|  4 | acute air space consolidation | Negative    |
+|  5 | within normal limits          | Confirmed   |
+|  6 | acute fracture                | Negative    |
+|  7 | malalignment                  | Negative    |
+|  8 | dislocation                   | Negative    |
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

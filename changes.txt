@@ -1,2 +1,2 @@
-docs/demos/recognize_clinical_entities.md
-docs/demos/recognize_clinical_entities.md
+docs/_posts/murat-gunay/2021-03-18-assertion_dl_radiology_en.md
+docs/_posts/murat-gunay/2021-03-18-assertion_dl_radiology_en.md
