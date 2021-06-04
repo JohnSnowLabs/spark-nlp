@@ -25,6 +25,7 @@ import org.apache.spark.ml.util.Identifiable
   * import com.johnsnowlabs.nlp.annotator.SentenceDetector
   * import com.johnsnowlabs.nlp.annotators.Tokenizer
   * import com.johnsnowlabs.nlp.annotators.NGramGenerator
+  * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
   *   .setInputCol("text")

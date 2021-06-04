@@ -13,7 +13,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
   * and drops all the stop words from the input sequences. By default, it uses stop words from MLlibs
   * [[https://spark.apache.org/docs/latest/ml-features#stopwordsremover StopWordsRemover]].
   * Stop words can also be defined by explicitly setting them with `setStopWords(value: Array[String])` or loaded from
-  * pretrained models using `pretrained(name: String)` of its companion object.
+  * pretrained models using `pretrained` of its companion object.
   * {{{
   * val stopWords = StopWordsCleaner.pretrained()
   *   .setInputCols("token")

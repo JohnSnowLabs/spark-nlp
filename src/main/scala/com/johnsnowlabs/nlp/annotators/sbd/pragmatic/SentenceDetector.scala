@@ -7,12 +7,48 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 /**
-  * Annotator that detects sentence boundaries using any provided approach
+  * Annotator that detects sentence boundaries using any provided approach.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic]] for further reference on how to use this API
+  * Each extracted sentence can be returned in an Array or exploded to separate rows,
+  * if `explodeSentences` is set to `true`.
   *
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.SentenceDetector
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   sentence
+  * ))
+  *
+  * val data = Seq("This is my first sentence. This my second. How about a third?").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(sentence) as sentences").show(false)
+  * +------------------------------------------------------------------+
+  * |sentences                                                         |
+  * +------------------------------------------------------------------+
+  * |[document, 0, 25, This is my first sentence., [sentence -> 0], []]|
+  * |[document, 27, 41, This my second., [sentence -> 1], []]          |
+  * |[document, 43, 60, How about a third?, [sentence -> 2], []]       |
+  * +------------------------------------------------------------------+
+  * }}}
+  *
+  * @see [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel SentenceDetectorDLModel]] for pretrained models
   * @param uid internal constructor requirement for serialization of params
-  * @@ model: Model to use for boundaries detection
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
