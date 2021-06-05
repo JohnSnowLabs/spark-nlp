@@ -1,0 +1,80 @@
+skip: ["върху", "до", "на", "около", "от", "под"]
+
+sentence_splitter_group : 1
+
+monday:
+    - пон
+tuesday:
+    - вто
+wednesday:
+    - сря
+
+january:
+    - ян
+february:
+    - фв
+april:
+    - ап
+june:
+    - юн
+july:
+    - юл
+september:
+    - септ
+    - септм
+
+year:
+    - год
+    - години
+month:
+    - мес
+    - месеци
+week:
+    - с
+    - сед
+    - седмици
+day:
+    - дни
+    - дена
+hour:
+    - часа
+minute:
+    - минути
+second:
+    - сек
+    - секунди
+
+ago:
+    - преди
+in:
+    - след
+    - после
+    - подир
+
+relative-type:
+    10 year ago:
+        - преди десетилетие
+    1 year ago:
+        - преди година
+    in 10 year:
+        - след 1 десетилетие
+    1 week ago:
+        - преди седмица
+    2 day ago:
+        - онзи ден
+    1 day ago:
+        - снощи
+        - преди ден
+    in 1 day:
+        - след ден
+    in 2 day:
+        - вдругиден
+    1 hour ago:
+        - преди час
+    in 1 hour:
+        - след час
+
+simplifications:
+    - един: '1'
+    - два: '2'
+    - три: '3'

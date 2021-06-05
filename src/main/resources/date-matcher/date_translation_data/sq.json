@@ -1,0 +1,223 @@
+{
+    "name": "sq",
+    "date_order": "DMY",
+    "january": [
+        "jan",
+        "janar"
+    ],
+    "february": [
+        "shk",
+        "shkurt"
+    ],
+    "march": [
+        "mar",
+        "mars"
+    ],
+    "april": [
+        "pri",
+        "prill"
+    ],
+    "may": [
+        "maj"
+    ],
+    "june": [
+        "qer",
+        "qershor"
+    ],
+    "july": [
+        "kor",
+        "korrik"
+    ],
+    "august": [
+        "gsh",
+        "gusht"
+    ],
+    "september": [
+        "sht",
+        "shtator"
+    ],
+    "october": [
+        "tet",
+        "tetor"
+    ],
+    "november": [
+        "nën",
+        "nëntor"
+    ],
+    "december": [
+        "dhj",
+        "dhjetor"
+    ],
+    "monday": [
+        "e hënë",
+        "hën"
+    ],
+    "tuesday": [
+        "e martë",
+        "mar"
+    ],
+    "wednesday": [
+        "e mërkurë",
+        "mër"
+    ],
+    "thursday": [
+        "e enjte",
+        "enj"
+    ],
+    "friday": [
+        "e premte",
+        "pre"
+    ],
+    "saturday": [
+        "e shtunë",
+        "sht"
+    ],
+    "sunday": [
+        "die",
+        "e diel"
+    ],
+    "am": [
+        "e paradites",
+        "paradite"
+    ],
+    "pm": [
+        "e pasdites",
+        "pasdite"
+    ],
+    "year": [
+        "vit"
+    ],
+    "month": [
+        "muaj"
+    ],
+    "week": [
+        "javë"
+    ],
+    "day": [
+        "ditë"
+    ],
+    "hour": [
+        "orë"
+    ],
+    "minute": [
+        "min",
+        "minutë"
+    ],
+    "second": [
+        "sek",
+        "sekondë"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "sot"
+        ],
+        "0 hour ago": [
+            "këtë orë"
+        ],
+        "0 minute ago": [
+            "këtë minutë"
+        ],
+        "0 month ago": [
+            "këtë muaj"
+        ],
+        "0 second ago": [
+            "tani"
+        ],
+        "0 week ago": [
+            "këtë javë"
+        ],
+        "0 year ago": [
+            "këtë vit"
+        ],
+        "1 day ago": [
+            "dje"
+        ],
+        "1 month ago": [
+            "muajin e kaluar"
+        ],
+        "1 week ago": [
+            "javën e kaluar"
+        ],
+        "1 year ago": [
+            "vitin e kaluar"
+        ],
+        "in 1 day": [
+            "nesër"
+        ],
+        "in 1 month": [
+            "muajin e ardhshëm"
+        ],
+        "in 1 week": [
+            "javën e ardhshme"
+        ],
+        "in 1 year": [
+            "vitin e ardhshëm"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} ditë më parë"
+        ],
+        "\\1 hour ago": [
+            "{0} orë më parë"
+        ],
+        "\\1 minute ago": [
+            "{0} min më parë",
+            "{0} minuta më parë",
+            "{0} minutë më parë"
+        ],
+        "\\1 month ago": [
+            "{0} muaj më parë"
+        ],
+        "\\1 second ago": [
+            "{0} sek më parë",
+            "{0} sekonda më parë",
+            "{0} sekondë më parë"
+        ],
+        "\\1 week ago": [
+            "{0} javë më parë"
+        ],
+        "\\1 year ago": [
+            "{0} vit më parë",
+            "{0} vjet më parë"
+        ],
+        "in \\1 day": [
+            "pas {0} dite",
+            "pas {0} ditësh"
+        ],
+        "in \\1 hour": [
+            "pas {0} ore",
+            "pas {0} orësh"
+        ],
+        "in \\1 minute": [
+            "pas {0} min",
+            "pas {0} minutash",
+            "pas {0} minute"
+        ],
+        "in \\1 month": [
+            "pas {0} muaji",
+            "pas {0} muajsh"
+        ],
+        "in \\1 second": [
+            "pas {0} sek",
+            "pas {0} sekondash",
+            "pas {0} sekonde"
+        ],
+        "in \\1 week": [
+            "pas {0} jave",
+            "pas {0} javësh"
+        ],
+        "in \\1 year": [
+            "pas {0} viti",
+            "pas {0} vjetësh"
+        ]
+    },
+    "locale_specific": {
+        "sq-MK": {
+            "name": "sq-MK"
+        },
+        "sq-XK": {
+            "name": "sq-XK"
+        }
+    }
+}

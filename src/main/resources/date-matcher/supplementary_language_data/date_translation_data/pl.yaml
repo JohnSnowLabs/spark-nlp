@@ -1,0 +1,165 @@
+sentence_splitter_group : 1
+
+skip: ["i", "o", "r.", "roku", "w"]
+
+monday:
+    - Poniedziałek
+    - Poniedzialek
+    - Pon
+    - Pn
+tuesday:
+    - Wtorek
+    - Wt
+    - Wto
+wednesday:
+    - Środa
+    - Sroda
+    - Środę
+    - Srode
+    - Śro
+    - Sro
+    - Śr
+    - Sr
+thursday:
+    - Czwartek
+    - Czw
+    - Cz
+friday:
+    - Piątek
+    - Piatek
+    - Pią
+    - Pia
+    - Pi
+    - Pt
+saturday:
+    - Sobota
+    - Sobotę
+    - Sobote
+    - Sob
+    - So
+    - Sb
+sunday:
+    - Niedziela
+    - Niedzielę
+    - Niedziele
+    - Nie
+    - Nd
+
+january:
+    - Styczeń
+    - Styczen
+    - Stycznia
+    - Styczniu
+    - Sty
+february:
+    - Luty
+    - Lutego
+    - Lutym
+    - Lut
+march:
+    - Marzec
+    - Marca
+    - Marcu
+    - Mar
+april:
+    - Kwiecień
+    - Kwiecien
+    - Kwietnia
+    - Kwietniu
+    - Kwi
+    - Kwie
+may:
+    - Maj
+    - Maja
+    - Maju
+june:
+    - Czerwiec
+    - Czerwca
+    - Czerwcu
+    - Cze
+july:
+    - Lipiec
+    - Lipca
+    - Lipcu
+    - Lip
+august:
+    - Sierpień
+    - Sierpien
+    - Sierpnia
+    - Sierpniu
+    - Sie
+september:
+    - Wrzesień
+    - Wrzesien
+    - Września
+    - Wrzesnia
+    - Wrześniu
+    - Wrzesniu
+    - Wrz
+october:
+    - Październik
+    - Pazdziernik
+    - Października
+    - Pazdziernika
+    - Październiku
+    - Pazdzierniku
+    - Paź
+    - Paz
+november:
+    - Listopad
+    - Listopada
+    - Listopadzie
+    - Lis
+december:
+    - Grudzień
+    - Grudzien
+    - Grudnia
+    - Grudniu
+    - Gru
+
+year:
+    - lata
+    - lat
+month:
+    - miesiac
+    - miesięcy
+    - miesiąca
+    - miesiące
+    - miesiace
+week:
+    - tydzien
+    - tygodni
+    - tygodnie
+day:
+    - dzien
+    - dnia
+    - dniu
+    - dni
+hour:
+    - godzinę
+    - godzine
+    - godzin
+    - godziny
+minute:
+    - minuty
+    - minut
+    - minute
+    - minutę
+second:
+    - sekundę
+    - sekunde
+    - sekundy
+    - sekund
+
+ago:
+    - temu
+in:
+    - za
+
+simplifications:
+    - dziś: 0 dnia
+    - dzisiaj: 0 dnia
+    - onegdaj: 2 dnia
+    - przedwczoraj: 2 dnia temu
+    - jutro: za 1 dnia
+    - pojutrze: za 2 dnia

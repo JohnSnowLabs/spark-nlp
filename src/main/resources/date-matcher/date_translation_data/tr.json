@@ -1,0 +1,215 @@
+{
+    "name": "tr",
+    "date_order": "DMY",
+    "january": [
+        "oca",
+        "ocak"
+    ],
+    "february": [
+        "şub",
+        "şubat"
+    ],
+    "march": [
+        "mar",
+        "mart"
+    ],
+    "april": [
+        "nis",
+        "nisan"
+    ],
+    "may": [
+        "may",
+        "mayıs"
+    ],
+    "june": [
+        "haz",
+        "haziran"
+    ],
+    "july": [
+        "tem",
+        "temmuz"
+    ],
+    "august": [
+        "ağu",
+        "ağustos"
+    ],
+    "september": [
+        "eyl",
+        "eylül"
+    ],
+    "october": [
+        "eki",
+        "ekim"
+    ],
+    "november": [
+        "kas",
+        "kasım"
+    ],
+    "december": [
+        "ara",
+        "aralık"
+    ],
+    "monday": [
+        "pazartesi",
+        "pzt"
+    ],
+    "tuesday": [
+        "sal",
+        "salı"
+    ],
+    "wednesday": [
+        "çar",
+        "çarşamba"
+    ],
+    "thursday": [
+        "per",
+        "perşembe"
+    ],
+    "friday": [
+        "cum",
+        "cuma"
+    ],
+    "saturday": [
+        "cmt",
+        "cumartesi"
+    ],
+    "sunday": [
+        "paz",
+        "pazar"
+    ],
+    "am": [
+        "öö"
+    ],
+    "pm": [
+        "ös"
+    ],
+    "year": [
+        "yıl"
+    ],
+    "month": [
+        "ay"
+    ],
+    "week": [
+        "hafta",
+        "hf"
+    ],
+    "day": [
+        "gün"
+    ],
+    "hour": [
+        "sa",
+        "saat"
+    ],
+    "minute": [
+        "dakika",
+        "dk"
+    ],
+    "second": [
+        "saniye",
+        "sn"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "bugün"
+        ],
+        "0 hour ago": [
+            "bu saat"
+        ],
+        "0 minute ago": [
+            "bu dakika"
+        ],
+        "0 month ago": [
+            "bu ay"
+        ],
+        "0 second ago": [
+            "şimdi"
+        ],
+        "0 week ago": [
+            "bu hafta"
+        ],
+        "0 year ago": [
+            "bu yıl"
+        ],
+        "1 day ago": [
+            "dün"
+        ],
+        "1 month ago": [
+            "geçen ay"
+        ],
+        "1 week ago": [
+            "geçen hafta"
+        ],
+        "1 year ago": [
+            "geçen yıl"
+        ],
+        "in 1 day": [
+            "yarın"
+        ],
+        "in 1 month": [
+            "gelecek ay"
+        ],
+        "in 1 week": [
+            "gelecek hafta"
+        ],
+        "in 1 year": [
+            "gelecek yıl"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} gün önce"
+        ],
+        "\\1 hour ago": [
+            "{0} sa önce",
+            "{0} saat önce"
+        ],
+        "\\1 minute ago": [
+            "{0} dakika önce",
+            "{0} dk önce"
+        ],
+        "\\1 month ago": [
+            "{0} ay önce"
+        ],
+        "\\1 second ago": [
+            "{0} saniye önce",
+            "{0} sn önce"
+        ],
+        "\\1 week ago": [
+            "{0} hafta önce",
+            "{0} hf önce"
+        ],
+        "\\1 year ago": [
+            "{0} yıl önce"
+        ],
+        "in \\1 day": [
+            "{0} gün sonra"
+        ],
+        "in \\1 hour": [
+            "{0} sa sonra",
+            "{0} saat sonra"
+        ],
+        "in \\1 minute": [
+            "{0} dakika sonra",
+            "{0} dk sonra"
+        ],
+        "in \\1 month": [
+            "{0} ay sonra"
+        ],
+        "in \\1 second": [
+            "{0} saniye sonra",
+            "{0} sn sonra"
+        ],
+        "in \\1 week": [
+            "{0} hafta sonra",
+            "{0} hf sonra"
+        ],
+        "in \\1 year": [
+            "{0} yıl sonra"
+        ]
+    },
+    "locale_specific": {
+        "tr-CY": {
+            "name": "tr-CY"
+        }
+    }
+}

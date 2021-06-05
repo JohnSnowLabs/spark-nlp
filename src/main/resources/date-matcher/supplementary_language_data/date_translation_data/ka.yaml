@@ -1,0 +1,14 @@
+skip: ["და", "დაახლოებით", "ზე", "ის"]
+
+sentence_splitter_group : 1
+
+year:
+    - წლის
+
+ago:
+    - წინ
+in:
+    - დღეიდან
+
+simplifications:
+    - ერთ: '1'

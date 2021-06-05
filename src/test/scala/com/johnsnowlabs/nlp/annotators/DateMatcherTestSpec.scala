@@ -20,9 +20,8 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.DATE
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
-
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
-
 import org.scalatest._
 
 import java.util.Calendar
@@ -186,6 +185,22 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     dateMatcher.write.overwrite().save(path)
     val dateMatcherRead = DateMatcher.read.load(path)
     assert(dateMatcherRead.getFormat == dateMatcher.getFormat)
+  }
+
+  "a DateMatcher" should "be catching dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("I left the 23/12/2021")
+
+    data.show(false)
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("dd/MM/yyyy")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    pipeline.fit(data).transform(data).show(false)
   }
 
 }

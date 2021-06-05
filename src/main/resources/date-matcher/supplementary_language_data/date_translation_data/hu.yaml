@@ -1,0 +1,83 @@
+skip: ["-a", "-ai", "-akor", "-e", "-ei", "-ekor", "-es", "-i", "-ig", "-je", "-jei", "-ji", "-kor", "-tól", "-től", "-áig", "-án", "-ától", "-éig", "-én", "-étől", "-ös"]
+
+sentence_splitter_group : 1
+
+sunday:
+    - vas
+
+january:
+    - I
+february:
+    - feb
+    - II
+march:
+    - már
+    - III
+april:
+    - IV
+may:
+    - V
+june:
+    - VI
+july:
+    - VII
+august:
+    - VIII
+september:
+    - IX
+october:
+    - X
+november:
+    - XI
+december:
+    - XII
+
+year:
+    - évek
+    - évvel
+    - éve
+month:
+    - hó
+    - hónapok
+    - hónappal
+    - hónapja
+week:
+    - hetek
+    - héttel
+    - hete
+day:
+    - napok
+    - napja
+    - nappal
+hour:
+    - ó
+    - órák
+    - órája
+    - órával
+    - óráig
+    - órától
+minute:
+    - p
+    - percek
+    - perce
+    - perccel
+    - percig
+    - perctől
+second:
+    - mp
+    - másodpercek
+    - másodperce
+    - másodperccel
+    - másodpercig
+    - másodperctől
+ago:
+    - ezelőtt
+in:
+    - múlva
+
+relative-type:
+    2 day ago:
+        - tegnapelőtt
+
+simplifications:
+    - egy: '1'

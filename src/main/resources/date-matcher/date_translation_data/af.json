@@ -1,0 +1,228 @@
+{
+    "name": "af",
+    "date_order": "YMD",
+    "january": [
+        "jan",
+        "januarie"
+    ],
+    "february": [
+        "feb",
+        "februarie"
+    ],
+    "march": [
+        "maart",
+        "mrt"
+    ],
+    "april": [
+        "apr",
+        "april"
+    ],
+    "may": [
+        "mei"
+    ],
+    "june": [
+        "jun",
+        "junie"
+    ],
+    "july": [
+        "jul",
+        "julie"
+    ],
+    "august": [
+        "aug",
+        "augustus"
+    ],
+    "september": [
+        "sep",
+        "september"
+    ],
+    "october": [
+        "okt",
+        "oktober"
+    ],
+    "november": [
+        "nov",
+        "november"
+    ],
+    "december": [
+        "des",
+        "desember"
+    ],
+    "monday": [
+        "ma",
+        "maandag"
+    ],
+    "tuesday": [
+        "di",
+        "dinsdag"
+    ],
+    "wednesday": [
+        "wo",
+        "woensdag"
+    ],
+    "thursday": [
+        "do",
+        "donderdag"
+    ],
+    "friday": [
+        "vr",
+        "vrydag"
+    ],
+    "saturday": [
+        "sa",
+        "saterdag"
+    ],
+    "sunday": [
+        "so",
+        "sondag"
+    ],
+    "am": [
+        "vm"
+    ],
+    "pm": [
+        "nm"
+    ],
+    "year": [
+        "j",
+        "jaar"
+    ],
+    "month": [
+        "maand",
+        "md"
+    ],
+    "week": [
+        "week",
+        "wk"
+    ],
+    "day": [
+        "d",
+        "dag"
+    ],
+    "hour": [
+        "u",
+        "uur"
+    ],
+    "minute": [
+        "m",
+        "min",
+        "minuut"
+    ],
+    "second": [
+        "s",
+        "sek",
+        "sekonde"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "vandag"
+        ],
+        "0 hour ago": [
+            "hierdie uur"
+        ],
+        "0 minute ago": [
+            "hierdie minuut"
+        ],
+        "0 month ago": [
+            "vandeesmaand"
+        ],
+        "0 second ago": [
+            "nou"
+        ],
+        "0 week ago": [
+            "vandeesweek"
+        ],
+        "0 year ago": [
+            "hierdie jaar"
+        ],
+        "1 day ago": [
+            "gister"
+        ],
+        "1 month ago": [
+            "verlede maand"
+        ],
+        "1 week ago": [
+            "verlede week"
+        ],
+        "1 year ago": [
+            "verlede jaar"
+        ],
+        "in 1 day": [
+            "môre"
+        ],
+        "in 1 month": [
+            "volgende maand"
+        ],
+        "in 1 week": [
+            "volgende week"
+        ],
+        "in 1 year": [
+            "volgende jaar"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} dae gelede",
+            "{0} dag gelede"
+        ],
+        "\\1 hour ago": [
+            "{0} uur gelede"
+        ],
+        "\\1 minute ago": [
+            "{0} min gelede",
+            "{0} minute gelede",
+            "{0} minuut gelede"
+        ],
+        "\\1 month ago": [
+            "{0} maand gelede",
+            "{0} maande gelede",
+            "{0} md gelede"
+        ],
+        "\\1 second ago": [
+            "{0} sek gelede",
+            "{0} sekonde gelede",
+            "{0} sekondes gelede"
+        ],
+        "\\1 week ago": [
+            "{0} w gelede",
+            "{0} week gelede",
+            "{0} weke gelede"
+        ],
+        "\\1 year ago": [
+            "{0} jaar gelede"
+        ],
+        "in \\1 day": [
+            "oor {0} dae",
+            "oor {0} dag",
+            "oor {0} minuut"
+        ],
+        "in \\1 hour": [
+            "oor {0} uur"
+        ],
+        "in \\1 minute": [
+            "oor {0} min",
+            "oor {0} minuut"
+        ],
+        "in \\1 month": [
+            "oor {0} md",
+            "oor {0} minuut"
+        ],
+        "in \\1 second": [
+            "oor {0} sek",
+            "oor {0} sekonde",
+            "oor {0} sekondes"
+        ],
+        "in \\1 week": [
+            "oor {0} w",
+            "oor {0} week",
+            "oor {0} weke"
+        ],
+        "in \\1 year": [
+            "oor {0} jaar"
+        ]
+    },
+    "locale_specific": {
+        "af-NA": {
+            "name": "af-NA"
+        }
+    }
+}
