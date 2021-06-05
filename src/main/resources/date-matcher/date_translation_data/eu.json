@@ -1,0 +1,205 @@
+{
+    "name": "eu",
+    "date_order": "YMD",
+    "january": [
+        "urt",
+        "urtarrila"
+    ],
+    "february": [
+        "ots",
+        "otsaila"
+    ],
+    "march": [
+        "mar",
+        "martxoa"
+    ],
+    "april": [
+        "api",
+        "apirila"
+    ],
+    "may": [
+        "mai",
+        "maiatza"
+    ],
+    "june": [
+        "eka",
+        "ekaina"
+    ],
+    "july": [
+        "uzt",
+        "uztaila"
+    ],
+    "august": [
+        "abu",
+        "abuztua"
+    ],
+    "september": [
+        "ira",
+        "iraila"
+    ],
+    "october": [
+        "urr",
+        "urria"
+    ],
+    "november": [
+        "aza",
+        "azaroa"
+    ],
+    "december": [
+        "abe",
+        "abendua"
+    ],
+    "monday": [
+        "al",
+        "astelehena"
+    ],
+    "tuesday": [
+        "ar",
+        "asteartea"
+    ],
+    "wednesday": [
+        "asteazkena",
+        "az"
+    ],
+    "thursday": [
+        "og",
+        "osteguna"
+    ],
+    "friday": [
+        "or",
+        "ostirala"
+    ],
+    "saturday": [
+        "larunbata",
+        "lr"
+    ],
+    "sunday": [
+        "ig",
+        "igandea"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "urtea"
+    ],
+    "month": [
+        "hil",
+        "hilabetea"
+    ],
+    "week": [
+        "ast",
+        "astea"
+    ],
+    "day": [
+        "eg",
+        "eguna"
+    ],
+    "hour": [
+        "h",
+        "ordua"
+    ],
+    "minute": [
+        "min",
+        "minutua"
+    ],
+    "second": [
+        "s",
+        "segundoa"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "gaur"
+        ],
+        "0 hour ago": [
+            "ordu honetan"
+        ],
+        "0 minute ago": [
+            "minutu honetan"
+        ],
+        "0 month ago": [
+            "hilabete hau"
+        ],
+        "0 second ago": [
+            "orain"
+        ],
+        "0 week ago": [
+            "aste hau"
+        ],
+        "0 year ago": [
+            "aurten"
+        ],
+        "1 day ago": [
+            "atzo"
+        ],
+        "1 month ago": [
+            "aurreko hilabetea"
+        ],
+        "1 week ago": [
+            "aurreko astea"
+        ],
+        "1 year ago": [
+            "aurreko urtea"
+        ],
+        "in 1 day": [
+            "bihar"
+        ],
+        "in 1 month": [
+            "hurrengo hilabetea"
+        ],
+        "in 1 week": [
+            "hurrengo astea"
+        ],
+        "in 1 year": [
+            "hurrengo urtea"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "duela {0} egun"
+        ],
+        "\\1 hour ago": [
+            "duela {0} ordu"
+        ],
+        "\\1 minute ago": [
+            "duela {0} minutu"
+        ],
+        "\\1 month ago": [
+            "duela {0} hilabete"
+        ],
+        "\\1 second ago": [
+            "duela {0} segundo"
+        ],
+        "\\1 week ago": [
+            "duela {0} aste"
+        ],
+        "\\1 year ago": [
+            "duela {0} urte"
+        ],
+        "in \\1 day": [
+            "{0} egun barru"
+        ],
+        "in \\1 hour": [
+            "{0} ordu barru"
+        ],
+        "in \\1 minute": [
+            "{0} minutu barru"
+        ],
+        "in \\1 month": [
+            "{0} hilabete barru"
+        ],
+        "in \\1 second": [
+            "{0} segundo barru"
+        ],
+        "in \\1 week": [
+            "{0} aste barru"
+        ],
+        "in \\1 year": [
+            "{0} urte barru"
+        ]
+    },
+    "locale_specific": {}
+}

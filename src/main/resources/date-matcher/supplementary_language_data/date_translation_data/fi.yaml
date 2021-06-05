@@ -1,0 +1,78 @@
+skip: [":n"]
+
+sentence_splitter_group : 1
+
+january:
+    - tammikuussa
+february:
+    - helmikuussa
+march:
+    - maaliskuussa
+april:
+    - huhtikuussa
+may:
+    - toukokuussa
+june:
+    - kesäkuussa
+july:
+    - heinäkuussa
+august:
+    - elokuussa
+september:
+    - Syyskuussa
+october:
+    - Lokakuussa
+november:
+    - Marraskuussa
+december:
+    - Joulukuussa
+
+year:
+    - vuotta
+    - vv
+    - vuonna
+    - vuoden
+month:
+    - kuukautta
+    - kuukauden
+week:
+    - viikkoa
+    - vko
+    - viikon
+day:
+    - päivää
+    - p
+    - pvä
+    - pvää
+    - päivän
+hour:
+    - tuntia
+    - tunnin
+minute:
+    - minuuttia
+    - minuutin
+second:
+    - sekuntia
+    - sekuntti
+    - sekunttia
+    - sekuntin
+    - sekunnin
+
+ago:
+    - sitten
+in:
+    - kuluttua
+    - päästä
+
+relative-type:
+    2 year ago:
+        - toissa vuonna
+    2 month ago:
+        - toissa kuussa
+    2 week ago:
+        - toissa viikolla
+    2 day ago:
+        - toissa päivänä
+
+simplifications:
+    - (\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2

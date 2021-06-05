@@ -1,0 +1,50 @@
+skip: ["cerca", "de", "e", "às"]
+pertain: ["de"]
+
+sentence_splitter_group : 1
+
+monday:
+    - Segunda
+tuesday:
+    - Terça
+wednesday:
+    - Quarta
+thursday:
+    - Quinta
+friday:
+    - Sexta
+saturday:
+    - Sab
+
+september:
+    - Septembro
+
+year:
+    - anos
+month:
+    - meses
+week:
+    - semanas
+day:
+    - dias
+hour:
+    - horas
+minute:
+    - minutos
+second:
+    - segundos
+
+ago:
+    - atrás
+    - há
+in:
+    - em
+
+relative-type:
+    2 day ago:
+        - anteontem
+
+simplifications:
+    - uma: '1'
+    - um: '1'
+    - alguns segundos: 44 segundos
