@@ -1,0 +1,30 @@
+skip: ["pukul", "tanggal", "yang"]
+
+sentence_splitter_group : 1
+
+sunday:
+    - Ahad
+
+august:
+    - Agu
+september:
+    - Sept
+
+ago:
+    - lalu
+in:
+    - dalam
+
+relative-type:
+    1 year:
+        - setahun
+    1 month:
+        - sebulan
+    1 week:
+        - seminggu
+    2 day ago:
+        - kemarin lusa
+    1 day:
+        - sehari
+    0 second ago:
+        - baru saja

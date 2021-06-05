@@ -1,0 +1,441 @@
+{
+    "name": "es",
+    "date_order": "DMY",
+    "january": [
+        "ene",
+        "enero"
+    ],
+    "february": [
+        "feb",
+        "febrero"
+    ],
+    "march": [
+        "mar",
+        "marzo"
+    ],
+    "april": [
+        "abr",
+        "abril"
+    ],
+    "may": [
+        "may",
+        "mayo"
+    ],
+    "june": [
+        "jun",
+        "junio"
+    ],
+    "july": [
+        "jul",
+        "julio"
+    ],
+    "august": [
+        "ago",
+        "agosto"
+    ],
+    "september": [
+        "sept",
+        "septiembre"
+    ],
+    "october": [
+        "oct",
+        "octubre"
+    ],
+    "november": [
+        "nov",
+        "noviembre"
+    ],
+    "december": [
+        "dic",
+        "diciembre"
+    ],
+    "monday": [
+        "lun",
+        "lunes"
+    ],
+    "tuesday": [
+        "mar",
+        "martes"
+    ],
+    "wednesday": [
+        "mié",
+        "miércoles"
+    ],
+    "thursday": [
+        "jue",
+        "jueves"
+    ],
+    "friday": [
+        "vie",
+        "viernes"
+    ],
+    "saturday": [
+        "sáb",
+        "sábado"
+    ],
+    "sunday": [
+        "dom",
+        "domingo"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "a",
+        "año"
+    ],
+    "month": [
+        "m",
+        "mes"
+    ],
+    "week": [
+        "sem",
+        "semana"
+    ],
+    "day": [
+        "d",
+        "día"
+    ],
+    "hour": [
+        "h",
+        "hora"
+    ],
+    "minute": [
+        "min",
+        "minuto"
+    ],
+    "second": [
+        "s",
+        "segundo"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "hoy"
+        ],
+        "0 hour ago": [
+            "esta hora"
+        ],
+        "0 minute ago": [
+            "este minuto"
+        ],
+        "0 month ago": [
+            "este mes"
+        ],
+        "0 second ago": [
+            "ahora"
+        ],
+        "0 week ago": [
+            "esta semana"
+        ],
+        "0 year ago": [
+            "este año"
+        ],
+        "1 day ago": [
+            "ayer"
+        ],
+        "1 month ago": [
+            "el mes pasado"
+        ],
+        "1 week ago": [
+            "la semana pasada"
+        ],
+        "1 year ago": [
+            "el año pasado"
+        ],
+        "in 1 day": [
+            "mañana"
+        ],
+        "in 1 month": [
+            "el próximo mes"
+        ],
+        "in 1 week": [
+            "la próxima semana"
+        ],
+        "in 1 year": [
+            "el próximo año"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "hace {0} día",
+            "hace {0} días"
+        ],
+        "\\1 hour ago": [
+            "hace {0} h",
+            "hace {0} hora",
+            "hace {0} horas"
+        ],
+        "\\1 minute ago": [
+            "hace {0} min",
+            "hace {0} minuto",
+            "hace {0} minutos"
+        ],
+        "\\1 month ago": [
+            "hace {0} m",
+            "hace {0} mes",
+            "hace {0} meses"
+        ],
+        "\\1 second ago": [
+            "hace {0} s",
+            "hace {0} segundo",
+            "hace {0} segundos"
+        ],
+        "\\1 week ago": [
+            "hace {0} sem",
+            "hace {0} semana",
+            "hace {0} semanas"
+        ],
+        "\\1 year ago": [
+            "hace {0} a",
+            "hace {0} año",
+            "hace {0} años"
+        ],
+        "in \\1 day": [
+            "dentro de {0} día",
+            "dentro de {0} días"
+        ],
+        "in \\1 hour": [
+            "dentro de {0} h",
+            "dentro de {0} hora",
+            "dentro de {0} horas"
+        ],
+        "in \\1 minute": [
+            "dentro de {0} min",
+            "dentro de {0} minuto",
+            "dentro de {0} minutos"
+        ],
+        "in \\1 month": [
+            "dentro de {0} m",
+            "dentro de {0} mes",
+            "dentro de {0} meses"
+        ],
+        "in \\1 second": [
+            "dentro de {0} s",
+            "dentro de {0} segundo",
+            "dentro de {0} segundos"
+        ],
+        "in \\1 week": [
+            "dentro de {0} sem",
+            "dentro de {0} semana",
+            "dentro de {0} semanas"
+        ],
+        "in \\1 year": [
+            "dentro de {0} a",
+            "dentro de {0} año",
+            "dentro de {0} años"
+        ]
+    },
+    "locale_specific": {
+        "es-419": {
+            "name": "es-419",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-AR": {
+            "name": "es-AR",
+            "september": [
+                "sep"
+            ],
+            "second": [
+                "seg"
+            ],
+            "relative-type-regex": {
+                "\\1 second ago": [
+                    "hace {0} seg"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} seg"
+                ]
+            }
+        },
+        "es-BO": {
+            "name": "es-BO",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-BR": {
+            "name": "es-BR",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-BZ": {
+            "name": "es-BZ",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-CL": {
+            "name": "es-CL",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-CO": {
+            "name": "es-CO",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-CR": {
+            "name": "es-CR",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-CU": {
+            "name": "es-CU",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-DO": {
+            "name": "es-DO",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-EA": {
+            "name": "es-EA"
+        },
+        "es-EC": {
+            "name": "es-EC",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-GQ": {
+            "name": "es-GQ"
+        },
+        "es-GT": {
+            "name": "es-GT",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-HN": {
+            "name": "es-HN",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-IC": {
+            "name": "es-IC"
+        },
+        "es-MX": {
+            "name": "es-MX",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "in 1 month": [
+                    "el mes próximo"
+                ],
+                "in 1 week": [
+                    "la semana próxima"
+                ],
+                "in 1 year": [
+                    "el año próximo"
+                ]
+            },
+            "relative-type-regex": {
+                "in \\1 day": [
+                    "en {0} día",
+                    "en {0} días"
+                ],
+                "in \\1 hour": [
+                    "en {0} h",
+                    "en {0} n"
+                ],
+                "in \\1 minute": [
+                    "en {0} min"
+                ],
+                "in \\1 month": [
+                    "en {0} m",
+                    "en {0} mes",
+                    "en {0} meses"
+                ],
+                "in \\1 second": [
+                    "en {0} s"
+                ],
+                "in \\1 week": [
+                    "en {0} sem"
+                ],
+                "in \\1 year": [
+                    "en {0} a"
+                ]
+            }
+        },
+        "es-NI": {
+            "name": "es-NI",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-PA": {
+            "name": "es-PA",
+            "date_order": "MDY",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-PE": {
+            "name": "es-PE",
+            "september": [
+                "set",
+                "setiembre"
+            ]
+        },
+        "es-PH": {
+            "name": "es-PH"
+        },
+        "es-PR": {
+            "name": "es-PR",
+            "date_order": "MDY",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-PY": {
+            "name": "es-PY",
+            "second": [
+                "seg"
+            ],
+            "relative-type-regex": {
+                "\\1 second ago": [
+                    "hace {0} seg"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} seg"
+                ]
+            }
+        },
+        "es-SV": {
+            "name": "es-SV",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-US": {
+            "name": "es-US",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-UY": {
+            "name": "es-UY",
+            "september": [
+                "set",
+                "setiembre"
+            ]
+        },
+        "es-VE": {
+            "name": "es-VE"
+        }
+    }
+}

@@ -1,0 +1,230 @@
+{
+    "name": "sl",
+    "date_order": "DMY",
+    "january": [
+        "jan",
+        "januar"
+    ],
+    "february": [
+        "feb",
+        "februar"
+    ],
+    "march": [
+        "mar",
+        "marec"
+    ],
+    "april": [
+        "apr",
+        "april"
+    ],
+    "may": [
+        "maj"
+    ],
+    "june": [
+        "jun",
+        "junij"
+    ],
+    "july": [
+        "jul",
+        "julij"
+    ],
+    "august": [
+        "avg",
+        "avgust"
+    ],
+    "september": [
+        "sep",
+        "september"
+    ],
+    "october": [
+        "okt",
+        "oktober"
+    ],
+    "november": [
+        "nov",
+        "november"
+    ],
+    "december": [
+        "dec",
+        "december"
+    ],
+    "monday": [
+        "pon",
+        "ponedeljek"
+    ],
+    "tuesday": [
+        "tor",
+        "torek"
+    ],
+    "wednesday": [
+        "sre",
+        "sreda"
+    ],
+    "thursday": [
+        "čet",
+        "četrtek"
+    ],
+    "friday": [
+        "pet",
+        "petek"
+    ],
+    "saturday": [
+        "sob",
+        "sobota"
+    ],
+    "sunday": [
+        "ned",
+        "nedelja"
+    ],
+    "am": [
+        "dop",
+        "dopoldne"
+    ],
+    "pm": [
+        "pop",
+        "popoldne"
+    ],
+    "year": [
+        "leto"
+    ],
+    "month": [
+        "mes",
+        "mesec"
+    ],
+    "week": [
+        "ted",
+        "teden"
+    ],
+    "day": [
+        "dan"
+    ],
+    "hour": [
+        "h",
+        "ura"
+    ],
+    "minute": [
+        "min",
+        "minuta"
+    ],
+    "second": [
+        "s",
+        "sek",
+        "sekunda"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "danes"
+        ],
+        "0 hour ago": [
+            "v tej uri"
+        ],
+        "0 minute ago": [
+            "to minuto"
+        ],
+        "0 month ago": [
+            "ta mesec"
+        ],
+        "0 second ago": [
+            "zdaj"
+        ],
+        "0 week ago": [
+            "ta teden"
+        ],
+        "0 year ago": [
+            "letos"
+        ],
+        "1 day ago": [
+            "včeraj"
+        ],
+        "1 month ago": [
+            "prejšnji mesec"
+        ],
+        "1 week ago": [
+            "prejšnji teden"
+        ],
+        "1 year ago": [
+            "lani"
+        ],
+        "in 1 day": [
+            "jutri"
+        ],
+        "in 1 month": [
+            "naslednji mesec"
+        ],
+        "in 1 week": [
+            "naslednji teden"
+        ],
+        "in 1 year": [
+            "naslednje leto"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "pred {0} dnevi",
+            "pred {0} dnevom"
+        ],
+        "\\1 hour ago": [
+            "pred {0} h",
+            "pred {0} urami",
+            "pred {0} uro"
+        ],
+        "\\1 minute ago": [
+            "pred {0} min",
+            "pred {0} minutami",
+            "pred {0} minuto"
+        ],
+        "\\1 month ago": [
+            "pred {0} mes",
+            "pred {0} mesecem",
+            "pred {0} meseci"
+        ],
+        "\\1 second ago": [
+            "pred {0} s",
+            "pred {0} sekundami",
+            "pred {0} sekundo"
+        ],
+        "\\1 week ago": [
+            "pred {0} ted",
+            "pred {0} tedni",
+            "pred {0} tednom"
+        ],
+        "\\1 year ago": [
+            "pred {0} leti",
+            "pred {0} letom"
+        ],
+        "in \\1 day": [
+            "čez {0} dan",
+            "čez {0} dni"
+        ],
+        "in \\1 hour": [
+            "čez {0} h",
+            "čez {0} ur",
+            "čez {0} uro"
+        ],
+        "in \\1 minute": [
+            "čez {0} min",
+            "čez {0} minut",
+            "čez {0} minuto"
+        ],
+        "in \\1 month": [
+            "čez {0} mes",
+            "čez {0} mesec",
+            "čez {0} mesecev"
+        ],
+        "in \\1 second": [
+            "čez {0} s",
+            "čez {0} sekund",
+            "čez {0} sekundo"
+        ],
+        "in \\1 week": [
+            "čez {0} ted",
+            "čez {0} teden",
+            "čez {0} tednov"
+        ],
+        "in \\1 year": [
+            "čez {0} let",
+            "čez {0} leto"
+        ]
+    },
+    "locale_specific": {}
+}

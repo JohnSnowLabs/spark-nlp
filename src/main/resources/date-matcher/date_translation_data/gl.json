@@ -1,0 +1,239 @@
+{
+    "name": "gl",
+    "date_order": "DMY",
+    "january": [
+        "xan",
+        "xaneiro"
+    ],
+    "february": [
+        "feb",
+        "febreiro"
+    ],
+    "march": [
+        "mar",
+        "marzo"
+    ],
+    "april": [
+        "abr",
+        "abril"
+    ],
+    "may": [
+        "maio"
+    ],
+    "june": [
+        "xuño"
+    ],
+    "july": [
+        "xul",
+        "xullo"
+    ],
+    "august": [
+        "ago",
+        "agosto"
+    ],
+    "september": [
+        "set",
+        "setembro"
+    ],
+    "october": [
+        "out",
+        "outubro"
+    ],
+    "november": [
+        "nov",
+        "novembro"
+    ],
+    "december": [
+        "dec",
+        "decembro"
+    ],
+    "monday": [
+        "luns"
+    ],
+    "tuesday": [
+        "mar",
+        "martes"
+    ],
+    "wednesday": [
+        "mér",
+        "mércores"
+    ],
+    "thursday": [
+        "xov",
+        "xoves"
+    ],
+    "friday": [
+        "ven",
+        "venres"
+    ],
+    "saturday": [
+        "sáb",
+        "sábado"
+    ],
+    "sunday": [
+        "dom",
+        "domingo"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "a",
+        "ano"
+    ],
+    "month": [
+        "m",
+        "mes"
+    ],
+    "week": [
+        "sem",
+        "semana"
+    ],
+    "day": [
+        "d",
+        "día"
+    ],
+    "hour": [
+        "h",
+        "hora"
+    ],
+    "minute": [
+        "min",
+        "minuto"
+    ],
+    "second": [
+        "s",
+        "segundo"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "hoxe"
+        ],
+        "0 hour ago": [
+            "nesta hora"
+        ],
+        "0 minute ago": [
+            "neste minuto"
+        ],
+        "0 month ago": [
+            "este m",
+            "este mes"
+        ],
+        "0 second ago": [
+            "agora"
+        ],
+        "0 week ago": [
+            "esta sem",
+            "esta semana"
+        ],
+        "0 year ago": [
+            "este ano"
+        ],
+        "1 day ago": [
+            "onte"
+        ],
+        "1 month ago": [
+            "m pasado",
+            "o mes pasado"
+        ],
+        "1 week ago": [
+            "a semana pasada",
+            "sem pasada"
+        ],
+        "1 year ago": [
+            "ano pasado",
+            "o ano pasado"
+        ],
+        "in 1 day": [
+            "mañá"
+        ],
+        "in 1 month": [
+            "m seguinte",
+            "o próximo mes"
+        ],
+        "in 1 week": [
+            "a próxima semana",
+            "sem seguinte"
+        ],
+        "in 1 year": [
+            "o próximo ano",
+            "seguinte ano"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "hai {0} d",
+            "hai {0} día",
+            "hai {0} días"
+        ],
+        "\\1 hour ago": [
+            "hai {0} h",
+            "hai {0} hora",
+            "hai {0} horas"
+        ],
+        "\\1 minute ago": [
+            "hai {0} min",
+            "hai {0} minuto",
+            "hai {0} minutos"
+        ],
+        "\\1 month ago": [
+            "hai {0} m",
+            "hai {0} mes",
+            "hai {0} meses"
+        ],
+        "\\1 second ago": [
+            "hai {0} s",
+            "hai {0} segundo",
+            "hai {0} segundos"
+        ],
+        "\\1 week ago": [
+            "hai {0} sem",
+            "hai {0} semana",
+            "hai {0} semanas"
+        ],
+        "\\1 year ago": [
+            "hai {0} a",
+            "hai {0} ano",
+            "hai {0} anos"
+        ],
+        "in \\1 day": [
+            "en {0} d",
+            "en {0} día",
+            "en {0} días"
+        ],
+        "in \\1 hour": [
+            "en {0} h",
+            "en {0} hora",
+            "en {0} horas"
+        ],
+        "in \\1 minute": [
+            "en {0} min",
+            "en {0} minuto",
+            "en {0} minutos"
+        ],
+        "in \\1 month": [
+            "en {0} m",
+            "en {0} mes",
+            "en {0} meses"
+        ],
+        "in \\1 second": [
+            "en {0} s",
+            "en {0} segundo",
+            "en {0} segundos"
+        ],
+        "in \\1 week": [
+            "en {0} sem",
+            "en {0} semana",
+            "en {0} semanas"
+        ],
+        "in \\1 year": [
+            "en {0} a",
+            "en {0} ano",
+            "en {0} anos"
+        ]
+    },
+    "locale_specific": {}
+}
