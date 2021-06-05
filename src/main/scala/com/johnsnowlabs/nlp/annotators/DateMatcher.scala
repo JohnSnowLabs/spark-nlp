@@ -112,6 +112,8 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
+  val languageTranslator = DateMatcherTranslator
+
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
@@ -123,10 +125,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
     // find the language of a date
-    val detectedLanguage = DateMatcherDetector.detectLanguage(text)
+    val detectedLanguage = DateMatcherTranslator.detectLanguage(text)
 
     // normalize the date to english passing the detected language
-    val nomrmalizedDate = DateMatcherDetector.normalizeDate(text, detectedLanguage)
+    //val nomrmalizedDate = DateMatcherDetector.normalizeDate(text, detectedLanguage)
 
     val possibleDate = extractFormalDate(text)
       .orElse(extractRelaxedDate(text))
