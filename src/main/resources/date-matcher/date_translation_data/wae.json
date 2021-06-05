@@ -1,0 +1,210 @@
+{
+    "name": "wae",
+    "date_order": "YMD",
+    "january": [
+        "jen",
+        "jenner"
+    ],
+    "february": [
+        "hor",
+        "hornig"
+    ],
+    "march": [
+        "mär",
+        "märze"
+    ],
+    "april": [
+        "abr",
+        "abrille"
+    ],
+    "may": [
+        "mei",
+        "meije"
+    ],
+    "june": [
+        "brá",
+        "bráčet"
+    ],
+    "july": [
+        "hei",
+        "heiwet"
+    ],
+    "august": [
+        "öig",
+        "öigšte"
+    ],
+    "september": [
+        "her",
+        "herbštmánet"
+    ],
+    "october": [
+        "wím",
+        "wímánet"
+    ],
+    "november": [
+        "win",
+        "wintermánet"
+    ],
+    "december": [
+        "chr",
+        "chrištmánet"
+    ],
+    "monday": [
+        "män",
+        "mäntag"
+    ],
+    "tuesday": [
+        "ziš",
+        "zištag"
+    ],
+    "wednesday": [
+        "mit",
+        "mittwuč"
+    ],
+    "thursday": [
+        "fró",
+        "fróntag"
+    ],
+    "friday": [
+        "fri",
+        "fritag"
+    ],
+    "saturday": [
+        "sam",
+        "samštag"
+    ],
+    "sunday": [
+        "sun",
+        "sunntag"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "jár"
+    ],
+    "month": [
+        "mánet"
+    ],
+    "week": [
+        "wuča"
+    ],
+    "day": [
+        "tag"
+    ],
+    "hour": [
+        "schtund"
+    ],
+    "minute": [
+        "mínütta"
+    ],
+    "second": [
+        "sekunda"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "hitte"
+        ],
+        "0 hour ago": [
+            "this hour"
+        ],
+        "0 minute ago": [
+            "this minute"
+        ],
+        "0 month ago": [
+            "this month"
+        ],
+        "0 second ago": [
+            "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "gešter"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "móre"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "vor {0} tag",
+            "vor {0} täg"
+        ],
+        "\\1 hour ago": [
+            "vor {0} stund",
+            "vor {0} stunde"
+        ],
+        "\\1 minute ago": [
+            "vor {0} minüta",
+            "vor {0} minüte"
+        ],
+        "\\1 month ago": [
+            "vor {0} mánet"
+        ],
+        "\\1 second ago": [
+            "vor {0} sekund",
+            "vor {0} sekunde"
+        ],
+        "\\1 week ago": [
+            "cor {0} wučä",
+            "vor {0} wuča"
+        ],
+        "\\1 year ago": [
+            "cor {0} jár",
+            "vor {0} jár"
+        ],
+        "in \\1 day": [
+            "i {0} tag",
+            "i {0} täg"
+        ],
+        "in \\1 hour": [
+            "i {0} stund",
+            "i {0} stunde"
+        ],
+        "in \\1 minute": [
+            "i {0} minüta",
+            "i {0} minüte"
+        ],
+        "in \\1 month": [
+            "i {0} mánet"
+        ],
+        "in \\1 second": [
+            "i {0} sekund",
+            "i {0} sekunde"
+        ],
+        "in \\1 week": [
+            "i {0} wuča",
+            "i {0} wučä"
+        ],
+        "in \\1 year": [
+            "i {0} jár"
+        ]
+    },
+    "locale_specific": {}
+}

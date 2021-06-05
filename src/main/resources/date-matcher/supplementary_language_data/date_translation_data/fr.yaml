@@ -1,0 +1,82 @@
+skip: ["environ", "er", "et", "le", "à"]
+
+sentence_splitter_group : 1
+
+monday:
+    - lu
+tuesday:
+    - ma
+wednesday:
+    - me
+thursday:
+    - je
+friday:
+    - ve
+saturday:
+    - sa
+sunday:
+    - di
+
+january:
+    - jan
+february:
+    - fév
+june:
+    - jun
+july:
+    - jul
+august:
+    - aoû
+september:
+    - sep
+
+year:
+    - années
+    - ans
+week:
+    - semaines
+day:
+    - jours
+hour:
+    - heures
+minute:
+    - minutes
+second:
+    - secondes
+
+ago:
+    - il ya
+    - il y a
+in:
+    - dans
+    - en
+    - après
+
+relative-type:
+    2 day ago:
+        - avant-hier
+    in 2 day:
+        - après-demain
+
+simplifications:
+    - d'une: '1'
+    - d'un: '1'
+    - une: '1'
+    - un: '1'
+    - (\d+)\s+h\s+(\d+)\s+min: \1h\2m
+    - (\d+)h(\d+)m?: \1:\2
+    - moins\s(?:de\s)?(\d+)\s?(minute|seconde|heure): \1 \2
+    - moins\s(?:de\s)?(\d+)\s?s: \1 seconde
+    - moins\s(?:de\s)?(\d+)\s?m: \1 minute
+    - moins\s(?:de\s)?(\d+)\s?h: \1 heure
+    - deux: '2'
+    - trois: '3'
+    - quatre: '4'
+    - cinq: '5'
+    - six: '6'
+    - sept: '7'
+    - huit: '8'
+    - neuf: '9'
+    - dix: '10'
+    - onze: '11'
+    - douze: '12'

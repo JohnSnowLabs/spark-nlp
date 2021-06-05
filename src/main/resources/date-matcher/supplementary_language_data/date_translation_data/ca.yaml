@@ -1,0 +1,29 @@
+skip: ["de", "del", "i", "l'"]
+pertain: ["de", "del"]
+
+in:
+    - en
+
+relative-type:
+    0 day ago:
+        - hui
+    2 day ago:
+        - despús-ahir
+        - abans-d’ahir
+        - dellà-ahir
+    in 2 day:
+        - endemà
+        - sendemà
+        - despús-demà
+        - demà passat
+        - passat demà
+    in 3 day:
+        - endemà passat
+    in 1 week:
+        - la setmana vinent
+        - la pròxima setmana
+        - la propera setmana
+
+simplifications:
+    - una: '1'
+    - un: '1'

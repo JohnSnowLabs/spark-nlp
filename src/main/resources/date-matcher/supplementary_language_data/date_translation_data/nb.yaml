@@ -1,0 +1,15 @@
+week:
+    - uker
+day:
+    - dager
+hour:
+    - timer
+
+ago:
+    - siden
+in:
+    - om
+
+relative-type-regex:
+  \1 day ago:
+      - for (\d+) dager siden
