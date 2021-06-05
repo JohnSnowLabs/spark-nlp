@@ -269,7 +269,7 @@ from sparknlp import Finisher
 from pyspark.ml import Pipeline
 from sparknlp.pretrained import PretrainedPipeline
 
-finisher = Finisher().setInputCols(["token", "lemma", "pos"])
+finisher = Finisher().setInputCols(["token", "lemmas", "pos"])
 explain_pipeline_model = PretrainedPipeline("explain_document_ml").model
 
 pipeline = Pipeline() \
