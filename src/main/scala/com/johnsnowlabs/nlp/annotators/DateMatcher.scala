@@ -76,10 +76,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
     // find the language of a date
-    val detectedLanguage = DateDetector.detectLanguage(text)
+    val detectedLanguage = DateMatcherDetector.detectLanguage(text)
 
     // normalize the date to english passing the detected language
-    val nomrmalizedDate = DateDetector.normalizeDate(text, detectedLanguage)
+    val nomrmalizedDate = DateMatcherDetector.normalizeDate(text, detectedLanguage)
 
     val possibleDate = extractFormalDate(text)
       .orElse(extractRelaxedDate(text))
