@@ -165,13 +165,38 @@ trait DateMatcherUtils extends Params {
   /** @group getParam */
   def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
 
+  /** Source language for explicit translation
+   *
+   * @group param
+   **/
+  val sourceLanguage: Param[String] = new Param(this, "sourceLanguage", "source language for explicit translation")
+
+  /**
+   * The object responsible for loading the multi-language translation dictionary
+   * */
+  val languageTranslator = DateMatcherTranslator
+
+  /** To get to use or not the multi-language translation.
+   *
+   * @group getParam
+   **/
+  def getSourceLanguage: String = $(sourceLanguage)
+
+
+  /** To set or not the source language for explicit translation.
+   *
+   * @group setParam
+   **/
+  def setSourceLanguage(value: String): this.type = set(sourceLanguage, value)
+
   setDefault(
     dateFormat -> "yyyy/MM/dd",
     anchorDateYear -> -1,
     anchorDateMonth -> -1,
     anchorDateDay -> -1,
     readMonthFirst -> true,
-    defaultDayWhenMissing -> 1
+    defaultDayWhenMissing -> 1,
+    sourceLanguage -> "en"
   )
 
   /**
