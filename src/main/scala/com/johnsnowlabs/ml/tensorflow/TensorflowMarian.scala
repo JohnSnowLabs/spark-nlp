@@ -68,7 +68,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val encoderAttentionMaskKeyTensors = tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
     val decoderAttentionMaskTensors = tensorEncoder.createIntBufferTensor(shape, decoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
+    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false)
     val runner = session.runner
 
     runner
