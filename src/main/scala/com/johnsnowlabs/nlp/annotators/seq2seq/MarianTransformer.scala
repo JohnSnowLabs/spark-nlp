@@ -268,7 +268,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
   override val sppFile: String = "marian_spp"
 
   def readTensorflow(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_marian_tf", savedSignatures = instance.getSignatures)
+    val tf = readTensorflowModel(path, spark, "_marian_tf", savedSignatures = instance.getSignatures, initAllTables = false)
     val sppSrc = readSentencePieceModel(path, spark, "_src_marian", sppFile + "_src")
     val sppTrg = readSentencePieceModel(path, spark, "_trg_marian", sppFile + "_trg")
     instance.setModelIfNotSet(spark, tf, sppSrc, sppTrg)
@@ -299,7 +299,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     val words = ResourceHelper.parseLines(vocabResource)
       .zipWithIndex.toMap.toSeq.sortBy(_._2).map(x => x._1.mkString).toArray
 
-    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"))
+    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
     val sppSrc = SentencePieceWrapper.read(sppSrcModel.toString)
     val sppTrg = SentencePieceWrapper.read(sppTrgModel.toString)
 
