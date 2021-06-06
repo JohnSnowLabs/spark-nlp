@@ -27,7 +27,7 @@ Marian is an efficient, free Neural Machine Translation framework written in pur
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/opus_mt_sv_kg_xx_3.1.0_3.0_1622560171739.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/opus_mt_sv_kg_xx_3.1.0_2.4_1622560171739.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

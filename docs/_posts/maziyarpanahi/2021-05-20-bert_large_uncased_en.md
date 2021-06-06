@@ -35,7 +35,7 @@ This model has the following configuration:
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_large_uncased_en_3.1.0_3.0_1621520725907.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_large_uncased_en_3.1.0_2.4_1621520725907.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

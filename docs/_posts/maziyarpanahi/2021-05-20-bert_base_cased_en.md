@@ -29,7 +29,7 @@ was pretrained with two objectives:
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_cased_en_3.1.0_3.0_1621516621483.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_cased_en_3.1.0_2.4_1621516621483.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

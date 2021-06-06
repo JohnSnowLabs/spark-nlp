@@ -26,7 +26,7 @@ It is based on Facebook's RoBERTa model released in 2019. It is a large multi-li
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_base_xx_3.1.0_3.0_1621961851929.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_base_xx_3.1.0_2.4_1621961851929.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
