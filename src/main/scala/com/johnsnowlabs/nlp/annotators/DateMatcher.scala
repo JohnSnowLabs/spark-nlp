@@ -19,8 +19,8 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
-
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /**
@@ -98,6 +98,9 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   */
 class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with HasSimpleAnnotate[DateMatcher] with DateMatcherUtils {
 
+  /** Internal constructor to submit a random UID */
+  def this() = this(Identifiable.randomUID("DATE"))
+
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Output annotator type: DATE
@@ -112,11 +115,6 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
-  val languageTranslator = DateMatcherTranslator
-
-  /** Internal constructor to submit a random UID */
-  def this() = this(Identifiable.randomUID("DATE"))
-
   /**
    * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
    *
@@ -124,19 +122,21 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    * @return a possible date-time match
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
-    // find the language of a date
-    val detectedLanguage = DateMatcherTranslator.detectLanguage(text)
 
-    // normalize the date to english passing the detected language
-    //val nomrmalizedDate = DateMatcherDetector.normalizeDate(text, detectedLanguage)
+    val _text: String =
+      if(!getSourceLanguage.equals("en")){
+        languageTranslator.translateLanguage(text, getSourceLanguage, "en")
+      } else {
+        text
+      }
 
-    val possibleDate = extractFormalDate(text)
-      .orElse(extractRelaxedDate(text))
-      .orElse(extractRelativeDate(text))
-      .orElse(extractTomorrowYesterday(text))
-      .orElse(extractRelativeExactDay(text))
+    val possibleDate = extractFormalDate(_text)
+      .orElse(extractRelaxedDate(_text))
+      .orElse(extractRelativeDate(_text))
+      .orElse(extractTomorrowYesterday(_text))
+      .orElse(extractRelativeExactDay(_text))
 
-    possibleDate.orElse(setTimeIfAny(possibleDate, text))
+    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
   }
 
 

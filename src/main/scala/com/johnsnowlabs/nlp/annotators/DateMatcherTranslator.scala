@@ -12,17 +12,13 @@ object DateMatcherTranslator extends Serializable {
 //    .json(DictionaryPath)
   val dictionary = JSON.parseFull(DictionaryPath)
 
-  def normalizeDateLanguage(source: String, destination: String = "en") = ???
-
   def detectLanguage(text: String) = {
-    println("Ciao, detect language")
-    "detected"
+    println(s"Ciao, detected language: $text")
+    text
   }
 
-  def translate(text: String): Unit ={
-    val source = detectLanguage(text)
-    normalizeDateLanguage(source, destination = "en")
+  def translateLanguage(text: String, sourceLanguage: String, destinationLanguage: String = "en") = {
+    // search language and translate
+    ""
   }
-
-
 }
