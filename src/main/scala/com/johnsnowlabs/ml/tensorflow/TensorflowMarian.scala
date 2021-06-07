@@ -68,7 +68,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val encoderAttentionMaskKeyTensors = tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
     val decoderAttentionMaskTensors = tensorEncoder.createIntBufferTensor(shape, decoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false)
+    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false, savedSignatures = signatures)
     val runner = session.runner
 
     runner
@@ -199,12 +199,19 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   }
 
-  /*
-  * Batch size more than 1 is not performing well on CPU
-  *
-  */
+  /**
+   * generate seq2seq via encoding, generating, and decoding
+   *
+   * @param sentences       none empty Annotation
+   * @param batchSize       size of baches to be process at the same time
+   * @param maxInputLength  maximum length for input
+   * @param maxOutputLength maximum length for output
+   * @param vocabs          list of all vocabs
+   * @param langId          language id for multi-lingual models
+   * @return
+   */
   def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int = 1,
+                      batchSize: Int = 10,
                       maxInputLength: Int,
                       maxOutputLength: Int,
                       vocabs: Array[String],
