@@ -522,7 +522,1056 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="300">3.0.0</h3>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="310">3.1.0</h3>
+
+<h4 id="john-snow-labs-spark-nlp-310-over-2600-new-models-and-pipelines-in-200-languages-new-distilbert-roberta-and-xlm-roberta-transformers-support-for-external-transformers-and-lots-more">John Snow Labs Spark-NLP 3.1.0: Over 2600+ new models and pipelines in 200+ languages, new DistilBERT, RoBERTa, and XLM-RoBERTa transformers, support for external Transformers, and lots more!</h4>
+
+<p>Overview</p>
+
+<p>We are very excited to release Spark NLP 🚀  3.1.0! This is one of our biggest releases with lots of models, pipelines, and groundworks for future features that we are so proud to share it with our community.</p>
+
+<p>Spark NLP 3.1.0 comes with over 2600+ new pretrained models and pipelines in over 200+ languages, new DistilBERT, RoBERTa, and XLM-RoBERTa annotators, support for HuggingFace 🤗 (Autoencoding) models in Spark NLP, and extends support for new Databricks and EMR instances.</p>
+
+<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
+
+<p>Major features and improvements</p>
+
+<ul>
+  <li><strong>NEW:</strong> Introducing DistiBertEmbeddings annotator. DistilBERT is a small, fast, cheap, and light Transformer model trained by distilling BERT base. It has 40% fewer parameters than <code class="language-plaintext highlighter-rouge">bert-base-uncased</code>, runs 60% faster while preserving over 95% of BERT’s performances</li>
+  <li><strong>NEW:</strong> Introducing RoBERTaEmbeddings annotator. RoBERTa (Robustly Optimized BERT-Pretraining Approach) models deliver state-of-the-art performance on NLP/NLU tasks and a sizable performance improvement on the GLUE benchmark. With a score of 88.5, RoBERTa reached the top position on the GLUE leaderboard</li>
+  <li><strong>NEW:</strong> Introducing XlmRoBERTaEmbeddings annotator. XLM-RoBERTa (Unsupervised Cross-lingual Representation Learning at Scale) is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data with 100 different languages. It also outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model</li>
+  <li><strong>NEW:</strong> Introducing support for HuggingFace exported models in equivalent Spark NLP annotators. Starting this release, you can easily use the <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release - For more information please visit <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">this discussion</a></li>
+  <li><strong>NEW:</strong> Migrate MarianTransformer to BatchAnnotate to control the throughput when you are on accelerated hardware such as GPU to fully utilize it</li>
+  <li>Upgrade to TensorFlow v2.4.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x</li>
+  <li>Update to CUDA11 and cuDNN 8.0.2 for GPU support</li>
+  <li>Implement ModelSignatureManager to automatically detect inputs, outputs, save and restore tensors from SavedModel in TF v2. This allows Spark NLP 3.1.x to extend support for external Encoders such as HuggingFace and TF Hub (coming soon!)</li>
+  <li>Implement a new BPE tokenizer for RoBERTa and XLM models. This tokenizer will use the custom tokens from <code class="language-plaintext highlighter-rouge">Tokenizer</code> or <code class="language-plaintext highlighter-rouge">RegexTokenizer</code> and generates token pieces, encodes, and decodes the results</li>
+  <li>Welcoming new Databricks runtimes to our Spark NLP family:
+    <ul>
+      <li>Databricks 8.1 ML &amp; GPU</li>
+      <li>Databricks 8.2 ML &amp; GPU</li>
+      <li>Databricks 8.3 ML &amp; GPU</li>
+    </ul>
+  </li>
+  <li>Welcoming a new EMR 6.x series to our Spark NLP family:
+    <ul>
+      <li>EMR 6.3.0 (Apache Spark 3.1.1 / Hadoop 3.2.1)</li>
+    </ul>
+  </li>
+  <li>Added examples to Spark NLP Scaladoc</li>
+</ul>
+
+<p>Models and Pipelines</p>
+
+<p>Spark NLP 3.1.0 comes with over 2600+ new pretrained models and pipelines in over 200 languages available for Windows, Linux, and macOS users.</p>
+
+<h3 id="featured-transformers">Featured Transformers</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_dutch_cased_nl.html">bert_base_dutch_cased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_german_cased_de.html">bert_base_german_cased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">de</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_german_uncased_de.html">bert_base_german_uncased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">de</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_italian_cased_it.html">bert_base_italian_cased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">it</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_italian_uncased_it.html">bert_base_italian_uncased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">it</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_turkish_cased_tr.html">bert_base_turkish_cased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tr</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_turkish_uncased_tr.html">bert_base_turkish_uncased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tr</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/chinese_bert_wwm_zh.html">chinese_bert_wwm</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">zh</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/bert_base_chinese_zh.html">bert_base_chinese</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">zh</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/distilbert_base_cased_en.html">distilbert_base_cased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/distilbert_base_uncased_en.html">distilbert_base_uncased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/distilbert_base_multilingual_cased_xx.html">distilbert_base_multilingual_cased</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/roberta_base_en.html">roberta_base</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/roberta_large_en.html">roberta_large</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/20/distilroberta_base_en.html">distilroberta_base</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">XlmRoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/25/xlm_roberta_base_xx.html">xlm_roberta_base</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">XlmRoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/25/twitter_xlm_roberta_base_xx.html">twitter_xlm_roberta_base</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="featured-translation-models">Featured Translation Models</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_vi_xx.html">Chinese to Vietnamese</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_uk_xx.html">Chinese to Ukrainian</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_nl_xx.html">Chinese to Dutch</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_en_xx.html">Chinese to English</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_fi_xx.html">Chinese to Finnish</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_it_xx.html">Chinese to Italian</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_yo_en_xx.html">Yoruba to English</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_yap_fr_xx.html">Yapese to French</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_war_es_xx.html">Waray to Spanish</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_uk_en_xx.html">Ukrainian to English</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_hi_ur_xx.html">Hindi to Urdu</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_it_uk_xx.html">Italian to Ukrainian</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_it_is_xx.html">Italian to Icelandic</a></td>
+      <td style="text-align: left">3.1.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="transformers-in-spark-nlp">Transformers in Spark NLP</h3>
+
+<p>Import hundreds of models in different languages to Spark NLP</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Spark NLP</th>
+      <th style="text-align: left">HuggingFace Notebooks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb">HuggingFace in Spark NLP - BERT</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertSentenceEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">HuggingFace in Spark NLP - BERT Sentence</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">HuggingFace in Spark NLP - DistilBERT</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb">HuggingFace in Spark NLP - RoBERTa</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">XlmRoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">HuggingFace in Spark NLP - XLM-RoBERTa</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The complete list of all 3700+ models &amp; pipelines in 200+ languages is available on <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+
+<p>Backward compatibility</p>
+
+<ul>
+  <li>We have updated our MarianTransformer annotator to be compatible with TF v2 models. This change is not compatible with previous models/pipelines. However, we have updated and uploaded all the models and pipelines for <code class="language-plaintext highlighter-rouge">3.1.x</code> release. You can either use <code class="language-plaintext highlighter-rouge">MarianTransformer.pretrained(MODEL_NAME)</code> and it will automatically download the compatible model or you can visit <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a> to download the compatible models for offline use via <code class="language-plaintext highlighter-rouge">MarianTransformer.load(PATH)</code></li>
+</ul>
+
+<p>Documentation</p>
+
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">HuggingFace to Spark NLP</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/models">Models Hub</a> with new models</li>
+  <li><a href="https://medium.com/spark-nlp">Spark NLP publications</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/demo">Spark NLP in Action</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">Spark NLP documentation</a></li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Spark NLP Workshop</a> notebooks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public">Spark NLP training certification notebooks</a> for Google Colab and Databricks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-display">Spark NLP Display</a> for visualization of different types of annotations</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions">Discussions</a> Engage with other community members, share ideas, and show off how you use Spark NLP!</li>
+</ul>
+
+<p>Installation</p>
+
+<p><strong>Python</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#PyPI</span>
+
+pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.1.0
+</code></pre></div></div>
+
+<p><strong>Spark Packages</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x (Scala 2.12 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.0
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.1.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.1.0
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.1.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.1.0
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.1.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.1.0
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.1.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.1.0
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:3.1.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.1.0
+</code></pre></div></div>
+
+<p><strong>Maven</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>FAT JARs</strong></p>
+
+<ul>
+  <li>
+    <p>CPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-assembly-3.1.0.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-assembly-3.1.0.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark24-assembly-3.1.0.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark24-assembly-3.1.0.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark23-assembly-3.1.0.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark23-assembly-3.1.0.jar</p>
+  </li>
+</ul>
+
+<h3 id="303">3.0.3</h3>
+
+<h4 id="john-snow-labs-spark-nlp-303-new-t5-features-for-longer-and-more-accurate-text-generation-new-multi-lingual-models--pipelines-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.0.3: New T5 features for longer and more accurate text generation, new multi-lingual models &amp; pipelines, bug fixes, and other improvements!</h4>
+
+<p>Overview</p>
+
+<p>We are glad to release Spark NLP 3.0.3! We have added some new features to our T5 Transformer annotator to help with longer and more accurate text generation, trained some new multi-lingual models and pipelines in <code class="language-plaintext highlighter-rouge">Farsi</code>, <code class="language-plaintext highlighter-rouge">Hebrew</code>, <code class="language-plaintext highlighter-rouge">Korean</code>, and <code class="language-plaintext highlighter-rouge">Turkish</code>, and fixed some bugs in this release.</p>
+
+<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
+
+<p>New Features</p>
+
+<ul>
+  <li>Add 6 new features to T5Transformer for longer and better text generation
+    <ul>
+      <li>doSample: Whether or not to use sampling; use greedy decoding otherwise</li>
+      <li>temperature: The value used to module the next token probabilities</li>
+      <li>topK: The number of highest probability vocabulary tokens to keep for top-k-filtering</li>
+      <li>topP: If set to float &lt; 1, only the most probable tokens with probabilities that add up to <code class="language-plaintext highlighter-rouge">top_p</code> or higher are kept for generation</li>
+      <li>repetitionPenalty: The parameter for repetition penalty. 1.0 means no penalty. See <a href="https://arxiv.org/abs/1909.05858">CTRL: A Conditional Transformer Language Model for Controllable Generation</a> paper for more details</li>
+      <li>noRepeatNgramSize: If set to int &gt; 0, all ngrams of that size can only occur once</li>
+    </ul>
+  </li>
+  <li>Spark NLP 3.0.3 is compatible with the new Databricks 8.2 (ML) runtime</li>
+  <li>Spark NLP 3.0.3 is compatible with the new EMR 5.33.0 (with Zeppelin 0.9.0) release</li>
+</ul>
+
+<p>Bug Fixes</p>
+
+<ul>
+  <li>Fix ChunkEmbeddings Array out of bounds exception https://github.com/JohnSnowLabs/spark-nlp/pull/2796</li>
+  <li>Fix pretrained tfhub_use_multi and tfhub_use_multi_lg models in UniversalSentenceEncoder https://github.com/JohnSnowLabs/spark-nlp/pull/2827</li>
+  <li>Fix anchorDateMonth in Python that resulted in 1 additional month and case sensitivity to some relative dates like <code class="language-plaintext highlighter-rouge">next friday</code> or <code class="language-plaintext highlighter-rouge">next Friday</code> https://github.com/JohnSnowLabs/spark-nlp/pull/2848</li>
+</ul>
+
+<p>Models and Pipelines</p>
+
+<p>New multilingual models and pipelines for <code class="language-plaintext highlighter-rouge">Farsi</code>, <code class="language-plaintext highlighter-rouge">Hebrew</code>, <code class="language-plaintext highlighter-rouge">Korean</code>, and <code class="language-plaintext highlighter-rouge">Turkish</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ClassifierDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/03/classifierdl_bert_news_tr.html">classifierdl_bert_news</a></td>
+      <td style="text-align: left">3.0.2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tr</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">UniversalSentenceEncoder</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/06/tfhub_use_multi_xx.html">tfhub_use_multi</a></td>
+      <td style="text-align: left">3.0.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">UniversalSentenceEncoder</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/05/06/tfhub_use_multi_lg_xx.html">tfhub_use_multi_lg</a></td>
+      <td style="text-align: left">3.0.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Pipeline</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">PretrainedPipeline</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/04/26/recognize_entities_dl_fa.html">recognize_entities_dl</a></td>
+      <td style="text-align: left">3.0.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fa</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">PretrainedPipeline</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/04/30/explain_document_lg_he.html">explain_document_lg</a></td>
+      <td style="text-align: left">3.0.2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">he</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">PretrainedPipeline</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/04/30/explain_document_lg_ko.html">explain_document_lg</a></td>
+      <td style="text-align: left">3.0.2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ko</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The complete list of all 1100+ models &amp; pipelines in 192+ languages is available on <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+
+<p>Documentation and Notebooks</p>
+
+<ul>
+  <li>Add a new <a href="https://github.com/JohnSnowLabs/spark-nlp#offline">Offline section</a> to docs</li>
+  <li><a href="https://medium.com/spark-nlp/installing-spark-nlp-and-spark-ocr-in-air-gapped-networks-offline-mode-f42a1ee6b7a8">Installing Spark NLP and Spark OCR in air-gapped networks (offline mode)</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/models">Models Hub</a> with new models</li>
+  <li><a href="https://medium.com/spark-nlp">Spark NLP publications</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/demo">Spark NLP in Action</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">Spark NLP documentation</a></li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Spark NLP Workshop</a> notebooks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public">Spark NLP training certification notebooks</a> for Google Colab and Databricks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-display">Spark NLP Display</a> for visualization of different types of annotations</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions">Discussions</a> Engage with other community members, share ideas, and show off how you use Spark NLP!</li>
+</ul>
+
+<p>Installation</p>
+
+<p><strong>Python</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#PyPI</span>
+
+pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.0.3
+</code></pre></div></div>
+
+<p><strong>Spark Packages</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x (Scala 2.12 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.3
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.3
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.3
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.3
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.3
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.3
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.3
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.3
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.3
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.3
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:3.0.3
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.3
+</code></pre></div></div>
+
+<p><strong>Maven</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>FAT JARs</strong></p>
+
+<ul>
+  <li>
+    <p>CPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-assembly-3.0.3.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-assembly-3.0.3.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark24-assembly-3.0.3.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark24-assembly-3.0.3.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark23-assembly-3.0.3.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark23-assembly-3.0.3.jar</p>
+  </li>
+</ul>
+
+<h3 id="302">3.0.2</h3>
+
+<h4 id="john-snow-labs-spark-nlp-302-new-multilingual-models-confidence-scores-for-entities-and-all-ner-tags-first-support-for-community-models-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.0.2: New multilingual models, confidence scores for entities and all NER tags, first support for community models, bug fixes, and other improvements!</h4>
+
+<p>Overview</p>
+
+<p>We are glad to release Spark NLP 3.0.2! We have added some new features, improvements, trained some new multi-lingual models, and fixed some bugs in this release.</p>
+
+<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
+
+<p>New Features</p>
+
+<ul>
+  <li>Experimental support for community models and pipelines (uploaded by users) https://github.com/JohnSnowLabs/spark-nlp/pull/2743</li>
+  <li>Provide confidence scores for all available tags in NerDLModel and NerCrfModel https://github.com/JohnSnowLabs/spark-nlp/pull/2760
+```
+    <h1 id="nerdlmodel-and-nercrfmodel-before-302">NerDLModel and NerCrfModel before 3.0.2</h1>
+    <p>[[named_entity, 0, 4, B-LOC, [word -&gt; Japan, confidence -&gt; 0.9998], []]</p>
+  </li>
+</ul>
+
+<h1 id="now-in-spark-nlp-302">Now in Spark NLP 3.0.2</h1>
+<p>[[named_entity, 0, 4, B-LOC, [B-LOC -&gt; 0.9998, I-ORG -&gt; 0.0, I-MISC -&gt; 0.0, I-LOC -&gt; 0.0, I-PER -&gt; 0.0, B-MISC -&gt; 0.0, B-ORG -&gt; 1.0E-4, word -&gt; Japan, O -&gt; 0.0, B-PER -&gt; 0.0], []]</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Calculate confidence score for entities in NerConverter https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+</code></pre></div></div>
+<p>[chunk, 30, 41, Barack Obama, [entity -&gt; PERSON, sentence -&gt; 0, chunk -&gt; 0, confidence -&gt; 0.94035]</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Enhancements
+
+* Add proper conversions for Scala 2.11/2.12 in ContextSpellChecker to use models from Spark 2.x in Spark 3.x https://github.com/JohnSnowLabs/spark-nlp/pull/2758
+* Refactoring SentencePiece encoding in AlbertEmbeddings and XlnetEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+Bug Fixes
+
+* Fix an exception in NerConverter when the documents/sentences don't carry the used tokens in NerDLModel https://github.com/JohnSnowLabs/spark-nlp/pull/2784 thanks to @rahulraina7 
+* Fix an exception in AlbertEmbeddings when the original tokens are longer than the piece tokens https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+Models and Pipelines
+
+New multilingual models for `Afrikaans`, `Welsh`, `Maltese`, `Tamil`, and `Vietnamese`
+
+| Model                | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| PerceptronModel | [pos_afribooms](https://nlp.johnsnowlabs.com/2021/04/06/pos_afribooms_af.html) | 3.0.0 |  `af`
+| LemmatizerModel | [lemma](https://nlp.johnsnowlabs.com/2021/04/02/lemma_cy.html) |     3.0.0     |`cy`
+| LemmatizerModel | [lemma](https://nlp.johnsnowlabs.com/2021/04/02/lemma_mt.html)| 3.0.0 | `mt`
+| LemmatizerModel | [lemma](https://nlp.johnsnowlabs.com/2021/04/02/lemma_af.html)| 3.0.0 | `af`
+| LemmatizerModel | [lemma](https://nlp.johnsnowlabs.com/2021/04/02/lemma_ta.html)| 3.0.0 | `ta`
+| LemmatizerModel | [lemma](https://nlp.johnsnowlabs.com/2021/04/02/lemma_vi.html)| 3.0.0 | `vi`
+
+The complete list of all 1100+ models &amp; pipelines in 192+ languages is available on [Models Hub](https://nlp.johnsnowlabs.com/models).
+
+Documentation and Notebooks
+
+* Add a new [Offline section](https://github.com/JohnSnowLabs/spark-nlp#offline) to docs
+* [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
+* [Spark NLP publications](https://medium.com/spark-nlp)
+* [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
+* [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
+* [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks
+* [Spark NLP training certification notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) for Google Colab and Databricks
+* [Spark NLP Display](https://github.com/JohnSnowLabs/spark-nlp-display) for visualization of different types of annotations
+* [Discussions](https://github.com/JohnSnowLabs/spark-nlp/discussions) Engage with other community members, share ideas, and show off how you use Spark NLP!
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==3.0.2
+</code></pre></div></div>
+
+<p><strong>Spark Packages</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x (Scala 2.12 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.2
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.2
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.2
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.2
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.2
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.2
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.2
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.2
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.2
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:3.0.2
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.2
+</code></pre></div></div>
+
+<p><strong>Maven</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>FAT JARs</strong></p>
+
+<ul>
+  <li>
+    <p>CPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-assembly-3.0.2.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-assembly-3.0.2.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark24-assembly-3.0.2.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark24-assembly-3.0.2.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark23-assembly-3.0.2.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark23-assembly-3.0.2.jar</p>
+  </li>
+</ul>
+
+<h3 id="301">3.0.1</h3>
+
+<h4 id="john-snow-labs-spark-nlp-301-new-parameters-in-normalizer-bug-fixes-and-other-improvements">John Snow Labs Spark-NLP 3.0.1: New parameters in Normalizer, bug fixes and other improvements!</h4>
+
+<p>Overview</p>
+
+<p>We are glad to release Spark NLP 3.0.1! We have made some improvements, added 1 line bash script to set up Google Colab and Kaggle kernel for Spark NLP 3.x, and improved our Models Hub filtering to help our community to have easier access to over 1300 pretrained models and pipelines in over 200+ languages.</p>
+
+<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
+
+<p>New Features</p>
+
+<ul>
+  <li>Add minLength and maxLength parameters to Normalizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/2614</li>
+  <li>1 line to setup <a href="https://github.com/JohnSnowLabs/spark-nlp#google-colab-notebook">Google Colab</a></li>
+  <li>1 line to setup <a href="https://github.com/JohnSnowLabs/spark-nlp#kaggle-kernel">Kaggle Kernel</a></li>
+</ul>
+
+<p>Enhancements</p>
+
+<ul>
+  <li>Adjust shading rule for amazon AWS to support sub-projects from Spark NLP Fat JAR https://github.com/JohnSnowLabs/spark-nlp/pull/2613</li>
+  <li>Fix the missing variables in BertSentenceEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2615</li>
+  <li>Restrict loading Sentencepiece ops only to supported models https://github.com/JohnSnowLabs/spark-nlp/pull/2623</li>
+  <li>improve dependency management and resolvers https://github.com/JohnSnowLabs/spark-nlp/pull/2479</li>
+</ul>
+
+<p>Documentation and Notebooks</p>
+
+<ul>
+  <li><a href="https://nlp.johnsnowlabs.com/models">Models Hub</a> with new models</li>
+  <li><a href="https://medium.com/spark-nlp">Spark NLP publications</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/demo">Spark NLP in Action</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">Spark NLP documentation</a></li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Spark NLP Workshop</a> notebooks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public">Spark NLP training certification notebooks</a> for Google Colab and Databricks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-display">Spark NLP Display</a> for visualization of different types of annotations</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions">Discussions</a> Engage with other community members, share ideas, and show off how you use Spark NLP!</li>
+</ul>
+
+<p>Installation</p>
+
+<p><strong>Python</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#PyPI</span>
+
+pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.0.1
+</code></pre></div></div>
+
+<p><strong>Spark Packages</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x (Scala 2.12 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.1
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.1
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.1
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.1
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.1
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.1
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.1
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.1
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.1
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:3.0.1
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.1
+</code></pre></div></div>
+
+<p><strong>Maven</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>FAT JARs</strong></p>
+
+<ul>
+  <li>
+    <p>CPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-assembly-3.0.1.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-assembly-3.0.1.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark24-assembly-3.0.1.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark24-assembly-3.0.1.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark23-assembly-3.0.1.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark23-assembly-3.0.1.jar</p>
+  </li>
+</ul>
+
+<h3 id="300">3.0.0</h3>
 
 <h4 id="john-snow-labs-spark-nlp-300-supporting-spark-3x-scala-212-more-databricks-runtimes-more-emr-versions-performance-improvements--lots-more">John Snow Labs Spark-NLP 3.0.0: Supporting Spark 3.x, Scala 2.12, more Databricks runtimes, more EMR versions, performance improvements &amp; lots more</h4>
 
@@ -6843,7 +7892,7 @@ conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs sp
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Workshop</a></li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-03-26T00:00:00+00:00">Mar 26, 2021</time>
+      <time itemprop="dateModified" datetime="2021-06-07T00:00:00+00:00">Jun 07, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
