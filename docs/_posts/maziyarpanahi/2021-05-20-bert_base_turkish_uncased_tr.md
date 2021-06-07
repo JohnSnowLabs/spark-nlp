@@ -22,7 +22,7 @@ BERTurk is a community-driven cased BERT model for Turkish. Some datasets used f
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_turkish_uncased_tr_3.1.0_3.0_1621510523359.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_turkish_uncased_tr_3.1.0_2.4_1621510523359.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

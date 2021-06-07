@@ -22,7 +22,7 @@ The source data for the Italian BERT model consists of a recent Wikipedia dump a
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_italian_cased_it_3.1.0_3.0_1621508025859.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_italian_cased_it_3.1.0_2.4_1621508025859.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
