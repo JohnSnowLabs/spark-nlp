@@ -5,7 +5,7 @@ author: John Snow Labs
 name: opus_mt_afa_en
 date: 2020-12-28
 task: Translation
-language: afa
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, afa, en, xx]
 supported: false

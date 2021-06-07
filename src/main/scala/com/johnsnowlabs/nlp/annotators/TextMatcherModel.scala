@@ -11,11 +11,10 @@ import scala.annotation.{tailrec => tco}
 import scala.collection.mutable.ArrayBuffer
 
 /**
-  * Extracts entities out of provided phrases
+  * Instantiated model of the [[TextMatcher]].
+  * For usage and examples see the documentation of the main class.
   *
   * @param uid internally renquired UID to make it writable
-  * @@ entitiesPath: Path to file with phrases to search
-  * @@ insideSentences: Should Extractor search only within sentence borders?
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -28,7 +27,7 @@ import scala.collection.mutable.ArrayBuffer
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatcherModel] with HasSimpleAnnotate[TextMatcherModel] {
 

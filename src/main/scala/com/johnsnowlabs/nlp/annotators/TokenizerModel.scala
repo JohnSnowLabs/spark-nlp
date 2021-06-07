@@ -12,7 +12,7 @@ import org.apache.spark.ml.util.Identifiable
   *
   * This class represents an already fitted Tokenizer model.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for examples examples of usage.
+  * See the main class [[Tokenizer]] for more examples of usage.
   *
   * @param uid required uid for storing annotator to disk
   * @groupname anno Annotator types
@@ -27,7 +27,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerModel] with HasSimpleAnnotate[TokenizerModel] {
 

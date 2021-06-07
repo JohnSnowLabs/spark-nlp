@@ -9,17 +9,9 @@ import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
 /**
-  * Matches regular expressions and maps them to specified values optionally provided
-  * Rules are provided from external source file
-  *
+  * Instantiated model of the [[RegexMatcher]].
+  * For usage and examples see the documentation of the main class.
   * @param uid internal element required for storing annotator to disk
-  * @@ rules: Set of rules to be mattched
-  * @@ strategy:
-  *    -- MATCH_ALL brings one-to-many results
-  *    -- MATCH_FIRST catches only first match
-  *    -- MATCH_COMPLETE returns only if match is entire target.
-  *
-  *    See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala]] for example on how to use this API.
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -32,7 +24,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   *
   */
 class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMatcherModel] with HasSimpleAnnotate[RegexMatcherModel] {

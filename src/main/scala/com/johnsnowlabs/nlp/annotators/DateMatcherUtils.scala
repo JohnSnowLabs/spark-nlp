@@ -64,95 +64,105 @@ trait DateMatcherUtils extends Params {
   protected val defaultMonthWhenMissing = 0
   protected val defaultYearWhenMissing: Int = Calendar.getInstance.get(Calendar.YEAR)
 
-  /** Annotator param containing expected output format of parsed date */
-  val dateFormat: Param[String] = new Param(this, "dateFormat", "SimpleDateFormat standard criteria")
+  /**
+    * Output format of parsed date (Default: `"yyyy/MM/dd"`)
+    *
+    * @group param
+    * */
+  val dateFormat: Param[String] = new Param(this, "dateFormat", "Output format of parsed date")
 
+  /** @group getParam */
   def getFormat: String = $(dateFormat)
 
+  /** @group setParam */
   def setFormat(value: String): this.type = set(dateFormat, value)
 
   /**
-   * Add an anchor year for the relative dates such as a day after tomorrow.
-   * If not set it will use the current year.
-   * Example: 2021
-   * By default it will use the current year
-   * Default: -1
-   *
-   * @group param
-   * */
+    * Add an anchor year for the relative dates such as a day after tomorrow (Default: `-1`).
+    * If it is not set, the by default it will use the current year. Example: 2021
+    *
+    * @group param
+    * */
   val anchorDateYear: Param[Int] = new IntParam(
     this,
     "anchorDateYear",
     "Add an anchor year for the relative dates such as a day after tomorrow. If not set it will use the current year. Example: 2021"
   )
 
-  /** @group setParam * */
+  /** @group setParam */
   def setAnchorDateYear(value: Int): this.type = {
     require(value <= 9999 || value >= 999, "The year must be between 999 and 9999")
     set(anchorDateYear, value)
   }
 
-  /** @group getParam * */
+  /** @group getParam */
   def getAnchorDateYear: Int = $(anchorDateYear)
 
   /**
-   * Add an anchor month for the relative dates such as a day after tomorrow.
-   * Month value is 1-based. e.g., 1 for January.
-   * By default it will use the current month
-   * Default: -1
-   *
-   * @group param
-   * */
+    * Add an anchor month for the relative dates such as a day after tomorrow (Default: `-1`).
+    * By default it will use the current month. Month values start from `1`, so `1` stands for January.
+    *
+    * @group param
+    */
   val anchorDateMonth: Param[Int] = new IntParam(
     this,
     "anchorDateMonth",
     "Add an anchor month for the relative dates such as a day after tomorrow. If not set it will use the current month. Example: 1 which means January"
   )
 
-  /** @group setParam * */
+  /** @group setParam */
   def setAnchorDateMonth(value: Int): this.type = {
     val normalizedMonth = value - 1
     require(normalizedMonth <= 11 || normalizedMonth >= 0, "The month value is 1-based. e.g., 1 for January. The value must be between 1 and 12")
     set(anchorDateMonth, normalizedMonth)
   }
 
-  /** @group getParam * */
+  /** @group getParam */
   def getAnchorDateMonth: Int = $(anchorDateMonth)
 
   /**
-   * Add an anchor year for the relative dates such as a day after tomorrow.
-   * The first day of the month has value 1
-   * Example: 11
-   * By default it will use the current day
-   * Default: -1
+   * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).
+   * By default it will use the current day. The first day of the month has value 1.
    *
    * @group param
-   * */
+   */
   val anchorDateDay: Param[Int] = new IntParam(
     this,
     "anchorDateDay",
     "Add an anchor day of the day for the relative dates such as a day after tomorrow. If not set it will use the current day. Example: 11"
   )
 
-  /** @group setParam * */
+  /** @group setParam */
   def setAnchorDateDay(value: Int): this.type = {
     require(value <= 31 || value >= 1, "The day value starts from 1. The value must be between 1 and 31")
     set(anchorDateDay, value)
   }
 
-  /** @group getParam * */
+  /** @group getParam */
   def getAnchorDateDay: Int = $(anchorDateDay)
 
-  val readMonthFirst: BooleanParam = new BooleanParam(this, "readMonthFirst", "Whether to parse july 07/05/2015 or as 05/07/2015")
+  /**
+    * Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: `true`)
+    * @group param
+    */
+  val readMonthFirst: BooleanParam = new BooleanParam(this, "readMonthFirst", "Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY")
 
+  /** @group setParam */
   def setReadMonthFirst(value: Boolean): this.type = set(readMonthFirst, value)
 
+  /** @group getParam */
   def getReadMonthFirst: Boolean = $(readMonthFirst)
 
-  val defaultDayWhenMissing: IntParam = new IntParam(this, "defaultDayWhenMissing", "which day to set when it is missing from parsed input")
+  /**
+    * Which day to set when it is missing from parsed input (Default: `1`)
+    * @group param
+    */
+  val defaultDayWhenMissing: IntParam = new IntParam(this, "defaultDayWhenMissing", "Which day to set when it is missing from parsed input")
 
+  /** @group setParam */
   def setDefaultDayWhenMissing(value: Int): this.type = set(defaultDayWhenMissing, value)
 
+  /** @group getParam */
   def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
 
   setDefault(

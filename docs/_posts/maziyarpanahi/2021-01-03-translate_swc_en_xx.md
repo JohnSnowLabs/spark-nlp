@@ -5,7 +5,7 @@ author: John Snow Labs
 name: translate_swc_en
 date: 2021-01-03
 task: [Translation, Pipeline Public]
-language: swc
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, swc, en, xx]
 supported: false

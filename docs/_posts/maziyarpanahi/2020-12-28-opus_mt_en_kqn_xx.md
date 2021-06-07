@@ -5,7 +5,7 @@ author: John Snow Labs
 name: opus_mt_en_kqn
 date: 2020-12-28
 task: Translation
-language: kqn
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, kqn, xx]
 supported: false

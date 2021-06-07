@@ -35,7 +35,7 @@ import scala.util.Random
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class ClassifierDLApproach(override val uid: String)
   extends AnnotatorApproach[ClassifierDLModel]
@@ -258,15 +258,11 @@ class ClassifierDLApproach(override val uid: String)
       s"The total unique number of classes must be more than 2 and less than 100. Currently is ${labels.length}"
     )
 
-    val tf = loadSavedModel()
+    val tfWrapper: TensorflowWrapper = loadSavedModel()
 
-    val settings = ClassifierDatasetEncoderParams(
-      tags = labels
-    )
+    val settings = ClassifierDatasetEncoderParams(tags = labels)
 
-    val encoder = new ClassifierDatasetEncoder(
-      settings
-    )
+    val encoder = new ClassifierDatasetEncoder(settings)
 
     val embeddingsDim = encoder.calculateEmbeddingsDim(train)
     require(
@@ -281,7 +277,7 @@ class ClassifierDLApproach(override val uid: String)
 
     val classifier = try {
       val model = new TensorflowClassifier(
-        tensorflow = tf,
+        tensorflow = tfWrapper,
         encoder,
         Verbose($(verbose))
       )
@@ -309,7 +305,7 @@ class ClassifierDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tfWrapper.getSession(configProtoBytes = getConfigProtoBytes)), tfWrapper.graph)
 
     val model = new ClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)
@@ -325,7 +321,9 @@ class ClassifierDLApproach(override val uid: String)
   def loadSavedModel(): TensorflowWrapper = {
 
     val wrapper =
-      TensorflowWrapper.readZippedSavedModel("/classifier-dl", tags = Array("serve"), initAllTables = true)
+      TensorflowWrapper
+        .readZippedSavedModel("/classifier-dl", tags = Array("serve"), initAllTables = true)
+
     wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
     wrapper
   }

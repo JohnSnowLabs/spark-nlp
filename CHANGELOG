@@ -1,4 +1,33 @@
 ========
+3.1.0
+========
+
+----------------
+New Features
+----------------
+* **NEW:** Introducing DistiBertEmbeddings annotator. DistilBERT is a small, fast, cheap, and light Transformer model trained by distilling BERT base. It has 40% fewer parameters than `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT’s performances
+* **NEW:** Introducing RoBERTaEmbeddings annotator. RoBERTa (Robustly Optimized BERT-Pretraining Approach) models deliver state-of-the-art performance on NLP/NLU tasks and a sizable performance improvement on the GLUE benchmark. With a score of 88.5, RoBERTa reached the top position on the GLUE leaderboard
+* **NEW:** Introducing XlmRoBERTaEmbeddings annotator. XLM-RoBERTa (Unsupervised Cross-lingual Representation Learning at Scale) is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data with 100 different languages. It also outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model
+* **NEW:** Introducing support for HuggingFace exported models in equivalent Spark NLP annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release - For more information please visit [this discussion](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
+* **NEW:** Migrate MarianTransformer to BatchAnnotate to control the throughput when you are on accelerated hardware such as GPU to fully utilize it
+* Upgrade to TensorFlow v2.4.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x
+* Update to CUDA11 and cuDNN 8.0.2 for GPU support
+* Implement ModelSignatureManager to automatically detect inputs, outputs, save and restore tensors from SavedModel in TF v2. This allows Spark NLP 3.1.x to extend support for external Encoders such as HuggingFace and TF Hub (coming soon!)
+* Implement a new BPE tokenizer for RoBERTa and XLM models. This tokenizer will use the custom tokens from `Tokenizer` or `RegexTokenizer` and generates token pieces, encodes, and decodes the results
+* Welcoming new Databricks runtimes to our Spark NLP family:
+  * Databricks 8.1 ML & GPU
+  * Databricks 8.2 ML & GPU
+  * Databricks 8.3 ML & GPU
+* Welcoming a new EMR 6.x series to our Spark NLP family: 
+  * EMR 6.3.0 (Apache Spark 3.1.1 / Hadoop 3.2.1)
+
+----------------
+Backward compatibility
+----------------
+
+* We have updated our MarianTransformer annotator to be compatible with TF v2 models. This change is not compatible with previous models/pipelines. However, we have updated and uploaded all the models and pipelines for `3.1.x` release. You can either use `MarianTransformer.pretrained(MODEL_NAME)` and it will automatically download the compatible model or you can visit [Models Hub](https://nlp.johnsnowlabs.com/models) to download the compatible models for offline use via `MarianTransformer.load(PATH)`
+
+========
 3.0.3
 ========
 

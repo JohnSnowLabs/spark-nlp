@@ -5,7 +5,7 @@ author: John Snow Labs
 name: opus_mt_en_lu
 date: 2020-12-29
 task: Translation
-language: lu
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, lu, xx]
 supported: false

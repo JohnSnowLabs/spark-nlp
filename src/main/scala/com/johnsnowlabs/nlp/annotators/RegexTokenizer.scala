@@ -143,7 +143,7 @@ class RegexTokenizer(override val uid: String)
         case "end" =>
           val endIndex = tokenBeginIndex + token.length
           for (i <- Range(0, endIndex)) mask(i) = 1
-          endIndex - 1
+          if(endIndex == 0) endIndex else endIndex - 1
       }
     }
 
