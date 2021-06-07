@@ -123,12 +123,11 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
 
-    val _text: String =
-      if(!getSourceLanguage.equals("en")){
-        languageTranslator.translateLanguage(text, getSourceLanguage, "en")
-      } else {
-        text
-      }
+    val _text: String = getSourceLanguage match {
+      case "en" => text
+      case s if !s.isEmpty => DateMatcherTranslator.translateLanguage(text, getSourceLanguage, "en")
+      case _ => throw new Exception(s"Cannot identify source language.")
+    }
 
     val possibleDate = extractFormalDate(_text)
       .orElse(extractRelaxedDate(_text))
