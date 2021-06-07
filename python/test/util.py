@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
-
 import os
+
 
 class SparkSessionForTest:
     spark = SparkSession.builder \
@@ -13,12 +13,12 @@ class SparkSessionForTest:
         .getOrCreate()
     spark.sparkContext.setLogLevel("WARN")
 
+
 class SparkContextForTest:
     spark = SparkSessionForTest.spark
     data = spark. \
         read \
-        .parquet("file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet") \
+        .parquet("file:///" + os.getcwd() + "/../../src/test/resources/sentiment.parquet") \
         .limit(100)
     data.cache()
     data.count()
-
