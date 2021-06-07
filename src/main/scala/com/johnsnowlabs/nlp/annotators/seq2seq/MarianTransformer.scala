@@ -302,7 +302,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     val words = ResourceHelper.parseLines(vocabResource)
       .zipWithIndex.toMap.toSeq.sortBy(_._2).map(x => x._1.mkString).toArray
 
-    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, initAllTables = false, tags = Array("serve"))
+    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
     val sppSrc = SentencePieceWrapper.read(sppSrcModel.toString)
     val sppTrg = SentencePieceWrapper.read(sppTrgModel.toString)
 
