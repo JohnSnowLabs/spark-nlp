@@ -3323,7 +3323,7 @@ class T5Transformer(AnnotatorModel):
         return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
 
 
-class MarianTransformer(AnnotatorModel):
+class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
     name = "MarianTransformer"
 
@@ -3356,6 +3356,12 @@ class MarianTransformer(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
+        self._setDefault(
+            batchSize=8,
+            maxInputLength=40,
+            maxOutputLength=40,
+            langId=""
+        )
 
     @staticmethod
     def loadSavedModel(folder, spark_session):
@@ -3367,3 +3373,153 @@ class MarianTransformer(AnnotatorModel):
     def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)
+
+
+class DistilBertEmbeddings(AnnotatorModel,
+                           HasEmbeddingsProperties,
+                           HasCaseSensitiveProperties,
+                           HasStorageRef,
+                           HasBatchedAnnotate):
+
+    name = "DistilBertEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings", java_model=None):
+        super(DistilBertEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=False
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _DistilBertLoader
+        jModel = _DistilBertLoader(folder, spark_session._jsparkSession)._java_obj
+        return DistilBertEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="distilbert_base_cased", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(DistilBertEmbeddings, name, lang, remote_loc)
+
+
+class RoBertaEmbeddings(AnnotatorModel,
+                        HasEmbeddingsProperties,
+                        HasCaseSensitiveProperties,
+                        HasStorageRef,
+                        HasBatchedAnnotate):
+
+    name = "RoBertaEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings", java_model=None):
+        super(RoBertaEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _RoBertaLoader
+        jModel = _RoBertaLoader(folder, spark_session._jsparkSession)._java_obj
+        return RoBertaEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="roberta_base", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(RoBertaEmbeddings, name, lang, remote_loc)
+
+
+class XlmRoBertaEmbeddings(AnnotatorModel,
+                           HasEmbeddingsProperties,
+                           HasCaseSensitiveProperties,
+                           HasStorageRef,
+                           HasBatchedAnnotate):
+
+    name = "XlmRoBertaEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings", java_model=None):
+        super(XlmRoBertaEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _XlmRoBertaLoader
+        jModel = _XlmRoBertaLoader(folder, spark_session._jsparkSession)._java_obj
+        return XlmRoBertaEmbeddings(java_model=jModel)
+
+
+    @staticmethod
+    def pretrained(name="xlm_roberta_base", lang="xx", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(XlmRoBertaEmbeddings, name, lang, remote_loc)

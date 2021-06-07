@@ -340,24 +340,24 @@ class NerDLApproach(override val uid: String)
       }
 
       // start the iterator here once again
-        model.train(trainIteratorFunc(),
-          dsLen,
-          validIteratorFunc(),
-          (dsLen * $(validationSplit)).toLong,
-          $(lr),
-          $(po),
-          $(dropout),
-          graphFileName = graphFile,
-          test = testIteratorFunc(),
-          endEpoch = $(maxEpochs),
-          configProtoBytes = getConfigProtoBytes,
-          validationSplit = $(validationSplit),
-          evaluationLogExtended = $(evaluationLogExtended),
-          includeConfidence = $(includeConfidence),
-          enableOutputLogs = $(enableOutputLogs),
-          outputLogsPath = $(outputLogsPath),
-          uuid = this.uid
-        )
+      model.train(trainIteratorFunc(),
+        dsLen,
+        validIteratorFunc(),
+        (dsLen * $(validationSplit)).toLong,
+        $(lr),
+        $(po),
+        $(dropout),
+        graphFileName = graphFile,
+        test = testIteratorFunc(),
+        endEpoch = $(maxEpochs),
+        configProtoBytes = getConfigProtoBytes,
+        validationSplit = $(validationSplit),
+        evaluationLogExtended = $(evaluationLogExtended),
+        includeConfidence = $(includeConfidence),
+        enableOutputLogs = $(enableOutputLogs),
+        outputLogsPath = $(outputLogsPath),
+        uuid = this.uid
+      )
       model
     }
 
@@ -367,7 +367,10 @@ class NerDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariables(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+    val newWrapper =
+      new TensorflowWrapper(
+        TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)),
+        tf.graph)
 
     val model = new NerDLModel()
       .setDatasetParams(ner.encoder.params)

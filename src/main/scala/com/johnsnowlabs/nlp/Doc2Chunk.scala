@@ -10,23 +10,112 @@ import org.slf4j.LoggerFactory
 /**
   * Created by saif on 06/07/17.
   */
-
+/**
+  * Converts `DOCUMENT` type annotations into `CHUNK` type with the contents of a `chunkCol`.
+  * Chunk text must be contained within input `DOCUMENT`. May be either `StringType` or `ArrayType[StringType]`
+  * (using [[setIsArray]]). Useful for annotators that require a CHUNK type input.
+  *
+  * For more extended examples on document pre-processing see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.{Doc2Chunk, DocumentAssembler}
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+  * val chunkAssembler = new Doc2Chunk()
+  *   .setInputCols("document")
+  *   .setChunkCol("target")
+  *   .setOutputCol("chunk")
+  *   .setIsArray(true)
+  *
+  * val data = Seq(
+  *   ("Spark NLP is an open-source text processing library for advanced natural language processing.",
+  *     Seq("Spark NLP", "text processing library", "natural language processing"))
+  * ).toDF("text", "target")
+  *
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, chunkAssembler)).fit(data)
+  * val result = pipeline.transform(data)
+  *
+  * result.selectExpr("chunk.result", "chunk.annotatorType").show(false)
+  * +-----------------------------------------------------------------+---------------------+
+  * |result                                                           |annotatorType        |
+  * +-----------------------------------------------------------------+---------------------+
+  * |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|
+  * +-----------------------------------------------------------------+---------------------+
+  * }}}
+  *
+  * @see [[Chunk2Doc]] for converting `CHUNK` annotations to `DOCUMENT`
+  * @param uid required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  */
 class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
+  /**
+    * Output annotator types: CHUNK
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
+  /**
+    * Input annotator types: DOCUMENT
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 
   private val logger = LoggerFactory.getLogger("ChunkAssembler")
 
-  val chunkCol = new Param[String](this, "chunkCol", "column that contains string. Must be part of DOCUMENT")
-  val startCol = new Param[String](this, "startCol", "column that has a reference of where chunk begins")
-  val startColByTokenIndex = new BooleanParam(this, "startColByTokenIndex", "whether start col is by whitespace tokens")
-  val isArray = new BooleanParam(this, "isArray", "whether the chunkCol is an array of strings")
-  val failOnMissing = new BooleanParam(this, "failOnMissing", "whether to fail the job if a chunk is not found within document. return empty otherwise")
-  val lowerCase = new BooleanParam(this, "lowerCase", "whether to lower case for matching case")
+  /**
+    * Column that contains string. Must be part of DOCUMENT
+    * @group param
+    */
+  val chunkCol = new Param[String](this, "chunkCol", "Column that contains string. Must be part of DOCUMENT")
+
+  /**
+    * Column that has a reference of where the chunk begins
+    * @group param
+    */
+  val startCol = new Param[String](this, "startCol", "Column that has a reference of where the chunk begins")
+
+  /**
+    * Whether start col is by whitespace tokens (Default: `false`)
+    * @group param
+    */
+  val startColByTokenIndex = new BooleanParam(this, "startColByTokenIndex", "Whether start col is by whitespace tokens (Default: `false`)")
+
+  /**
+    * Whether the chunkCol is an array of strings (Default: `false`)
+    * @group param
+    */
+  val isArray = new BooleanParam(this, "isArray", "Whether the chunkCol is an array of strings (Default: `false")
+
+  /**
+    * Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)
+    * @group param
+    */
+  val failOnMissing = new BooleanParam(this, "failOnMissing", "Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)")
+
+  /**
+    * Whether to lower case for matching case (Default: `true`)
+    * @group param
+    */
+  val lowerCase = new BooleanParam(this, "lowerCase", "Whether to lower case for matching case (Default: `true")
 
   setDefault(
     startColByTokenIndex -> false,
@@ -35,22 +124,76 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
     lowerCase -> true
   )
 
+  /**
+    * Column that contains string. Must be part of DOCUMENT
+    * @group setParam
+    */
   def setChunkCol(value: String): this.type = set(chunkCol, value)
-  def setIsArray(value: Boolean): this.type = set(isArray, value)
 
+  /**
+    * Column that contains string. Must be part of DOCUMENT
+    * @group getParam
+    */
   def getChunkCol: String = $(chunkCol)
-  def getIsArray: Boolean = $(isArray)
 
+  /**
+    * Column that has a reference of where the chunk begins
+    * @group setParam
+    */
   def setStartCol(value: String): this.type = set(startCol, value)
+
+  /**
+    * Column that has a reference of where the chunk begins
+    * @group getParam
+    */
   def getStartCol: String = $(startCol)
 
+  /**
+    * Whether start col is by whitespace tokens (Default: `false`)
+    * @group setParam
+    */
   def setStartColByTokenIndex(value: Boolean): this.type = set(startColByTokenIndex, value)
+
+  /**
+    * Whether start col is by whitespace tokens (Default: `false`)
+    * @group getParam
+    */
   def getStartColByTokenIndex: Boolean = $(startColByTokenIndex)
 
+  /**
+    * Whether the chunkCol is an array of strings (Default: `false`)
+    * @group setParam
+    */
+  def setIsArray(value: Boolean): this.type = set(isArray, value)
+
+  /**
+    * Whether the chunkCol is an array of strings (Default: `false`)
+    * @group getParam
+    */
+  def getIsArray: Boolean = $(isArray)
+
+  /**
+    * Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)
+    * @group setParam
+    */
   def setFailOnMissing(value: Boolean): this.type = set(failOnMissing, value)
+
+  /**
+    * Whether to fail the job if a chunk is not found within document, return empty otherwise (Default: `false`)
+    * @group getParam
+    */
   def getFailOnMissing: Boolean = $(failOnMissing)
 
+  /**
+    * Whether to lower case for matching case (Default: `true`)
+    * @group setParam
+    */
   def setLowerCase(value: Boolean): this.type = set(lowerCase, value)
+
+  /**
+    * Whether to lower case for matching case (Default: `true`)
+    * @group getParam
+    */
   def getLowerCase: Boolean = $(lowerCase)
 
   def this() = this(Identifiable.randomUID("DOC2CHUNK"))
