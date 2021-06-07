@@ -2,7 +2,7 @@
 layout: model
 title: Detect PHI for Deidentification (Glove - Subentity)
 author: John Snow Labs
-name: deid_ner_subentity_glove
+name: ner_deid_subentity_glove
 date: 2021-06-06
 tags: [ner, deid, licensed, en, glove, clinical]
 task: Named Entity Recognition
@@ -40,7 +40,7 @@ glove_embeddings = WordEmbeddingsModel.pretrained('glove_100d') \
         .setInputCols(['document', 'token']) \
         .setOutputCol('embeddings')
 
-deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
+deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_glove", "en", "clinical/models") \
       .setInputCols(["sentence", "token", "embeddings"]) \
       .setOutputCol("ner")
 
@@ -59,7 +59,7 @@ val glove_embeddings = WordEmbeddingsModel.pretrained("glove_100d") \
         .setInputCols(Array("document", "token")) \
         .setOutputCol("embeddings")
 
-val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
+val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_glove", "en", "clinical/models") \
       .setInputCols(Array("sentence", "token", "embeddings")) \
       .setOutputCol("ner")
 
@@ -99,7 +99,7 @@ val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.
 
 {:.table-model}
 |---|---|
-|Model Name:|deid_ner_subentity_glove|
+|Model Name:|ner_deid_subentity_glove|
 |Compatibility:|Spark NLP for Healthcare 3.0.4+|
 |License:|Licensed|
 |Edition:|Official|
