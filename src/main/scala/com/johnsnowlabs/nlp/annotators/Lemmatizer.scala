@@ -100,7 +100,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
 
   /** Retrieves the significant part of a word  */
   override val description: String = "Retrieves the significant part of a word"
-  /** External dictionary to be used by the lemmatizer, which needs 'keyDelimiter' and 'valueDelimiter' for parsing the resource
+  /** External dictionary to be used by the lemmatizer, which needs '`keyDelimiter`' and '`valueDelimiter`' for parsing the resource
     * ==Example==
     * {{{
     * ...
