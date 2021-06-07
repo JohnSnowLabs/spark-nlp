@@ -24,12 +24,25 @@ object DateMatcherTranslator extends Serializable {
 
   val dictionary: Map[String, Any] = loadTranslationDictionary()
 
+  def monthFlatter(any: Any): List[Any] =
+    any match {
+      case i: List[_] => i
+      case _ => List(any)
+    }
+
   def searchLanguage(text: String) = {
     // tokenize and search token in keys
-    val tokens = text.split(" ").map(_.toLowerCase).zipWithIndex.toMap
-    val months = dictionary.getOrElse("month", Map.empty[String, Any])
-    val matches = tokens filterKeys months.asInstanceOf[Map[String, Any]].keySet
-    println(matches)
+    val tokens = text.split(" ").map(_.toLowerCase).toSet
+
+    val months = dictionary
+      .getOrElse("month", Map.empty[String, Any])
+      .asInstanceOf[Map[String, Any]]
+      .values.flatten(monthFlatter).asInstanceOf[List[String]]
+      .toSet
+
+    println(months)
+
+    !(tokens intersect months isEmpty)
   }
 
   def detectSourceLanguage(text: String) = {
