@@ -161,17 +161,11 @@ trait DateMatcherUtils extends Params {
    **/
   val sourceLanguage: Param[String] = new Param(this, "sourceLanguage", "source language for explicit translation")
 
-  /**
-   * The object responsible for loading the multi-language translation dictionary
-   * */
-  val languageTranslator = DateMatcherTranslator
-
   /** To get to use or not the multi-language translation.
    *
    * @group getParam
    **/
   def getSourceLanguage: String = $(sourceLanguage)
-
 
   /** To set or not the source language for explicit translation.
    *

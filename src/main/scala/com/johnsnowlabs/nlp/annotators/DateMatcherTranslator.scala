@@ -1,24 +1,66 @@
 package com.johnsnowlabs.nlp.annotators
 
-import scala.util.parsing.json.JSON
-
 object DateMatcherTranslator extends Serializable {
 
-  val DictionaryPath = "src/main/resources/date-matcher/date_translation_data/it.json"
+  val Language = "it"
+  val DictionaryPath = s"src/main/resources/date-matcher/date_translation_data/$Language.json"
+//  val DictionaryPath = s"/home/wolliqeonii/workspace/dev/jsl/spark-nlp/src/main/resources/date-matcher/date_translation_data/$Language.json"
+
+  def loadTranslationDictionary() = {
+
+    import org.json4s._
+    import org.json4s.jackson.JsonMethods._
+
+    import scala.io.Source
+
+    // reading a file
+    val jsonString = Source.fromFile(DictionaryPath).mkString
+    println(jsonString)
+
+    val json = parse(jsonString)
+
+//    println(json)
+
+    // Converting from JOjbect to plain object
+    implicit val formats = DefaultFormats
+    val myOldMap = json.extract[Map[String, Any]]
+
+    println(myOldMap)
+  }
+
+  val dictionary = loadTranslationDictionary()
 
 //  val dictionary = SparkSession.builder().getOrCreate()
 //    .read
-//    .option("multiLine", true).option("mode", "PERMISSIVE")
+//    .option("multiline", true)
+//    //      .option("mode", "PERMISSIVE")
 //    .json(DictionaryPath)
-  val dictionary = JSON.parseFull(DictionaryPath)
 
-  def detectLanguage(text: String) = {
-    println(s"Ciao, detected language: $text")
+  def searchLanguage(text: String) = {
+    //    val dictionary = JSON.parseFull(DictionaryPath)
+
+//    val url = ClassLoader.getSystemResource(DictionaryPath)
+//    val schemaSource = Source.fromFile(url.getFile).getLines.mkString
+//    val schemaFromJson = DataType.fromJson(schemaSource).asInstanceOf[StructType]
+//    val dictionary = spark.read.schema(schemaFromJson)
+//      .json(DictionaryPath)
+//    dictionary.printSchema()
+//    dictionary.show(false)
+//
+//    dictionary.show()
+  }
+
+  def detectLanguage(text: String, sourceLanguage: String) = {
+    println(s"Ciao, detected language: $sourceLanguage")
+
+    searchLanguage(text)
     text
   }
 
   def translateLanguage(text: String, sourceLanguage: String, destinationLanguage: String = "en") = {
-    // search language and translate
-    ""
+    println("Detecting...")
+    val detected = detectLanguage(text, sourceLanguage)
+    println("Translating...")
+    detected
   }
 }
