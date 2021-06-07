@@ -100,7 +100,10 @@ class TensorflowWrapper(var variables: Variables,
     m_session
   }
 
-  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None, initAllTables: Boolean = true, loadSP: Boolean = false): Session = {
+  def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None,
+                      initAllTables: Boolean = true,
+                      loadSP: Boolean = false,
+                      savedSignatures: Option[Map[String, String]] = None): Session = {
 
     if (m_session == null) {
       logger.debug("Restoring TF Hub session from bytes")
@@ -129,7 +132,7 @@ class TensorflowWrapper(var variables: Variables,
       val session = new Session(g, ConfigProto.parseFrom(TensorflowWrapper.TFSessionConfig))
 
       TensorflowWrapper
-        .processInitAllTableOp(initAllTables, t, session, folder, TensorflowWrapper.VariablesKey)
+        .processInitAllTableOp(initAllTables, t, session, folder, TensorflowWrapper.VariablesKey, savedSignatures = savedSignatures)
 
       //delete variable files
       Files.delete(varData)
