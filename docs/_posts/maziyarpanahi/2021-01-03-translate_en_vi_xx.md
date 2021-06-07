@@ -5,7 +5,7 @@ author: John Snow Labs
 name: translate_en_vi
 date: 2021-01-03
 task: [Translation, Pipeline Public]
-language: vi
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, vi, xx]
 supported: false

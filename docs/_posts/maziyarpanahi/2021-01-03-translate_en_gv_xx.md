@@ -5,7 +5,7 @@ author: John Snow Labs
 name: translate_en_gv
 date: 2021-01-03
 task: [Translation, Pipeline Public]
-language: gv
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, gv, xx]
 supported: false

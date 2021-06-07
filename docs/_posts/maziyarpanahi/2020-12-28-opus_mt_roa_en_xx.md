@@ -5,7 +5,7 @@ author: John Snow Labs
 name: opus_mt_roa_en
 date: 2020-12-28
 task: Translation
-language: roa
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, roa, en, xx]
 supported: false

@@ -5,7 +5,7 @@ author: John Snow Labs
 name: translate_pa_en
 date: 2021-01-03
 task: [Translation, Pipeline Public]
-language: pa
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, pa, en, xx]
 supported: false
