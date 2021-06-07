@@ -37,7 +37,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 ```python
 ...
 glove_embeddings = WordEmbeddingsModel.pretrained('glove_100d') \
-        .setInputCols(['document', 'token']) \
+        .setInputCols(['sentence', 'token']) \
         .setOutputCol('embeddings')
 
 deid_ner = MedicalNerModel.pretrained("ner_deid_generic_glove", "en", "clinical/models") \
@@ -46,7 +46,7 @@ deid_ner = MedicalNerModel.pretrained("ner_deid_generic_glove", "en", "clinical/
 
 ner_converter = NerConverter()\
       .setInputCols(["sentence", "token", "ner"])\
-      .setOutputCol("ner_chunk_absolute")
+      .setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, glove_embeddings, deid_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -56,7 +56,7 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Rec
 ```scala
 ...
 val glove_embeddings = WordEmbeddingsModel.pretrained("glove_100d") \
-        .setInputCols(Array("document', 'token")) \
+        .setInputCols(Array("sentence', 'token")) \
         .setOutputCol("embeddings")
 
 val deid_ner = MedicalNerModel.pretrained("ner_deid_generic_glove", "en", "clinical/models") \
@@ -65,7 +65,7 @@ val deid_ner = MedicalNerModel.pretrained("ner_deid_generic_glove", "en", "clini
 
 val ner_converter = NerConverter()\
       .setInputCols(Array("sentence", "token", "ner"))\
-      .setOutputCol("ner_chunk_absolute")
+      .setOutputCol("ner_chunk")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, glove_embeddings, deid_ner, ner_converter))
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
