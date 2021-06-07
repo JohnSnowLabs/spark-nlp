@@ -31,7 +31,8 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
 
   "a DateMatcher" should "be catching dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild("I left the 23/12/2021")
+//    val data: Dataset[Row] = DataBuilder.basicDataBuild("I left on the 23/12/2021")
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono partito dalla Francia il 29 Marzo")
 
     data.show(false)
 
