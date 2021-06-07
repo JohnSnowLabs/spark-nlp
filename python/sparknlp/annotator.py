@@ -3323,7 +3323,7 @@ class T5Transformer(AnnotatorModel):
         return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)
 
 
-class MarianTransformer(AnnotatorModel):
+class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
     name = "MarianTransformer"
 
@@ -3355,6 +3355,12 @@ class MarianTransformer(AnnotatorModel):
         super(MarianTransformer, self).__init__(
             classname=classname,
             java_model=java_model
+        )
+        self._setDefault(
+            batchSize=8,
+            maxInputLength=40,
+            maxOutputLength=40,
+            langId=""
         )
 
     @staticmethod
