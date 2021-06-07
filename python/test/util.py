@@ -18,7 +18,7 @@ class SparkContextForTest:
     spark = SparkSessionForTest.spark
     data = spark. \
         read \
-        .parquet("file:///" + os.getcwd() + "/../../src/test/resources/sentiment.parquet") \
+        .parquet("file:///" + os.getcwd() + "/../src/test/resources/sentiment.parquet") \
         .limit(100)
     data.cache()
     data.count()
