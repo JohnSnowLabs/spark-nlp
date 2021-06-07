@@ -37,7 +37,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 ```python
 ...
 glove_embeddings = WordEmbeddingsModel.pretrained('glove_100d') \
-        .setInputCols(['document', 'token']) \
+        .setInputCols(['sentence', 'token']) \
         .setOutputCol('embeddings')
 
 deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_glove", "en", "clinical/models") \
@@ -56,7 +56,7 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Rec
 ```scala
 ...
 val glove_embeddings = WordEmbeddingsModel.pretrained("glove_100d") \
-        .setInputCols(Array("document", "token")) \
+        .setInputCols(Array("sentence", "token")) \
         .setOutputCol("embeddings")
 
 val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_glove", "en", "clinical/models") \
