@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
-          <meta name="description" content="Spark NLP 3.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
-          <meta name="keywords" content="Spark NLP 3.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
+          <title>Spark NLP 3.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
+          <meta name="description" content="Spark NLP 3.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
+          <meta name="keywords" content="Spark NLP 3.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -517,7 +517,7 @@ Example of pipeline for deidentification.</p><h4>Example</h4><pre><span class="k
     .setOutputCol(<span class="lit">"ner_con"</span>)</pre><h4>Deidentification</h4><pre><span class="kw">val</span> deIdentification = <span class="kw">new</span> DeIdentification()
     .setInputCols(<span class="std">Array</span>(<span class="lit">"ner_chunk"</span>, <span class="lit">"token"</span>, <span class="lit">"sentence"</span>))
     .setOutputCol(<span class="lit">"dei"</span>)
-    <span class="cmt">// file with custom regex pattern for custom entities</span>
+    <span class="cmt">// file with custom regex patterns for custom entities</span>
     .setRegexPatternsDictionary(<span class="lit">"path/to/dic_regex_patterns_main_categories.txt"</span>)
     <span class="cmt">// file with custom obfuscator names for the entities</span>
     .setObfuscateRefFile(<span class="lit">"path/to/obfuscate_fixed_entities.txt"</span>)
