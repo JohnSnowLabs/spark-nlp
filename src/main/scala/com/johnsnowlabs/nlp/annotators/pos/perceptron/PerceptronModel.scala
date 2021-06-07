@@ -6,12 +6,71 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAn
 import org.apache.spark.ml.util.Identifiable
 
 /**
-  * Part of speech tagger that might use different approaches
+  * Averaged Perceptron model to tag words part-of-speech.
+  * Sets a POS tag to each word within a sentence.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron]] for further reference on how to use this API.
+  * This is the instantiated model of the
+  * [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach PerceptronApproach]].
+  * For training your own model, please see the documentation of that class.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val posTagger = PerceptronModel.pretrained()
+  *   .setInputCols("document", "token")
+  *   .setOutputCol("pos")
+  * }}}
+  * The default model is `"pos_anc"`, if no name is provided.
+
+  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging Models Hub]].
+  *
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val posTagger = PerceptronModel.pretrained()
+  *   .setInputCols("document", "token")
+  *   .setOutputCol("pos")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   tokenizer,
+  *   posTagger
+  * ))
+  *
+  * val data = Seq("Peter Pipers employees are picking pecks of pickled peppers").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(pos) as pos").show(false)
+  * +-------------------------------------------+
+  * |pos                                        |
+  * +-------------------------------------------+
+  * |[pos, 0, 4, NNP, [word -> Peter], []]      |
+  * |[pos, 6, 11, NNP, [word -> Pipers], []]    |
+  * |[pos, 13, 21, NNS, [word -> employees], []]|
+  * |[pos, 23, 25, VBP, [word -> are], []]      |
+  * |[pos, 27, 33, VBG, [word -> picking], []]  |
+  * |[pos, 35, 39, NNS, [word -> pecks], []]    |
+  * |[pos, 41, 42, IN, [word -> of], []]        |
+  * |[pos, 44, 50, JJ, [word -> pickled], []]   |
+  * |[pos, 52, 58, NNS, [word -> peppers], []]  |
+  * +-------------------------------------------+
+  * }}}
   *
   * @param uid Internal constructor requirement for serialization of params
-  * @@model: representation of a POS Tagger approach
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
