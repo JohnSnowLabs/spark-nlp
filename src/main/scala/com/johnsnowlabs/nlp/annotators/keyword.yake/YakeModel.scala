@@ -163,57 +163,61 @@ class YakeModel(override val uid: String) extends AnnotatorModel[YakeModel] with
   def calculateTokenScores(basicStats: Array[(String,Int)],
                            coOccurLeftAggregate: mutable.Map[String,mutable.Map[String,Int]],
                            coOccurRightAggregate: mutable.Map[String,mutable.Map[String,Int]]): immutable.Iterable[Token] = {
-    val tags = assignTags(basicStats)
-    val avg = basicStats
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(_.length)
-      .foldLeft(0)(_+_._2).toDouble/
-      basicStats
+    if (basicStats.isEmpty) {
+      immutable.Iterable.empty[Token]
+    } else {
+      val tags = assignTags(basicStats)
+      val avg = basicStats
         .groupBy(x=>x._1.toLowerCase)
-        .mapValues(_.length).size.toDouble
-    val std = sqrt(basicStats
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(_.length)
-      .map(_._2.toDouble)
-      .map(a => math.pow(a - avg, 2)).sum /
-      basicStats
+        .mapValues(_.length)
+        .foldLeft(0)(_+_._2).toDouble/
+        basicStats
+          .groupBy(x=>x._1.toLowerCase)
+          .mapValues(_.length).size.toDouble
+      val std = sqrt(basicStats
         .groupBy(x=>x._1.toLowerCase)
-        .mapValues(_.length).size.toDouble)
-    val maxTF = basicStats.groupBy(x=>x._1.toLowerCase).mapValues(_.length).map(_._2.toDouble).max
-    val nsent = basicStats.map(_._2).max +1
-    val tokens=basicStats
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(_.length)
-      .map(x=>
-        new Token(x._1.toLowerCase,
-          x._2,
-          nsent,
-          avg,
-          std,
-          maxTF,
-          coOccurLeftAggregate.getOrElse(x._1.toLowerCase,mutable.HashMap[String,Int]()),
-          coOccurRightAggregate.getOrElse(x._1.toLowerCase,mutable.HashMap[String,Int]())
+        .mapValues(_.length)
+        .map(_._2.toDouble)
+        .map(a => math.pow(a - avg, 2)).sum /
+        basicStats
+          .groupBy(x=>x._1.toLowerCase)
+          .mapValues(_.length).size.toDouble)
+      val maxTF = basicStats.groupBy(x=>x._1.toLowerCase).mapValues(_.length).map(_._2.toDouble).max
+      val nsent = basicStats.map(_._2).max +1
+      val tokens=basicStats
+        .groupBy(x=>x._1.toLowerCase)
+        .mapValues(_.length)
+        .map(x=>
+          new Token(x._1.toLowerCase,
+            x._2,
+            nsent,
+            avg,
+            std,
+            maxTF,
+            coOccurLeftAggregate.getOrElse(x._1.toLowerCase,mutable.HashMap[String,Int]()),
+            coOccurRightAggregate.getOrElse(x._1.toLowerCase,mutable.HashMap[String,Int]())
+          )
         )
-      )
-    tags
-      .filter(x=>x._4=="n")
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(_.length)
-      .foreach(x=>tokens.filter(y=>y.token==x._1).head.nCount=x._2)
-    tags
-      .filter(x=>x._4=="a")
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(_.length)
-      .foreach(x=>tokens.filter(y=>y.token==x._1).head.aCount=x._2)
-    tags
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(x=>medianCalculator(x.map(y=>y._2)))
-      .foreach(x=>tokens.filter(y=>y.token==x._1).head.medianSentenceOffset=x._2)
-    tags
-      .groupBy(x=>x._1.toLowerCase)
-      .mapValues(x=>x.map(y => y._2).length)
-      .foreach(x=>tokens.filter(y=>y.token==x._1).head.numberOfSentences=x._2)
-    tokens
+      tags
+        .filter(x=>x._4=="n")
+        .groupBy(x=>x._1.toLowerCase)
+        .mapValues(_.length)
+        .foreach(x=>tokens.filter(y=>y.token==x._1).head.nCount=x._2)
+      tags
+        .filter(x=>x._4=="a")
+        .groupBy(x=>x._1.toLowerCase)
+        .mapValues(_.length)
+        .foreach(x=>tokens.filter(y=>y.token==x._1).head.aCount=x._2)
+      tags
+        .groupBy(x=>x._1.toLowerCase)
+        .mapValues(x=>medianCalculator(x.map(y=>y._2)))
+        .foreach(x=>tokens.filter(y=>y.token==x._1).head.medianSentenceOffset=x._2)
+      tags
+        .groupBy(x=>x._1.toLowerCase)
+        .mapValues(x=>x.map(y => y._2).length)
+        .foreach(x=>tokens.filter(y=>y.token==x._1).head.numberOfSentences=x._2)
+      tokens
+    }
   }
 
   /**
