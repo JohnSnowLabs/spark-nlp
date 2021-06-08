@@ -58,4 +58,7 @@ class ChunkTokenizer(override val uid: String) extends Tokenizer {
 
 }
 
+/**
+ * This is the companion object of [[ChunkTokenizer]]. Please refer to that class for the documentation.
+ */
 object ChunkTokenizer extends DefaultParamsReadable[ChunkTokenizer]

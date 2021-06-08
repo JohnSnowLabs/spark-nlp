@@ -335,4 +335,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
 }
 
 
+/**
+ * This is the companion object of [[T5Transformer]]. Please refer to that class for the documentation.
+ */
 object T5Transformer extends ReadablePretrainedT5TransformerModel with ReadT5TransformerTensorflowModel with ReadSentencePieceModel

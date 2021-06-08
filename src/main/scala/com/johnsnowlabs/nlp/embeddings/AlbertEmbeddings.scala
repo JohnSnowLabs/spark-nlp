@@ -256,4 +256,7 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
 }
 
 
+/**
+ * This is the companion object of [[AlbertEmbeddings]]. Please refer to that class for the documentation.
+ */
 object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel with ReadSentencePieceModel

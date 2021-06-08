@@ -444,4 +444,7 @@ trait ReadablePretrainedContextSpell extends ReadsLanguageModelGraph with HasPre
   override def pretrained(name: String, lang: String, remoteLoc: String): ContextSpellCheckerModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[ContextSpellCheckerModel]]. Please refer to that class for the documentation.
+ */
 object ContextSpellCheckerModel extends ReadablePretrainedContextSpell

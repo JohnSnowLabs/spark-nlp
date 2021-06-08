@@ -238,5 +238,8 @@ trait EmbeddingsCoverage {
   }
 }
 
+/**
+ * This is the companion object of [[WordEmbeddingsModel]]. Please refer to that class for the documentation.
+ */
 object WordEmbeddingsModel extends ReadablePretrainedWordEmbeddings with EmbeddingsCoverage
 

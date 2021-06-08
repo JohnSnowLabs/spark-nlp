@@ -133,4 +133,7 @@ trait ReadablePretrainedPerceptron extends ParamsAndFeaturesReadable[PerceptronM
   override def pretrained(name: String, lang: String, remoteLoc: String): PerceptronModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[PerceptronModel]]. Please refer to that class for the documentation.
+ */
 object PerceptronModel extends ReadablePretrainedPerceptron

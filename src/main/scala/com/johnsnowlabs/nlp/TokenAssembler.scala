@@ -177,4 +177,7 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
 }
 
+/**
+ * This is the companion object of [[TokenAssembler]]. Please refer to that class for the documentation.
+ */
 object TokenAssembler extends DefaultParamsReadable[TokenAssembler]

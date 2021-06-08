@@ -319,4 +319,7 @@ trait ReadablePretrainedSymmetric extends ParamsAndFeaturesReadable[SymmetricDel
   override def pretrained(name: String, lang: String, remoteLoc: String): SymmetricDeleteModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[SymmetricDeleteModel]]. Please refer to that class for the documentation.
+ */
 object SymmetricDeleteModel extends ReadablePretrainedSymmetric

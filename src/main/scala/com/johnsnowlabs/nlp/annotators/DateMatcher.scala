@@ -249,4 +249,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
 }
 
+/**
+ * This is the companion object of [[DateMatcher]]. Please refer to that class for the documentation.
+ */
 object DateMatcher extends DefaultParamsReadable[DateMatcher]

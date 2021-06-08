@@ -160,4 +160,7 @@ class TypedDependencyParserApproach(override val uid: String) extends AnnotatorA
 
 }
 
+/**
+ * This is the companion object of [[TypedDependencyParserApproach]]. Please refer to that class for the documentation.
+ */
 object TypedDependencyParserApproach extends DefaultParamsReadable[TypedDependencyParserApproach]

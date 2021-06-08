@@ -341,4 +341,7 @@ class ClassifierDLApproach(override val uid: String)
   }
 }
 
+/**
+ * This is the companion object of [[ClassifierDLApproach]]. Please refer to that class for the documentation.
+ */
 object ClassifierDLApproach extends DefaultParamsReadable[ClassifierDLApproach]

@@ -204,4 +204,7 @@ class MultiDateMatcher(override val uid: String)
   }
 
 }
+/**
+ * This is the companion object of [[MultiDateMatcher]]. Please refer to that class for the documentation.
+ */
 object MultiDateMatcher extends DefaultParamsReadable[MultiDateMatcher]

@@ -355,4 +355,7 @@ trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[RoBertaEmbeddings]]. Please refer to that class for the documentation.
+ */
 object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel

@@ -216,4 +216,7 @@ trait ReadablePretrainedVivekn extends ParamsAndFeaturesReadable[ViveknSentiment
   override def pretrained(name: String, lang: String, remoteLoc: String): ViveknSentimentModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[ViveknSentimentModel]]. Please refer to that class for the documentation.
+ */
 object ViveknSentimentModel extends ReadablePretrainedVivekn

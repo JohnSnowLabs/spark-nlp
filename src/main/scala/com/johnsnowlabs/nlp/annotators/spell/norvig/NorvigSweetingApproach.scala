@@ -130,4 +130,7 @@ class NorvigSweetingApproach(override val uid: String)
   }
 
 }
+/**
+ * This is the companion object of [[NorvigSweetingApproach]]. Please refer to that class for the documentation.
+ */
 object NorvigSweetingApproach extends DefaultParamsReadable[NorvigSweetingApproach]

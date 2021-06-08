@@ -197,4 +197,7 @@ class WordEmbeddings(override val uid: String)
   }
 }
 
+/**
+ * This is the companion object of [[WordEmbeddings]]. Please refer to that class for the documentation.
+ */
 object WordEmbeddings extends DefaultParamsReadable[WordEmbeddings]

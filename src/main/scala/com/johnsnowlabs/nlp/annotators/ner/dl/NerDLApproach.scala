@@ -495,4 +495,7 @@ trait WithGraphResolver  {
   }
 }
 
+/**
+ * This is the companion object of [[NerDLApproach]]. Please refer to that class for the documentation.
+ */
 object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver

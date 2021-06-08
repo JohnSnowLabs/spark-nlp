@@ -321,4 +321,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
   }
 }
 
+/**
+ * This is the companion object of [[MarianTransformer]]. Please refer to that class for the documentation.
+ */
 object MarianTransformer extends ReadablePretrainedMarianMTModel with ReadMarianMTTensorflowModel with ReadSentencePieceModel

@@ -199,4 +199,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 }
 
+/**
+ * This is the companion object of [[ClassifierDLModel]]. Please refer to that class for the documentation.
+ */
 object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel

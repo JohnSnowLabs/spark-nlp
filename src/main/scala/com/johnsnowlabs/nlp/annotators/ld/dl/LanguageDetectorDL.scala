@@ -309,4 +309,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[LanguageDetectorDL]]. Please refer to that class for the documentation.
+ */
 object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel

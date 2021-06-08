@@ -215,4 +215,7 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
 
 }
 
+/**
+ * This is the companion object of [[ChunkEmbeddings]]. Please refer to that class for the documentation.
+ */
 object ChunkEmbeddings extends DefaultParamsReadable[ChunkEmbeddings]

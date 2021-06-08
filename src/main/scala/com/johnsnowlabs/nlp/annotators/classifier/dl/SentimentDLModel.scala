@@ -157,4 +157,7 @@ trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 }
 
+/**
+ * This is the companion object of [[SentimentDLModel]]. Please refer to that class for the documentation.
+ */
 object SentimentDLModel extends ReadablePretrainedSentimentDL with ReadSentimentDLTensorflowModel

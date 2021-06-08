@@ -202,4 +202,7 @@ class SymmetricDeleteApproach(override val uid: String)
 
 }
 // This objects reads the class' properties, it enables reading the model after it is stored
+/**
+ * This is the companion object of [[SymmetricDeleteApproach]]. Please refer to that class for the documentation.
+ */
 object SymmetricDeleteApproach extends DefaultParamsReadable[SymmetricDeleteApproach]

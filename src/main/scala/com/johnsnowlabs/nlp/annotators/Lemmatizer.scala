@@ -220,4 +220,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
 
 }
 
+/**
+ * This is the companion object of [[Lemmatizer]]. Please refer to that class for the documentation.
+ */
 object Lemmatizer extends DefaultParamsReadable[Lemmatizer]
