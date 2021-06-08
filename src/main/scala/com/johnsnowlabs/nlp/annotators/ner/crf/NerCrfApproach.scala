@@ -225,4 +225,7 @@ class NerCrfApproach(override val uid: String)
   }
 }
 
+/**
+ * This is the companion object of [[NerCrfApproach]]. Please refer to that class for the documentation.
+ */
 object NerCrfApproach extends DefaultParamsReadable[NerCrfApproach]

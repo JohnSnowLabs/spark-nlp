@@ -87,4 +87,7 @@ class WordSegmenterApproach(override val uid: String) extends AnnotatorApproach[
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 }
 
+/**
+ * This is the companion object of [[WordSegmenterApproach]]. Please refer to that class for the documentation.
+ */
 object WordSegmenterApproach extends DefaultParamsReadable[WordSegmenterApproach]

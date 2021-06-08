@@ -238,4 +238,7 @@ class SentimentDetector(override val uid: String) extends AnnotatorApproach[Sent
   }
 
 }
+/**
+ * This is the companion object of [[SentimentDetector]]. Please refer to that class for the documentation.
+ */
 object SentimentDetector extends DefaultParamsReadable[SentimentDetector]

@@ -283,4 +283,7 @@ trait ReadablePretrainedNorvig extends ParamsAndFeaturesReadable[NorvigSweetingM
   override def pretrained(name: String, lang: String, remoteLoc: String): NorvigSweetingModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[NorvigSweetingModel]]. Please refer to that class for the documentation.
+ */
 object NorvigSweetingModel extends ReadablePretrainedNorvig

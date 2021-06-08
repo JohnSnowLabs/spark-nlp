@@ -292,4 +292,7 @@ class EmbeddingsFinisher(override val uid: String)
   }
 
 }
+/**
+ * This is the companion object of [[EmbeddingsFinisher]]. Please refer to that class for the documentation.
+ */
 object EmbeddingsFinisher extends DefaultParamsReadable[EmbeddingsFinisher]

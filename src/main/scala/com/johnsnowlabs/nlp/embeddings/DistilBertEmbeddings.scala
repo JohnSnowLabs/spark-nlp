@@ -325,4 +325,7 @@ trait ReadDistilBertTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[DistilBertEmbeddings]]. Please refer to that class for the documentation.
+ */
 object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertTensorflowModel

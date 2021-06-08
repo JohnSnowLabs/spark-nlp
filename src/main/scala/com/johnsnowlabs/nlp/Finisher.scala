@@ -299,4 +299,7 @@ class Finisher(override val uid: String)
   }
 
 }
+/**
+ * This is the companion object of [[Finisher]]. Please refer to that class for the documentation.
+ */
 object Finisher extends DefaultParamsReadable[Finisher]

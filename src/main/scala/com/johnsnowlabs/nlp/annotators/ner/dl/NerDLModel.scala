@@ -247,4 +247,7 @@ trait ReadablePretrainedNerDL extends ParamsAndFeaturesReadable[NerDLModel] with
 }
 
 
+/**
+ * This is the companion object of [[NerDLModel]]. Please refer to that class for the documentation.
+ */
 object NerDLModel extends ReadablePretrainedNerDL with ReadsNERGraph

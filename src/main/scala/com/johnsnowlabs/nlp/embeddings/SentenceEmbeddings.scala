@@ -223,4 +223,7 @@ class SentenceEmbeddings(override val uid: String)
   }
 }
 
+/**
+ * This is the companion object of [[SentenceEmbeddings]]. Please refer to that class for the documentation.
+ */
 object SentenceEmbeddings extends DefaultParamsReadable[SentenceEmbeddings]

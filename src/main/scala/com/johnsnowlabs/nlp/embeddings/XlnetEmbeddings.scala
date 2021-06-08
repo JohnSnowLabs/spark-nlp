@@ -270,4 +270,7 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
 }
 
 
+/**
+ * This is the companion object of [[XlnetEmbeddings]]. Please refer to that class for the documentation.
+ */
 object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel

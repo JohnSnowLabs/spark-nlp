@@ -173,4 +173,7 @@ trait ReadablePretrainedNerCrf extends ParamsAndFeaturesReadable[NerCrfModel] wi
   override def pretrained(name: String, lang: String, remoteLoc: String): NerCrfModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[NerCrfModel]]. Please refer to that class for the documentation.
+ */
 object NerCrfModel extends ReadablePretrainedNerCrf

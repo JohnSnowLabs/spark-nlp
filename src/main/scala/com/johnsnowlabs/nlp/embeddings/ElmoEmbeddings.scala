@@ -267,4 +267,7 @@ trait ReadElmoTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[ElmoEmbeddings]]. Please refer to that class for the documentation.
+ */
 object ElmoEmbeddings extends ReadablePretrainedElmoModel with ReadElmoTensorflowModel

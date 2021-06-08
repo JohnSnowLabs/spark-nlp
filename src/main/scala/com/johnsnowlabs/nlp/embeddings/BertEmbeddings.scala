@@ -388,6 +388,9 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[BertEmbeddings]]. Please refer to that class for the documentation.
+ */
 object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel {
   private[BertEmbeddings] val logger: Logger = LoggerFactory.getLogger("BertEmbeddings")
 }

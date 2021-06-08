@@ -188,4 +188,7 @@ class SentimentDLApproach(override val uid: String)
   }
 }
 
+/**
+ * This is the companion object of [[SentimentApproach]]. Please refer to that class for the documentation.
+ */
 object SentimentApproach extends DefaultParamsReadable[SentimentDLApproach]

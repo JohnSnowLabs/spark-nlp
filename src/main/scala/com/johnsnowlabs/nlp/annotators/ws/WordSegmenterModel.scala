@@ -162,4 +162,7 @@ trait ReadablePretrainedWordSegmenter extends ParamsAndFeaturesReadable[WordSegm
     super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[WordSegmenterModel]]. Please refer to that class for the documentation.
+ */
 object WordSegmenterModel extends ReadablePretrainedWordSegmenter

@@ -230,4 +230,7 @@ trait ReadUSETensorflowModel extends ReadTensorflowModel {
   }
 }
 
+/**
+ * This is the companion object of [[UniversalSentenceEncoder]]. Please refer to that class for the documentation.
+ */
 object UniversalSentenceEncoder extends ReadablePretrainedUSEModel with ReadUSETensorflowModel

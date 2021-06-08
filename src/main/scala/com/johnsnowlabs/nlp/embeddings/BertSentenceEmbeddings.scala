@@ -396,4 +396,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[BertSentenceEmbeddings]]. Please refer to that class for the documentation.
+ */
 object BertSentenceEmbeddings extends ReadablePretrainedBertSentenceModel with ReadBertSentenceTensorflowModel

@@ -222,4 +222,7 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 }
 
+/**
+ * This is the companion object of [[MultiClassifierDLModel]]. Please refer to that class for the documentation.
+ */
 object MultiClassifierDLModel extends ReadablePretrainedMultiClassifierDL with ReadMultiClassifierDLTensorflowModel

@@ -220,4 +220,7 @@ class DependencyParserApproach(override val uid: String) extends AnnotatorApproa
 
 }
 
+/**
+ * This is the companion object of [[DependencyParserApproach]]. Please refer to that class for the documentation.
+ */
 object DependencyParserApproach extends DefaultParamsReadable[DependencyParserApproach]

@@ -84,4 +84,7 @@ trait ReadablePretrainedLemmatizer extends ParamsAndFeaturesReadable[LemmatizerM
   override def pretrained(name: String, lang: String, remoteLoc: String): LemmatizerModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[LemmatizerModel]]. Please refer to that class for the documentation.
+ */
 object LemmatizerModel extends ReadablePretrainedLemmatizer

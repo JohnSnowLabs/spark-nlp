@@ -199,4 +199,7 @@ class PerceptronApproach(override val uid: String) extends AnnotatorApproach[Per
 
 }
 
+/**
+ * This is the companion object of [[PerceptronApproach]]. Please refer to that class for the documentation.
+ */
 object PerceptronApproach extends DefaultParamsReadable[PerceptronApproach]

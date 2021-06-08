@@ -116,4 +116,7 @@ trait ReadablePretrainedBigTextMatcher extends StorageReadable[BigTextMatcherMod
   override def pretrained(name: String, lang: String, remoteLoc: String): BigTextMatcherModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[BigTextMatcherModel]]. Please refer to that class for the documentation.
+ */
 object BigTextMatcherModel extends ReadablePretrainedBigTextMatcher

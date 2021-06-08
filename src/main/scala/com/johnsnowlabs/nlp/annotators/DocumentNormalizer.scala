@@ -381,4 +381,7 @@ class DocumentNormalizer(override val uid: String)
   }
 }
 
+/**
+ * This is the companion object of [[DocumentNormalizer]]. Please refer to that class for the documentation.
+ */
 object DocumentNormalizer extends DefaultParamsReadable[DocumentNormalizer]

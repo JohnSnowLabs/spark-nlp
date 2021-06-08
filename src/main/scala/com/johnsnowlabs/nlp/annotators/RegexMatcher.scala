@@ -172,4 +172,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
 
 }
 
+/**
+ * This is the companion object of [[RegexMatcher]]. Please refer to that class for the documentation.
+ */
 object RegexMatcher extends DefaultParamsReadable[RegexMatcher]

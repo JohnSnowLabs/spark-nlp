@@ -179,4 +179,7 @@ trait ReadablePretrainedTextMatcher extends ParamsAndFeaturesReadable[TextMatche
   override def pretrained(name: String, lang: String, remoteLoc: String): TextMatcherModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[TextMatcherModel]]. Please refer to that class for the documentation.
+ */
 object TextMatcherModel extends ReadablePretrainedTextMatcher

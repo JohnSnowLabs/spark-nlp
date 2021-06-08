@@ -174,4 +174,7 @@ trait ReadablePretrainedTypedDependency extends ParamsAndFeaturesReadable[TypedD
   override def pretrained(name: String, lang: String, remoteLoc: String): TypedDependencyParserModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[TypedDependencyParserModel]]. Please refer to that class for the documentation.
+ */
 object TypedDependencyParserModel extends ReadablePretrainedTypedDependency
