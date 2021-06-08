@@ -7,7 +7,7 @@ date: 2021-03-29
 tags: [ner, named_entity_recognition, pos, parts_of_speech, posology, ner_posology, pipeline, en, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging]
 language: en
-edition: Spark NLP 3.0.0
+edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 supported: true
 article_header:
@@ -82,7 +82,7 @@ result_df
 |---|---|
 |Model Name:|recognize_entities_posology|
 |Type:|pipeline|
-|Compatibility:|Spark NLP 3.0.0+|
+|Compatibility:|Spark NLP for Healthcare 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
