@@ -1,2 +1,2 @@
-docs/_posts/muhammetsnts/2021-05-27-clinical_deidentification_en.md
-docs/_posts/muhammetsnts/2021-05-27-clinical_deidentification_en.md
+docs/demos/extract_relationships.md
+docs/demos/extract_relationships.md
