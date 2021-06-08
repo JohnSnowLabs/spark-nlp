@@ -13,8 +13,93 @@ import org.apache.spark.sql.{DataFrame, Row}
 
 /** Word Embeddings lookup annotator that maps tokens to vectors
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverterTest.scala]] for example usage of this API.
+  * This is the instantiated model of [[WordEmbeddings]].
   *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val embeddings = WordEmbeddingsModel.pretrained()
+  *     .setInputCols("document", "token")
+  *     .setOutputCol("embeddings")
+  * }}}
+  * The default model is `"glove_100d"`, if no name is provided.
+  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  *
+  * There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:
+  *   - `withCoverageColumn(dataset, embeddingsCol, outputCol)`:
+  *     Adds a custom column with word coverage stats for the embedded field:
+  *     (`coveredWords`, `totalWords`, `coveragePercentage`). This creates a new column with statistics for each row.
+  *     {{{
+  *     val wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, "embeddings", "cov_embeddings")
+  *     wordsCoverage.select("text","cov_embeddings").show(false)
+  *     +-------------------+--------------+
+  *     |text               |cov_embeddings|
+  *     +-------------------+--------------+
+  *     |This is a sentence.|[5, 5, 1.0]   |
+  *     +-------------------+--------------+
+  *     }}}
+  *   - `overallCoverage(dataset, embeddingsCol)`:
+  *     Calculates overall word coverage for the whole data in the embedded field.
+  *     This returns a single coverage object considering all rows in the field.
+  *     {{{
+  *     val wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,"embeddings").percentage
+  *     1.0
+  *     }}}
+  *
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+  * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols(Array("document"))
+  *   .setOutputCol("token")
+  *
+  * val embeddings = WordEmbeddingsModel.pretrained()
+  *   .setInputCols("document", "token")
+  *   .setOutputCol("embeddings")
+  *
+  * val embeddingsFinisher = new EmbeddingsFinisher()
+  *   .setInputCols("embeddings")
+  *   .setOutputCols("finished_embeddings")
+  *   .setOutputAsVector(true)
+  *   .setCleanAnnotations(false)
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(
+  *     documentAssembler,
+  *     tokenizer,
+  *     embeddings,
+  *     embeddingsFinisher
+  *   ))
+  *
+  * val data = Seq("This is a sentence.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+  * +--------------------------------------------------------------------------------+
+  * |                                                                          result|
+  * +--------------------------------------------------------------------------------+
+  * |[-0.570580005645752,0.44183000922203064,0.7010200023651123,-0.417129993438720...|
+  * |[-0.542639970779419,0.4147599935531616,1.0321999788284302,-0.4024400115013122...|
+  * |[-0.2708599865436554,0.04400600120425224,-0.020260000601410866,-0.17395000159...|
+  * |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|
+  * |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|
+  * +--------------------------------------------------------------------------------+
+  * }}}
+  *
+  * @see [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
+  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -49,7 +134,7 @@ class WordEmbeddingsModel(override val uid: String)
     **/
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
-  /** cache size for items retrieved from storage. Increase for performance but higher memory consumption
+  /** Cache size for items retrieved from storage. Increase for performance but higher memory consumption
     *
     * @group param
     **/
@@ -62,7 +147,7 @@ class WordEmbeddingsModel(override val uid: String)
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
   /**
-    * takes a document and annotations and produces new annotations of this annotator's annotation type
+    * Takes a document and annotations and produces new annotations of this annotator's annotation type
     *
     * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
