@@ -180,7 +180,7 @@ trait DateMatcherUtils extends Params {
     anchorDateDay -> -1,
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1,
-    sourceLanguage -> "en"
+    sourceLanguage -> ""
   )
 
   /**

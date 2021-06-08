@@ -22,6 +22,7 @@ import java.util.Calendar
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.tensorflow.op.strings.StringNGrams
 
 /**
  * Matches standard date formats into a provided format
@@ -78,7 +79,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
     val _text: String = getSourceLanguage match {
       case "en" => text
-      case s if !s.isEmpty => DateMatcherTranslator.translateLanguage(text, getSourceLanguage, "en")
+      case s: String => DateMatcherTranslator.translateLanguage(text, getSourceLanguage)
       case _ => throw new Exception(s"Cannot identify source language.")
     }
 
