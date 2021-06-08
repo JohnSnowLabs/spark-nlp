@@ -11,11 +11,14 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, Row}
 
 /**
-  * This transformer is designed to deal with embedding annotators, for example:
+  * Extracts embeddings from Annotations into a more easily usable form.
+  *
+  * This is useful for example:
   * [[com.johnsnowlabs.nlp.embeddings.WordEmbeddings WordEmbeddings]],
   * [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]],
   * [[com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings SentenceEmbeddings]] and
   * [[com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings ChunkEmbeddings]].
+  *
   * By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or vectors which are
   * compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
   * `featureCol`.

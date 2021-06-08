@@ -26,9 +26,68 @@ import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-/** This annotator converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols).
+/** Converts the results from [[WordEmbeddings]], [[BertEmbeddings]], or [[ElmoEmbeddings]] into sentence
+  * or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document
+  * (depending on the inputCols).
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala]] for further reference on how to use this API.
+  * This can be configured with `setPoolingStrategy`, which either be `"AVERAGE"` or `"SUM"`.
+  *
+  * For more extended examples see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb Spark NLP Workshop]].
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala SentenceEmbeddingsTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+  * import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
+  * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols(Array("document"))
+  *   .setOutputCol("token")
+  *
+  * val embeddings = WordEmbeddingsModel.pretrained()
+  *   .setInputCols("document", "token")
+  *   .setOutputCol("embeddings")
+  *
+  * val embeddingsSentence = new SentenceEmbeddings()
+  *   .setInputCols(Array("document", "embeddings"))
+  *   .setOutputCol("sentence_embeddings")
+  *   .setPoolingStrategy("AVERAGE")
+  *
+  * val embeddingsFinisher = new EmbeddingsFinisher()
+  *   .setInputCols("sentence_embeddings")
+  *   .setOutputCols("finished_embeddings")
+  *   .setOutputAsVector(true)
+  *   .setCleanAnnotations(false)
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(
+  *     documentAssembler,
+  *     tokenizer,
+  *     embeddings,
+  *     embeddingsSentence,
+  *     embeddingsFinisher
+  *   ))
+  *
+  * val data = Seq("This is a sentence.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+  * +--------------------------------------------------------------------------------+
+  * |                                                                          result|
+  * +--------------------------------------------------------------------------------+
+  * |[-0.22093398869037628,0.25130119919776917,0.41810303926467896,-0.380883991718...|
+  * +--------------------------------------------------------------------------------+
+  * }}}
   *
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -60,25 +119,27 @@ class SentenceEmbeddings(override val uid: String)
     * @group anno
     **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT, WORD_EMBEDDINGS)
-  /** Number of embedding dimensions
+  /** Number of embedding dimensions (Default: `100`)
     *
     * @group param
     **/
   override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
 
-  /** Number of embedding dimensions
+  /** Number of embedding dimensions (Default: `100`)
     *
     * @group getParam
     **/
   override def getDimension: Int = $(dimension)
 
-  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default: `"AVERAGE"`).
+    * Can either be `"AVERAGE"` or `"SUM"`.
     *
     * @group param
     **/
   val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
 
-  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default: `"AVERAGE"`).
+    * Can either be `"AVERAGE"` or `"SUM"`.
     *
     * @group setParam
     **/
