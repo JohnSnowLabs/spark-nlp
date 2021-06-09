@@ -1,6 +1,2 @@
-docs/assets/images/ExtractRelationships_2.svg
-docs/assets/images/ExtractRelationships_2_f.svg
-docs/demos/extract_relationships.md
-docs/assets/images/ExtractRelationships_2.svg
-docs/assets/images/ExtractRelationships_2_f.svg
-docs/demos/extract_relationships.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
