@@ -167,13 +167,18 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   body.search('h2, pre, table, .btn-box, .tabs-box, .highlight').remove
   body = body.text.gsub(/\s+/, ' ').strip
 
+  language = post.data['language']
+  languages = [language]
+  languages = post.data['tags'].select { |v| v.length <= 3 and /^[a-z]+$/.match?(v) } if language == 'xx'
+
   model = {
     id: post.url,
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
     task: post.data['task'],
-    language: post.data['language'],
+    language: language,
+    languages: languages,
     edition: post.data['edition'],
     edition_short: edition_short,
     date: post.data['date'].strftime('%F'),
