@@ -1,2 +1,6 @@
-docs/_plugins/search_index.rb
-docs/_plugins/search_index.rb
+docs/assets/images/ExtractRelationships_2.svg
+docs/assets/images/ExtractRelationships_2_f.svg
+docs/demos/extract_relationships.md
+docs/assets/images/ExtractRelationships_2.svg
+docs/assets/images/ExtractRelationships_2_f.svg
+docs/demos/extract_relationships.md
