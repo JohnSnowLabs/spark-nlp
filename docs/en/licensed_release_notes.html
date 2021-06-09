@@ -522,11 +522,513 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="303">3.0.3</h3>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="release-notes-spark-nlp-healthcare">Release Notes Spark NLP Healthcare</h1>
+
+<h2 id="310">3.1.0</h2>
+<p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
+<h4 id="highlights">Highlights</h4>
+<ul>
+  <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
+  <li>New JSL Bert Models.</li>
+  <li>JSL SBert Model Speed Benchmark.</li>
+  <li>New ICD10CM resolver models.</li>
+  <li>New Deidentification NER models.</li>
+  <li>New column returned in DeidentificationModel</li>
+  <li>New Reidentification feature</li>
+  <li>New Deidentification Pretrained Pipelines</li>
+  <li>Chunk filtering based on confidence</li>
+  <li>Extended regex dictionary fuctionallity in Deidentification</li>
+  <li>Enhanced RelationExtractionDL Model to create and identify relations between entities across the entire document</li>
+  <li>MedicalNerApproach can now accept a graph file directly.</li>
+  <li>MedicalNerApproach can now accept a user-defined name for log file.</li>
+  <li>More improvements in Scaladocs.</li>
+  <li>Bug fixes in Deidentification module.</li>
+  <li>New notebooks.</li>
+</ul>
+
+<h4 id="sentence-resolver-models-load-time-improvement">Sentence Resolver Models load time improvement</h4>
+<p>Sentence resolver models now have faster load times, with a speedup of about 6X when compared to previous versions.
+Also, the load process now is more  memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.</p>
+
+<h4 id="new-jsl-sbert-models">New JSL SBert Models</h4>
+<p>We trained new sBert models in TF2 and fined tuned on MedNLI, NLI and UMLS datasets with various parameters to cover common NLP tasks in medical domain. You can find the details in the following table.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobert_jsl_cased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbiobert_jsl_umls_cased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbert_jsl_medium_uncased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbert_jsl_medium_umls_uncased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbert_jsl_mini_uncased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbert_jsl_mini_umls_uncased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbert_jsl_tiny_uncased</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sbert_jsl_tiny_umls_uncased</code></li>
+</ul>
+
+<h4 id="jsl-sbert-model-speed-benchmark">JSL SBert Model Speed Benchmark</h4>
+<p>| JSL SBert Model| Base Model | Is Cased | Train Datasets | Inference speed (100 rows) |
+|-|-|-|-|-|
+| sbiobert_jsl_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI| 274,53 |
+| sbiobert_jsl_umls_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI, umls | 274,52 |
+| sbert_jsl_medium_uncased | uncased_L-8_H-512_A-8 | Uncased | medNLI, allNLI| 80,40 |
+| sbert_jsl_medium_umls_uncased | uncased_L-8_H-512_A-8 | Uncased | medNLI, allNLI, umls | 78,35 |
+| sbert_jsl_mini_uncased | uncased_L-4_H-256_A-4 | Uncased | medNLI, allNLI| 10,68 |
+| sbert_jsl_mini_umls_uncased | uncased_L-4_H-256_A-4 | Uncased | medNLI, allNLI, umls | 10,29 |
+| sbert_jsl_tiny_uncased | uncased_L-2_H-128_A-2 | Uncased | medNLI, allNLI| 4,54 |
+| sbert_jsl_tiny_umls_uncased | uncased_L-2_H-128_A-2 | Uncased | medNLI, allNL, umls | 4,54 |</p>
+
+<h4 id="new-icd10cm-resolver-models">New ICD10CM resolver models:</h4>
+<p>These models map clinical entities and concepts to ICD10 CM codes using sentence bert embeddings. They also return the official resolution text within the brackets inside the metadata. Both models are augmented with synonyms, and previous augmentations are flexed according to cosine distances to unnormalized terms (ground truths).</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd10cm_slim_billable_hcc</code>: Trained with classic sbiobert mli. (<code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code>)</li>
+</ul>
+
+<p>Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbiobertresolve_icd10cm_slim_billable_hcc_en.html</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbertresolve_icd10cm_slim_billable_hcc_med</code>: Trained with new jsl sbert(<code class="language-plaintext highlighter-rouge">sbert_jsl_medium_uncased</code>)</li>
+</ul>
+
+<p>Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbertresolve_icd10cm_slim_billable_hcc_med_en.html</p>
+
+<p><em>Example</em>: ‘bladder cancer’</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd10cm_augmented_billable_hcc</code></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>chunks</th>
+      <th>code</th>
+      <th>all_codes</th>
+      <th>resolutions</th>
+      <th>all_distances</th>
+      <th>100x Loop(sec)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bladder cancer</td>
+      <td>C679</td>
+      <td>[C679, Z126, D090, D494, C7911]</td>
+      <td>[bladder cancer, suspected bladder cancer, cancer in situ of urinary bladder, tumor of bladder neck, malignant tumour of bladder neck]</td>
+      <td>[0.0000, 0.0904, 0.0978, 0.1080, 0.1281]</td>
+      <td>26,9</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>` sbiobertresolve_icd10cm_slim_billable_hcc`</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>chunks</th>
+      <th>code</th>
+      <th>all_codes</th>
+      <th>resolutions</th>
+      <th>all_distances</th>
+      <th>100x Loop(sec)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bladder cancer</td>
+      <td>D090</td>
+      <td>[D090, D494, C7911, C680, C679]</td>
+      <td>[cancer in situ of urinary bladder [Carcinoma in situ of bladder], tumor of bladder neck [Neoplasm of unspecified behavior of bladder], malignant tumour of bladder neck [Secondary malignant neoplasm of bladder], carcinoma of urethra [Malignant neoplasm of urethra], malignant tumor of urinary bladder [Malignant neoplasm of bladder, unspecified]]</td>
+      <td>[0.0978, 0.1080, 0.1281, 0.1314, 0.1284]</td>
+      <td>20,9</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbertresolve_icd10cm_slim_billable_hcc_med</code></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>chunks</th>
+      <th>code</th>
+      <th>all_codes</th>
+      <th>resolutions</th>
+      <th>all_distances</th>
+      <th>100x Loop(sec)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bladder cancer</td>
+      <td>C671</td>
+      <td>[C671, C679, C61, C672, C673]</td>
+      <td>[bladder cancer, dome [Malignant neoplasm of dome of bladder], cancer of the urinary bladder [Malignant neoplasm of bladder, unspecified], prostate cancer [Malignant neoplasm of prostate], cancer of the urinary bladder]</td>
+      <td>[0.0894, 0.1051, 0.1184, 0.1180, 0.1200]</td>
+      <td>12,8</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="new-deidentification-ner-models">New Deidentification NER Models</h4>
+
+<p>We trained four new NER models to find PHI data (protected health information) that may need to be deidentified. <code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented</code> and <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code> models are trained with a combination of 2014 i2b2 Deid dataset and in-house annotations as well as some augmented version of them. Compared to the same test set coming from 2014 i2b2 Deid dataset, we achieved a better accuracy and generalisation on some entity labels as summarised in the following tables. We also trained the same models with <code class="language-plaintext highlighter-rouge">glove_100d</code> embeddings to get more memory friendly versions.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented</code>  : Detects PHI 7 entities (<code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">NAME</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">ID</code>).</li>
+</ul>
+
+<p>Models Hub Page : https://nlp.johnsnowlabs.com/2021/06/01/ner_deid_generic_augmented_en.html</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>entity</th>
+      <th style="text-align: center">ner_deid_large (v3.0.3 and before)</th>
+      <th style="text-align: center">ner_deid_generic_augmented (v3.1.0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CONTACT</td>
+      <td style="text-align: center">0.8695</td>
+      <td style="text-align: center">0.9592</td>
+    </tr>
+    <tr>
+      <td>NAME</td>
+      <td style="text-align: center">0.9452</td>
+      <td style="text-align: center">0.9648</td>
+    </tr>
+    <tr>
+      <td>DATE</td>
+      <td style="text-align: center">0.9778</td>
+      <td style="text-align: center">0.9855</td>
+    </tr>
+    <tr>
+      <td>LOCATION</td>
+      <td style="text-align: center">0.8755</td>
+      <td style="text-align: center">0.923</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code>: Detects PHI 23 entities (<code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">HEALTHPLAN</code>, <code class="language-plaintext highlighter-rouge">URL</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">LOCATION-OTHER</code>, <code class="language-plaintext highlighter-rouge">STATE</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">DEVICE</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">SREET</code>, <code class="language-plaintext highlighter-rouge">BIOID</code>, <code class="language-plaintext highlighter-rouge">FAX</code>, <code class="language-plaintext highlighter-rouge">AGE</code>)</li>
+</ul>
+
+<p>Models Hub Page : https://nlp.johnsnowlabs.com/2021/06/01/ner_deid_subentity_augmented_en.html</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>entity</th>
+      <th style="text-align: center">ner_deid_enriched (v3.0.3 and before)</th>
+      <th style="text-align: center">ner_deid_subentity_augmented (v3.1.0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HOSPITAL</td>
+      <td style="text-align: center">0.8519</td>
+      <td style="text-align: center">0.8983</td>
+    </tr>
+    <tr>
+      <td>DATE</td>
+      <td style="text-align: center">0.9766</td>
+      <td style="text-align: center">0.9854</td>
+    </tr>
+    <tr>
+      <td>CITY</td>
+      <td style="text-align: center">0.7493</td>
+      <td style="text-align: center">0.8075</td>
+    </tr>
+    <tr>
+      <td>STREET</td>
+      <td style="text-align: center">0.8902</td>
+      <td style="text-align: center">0.9772</td>
+    </tr>
+    <tr>
+      <td>ZIP</td>
+      <td style="text-align: center">0.8</td>
+      <td style="text-align: center">0.9504</td>
+    </tr>
+    <tr>
+      <td>PHONE</td>
+      <td style="text-align: center">0.8615</td>
+      <td style="text-align: center">0.9502</td>
+    </tr>
+    <tr>
+      <td>DOCTOR</td>
+      <td style="text-align: center">0.9191</td>
+      <td style="text-align: center">0.9347</td>
+    </tr>
+    <tr>
+      <td>AGE</td>
+      <td style="text-align: center">0.9416</td>
+      <td style="text-align: center">0.9469</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_generic_glove</code>: Small version of <code class="language-plaintext highlighter-rouge">ner_deid_generic_augmented</code> and detects 7 entities.</li>
+  <li><code class="language-plaintext highlighter-rouge">ner_deid_subentity_glove</code>: Small version of <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code> and detects 23 entities.</li>
+</ul>
+
+<p><em>Example</em>:</p>
+
+<p>Scala</p>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">deid_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_deid_subentity_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> <span class="o">\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">deid_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="n">model</span> <span class="k">=</span> <span class="nv">nlpPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="err">""</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">A.</span> <span class="kt">Record</span> <span class="kt">date</span> <span class="kt">:</span> <span class="err">2093</span><span class="kt">-</span><span class="err">01</span><span class="kt">-</span><span class="err">13</span>, <span class="kt">David</span> <span class="kt">Hale</span>, <span class="kt">M.D.</span>, <span class="kt">Name</span> <span class="kt">:</span> <span class="kt">Hendrickson</span>, <span class="kt">Ora</span> <span class="kt">MR.</span> <span class="k">#</span> <span class="err">7194334</span> <span class="kt">Date</span> <span class="kt">:</span> <span class="err">01</span><span class="kt">/</span><span class="err">13</span><span class="kt">/</span><span class="err">93</span> <span class="kt">PCP</span> <span class="kt">:</span> <span class="kt">Oliveira</span>, <span class="err">25</span> <span class="kt">-year-old</span>, <span class="kt">Record</span> <span class="kt">date</span> <span class="kt">:</span> <span class="err">1</span><span class="kt">-</span><span class="err">11</span><span class="kt">-</span><span class="err">2000</span><span class="kt">.</span> <span class="kt">Cocke</span> <span class="kt">County</span> <span class="kt">Baptist</span> <span class="kt">Hospital.</span> <span class="err">0295</span> <span class="kt">Keats</span> <span class="kt">Street.</span> <span class="kt">Phone</span> <span class="kt">+</span><span class="err">1</span> <span class="o">(</span><span class="err">302</span><span class="o">)</span> <span class="err">786</span><span class="kt">-</span><span class="err">5227</span><span class="kt">.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Python</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+deid_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"ner_deid_subentity_augmented"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span> <span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span>
+...
+nlpPipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter]<span class="o">)</span>
+model <span class="o">=</span> nlpPipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s2">""</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
+
+results <span class="o">=</span> model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s2">"text"</span>: <span class="o">[</span><span class="s2">"""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."""</span><span class="o">]})))</span>
+</code></pre></div></div>
+<p><em>Results</em>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------+-------------+
+|chunk                        |ner_label    |
++-----------------------------+-------------+
+|2093-01-13                   |DATE         |
+|David Hale                   |DOCTOR       |
+|Hendrickson, Ora             |PATIENT      |
+|7194334                      |MEDICALRECORD|
+|01/13/93                     |DATE         |
+|Oliveira                     |DOCTOR       |
+|25-year-old                  |AGE          |
+|1-11-2000                    |DATE         |
+|Cocke County Baptist Hospital|HOSPITAL     |
+|0295 Keats Street.           |STREET       |
+|<span class="o">(</span>302<span class="o">)</span> 786-5227               |PHONE        |
+|Brothers Coal-Mine           |ORGANIZATION |
++-----------------------------+-------------+
+</code></pre></div></div>
+
+<h4 id="new-column-returned-in-deidentificationmodel">New column returned in DeidentificationModel</h4>
+
+<p>DeidentificationModel now can return a new column to save the mappings between the mask/obfuscated entities and original entities.
+This column is optional and you can set it up with the <code class="language-plaintext highlighter-rouge">.setReturnEntityMappings(True)</code> method. The default value is False.
+Also, the name for the column can be changed using the following method; <code class="language-plaintext highlighter-rouge">.setMappingsColumn("newAlternativeName")</code>
+The new column will produce annotations with the following structure,</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Annotation(
+  type: chunk, 
+  begin: 17, 
+  end: 25, 
+  result: 47,
+    metadata:{
+        originalChunk -&gt; 01/13/93  //Original text of the chunk
+        chunk -&gt; 0  // The number of the chunk in the sentence
+        beginOriginalChunk -&gt; 95 // Start index of the original chunk
+        endOriginalChunk -&gt; 102  // End index of the original chunk
+        entity -&gt; AGE // Entity of the chunk
+        sentence -&gt; 2 // Number of the sentence
+    }
+)
+</code></pre></div></div>
+
+<h4 id="new-reidentification-feature">New Reidentification feature</h4>
+
+<p>With the new ReidetificationModel, the user can go back to the original sentences using the mappings columns and the deidentification sentences.</p>
+
+<p><em>Example:</em></p>
+
+<p>Scala</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">redeidentification</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ReIdentification</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"mappings"</span><span class="o">,</span> <span class="s">"deid_chunks"</span><span class="o">))</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"original"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Python</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reDeidentification</span> <span class="k">=</span> <span class="nc">ReIdentification</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">mappings</span><span class="err">"</span>,<span class="err">"</span><span class="kt">deid_chunks</span><span class="err">"</span><span class="o">])</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"original"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="new-deidentification-pretrained-pipelines">New Deidentification Pretrained Pipelines</h4>
+<p>We developed a <code class="language-plaintext highlighter-rouge">clinical_deidentification</code> pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ID</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">NAME</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>,  <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">LICENSE</code>, <code class="language-plaintext highlighter-rouge">VIN</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">DLN</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">IPADDR</code> entities.</p>
+
+<p>Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html</p>
+
+<p>There is also a lightweight version of the same pipeline trained with memory efficient <code class="language-plaintext highlighter-rouge">glove_100d</code>embeddings.
+Here are the model names:</p>
+<ul>
+  <li>clinical_deidentification</li>
+  <li>clinical_deidentification_glove</li>
+</ul>
+
+<p><em>Example:</em></p>
+
+<p>Python:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp.pretrained import PretrainedPipeline
+deid_pipeline <span class="o">=</span> PretrainedPipeline<span class="o">(</span><span class="s2">"clinical_deidentification"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span>
+
+deid_pipeline.annotate<span class="o">(</span><span class="s2">"Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286."</span><span class="o">)</span>
+</code></pre></div></div>
+<p>Scala:</p>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+<span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286."</span><span class="o">)</span>
+</code></pre></div></div>
+<p>Result:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'sentence'</span>: <span class="o">[</span><span class="s1">'Record date : 2093-01-13, David Hale, M.D.'</span>,
+   <span class="s1">'IP: 203.120.223.13.'</span>,
+   <span class="s1">'The driver'</span>s license no:A334455B.<span class="s1">',
+   '</span>the SSN:324598674 and e-mail: hale@gmail.com.<span class="s1">',
+   '</span>Name : Hendrickson, Ora MR. <span class="c"># 719435 Date : 01/13/93.',</span>
+   <span class="s1">'PCP : Oliveira, 25 years-old.'</span>,
+   <span class="s1">'Record date : 2079-11-09, Patient'</span>s VIN : 1HGBH41JXMN109286.<span class="s1">'],
+'</span>masked<span class="s1">': ['</span>Record <span class="nb">date</span> : &lt;DATE&gt;, &lt;DOCTOR&gt;, M.D.<span class="s1">',
+   '</span>IP: &lt;IPADDR&gt;.<span class="s1">',
+   '</span>The driver<span class="s1">'s license &lt;DLN&gt;.'</span>,
+   <span class="s1">'the &lt;SSN&gt; and e-mail: &lt;EMAIL&gt;.'</span>,
+   <span class="s1">'Name : &lt;PATIENT&gt; MR. # &lt;MEDICALRECORD&gt; Date : &lt;DATE&gt;.'</span>,
+   <span class="s1">'PCP : &lt;DOCTOR&gt;, &lt;AGE&gt; years-old.'</span>,
+   <span class="s1">'Record date : &lt;DATE&gt;, Patient'</span>s VIN : &lt;VIN&gt;.<span class="s1">'],
+'</span>obfuscated<span class="s1">': ['</span>Record <span class="nb">date</span> : 2093-01-18, Dr Alveria Eden, M.D.<span class="s1">',
+   '</span>IP: 001.001.001.001.<span class="s1">',
+   '</span>The driver<span class="s1">'s license K783518004444.'</span>,
+   <span class="s1">'the SSN-400-50-8849 and e-mail: Merilynn@hotmail.com.'</span>,
+   <span class="s1">'Name : Charls Danger MR. # J3366417 Date : 01-18-1974.'</span>,
+   <span class="s1">'PCP : Dr Sina Sewer, 55 years-old.'</span>,
+   <span class="s1">'Record date : 2079-11-23, Patient'</span>s VIN : 6ffff55gggg666777.<span class="s1">'],
+'</span>ner_chunk<span class="s1">': ['</span>2093-01-13<span class="s1">',
+   '</span>David Hale<span class="s1">',
+   '</span>no:A334455B<span class="s1">',
+   '</span>SSN:324598674<span class="s1">',
+   '</span>Hendrickson, Ora<span class="s1">',
+   '</span>719435<span class="s1">',
+   '</span>01/13/93<span class="s1">',
+   '</span>Oliveira<span class="s1">',
+   '</span>25<span class="s1">',
+   '</span>2079-11-09<span class="s1">',
+   '</span>1HGBH41JXMN109286<span class="s1">']}
+</span></code></pre></div></div>
+
+<h4 id="chunk-filtering-based-on-confidence">Chunk filtering based on confidence</h4>
+
+<p>We added a new annotator ChunkFiltererApproach that allows to load a csv with both entities and confidence thresholds. 
+This annotator will produce a ChunkFilterer model.</p>
+
+<p>You can load the dictionary with the following property <code class="language-plaintext highlighter-rouge">setEntitiesConfidenceResource()</code>.</p>
+
+<p>An example dictionary is:</p>
+
+<pre><code class="language-CSV">TREATMENT,0.7
+</code></pre>
+
+<p>With that dictionary, the user can filter the chunks corresponding to treatment entities which have confidence lower than 0.7.</p>
+
+<p>Example:</p>
+
+<p>We have a ner_chunk column and sentence column with the following data:</p>
+
+<p>Ner_chunk</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|[{chunk, 141, 163, the genomicorganization, {entity -&gt; TREATMENT, sentence -&gt; 0, chunk -&gt; 0, confidence -&gt; 0.57785}, []}, {chunk, 209, 267, a candidate gene forType II 
+           diabetes mellitus, {entity -&gt; PROBLEM, sentence -&gt; 0, chunk -&gt; 1, confidence -&gt; 0.6614286}, []}, {chunk, 394, 408, byapproximately, {entity -&gt; TREATMENT, sentence -&gt; 1, chunk -&gt; 2, confidence -&gt; 0.7705}, []}, {chunk, 478, 508, single nucleotide polymorphisms, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 3, confidence -&gt; 0.7204666}, []}, {chunk, 559, 581, aVal366Ala substitution, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 4, confidence -&gt; 0.61505}, []}, {chunk, 588, 601, an 8 base-pair, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 5, confidence -&gt; 0.29226667}, []}, {chunk, 608, 625, insertion/deletion, {entity -&gt; PROBLEM, sentence -&gt; 3, chunk -&gt; 6, confidence -&gt; 0.9841}, []}]|
++-------
+</code></pre></div></div>
+<p>Sentence</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{document, 0, 298, The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II 
+             diabetes mellitus in the Pima Indian population., {sentence -&gt; 0}, []}, {document, 300, 460, The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons ,separated byapproximately 2.2 and approximately 2.6 kb introns, respectively., {sentence -&gt; 1}, []}, {document, 462, 601, We identified14 single nucleotide polymorphisms (SNPs),
+             including one that predicts aVal366Ala substitution, and an 8 base-pair, {sentence -&gt; 2}, []}, {document, 603, 626, (bp) insertion/deletion., {sentence -&gt; 3}, []}]
+</code></pre></div></div>
+
+<p>We can filter the entities using the following annotator:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">chunker_filter</span> <span class="o">=</span> <span class="n">ChunkFiltererApproach</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">)</span> \
+            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"filtered"</span><span class="p">)</span> \
+            <span class="p">.</span><span class="n">setCriteria</span><span class="p">(</span><span class="s">"regex"</span><span class="p">)</span> \
+            <span class="p">.</span><span class="n">setRegex</span><span class="p">([</span><span class="s">".*"</span><span class="p">])</span> \         
+            <span class="p">.</span><span class="n">setEntitiesConfidenceResource</span><span class="p">(</span><span class="s">"entities_confidence.csv"</span><span class="p">)</span>
+
+</code></pre></div></div>
+<p>Where entities-confidence.csv has the following data:</p>
+
+<pre><code class="language-csv">TREATMENT,0.7
+PROBLEM,0.9
+</code></pre>
+<p>We can use that chunk_filter:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chunker_filter.fit(data).transform(data)
+</code></pre></div></div>
+<p>Producing the following entities:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|[{chunk, 394, 408, byapproximately, {entity -&gt; TREATMENT, sentence -&gt; 1, chunk -&gt; 2, confidence -&gt; 0.7705}, []}, {chunk, 478, 508, single nucleotide polymorphisms, {entity -&gt; TREATMENT, sentence -&gt; 2, chunk -&gt; 3, confidence -&gt; 0.7204666}, []}, {chunk, 608, 625, insertion/deletion, {entity -&gt; PROBLEM, sentence -&gt; 3, chunk -&gt; 6, confidence -&gt; 0.9841}, []}]|
+
+</code></pre></div></div>
+<p>As you can see, only the treatment entities with confidence score of more than 0.7, and the problem entities with confidence score of more than 0.9 have been kept in the output.</p>
+
+<h4 id="extended-regex-dictionary-fuctionallity-in-deidentification">Extended regex dictionary fuctionallity in Deidentification</h4>
+
+<p>The RegexPatternsDictionary can now use a regex that spawns the 2 previous token and the 2 next tokens.
+That feature is implemented using regex groups.</p>
+
+<p>Examples:</p>
+
+<p>Given the sentence <code class="language-plaintext highlighter-rouge">The patient with ssn 123123123</code> we can use the following regex to capture the entitty <code class="language-plaintext highlighter-rouge">ssn (\d{9})</code>
+Given the sentence <code class="language-plaintext highlighter-rouge">The patient has 12 years</code> we can use the following regex to capture the entitty <code class="language-plaintext highlighter-rouge">(\d{2}) years</code></p>
+
+<h4 id="enhanced-relationextractiondl-model-to-create-and-identify-relations-between-entities-across-the-entire-document">Enhanced RelationExtractionDL Model to create and identify relations between entities across the entire document</h4>
+
+<p>A new option has been added to <code class="language-plaintext highlighter-rouge">RENerChunksFilter</code> to support pairing entities from different sentences using <code class="language-plaintext highlighter-rouge">.setDocLevelRelations(True)</code>, to pass to the Relation Extraction Model. The RelationExtractionDL Model has also been updated to process document-level relations.</p>
+
+<p>How to use:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">re_dl_chunks</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span> \
+            <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
+            <span class="p">.</span><span class="n">setDocLevelRelations</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+            <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>\
+            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"redl_ner_chunks"</span><span class="p">)</span>  
+</code></pre></div></div>
+
+<p>Examples:</p>
+
+<p>Given a document containing multiple sentences: <code class="language-plaintext highlighter-rouge">John somkes cigrettes. He also consumes alcohol.</code>, now we can generate relation pairs across sentences and relate <code class="language-plaintext highlighter-rouge">alcohol</code> with <code class="language-plaintext highlighter-rouge">John</code> .</p>
+
+<h4 id="set-ner-graph-explicitely-in-medicalnerapproach">Set NER graph explicitely in MedicalNerApproach</h4>
+<p>Now MedicalNerApproach can receives the path to the graph directly. When a graph location is provided through this method, previous graph search behavior is disabled.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MedicalNerApproach.setGraphFile(graphFilePath)
+</code></pre></div></div>
+
+<h4 id="medicalnerapproach-can-now-accept-a-user-defined-name-for-log-file">MedicalNerApproach can now accept a user-defined name for log file.</h4>
+<p>Now MedicalNerApproach can accept a user-defined name for the log file. If not such a name is provided, the conventional naming will take place.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MedicalNerApproach.setLogSuffix("oncology_ner")
+</code></pre></div></div>
+<p>This will result in <code class="language-plaintext highlighter-rouge">oncology_ner_20210605_141701.log</code> filename being used, in which the <code class="language-plaintext highlighter-rouge">20210605_141701</code> is a timestamp.</p>
+
+<h4 id="new-notebooks">New Notebooks</h4>
+
+<ul>
+  <li>A <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.4.Biomedical_NER_SparkNLP_paper_reproduce.ipynb">new notebook</a>  to reproduce our peer-reviewed NER paper (https://arxiv.org/abs/2011.06315)</li>
+  <li>New databricks <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/case_studies">case study notebooks</a>. In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.</li>
+</ul>
+
+<h3 id="303">3.0.3</h3>
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights">Highlights</h4>
+<h4 id="highlights-1">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -609,7 +1111,7 @@
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -631,7 +1133,7 @@
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-2">Highlights:</h4>
+<h4 id="highlights-3">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -759,11 +1261,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-3">Highlights:</h4>
+<h4 id="highlights-4">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-4">Highlights:</h4>
+<h4 id="highlights-5">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -871,7 +1373,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-5">Highlights:</h4>
+<h4 id="highlights-6">Highlights:</h4>
 
 <ul>
   <li>
@@ -1172,7 +1674,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-6">Highlights:</h4>
+<h4 id="highlights-7">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -1362,7 +1864,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-7">Highlights:</h4>
+<h4 id="highlights-8">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -1446,7 +1948,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-8">Highlights:</h4>
+<h4 id="highlights-9">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>

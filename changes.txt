@@ -1,4 +1,2 @@
-docs/_posts/C-K-Loan/2021-03-29-recognize_entities_posology_en.md
-docs/_posts/HashamUlHaq/2021-02-19-ner_deid_synthetic_en.md
-docs/_posts/C-K-Loan/2021-03-29-recognize_entities_posology_en.md
-docs/_posts/HashamUlHaq/2021-02-19-ner_deid_synthetic_en.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
