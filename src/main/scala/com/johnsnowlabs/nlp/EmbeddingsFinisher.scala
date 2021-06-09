@@ -11,94 +11,102 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, Row}
 
 /**
-  * Extracts embeddings from Annotations into a more easily usable form.
-  *
-  * This is useful for example:
-  * [[com.johnsnowlabs.nlp.embeddings.WordEmbeddings WordEmbeddings]],
-  * [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]],
-  * [[com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings SentenceEmbeddings]] and
-  * [[com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings ChunkEmbeddings]].
-  *
-  * By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or vectors which are
-  * compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
-  * `featureCol`.
-  *
-  * For more extended examples see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb Spark NLP Workshop]].
-  *
-  * ==Example==
-  * {{{
-  * import spark.implicits._
-  * import org.apache.spark.ml.Pipeline
-  * import com.johnsnowlabs.nlp.{DocumentAssembler, EmbeddingsFinisher}
-  * import com.johnsnowlabs.nlp.annotator.{Normalizer, StopWordsCleaner, Tokenizer, WordEmbeddingsModel}
-  *
-  * // First the embeddings are extracted using the WordEmbeddingsModel
-  * val documentAssembler = new DocumentAssembler()
-  *   .setInputCol("text")
-  *   .setOutputCol("document")
-  *
-  * val tokenizer = new Tokenizer()
-  *   .setInputCols("document")
-  *   .setOutputCol("token")
-  *
-  * val normalizer = new Normalizer()
-  *   .setInputCols("token")
-  *   .setOutputCol("normalized")
-  *
-  * val stopwordsCleaner = new StopWordsCleaner()
-  *   .setInputCols("normalized")
-  *   .setOutputCol("cleanTokens")
-  *   .setCaseSensitive(false)
-  *
-  * val gloveEmbeddings = WordEmbeddingsModel.pretrained()
-  *   .setInputCols("document", "cleanTokens")
-  *   .setOutputCol("embeddings")
-  *   .setCaseSensitive(false)
-  *
-  * // Then the embeddings can be turned into a vector using the EmbeddingsFinisher
-  * val embeddingsFinisher = new EmbeddingsFinisher()
-  *   .setInputCols("embeddings")
-  *   .setOutputCols("finished_sentence_embeddings")
-  *   .setOutputAsVector(true)
-  *   .setCleanAnnotations(false)
-  *
-  * val data = Seq("Spark NLP is an open-source text processing library.")
-  *   .toDF("text")
-  * val pipeline = new Pipeline().setStages(Array(
-  *   documentAssembler,
-  *   tokenizer,
-  *   normalizer,
-  *   stopwordsCleaner,
-  *   gloveEmbeddings,
-  *   embeddingsFinisher
-  * )).fit(data)
-  *
-  * val result = pipeline.transform(data)
-  * result.select("finished_sentence_embeddings").show(false)
-  * +--------------------------------------------------------------------------------------------------------+
-  * |finished_sentence_embeddings                                                                            |
-  * +--------------------------------------------------------------------------------------------------------+
-  * |[[0.1619900017976761,0.045552998781204224,-0.03229299932718277,-0.6856099963188171,0.5442799925804138...|
-  * +--------------------------------------------------------------------------------------------------------+
-  * }}}
-  *
-  * @see [[com.johnsnowlabs.nlp.Finisher Finisher]] for finishing Strings
-  * @param uid required uid for storing annotator to disk
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  */
+ * Extracts embeddings from Annotations into a more easily usable form.
+ *
+ * This is useful for example:
+ * [[com.johnsnowlabs.nlp.embeddings.WordEmbeddings WordEmbeddings]],
+ * [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]],
+ * [[com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings SentenceEmbeddings]] and
+ * [[com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings ChunkEmbeddings]].
+ *
+ * By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or vectors which are
+ * compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
+ * `featureCol`.
+ *
+ * For more extended examples see the
+ * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb Spark NLP Workshop]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import org.apache.spark.ml.Pipeline
+ * import com.johnsnowlabs.nlp.{DocumentAssembler, EmbeddingsFinisher}
+ * import com.johnsnowlabs.nlp.annotator.{Normalizer, StopWordsCleaner, Tokenizer, WordEmbeddingsModel}
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols("document")
+ *   .setOutputCol("token")
+ *
+ * val normalizer = new Normalizer()
+ *   .setInputCols("token")
+ *   .setOutputCol("normalized")
+ *
+ * val stopwordsCleaner = new StopWordsCleaner()
+ *   .setInputCols("normalized")
+ *   .setOutputCol("cleanTokens")
+ *   .setCaseSensitive(false)
+ *
+ * val gloveEmbeddings = WordEmbeddingsModel.pretrained()
+ *   .setInputCols("document", "cleanTokens")
+ *   .setOutputCol("embeddings")
+ *   .setCaseSensitive(false)
+ *
+ * val embeddingsFinisher = new EmbeddingsFinisher()
+ *   .setInputCols("embeddings")
+ *   .setOutputCols("finished_sentence_embeddings")
+ *   .setOutputAsVector(true)
+ *   .setCleanAnnotations(false)
+ *
+ * val data = Seq("Spark NLP is an open-source text processing library.")
+ *   .toDF("text")
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   tokenizer,
+ *   normalizer,
+ *   stopwordsCleaner,
+ *   gloveEmbeddings,
+ *   embeddingsFinisher
+ * )).fit(data)
+ *
+ * val result = pipeline.transform(data)
+ * val resultWithSize = result.selectExpr("explode(finished_sentence_embeddings)")
+ *   .map { row =>
+ *     val vector = row.getAs[org.apache.spark.ml.linalg.DenseVector](0)
+ *     (vector.size, vector)
+ *   }.toDF("size", "vector")
+ *
+ * resultWithSize.show(5, 80)
+ * +----+--------------------------------------------------------------------------------+
+ * |size|                                                                          vector|
+ * +----+--------------------------------------------------------------------------------+
+ * | 100|[0.1619900017976761,0.045552998781204224,-0.03229299932718277,-0.685609996318...|
+ * | 100|[-0.42416998744010925,1.1378999948501587,-0.5717899799346924,-0.5078899860382...|
+ * | 100|[0.08621499687433243,-0.15772999823093414,-0.06067200005054474,0.395359992980...|
+ * | 100|[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|
+ * | 100|[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|
+ * +----+--------------------------------------------------------------------------------+
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.Finisher Finisher]] for finishing Strings
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class EmbeddingsFinisher(override val uid: String)
   extends Transformer
     with DefaultParamsWritable {
