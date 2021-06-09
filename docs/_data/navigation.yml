@@ -93,6 +93,10 @@ docs-en:
         url:    /docs/en/ocr_install
       - title:  Pipeline components
         url:    /docs/en/ocr_pipeline_components
+      - title:  Table recognition
+        url:    /docs/en/ocr_table_recognition
+      - title:  Visual document understanding
+        url:    /docs/en/ocr_visual_document_understanding
       - title:  Structures and helpers
         url:    /docs/en/ocr_structures
       - title:  Release notes
