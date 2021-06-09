@@ -85,41 +85,29 @@ object DateMatcherTranslator extends Serializable {
 
   type DateMatcherIndexedToken = (String, Int)
 
-  def translateToken: (DateMatcherIndexedToken, Map[String, Any]) => DateMatcherIndexedToken =
+  def matchIndexedToken: (DateMatcherIndexedToken, Map[String, Any]) => DateMatcherIndexedToken =
     (indexToken, dictionary) => {
       println(indexToken)
       val (token, index) = indexToken
       val keys = dictionary.keySet
 
-//      val values: String => List[String] = dictionary.getOrElse(_, "NA").asInstanceOf[List[String]]
       val getListifiedValues: String => List[String] = dictionary.getOrElse(_, "NA") match {
         case l: List[String] => l
         case s: String => List(s)
         case m: Map[String, Any] => m.keySet.toList
       }
 
-      val translated: Set[(String, Int)] = for(k <- keys if getListifiedValues(k).contains(token)) yield (k, index)
+      val translated: Set[(String, Int)] =
+        for(k <- keys
+            if getListifiedValues(k).contains(token.toLowerCase)
+            ) yield (k, index)
 
       println(translated)
+
       if(!translated.isEmpty)
         translated.head
       else
         indexToken
-      //
-      //      val valueTerms: String => Set[String] =
-      //        dictionary
-      //          .getOrElse(_, "NA").asInstanceOf[Map[String, Any]]
-      //          .values.flatten(listFlattener).asInstanceOf[List[String]].toSet
-
-      //      val intersect = Set(token._1) intersect dictionary.keySet.map{rootTerms}.flatten
-
-      //      val candidates = dictionary.keySet
-      //      val valuesCandidates = candidates.map{rootTerms}
-      //
-      //      if(valuesCandidates.contains(List(token._1))){
-      //
-      //      }
-
     }
 
   def applyTranslation(translatedIndexedToken: Array[(String, Int)], text: String) = {
@@ -131,18 +119,9 @@ object DateMatcherTranslator extends Serializable {
   def translateToDestinationLanguage(text: String, sourceLanguage: String, destinationLanguage: String = "en") = {
     val sourceLanguageDictionary: Map[String, Any] = loadDictionary(sourceLanguage)
 
-    //    val keys = sourceLanguageDictionary.keySet
-    //
-    //    keys.map()
-    //
-    //    val dictionaryValues = sourceLanguageDictionary
-    //      .asInstanceOf[Map[String, Any]]
-    //      .values.flatten(listFlattener).asInstanceOf[List[String]]
-    //      .toSet
-    //
-    //    sourceLanguageDictionary.keySet
+    val translatedIndexedToken: Array[DateMatcherIndexedToken] =
+      text.split(" ").zipWithIndex.map(matchIndexedToken(_, sourceLanguageDictionary))
 
-    val translatedIndexedToken: Array[DateMatcherIndexedToken] = text.split(" ").zipWithIndex.map(translateToken(_, sourceLanguageDictionary))
     applyTranslation(translatedIndexedToken, text)
   }
 
@@ -162,6 +141,6 @@ object DateMatcherTranslator extends Serializable {
 
     val translated = translateToDestinationLanguage(text, detectedSourceLanguage, destinationLanguage)
 
-    "translated"
+    translated
   }
 }
