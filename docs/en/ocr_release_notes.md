@@ -7,6 +7,18 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+## 3.3.0
+
+#### Overview
+
+Table detection and recognition for scanned documents.
+
+#### New Features
+
+* [TableDetector](ocr_table_recognition#imagetabledetector) is a DL model for detect tables on the image.
+* [TableCellDetector](ocr_table_recognition#imagetablecelldetector) is a transformer for detect regions of cells in the table image.
+* [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable) is a transformer for extract text from the detected cells.
+
 
 ## 3.2.0
 
