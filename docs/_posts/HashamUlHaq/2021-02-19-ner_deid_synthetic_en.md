@@ -7,7 +7,7 @@ date: 2021-02-19
 tags: [licensed, clinical, ner, en]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP 2.7.4
+edition: Spark NLP for Healthcare 2.7.4
 supported: true
 article_header:
   type: cover
@@ -79,7 +79,7 @@ results = model.transform(spark.createDataFrame([['HISTORY OF PRESENT ILLNESS: M
 |---|---|
 |Model Name:|ner_deid_synthetic|
 |Type:|ner|
-|Compatibility:|Spark NLP 2.7.4+|
+|Compatibility:|Spark NLP for Healthcare 2.7.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
