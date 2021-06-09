@@ -7,7 +7,7 @@ import scala.io.Source
 
 object DateMatcherTranslator extends Serializable {
 
-  def loadTranslationDictionary(language: String = "en") = {
+  def loadDictionary(language: String = "en") = {
     val DictionaryPath = s"src/main/resources/date-matcher/date_translation_data/$language.json"
     val jsonString = Source.fromFile(DictionaryPath).mkString
 
@@ -48,25 +48,27 @@ object DateMatcherTranslator extends Serializable {
   }
 
   private def searchForLanguageMatches(text: String, language: String) = {
-    val dictionary: Map[String, Any] = loadTranslationDictionary(language)
+    val dictionary: Map[String, Any] = loadDictionary(language)
     // tokenize and search token in keys
-    val tokens = text.split(" ").filterNot(_.size <= 2).map(_.toLowerCase).toSet
+    val tokens = text.split(" ").filterNot(_.size <= 2).map(_.toLowerCase).toSet // FIXME more than 2 chars?
 
     val dictionaryValues = dictionary
       .asInstanceOf[Map[String, Any]]
       .values.flatten(listFlattener).asInstanceOf[List[String]]
       .toSet
 
-    val res: (String, Set[String]) =
-      if(!(tokens intersect dictionaryValues isEmpty))
+    val intersection = tokens intersect dictionaryValues
+
+    val matchingLanguages: (String, Set[String]) =
+      if(!intersection.isEmpty)
         dictionary
           .asInstanceOf[Map[String, Any]]
           .getOrElse("name", "NA")
-          .toString -> (tokens intersect dictionaryValues)
+          .toString -> intersection
       else
         "NF" -> Set.empty
 
-    res
+    matchingLanguages
   }
 
   def detectSourceLanguage(text: String) = {
@@ -81,19 +83,85 @@ object DateMatcherTranslator extends Serializable {
     detected
   }
 
+  type DateMatcherIndexedToken = (String, Int)
+
+  def translateToken: (DateMatcherIndexedToken, Map[String, Any]) => DateMatcherIndexedToken =
+    (indexToken, dictionary) => {
+      println(indexToken)
+      val (token, index) = indexToken
+      val keys = dictionary.keySet
+
+//      val values: String => List[String] = dictionary.getOrElse(_, "NA").asInstanceOf[List[String]]
+      val getListifiedValues: String => List[String] = dictionary.getOrElse(_, "NA") match {
+        case l: List[String] => l
+        case s: String => List(s)
+        case m: Map[String, Any] => m.keySet.toList
+      }
+
+      val translated: Set[(String, Int)] = for(k <- keys if getListifiedValues(k).contains(token)) yield (k, index)
+
+      println(translated)
+      if(!translated.isEmpty)
+        translated.head
+      else
+        indexToken
+      //
+      //      val valueTerms: String => Set[String] =
+      //        dictionary
+      //          .getOrElse(_, "NA").asInstanceOf[Map[String, Any]]
+      //          .values.flatten(listFlattener).asInstanceOf[List[String]].toSet
+
+      //      val intersect = Set(token._1) intersect dictionary.keySet.map{rootTerms}.flatten
+
+      //      val candidates = dictionary.keySet
+      //      val valuesCandidates = candidates.map{rootTerms}
+      //
+      //      if(valuesCandidates.contains(List(token._1))){
+      //
+      //      }
+
+    }
+
+  def applyTranslation(translatedIndexedToken: Array[(String, Int)], text: String) = {
+    val tokens = text.split(" ")
+    translatedIndexedToken.map(t => tokens(t._2) = t._1)
+    tokens.mkString(" ")
+  }
+
+  def translateToDestinationLanguage(text: String, sourceLanguage: String, destinationLanguage: String = "en") = {
+    val sourceLanguageDictionary: Map[String, Any] = loadDictionary(sourceLanguage)
+
+    //    val keys = sourceLanguageDictionary.keySet
+    //
+    //    keys.map()
+    //
+    //    val dictionaryValues = sourceLanguageDictionary
+    //      .asInstanceOf[Map[String, Any]]
+    //      .values.flatten(listFlattener).asInstanceOf[List[String]]
+    //      .toSet
+    //
+    //    sourceLanguageDictionary.keySet
+
+    val translatedIndexedToken: Array[DateMatcherIndexedToken] = text.split(" ").zipWithIndex.map(translateToken(_, sourceLanguageDictionary))
+    applyTranslation(translatedIndexedToken, text)
+  }
+
   def translateLanguage(text: String,
                         sourceLanguage: String,
                         destinationLanguage: String = "en") = {
 
-    // 1. detect source language if None
-    val detectedLanguage =
+    // 1. detect source language
+    val detectedSourceLanguage =
       if(sourceLanguage.isEmpty)
-        detectSourceLanguage(text)
+        detectSourceLanguage(text).toString
       else
         sourceLanguage
 
     // 2. apply translation
-    println(s"Translating from $sourceLanguage to $destinationLanguage...")
+    println(s"Translating from $detectedSourceLanguage to $destinationLanguage...")
+
+    val translated = translateToDestinationLanguage(text, detectedSourceLanguage, destinationLanguage)
+
     "translated"
   }
 }
