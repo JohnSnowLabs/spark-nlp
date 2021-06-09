@@ -377,7 +377,7 @@ MedicalNerApproach.setGraphFile(graphFilePath)
 #### MedicalNerApproach can now accept a user-defined name for log file.
 Now MedicalNerApproach can accept a user-defined name for the log file. If not such a name is provided, the conventional naming will take place.
 ```
-MedicalNerApproach.setLogSuffix("oncology_ner")
+MedicalNerApproach.setLogPrefix("oncology_ner")
 ```
 This will result in `oncology_ner_20210605_141701.log` filename being used, in which the `20210605_141701` is a timestamp.
 
