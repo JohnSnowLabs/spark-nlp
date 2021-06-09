@@ -77,9 +77,9 @@ data:
         - title: Detect how dates relate to clinical entities
           id: detect_how_dates_relate_to_clinical_entities
           image: 
-              src: /assets/images/Find_in_Text.svg
+              src: /assets/images/ExtractRelationships_2.svg
           image2: 
-              src: /assets/images/Find_in_Text_f.svg
+              src: /assets/images/ExtractRelationships_2_f.svg
           excerpt: Detect clinical entities such as problems, tests and treatments, and how they relate to specific dates.
           actions:
           - text: Live Demo
