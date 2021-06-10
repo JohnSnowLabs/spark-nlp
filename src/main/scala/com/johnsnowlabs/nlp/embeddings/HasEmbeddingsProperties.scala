@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.MetadataBuilder
 
 trait HasEmbeddingsProperties extends Params {
 
-  /** Number of embedding dimensions
+  /** Number of embedding dimensions (Default depends on model)
     *
     * @group param
     */
