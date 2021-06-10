@@ -28,9 +28,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
 
   "a DateMatcher" should "be catching formatted italian dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia il 15/9/2012")
-
-    data.show(false)
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia il 15/9/2012.")
 
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
@@ -52,9 +50,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
 
   "a DateMatcher" should "be catching unformatted italian dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia il 15 Settembre 2012")
-
-    data.show(false)
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia il 15 Settembre 2012.")
 
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
@@ -72,6 +68,94 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
         "date")
 
     assert(annotations.head.result == "09/15/2012")
+  }
+
+  "a DateMatcher" should "be catching formatted french dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Je suis arrivé en France le 23/5/2019.")
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations.head.result == "05/23/2019")
+  }
+
+  "a DateMatcher" should "be catching unformatted french dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Je suis arrivé en France le 23 mai 2019.")
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations.head.result == "05/23/2019")
+  }
+
+  "a DateMatcher" should "be catching formatted portuguese dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Cheguei à França no dia 23/5/2019.")
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("pt")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations.head.result == "05/23/2019")
+  }
+
+  "a DateMatcher" should "be catching unformatted portuguese dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Cheguei à França em 23 de maio de 2019.")
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("pt")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations.head.result == "05/23/2019")
   }
 
 }

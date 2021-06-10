@@ -17,12 +17,11 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
-import org.apache.spark.ml.param.{BooleanParam, Param}
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.tensorflow.op.strings.StringNGrams
 
 /**
  * Matches standard date formats into a provided format
