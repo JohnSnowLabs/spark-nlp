@@ -34,26 +34,78 @@ object PoolingStrategy {
 
 }
 
-/** This annotator utilizes WordEmbeddings or BertEmbeddings to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs.
+/** This annotator utilizes [[WordEmbeddings]], [[BertEmbeddings]] etc. to generate chunk embeddings from either
+ * [[com.johnsnowlabs.nlp.annotators.Chunker Chunker]], [[com.johnsnowlabs.nlp.annotators.NGramGenerator NGramGenerator]],
+ * or [[com.johnsnowlabs.nlp.annotators.ner.NerConverter NerConverter]] outputs.
  *
- * TIP:
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala]].
  *
- * How to explode and convert these embeddings into Vectors or what’s known as Feature column so it can be used in Spark ML regression or clustering functions:
- *
+ * ==Example==
  * {{{
- * import org.apache.spark.ml.linalg.{Vector, Vectors}
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+ * import com.johnsnowlabs.nlp.annotators.{NGramGenerator, Tokenizer}
+ * import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+ * import com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings
+ * import org.apache.spark.ml.Pipeline
  *
- * // Let's create a UDF to take array of embeddings and output Vectors
- * val convertToVectorUDF = udf((matrix : Seq[Float]) => {
- *     Vectors.dense(matrix.toArray.map(_.toDouble))
- * })
+ * // Extract the Embeddings from the NGrams
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
  *
- * // Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
- * pipelineDF.select(explode($"chunk_embeddings.embeddings").as("chunk_embeddings_exploded"))
- * .withColumn("features", convertToVectorUDF($"chunk_embeddings_exploded"))
+ * val sentence = new SentenceDetector()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols(Array("sentence"))
+ *   .setOutputCol("token")
+ *
+ * val nGrams = new NGramGenerator()
+ *   .setInputCols("token")
+ *   .setOutputCol("chunk")
+ *   .setN(2)
+ *
+ * val embeddings = WordEmbeddingsModel.pretrained()
+ *   .setInputCols("sentence", "token")
+ *   .setOutputCol("embeddings")
+ *   .setCaseSensitive(false)
+ *
+ * // Convert the NGram chunks into Word Embeddings
+ * val chunkEmbeddings = new ChunkEmbeddings()
+ *   .setInputCols("chunk", "embeddings")
+ *   .setOutputCol("chunk_embeddings")
+ *   .setPoolingStrategy("AVERAGE")
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     sentence,
+ *     tokenizer,
+ *     nGrams,
+ *     embeddings,
+ *     chunkEmbeddings
+ *   ))
+ *
+ * val data = Seq("This is a sentence.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(chunk_embeddings) as result")
+ *   .select("result.annotatorType", "result.result", "result.embeddings")
+ *   .show(5, 80)
+ * +---------------+----------+--------------------------------------------------------------------------------+
+ * |  annotatorType|    result|                                                                      embeddings|
+ * +---------------+----------+--------------------------------------------------------------------------------+
+ * |word_embeddings|   This is|[-0.55661, 0.42829502, 0.86661, -0.409785, 0.06316501, 0.120775, -0.0732005, ...|
+ * |word_embeddings|      is a|[-0.40674996, 0.22938299, 0.50597, -0.288195, 0.555655, 0.465145, 0.140118, 0...|
+ * |word_embeddings|a sentence|[0.17417, 0.095253006, -0.0530925, -0.218465, 0.714395, 0.79860497, 0.0129999...|
+ * |word_embeddings|sentence .|[0.139705, 0.177955, 0.1887775, -0.45545, 0.20030999, 0.461557, -0.07891501, ...|
+ * +---------------+----------+--------------------------------------------------------------------------------+
  * }}}
  *
- * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala]] for further reference on how to use this API.
  *
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
@@ -83,12 +135,12 @@ class ChunkEmbeddings (override val uid: String) extends AnnotatorModel[ChunkEmb
    * @group anno
    **/
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(CHUNK, WORD_EMBEDDINGS)
-  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM
+  /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: `"AVERAGE"` or `"SUM"` (Default: `"AVERAGE"`)
    *
    * @group param
    **/
   val poolingStrategy = new Param[String](this, "poolingStrategy", "Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM")
-  /** Whether to discard default vectors for OOV words from the aggregation / pooling
+  /** Whether to discard default vectors for OOV words from the aggregation / pooling (Default: `true`)
    *
    * @group param
    **/
