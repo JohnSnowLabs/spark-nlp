@@ -32,15 +32,29 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import java.io.File
 
 /**
- * The XLM-RoBERTa model was proposed in '''Unsupervised Cross-lingual Representation Learning at Scale'''
- * [[https://arxiv.org/abs/1911.02116]] by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
+ * The XLM-RoBERTa model was proposed in [[https://arxiv.org/abs/1911.02116 Unsupervised Cross-lingual Representation Learning at Scale]]
+ * by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
  * Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based on Facebook's
  * RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl
  * data.
  *
- * The abstract from the paper is the following:
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val embeddings = XlmRoBertaEmbeddings.pretrained()
+ *   .setInputCols("document", "token")
+ *   .setOutputCol("embeddings")
+ * }}}
+ * The default model is `"xlm_roberta_base"`, default language is `"xx"` (meaning multi-lingual), if no values are provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
  *
- * This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala XlmRoBertaEmbeddingsTestSpec]].
+ * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+ * example shows how to import them.
+ *
+ * '''Paper Abstract:'''
+ *
+ * ''This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
  * wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one hundred
  * languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly
  * outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on
@@ -50,16 +64,67 @@ import java.io.File
  * trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high and low resource
  * languages at scale. Finally, we show, for the first time, the possibility of multilingual modeling without sacrificing
  * per-language performance; XLM-Ris very competitive with strong monolingual models on the GLUE and XNLI benchmarks. We
- * will make XLM-R code, data, and models publicly available.
+ * will make XLM-R code, data, and models publicly available.''
  *
- * Tips:
- *
- * - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
+ * '''Tips:'''
+ *   - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
  * not require '''lang''' parameter to understand which language is used, and should be able to determine the correct
  * language from the input ids.
- * - This implementation is the same as RoBERTa. Refer to the [[com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings]] for usage examples
+ *   - This implementation is the same as RoBERTa. Refer to the [[RoBertaEmbeddings]] for usage examples
  * as well as the information relative to the inputs and outputs.
  *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings
+ * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols(Array("document"))
+ *   .setOutputCol("token")
+ *
+ * val embeddings = XlmRoBertaEmbeddings.pretrained()
+ *   .setInputCols("document", "token")
+ *   .setOutputCol("embeddings")
+ *   .setCaseSensitive(true)
+ *
+ * val embeddingsFinisher = new EmbeddingsFinisher()
+ *   .setInputCols("embeddings")
+ *   .setOutputCols("finished_embeddings")
+ *   .setOutputAsVector(true)
+ *   .setCleanAnnotations(false)
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     tokenizer,
+ *     embeddings,
+ *     embeddingsFinisher
+ *   ))
+ *
+ * val data = Seq("This is a sentence.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+ * +--------------------------------------------------------------------------------+
+ * |                                                                          result|
+ * +--------------------------------------------------------------------------------+
+ * |[-0.05969233065843582,-0.030789051204919815,0.04443822056055069,0.09564960747...|
+ * |[-0.038839809596538544,0.011712731793522835,0.019954433664679527,0.0667808502...|
+ * |[-0.03952755779027939,-0.03455188870429993,0.019103847444057465,0.04311436787...|
+ * |[-0.09579929709434509,0.02494969218969345,-0.014753809198737144,0.10259044915...|
+ * |[0.004710011184215546,-0.022148698568344116,0.011723337695002556,-0.013356896...|
+ * +--------------------------------------------------------------------------------+
+ * }}}
+ *
+ * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
  * @groupname Ungrouped Members
@@ -72,7 +137,7 @@ import java.io.File
  * @groupprio Ungrouped 3
  * @groupprio setParam  4
  * @groupprio getParam  5
- * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class XlmRoBertaEmbeddings(override val uid: String)
   extends AnnotatorModel[XlmRoBertaEmbeddings]
@@ -83,14 +148,13 @@ class XlmRoBertaEmbeddings(override val uid: String)
     with HasStorageRef
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("XLM_ROBERTA_EMBEDDINGS"))
 
-  /** @group setParam */
   def sentenceStartTokenId: Int = {
     0
   }
 
-  /** @group setParam */
   def sentenceEndTokenId: Int = {
     2
   }
@@ -111,7 +175,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  /** Max sentence length to process
+  /** Max sentence length to process (Default: `128`)
    *
    * @group param
    * */
@@ -172,9 +236,9 @@ class XlmRoBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowXlmRoberta = _model.get.value
 
-  /** Set Embeddings dimensions for the XLM-RoBERTa model
+  /** Set Embeddings dimensions for the XLM-RoBERTa model.
    * Only possible to set this when the first time is saved
-   * dimension is not changeable, it comes from XLM-RoBERTa config file
+   * dimension is not changeable, it comes from XLM-RoBERTa config file.
    *
    * @group setParam
    * */
@@ -231,8 +295,15 @@ class XlmRoBertaEmbeddings(override val uid: String)
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  /** Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
