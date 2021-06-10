@@ -17,7 +17,7 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.DataBuilder
+import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -26,9 +26,9 @@ import org.scalatest._
 
 class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
 
-  "a DateMatcher" should "be catching dates" taggedAs FastTest in {
+  "a DateMatcher" should "be catching formatted italian dates" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono partito dalla Francia il 29 Marzo")
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia il 15/9/2012")
 
     data.show(false)
 
@@ -40,7 +40,38 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
-    pipeline.fit(data).transform(data).show(false)
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations.head.result == "09/15/2012")
+  }
+
+  "a DateMatcher" should "be catching unformatted italian dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia il 15 Settembre 2012")
+
+    data.show(false)
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("it")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations.head.result == "09/15/2012")
   }
 
 }
