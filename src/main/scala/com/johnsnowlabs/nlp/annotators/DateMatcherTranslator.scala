@@ -1,60 +1,98 @@
 package com.johnsnowlabs.nlp.annotators
+
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
+import java.io.{FileNotFoundException, IOException}
 import scala.io.Source
 
 
 object DateMatcherTranslator extends Serializable {
 
-  def loadDictionary(language: String = "en") = {
-    val DictionaryPath = s"src/main/resources/date-matcher/date_translation_data/$language.json"
-    val jsonString = Source.fromFile(DictionaryPath).mkString
+  val SupportedLanguages = "src/main/resources/date-matcher/supported_languages.txt"
+  val TranslationDataBaseDir = "src/main/resources/date-matcher/translation-dictionaries/"
+
+  val JsonSuffix = ".json"
+  val Encoding = "utf-8"
+
+  val NotFound = "NF"
+  val SkipChar = "#"
+  val SpaceChar = " "
+  val NotAvailable = "NA"
+  val NameKey = "name"
+  val English = "en"
+
+  /**
+   * Load dictionary from supported language repository.
+   * @param language the language dictionary to load. Default is English.
+   * @return a map containing the language dictionary or throws an exception.
+   * */
+  def loadDictionary(language: String = English) = {
+    val DictionaryPath = s"$TranslationDataBaseDir$language$JsonSuffix"
+
+    var jsonString = "";
+    try{
+      jsonString = Source.fromFile(DictionaryPath).mkString
+    } catch {
+      case e: FileNotFoundException => println(s"Couldn't find $language file in repository.")
+      case e: IOException => println("Got an IOException!")
+    }
 
     val json = parse(jsonString)
 
     implicit val formats = DefaultFormats
     val jsonMap: Map[String, Any] = json.extract[Map[String, Any]]
 
-    //    println(jsonMap)
     jsonMap
   }
 
-  //  val dictionary: Map[String, Any] = loadTranslationDictionary()
-
-  def listFlattener(any: Any): List[Any] =
+  // Utility method to parse the json files structure
+  def listify(any: Any): List[Any] =
     any match {
       case i: List[_] => i
       case _ => List(any)
     }
 
   def detectLanguage(text: String) = {
-    val filePath = "src/main/resources/date-matcher/supported_languages.txt"
-    val languages = scala.io.Source.fromFile(filePath, "utf-8").getLines.toList
+    val filePath = SupportedLanguages
+    val languages = scala.io.Source.fromFile(filePath, Encoding).getLines.toList
 
-    val matched =
+    val mappedDetected =
       languages
+        .filterNot(_.startsWith(SkipChar)) // skip char
         .map(l => searchForLanguageMatches(text, l))
-        .filterNot(_._1.equals("NF"))
+        .filterNot(_._1.equals(NotFound))
+        .toMap
 
-    val mappedDetected: Map[String, Set[String]] = matched.toMap
-    println(mappedDetected)
-    val matchesLengths: Map[String, Int] = mappedDetected.map{case(k, v) => (k, v.size)}
-
-    val maxValue = matchesLengths.values.max
-    val detected = matchesLengths.filter(_._2 == maxValue).toList
+    val detected = mappedDetected.size match {
+      case 0 => List.empty
+      case _ =>
+        val matchesLengths: Map[String, Int] = mappedDetected.map{case(k, v) => (k, v.size)}
+        val maxValue = matchesLengths.values.max
+        matchesLengths.filter(_._2 == maxValue).toList
+    }
 
     detected
   }
 
+  /**
+   * Search for language matches token by token.
+   * @param text: the text to process for matching.
+   * @param language: the 2 characters string identifying a supported language.
+   * @return
+   * */
   private def searchForLanguageMatches(text: String, language: String) = {
     val dictionary: Map[String, Any] = loadDictionary(language)
+
     // tokenize and search token in keys
-    val tokens = text.split(" ").filterNot(_.size <= 2).map(_.toLowerCase).toSet // FIXME more than 2 chars?
+    val tokens = text.split(SpaceChar)
+      .filterNot(_.size <= 2) // FIXME more than 2 chars?
+      .map(_.toLowerCase)
+      .toSet
 
     val dictionaryValues = dictionary
       .asInstanceOf[Map[String, Any]]
-      .values.flatten(listFlattener).asInstanceOf[List[String]]
+      .values.flatten(listify).asInstanceOf[List[String]]
       .toSet
 
     val intersection = tokens intersect dictionaryValues
@@ -63,31 +101,47 @@ object DateMatcherTranslator extends Serializable {
       if(!intersection.isEmpty)
         dictionary
           .asInstanceOf[Map[String, Any]]
-          .getOrElse("name", "NA")
+          .getOrElse(NameKey, NotAvailable)
           .toString -> intersection
       else
-        "NF" -> Set.empty
+        NotFound -> Set.empty
 
     matchingLanguages
   }
 
+  /**
+   * Detect the source language by looking for date language matches.
+   * @param text: the text to detect.
+   * @return the detected language as tuple of matched languages with their frequency.
+   * */
   def detectSourceLanguage(text: String) = {
-    val detected: List[(String, Int)] = detectLanguage(text)
+    val detectedLanguage: List[(String, Int)] = detectLanguage(text)
 
-    if(detected.size != 1)
-      throw new Exception(s"" +
-        s"Detected multiple languages. " +
-        s"Please specify which one to use using the setSourceLanguage method in the DateMatcher annotator. " +
-        s"Detected: ${detected.map(_._1).mkString(", ")} .")
+    // TODO sort?
+    // must be a single element list.
+    if(detectedLanguage.size != 1)
+      English
+    else {
+      val (language, frequency) = detectedLanguage.head
+      language
+    }
+    //      throw new Exception(s"\n" +
+    //        s"Detected multiple languages. " +
+    //        s"Please specify which one to use using the setSourceLanguage method in the DateMatcher annotator. " +
+    //        s"Detected: ${detectedLanguages.map(_._1).mkString(", ")} .")
 
-    detected
   }
 
+  // utility type
   type DateMatcherIndexedToken = (String, Int)
 
+  /**
+   *  Matches the indexed text token against the passed dictionary.
+   *  @param indexToken the indexed token to match.
+   *  @param dictionary the dictionary to match token against.
+   * */
   def matchIndexedToken: (DateMatcherIndexedToken, Map[String, Any]) => DateMatcherIndexedToken =
     (indexToken, dictionary) => {
-      println(indexToken)
       val (token, index) = indexToken
       val keys = dictionary.keySet
 
@@ -102,44 +156,65 @@ object DateMatcherTranslator extends Serializable {
             if getListifiedValues(k).contains(token.toLowerCase)
             ) yield (k, index)
 
-      println(translated)
-
+      // only first match if any is returned
       if(!translated.isEmpty)
         translated.head
-      else
+      else {
+        // bypassed as not matched
         indexToken
+      }
     }
 
+  /**
+   * Apply translation switching token where an index has been translated using the dictionary matching.
+   * @param translatedIndexedToken: the translated index token to replace in text.
+   * @param text: the original text where translation is applied.
+   * @return the text translated using token replacement.
+   * */
   def applyTranslation(translatedIndexedToken: Array[(String, Int)], text: String) = {
-    val tokens = text.split(" ")
+    val tokens = text.split(SpaceChar)
     translatedIndexedToken.map(t => tokens(t._2) = t._1)
     tokens.mkString(" ")
   }
 
-  def translateToDestinationLanguage(text: String, sourceLanguage: String, destinationLanguage: String = "en") = {
-    val sourceLanguageDictionary: Map[String, Any] = loadDictionary(sourceLanguage)
+  /**
+   * Translate the text from source language to destination language.
+   * @param text the text to translate.
+   * @param source the source language.
+   * @param destination the destination language.
+   * @return the translated text from source language to destination language.
+   * */
+  private def _translate(text: String, source: String, destination: String = English) = {
+    if(!source.equals(English)) {
+      val sourceLanguageDictionary: Map[String, Any] = loadDictionary(source)
 
-    val translatedIndexedToken: Array[DateMatcherIndexedToken] =
-      text.split(" ").zipWithIndex.map(matchIndexedToken(_, sourceLanguageDictionary))
+      val translatedIndexedToken: Array[DateMatcherIndexedToken] =
+        text.split(SpaceChar).zipWithIndex.map(matchIndexedToken(_, sourceLanguageDictionary))
 
-    applyTranslation(translatedIndexedToken, text)
+      applyTranslation(translatedIndexedToken, text)
+    }
+    else
+      text
   }
 
-  def translateLanguage(text: String,
-                        sourceLanguage: String,
-                        destinationLanguage: String = "en") = {
+  /**
+   * Translate the text from source language to destination language.
+   * @param text the text to translate.
+   * @param source the source language.
+   * @param destination the destination language.
+   * @return the translated text from source language to destination language.
+   * */
+  def translateLanguage(text: String, source: String, destination: String = English) = {
 
-    // 1. detect source language
-    val detectedSourceLanguage =
-      if(sourceLanguage.isEmpty)
+    // 1. set or detect source language
+    val _source =
+      if(source.isEmpty)
         detectSourceLanguage(text).toString
       else
-        sourceLanguage
+        source
 
     // 2. apply translation
-    println(s"Translating from $detectedSourceLanguage to $destinationLanguage...")
-
-    val translated = translateToDestinationLanguage(text, detectedSourceLanguage, destinationLanguage)
+    val translated = _translate(text, _source, destination)
 
     translated
   }
