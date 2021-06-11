@@ -5,6 +5,7 @@ author: John Snow Labs
 name: pos_icepahc
 date: 2021-03-23
 tags: [pos, open_source, is]
+supported: true
 task: Part of Speech Tagging
 language: is
 edition: Spark NLP 2.7.5
