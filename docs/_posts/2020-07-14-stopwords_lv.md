@@ -8,7 +8,7 @@ task: Stop Words Removal
 language: lv
 edition: Spark NLP 2.5.4
 tags: [stopwords, lv]
-supported: false
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
