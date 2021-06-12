@@ -5,6 +5,7 @@ author: John Snow Labs
 name: analyze_sentimentdl_glove_imdb
 date: 2021-03-24
 tags: [open_source, english, analyze_sentimentdl_glove_imdb, pipeline, en]
+supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: en
 edition: Spark NLP 3.0.0

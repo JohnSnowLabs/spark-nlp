@@ -5,6 +5,7 @@ author: John Snow Labs
 name: bert_base_multilingual_cased
 date: 2021-05-20
 tags: [xx, multilingual, embeddings, bert, open_source]
+supported: true
 task: Embeddings
 language: xx
 edition: Spark NLP 3.1.0

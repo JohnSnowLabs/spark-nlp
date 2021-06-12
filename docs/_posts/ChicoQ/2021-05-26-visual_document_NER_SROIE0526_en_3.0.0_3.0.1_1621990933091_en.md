@@ -5,6 +5,7 @@ author: John Snow Labs
 name: visual_document_NER_SROIE0526_en_3.0.0_3.0.1_1621990933091
 date: 2021-05-26
 tags: [en, licensed]
+supported: true
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 3.0.0
