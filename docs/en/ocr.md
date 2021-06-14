@@ -27,6 +27,10 @@ Spark OCR is built on top of ```Apache Spark``` and offers the following capabil
   - Extracting data from tables
   - Recognizing and highlighting named entities in PDF documents
   - Masking sensitive text in order to de-identify images
+- Table detection and recognition from images
+- Visual document understanding
+  - Document classification
+  - Visual NER
 - Output generation in different formats:
   - PDF, images, or DICOM files with annotated or masked entities
   - Digital text for downstream processing in Spark NLP or other libraries
