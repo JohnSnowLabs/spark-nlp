@@ -110,6 +110,12 @@ class ClassifierDLApproach(override val uid: String)
     **/
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
+  /** Random seed
+   *
+   * @group setParam
+   */
+  def setRandomSeed(seed: Int): ClassifierDLApproach.this.type = set(randomSeed, seed)
+
   /** Column with label per each document
     *
     * @group setParam
@@ -172,6 +178,12 @@ class ClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setVerbose(verbose: Verbose.Level): ClassifierDLApproach.this.type = set(this.verbose, verbose.id)
+
+  /** Random seed
+   *
+   * @group getParam
+   */
+  def getRandomSeed: Int = $(this.randomSeed)
 
   /** Column with label per each document
     *

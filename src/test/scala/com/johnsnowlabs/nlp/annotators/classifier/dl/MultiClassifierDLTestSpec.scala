@@ -48,6 +48,7 @@ class MultiClassifierDLTestSpec extends FlatSpec {
       .setLr(1e-3f)
       .setThreshold(0.5f)
       .setValidationSplit(0.1f)
+      .setRandomSeed(44)
 
     val pipeline = new Pipeline()
       .setStages(
