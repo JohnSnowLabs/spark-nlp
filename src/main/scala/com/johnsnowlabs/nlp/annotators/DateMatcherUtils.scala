@@ -118,7 +118,7 @@ trait DateMatcherUtils extends Params {
   }
 
   /** @group getParam */
-  def getAnchorDateMonth: Int = $(anchorDateMonth)
+  def getAnchorDateMonth: Int = $(anchorDateMonth) + 1
 
   /**
    * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).
