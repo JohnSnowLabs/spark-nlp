@@ -33,11 +33,65 @@ import org.apache.spark.sql.SparkSession
 import scala.collection.immutable.ListMap
 
 /**
- * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
- * LanguageDetectorDL is an annotator that detects the language of documents or sentences depending on the inputCols
+ * Language Identification and Detection by using CNN and RNN architectures in TensorFlow.
  *
- * The models are trained on large datasets such as Wikipedia and Tatoeba
- * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+ * `LanguageDetectorDL` is an annotator that detects the language of documents or sentences depending on the inputCols.
+ * The models are trained on large datasets such as Wikipedia and Tatoeba.
+ * Depending on the language (how similar the characters are), the LanguageDetectorDL works
+ * best with text longer than 140 characters.
+ * The output is a language code in [[https://en.wikipedia.org/wiki/List_of_Wikipedias Wiki Code style]].
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * Val languageDetector = LanguageDetectorDL.pretrained()
+ *   .setInputCols("sentence")
+ *   .setOutputCol("language")
+ * }}}
+ * The default model is `"ld_wiki_tatoeba_cnn_21"`, default language is `"xx"` (meaning multi-lingual),
+ * if no values are provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Language+Detection Models Hub]].
+ *
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb Spark NLP Workshop]]
+ * And the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala LanguageDetectorDLTestSpec]].
+ *
+ * ==Example==
+ * {{{
+ * Import spark.implicits._
+ * Import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * Import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+ * Import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
+ * Import org.apache.spark.ml.Pipeline
+ *
+ * Val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * Val languageDetector = LanguageDetectorDL.pretrained()
+ *   .setInputCols("document")
+ *   .setOutputCol("language")
+ *
+ * Val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     languageDetector
+ *   ))
+ *
+ * Val data = Seq(
+ *   "Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.",
+ *   "Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.",
+ *   "Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala."
+ * ).toDF("text")
+ * Val result = pipeline.fit(data).transform(data)
+ *
+ * Result.select("language.result").show(false)
+ * +------+
+ * |result|
+ * +------+
+ * |[en]  |
+ * |[fr]  |
+ * |[de]  |
+ * +------+
+ * }}}
  *
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
@@ -60,31 +114,33 @@ class LanguageDetectorDL(override val uid: String)
 
   def this() = this(Identifiable.randomUID("LANGUAGE_DETECTOR_DL"))
 
-  /** alphabet
+  /** Alphabet used to feed the TensorFlow model for prediction
    *
    * @group param
    * */
   val alphabet: MapFeature[String, Int] = new MapFeature(this, "alphabet")
 
-  /** language
+  /** Language used to map prediction to ISO 639-1 language codes
    *
    * @group param
    * */
   val language: MapFeature[String, Int] = new MapFeature(this, "language")
 
-  /** threshold
+  /** The minimum threshold for the final result, otherwise it will be either `"unk"` or the value set in
+   * `thresholdLabel` (Default: `0.1f`).
+   * Value is between 0.0 to 1.0. Try to set this lower if your text is hard to predict
    *
    * @group param
    * */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.")
+  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otherwise it will be either Unknown or the value set in thresholdLabel.")
 
-  /** thresholdLabel
+  /** Value for the classification, if confidence is less than `threshold` (Default: `"unk"`).
    *
    * @group param
    * */
   val thresholdLabel = new Param[String](this, "thresholdLabel", "In case the score is less than threshold, what should be the label. Default is Unknown.")
 
-  /** coalesceSentences
+  /** Output average of sentences instead of one output per sentence (Default: `true`).
    *
    * @group param
    * */
@@ -96,87 +152,55 @@ class LanguageDetectorDL(override val uid: String)
    * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
+  /** Languages the model was trained with.
+   *
+   * @group param
+   */
   val languages = new StringArrayParam(this, "languages", "keep an internal copy of languages for Python")
 
-  /** language used to map prediction to ISO 639-1 language codes
-   *
-   * @group setParam
-   * */
+  /** @group setParam */
   def setLanguage(value: Map[String, Int]): this.type = {
     if (get(language).isEmpty)
       set(this.language, value)
     this
   }
 
-  /** alphabet used to feed the TensorFlow model for prediction
-   *
-   * @group setParam
-   * */
+  /** @group setParam */
   def setAlphabet(value: Map[String, Int]): this.type = {
     if (get(language).isEmpty)
       set(alphabet, value)
     this
   }
 
-  /** The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.
-   *
-   * Value is between 0.0 to 1.0
-   * Try to set this lower if your text is hard to predict
-   *
-   * @group setParam
-   * */
+  /** @group setParam */
   def setThreshold(threshold: Float): this.type = set(this.threshold, threshold)
 
-  /** In case the score of prediction is less than threshold, what should be the label. Default is Unknown.
-   *
-   * @group setParam
-   * */
+  /** @group setParam */
   def setThresholdLabel(label: String): this.type = set(this.thresholdLabel, label)
 
-  /** If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.
-   *
-   * @group setParam
-   * */
+  /** @group setParam */
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
 
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-   *
-   * @group setParam
-   * */
+  /** @group setParam */
   def setConfigProtoBytes(bytes: Array[Int]): LanguageDetectorDL.this.type = set(this.configProtoBytes, bytes)
 
-  /** languages
-   *
-   * @group getParam
-   * */
+  /** @group getParam */
   def getLanguage: Array[String] = {
     val langs = $$(language).keys.toArray
     set(languages, langs)
     langs
   }
 
-  /** threshold
-   *
-   * @group getParam
-   * */
+  /** @group getParam */
   def getThreshold: Float = $(this.threshold)
 
-  /**
-   *
-   * @group thresholdLabel
-   * */
+  /** @group getParam */
   def getThresholdLabel: String = $(this.thresholdLabel)
 
-  /**
-   *
-   * @group thresholdLabel
-   * */
+  /** @group getParam */
   def getCoalesceSentences: Boolean = $(coalesceSentences)
 
-  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-   *
-   * @group getParam
-   * */
+  /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   setDefault(
@@ -212,7 +236,7 @@ class LanguageDetectorDL(override val uid: String)
   }
 
   /**
-   * takes a document and annotations and produces new annotations of this annotator's annotation type
+   * Takes a document and annotations and produces new annotations of this annotator's annotation type
    *
    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
