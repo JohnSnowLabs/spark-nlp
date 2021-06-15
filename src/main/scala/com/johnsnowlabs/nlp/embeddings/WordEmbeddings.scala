@@ -12,7 +12,7 @@ import org.apache.spark.sql.Dataset
 
 /** Word Embeddings lookup annotator that maps tokens to vectors.
   *
-  * For instanitated/pretrained models, see [[WordEmbeddingsModel]].
+  * For instantiated/pretrained models, see [[WordEmbeddingsModel]].
   *
   * A custom token lookup dictionary for embeddings can be set with `setStoragePath`.
   * Each line of the provided file needs to have a token, followed by their vector representation, delimited by a spaces.

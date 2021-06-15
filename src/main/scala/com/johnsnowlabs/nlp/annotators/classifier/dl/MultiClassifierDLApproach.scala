@@ -20,7 +20,7 @@ import scala.util.Random
  * MultiClassifierDL uses a Bidirectional GRU with a convolutional model that we have built inside TensorFlow and supports
  * up to 100 classes.
  *
- * For instanitated/pretrained models, see [[MultiClassifierDLModel]].
+ * For instantiated/pretrained models, see [[MultiClassifierDLModel]].
  *
  * The input to `MultiClassifierDL` are Sentence Embeddings such as the state-of-the-art
  * [[com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder UniversalSentenceEncoder]],

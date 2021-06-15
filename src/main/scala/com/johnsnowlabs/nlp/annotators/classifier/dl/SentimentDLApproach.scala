@@ -18,7 +18,7 @@ import scala.util.Random
  * In natural language processing, sentiment analysis is the task of classifying the affective state or subjective view
  * of a text. A common example is if either a product review or tweet can be interpreted positively or negatively.
  *
- * For the instanitated/pretrained models, see [[SentimentDLModel]].
+ * For the instantiated/pretrained models, see [[SentimentDLModel]].
  *
  * '''Notes''':
  *   - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.

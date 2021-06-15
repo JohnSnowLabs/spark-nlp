@@ -20,7 +20,7 @@ import scala.util.Random
  * The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to
  * 100 classes.
  *
- * For instanitated/pretrained models, see [[ClassifierDLModel]].
+ * For instantiated/pretrained models, see [[ClassifierDLModel]].
  *
  * '''Notes''':
  *   - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
