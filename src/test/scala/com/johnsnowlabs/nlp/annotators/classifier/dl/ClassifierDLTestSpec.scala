@@ -33,6 +33,7 @@ class ClassifierDLTestSpec extends FlatSpec {
       .setMaxEpochs(20)
       .setLr(5e-3f)
       .setDropout(0.5f)
+      .setRandomSeed(44)
 
     val pipeline = new Pipeline()
       .setStages(
