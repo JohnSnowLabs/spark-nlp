@@ -14,6 +14,93 @@ case class CoNLLDocument(text: String,
                          posTagged: Seq[PosTaggedSentence]
                         )
 
+/** Helper class to load a CoNLL type dataset for training.
+ *
+ * The dataset should be specified with `readDataset`.
+ *
+ * ==Example==
+ * {{{
+ * val trainingData = CoNLL().readDataset(spark, "src/test/resources/conll2003/eng.train")
+ * trainingData.selectExpr("text", "token.result as tokens", "pos.result as pos", "label.result as label")
+ *   .show(3, false)
+ * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+ * |text                                            |tokens                                                    |pos                                  |label                                    |
+ * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+ * |EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|
+ * |Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |
+ * |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |
+ * +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+ *
+ * trainingData.printSchema
+ * root
+ *  |-- text: string (nullable = true)
+ *  |-- document: array (nullable = false)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- annotatorType: string (nullable = true)
+ *  |    |    |-- begin: integer (nullable = false)
+ *  |    |    |-- end: integer (nullable = false)
+ *  |    |    |-- result: string (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ *  |    |    |-- embeddings: array (nullable = true)
+ *  |    |    |    |-- element: float (containsNull = false)
+ *  |-- sentence: array (nullable = false)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- annotatorType: string (nullable = true)
+ *  |    |    |-- begin: integer (nullable = false)
+ *  |    |    |-- end: integer (nullable = false)
+ *  |    |    |-- result: string (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ *  |    |    |-- embeddings: array (nullable = true)
+ *  |    |    |    |-- element: float (containsNull = false)
+ *  |-- token: array (nullable = false)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- annotatorType: string (nullable = true)
+ *  |    |    |-- begin: integer (nullable = false)
+ *  |    |    |-- end: integer (nullable = false)
+ *  |    |    |-- result: string (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ *  |    |    |-- embeddings: array (nullable = true)
+ *  |    |    |    |-- element: float (containsNull = false)
+ *  |-- pos: array (nullable = false)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- annotatorType: string (nullable = true)
+ *  |    |    |-- begin: integer (nullable = false)
+ *  |    |    |-- end: integer (nullable = false)
+ *  |    |    |-- result: string (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ *  |    |    |-- embeddings: array (nullable = true)
+ *  |    |    |    |-- element: float (containsNull = false)
+ *  |-- label: array (nullable = false)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- annotatorType: string (nullable = true)
+ *  |    |    |-- begin: integer (nullable = false)
+ *  |    |    |-- end: integer (nullable = false)
+ *  |    |    |-- result: string (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ *  |    |    |-- embeddings: array (nullable = true)
+ *  |    |    |    |-- element: float (containsNull = false)
+ * }}}
+ *
+ * @param documentCol Name of the `DOCUMENT` Annotator type column
+ * @param sentenceCol Name of the Sentences of `DOCUMENT` Annotator type column
+ * @param tokenCol Name of the `TOKEN` Annotator type column
+ * @param posCol Name of the `POS` Annotator type column
+ * @param conllLabelIndex Index of the column for NER Label in the dataset
+ * @param conllPosIndex Index of the column for the POS tags in the dataset
+ * @param conllTextCol Index of the column for the text in the dataset
+ * @param labelCol Name of the `NAMED_ENTITY` Annotator type column
+ * @param explodeSentences Whether to explode each sentence to a separate row
+ */
 case class CoNLL(documentCol: String = "document",
                  sentenceCol: String = "sentence",
                  tokenCol: String = "token",

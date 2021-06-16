@@ -33,19 +33,19 @@ import org.apache.spark.sql.Dataset
 /**
  * Algorithm for training a Named Entity Recognition Model
  *
+ * For instantiated/pretrained models, see [[NerCrfModel]].
+ *
  * This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
- * algorithm. The training data should be a labeled Spark Dataset, e.g. CoNLL 2003 IOB with
+ * algorithm. The training data should be a labeled Spark Dataset, e.g. [[com.johnsnowlabs.nlp.training.CoNLL CoNLL]] 2003 IOB with
  * `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS` and an
  * additional label column of annotator type `NAMED_ENTITY`.
- *
  * Excluding the label, this can be done with for example
  *   - a [[com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector SentenceDetector]],
- *   - a [[com.johnsnowlabs.nlp.annotators.Tokenizer Tokenizer]] and
- *   - a [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel PerceptronModel]].
+ *   - a [[com.johnsnowlabs.nlp.annotators.Tokenizer Tokenizer]],
+ *   - a [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel PerceptronModel]] and
+ *   - a [[com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel WordEmbeddingsModel]].
  *
  * Optionally the user can provide an entity dictionary file with [[setExternalFeatures]] for better accuracy.
- *
- * For instantiated/pretrained models, see [[NerCrfModel]].
  *
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproachTestSpec.scala NerCrfApproachTestSpec]].
