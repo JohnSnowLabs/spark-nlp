@@ -18,5 +18,6 @@ object AnnotatorType {
   val LABELED_DEPENDENCY = "labeled_dependency"
   val LANGUAGE = "language"
   val KEYWORD = "keyword"
+  val VERTEX = "vertex"
   val DUMMY = "dummy"
 }
