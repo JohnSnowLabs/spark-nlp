@@ -122,13 +122,9 @@ object DateMatcherTranslator extends Serializable {
     if(detectedLanguage.size != 1)
       English
     else {
-      val (language, frequency) = detectedLanguage.head
+      val (language, _) = detectedLanguage.head
       language
     }
-    //      throw new Exception(s"\n" +
-    //        s"Detected multiple languages. " +
-    //        s"Please specify which one to use using the setSourceLanguage method in the DateMatcher annotator. " +
-    //        s"Detected: ${detectedLanguages.map(_._1).mkString(", ")} .")
 
   }
 
@@ -189,7 +185,9 @@ object DateMatcherTranslator extends Serializable {
       val sourceLanguageDictionary: Map[String, Any] = loadDictionary(source)
 
       val translatedIndexedToken: Array[DateMatcherIndexedToken] =
-        text.split(SpaceChar).zipWithIndex.map(matchIndexedToken(_, sourceLanguageDictionary))
+        text
+          .split(SpaceChar).zipWithIndex
+          .map(matchIndexedToken(_, sourceLanguageDictionary))
 
       applyTranslation(translatedIndexedToken, text)
     }

@@ -108,293 +108,120 @@
         "s",
         "seconde"
     ],
-    "relative-type": {
-        "0 day ago": [
-            "aujourd'hui"
-        ],
-        "0 hour ago": [
-            "cette heure-ci"
-        ],
-        "0 minute ago": [
-            "cette minute-ci"
-        ],
-        "0 month ago": [
-            "ce mois-ci"
-        ],
-        "0 second ago": [
-            "maintenant"
-        ],
-        "0 week ago": [
-            "cette semaine"
-        ],
-        "0 year ago": [
-            "cette année"
-        ],
-        "1 day ago": [
-            "hier"
-        ],
-        "1 month ago": [
-            "le mois dernier"
-        ],
-        "1 week ago": [
-            "la semaine dernière"
-        ],
-        "1 year ago": [
-            "l'année dernière"
-        ],
-        "in 1 day": [
-            "demain"
-        ],
-        "in 1 month": [
-            "le mois prochain"
-        ],
-        "in 1 week": [
-            "la semaine prochaine"
-        ],
-        "in 1 year": [
-            "l'année prochaine"
-        ]
-    },
-    "relative-type-regex": {
-        "\\1 day ago": [
-            "il y a {0} j",
-            "il y a {0} jour",
-            "il y a {0} jours"
-        ],
-        "\\1 hour ago": [
-            "il y a {0} h",
-            "il y a {0} heure",
-            "il y a {0} heures",
-            "il y a {0}h"
-        ],
-        "\\1 minute ago": [
-            "il y a {0} min",
-            "il y a {0} minute",
-            "il y a {0} minutes",
-            "il y a {0}min"
-        ],
-        "\\1 month ago": [
-            "il y a {0} m",
-            "il y a {0} mois"
-        ],
-        "\\1 second ago": [
-            "il y a {0} s",
-            "il y a {0} seconde",
-            "il y a {0} secondes"
-        ],
-        "\\1 week ago": [
-            "il y a {0} sem",
-            "il y a {0} semaine",
-            "il y a {0} semaines"
-        ],
-        "\\1 year ago": [
-            "il y a {0} a",
-            "il y a {0} an",
-            "il y a {0} ans"
-        ],
-        "in \\1 day": [
-            "dans {0} j",
-            "dans {0} jour",
-            "dans {0} jours"
-        ],
-        "in \\1 hour": [
-            "dans {0} h",
-            "dans {0} heure",
-            "dans {0} heures",
-            "dans {0}h"
-        ],
-        "in \\1 minute": [
-            "dans {0} min",
-            "dans {0} minute",
-            "dans {0} minutes"
-        ],
-        "in \\1 month": [
-            "dans {0} m",
-            "dans {0} mois"
-        ],
-        "in \\1 second": [
-            "dans {0} s",
-            "dans {0} seconde",
-            "dans {0} secondes"
-        ],
-        "in \\1 week": [
-            "dans {0} sem",
-            "dans {0} semaine",
-            "dans {0} semaines"
-        ],
-        "in \\1 year": [
-            "dans {0} a",
-            "dans {0} an",
-            "dans {0} ans"
-        ]
-    },
-    "locale_specific": {
-        "fr-BE": {
-            "name": "fr-BE"
-        },
-        "fr-BF": {
-            "name": "fr-BF"
-        },
-        "fr-BI": {
-            "name": "fr-BI"
-        },
-        "fr-BJ": {
-            "name": "fr-BJ"
-        },
-        "fr-BL": {
-            "name": "fr-BL"
-        },
-        "fr-CA": {
-            "name": "fr-CA",
-            "date_order": "YMD",
-            "july": [
-                "juill"
-            ]
-        },
-        "fr-CD": {
-            "name": "fr-CD"
-        },
-        "fr-CF": {
-            "name": "fr-CF"
-        },
-        "fr-CG": {
-            "name": "fr-CG"
-        },
-        "fr-CH": {
-            "name": "fr-CH"
-        },
-        "fr-CI": {
-            "name": "fr-CI"
-        },
-        "fr-CM": {
-            "name": "fr-CM",
-            "am": [
-                "mat",
-                "matin"
-            ],
-            "pm": [
-                "soir"
-            ]
-        },
-        "fr-DJ": {
-            "name": "fr-DJ"
-        },
-        "fr-DZ": {
-            "name": "fr-DZ"
-        },
-        "fr-GA": {
-            "name": "fr-GA"
-        },
-        "fr-GF": {
-            "name": "fr-GF"
-        },
-        "fr-GN": {
-            "name": "fr-GN"
-        },
-        "fr-GP": {
-            "name": "fr-GP"
-        },
-        "fr-GQ": {
-            "name": "fr-GQ"
-        },
-        "fr-HT": {
-            "name": "fr-HT",
-            "day": [
-                "jr"
-            ],
-            "hour": [
-                "hr"
-            ],
-            "second": [
-                "sec"
-            ]
-        },
-        "fr-KM": {
-            "name": "fr-KM"
-        },
-        "fr-LU": {
-            "name": "fr-LU"
-        },
-        "fr-MA": {
-            "name": "fr-MA",
-            "january": [
-                "jan"
-            ],
-            "february": [
-                "fév"
-            ],
-            "march": [
-                "mar"
-            ],
-            "june": [
-                "jui"
-            ]
-        },
-        "fr-MC": {
-            "name": "fr-MC"
-        },
-        "fr-MF": {
-            "name": "fr-MF"
-        },
-        "fr-MG": {
-            "name": "fr-MG"
-        },
-        "fr-ML": {
-            "name": "fr-ML"
-        },
-        "fr-MQ": {
-            "name": "fr-MQ"
-        },
-        "fr-MR": {
-            "name": "fr-MR"
-        },
-        "fr-MU": {
-            "name": "fr-MU"
-        },
-        "fr-NC": {
-            "name": "fr-NC"
-        },
-        "fr-NE": {
-            "name": "fr-NE"
-        },
-        "fr-PF": {
-            "name": "fr-PF"
-        },
-        "fr-PM": {
-            "name": "fr-PM"
-        },
-        "fr-RE": {
-            "name": "fr-RE"
-        },
-        "fr-RW": {
-            "name": "fr-RW"
-        },
-        "fr-SC": {
-            "name": "fr-SC"
-        },
-        "fr-SN": {
-            "name": "fr-SN"
-        },
-        "fr-SY": {
-            "name": "fr-SY"
-        },
-        "fr-TD": {
-            "name": "fr-TD"
-        },
-        "fr-TG": {
-            "name": "fr-TG"
-        },
-        "fr-TN": {
-            "name": "fr-TN"
-        },
-        "fr-VU": {
-            "name": "fr-VU"
-        },
-        "fr-WF": {
-            "name": "fr-WF"
-        },
-        "fr-YT": {
-            "name": "fr-YT"
-        }
-    }
+    "0 day ago": [
+        "aujourd'hui"
+    ],
+    "0 hour ago": [
+        "cette heure-ci"
+    ],
+    "0 minute ago": [
+        "cette minute-ci"
+    ],
+    "0 month ago": [
+        "ce mois-ci"
+    ],
+    "0 second ago": [
+        "maintenant"
+    ],
+    "0 week ago": [
+        "cette semaine"
+    ],
+    "0 year ago": [
+        "cette année"
+    ],
+    "1 day ago": [
+        "hier"
+    ],
+    "1 month ago": [
+        "le mois dernier"
+    ],
+    "1 week ago": [
+        "la semaine dernière"
+    ],
+    "1 year ago": [
+        "l'année dernière"
+    ],
+    "in 1 day": [
+        "demain"
+    ],
+    "in 1 month": [
+        "le mois prochain"
+    ],
+    "in 1 week": [
+        "la semaine prochaine"
+    ],
+    "in 1 year": [
+        "l'année prochaine"
+    ],
+    "\\1 day ago": [
+        "il y a {0} j",
+        "il y a {0} jour",
+        "il y a {0} jours"
+    ],
+    "\\1 hour ago": [
+        "il y a {0} h",
+        "il y a {0} heure",
+        "il y a {0} heures",
+        "il y a {0}h"
+    ],
+    "\\1 minute ago": [
+        "il y a {0} min",
+        "il y a {0} minute",
+        "il y a {0} minutes",
+        "il y a {0}min"
+    ],
+    "\\1 month ago": [
+        "il y a {0} m",
+        "il y a {0} mois"
+    ],
+    "\\1 second ago": [
+        "il y a {0} s",
+        "il y a {0} seconde",
+        "il y a {0} secondes"
+    ],
+    "\\1 week ago": [
+        "il y a {0} sem",
+        "il y a {0} semaine",
+        "il y a {0} semaines"
+    ],
+    "\\1 year ago": [
+        "il y a {0} a",
+        "il y a {0} an",
+        "il y a {0} ans"
+    ],
+    "in \\1 day": [
+        "dans {0} j",
+        "dans {0} jour",
+        "dans {0} jours"
+    ],
+    "in \\1 hour": [
+        "dans {0} h",
+        "dans {0} heure",
+        "dans {0} heures",
+        "dans {0}h"
+    ],
+    "in \\1 minute": [
+        "dans {0} min",
+        "dans {0} minute",
+        "dans {0} minutes"
+    ],
+    "in \\1 month": [
+        "dans {0} m",
+        "dans {0} mois"
+    ],
+    "in \\1 second": [
+        "dans {0} s",
+        "dans {0} seconde",
+        "dans {0} secondes"
+    ],
+    "in \\1 week": [
+        "dans {0} sem",
+        "dans {0} semaine",
+        "dans {0} semaines"
+    ],
+    "in \\1 year": [
+        "dans {0} a",
+        "dans {0} an",
+        "dans {0} ans"
+    ]
 }
