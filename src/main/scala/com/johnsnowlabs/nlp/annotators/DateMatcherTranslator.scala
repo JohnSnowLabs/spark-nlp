@@ -204,7 +204,7 @@ object DateMatcherTranslator extends Serializable {
    * @param destination the destination language.
    * @return the translated text from source language to destination language.
    * */
-  def translateLanguage(text: String, source: String, destination: String = English) = {
+  def translate(text: String, source: String, destination: String = English) = {
 
     // 1. set or detect source language
     val _source =
