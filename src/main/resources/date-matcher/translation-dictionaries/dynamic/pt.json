@@ -155,71 +155,71 @@
     "in 1 year": [
         "próximo ano"
     ],
-    "\\1 day ago": [
-        "há {0} dia",
-        "há {0} dias"
+    "#K# day ago": [
+        "há #V# dia",
+        "há #V# dias"
     ],
-    "\\1 hour ago": [
-        "há {0} h",
-        "há {0} hora",
-        "há {0} horas"
+    "#K# hour ago": [
+        "há #V# h",
+        "há #V# hora",
+        "há #V# horas"
     ],
-    "\\1 minute ago": [
-        "há {0} min",
-        "há {0} mins",
-        "há {0} minuto",
-        "há {0} minutos"
+    "#K# minute ago": [
+        "há #V# min",
+        "há #V# mins",
+        "há #V# minuto",
+        "há #V# minutos"
     ],
-    "\\1 month ago": [
-        "há {0} meses",
-        "há {0} mês"
+    "#K# month ago": [
+        "há #V# meses",
+        "há #V# mês"
     ],
-    "\\1 second ago": [
-        "há {0} seg",
-        "há {0} segundo",
-        "há {0} segundos"
+    "#K# second ago": [
+        "há #V# seg",
+        "há #V# segundo",
+        "há #V# segundos"
     ],
-    "\\1 week ago": [
-        "há {0} sem",
-        "há {0} semana",
-        "há {0} semanas"
+    "#K# week ago": [
+        "há #V# sem",
+        "há #V# semana",
+        "há #V# semanas"
     ],
-    "\\1 year ago": [
-        "há {0} ano",
-        "há {0} anos"
+    "#K# year ago": [
+        "há #V# ano",
+        "há #V# anos"
     ],
-    "in \\1 day": [
-        "em {0} dia",
-        "em {0} dias"
+    "in #K# day": [
+        "em #V# dia",
+        "em #V# dias"
     ],
-    "in \\1 hour": [
-        "em {0} h",
-        "em {0} hora",
-        "em {0} horas"
+    "in #K# hour": [
+        "em #V# h",
+        "em #V# hora",
+        "em #V# horas"
     ],
-    "in \\1 minute": [
-        "em {0} min",
-        "em {0} mins",
-        "em {0} minuto",
-        "em {0} minutos"
+    "in #K# minute": [
+        "em #V# min",
+        "em #V# mins",
+        "em #V# minuto",
+        "em #V# minutos"
     ],
-    "in \\1 month": [
-        "em {0} meses",
-        "em {0} mês"
+    "in #K# month": [
+        "em #V# meses",
+        "em #V# mês"
     ],
-    "in \\1 second": [
-        "em {0} seg",
-        "em {0} segs",
-        "em {0} segundo",
-        "em {0} segundos"
+    "in #K# second": [
+        "em #V# seg",
+        "em #V# segs",
+        "em #V# segundo",
+        "em #V# segundos"
     ],
-    "in \\1 week": [
-        "em {0} sem",
-        "em {0} semana",
-        "em {0} semanas"
+    "in #K# week": [
+        "em #V# sem",
+        "em #V# semana",
+        "em #V# semanas"
     ],
-    "in \\1 year": [
-        "em {0} ano",
-        "em {0} anos"
+    "in #K# year": [
+        "em #V# ano",
+        "em #V# anos"
     ]
 }
