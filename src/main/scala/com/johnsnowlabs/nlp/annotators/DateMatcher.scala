@@ -125,17 +125,19 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
     // Detect source language and translate it to English to apply actual DateMatcher processing
     def autoTranslateFromSourceLanguage = {
-      val _text: String =
-        getSourceLanguage match {
-          case "en" => text
-          case s: String if s.isEmpty || s.length == 2 =>
-            DateMatcherTranslator.translate(text, getSourceLanguage)
-          case _ => throw new Exception(s"Cannot identify source language.")
-        }
-      _text
+      getSourceLanguage match {
+        case "en" => text
+        case s: String if s.isEmpty || s.length == 2 =>
+          DateMatcherTranslator.translate(text, getSourceLanguage)
+        case _ => throw new Exception(s"Cannot identify source language.")
+      }
     }
 
-    val _text: String = autoTranslateFromSourceLanguage
+    val _text: String =
+      if(getMultiLanguageCapability)
+        autoTranslateFromSourceLanguage
+      else
+        text
 
     val possibleDate = extractFormalDate(_text)
       .orElse(extractRelaxedDate(_text))

@@ -18,7 +18,6 @@
 package com.johnsnowlabs.nlp.annotators
 
 import java.util.Calendar
-
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
 
@@ -165,6 +164,21 @@ trait DateMatcherUtils extends Params {
   /** @group getParam */
   def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
 
+  /** Source language for explicit translation */
+  val multiLanguageCapability: BooleanParam = new BooleanParam(this, "autoLanguageDetection", "Activate auto language detection")
+
+  /** To get to use or not the multi-language translation auto detection.
+   *
+   * @group getParam
+   **/
+  def getMultiLanguageCapability: Boolean = $(multiLanguageCapability)
+
+  /** To set or not the source language for explicit translation auto detection.
+   *
+   * @group setParam
+   **/
+  def setMultiLanguageCapability(value: Boolean): this.type = set(multiLanguageCapability, value)
+
   /** Source language for explicit translation
    *
    * @group param
@@ -190,6 +204,7 @@ trait DateMatcherUtils extends Params {
     anchorDateDay -> -1,
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1,
+    multiLanguageCapability -> false,
     sourceLanguage -> ""
   )
 
