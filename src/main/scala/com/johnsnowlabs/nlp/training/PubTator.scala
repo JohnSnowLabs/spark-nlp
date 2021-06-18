@@ -8,9 +8,9 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 
-object PubTator {
+case class PubTator() {
 
-  def readDataset(spark: SparkSession, path: String): DataFrame = {
+  def readDataset(spark: SparkSession, path: String,isPaddedToken: Boolean = true): DataFrame = {
     val pubtator = spark.sparkContext.textFile(path)
     val titles = pubtator.filter(x => x.contains("|a|") | x.contains("|t|"))
     val titlesText = titles.map(x => x.split("\\|")).groupBy(_.head)
@@ -37,16 +37,18 @@ object PubTator {
       val tokenAnnotations = tokens.map(Annotation(_))
       val labelAnnotations = chunkLabels.map(Annotation(_))
       tokenAnnotations.map(ta => {
-        val tokenLabel = labelAnnotations.filter(la => la.begin <= ta.begin && la.end >= ta.end).headOption
+        val tokenLabel = labelAnnotations.find(la => la.begin <= ta.begin && la.end >= ta.end)
         val tokenTag = {
           if (tokenLabel.isEmpty) "O"
           else {
-            val tokenCSV = tokenLabel.get.metadata.get("entity").get
+            val tokenCSV = tokenLabel.get.metadata("entity")
             if (tokenCSV == "UnknownType") "O"
             else {
               val tokenPrefix = if (ta.begin == tokenLabel.get.begin) "B-" else "I-"
-              val paddedTokenTag = "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
-              tokenPrefix + paddedTokenTag
+              val token = if (isPaddedToken) {
+                "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
+              } else tokenCSV
+              tokenPrefix + token
             }
           }
         }
