@@ -19,6 +19,7 @@ data:
       source: yes
       source: 
         - title: SNOMED coding
+          hide: yes
           id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
@@ -33,6 +34,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
         - title: ICDO coding
+          hide: yes
           id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
@@ -47,6 +49,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
         - title: ICD10-CM coding 
+          hide: yes
           id: icd10-cm_coding
           image: 
               src: /assets/images/Detect_risk_factors.svg
@@ -61,6 +64,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: RxNORM coding
+          hide: yes
           id: rxnorm_coding
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg
@@ -75,6 +79,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb
         - title: Logical Observation Identifiers Names and Codes (LOINC)
+          hide: yes
           id: logical-observation-identifiers-names-and-codes
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg
