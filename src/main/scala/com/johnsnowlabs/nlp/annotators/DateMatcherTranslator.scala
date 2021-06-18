@@ -9,8 +9,8 @@ import scala.io.Source
 
 object DateMatcherTranslator extends Serializable {
 
-  val SupportedLanguages = "src/main/resources/date-matcher/supported_languages.txt"
-  val TranslationDataBaseDir = "src/main/resources/date-matcher/translation-dictionaries/"
+  val SupportedLanguagesFilePath = "src/main/resources/date-matcher/supported_languages.txt"
+  val TranslationDataBaseDir = "src/main/resources/date-matcher/translation-dictionaries/dynamic/"
 
   val JsonSuffix = ".json"
   val Encoding = "utf-8"
@@ -54,15 +54,17 @@ object DateMatcherTranslator extends Serializable {
     }
 
   def detectLanguage(text: String) = {
-    val filePath = SupportedLanguages
-    val languages = scala.io.Source.fromFile(filePath, Encoding).getLines.toList
+    val supportedLanguages =
+      scala.io.Source
+        .fromFile(SupportedLanguagesFilePath, Encoding)
+        .getLines.toList
 
-    val mappedDetected =
-      languages
-        .filterNot(_.startsWith(SkipChar)) // skip char
-        .map(l => searchForLanguageMatches(text, l))
-        .filterNot(_._1.equals(NotFound))
-        .toMap
+    val activeLanguages = supportedLanguages.filterNot(_.startsWith(SkipChar)) // skip char
+
+    val mappedDetected = activeLanguages
+      .map(l => searchForLanguageMatches(text, l))
+      .filterNot(_._1.equals(NotFound))
+      .toMap
 
     val detected = mappedDetected.size match {
       case 0 => List.empty
@@ -86,7 +88,6 @@ object DateMatcherTranslator extends Serializable {
 
     // tokenize and search token in keys
     val tokens = text.split(SpaceChar)
-      .filterNot(_.size <= 2) // FIXME more than 2 chars?
       .map(_.toLowerCase)
       .toSet
 
@@ -95,14 +96,22 @@ object DateMatcherTranslator extends Serializable {
       .values.flatten(listify).asInstanceOf[List[String]]
       .toSet
 
-    val intersection = tokens intersect dictionaryValues
+    println(tokens.mkString("|"))
+    println(dictionaryValues.mkString("|"))
+
+    // Search matches for each token in retrieved values from dictionary map
+    val staticValuesIntersection =
+      tokens.intersect(dictionaryValues)
+        .filterNot(_.contains("#V#"))
+
+    println(s"staticValuesIntersection: $staticValuesIntersection")
 
     val matchingLanguages: (String, Set[String]) =
-      if(!intersection.isEmpty)
+      if(!staticValuesIntersection.isEmpty)
         dictionary
           .asInstanceOf[Map[String, Any]]
           .getOrElse(NameKey, NotAvailable)
-          .toString -> intersection
+          .toString -> staticValuesIntersection
       else
         NotFound -> Set.empty
 
@@ -116,6 +125,8 @@ object DateMatcherTranslator extends Serializable {
    * */
   def detectSourceLanguage(text: String) = {
     val detectedLanguage: List[(String, Int)] = detectLanguage(text)
+
+    println(s"==> detected languages: $detectedLanguage")
 
     // TODO sort?
     // must be a single element list.
@@ -181,6 +192,10 @@ object DateMatcherTranslator extends Serializable {
    * @return the translated text from source language to destination language.
    * */
   private def _translate(text: String, source: String, destination: String = English) = {
+
+    println(s"SOURCE LANG: $source")
+    println(s"DESTINATION LANG: $destination")
+
     if(!source.equals(English)) {
       val sourceLanguageDictionary: Map[String, Any] = loadDictionary(source)
 
@@ -206,10 +221,10 @@ object DateMatcherTranslator extends Serializable {
 
     // 1. set or detect source language
     val _source =
-      if(source.isEmpty)
-        detectSourceLanguage(text).toString
-      else
-        source
+      source match {
+        case s: String if !s.isEmpty && s.length == 2 => s
+        case _ => detectSourceLanguage(text)
+      }
 
     // 2. apply translation
     val translated = _translate(text, _source, destination)

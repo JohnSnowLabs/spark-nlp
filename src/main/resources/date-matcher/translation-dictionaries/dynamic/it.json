@@ -158,74 +158,74 @@
         "anno prossimo"
     ],
 
-    "\\1 day ago": [
-        "{0} g fa",
-        "{0} gg fa",
-        "{0} giorni fa",
-        "{0} giorno fa"
+    "#K# day ago": [
+        "#V# g fa",
+        "#V# gg fa",
+        "#V# giorni fa",
+        "#V# giorno fa"
     ],
-    "\\1 hour ago": [
-        "{0} h fa",
-        "{0} ora fa",
-        "{0} ore fa"
+    "#K# hour ago": [
+        "#V# h fa",
+        "#V# ora fa",
+        "#V# ore fa"
     ],
-    "\\1 minute ago": [
-        "{0} min fa",
-        "{0} minuti fa",
-        "{0} minuto fa"
+    "#K# minute ago": [
+        "#V# min fa",
+        "#V# minuti fa",
+        "#V# minuto fa"
     ],
-    "\\1 month ago": [
-        "{0} mese fa",
-        "{0} mesi fa"
+    "#K# month ago": [
+        "#V# mese fa",
+        "#V# mesi fa"
     ],
-    "\\1 second ago": [
-        "{0} s fa",
-        "{0} sec fa",
-        "{0} secondi fa",
-        "{0} secondo fa"
+    "#K# second ago": [
+        "#V# s fa",
+        "#V# sec fa",
+        "#V# secondi fa",
+        "#V# secondo fa"
     ],
-    "\\1 week ago": [
-        "{0} sett fa",
-        "{0} settimana fa",
-        "{0} settimane fa"
+    "#K# week ago": [
+        "#V# sett fa",
+        "#V# settimana fa",
+        "#V# settimane fa"
     ],
-    "\\1 year ago": [
-        "{0} anni fa",
-        "{0} anno fa"
+    "#K# year ago": [
+        "#V# anni fa",
+        "#V# anno fa"
     ],
-    "in \\1 day": [
-        "tra {0} g",
-        "tra {0} gg",
-        "tra {0} giorni",
-        "tra {0} giorno"
+    "in #K# day": [
+        "tra #V# g",
+        "tra #V# gg",
+        "tra #V# giorni",
+        "tra #V# giorno"
     ],
-    "in \\1 hour": [
-        "tra {0} h",
-        "tra {0} ora",
-        "tra {0} ore"
+    "in #K# hour": [
+        "tra #V# h",
+        "tra #V# ora",
+        "tra #V# ore"
     ],
-    "in \\1 minute": [
-        "tra {0} min",
-        "tra {0} minuti",
-        "tra {0} minuto"
+    "in #K# minute": [
+        "tra #V# min",
+        "tra #V# minuti",
+        "tra #V# minuto"
     ],
-    "in \\1 month": [
-        "tra {0} mese",
-        "tra {0} mesi"
+    "in #K# month": [
+        "tra #V# mese",
+        "tra #V# mesi"
     ],
-    "in \\1 second": [
-        "tra {0} s",
-        "tra {0} sec",
-        "tra {0} secondi",
-        "tra {0} secondo"
+    "in #K# second": [
+        "tra #V# s",
+        "tra #V# sec",
+        "tra #V# secondi",
+        "tra #V# secondo"
     ],
-    "in \\1 week": [
-        "tra {0} sett",
-        "tra {0} settimana",
-        "tra {0} settimane"
+    "in #K# week": [
+        "tra #V# sett",
+        "tra #V# settimana",
+        "tra #V# settimane"
     ],
-    "in \\1 year": [
-        "tra {0} anni",
-        "tra {0} anno"
+    "in #K# year": [
+        "tra #V# anni",
+        "tra #V# anno"
     ]
 }

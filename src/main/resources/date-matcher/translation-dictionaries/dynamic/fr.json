@@ -153,75 +153,75 @@
     "in 1 year": [
         "l'année prochaine"
     ],
-    "\\1 day ago": [
-        "il y a {0} j",
-        "il y a {0} jour",
-        "il y a {0} jours"
+    "#K# day ago": [
+        "il y a #V# j",
+        "il y a #V# jour",
+        "il y a #V# jours"
     ],
-    "\\1 hour ago": [
-        "il y a {0} h",
-        "il y a {0} heure",
-        "il y a {0} heures",
-        "il y a {0}h"
+    "#K# hour ago": [
+        "il y a #V# h",
+        "il y a #V# heure",
+        "il y a #V# heures",
+        "il y a #V#h"
     ],
-    "\\1 minute ago": [
-        "il y a {0} min",
-        "il y a {0} minute",
-        "il y a {0} minutes",
-        "il y a {0}min"
+    "#K# minute ago": [
+        "il y a #V# min",
+        "il y a #V# minute",
+        "il y a #V# minutes",
+        "il y a #V#min"
     ],
-    "\\1 month ago": [
-        "il y a {0} m",
-        "il y a {0} mois"
+    "#K# month ago": [
+        "il y a #V# m",
+        "il y a #V# mois"
     ],
-    "\\1 second ago": [
-        "il y a {0} s",
-        "il y a {0} seconde",
-        "il y a {0} secondes"
+    "#K# second ago": [
+        "il y a #V# s",
+        "il y a #V# seconde",
+        "il y a #V# secondes"
     ],
-    "\\1 week ago": [
-        "il y a {0} sem",
-        "il y a {0} semaine",
-        "il y a {0} semaines"
+    "#K# week ago": [
+        "il y a #V# sem",
+        "il y a #V# semaine",
+        "il y a #V# semaines"
     ],
-    "\\1 year ago": [
-        "il y a {0} a",
-        "il y a {0} an",
-        "il y a {0} ans"
+    "#K# year ago": [
+        "il y a #V# a",
+        "il y a #V# an",
+        "il y a #V# ans"
     ],
-    "in \\1 day": [
-        "dans {0} j",
-        "dans {0} jour",
-        "dans {0} jours"
+    "in #K# day": [
+        "dans #V# j",
+        "dans #V# jour",
+        "dans #V# jours"
     ],
-    "in \\1 hour": [
-        "dans {0} h",
-        "dans {0} heure",
-        "dans {0} heures",
-        "dans {0}h"
+    "in #K# hour": [
+        "dans #V# h",
+        "dans #V# heure",
+        "dans #V# heures",
+        "dans #V#h"
     ],
-    "in \\1 minute": [
-        "dans {0} min",
-        "dans {0} minute",
-        "dans {0} minutes"
+    "in #K# minute": [
+        "dans #V# min",
+        "dans #V# minute",
+        "dans #V# minutes"
     ],
-    "in \\1 month": [
-        "dans {0} m",
-        "dans {0} mois"
+    "in #K# month": [
+        "dans #V# m",
+        "dans #V# mois"
     ],
-    "in \\1 second": [
-        "dans {0} s",
-        "dans {0} seconde",
-        "dans {0} secondes"
+    "in #K# second": [
+        "dans #V# s",
+        "dans #V# seconde",
+        "dans #V# secondes"
     ],
-    "in \\1 week": [
-        "dans {0} sem",
-        "dans {0} semaine",
-        "dans {0} semaines"
+    "in #K# week": [
+        "dans #V# sem",
+        "dans #V# semaine",
+        "dans #V# semaines"
     ],
-    "in \\1 year": [
-        "dans {0} a",
-        "dans {0} an",
-        "dans {0} ans"
+    "in #K# year": [
+        "dans #V# a",
+        "dans #V# an",
+        "dans #V# ans"
     ]
 }
