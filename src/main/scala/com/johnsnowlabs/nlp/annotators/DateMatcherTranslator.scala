@@ -5,6 +5,7 @@ import org.json4s.jackson.JsonMethods._
 
 import java.io.{FileNotFoundException, IOException}
 import scala.io.Source
+import scala.util.matching.Regex
 
 
 object DateMatcherTranslator extends Serializable {
@@ -29,6 +30,9 @@ object DateMatcherTranslator extends Serializable {
    * */
   def loadDictionary(language: String = English) = {
     val DictionaryPath = s"$TranslationDataBaseDir$language$JsonSuffix"
+
+    // FIXME delete me
+    println(s"------------------------------------------\nLoading dictionary: $DictionaryPath")
 
     var jsonString = "";
     try{
@@ -66,53 +70,99 @@ object DateMatcherTranslator extends Serializable {
       .filterNot(_._1.equals(NotFound))
       .toMap
 
-    val detected = mappedDetected.size match {
-      case 0 => List.empty
-      case _ =>
-        val matchesLengths: Map[String, Int] = mappedDetected.map{case(k, v) => (k, v.size)}
-        val maxValue = matchesLengths.values.max
-        matchesLengths.filter(_._2 == maxValue).toList
-    }
+    println(s"mappedDetected: $mappedDetected")
 
-    detected
+//    val detected = mappedDetected.size match {
+//      case 0 => List.empty
+//      case _ =>
+//        val matchesLengths: Map[String, Int] = mappedDetected.map{case(k, v) => (k, v.size)}
+//        val maxValue = matchesLengths.values.max
+//        matchesLengths.filter(_._2 == maxValue).toList
+//    }
+
+    mappedDetected
+  }
+
+  def stringValuesToRegexes(regexValuesIntersection: Set[String]): Set[Regex] = {
+    regexValuesIntersection
+      .map(_.replaceAll("#V#", "(.*)"))
+      .map(_.toLowerCase)
+      .map(s => s.r)
   }
 
   /**
    * Search for language matches token by token.
+   *
    * @param text: the text to process for matching.
    * @param language: the 2 characters string identifying a supported language.
    * @return
    * */
-  private def searchForLanguageMatches(text: String, language: String) = {
+  private def searchForLanguageMatches(text: String, language: String, useTokens: Boolean = true) = {
     val dictionary: Map[String, Any] = loadDictionary(language)
 
-    // tokenize and search token in keys
-    val tokens = text.split(SpaceChar)
-      .map(_.toLowerCase)
-      .toSet
 
+    // contains all the retrieved values
     val dictionaryValues = dictionary
       .asInstanceOf[Map[String, Any]]
       .values.flatten(listify).asInstanceOf[List[String]]
       .toSet
 
-    println(tokens.mkString("|"))
-    println(dictionaryValues.mkString("|"))
+    //    ============================ tokenMatchSearch()
+    val tokenMatches = {
+      // tokenize and search token in keys
+      val candidateTokens =
+        text
+          .split(SpaceChar)
+          .map(_.toLowerCase)
+          .toSet
 
-    // Search matches for each token in retrieved values from dictionary map
-    val staticValuesIntersection =
-      tokens.intersect(dictionaryValues)
-        .filterNot(_.contains("#V#"))
+      // FIXME delete me
+      println(s"Loaded dictionary for language: $language")
+      println(s"tokens: ${candidateTokens.mkString("|")}")
+      println(s"dictionaryValues: ${dictionaryValues.mkString("|")}")
 
-    println(s"staticValuesIntersection: $staticValuesIntersection")
+      // Search matches for each token in retrieved values from dictionary map
+      val tokenMatches =
+        candidateTokens
+          .intersect(
+            dictionaryValues.filterNot(_.contains("#V#")))
+
+      // FIXME delete me
+      println(s"tokenMatches: $tokenMatches")
+
+      tokenMatches
+    }
+
+    val sentenceMatches =  {
+      // TODO add regex processing from strings with placeholders
+      val regexValuesIntersection = dictionaryValues.filter(_.contains("#V#")) // if there is a regex
+
+      val regexes = stringValuesToRegexes(regexValuesIntersection)
+
+      val sentenceMatches =
+        for(regex <- regexes;
+            res = regex.findFirstMatchIn(text)
+            if !res.isEmpty && res.size != 0
+            ) yield (text, regex)
+
+      // TODO QUI -------------------------------------------------
+      println(s"sentenceMatches: ${sentenceMatches.mkString("|")}")
+      sentenceMatches
+    }
+
+    val globalMatches = tokenMatches.union(sentenceMatches.map(_._2.toString))
 
     val matchingLanguages: (String, Set[String]) =
-      if(!staticValuesIntersection.isEmpty)
+      if(globalMatches.size != 0) { // if tokens match
+
+        // FIXME delete me
+        println(s"Global matches: ${globalMatches.mkString("=>")}")
+
         dictionary
           .asInstanceOf[Map[String, Any]]
           .getOrElse(NameKey, NotAvailable)
-          .toString -> staticValuesIntersection
-      else
+          .toString -> globalMatches
+      } else
         NotFound -> Set.empty
 
     matchingLanguages
@@ -123,20 +173,19 @@ object DateMatcherTranslator extends Serializable {
    * @param text: the text to detect.
    * @return the detected language as tuple of matched languages with their frequency.
    * */
-  def detectSourceLanguage(text: String) = {
-    val detectedLanguage: List[(String, Int)] = detectLanguage(text)
+  def detectSourceLanguage(text: String): Map[String, Set[String]] = {
+    // e.g. Map(it -> Set((.*) anni fa))
+    val detectedLanguage: Map[String, Set[String]] = detectLanguage(text)
 
+    // TODO delete me
     println(s"==> detected languages: $detectedLanguage")
 
-    // TODO sort?
     // must be a single element list.
     if(detectedLanguage.size != 1)
-      English
+      Map(English-> Set())
     else {
-      val (language, _) = detectedLanguage.head
-      language
+      detectedLanguage
     }
-
   }
 
   // utility type
@@ -184,19 +233,13 @@ object DateMatcherTranslator extends Serializable {
     tokens.mkString(" ")
   }
 
-  /**
-   * Translate the text from source language to destination language.
-   * @param text the text to translate.
-   * @param source the source language.
-   * @param destination the destination language.
-   * @return the translated text from source language to destination language.
-   * */
-  private def _translate(text: String, source: String, destination: String = English) = {
+  def translateBySentence(text: String, source: String) = {
+    searchForLanguageMatches(text, source, useTokens = false)
+    (true, "")
+  }
 
-    println(s"SOURCE LANG: $source")
-    println(s"DESTINATION LANG: $destination")
-
-    if(!source.equals(English)) {
+  private def translateTokens(text: String, source: String) = {
+    if (!source.equals(English)) {
       val sourceLanguageDictionary: Map[String, Any] = loadDictionary(source)
 
       val translatedIndexedToken: Array[DateMatcherIndexedToken] =
@@ -212,22 +255,46 @@ object DateMatcherTranslator extends Serializable {
 
   /**
    * Translate the text from source language to destination language.
+   *
    * @param text the text to translate.
    * @param source the source language.
    * @param destination the destination language.
    * @return the translated text from source language to destination language.
    * */
-  def translate(text: String, source: String, destination: String = English) = {
+  private def _translate(text: String,
+                         source: Map[String, Set[String]],
+                         destination: String = English) = {
+
+    // TODO delete me
+    println("_translate...")
+    println(s"SOURCE LANG: $source")
+    println(s"DESTINATION LANG: $destination")
+
+    if(!source.keySet.head.isEmpty
+      && !source.head._2.isEmpty && source.head._2.size != 1){
+      //translateBySentence(text, source)
+      text
+    }
+    else {
+      translateTokens(text, source.keySet.head)
+    }
+  }
+
+  /**
+   * Translate the text from source language to destination language.
+   *
+   * @param text the text to translate.
+   * @param source the source language.
+   * @param destination the destination language.
+   * @return the translated text from source language to destination language.
+   * */
+  def translate(text: String, source: String, destination: String = English): String = {
 
     // 1. set or detect source language
-    val _source =
-      source match {
-        case s: String if !s.isEmpty && s.length == 2 => s
-        case _ => detectSourceLanguage(text)
-      }
+    val _sourceLanguageInfo: Map[String, Set[String]] = detectSourceLanguage(text)
 
     // 2. apply translation
-    val translated = _translate(text, _source, destination)
+    val translated = _translate(text, _sourceLanguageInfo, destination)
 
     translated
   }

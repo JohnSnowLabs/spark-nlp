@@ -134,7 +134,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     }
 
     val _text: String =
-      if(getMultiLanguageCapability)
+      if(getMultiLanguageCapability
+        &&
+        (getSourceLanguage.isEmpty || !getSourceLanguage.equals("en")))
         autoTranslateFromSourceLanguage
       else
         text
