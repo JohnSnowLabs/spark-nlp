@@ -6296,6 +6296,8 @@ ul.list1 {
   position: relative;
   margin-bottom: 20px !important;
   z-index: 5; }
+  .tab-item.dn {
+    display: none; }
   .tab-item .tab_fig_blue {
     width: 45px;
     display: inline-block; }
