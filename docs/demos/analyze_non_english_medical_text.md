@@ -19,6 +19,7 @@ data:
       source: yes
       source: 
         - title: ICD10 coding for German
+          hide: yes
           id: icd10_coding_for_german
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
