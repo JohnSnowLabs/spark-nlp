@@ -39,7 +39,7 @@ Pretrained named entity recognition deep learning model for clinical terminology
 embeddings_clinical = WordEmbeddingsModel.pretrained('embeddings_clinical', 'en', 'clinical/models') \
     .setInputCols(['sentence', 'token']) \
     .setOutputCol('embeddings')
-clinical_ner = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models") \
+clinical_ner = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
@@ -53,7 +53,7 @@ results = model.transform(spark.createDataFrame([["The patient is a 21-day-old C
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
    .setInputCols(["sentence", "token"])
    .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models") 
+val ner = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
 ...
