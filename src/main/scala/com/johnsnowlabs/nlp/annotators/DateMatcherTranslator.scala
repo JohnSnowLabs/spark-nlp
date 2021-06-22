@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import sun.font.TextSourceLabel
 
 import java.io.{FileNotFoundException, IOException}
 import scala.io.Source
@@ -224,34 +225,41 @@ object DateMatcherTranslator extends Serializable {
     tokens.mkString(" ")
   }
 
-  def getKeyFromDictionaryValue(toBeReplaced: Array[String]) = {
+  def searchKeyFromValuesMatch(dictionary: Map[String, Any], k: String, toBeReplaced: String) = {
 
-    val dictionary: Map[String, Any] = loadDictionary(English)
+    val candidates: List[String] = dictionary.getOrElse(k, List("NF")) match {
+      case i: List[String] => i
+      case _ => List(dictionary.getOrElse(k, List("NF")).toString)
+    }
+    val res =
+      for(c <- candidates
+          if c.contains(toBeReplaced)
+          ) yield c
+
+    if(!res.isEmpty)
+      (k, res.head)
+    else
+      (k, "NF")
+  }
+
+  def getKeyFromDictionaryValue(toBeReplaced: Array[String], sourceLanguage: String) = {
+
+    val dictionary: Map[String, Any] = loadDictionary(sourceLanguage)
 
     // contains all the retrieved keys
-    val indexedDictionaryValues = dictionary
-      .asInstanceOf[Map[String, Any]]
-      .values.flatten(listify).asInstanceOf[List[String]]
-      .toSet.zipWithIndex
+    val iterKeys: Iterable[String] = dictionary
+      .asInstanceOf[Map[String, Any]].keys
 
-    val searchArray: Set[Int] = indexedDictionaryValues.map(e => if(e._1.contains(toBeReplaced)) e._2 else -1)
+    val replacingKey: Iterable[(String, String)] = iterKeys
+      .map(k => searchKeyFromValuesMatch(dictionary, k, toBeReplaced.mkString(SpaceChar)))
+      .filterNot(_._2.equals("NF"))
 
-    searchArray.filter(_ >= 0)
-
-    // contains all the retrieved values
-    val dictionaryValues = dictionary
-      .asInstanceOf[Map[String, Any]]
-      .values.flatten(listify).asInstanceOf[List[String]]
-      .toSet
-
+    replacingKey
   }
 
   def translateBySentence(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
-    val language = sourceLanguageInfo.keySet.head
-    // FIXME already there
-    //val matches = searchForLanguageMatches(text, language, useTokens = false)
 
-    println(s"Translate sentence on matches: $sourceLanguageInfo")
+    println(s"============================\nTranslate sentence on matches: $sourceLanguageInfo")
 
     val strPattern = sourceLanguageInfo.values.flatten.head.r
     //    val pattern = """\d+""".r
@@ -260,21 +268,18 @@ object DateMatcherTranslator extends Serializable {
     val groupTokens = matchingGroup.split(" ")
     val toBeReplaced = groupTokens.takeRight(groupTokens.size - 1)
 
-    val key = getKeyFromDictionaryValue(toBeReplaced)
+    val sourceLanguage = sourceLanguageInfo.head._1
+    val replacingKeys = getKeyFromDictionaryValue(toBeReplaced, sourceLanguage)
 
+    println(s"Replacing keys: $replacingKeys")
 
-    //    val strPattern = sourceLanguageInfo.values.flatten.head
-    //    val pattern: Regex = new Regex(strPattern)
-    //
-    //    val group = pattern.findAllIn(text).matchData
+    var acc = ""
+    replacingKeys.foreach(rk =>
+      acc = text.replaceAll(
+        rk._2.replace("#V#", ""),
+        rk._1.replace("#K#", "")))
 
-    //    foreach {
-    //      m => m.group(1)
-    //    }
-
-    println(s"group: $matchingGroup")
-
-    (true, "")
+    acc
   }
 
   private def translateTokens(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
@@ -305,23 +310,25 @@ object DateMatcherTranslator extends Serializable {
                          sourceLanguageInfo: Map[String, Set[String]],
                          destination: String = English) = {
 
-
     // TODO QUI per regex translation
     println("_translate...")
-    println(s"SOURCE LANG: $sourceLanguageInfo")
+    println(s"SOURCE LANG: ${sourceLanguageInfo.head._1}")
     println(s"DESTINATION LANG: $destination")
 
     // Map(it -> Set((.*) anni fa))
-    if(!sourceLanguageInfo.keySet.head.isEmpty
-      && !sourceLanguageInfo.head._2.isEmpty && sourceLanguageInfo.head._2.toString().split(" ").size != 1){
+    val res =
+      if(!sourceLanguageInfo.keySet.head.isEmpty
+        && !sourceLanguageInfo.head._2.isEmpty && sourceLanguageInfo.head._2.toString().split(" ").size != 1){
 
-      translateBySentence(text, sourceLanguageInfo)
-      //      text
-    }
-    else {
-      translateTokens(text, sourceLanguageInfo)
-    }
-    ""
+        translateBySentence(text, sourceLanguageInfo)
+        //      text
+      }
+      else {
+        translateTokens(text, sourceLanguageInfo)
+      }
+
+    println(s"res: $res")
+    res
   }
 
   /**
