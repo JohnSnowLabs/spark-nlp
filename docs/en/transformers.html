@@ -801,6 +801,147 @@ annotators.</p>
 </code></pre></div>    </div>
   </div>
 </div>
+
+<h2 id="import-transformers-into-spark-nlp">Import Transformers into Spark NLP</h2>
+
+<p>Starting with Spark NLP 3.1.0 the support for HuggingFace exported models in equivalent Spark NLP annotators has been extended. Users can now easily use <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release.</p>
+
+<h3 id="compatibility">Compatibility</h3>
+
+<p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP</p>
+
+<p><strong>TF Hub</strong>: Models from <a href="https://tfhub.dev/">TF Hub</a></p>
+
+<p><strong>HuggingFace</strong>: Models from <a href="https://huggingface.co/models">HuggingFace</a></p>
+
+<p><strong>Model Architecture</strong>: Which architecture is compatible with that annotator</p>
+
+<p><strong>Flags</strong>:</p>
+<ul>
+  <li>Fully supported ✅</li>
+  <li>Partially supported (requires workarounds) ✔️</li>
+  <li>Under development ❎</li>
+  <li>Not supported ❌</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Spark NLP</th>
+      <th style="text-align: left">TF Hub</th>
+      <th style="text-align: left">HuggingFace</th>
+      <th style="text-align: left">Model Architecture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left">✅</td>
+      <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertSentenceEmbeddings</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left">✅</td>
+      <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertEmbeddings</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">✅</td>
+      <td style="text-align: left">DistilBERT</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RoBertaEmbeddings</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">✅</td>
+      <td style="text-align: left">RoBERTa - DistilRoBERTa</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">XlmRoBertaEmbeddings</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">✅</td>
+      <td style="text-align: left">XLM-RoBERTa</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">AlbertEmbeddings</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">XlnetEmbeddings</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ElmoEmbeddings</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">UniversalSentenceEncoder</td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">T5Transformer</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">❌</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MarianTransformer</td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left">❌</td>
+      <td style="text-align: left"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="notebooks">Notebooks</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Spark NLP</th>
+      <th style="text-align: left">HuggingFace Notebooks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BertEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb">HuggingFace in Spark NLP - BERT</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertSentenceEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">HuggingFace in Spark NLP - BERT Sentence</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">HuggingFace in Spark NLP - DistilBERT</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">RoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb">HuggingFace in Spark NLP - RoBERTa</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">XlmRoBertaEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">HuggingFace in Spark NLP - XLM-RoBERTa</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="limitations">Limitations</h3>
+
+<ul>
+  <li>If you are importing models from HuggingFace as Embeddings they must be for <code class="language-plaintext highlighter-rouge">Fill-Mask</code> task. Meaning you cannot use a model in BertEmbeddings if they were trained or fine-tuned on token/text classification tasks in HuggingFace. They have a different architecture.</li>
+  <li>There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: `Required array size too large. (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)</li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2019-11-01T00:00:00+00:00">Nov 01, 2019</time>
     </span><!-- start custom article footer snippet -->

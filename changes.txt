@@ -1,10 +1,2 @@
-docs/_layouts/demopage.html
-docs/_sass/custom.scss
-docs/demos/analyze_non_english_medical_text.md
-docs/demos/recognize_clinical_entities.md
-docs/demos/resolve_entities_codes.md
-docs/_layouts/demopage.html
-docs/_sass/custom.scss
-docs/demos/analyze_non_english_medical_text.md
-docs/demos/recognize_clinical_entities.md
-docs/demos/resolve_entities_codes.md
+docs/en/transformers.md
+docs/en/transformers.md
