@@ -57,9 +57,21 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     calendar.add(Calendar.DAY_OF_MONTH, 1)
     calendar
   }
+
+  val afterTomorrowCalendar: Calendar = {
+    val calendar = Calendar.getInstance
+    calendar.add(Calendar.DAY_OF_MONTH, 2)
+    calendar
+  }
   val yesterdayCalendar: Calendar = {
     val calendar = Calendar.getInstance
     calendar.add(Calendar.DAY_OF_MONTH, -1)
+    calendar
+  }
+
+  val beforeYesterdayCalendar: Calendar = {
+    val calendar = Calendar.getInstance
+    calendar.add(Calendar.DAY_OF_MONTH, -2)
     calendar
   }
 
@@ -102,7 +114,9 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     //NS: "3 days from now",
     //NS: "three weeks ago",
     ("day after", Some(tomorrowCalendar)),
+    ("day after tomorrow", Some(afterTomorrowCalendar)),
     ("the day before", Some(yesterdayCalendar)),
+    ("the day before yesterday", Some(beforeYesterdayCalendar)),
     //"the monday after",
     //"the monday before"
     //NS: "2 fridays before",
