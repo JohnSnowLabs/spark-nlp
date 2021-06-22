@@ -1,0 +1,19 @@
+22016685|t|A novel missense mutation Asp506Gly in Exon 13 of the F11 gene in an asymptomatic Korean woman with mild factor XI deficiency.
+22016685|a|Factor XI (FXI) deficiency is a rare autosomal recessive coagulation disorder most commonly found in Ashkenazi and Iraqi Jews, but it is also found in other ethnic groups. It is a trauma or surgery-related bleeding disorder, but spontaneous bleeding is rarely seen. The clinical manifestation of bleeding in FXI deficiency cases is variable and seems to poorly correlate with plasma FXI levels. The molecular pathology of FXI deficiency is mutation in the F11 gene on the chromosome band 4q35. We report a novel mutation of the F11 gene in an 18-year-old asymptomatic Korean woman with mild FXI deficiency. Pre-operative laboratory screen tests for lipoma on her back revealed slightly prolonged activated partial thromboplastin time (45.2 sec; reference range, 23.2-39.4 sec). Her FXI activity (35%) was slightly lower than the normal FXI activity (reference range, 50-150%). Direct sequence analysis of the F11 gene revealed a heterozygous A to G substitution in nucleotide 1517 (c.1517A>G) of exon 13, resulting in the substitution of aspartic acid with glycine in codon 506 (p.Asp506Gly). To the best of our knowledge, the Asp506Gly is a novel missense mutation, and this is the first genetically confirmed case of mild FXI deficiency in Korea.
+22016685	26	35	Asp506Gly	ProteinMutation	p|SUB|D|506|G
+22016685	1109	1118	c.1517A>G	DNAMutation	c|SUB|A|1517|G
+22016685	1206	1217	p.Asp506Gly	ProteinMutation	p|SUB|D|506|G
+22016685	1254	1263	Asp506Gly	ProteinMutation	p|SUB|D|506|G
+
+21850008|t|Mutations in mitochondrially encoded complex I enzyme as the second common cause in a cohort of Chinese patients with mitochondrial myopathy, encephalopathy, lactic acidosis and stroke-like episodes.
+21850008|a|The mutation pattern of mitochondrial DNA (mtDNA) in mainland Chinese patients with mitochondrial myopathy, encephalopathy, lactic acidosis and stroke-like episodes (MELAS) has been rarely reported, though previous data suggested that the mutation pattern of MELAS could be different among geographically localized populations. We presented the results of comprehensive mtDNA mutation analysis in 92 unrelated Chinese patients with MELAS (85 with classic MELAS and 7 with MELAS/Leigh syndrome (LS) overlap syndrome). The mtDNA A3243G mutation was the most common causal genotype in this patient group (79/92 and 85.9%). The second common gene mutation was G13513A (7/92 and 7.6%). Additionally, we identified T10191C (p.S45P) in ND3, A11470C (p. K237N) in ND4, T13046C (p.M237T) in ND5 and a large-scale deletion (13025-13033:14417-14425) involving partial ND5 and ND6 subunits of complex I in one patient each. Among them, A11470C, T13046C and the single deletion were novel mutations. In summary, patients with mutations affecting mitochondrially encoded complex I (MTND) reached 12.0% (11/92) in this group. It is noteworthy that all seven patients with MELAS/LS overlap syndrome were associated with MTND mutations. Our data emphasize the important role of MTND mutations in the pathogenicity of MELAS, especially MELAS/LS overlap syndrome.
+21850008	727	733	A3243G	DNAMutation	m|SUB|A|3243|G
+21850008	856	863	G13513A	DNAMutation	m|SUB|G|13513|A
+21850008	909	916	T10191C	DNAMutation	m|SUB|T|10191|C
+21850008	918	924	p.S45P	ProteinMutation	p|SUB|S|45|P
+21850008	934	941	A11470C	DNAMutation	m|SUB|A|11470|C
+21850008	943	951	p. K237N	ProteinMutation	p|SUB|K|237|N
+21850008	961	968	T13046C	DNAMutation	m|SUB|T|13046|C
+21850008	970	977	p.M237T	ProteinMutation	p|SUB|M|237|T
+21850008	1124	1131	A11470C	DNAMutation	m|SUB|A|11470|C
+21850008	1133	1140	T13046C	DNAMutation	m|SUB|T|13046|C
