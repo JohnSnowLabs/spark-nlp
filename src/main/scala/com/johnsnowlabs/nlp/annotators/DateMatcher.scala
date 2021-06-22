@@ -124,20 +124,17 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
 
     // Detect source language and translate it to English to apply actual DateMatcher processing
-    def autoTranslateFromSourceLanguage = {
-      getSourceLanguage match {
-        case "en" => text
-        case s: String if s.isEmpty || s.length == 2 =>
-          DateMatcherTranslator.translate(text, getSourceLanguage)
-        case _ => throw new Exception(s"Cannot identify source language.")
-      }
+    def autoDetectAndTranslate = {
+      DateMatcherTranslator.translate(text, getSourceLanguage)
     }
 
     val _text: String =
-      if(getMultiLanguageCapability
+      if(getMultiLanguageCapability // is multi lang
         &&
-        (getSourceLanguage.isEmpty || !getSourceLanguage.equals("en")))
-        autoTranslateFromSourceLanguage
+        (getSourceLanguage.isEmpty // source undefined
+          || (getSourceLanguage.size == 2 && !getSourceLanguage.equals("en"))) // source not en
+      )
+        autoDetectAndTranslate
       else
         text
 
