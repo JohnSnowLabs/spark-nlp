@@ -5,6 +5,7 @@ author: John Snow Labs
 name: explain_document_lg
 date: 2021-03-23
 tags: [open_source, finnish, explain_document_lg, pipeline, fi]
+supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: fi
 edition: Spark NLP 3.0.0

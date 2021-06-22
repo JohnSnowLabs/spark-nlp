@@ -5,6 +5,7 @@ author: John Snow Labs
 name: explain_document_md
 date: 2021-03-22
 tags: [open_source, danish, explain_document_md, pipeline, da]
+supported: true
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
 language: da
 edition: Spark NLP 3.0.0

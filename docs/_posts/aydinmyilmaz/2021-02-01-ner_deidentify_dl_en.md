@@ -5,6 +5,7 @@ author: John Snow Labs
 name: ner_deidentify_dl
 date: 2021-02-01
 tags: [ner, deidentify, en, clinical, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

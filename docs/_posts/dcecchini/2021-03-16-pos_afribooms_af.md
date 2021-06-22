@@ -5,6 +5,7 @@ author: John Snow Labs
 name: pos_afribooms
 date: 2021-03-16
 tags: [af, open_source, pos]
+supported: true
 task: Part of Speech Tagging
 language: af
 edition: Spark NLP 2.7.5

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: explain_document_sm
 date: 2021-03-22
 tags: [open_source, portuguese, explain_document_sm, pipeline, pt]
+supported: true
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
 language: pt
 edition: Spark NLP 3.0.0
