@@ -1151,7 +1151,8 @@ class ClassifierDLTestSpec(unittest.TestCase):
         classifier = ClassifierDLApproach() \
             .setInputCols("sentence_embeddings") \
             .setOutputCol("category") \
-            .setLabelColumn("label")
+            .setLabelColumn("label") \
+            .setRandomSeed(44)
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1218,7 +1219,9 @@ class SentimentDLTestSpec(unittest.TestCase):
         classifier = SentimentDLApproach() \
             .setInputCols("sentence_embeddings") \
             .setOutputCol("category") \
-            .setLabelColumn("label")
+            .setLabelColumn("label") \
+            .setRandomSeed(44)
+
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1293,7 +1296,9 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
             .setBatchSize(64) \
             .setMaxEpochs(20) \
             .setLr(0.001) \
-            .setThreshold(0.5)
+            .setThreshold(0.5) \
+            .setRandomSeed(44)
+
 
         pipeline = Pipeline(stages=[
             document_assembler,

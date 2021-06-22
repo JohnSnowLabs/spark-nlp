@@ -130,6 +130,12 @@ class MultiClassifierDLApproach(override val uid: String)
     **/
   val shufflePerEpoch = new BooleanParam(this, "shufflePerEpoch", "whether to shuffle the training data on each Epoch")
 
+  /** Random seed
+   *
+   * @group setParam
+   */
+  def setRandomSeed(seed: Int): MultiClassifierDLApproach.this.type = set(randomSeed, seed)
+
   /** Column with label per each document
     *
     * @group setParam
@@ -202,6 +208,12 @@ class MultiClassifierDLApproach(override val uid: String)
     * @group setParam
     **/
   def setShufflePerEpoch(value: Boolean): MultiClassifierDLApproach.this.type = set(this.shufflePerEpoch, value)
+
+  /** Random seed
+   *
+   * @group getParam
+   */
+  def getRandomSeed: Int = $(this.randomSeed)
 
   /** Column with label per each document
     *
