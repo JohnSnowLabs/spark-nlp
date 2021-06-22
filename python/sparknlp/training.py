@@ -80,11 +80,11 @@ class PubTator(ExtendedJavaWrapper):
     def __init__(self):
         super(PubTator, self).__init__("com.johnsnowlabs.nlp.training.PubTator")
 
-    def readDataset(self, spark, path):
+    def readDataset(self, spark, path,ispadding=True):
 
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(jSession, path)
+        jdf = self._java_obj.readDataset(jSession, path,ispadding)
         return DataFrame(jdf, spark._wrapped)
 
