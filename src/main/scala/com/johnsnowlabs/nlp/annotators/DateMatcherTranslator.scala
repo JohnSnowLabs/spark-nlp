@@ -257,6 +257,29 @@ object DateMatcherTranslator extends Serializable {
     replacingKey
   }
 
+  def adjustPlurality(text: String) = {
+    val pattern = """(\d+)""".r
+    val res = pattern.findFirstIn(text) match {
+      case Some(m) => m.toInt
+      case _ => -1
+    }
+
+    val candidates = Array("second", "minute", "hour", "day", "month", "year")
+
+    var acc = text
+    val adjusted: String =
+      if(res > 1) {
+        val matchingCandidates = for(c <- candidates if text.contains(c)) yield c
+        matchingCandidates.foreach(c => acc = acc.replaceAll(c, c + "s"))
+        acc
+      }
+      else {
+        text
+      }
+
+    adjusted
+  }
+
   def translateBySentence(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
 
     println(s"============================\nTranslate sentence on matches: $sourceLanguageInfo")
@@ -279,7 +302,7 @@ object DateMatcherTranslator extends Serializable {
         rk._2.replace("#V#", ""),
         rk._1.replace("#K#", "")))
 
-    acc
+    adjustPlurality(acc)
   }
 
   private def translateTokens(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
