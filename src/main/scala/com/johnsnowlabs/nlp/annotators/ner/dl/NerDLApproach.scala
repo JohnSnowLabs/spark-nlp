@@ -28,8 +28,8 @@ import scala.util.Random
  *
  * For instantiated/pretrained models, see [[NerDLModel]].
  *
- * The training data should be a labeled Spark Dataset, e.g. [[com.johnsnowlabs.nlp.training.CoNLL CoNLL]] 2003 IOB with
- * `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, WORD_EMBEDDINGS` and an
+ * The training data should be a labeled Spark Dataset, in the format of [[com.johnsnowlabs.nlp.training.CoNLL CoNLL]]
+ * 2003 IOB with `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, WORD_EMBEDDINGS` and an
  * additional label column of annotator type `NAMED_ENTITY`.
  * Excluding the label, this can be done with for example
  *   - a [[com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector SentenceDetector]],
