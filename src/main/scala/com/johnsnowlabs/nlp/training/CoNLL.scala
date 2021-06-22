@@ -16,7 +16,8 @@ case class CoNLLDocument(text: String,
 
 /** Helper class to load a CoNLL type dataset for training.
  *
- * The dataset should be specified with `readDataset`.
+ * The dataset should be in the format of [[https://www.clips.uantwerpen.be/conll2003/ner/ CoNLL 2003]]
+ * and needs to be specified with `readDataset`. Other CoNLL datasets are not supported.
  *
  * ==Example==
  * {{{
