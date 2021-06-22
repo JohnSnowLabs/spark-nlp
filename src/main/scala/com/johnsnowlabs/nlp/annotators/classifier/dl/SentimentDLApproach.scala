@@ -42,6 +42,11 @@ class SentimentDLApproach(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()"
   )
 
+  /** Random seed
+   *
+   * @group setParam
+   */
+  def setRandomSeed(seed: Int): SentimentDLApproach.this.type = set(randomSeed, seed)
   def setLabelColumn(column: String): SentimentDLApproach.this.type = set(labelColumn, column)
   def setLr(lr: Float): SentimentDLApproach.this.type = set(this.lr, lr)
   def setBatchSize(batch: Int): SentimentDLApproach.this.type = set(this.batchSize, batch)
@@ -56,6 +61,11 @@ class SentimentDLApproach(override val uid: String)
   def setVerbose(verbose: Int): SentimentDLApproach.this.type = set(this.verbose, verbose)
   def setVerbose(verbose: Verbose.Level): SentimentDLApproach.this.type = set(this.verbose, verbose.id)
 
+  /** Random seed
+   *
+   * @group getParam
+   */
+  def getRandomSeed: Int = $(this.randomSeed)
   def getLabelColumn: String = $(this.labelColumn)
   def getLr: Float = $(this.lr)
   def getBatchSize: Int = $(this.batchSize)
