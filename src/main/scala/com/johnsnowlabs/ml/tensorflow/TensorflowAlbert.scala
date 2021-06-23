@@ -18,8 +18,8 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
-
 import org.tensorflow.ndarray.buffer.DataBuffers
 
 import scala.collection.JavaConverters._
@@ -63,28 +63,28 @@ import scala.collection.JavaConverters._
 class TensorflowAlbert(val tensorflow: TensorflowWrapper,
                        val spp: SentencePieceWrapper,
                        batchSize: Int,
-                       configProtoBytes: Option[Array[Byte]] = None
+                       configProtoBytes: Option[Array[Byte]] = None,
+                       signatures: Option[Map[String, String]] = None
                       ) extends Serializable {
 
+  val _tfAlbertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+
   // keys representing the input and output tensors of the ALBERT model
-  private val TokenIdsKey = "input_ids"
-  private val MaskIdsKey = "input_mask"
-  private val SegmentIdsKey = "segment_ids"
-  private val OutputSequenceKey = "module/seq_out"
-  private val SentenceStartTokenId = 2
-  private val SentenceEndTokenId = 3
-  private val SentencePieceDelimiterId = 13
+  private val SentenceStartTokenId = spp.getSppModel.pieceToId("[CLS]")
+  private val SentenceEndTokenId = spp.getSppModel.pieceToId("[SEP]")
+  private val SentencePadTokenId = spp.getSppModel.pieceToId("[pad]")
+  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
   def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
       Array(
         maxSequenceLength - 2,
-        sentences.map{ case(wpTokSentence, _) => wpTokSentence.tokens.length}.max).min
+        sentences.map { case (wpTokSentence, _) => wpTokSentence.tokens.length }.max).min
 
     sentences
-      .map{ case(wpTokSentence, _) =>
+      .map { case (wpTokSentence, _) =>
         val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
 
         Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(SentenceEndTokenId) ++ padding
       }
@@ -112,24 +112,24 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
       val diff = maxSentenceLength - tokenIds.length
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
 
-      val padding = Array.fill(diff)(0)
+      val padding = Array.fill(diff)(SentencePadTokenId)
       val newTokenIds = tokenIds ++ padding
 
       tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == 0) 0 else 1))
+      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
     }
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
-      .feed(TokenIdsKey, tokenTensors)
-      .feed(MaskIdsKey, maskTensors)
-      .feed(SegmentIdsKey, segmentTensors)
-      .fetch(OutputSequenceKey)
+      .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
+      .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -168,15 +168,15 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
       val vectors = tag(batchedInputsIds)
 
       /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map{case (sentence, tokenVectors) =>
+      batch.zip(vectors).map { case (sentence, tokenVectors) =>
         val tokenLength = sentence._1.tokens.length
         /*All wordpiece embeddings*/
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
+        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
             val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin).map{
+              p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
               token =>
                 val originalTokenWithEmbedding = TokenPieceEmbeddings(
                   TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
@@ -199,7 +199,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
   }
 
   def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId)
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = SentencePieceDelimiterId)
 
     val sentecneTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
