@@ -2,8 +2,8 @@
 
 #default values for pyspark, spark-nlp, and SPARK_HOME
 SPARKNLP="3.1.1"
-PYSPARK="3.0.2"
-SPARKHOME="/content/spark-3.1.1-bin-hadoop2.7"
+PYSPARK="3.0.3"
+SPARKHOME="/content/spark-3.1.2-bin-hadoop2.7"
 
 while getopts s:p: option
 do
