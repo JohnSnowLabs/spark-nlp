@@ -27,11 +27,18 @@ It is possible to download training logs by clicking on the download logs icon (
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/train_ner.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Training parameters
-It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values on the popup window activated by the gear icon (see item 4 on the above image).
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/training_params.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+In Annotation Lab versions prior to 1.8.0, for mixed projects containing multiple types of annotations in a single project like classifications, NER, and assertion status, multiple trainings were triggered at the same time using the same system resources and Spark NLP resources. In this case, the training component could fail because of resource limitations.
+In order to improve the usability of the system, Annotation Lab 1.8.0 added a drop-down option to choose which type of training to run next. The project Owner or Manager of a project can go to the "Advanced Options" and choose the training type. The drop-down gives a list of possible training types for that particular project based on defined Labeling Config. Another drop-down also lists available embeddings which can be used for training the model.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/trainig_models.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
+It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values on the popup window activated by the gear icon.
 
 It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifing the targeted Tags on the Training Parameters popup window (last option).
+
+The Annotation Lab v1.8.0 includes additional filtering options for the training dataset based on the status of completions, either all submitted completions cab be used for training or only the reviewed ones (a drop-down is added in the "Advanced Options").
 
 ## Selection of Completions
 During the annotation project lifetime, normally not all tasks/completions are ready to be used as a training dataset. This is why the training process selects completions based on their status:
