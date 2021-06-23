@@ -62,7 +62,6 @@ class TensorflowWrapper(var variables: Variables,
   def getSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
 
     if (m_session == null) {
-      logger.debug("Restoring TF session from bytes")
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -106,8 +105,8 @@ class TensorflowWrapper(var variables: Variables,
                       savedSignatures: Option[Map[String, String]] = None): Session = {
 
     if (m_session == null) {
-      logger.debug("Restoring TF Hub session from bytes")
       val t = new TensorResources()
+      val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
       // save the binary data of variables to file - variables per se
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + TensorflowWrapper.TFVarsSuffix)
@@ -129,8 +128,7 @@ class TensorflowWrapper(var variables: Variables,
       g.importGraphDef(GraphDef.parseFrom(graph))
 
       // create the session and load the variables
-      val session = new Session(g, ConfigProto.parseFrom(TensorflowWrapper.TFSessionConfig))
-
+      val session = new Session(g, ConfigProto.parseFrom(config))
       TensorflowWrapper
         .processInitAllTableOp(initAllTables, t, session, folder, TensorflowWrapper.VariablesKey, savedSignatures = savedSignatures)
 
@@ -146,7 +144,6 @@ class TensorflowWrapper(var variables: Variables,
   def createSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
 
     if (m_session == null) {
-      logger.debug("Creating empty TF session")
 
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 

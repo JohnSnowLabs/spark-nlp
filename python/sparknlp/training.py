@@ -20,15 +20,15 @@ from pyspark.sql import SparkSession, DataFrame
 
 class CoNLL(ExtendedJavaWrapper):
     def __init__(self,
-                 documentCol = 'document',
-                 sentenceCol = 'sentence',
-                 tokenCol = 'token',
-                 posCol = 'pos',
-                 conllLabelIndex = 3,
-                 conllPosIndex = 1,
-                 textCol = 'text',
-                 labelCol = 'label',
-                 explodeSentences = True,
+                 documentCol='document',
+                 sentenceCol='sentence',
+                 tokenCol='token',
+                 posCol='pos',
+                 conllLabelIndex=3,
+                 conllPosIndex=1,
+                 textCol='text',
+                 labelCol='label',
+                 explodeSentences=True,
                  ):
         super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL",
                                     documentCol,
@@ -42,7 +42,6 @@ class CoNLL(ExtendedJavaWrapper):
                                     explodeSentences)
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
-
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
@@ -51,11 +50,10 @@ class CoNLL(ExtendedJavaWrapper):
 
 
 class CoNLLU(ExtendedJavaWrapper):
-    def __init__(self, explodeSentences = True):
+    def __init__(self, explodeSentences=True):
         super(CoNLLU, self).__init__("com.johnsnowlabs.nlp.training.CoNLLU", explodeSentences)
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
-
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
@@ -67,8 +65,8 @@ class POS(ExtendedJavaWrapper):
     def __init__(self):
         super(POS, self).__init__("com.johnsnowlabs.nlp.training.POS")
 
-    def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="document", outputTextCol="text"):
-
+    def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="document",
+                    outputTextCol="text"):
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
@@ -80,11 +78,9 @@ class PubTator(ExtendedJavaWrapper):
     def __init__(self):
         super(PubTator, self).__init__("com.johnsnowlabs.nlp.training.PubTator")
 
-    def readDataset(self, spark, path):
-
+    def readDataset(self, spark, path, isPaddedToken=True):
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(jSession, path)
+        jdf = self._java_obj.readDataset(jSession, path, isPaddedToken)
         return DataFrame(jdf, spark._wrapped)
-

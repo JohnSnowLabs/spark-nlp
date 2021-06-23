@@ -33,30 +33,95 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import java.io.File
 
 /**
- * The RoBERTa model was proposed in '''RoBERTa: A Robustly Optimized BERT Pretraining Approach''' [[https://arxiv.org/abs/1907.11692>]]
+ * The RoBERTa model was proposed in [[https://arxiv.org/abs/1907.11692 RoBERTa: A Robustly Optimized BERT Pretraining Approach]]
  * by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.
  * It is based on Google's BERT model released in 2018.
  *
  * It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
- * The abstract from the paper is the following:
  *
- * Language model pretraining has led to significant performance gains but careful comparison between different
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val embeddings = RoBertaEmbeddings.pretrained()
+ *   .setInputCols("document", "token")
+ *   .setOutputCol("embeddings")
+ * }}}
+ * The default model is `"roberta_base"`, if no name is provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+ *
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala RoBertaEmbeddingsTestSpec]].
+ * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+ * example shows how to import them.
+ *
+ * '''Paper Abstract:'''
+ *
+ * ''Language model pretraining has led to significant performance gains but careful comparison between different
  * approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes,
  * and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication
  * study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and
  * training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every
  * model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results
  * highlight the importance of previously overlooked design choices, and raise questions about the source of recently
- * reported improvements. We release our models and code.*
+ * reported improvements. We release our models and code.''
  *
  * Tips:
- *
- * - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
- *
- * - RoBERTa doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`</s>`)
+ *   - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
+ *   - RoBERTa doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`</s>`)
  *
  * The original code can be found ```here``` [[https://github.com/pytorch/fairseq/tree/master/examples/roberta]].
  *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings
+ * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols(Array("document"))
+ *   .setOutputCol("token")
+ *
+ * val embeddings = RoBertaEmbeddings.pretrained()
+ *   .setInputCols("document", "token")
+ *   .setOutputCol("embeddings")
+ *   .setCaseSensitive(true)
+ *
+ * val embeddingsFinisher = new EmbeddingsFinisher()
+ *   .setInputCols("embeddings")
+ *   .setOutputCols("finished_embeddings")
+ *   .setOutputAsVector(true)
+ *   .setCleanAnnotations(false)
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     tokenizer,
+ *     embeddings,
+ *     embeddingsFinisher
+ *   ))
+ *
+ * val data = Seq("This is a sentence.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+ * +--------------------------------------------------------------------------------+
+ * |                                                                          result|
+ * +--------------------------------------------------------------------------------+
+ * |[0.18792399764060974,-0.14591649174690247,0.20547787845134735,0.1468472778797...|
+ * |[0.22845706343650818,0.18073144555091858,0.09725798666477203,-0.0417917296290...|
+ * |[0.07037967443466187,-0.14801117777824402,-0.03603338822722435,-0.17893412709...|
+ * |[-0.08734266459941864,0.2486150562763214,-0.009067727252840996,-0.24408400058...|
+ * |[0.22409197688102722,-0.4312366545200348,0.1401449590921402,0.356410235166549...|
+ * +--------------------------------------------------------------------------------+
+ * }}}
+ *
+ * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
  * @groupname Ungrouped Members
@@ -79,14 +144,13 @@ class RoBertaEmbeddings(override val uid: String)
     with HasStorageRef
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("ROBERTA_EMBEDDINGS"))
 
-  /** @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("<s>")
   }
 
-  /** @group setParam */
   def sentenceEndTokenId: Int = {
     $$(vocabulary)("</s>")
   }
@@ -128,7 +192,7 @@ class RoBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  /** Max sentence length to process
+  /** Max sentence length to process (Default: `128`)
    *
    * @group param
    * */
@@ -187,9 +251,9 @@ class RoBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: TensorflowRoBerta = _model.get.value
 
-  /** Set Embeddings dimensions for the RoBERTa model
+  /** Set Embeddings dimensions for the RoBERTa model.
    * Only possible to set this when the first time is saved
-   * dimension is not changeable, it comes from RoBERTa config file
+   * dimension is not changeable, it comes from RoBERTa config file.
    *
    * @group setParam
    * */
@@ -272,8 +336,15 @@ class RoBertaEmbeddings(override val uid: String)
     dataset.withColumn(getOutputCol, wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  /** Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -355,4 +426,7 @@ trait ReadRobertaTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[RoBertaEmbeddings]]. Please refer to that class for the documentation.
+ */
 object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel

@@ -12,6 +12,51 @@ private case class TaggedToken(token: String, tag: String)
 private case class TaggedDocument(sentence: String, taggedTokens: Array[TaggedToken])
 private case class Annotations(text: String, document: Array[Annotation], pos: Array[Annotation])
 
+/**
+  * Helper class for creating DataFrames for training a part-of-speech tagger.
+  *
+  * The dataset needs to consist of sentences on each line, where each word is delimited with its respective tag:
+  *
+  * {{{
+  * Pierre|NNP Vinken|NNP ,|, 61|CD years|NNS old|JJ ,|, will|MD join|VB the|DT board|NN as|IN a|DT nonexecutive|JJ director|NN Nov.|NNP 29|CD .|.
+  * }}}
+  *
+  * The sentence can then be parsed with [[readDataset]] into a column with annotations of type `POS`.
+  *
+  * ==Example==
+  * In this example, the file `test-training.txt` has the content of the sentence above.
+  * {{{
+  * import com.johnsnowlabs.nlp.training.POS
+  *
+  * val pos = POS()
+  * val path = "src/test/resources/anc-pos-corpus-small/test-training.txt"
+  * val posDf = pos.readDataset(spark, path, "|", "tags")
+  *
+  * posDf.selectExpr("explode(tags) as tags").show(false)
+  * +---------------------------------------------+
+  * |tags                                         |
+  * +---------------------------------------------+
+  * |[pos, 0, 5, NNP, [word -> Pierre], []]       |
+  * |[pos, 7, 12, NNP, [word -> Vinken], []]      |
+  * |[pos, 14, 14, ,, [word -> ,], []]            |
+  * |[pos, 16, 17, CD, [word -> 61], []]          |
+  * |[pos, 19, 23, NNS, [word -> years], []]      |
+  * |[pos, 25, 27, JJ, [word -> old], []]         |
+  * |[pos, 29, 29, ,, [word -> ,], []]            |
+  * |[pos, 31, 34, MD, [word -> will], []]        |
+  * |[pos, 36, 39, VB, [word -> join], []]        |
+  * |[pos, 41, 43, DT, [word -> the], []]         |
+  * |[pos, 45, 49, NN, [word -> board], []]       |
+  * |[pos, 51, 52, IN, [word -> as], []]          |
+  * |[pos, 47, 47, DT, [word -> a], []]           |
+  * |[pos, 56, 67, JJ, [word -> nonexecutive], []]|
+  * |[pos, 69, 76, NN, [word -> director], []]    |
+  * |[pos, 78, 81, NNP, [word -> Nov.], []]       |
+  * |[pos, 83, 84, CD, [word -> 29], []]          |
+  * |[pos, 81, 81, ., [word -> .], []]            |
+  * +---------------------------------------------+
+  * }}}
+  */
 case class POS() {
 
   /*
@@ -75,6 +120,18 @@ case class POS() {
     TaggedDocument(tokenTags.map(_.token).mkString(" "), tokenTags)
   }
 
+  /**
+    * Reads the provided dataset file with given parameters and returns a DataFrame ready to for training a
+    * part-of-speech tagger.
+    *
+    * @param sparkSession Current Spark sessions
+    * @param path Path to the resource
+    * @param delimiter Delimiter used to separate word from their tag in the text
+    * @param outputPosCol Name for the output column of the part-of-tags
+    * @param outputDocumentCol Name for the [[com.johnsnowlabs.nlp.base.DocumentAssembler DocumentAssembler]] column
+    * @param outputTextCol Name for the column of the raw text
+    * @return DataFrame of parsed text
+    */
   def readDataset(
                    sparkSession: SparkSession,
                    path: String,

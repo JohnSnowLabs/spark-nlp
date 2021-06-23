@@ -107,4 +107,7 @@ class NerOverwriter(override val uid: String) extends AnnotatorModel[NerOverwrit
 
 }
 
+/**
+ * This is the companion object of [[NerOverwriter]]. Please refer to that class for the documentation.
+ */
 object NerOverwriter extends DefaultParamsReadable[NerOverwriter]

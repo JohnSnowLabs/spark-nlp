@@ -20,6 +20,7 @@ from pyspark.sql import DataFrame
 from sparknlp.annotator import *
 from sparknlp.base import LightPipeline
 from pyspark.ml import PipelineModel
+from py4j.protocol import Py4JJavaError
 
 
 def printProgress(stop):
@@ -54,6 +55,9 @@ class ResourceDownloader(object):
             t1.start()
             try:
                 j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, j_dwn).apply()
+            except Py4JJavaError as e:
+                sys.stdout.write("\n" + str(e))
+                raise e
             finally:
                 stop_threads = True
                 t1.join()
