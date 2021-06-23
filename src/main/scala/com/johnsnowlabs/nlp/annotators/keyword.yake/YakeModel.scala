@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Utilities.{getTag, medi
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, HasSimpleAnnotate}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.util.Identifiable
+import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.ListMap
 import scala.collection.{immutable, mutable}
