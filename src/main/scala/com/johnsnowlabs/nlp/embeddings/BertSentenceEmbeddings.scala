@@ -16,38 +16,104 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
- * BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture
- *
- *
- * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala]] for further reference on how to use this API.
- * Sources:
- *
- *
- * '''Sources''' :
- *
- * [[https://arxiv.org/abs/1810.04805]]
- *
- * [[https://github.com/google-research/bert]]
- *
- * ''' Paper abstract '''
- *
- * We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
- * BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement).
- *
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- * */
+  * Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
+  * vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val embeddings = BertSentenceEmbeddings.pretrained()
+  *   .setInputCols("sentence")
+  *   .setOutputCol("sentence_bert_embeddings")
+  * }}}
+  * The default model is `"sent_small_bert_L2_768"`, if no name is provided.
+  *
+  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  *
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala BertSentenceEmbeddingsTestSpec]].
+  *
+  * '''Sources''' :
+  *
+  * [[https://arxiv.org/abs/1810.04805 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding]]
+  *
+  * [[https://github.com/google-research/bert]]
+  *
+  * ''' Paper abstract '''
+  *
+  * ''We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
+  * from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
+  * representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
+  * result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
+  * state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
+  * substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
+  * obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
+  * to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
+  * question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
+  * absolute improvement).''
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotator.SentenceDetector
+  * import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+  * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence")
+  *
+  * val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+  *   .setInputCols("sentence")
+  *   .setOutputCol("sentence_bert_embeddings")
+  *
+  * val embeddingsFinisher = new EmbeddingsFinisher()
+  *   .setInputCols("sentence_bert_embeddings")
+  *   .setOutputCols("finished_embeddings")
+  *   .setOutputAsVector(true)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   sentence,
+  *   embeddings,
+  *   embeddingsFinisher
+  * ))
+  *
+  * val data = Seq("John loves apples. Mary loves oranges. John loves Mary.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+  * +--------------------------------------------------------------------------------+
+  * |                                                                          result|
+  * +--------------------------------------------------------------------------------+
+  * |[-0.8951074481010437,0.13753940165042877,0.3108254075050354,-1.65693199634552...|
+  * |[-0.6180210709571838,-0.12179657071828842,-0.191165953874588,-1.4497021436691...|
+  * |[-0.822715163230896,0.7568016648292542,-0.1165061742067337,-1.59048593044281,...|
+  * +--------------------------------------------------------------------------------+
+  * }}}
+  *
+  * @see [[BertEmbeddings]] for token-level embeddings
+  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
+  * @param uid required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * */
 class BertSentenceEmbeddings(override val uid: String)
   extends AnnotatorModel[BertSentenceEmbeddings]
     with HasBatchedAnnotate[BertSentenceEmbeddings]
@@ -58,7 +124,7 @@ class BertSentenceEmbeddings(override val uid: String)
 
   def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
-  /** vocabulary
+  /** Vocabulary used to encode the words to ids with WordPieceEncoder
    *
    * @group param
    * */
@@ -70,13 +136,13 @@ class BertSentenceEmbeddings(override val uid: String)
    * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  /** Max sentence length to process
+  /** Max sentence length to process (Default: `128`)
    *
    * @group param
    * */
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
-  /** Use Long type instead of Int type for inputs
+  /** Use Long type instead of Int type for inputs (Default: `false`)
    *
    * @group param
    * */
@@ -145,7 +211,7 @@ class BertSentenceEmbeddings(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]): BertSentenceEmbeddings.this.type = set(this.configProtoBytes, bytes)
 
   /**
-   * Max sentence length to process
+   * Max sentence length to process (Default: `128`)
    *
    * @group setParam
    * */
@@ -163,7 +229,7 @@ class BertSentenceEmbeddings(override val uid: String)
    * */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  /** Max sentence length to process
+  /** Max sentence length to process (Default: `128`)
    *
    * @group getParam
    * */
@@ -330,4 +396,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 }
 
 
+/**
+ * This is the companion object of [[BertSentenceEmbeddings]]. Please refer to that class for the documentation.
+ */
 object BertSentenceEmbeddings extends ReadablePretrainedBertSentenceModel with ReadBertSentenceTensorflowModel

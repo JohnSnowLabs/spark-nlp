@@ -375,4 +375,7 @@ class PerceptronApproachDistributed(override val uid: String) extends AnnotatorA
   }
 }
 
+/**
+ * This is the companion object of [[PerceptronApproachDistributed]]. Please refer to that class for the documentation.
+ */
 object PerceptronApproachDistributed extends DefaultParamsReadable[PerceptronApproachDistributed]
