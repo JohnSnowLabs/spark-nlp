@@ -183,10 +183,10 @@ package object annotator {
   object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel
 
   type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
-  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel with ReadSentencePieceModel
+  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel
 
   type XlnetEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
-  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel
+  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
 
   type SentimentDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach
   object SentimentDLApproach extends DefaultParamsReadable[SentimentDLApproach]

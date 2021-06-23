@@ -2379,14 +2379,13 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
         return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
 
 
-class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class AlbertEmbeddings(AnnotatorModel,
+                       HasEmbeddingsProperties,
+                       HasCaseSensitiveProperties,
+                       HasStorageRef,
+                       HasBatchedAnnotate):
 
     name = "AlbertEmbeddings"
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -2401,9 +2400,6 @@ class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitive
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
@@ -2414,9 +2410,10 @@ class AlbertEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitive
             java_model=java_model
         )
         self._setDefault(
-            batchSize=32,
+            batchSize=8,
             dimension=768,
-            maxSentenceLength=128
+            maxSentenceLength=128,
+            caseSensitive=False
         )
 
     @staticmethod
