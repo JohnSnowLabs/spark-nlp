@@ -287,7 +287,7 @@ class AlbertEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_albert", AlbertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_albert", AlbertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
     writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_albert", AlbertEmbeddings.sppFile)
 
   }
@@ -318,7 +318,7 @@ trait ReadAlbertTensorflowModel extends ReadTensorflowModel with ReadSentencePie
   override val sppFile: String = "albert_spp"
 
   def readTensorflow(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_albert_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_albert_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
