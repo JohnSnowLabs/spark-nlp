@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel</title>
-          <meta name="description" content="Spark NLP 3.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" />
-          <meta name="keywords" content="Spark NLP 3.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -170,17 +170,17 @@
                         <a class="class" href="AveragedPerceptron.html" title=""></a>
                         <a href="AveragedPerceptron.html" title="">AveragedPerceptron</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="PerceptronApproach$.html" title=""></a>
-                        <a class="class" href="PerceptronApproach.html" title="Averaged Perceptron model to tag words part-of-speech."></a>
-                        <a href="PerceptronApproach.html" title="Averaged Perceptron model to tag words part-of-speech.">PerceptronApproach</a>
+                        <a class="object" href="PerceptronApproach$.html" title="This is the companion object of PerceptronApproach."></a>
+                        <a class="class" href="PerceptronApproach.html" title="Trains an averaged Perceptron model to tag words part-of-speech."></a>
+                        <a href="PerceptronApproach.html" title="Trains an averaged Perceptron model to tag words part-of-speech.">PerceptronApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="PerceptronApproachDistributed$.html" title=""></a>
+                        <a class="object" href="PerceptronApproachDistributed$.html" title="This is the companion object of PerceptronApproachDistributed."></a>
                         <a class="class" href="PerceptronApproachDistributed.html" title="Distributed Averaged Perceptron model to tag words part-of-speech."></a>
                         <a href="PerceptronApproachDistributed.html" title="Distributed Averaged Perceptron model to tag words part-of-speech.">PerceptronApproachDistributed</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="PerceptronModel$.html" title=""></a>
-                        <a class="class" href="" title="Part of speech tagger that might use different approaches"></a>
-                        <a href="" title="Part of speech tagger that might use different approaches">PerceptronModel</a>
+                        <a class="object" href="PerceptronModel$.html" title="This is the companion object of PerceptronModel."></a>
+                        <a class="class" href="" title="Averaged Perceptron model to tag words part-of-speech."></a>
+                        <a href="" title="Averaged Perceptron model to tag words part-of-speech.">PerceptronModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="PerceptronPredictionUtils.html" title=""></a>
@@ -239,8 +239,53 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Part of speech tagger that might use different approaches</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron</a> for further reference on how to use this API.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Averaged Perceptron model to tag words part-of-speech.
+Sets a POS tag to each word within a sentence.</p><p>This is the instantiated model of the
+<a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>.
+For training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)</pre><p>The default model is <code>&quot;pos_anc&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging" target="_blank">Models Hub</a>.
+Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  tokenizer,
+  posTagger
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Peter Pipers employees are picking pecks of pickled peppers"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(pos) as pos"</span>).show(<span class="kw">false</span>)
++-------------------------------------------+
+|pos                                        |
++-------------------------------------------+
+|[pos, <span class="num">0</span>, <span class="num">4</span>, NNP, [word -&gt; Peter], []]      |
+|[pos, <span class="num">6</span>, <span class="num">11</span>, NNP, [word -&gt; Pipers], []]    |
+|[pos, <span class="num">13</span>, <span class="num">21</span>, NNS, [word -&gt; employees], []]|
+|[pos, <span class="num">23</span>, <span class="num">25</span>, VBP, [word -&gt; are], []]      |
+|[pos, <span class="num">27</span>, <span class="num">33</span>, VBG, [word -&gt; picking], []]  |
+|[pos, <span class="num">35</span>, <span class="num">39</span>, NNS, [word -&gt; pecks], []]    |
+|[pos, <span class="num">41</span>, <span class="num">42</span>, IN, [word -&gt; of], []]        |
+|[pos, <span class="num">44</span>, <span class="num">50</span>, JJ, [word -&gt; pickled], []]   |
+|[pos, <span class="num">52</span>, <span class="num">58</span>, NNS, [word -&gt; peppers], []]  |
++-------------------------------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
