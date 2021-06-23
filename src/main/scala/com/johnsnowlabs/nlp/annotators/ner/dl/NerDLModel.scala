@@ -271,7 +271,7 @@ class NerDLModel(override val uid: String)
           new TensorflowNer(
             tf,
             encoder,
-            10000, // Tensorflow doesn't clear state in batch
+            $(batchSize),
             Verbose.Silent
           )
         )
