@@ -1,4 +1,38 @@
 ========
+3.1.1
+========
+
+----------------
+New Features
+----------------
+* Migrate AlbertEmbeddings to TensorFlow v2. This allows the importing of HuggingFace ALBERT models to Spark NLP
+* Migrate AlbertEmbeddings to BatchAnnotate to allow better performance on accelerated hardware such as GPU
+* Enable stdout/stderr in real-time for child processes `sparknlp.start()`. Thanks to PySpark 3.x, this is now possible with `sparknlp.start(real_time_output=True)` to have the outputs of Spark NLP (such as metrics during training) right in your Jupyter, Colab, and Kaggle notebooks.
+* Complete examples for all annotators in Scaladoc APIs https://github.com/JohnSnowLabs/spark-nlp/pull/5668
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix YakeModel issue with empty token https://github.com/JohnSnowLabs/spark-nlp/pull/5683 thanks to @shaddoxac
+* Fix getAnchorDateMonth method in DateMatcher and MultiDateMatcher https://github.com/JohnSnowLabs/spark-nlp/pull/5693
+* Fix the broken PubTutor class in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5702
+* Fix relative dates in DateMatcher and MultiDateMatcher such as `day after tomorrow` or `day before yesterday` https://github.com/JohnSnowLabs/spark-nlp/pull/5706
+* Add isPaddedToken param to PubTutor https://github.com/JohnSnowLabs/spark-nlp/pull/5702
+* Fix issue with `logger` inside session on some setup https://github.com/JohnSnowLabs/spark-nlp/pull/5715
+* Add signatures to TF session to handle inputs/outputs more dynamically in BertEmbeddings, DistilBertEmbeddings, RoBertaEmbeddings, and XlmRoBertaEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/5715
+* Fix XlmRoBertaEmbeddings issue with `init_all_tables` https://github.com/JohnSnowLabs/spark-nlp/pull/5715
+* Add missing random seed param to ClassifierDLApproach, MultiClassifierDLApproach, and SentimentDLApproach https://github.com/JohnSnowLabs/spark-nlp/pull/5697
+* Make the Java Exceptions appear before Py4J exceptions for ease of debugging in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5709 
+* Make sure batchSize set in NerDLModel is the same internally to feed TensorFlow https://github.com/JohnSnowLabs/spark-nlp/pull/5716
+
+----------------
+Backward compatibility
+----------------
+
+We have migrated AlbertEmbeddings to TensorFlow v2, the earlier models prior to 3.1.1 won't work after this release. 
+We have already updated the models and uploaded them on Models Hub. You can use `pretrained()` that takes care of it automatically or please make sure you download the new models manually.
+
+========
 3.1.0
 ========
 
