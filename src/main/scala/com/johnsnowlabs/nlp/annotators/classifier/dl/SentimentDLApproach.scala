@@ -234,6 +234,12 @@ class SentimentDLApproach(override val uid: String)
   /** @group setParam */
   def setVerbose(verbose: Verbose.Level): SentimentDLApproach.this.type = set(this.verbose, verbose.id)
 
+  /** Random seed
+   *
+   * @group setParam
+   */
+  def setRandomSeed(seed: Int): SentimentDLApproach.this.type = set(randomSeed, seed)
+
   /** @group getParam */
   def getLabelColumn: String = $(this.labelColumn)
 
