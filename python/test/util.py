@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
-
 import os
+
 
 class SparkSessionForTest:
     spark = SparkSession.builder \
@@ -13,6 +13,7 @@ class SparkSessionForTest:
         .getOrCreate()
     spark.sparkContext.setLogLevel("WARN")
 
+
 class SparkContextForTest:
     spark = SparkSessionForTest.spark
     data = spark. \
@@ -21,4 +22,3 @@ class SparkContextForTest:
         .limit(100)
     data.cache()
     data.count()
-

@@ -309,4 +309,7 @@ trait ReadablePretrainedTokenizer extends ParamsAndFeaturesReadable[TokenizerMod
   override def pretrained(name: String, lang: String, remoteLoc: String): TokenizerModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[TokenizerModel]]. Please refer to that class for the documentation.
+ */
 object TokenizerModel extends ReadablePretrainedTokenizer

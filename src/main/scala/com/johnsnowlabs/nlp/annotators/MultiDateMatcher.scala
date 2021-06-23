@@ -74,7 +74,10 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * @groupprio getParam  5
   * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
-class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDateMatcher] with HasSimpleAnnotate[MultiDateMatcher] with DateMatcherUtils {
+class MultiDateMatcher(override val uid: String)
+  extends AnnotatorModel[MultiDateMatcher]
+    with HasSimpleAnnotate[MultiDateMatcher]
+    with DateMatcherUtils {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -201,4 +204,7 @@ class MultiDateMatcher(override val uid: String) extends AnnotatorModel[MultiDat
   }
 
 }
+/**
+ * This is the companion object of [[MultiDateMatcher]]. Please refer to that class for the documentation.
+ */
 object MultiDateMatcher extends DefaultParamsReadable[MultiDateMatcher]

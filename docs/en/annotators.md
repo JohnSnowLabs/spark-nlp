@@ -1542,7 +1542,7 @@ keywords = YakeModel() \
         .setStopWords(stopwords)
 ```
 
-**API:** [YakeModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeModel) |
+**API:** [YakeModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeModel) |
 
 **Source:** [YakeModel](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeModel.scala) |
 

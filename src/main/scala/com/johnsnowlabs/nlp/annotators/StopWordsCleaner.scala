@@ -9,8 +9,10 @@ import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.AnnotatorType._
 
 /**
-  * This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer)
-  * and drops all the stop words from the input sequences. By default, it uses stop words from MLlibs
+  * This annotator takes a sequence of strings (e.g. the output of a [[Tokenizer]], [[Normalizer]], [[Lemmatizer]], and [[Stemmer]])
+  * and drops all the stop words from the input sequences.
+  *
+  * By default, it uses stop words from MLlibs
   * [[https://spark.apache.org/docs/latest/ml-features#stopwordsremover StopWordsRemover]].
   * Stop words can also be defined by explicitly setting them with `setStopWords(value: Array[String])` or loaded from
   * pretrained models using `pretrained` of its companion object.
@@ -22,6 +24,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
   * // will load the default pretrained model `"stopwords_en"`.
   * }}}
   * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal Models Hub]].
+  *
   * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
   * and [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala StopWordsCleanerTestSpec]].
   *

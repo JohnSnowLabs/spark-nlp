@@ -8,7 +8,7 @@ trait HasBatchedAnnotate[M <: Model[M]] {
 
   this: RawAnnotator[M] =>
 
-  /** Size of every batch.
+  /** Size of every batch (Default depends on model).
     *
     * @group param
     * */

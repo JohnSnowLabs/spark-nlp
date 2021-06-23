@@ -116,6 +116,9 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with Has
 
 }
 
+/**
+ * This is the companion object of [[Stemmer]]. Please refer to that class for the documentation.
+ */
 object Stemmer extends DefaultParamsReadable[Stemmer]
 
 object EnglishStemmer {
