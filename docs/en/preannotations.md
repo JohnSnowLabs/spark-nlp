@@ -31,3 +31,10 @@ On the project setup screen you can find a Spark NLP pipeline config widget whic
 In the below example we are reusing the posology model that comes with 7 labels related to drugs.  
 <img class="image image--xl" src="/assets/images/annotation_lab/spark_nlp_models.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
+## Pipeline Limitations
+
+Loading too many models in the preannotation server is not memory efficient and may not be practically required. Starting from version 1.8.0, Annotation Lab supports maximum of five different models to be used for the preannotation server deployment.
+Another restriction for the server deployment is that two models trained on different embeddings cannot be used together in the same project.
+The Labeling Config will throw validation errors in any of the cases above and hence Labeling Config cannot be saved and the preannotation server deployment will fail.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/5_models.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
