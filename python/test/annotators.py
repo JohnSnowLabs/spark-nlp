@@ -1705,3 +1705,56 @@ class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("summaries.result").show(truncate=False)
+
+
+class GraphExtractorTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+        self.test_data_set = self.spark.createDataFrame([["United canceled the morning flights to Houston"]]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \
+            .setInputCols("document") \
+            .setOutputCol("token")
+
+        word_embeddings = WordEmbeddingsModel.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("embeddings")
+
+        ner_model = NerDLModel.pretrained() \
+            .setInputCols(["document", "token", "embeddings"]) \
+            .setOutputCol("ner")
+
+        converter = NerConverter() \
+            .setInputCols(["document", "token", "ner"]) \
+            .setOutputCol("entities") \
+
+        pos_tagger = PerceptronModel.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("pos")
+
+        dependency_parser = DependencyParserModel.pretrained() \
+            .setInputCols(["document", "token", "pos"]) \
+            .setOutputCol("dependency")
+
+        typed_dependency_parser = TypedDependencyParserModel.pretrained() \
+            .setInputCols(["document", "token", "pos", "dependency"]) \
+            .setOutputCol("labdep")
+
+        graph_extractor = GraphExtractor() \
+            .setInputCols(["document", "token", "dependency", "labdep", "entities"]) \
+            .setOutputCol("graph") \
+
+        pipeline = Pipeline().setStages([document_assembler, tokenizer,
+                                         word_embeddings, ner_model, converter,
+                                         pos_tagger, dependency_parser, typed_dependency_parser,
+                                         graph_extractor])
+
+        result = pipeline.fit(self.test_data_set).transform(self.test_data_set)
+
+        result.select("graph").show(truncate=False)

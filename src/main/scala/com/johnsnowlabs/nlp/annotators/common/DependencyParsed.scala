@@ -36,12 +36,13 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   }
 
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
-    items.flatMap{sentence =>
+    items.zipWithIndex.flatMap{ case (sentence, index) =>
       sentence.tokens.map { token =>
         val headData = getHeadData(token.head, sentence)
         val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1
         Annotation(annotatorType, token.begin, token.end, headData.word, Map("head" -> realHead.toString,
-          "head.begin" -> headData.begin.toString, "head.end" -> headData.end.toString))
+          "head.begin" -> headData.begin.toString, "head.end" -> headData.end.toString,
+        "sentence" -> index.toString))
       }
     }
   }

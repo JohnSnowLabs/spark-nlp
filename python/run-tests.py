@@ -58,7 +58,7 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTemperatureTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTopPTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
-
+# unittest.TextTestRunner().run(GraphExtractorTestSpec())
 
 # Misc tests
 

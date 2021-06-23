@@ -194,8 +194,8 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
       val documentData = transformToConllData(document)
       val dependencyLabels = typedDependencyParser.predictDependency(documentData, $(conllFormat))
 
-      val labeledSentences = dependencyLabels.map { dependencyLabel =>
-        getDependencyLabelValues(dependencyLabel)
+      val labeledSentences = dependencyLabels.map{dependencyLabel =>
+        getDependencyLabelValues(dependencyLabel, sentenceId)
       }
 
       val labeledDependenciesSentence = LabeledDependency.pack(labeledSentences)
@@ -250,12 +250,12 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     }
   }
 
-  private def getDependencyLabelValues(dependencyLabel: DependencyLabel): ConllSentence = {
+  private def getDependencyLabelValues(dependencyLabel: DependencyLabel, sentenceId: Int): ConllSentence = {
     if (dependencyLabel != null) {
       ConllSentence(dependencyLabel.getDependency, "", "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
-        0, dependencyLabel.getBegin, dependencyLabel.getEnd)
+        sentenceId, dependencyLabel.getBegin, dependencyLabel.getEnd)
     } else {
-      ConllSentence("ROOT", "root", "", "", "ROOT", -1, 0, -1, 0)
+      ConllSentence("ROOT", "root", "", "", "ROOT", -1, sentenceId, -1, 0)
     }
   }
 

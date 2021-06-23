@@ -1,82 +1,172 @@
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DEPENDENCY, LABELED_DEPENDENCY}
-import org.apache.spark.sql.{DataFrame, Row}
-import org.apache.spark.sql.types._
+import com.johnsnowlabs.nlp.AnnotatorType.VERTEX
+import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import org.scalatest.FlatSpec
 
-class GraphExtractorTest extends FlatSpec with SparkSessionTest {
+class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtractorFixture {
 
-  import spark.implicits._
+  "Graph Extractor" should "return dependency graphs between all entities" in {
 
-  private val mockDependencyParserDataSet = getMockDependencyParserDataSet
-  private val mockEntitiesDataSet = getMockEntityDataSet
-  private val mockAnnotatorsDataSet = mockDependencyParserDataSet.join(mockEntitiesDataSet)
-
-  "Graph Extractor" should "return dependency graphs between entities" in {
-
-    val textDataSet = Seq("United canceled the morning flights to Houston").toDS.toDF("text")
-    val tokenDataSet = tokenizerPipeline.fit(textDataSet).transform(textDataSet)
-    val testDataSet = tokenDataSet.join(mockAnnotatorsDataSet)
-    testDataSet.show(false)
-
+    val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtractor()
-      .setInputCols("token", "heads", "deprel", "entities")
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
-
-    val result = graphExtractor.transform(testDataSet)
-
-    result.select("graph").show(false)
-
-  }
-
-  private def getMockDependencyParserDataSet: DataFrame = {
-    val mockDependencyParserData = Seq(Row(
-      List(Row(DEPENDENCY, 0, 5, "canceled", Map("head" -> "2", "head.begin" -> "7", "head.end" -> "14"), List()),
-        Row(DEPENDENCY, 7, 14, "ROOT", Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1"), List()),
-        Row(DEPENDENCY, 16, 18, "flights", Map("head" -> "5", "head.begin" -> "28", "head.end" -> "34"), List()),
-        Row(DEPENDENCY, 20, 26, "flights", Map("head" -> "5", "head.begin" -> "28", "head.end" -> "34"), List()),
-        Row(DEPENDENCY, 28, 34, "canceled", Map("head" -> "2", "head.begin" -> "7", "head.end" -> "14"), List()),
-        Row(DEPENDENCY, 36, 37, "Houston", Map("head" -> "7", "head.begin" -> "39", "head.end" -> "45"), List()),
-        Row(DEPENDENCY, 39, 45, "flights", Map("head" -> "5", "head.begin" -> "28", "head.end" -> "34"), List())
-      ),
-      List(Row(LABELED_DEPENDENCY, 0, 5, "nsubj", Map(), List()),
-        Row(LABELED_DEPENDENCY, 7, 14, "root", Map(), List()),
-        Row(LABELED_DEPENDENCY, 16, 18, "det", Map(), List()),
-        Row(LABELED_DEPENDENCY, 20, 26, "compound", Map(), List()),
-        Row(LABELED_DEPENDENCY, 28, 34, "obj", Map(), List()),
-        Row(LABELED_DEPENDENCY, 36, 37, "case", Map(), List()),
-        Row(LABELED_DEPENDENCY, 39, 45, "nmod", Map(), List())
-      )
-    ))
-    val dependenciesStruct = mockStructType(List(("heads", DEPENDENCY), ("deprel", LABELED_DEPENDENCY)))
-
-    spark.createDataFrame(sparkContext.parallelize(mockDependencyParserData), dependenciesStruct)
-  }
-
-  private def getMockEntityDataSet: DataFrame = {
-    val mockEntitiesData = Seq(Row(
-      List(Row(CHUNK, 0, 5, "United", Map("entity" -> "ORG"), List()),
-        Row(CHUNK, 20, 26, "morning", Map("entity" -> "TIME"), List()),
-        Row(CHUNK, 39, 45, "Houston", Map("entity" -> "LOC"), List()))
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,TIME",
+        "path" -> "canceled,United,canceled,flights,morning",
+        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->morning")),
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
+        "path" -> "canceled,United,canceled,flights,Houston",
+        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "TIME,LOC",
+        "path" -> "canceled,flights,morning,canceled,flights,Houston",
+        "left_path" -> "canceled->flights->morning", "right_path" -> "canceled->flights->Houston"))
     ))
 
-    val entitiesStruct = mockStructType(List(("entities", CHUNK)))
+    val graphDataSet = graphExtractor.transform(testDataSet)
 
-    spark.createDataFrame(sparkContext.parallelize(mockEntitiesData), entitiesStruct)
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+
   }
 
-  private def mockStructType(columnsAndAnnotators: List[(String, String)]): StructType = {
-    val structFields: List[StructField] = columnsAndAnnotators.map{ columnAndAnnotator =>
-      val columnName = columnAndAnnotator._1
-      val annotatorType = columnAndAnnotator._2
-      val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-      metadataBuilder.putString("annotatorType", annotatorType)
-      val outputField = StructField(columnName, ArrayType(Annotation.dataType), nullable = false, metadataBuilder.build)
-      outputField
-    }
-    StructType(structFields)
+  it should "return dependency graphs for a pair of entities" in {
+    val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("ORG-LOC"))
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
+        "path" -> "canceled,United,canceled,flights,Houston",
+        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "return dependency graphs for a subset of entities" in {
+    val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("ORG-LOC", "ORG-TIME"))
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
+        "path" -> "canceled,United,canceled,flights,Houston",
+        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,TIME",
+        "path" -> "canceled,United,canceled,flights,morning",
+        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->morning"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "return dependency graphs when entities are ambiguous" in {
+    val testDataSet = getAmbiguousEntitiesDataSet(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("ORG-LOC"))
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
+        "path" -> "canceled,United,canceled,flights,Houston",
+        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
+        "path" -> "canceled,United,canceled,flights,Houston,Dallas",
+        "left_path" -> "canceled->United",
+        "right_path" -> "canceled->flights->Houston->Dallas"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+
+  }
+
+  it should "exclude 0 length paths" in {
+    val testDataSet = getAmbiguousEntitiesDataSet(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("LOC-LOC"))
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "LOC,LOC",
+        "path" -> "canceled,flights,Houston,Dallas,canceled,flights,Houston",
+        "left_path" -> "canceled->flights->Houston->Dallas",
+        "right_path" -> "canceled->flights->Houston"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "extract graphs for each sentence" in {
+    val testDataSet = getEntitiesFromTwoSentences(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("LOC-TIME"))
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "LOC,TIME",
+        "path" -> "canceled,flights,Houston,canceled,flights,morning",
+        "left_path" -> "canceled->flights->Houston", "right_path" -> "canceled->flights->morning")),
+      Annotation(VERTEX, 59, 60, "go", Map("entities" -> "LOC,TIME",
+        "path" -> "go,London,go,tomorrow",
+        "left_path" -> "go->London",
+        "right_path" -> "go->tomorrow"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "filter a sentence when filtering whit min sentence parameter" in {
+
+    val testDataSet = getEntitiesFromTwoSentences(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("LOC-TIME"))
+      .setMinSentenceSize(33)
+    val expectedGraph = Array(Seq(
+      Annotation(VERTEX, 7, 14, "canceled", Map("entities" -> "LOC,TIME",
+        "path" -> "canceled,flights,Houston,canceled,flights,morning",
+        "left_path" -> "canceled->flights->Houston", "right_path" -> "canceled->flights->morning"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "return empty VERTEX token when filtering all long sentence whit max sentence parameter" in {
+    val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtractor()
+      .setInputCols("sentence", "token", "heads", "deprel", "entities")
+      .setOutputCol("graph")
+      .setEntityRelationships(Array("ORG-LOC"))
+      .setMaxSentenceSize(5)
+    val expectedGraph = Array(Seq(Annotation(VERTEX, 0, 0, "", Map())))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
 }
