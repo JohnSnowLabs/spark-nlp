@@ -224,4 +224,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
 
 }
 
+/**
+ * This is the companion object of [[Chunker]]. Please refer to that class for the documentation.
+ */
 object Chunker extends DefaultParamsReadable[Chunker]

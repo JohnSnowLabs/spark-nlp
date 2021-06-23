@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.
- * <p>
- * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep ]] for further reference on this API.
  *
+ * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach TypedDependencyParserApproach]]
+ * @see [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel TypedDependencyParserModel]]
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
  * @groupname Ungrouped Members

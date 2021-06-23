@@ -1,7 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import java.io.File
-
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
@@ -23,11 +22,92 @@ import org.tensorflow.proto.framework.GraphDef
 import scala.util.Random
 
 /**
-  * This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
-  * Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl]] for further reference on how to use this API.
-  **/
+ * This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.
+ *
+ * The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
+ *
+ * For instantiated/pretrained models, see [[NerDLModel]].
+ *
+ * The training data should be a labeled Spark Dataset, in the format of [[com.johnsnowlabs.nlp.training.CoNLL CoNLL]]
+ * 2003 IOB with `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, WORD_EMBEDDINGS` and an
+ * additional label column of annotator type `NAMED_ENTITY`.
+ * Excluding the label, this can be done with for example
+ *   - a [[com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector SentenceDetector]],
+ *   - a [[com.johnsnowlabs.nlp.annotators.Tokenizer Tokenizer]] and
+ *   - a [[com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel WordEmbeddingsModel]]
+ *   (any embeddings can be chosen, e.g. [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]] for BERT based embeddings).
+ *
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala NerDLSpec]].
+ *
+ * ==Example==
+ * {{{
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+ * import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
+ * import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+ * import com.johnsnowlabs.nlp.training.CoNLL
+ * import org.apache.spark.ml.Pipeline
+ *
+ * // First extract the prerequisites for the NerDLApproach
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val sentence = new SentenceDetector()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols("sentence")
+ *   .setOutputCol("token")
+ *
+ * val embeddings = BertEmbeddings.pretrained()
+ *   .setInputCols("sentence", "token")
+ *   .setOutputCol("embeddings")
+ *
+ * // Then the training can start
+ * val nerTagger = new NerDLApproach()
+ * .setInputCols("sentence", "token", "embeddings")
+ * .setLabelColumn("label")
+ * .setOutputCol("ner")
+ * .setMaxEpochs(1)
+ * .setRandomSeed(0)
+ * .setVerbose(0)
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   sentence,
+ *   tokenizer,
+ *   embeddings,
+ *   nerTagger
+ * ))
+ *
+ * // We use the text and labels from the CoNLL dataset
+ * val conll = CoNLL()
+ * val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+ *
+ * val pipelineModel = pipeline.fit(trainingData)
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach NerCrfApproach]] for a generic CRF approach
+ * @see [[com.johnsnowlabs.nlp.annotators.ner.NerConverter NerConverter]] to further process the results
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ * */
 class NerDLApproach(override val uid: String)
   extends AnnotatorApproach[NerDLModel]
     with NerApproach[NerDLApproach]
@@ -41,226 +121,250 @@ class NerDLApproach(override val uid: String)
   /** Trains Tensorflow based Char-CNN-BLSTM model */
   override val description = "Trains Tensorflow based Char-CNN-BLSTM model"
 
-  /** Input annotator types : DOCUMENT, TOKEN, WORD_EMBEDDINGS
-    *
-    * @group anno
-    * */
+  /** Input annotator types: DOCUMENT, TOKEN, WORD_EMBEDDINGS
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, WORD_EMBEDDINGS)
 
-  /** Input annotator types : NAMED_ENTITY
-    *
-    * @group anno
-    * */
+  /** Output annotator types: NAMED_ENTITY
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: String = NAMED_ENTITY
 
-  /** Learning Rate
-    *
-    * @group param
-    * */
+  /** Learning Rate (Default: `1e-3f`)
+   *
+   * @group param
+   * */
   val lr = new FloatParam(this, "lr", "Learning Rate")
-  /** Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)
-    *
-    * @group param
-    * */
+  /** Learning rate decay coefficient (Default: `0.005f`). Real Learning Rate calculates to `lr / (1 + po * epoch)`
+   *
+   * @group param
+   * */
   val po = new FloatParam(this, "po", "Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)")
-  /** Batch size
-    *
-    * @group param
-    * */
+  /** Batch size (Default: `8`)
+   *
+   * @group param
+   * */
   val batchSize = new IntParam(this, "batchSize", "Batch size")
-  /** "Dropout coefficient
-    *
-    * @group param
-    * */
+  /** Dropout coefficient (Default: `0.5f`)
+   *
+   * @group param
+   * */
   val dropout = new FloatParam(this, "dropout", "Dropout coefficient")
   /** Folder path that contain external graph files
-    *
-    * @group param
-    * */
+   *
+   * @group param
+   * */
   val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-    *
-    * @group param
-    * */
+   *
+   * @group param
+   * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  /** whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
-    *
-    * @group param
-    * */
-  val useContrib = new BooleanParam(this, "useContrib", "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
-  /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group param
-    * */
+  /** Whether to use contrib LSTM Cells (Default: `true`). Not compatible with Windows. Might slightly improve accuracy.
+   *
+   * @group param
+   * */
+  val useContrib = new BooleanParam(this, "useContrib", "Whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.")
+  /** Choose the proportion of training dataset to be validated against the model on each Epoch (Default: `0.0f`).
+   * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+   *
+   * @group param
+   * */
   val validationSplit = new FloatParam(this, "validationSplit", "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.")
-  /** Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.
-    *
-    * @group param
-    * */
+  /** Whether logs for validation to be extended (Default: `false`): it displays time and evaluation of each label
+   *
+   * @group param
+   * */
   val evaluationLogExtended = new BooleanParam(this, "evaluationLogExtended", "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.")
-  /** Whether to output to annotators log folder */
+  /** Whether to output to annotators log folder (Default: `false`)
+   *
+   * @group param
+   * */
   val enableOutputLogs = new BooleanParam(this, "enableOutputLogs", "Whether to output to annotators log folder")
 
-  /** val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. If set used to calculate statistic on it during training.")
-    *
-    * @group param
-    * */
-  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. If set used to calculate statistic on it during training.")
-  /** val includeConfidence = new BooleanParam(this, "includeConfidence", "Whether to include confidence scores in annotation metadata")
-    *
-    * @group param
-    * */
+  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
+   *
+   * @group param
+   * */
+  val testDataset = new ExternalResourceParam(this, "testDataset", "Path to test dataset. If set, it is used to calculate statistics on it during training.")
+  /** Whether to include confidence scores in annotation metadata (Default: `false`)
+   *
+   * @group param
+   * */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "Whether to include confidence scores in annotation metadata")
 
+  /** Folder path to save training logs (Default: `""`)
+   *
+   * @group param
+   */
   val outputLogsPath = new Param[String](this, "outputLogsPath", "Folder path to save training logs")
 
+  /** Whether to optimize for large datasets or not (Default: `false`). Enabling this option can slow down training.
+   *
+   * @group param
+   */
   val enableMemoryOptimizer = new BooleanParam(this, "enableMemoryOptimizer", "Whether to optimize for large datasets or not. Enabling this option can slow down training.")
 
   /** Learning Rate
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getLr: Float = $(this.lr)
 
   /** Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getPo: Float = $(this.po)
 
   /** Batch size
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getBatchSize: Int = $(this.batchSize)
 
   /** Dropout coefficient
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getDropout: Float = $(this.dropout)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getUseContrib: Boolean = $(this.useContrib)
 
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getValidationSplit: Float = $(this.validationSplit)
 
   /** whether to include confidence scores in annotation metadata
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
   /** Whether to output to annotators log folder
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getEnableOutputLogs: Boolean = $(enableOutputLogs)
 
+  /** Folder path to save training logs
+   *
+   * @group getParam
+   */
   def getOutputLogsPath: String = $(outputLogsPath)
 
   /** Memory Optimizer
-    *
-    * @group getParam
-    * */
+   *
+   * @group getParam
+   * */
   def getEnableMemoryOptimizer: Boolean = $(this.enableMemoryOptimizer)
 
   /** Learning Rate
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setLr(lr: Float): NerDLApproach.this.type = set(this.lr, lr)
 
   /** Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setPo(po: Float): NerDLApproach.this.type = set(this.po, po)
 
   /** Batch size
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setBatchSize(batch: Int): NerDLApproach.this.type = set(this.batchSize, batch)
 
   /** Dropout coefficient
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setDropout(dropout: Float): NerDLApproach.this.type = set(this.dropout, dropout)
 
   /** Folder path that contain external graph files
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setGraphFolder(path: String): NerDLApproach.this.type = set(this.graphFolder, path)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setConfigProtoBytes(bytes: Array[Int]): NerDLApproach.this.type = set(this.configProtoBytes, bytes)
 
   /** Whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setUseContrib(value: Boolean): NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
 
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setValidationSplit(validationSplit: Float): NerDLApproach.this.type = set(this.validationSplit, validationSplit)
 
   /** Whether logs for validation to be extended: it displays time and evaluation of each label. Default is false.
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setEvaluationLogExtended(evaluationLogExtended: Boolean): NerDLApproach.this.type = set(this.evaluationLogExtended, evaluationLogExtended)
 
   /** Whether to output to annotators log folder
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setEnableOutputLogs(enableOutputLogs: Boolean): NerDLApproach.this.type = set(this.enableOutputLogs, enableOutputLogs)
 
+  /** Folder path to save training logs
+   *
+   * @group setParam
+   */
   def setOutputLogsPath(path: String): NerDLApproach.this.type = set(this.outputLogsPath, path)
 
-  def setEnableMemoryOptimizer(value:Boolean):NerDLApproach.this.type = set(this.enableMemoryOptimizer, value)
+  /** Whether to optimize for large datasets or not. Enabling this option can slow down training.
+   *
+   * @group setParam
+   */
+  def setEnableMemoryOptimizer(value: Boolean): NerDLApproach.this.type = set(this.enableMemoryOptimizer, value)
 
-  /** Path to test dataset. If set used to calculate statistic on it during training.
-    *
-    * @group setParam
-    * */
+  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
+   *
+   * @group setParam
+   * */
   def setTestDataset(path: String,
                      readAs: ReadAs.Format = ReadAs.SPARK,
                      options: Map[String, String] = Map("format" -> "parquet")): this.type =
     set(testDataset, ExternalResource(path, readAs, options))
 
-  /** Path to test dataset. If set used to calculate statistic on it during training.
-    *
-    * @group setParam
-    * */
+  /** Path to test dataset. If set, it is used to calculate statistics on it during training.
+   *
+   * @group setParam
+   * */
   def setTestDataset(er: ExternalResource): NerDLApproach.this.type = set(testDataset, er)
 
   /** Whether to include confidence scores in annotation metadata
-    *
-    * @group setParam
-    * */
+   *
+   * @group setParam
+   * */
   def setIncludeConfidence(value: Boolean): NerDLApproach.this.type = set(this.includeConfidence, value)
 
   setDefault(
@@ -386,7 +490,7 @@ class NerDLApproach(override val uid: String)
   }
 
 
-  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]])=  {
+  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]]) = {
 
     var labels = scala.collection.mutable.Set[String]()
     var chars = scala.collection.mutable.Set[Char]()
@@ -413,7 +517,7 @@ class NerDLApproach(override val uid: String)
   }
 
 
-  def getIteratorFunc(dataset:Dataset[Row]): () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+  def getIteratorFunc(dataset: Dataset[Row]): () => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
 
     if ($(enableMemoryOptimizer)) {
       () => NerTagged.iterateOnDataframe(dataset, getInputCols, $(labelColumn), $(batchSize))
@@ -431,7 +535,7 @@ class NerDLApproach(override val uid: String)
 }
 
 
-trait WithGraphResolver  {
+trait WithGraphResolver {
   def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = true): String = {
     val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
@@ -495,4 +599,7 @@ trait WithGraphResolver  {
   }
 }
 
+/**
+ * This is the companion object of [[NerDLApproach]]. Please refer to that class for the documentation.
+ */
 object NerDLApproach extends DefaultParamsReadable[NerDLApproach] with WithGraphResolver

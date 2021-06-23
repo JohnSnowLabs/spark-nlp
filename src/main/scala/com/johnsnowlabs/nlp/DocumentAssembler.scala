@@ -289,5 +289,8 @@ class DocumentAssembler(override val uid: String)
 
 }
 
+/**
+ * This is the companion object of [[DocumentAssembler]]. Please refer to that class for the documentation.
+ */
 object DocumentAssembler extends DefaultParamsReadable[DocumentAssembler]
 
