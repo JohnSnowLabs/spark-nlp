@@ -52,12 +52,12 @@ object LabeledDependency extends Annotated[ConllSentence] {
     val root = conllSentences.last
     val arrangedSentences = moveToFront(root, conllSentences.toList)
 
-    val annotations = arrangedSentences.map{arrangedSentence =>
+    val annotations = arrangedSentences.map{ arrangedSentence =>
       val head = arrangedSentence.head
       if (head != ROOT_HEAD) {
         val label = arrangedSentence.deprel
         Annotation(annotatorType, arrangedSentence.begin, arrangedSentence.end,
-          label, Map())
+          label, Map("sentence" -> arrangedSentence.sentence.toString))
       }
     }
     annotations.drop(ROOT_INDEX).asInstanceOf[Seq[Annotation]]
