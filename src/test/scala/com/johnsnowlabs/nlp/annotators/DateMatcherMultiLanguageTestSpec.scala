@@ -229,27 +229,4 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
 
     assert(annotations.head.result == "09/15/2012")
   }
-
-  "a DateMatcher" should "be catching unspecified italian language dates dynamic group" taggedAs FastTest in {
-
-    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia 2 anni fa.")
-
-    val dateMatcher = new DateMatcher()
-      .setInputCols("document")
-      .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
-
-    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-
-    val annotated = pipeline.fit(data).transform(data)
-
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
-
-    println(s"Annotation result: " + annotations.head.result)
-//    assert(annotations.head.result == "09/15/2012")
-  }
 }
