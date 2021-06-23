@@ -13,8 +13,7 @@ private case class TaggedDocument(sentence: String, taggedTokens: Array[TaggedTo
 private case class Annotations(text: String, document: Array[Annotation], pos: Array[Annotation])
 
 /**
-  * Helper class for creating DataFrames for training a part-of-speech tagger, the
-  * [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach PerceptronApproach]].
+  * Helper class for creating DataFrames for training a part-of-speech tagger.
   *
   * The dataset needs to consist of sentences on each line, where each word is delimited with its respective tag:
   *
