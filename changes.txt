@@ -1,2 +1,2 @@
-scripts/colab_setup.sh
-scripts/colab_setup.sh
+scripts/kaggle_setup.sh
+scripts/kaggle_setup.sh
