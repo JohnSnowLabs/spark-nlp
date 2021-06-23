@@ -49,12 +49,16 @@ docs-en:
     children:
       - title:  Getting Started
         url:    /docs/en/alab
+      - title:  License Setup  
+        url:    /docs/en/byol
       - title:  Start Page 
         url:    /docs/en/start_page
       - title:  User Management
         url:    /docs/en/user_management
       - title:  Project Setup
         url:    /docs/en/project_setup
+      - title:  NLP Models Hub  
+        url:    /docs/en/models_hub
       - title:  Preannotations with Spark NLP
         url:    /docs/en/preannotations
       - title:  Active Learning
