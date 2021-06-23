@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Translate Zande (individual language) to Swedish Pipeline- Spark NLP Model</title><meta name="description" content="DescriptionMarian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies. It is mainly being developed by t...">
-<link rel="canonical" href="/2021/06/04/translate_zne_sv_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for CPT codes (Augmented)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to CPT codes using Sentence Bert Embeddings.Predicted EntitiesCPT codes and their descriptions.Live Dem...">
+<link rel="canonical" href="/2021/06/15/sbiobertresolve_cpt_procedures_augmented_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,23 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 04, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-04T00:00:00+00:00"></div><header><h1>Translate Zande (individual language) to Swedish Pipeline</h1></header></div><meta itemprop="headline" content="Translate Zande (individual language) to Swedish Pipeline"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>pipeline</li><li>seq2seq</li><li>translation</li><li>zne</li><li>sv</li><li>xx</li><li>multilingual</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-04T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,pipeline,seq2seq,translation,zne,sv,xx,multilingual"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 15, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-15T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for CPT codes (Augmented)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for CPT codes (Augmented)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>cpt</li><li>lincensed</li><li>en</li><li>clinical</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-15T00:00:00+00:00">
+    <meta itemprop="keywords" content="cpt,lincensed,en,clinical,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies. It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.
-            It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).</p>
+<p>This model maps extracted medical entities to CPT codes using Sentence Bert Embeddings.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        source languages: zne
+<h2 id="predicted-entities">Predicted Entities</h2>
 
-        target languages: sv
-</code></pre></div></div>
+<p>CPT codes and their descriptions.</p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/public/TRANSLATION_MARIAN/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_zne_sv_xx_3.1.0_2.4_1622838041800.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_cpt_procedures_augmented_en_3.1.0_3.0_1623789734339.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -427,23 +425,52 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span> 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"translate_zne_sv"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"xx"</span><span class="p">)</span> 
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Your sentence to translate!"</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"translate_zne_sv"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"xx"</span><span class="o">)</span>
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Your sentence to translate!"</span><span class="o">)</span>
-</code></pre></div>  </div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="nn">nlu</span>
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"text to translate"</span><span class="p">]</span>
-<span class="n">translate_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'xx.Zande (individual language).translate_to.Swedish'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'sentence'</span><span class="p">)</span>
-<span class="n">translate_df</span>
+<span class="n">jsl_sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
+
+<span class="n">cpt_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_cpt_procedures_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cpt_code"</span><span class="p">)</span>
+
+<span class="n">cpt_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">jsl_sbert_embedder</span><span class="p">,</span>
+        <span class="n">cpt_resolver</span><span class="p">])</span>
+
+<span class="n">cpt_lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">cpt_pipelineModel</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">cpt_lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"heart surgery"</span><span class="p">)</span>
+</code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)\</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])\</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">cpt_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_cpt_procedures_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models) \
+     .setInputCols(["</span><span class="n">ner_chunk</span><span class="s">", "</span><span class="n">sbert_embeddings</span><span class="s">"]) \
+     .setOutputCol("</span><span class="n">cpt_code</span><span class="s">")
+
+val cpt_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, cpt_resolver))
+
+val cpt_lp = LightPipeline(cpt_pipelineModel)
+val result = cpt_lp.fullAnnotate("</span><span class="n">heart</span> <span class="n">surgery</span><span class="err">"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunks        | code  | resolutions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | all_codes                         | all_distances                         |
+|---:|:--------------|:----- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------|:--------------------------------------|
+|  0 | heart surgery | 33258 | <span class="o">[</span>Cardiac surgery procedure <span class="o">[</span>Operative tissue ablation and reconstruction of atria, performed at the <span class="nb">time </span>of other cardiac procedure<span class="o">(</span>s<span class="o">)</span>, extensive <span class="o">(</span>eg, maze procedure<span class="o">)</span>, without cardiopulmonary bypass <span class="o">(</span>List separately <span class="k">in </span>addition to code <span class="k">for </span>primary procedure<span class="o">)]</span>, Cardiac surgery procedure <span class="o">[</span>Unlisted procedure, cardiac surgery], Heart procedure <span class="o">[</span>Interrogation device evaluation <span class="o">(</span><span class="k">in </span>person<span class="o">)</span> of intracardiac ischemia monitoring system with analysis, review, and report], Heart procedure <span class="o">[</span>Insertion or removal and replacement of intracardiac ischemia monitoring system including imaging supervision and interpretation when performed and intra-operative interrogation and programming when performed<span class="p">;</span> device only], ...]| <span class="o">[</span>33258, 33999, 0306T, 0304T, ...] | <span class="o">[</span>0.1031, 0.1031, 0.1377, 0.1377, ...] |
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -451,43 +478,43 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>translate_zne_sv</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>pipeline</td>
+      <td>sbiobertresolve_cpt_procedures_augmented</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.1.0+</td>
+      <td>Spark NLP for Healthcare 3.1.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence_embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[cpt_code]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
-      <td>xx</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/Helsinki-NLP/opus-mt-zne-sv">https://huggingface.co/Helsinki-NLP/opus-mt-zne-sv</a></p>
-
-<h2 id="included-models">Included Models</h2>
-
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>MarianTransformer</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-06-04T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on Current Procedural Terminology dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli </code> sentence embeddings.</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-06-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -612,7 +639,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/06/04/translate_zne_fr_xx.html">Translate Zande (individual language) to French Pipeline</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/06/06/ner_deid_generic_glove_en.html">Detect PHI for Deidentification (Glove, 7 labels)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/06/15/sbertresolve_snomed_bodyStructure_med_en.html">Sentence Entity Resolver for Snomed Concepts, Body Structure Version</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/06/15/sbiobertresolve_snomed_bodyStructure_en.html">Sentence Entity Resolver for Snomed Concepts, Body Structure Version (sbiobert_base_cased_mli)</a></div></div></div>
 
 </div>
 </div>
