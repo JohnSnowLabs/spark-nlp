@@ -47,8 +47,12 @@ class GraphBuilder(numberOfVertices: Int) {
     }
   }
 
-  //TODO: Modify name and add comments that the method implements DFS algorithm
-  def depthFirstSearch(source: Int, destination: Int): List[Int]  = {
+  /** Find a path using Depth-first search (DFS) algorithm
+    * DFS traverses a tree or graph data structures.
+    * The algorithm starts at a source node and explores as far as possible along each branch before backtracking
+    * It uses a stack to store the path of visited nodes
+    * */
+  def findPath(source: Int, destination: Int): List[Int]  = {
 
     val visited: Array[Boolean] = (0 until graph.size).toList.map( _ => false).toArray
     val elementsStack: ListBuffer[Int] = ListBuffer(source)

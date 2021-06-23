@@ -74,7 +74,7 @@ class GraphBuilderTest extends FlatSpec {
     val graph = getTestGraph
     val expectedPaths = List(List(0, 1, 3), List(0, 2, 5), List(0, 1, 4))
 
-    val actualPaths = List(3, 5, 4).map(i => graph.depthFirstSearch(0, i))
+    val actualPaths = List(3, 5, 4).map(i => graph.findPath(0, i))
 
     assert(expectedPaths == actualPaths)
   }
@@ -83,7 +83,7 @@ class GraphBuilderTest extends FlatSpec {
     val graph = getTestGraph
     val expectedPaths = List(List(2, 5), List(1, 4, 6))
 
-    val actualPaths = List((2, 5), (1, 6)).map(i => graph.depthFirstSearch(i._1, i._2))
+    val actualPaths = List((2, 5), (1, 6)).map(i => graph.findPath(i._1, i._2))
 
     assert(expectedPaths == actualPaths)
   }
@@ -91,7 +91,7 @@ class GraphBuilderTest extends FlatSpec {
   it should "return empty path when there is no path between two vertices" in {
     val graph = getTestGraph
 
-    val actualPath = graph.depthFirstSearch(3, 5)
+    val actualPath = graph.findPath(3, 5)
 
     assert(actualPath.isEmpty)
 

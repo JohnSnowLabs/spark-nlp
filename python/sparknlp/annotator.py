@@ -9721,3 +9721,43 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     def pretrained(name="xlm_roberta_base", lang="xx", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(XlmRoBertaEmbeddings, name, lang, remote_loc)
+
+
+class GraphExtractor(AnnotatorModel):
+
+    name = "GraphExtractor"
+
+    entityRelationships = Param(Params._dummy(),
+                                "entityRelationships",
+                                "Entity relationships we are interested in",
+                                typeConverter=TypeConverters.toListString)
+
+    maxSentenceSize = Param(Params._dummy(),
+                            "maxSentenceSize",
+                            "Maximum sentence size that the annotator will process. Above this, the sentence is skipped",
+                            typeConverter=TypeConverters.toInt)
+
+    minSentenceSize = Param(Params._dummy(),
+                            "minSentenceSize",
+                            "Minimum sentence size that the annotator will process. Above this, the sentence is skipped",
+                            typeConverter=TypeConverters.toInt)
+
+    def setEntityRelatonships(self, value):
+        return self._set(entityRelationships=value)
+
+    def setMaxSentenceSize(self, value):
+        return self._set(maxSentenceSize=value)
+
+    def setMinSentenceSize(self, value):
+        return self._set(minSentenceSize=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.GraphExtractor", java_model=None):
+        super(GraphExtractor, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            maxSentenceSize=1000,
+            minSentenceSize=2
+        )
