@@ -32,9 +32,6 @@ object DateMatcherTranslator extends Serializable {
   def loadDictionary(language: String = English) = {
     val DictionaryPath = s"$TranslationDataBaseDir$language$JsonSuffix"
 
-    // FIXME delete me
-    println(s"------------------------------------------\nLoading dictionary: $DictionaryPath")
-
     var jsonString = "";
     try{
       jsonString = Source.fromFile(DictionaryPath).mkString
