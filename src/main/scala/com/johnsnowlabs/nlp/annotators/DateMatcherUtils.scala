@@ -18,6 +18,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import java.util.Calendar
+
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
 
