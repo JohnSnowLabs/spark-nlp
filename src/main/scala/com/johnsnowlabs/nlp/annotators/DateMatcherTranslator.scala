@@ -177,9 +177,9 @@ object DateMatcherTranslator extends Serializable {
       val keys = dictionary.keySet
 
       val getListifiedValues: String => List[String] = dictionary.getOrElse(_, "NA") match {
-        case l: List[String] => l
+        case l: List[String @unchecked] => l
         case s: String => List(s)
-        case m: Map[String, Any] => m.keySet.toList
+        case m: Map[String @unchecked, Any @unchecked] => m.keySet.toList
       }
 
       val translated: Set[(String, Int)] =
@@ -211,7 +211,7 @@ object DateMatcherTranslator extends Serializable {
   def searchKeyFromValuesMatch(dictionary: Map[String, Any], k: String, toBeReplaced: String) = {
 
     val candidates: List[String] = dictionary.getOrElse(k, List("NF")) match {
-      case i: List[String] => i
+      case i: List[String @unchecked] => i
       case _ => List(dictionary.getOrElse(k, List("NF")).toString)
     }
     val res =
