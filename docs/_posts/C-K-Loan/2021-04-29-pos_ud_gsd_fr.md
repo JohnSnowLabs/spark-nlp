@@ -5,6 +5,7 @@ author: John Snow Labs
 name: pos_ud_gsd
 date: 2021-04-29
 tags: [pos, parts_of_speech, fr, open_source]
+supported: true
 task: Part of Speech Tagging
 language: fr
 edition: Spark NLP 3.0.0

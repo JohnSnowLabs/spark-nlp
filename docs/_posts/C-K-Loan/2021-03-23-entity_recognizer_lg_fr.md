@@ -5,6 +5,7 @@ author: John Snow Labs
 name: entity_recognizer_lg
 date: 2021-03-23
 tags: [open_source, french, entity_recognizer_lg, pipeline, fr]
+supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: fr
 edition: Spark NLP 3.0.0

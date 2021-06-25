@@ -172,4 +172,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:  
+        - title: Identify diagnosis and symptoms assertion status
+          id: identify_diagnosis_and_symptoms_assertion_status
+          image: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+          image2: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
 ---

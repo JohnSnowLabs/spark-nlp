@@ -5,6 +5,7 @@ author: John Snow Labs
 name: spellcheck_clinical
 date: 2021-03-30
 tags: [en, licensed]
+supported: true
 task: Spell Check
 language: en
 edition: Spark NLP 3.0.0

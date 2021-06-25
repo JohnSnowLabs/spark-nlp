@@ -1262,6 +1262,9 @@ ul.list1 {
 	position: relative;
 	margin-bottom: 20px !important;
 	z-index: 5;
+	&.dn {
+		display: none;
+	}
 	.tab_fig_blue {
 		width: 45px;
 		display: inline-block;

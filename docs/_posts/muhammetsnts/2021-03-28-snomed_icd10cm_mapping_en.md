@@ -5,6 +5,7 @@ author: John Snow Labs
 name: snomed_icd10cm_mapping
 date: 2021-03-28
 tags: [snomed, icd10cm, en, licensed]
+supported: true
 task: Pipeline Healthcare
 language: en
 edition: Spark NLP for Healthcare 2.7.5

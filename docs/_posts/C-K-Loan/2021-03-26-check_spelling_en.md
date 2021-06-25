@@ -5,6 +5,7 @@ author: John Snow Labs
 name: check_spelling
 date: 2021-03-26
 tags: [open_source, english, check_spelling, pipeline, en]
+supported: true
 task: [Spell Check,]
 language: en
 edition: Spark NLP 3.0.0

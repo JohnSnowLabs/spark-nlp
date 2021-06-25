@@ -30,7 +30,7 @@ full_width: true
         {%- assign _size = _section.source | size  -%}
             <div class="tab-wrapper-inner">
             {%- for child in _section.source -%}
-            <div class="tab-item">
+            <div class="tab-item {% if child.hide %}dn{% endif %}">
               <div class="tab-item-inner">
                 {%- if child.image and child.image.src -%}
 

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: pos_talbanken
 date: 2021-03-23
 tags: [sv, open_source]
+supported: true
 task: Part of Speech Tagging
 language: sv
 edition: Spark NLP 2.7.5
