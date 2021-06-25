@@ -18,7 +18,6 @@
 package com.johnsnowlabs.nlp.annotators
 
 import java.util.Calendar
-
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
 
@@ -51,6 +50,7 @@ trait DateMatcherUtils extends Params {
 
   /** Relative dates, e.g. tomorrow */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
+  private val relativeDatePast = "(?i)(\\d+)\\s+(week|month|year|weeks|months|years)\\s+(ago)".r
   private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before|day after|day before yesterday|day after tomorrow)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
@@ -245,6 +245,7 @@ trait DateMatcherUtils extends Params {
    * ToDo: Support relative dates from input date
    */
   protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeDatePast, "relative dates in the past")
     .addRule(relativeDate, "relative dates")
 
   /** Searches for relative informal dates such as today or the day after tomorrow */
@@ -298,6 +299,21 @@ trait DateMatcherUtils extends Params {
       formalDate.start,
       formalDate.end
     )
+  }
+
+  protected def relativeDatePastContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
+
+    val relativeDatePast = date.content
+    val calendar = calculateAnchorCalendar()
+    val amount =  - relativeDatePast.group(1).toInt
+
+    relativeDatePast.group(2) match {
+      case "week" | "weeks" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
+      case "month" | "months" => calendar.add(Calendar.MONTH, amount)
+      case "year" | "years" => calendar.add(Calendar.YEAR, amount)
+      case _ =>
+    }
+    MatchedDateTime(calendar, relativeDatePast.start, relativeDatePast.end)
   }
 
   protected def relativeDateContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {

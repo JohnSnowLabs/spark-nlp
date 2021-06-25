@@ -180,6 +180,7 @@ object DateMatcherTranslator extends Serializable {
         case l: List[String @unchecked] => l
         case s: String => List(s)
         case m: Map[String @unchecked, Any @unchecked] => m.keySet.toList
+        case _ => throw new Exception("Cannot listify dictionary value.")
       }
 
       val translated: Set[(String, Int)] =
@@ -353,6 +354,8 @@ object DateMatcherTranslator extends Serializable {
 
     // 2. apply translation
     val translated = _translate(text, _sourceLanguageInfo, destination)
+
+    println(translated)
 
     translated
   }
