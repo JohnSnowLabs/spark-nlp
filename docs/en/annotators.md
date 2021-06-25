@@ -98,55 +98,19 @@ The types are:
 
 </div>
 
+
+<script> {% include scripts/approachModelSwitcher.js %} </script>
+
+{% assign parent_path = "en/annotator_entries" %}
+
+{% for file in site.static_files %}
+    {% if file.path contains parent_path %}
+        {% assign file_name = file.path | remove:  parent_path | remove:  "/" | prepend: "annotator_entries/" %}
+        {% include_relative {{ file_name }} %}
+    {% endif %}
+{% endfor %}
+
 <div class="h3-box" markdown="1">
-
-## Tokenizer
-
-Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.  
-
-**Output Annotator Type:** Token  
-
-**Input Annotator Types:** Document  
-
-> **Note:** all these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions.  
-
-**Example:**
-
-<div class="tabs-box" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-tokenizer = Tokenizer() \
-    .setInputCols(["sentences"]) \
-    .setOutputCol("token") \
-    .setSplitChars(['-']) \
-    .setContextChars(['(', ')', '?', '!']) \
-    .setExceptions(["New York", "e-mail"]) \
-    .setSplitPattern("'") \
-    .setMaxLength(0) \
-    .setMaxLength(99999) \
-    .setCaseSensitiveExceptions(False)
-```
-
-```scala
-val tokenizer = new Tokenizer()
-    .setInputCols("sentence")
-    .setOutputCol("token")
-    .setContextChars(Array("(", ")", "?", "!"))
-    .setSplitChars(Array('-'))
-    .setExceptions(["New York", "e-mail"])
-    .setSplitPattern("'")
-    .setMaxLength(0)
-    .setMaxLength(99999)
-    .setCaseSensitiveExceptions(False)
-```
-
-**API:** [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer) |
-
-**Source:** [Tokenizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala) |
-
-</div></div><div class="h3-box" markdown="1">
 
 ## DocumentNormalizer (Text cleaning)
 
@@ -684,45 +648,9 @@ val sentenceDetector = new SentenceDetector()
 
 **Source:** [SentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.scala)  
 
-</div></div><div class="h3-box" markdown="1">
+</div></div>
 
-## POSTagger (Part of speech tagger)
-
-Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of [POS format values](#TrainPOS) with Annotation columns.  
-
-**Output Annotator Type:** POS  
-
-**Input Annotator Types:** Document, Token  
-
-**Example:**
-
-<div class="tabs-box" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-pos_tagger = PerceptronApproach() \
-    .setInputCols(["token", "sentence"]) \
-    .setOutputCol("pos") \
-    .setNIterations(2) \
-    .setFrequencyThreshold(30)
-    
-```
-
-```scala
-val posTagger = new PerceptronApproach()
-    .setInputCols(Array("sentence", "token"))
-    .setOutputCol("pos")
-    .setNIterations(2)
-    .setFrequencyThreshold(30)
-    
-```
-
-**API:** [PerceptronApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach) |
-
-**Source:** [PerceptronApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach.scala) | [PerceptronModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel.scala)  
-
-</div></div><div class="h3-box" markdown="1">
+<div class="h3-box" markdown="1">
 
 ## ViveknSentimentDetector
 
