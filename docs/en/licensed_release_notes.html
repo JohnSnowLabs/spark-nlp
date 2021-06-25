@@ -524,9 +524,110 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="release-notes-spark-nlp-healthcare">Release Notes Spark NLP Healthcare</h1>
 
+<h2 id="311">3.1.1</h2>
+<p>We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!</p>
+
+<h4 id="highlights">Highlights</h4>
+<ul>
+  <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code>.</li>
+  <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code>.</li>
+  <li>New Resolver Models</li>
+  <li>Updated Resolver Models</li>
+  <li>Getting Started with Spark NLP for Healthcare Notebook in Databricks</li>
+</ul>
+
+<h4 id="medicalner-new-parameter-includeallconfidencescores">MedicalNer new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code></h4>
+<p>You can now customize whether you will require confidence score for every token(both entities and non-entities) at the output of the MedicalNerModel, or just for the tokens recognized as entities.</p>
+
+<h4 id="medicalnermodel-new-parameter-inferencebatchsize">MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code></h4>
+<p>You can now control the batch size used during inference as a separate parameter from the one you used during training of the model. This can be useful in the situation in which the hardware on which you run inference has different capacity. For example, when you have lower available memory during inference, you can reduce the batch size.</p>
+
+<h4 id="new-resolver-models">New Resolver Models</h4>
+<p>We trained three new sentence entity resolver models.</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">sbertresolve_snomed_bodyStructure_med</code> and <code class="language-plaintext highlighter-rouge">sbiobertresolve_snomed_bodyStructure</code> models map extracted medical (anatomical structures) entities to Snomed codes (body structure version).</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">sbertresolve_snomed_bodyStructure_med</code> : Trained  with using <code class="language-plaintext highlighter-rouge">sbert_jsl_medium_uncased</code> embeddings.</li>
+      <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_snomed_bodyStructure</code>  : Trained with using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> embeddings.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><em>Example</em> :</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("ner_chunk")
+jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased','en','clinical/models')\
+      .setInputCols(["ner_chunk"])\
+      .setOutputCol("sbert_embeddings")
+snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med, "en", "clinical/models) \
+      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setOutputCol("snomed_code")
+snomed_pipelineModel = PipelineModel(
+    stages = [
+        documentAssembler,
+        jsl_sbert_embedder,
+        snomed_resolver])
+snomed_lp = LightPipeline(snomed_pipelineModel)
+result = snomed_lp.fullAnnotate("Amputation stump")
+</code></pre></div></div>
+
+<p><em>Result</em>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunks           | code     | resolutions                                                                                                                                                                                                                                  | all_codes                                                                                       | all_distances                                                               |
+|---:|:-----------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
+|  0 | amputation stump | 38033009 | <span class="o">[</span>Amputation stump, Amputation stump of upper limb, Amputation stump of left upper limb, Amputation stump of lower limb, Amputation stump of left lower limb, Amputation stump of right upper limb, Amputation stump of right lower limb, ...]| <span class="o">[</span><span class="s1">'38033009'</span>, <span class="s1">'771359009'</span>, <span class="s1">'771364008'</span>, <span class="s1">'771358001'</span>, <span class="s1">'771367001'</span>, <span class="s1">'771365009'</span>, <span class="s1">'771368006'</span>, ...] | <span class="o">[</span><span class="s1">'0.0000'</span>, <span class="s1">'0.0773'</span>, <span class="s1">'0.0858'</span>, <span class="s1">'0.0863'</span>, <span class="s1">'0.0905'</span>, <span class="s1">'0.0911'</span>, <span class="s1">'0.0972'</span>, ...] |
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icdo_augmented</code> : This model maps extracted medical entities to ICD-O codes using sBioBert sentence embeddings. This model is augmented using the site information coming from ICD10 and synonyms coming from SNOMED vocabularies. It is trained with a dataset that is 20x larger than the previous version of ICDO resolver. Given the oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-10 codes to present more granularity with respect to body parts mentioned. It also returns the original histological behavioral codes and descriptions in the aux metadata.</li>
+</ul>
+
+<p><em>Example</em>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+ 
+sbert_embedder = BertSentenceEmbeddings\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+     .setInputCols(["ner_chunk_doc"])\
+     .setOutputCol("sbert_embeddings")
+ 
+icdo_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models") \
+     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+     .setOutputCol("resolution")\
+     .setDistanceFunction("EUCLIDEAN")
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icdo_resolver])
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+model = nlpPipeline.fit(empty_data)
+results = model.transform(spark.createDataFrame([["The patient is a very pleasant 61-year-old female with a strong family history of colon polyps. The patient reports her first polyps noted at the age of 50. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. She also has history of several malignancies in the family. Her father died of a brain tumor at the age of 81. Her sister died at the age of 65 breast cancer. She has two maternal aunts with history of lung cancer both of whom were smoker. Also a paternal grandmother who was diagnosed with leukemia at 86 and a paternal grandfather who had B-cell lymphoma."]]).toDF("text"))
+</code></pre></div></div>
+
+<p><em>Result</em>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
+|               chunk|begin|end|     entity|         code|        all_k_resolutions|              all_k_codes|
++--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
+|        mesothelioma|  255|266|Oncological|9971/3||C38.3|malignant mediastinal ...|9971/3||C38.3:::8854/3...|
+|several malignancies|  293|312|Oncological|8894/3||C39.8|overlapping malignant ...|8894/3||C39.8:::8070/2...|
+|         brain tumor|  350|360|Oncological|9562/0||C71.9|cancer of the brain:::...|9562/0||C71.9:::9070/3...|
+|       breast cancer|  413|425|Oncological|9691/3||C50.9|carcinoma of breast:::...|9691/3||C50.9:::8070/2...|
+|         lung cancer|  471|481|Oncological|8814/3||C34.9|malignant tumour of lu...|8814/3||C34.9:::8550/3...|
+|            leukemia|  560|567|Oncological|9670/3||C80.9|anemia in neoplastic d...|9670/3||C80.9:::9714/3...|
+|     B-cell lymphoma|  610|624|Oncological|9818/3||C77.9|secondary malignant ne...|9818/3||C77.9:::9655/3...|
++--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
+</code></pre></div></div>
+
+<h4 id="updated-resolver-models">Updated Resolver Models</h4>
+<p>We updated <code class="language-plaintext highlighter-rouge">sbiobertresolve_snomed_findings</code> and <code class="language-plaintext highlighter-rouge">sbiobertresolve_cpt_procedures_augmented</code> resolver models to reflect the latest changes in the official terminologies.</p>
+
+<h4 id="getting-started-with-spark-nlp-for-healthcare-notebook-in-databricks">Getting Started with Spark NLP for Healthcare Notebook in Databricks</h4>
+<p>We prepared a new notebook for those who want to get started with Spark NLP for Healthcare in Databricks : <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/databricks/python/healthcare_case_studies/Get_Started_Spark_NLP_for_Healthcare.ipynb">Getting Started with Spark NLP for Healthcare Notebook</a></p>
+
 <h2 id="310">3.1.0</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
-<h4 id="highlights">Highlights</h4>
+<h4 id="highlights-1">Highlights</h4>
 <ul>
   <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
   <li>New JSL Bert Models.</li>
@@ -1028,7 +1129,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -1111,7 +1212,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-2">Highlights</h4>
+<h4 id="highlights-3">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -1133,7 +1234,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-3">Highlights:</h4>
+<h4 id="highlights-4">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -1261,11 +1362,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-4">Highlights:</h4>
+<h4 id="highlights-5">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-5">Highlights:</h4>
+<h4 id="highlights-6">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -1373,7 +1474,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-6">Highlights:</h4>
+<h4 id="highlights-7">Highlights:</h4>
 
 <ul>
   <li>
@@ -1674,7 +1775,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-7">Highlights:</h4>
+<h4 id="highlights-8">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -1864,7 +1965,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-8">Highlights:</h4>
+<h4 id="highlights-9">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -1948,7 +2049,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-9">Highlights:</h4>
+<h4 id="highlights-10">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>

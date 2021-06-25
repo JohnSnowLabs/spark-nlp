@@ -1,2 +1,2 @@
-scripts/kaggle_setup.sh
-scripts/kaggle_setup.sh
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
