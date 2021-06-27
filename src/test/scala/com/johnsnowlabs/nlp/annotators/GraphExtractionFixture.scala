@@ -6,7 +6,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
 
-trait GraphExtractorFixture {
+trait GraphExtractionFixture {
 
   def getUniqueEntitiesDataSet(spark: SparkSession, tokenizerPipeline: Pipeline): DataFrame = {
     import spark.implicits._
