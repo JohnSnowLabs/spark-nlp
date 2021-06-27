@@ -9723,7 +9723,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
         return ResourceDownloader.downloadModel(XlmRoBertaEmbeddings, name, lang, remote_loc)
 
 
-class GraphExtractor(AnnotatorModel):
+class GraphExtraction(AnnotatorModel):
 
     name = "GraphExtractor"
 
@@ -9753,7 +9753,7 @@ class GraphExtractor(AnnotatorModel):
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.GraphExtractor", java_model=None):
-        super(GraphExtractor, self).__init__(
+        super(GraphExtraction, self).__init__(
             classname=classname,
             java_model=java_model
         )
