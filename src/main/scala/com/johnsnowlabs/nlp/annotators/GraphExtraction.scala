@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpl
 import org.apache.spark.ml.param.{IntParam, Param, ParamMap, ParamPair, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
-class GraphExtractor(override val uid: String) extends AnnotatorModel[GraphExtractor] with HasSimpleAnnotate[GraphExtractor] {
+class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtraction] with HasSimpleAnnotate[GraphExtraction] {
 
   def this() = this(Identifiable.randomUID("GRAPH_EXTRACTOR"))
 
@@ -41,6 +41,9 @@ class GraphExtractor(override val uid: String) extends AnnotatorModel[GraphExtra
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    //TODO: Add validation when entities and dependency parser tokens are not the same  e.g. Peter Parker
+    //TODO: Add parameter to include the label of a relationship on the path
+    //TODO: Add parameter to output path starting from root or bottom
 
     val sentenceIndexesToSkip = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
       .filter(annotation => annotation.result.length > $(maxSentenceSize) || annotation.result.length < $(minSentenceSize))
@@ -91,8 +94,6 @@ class GraphExtractor(override val uid: String) extends AnnotatorModel[GraphExtra
       val rightPathTokens = path.rightPathIndex.map(index => tokens(index - 1).result)
       val fullPath = leftPathTokens.mkString(",") + "," + rightPathTokens.mkString(",")
 
-      //TODO: Add parameter to include the label of a relationship on the path
-      //TODO: Add parameter to output path starting from root or bottom
       Annotation(VERTEX, sourceToken.begin, sourceToken.end, sourceToken.result,
         Map("entities" -> s"$leftEntity,$rightEntity", "path" -> fullPath,
           "left_path" -> leftPathTokens.mkString("->"), "right_path" -> rightPathTokens.mkString("->"))
@@ -112,7 +113,6 @@ class GraphExtractor(override val uid: String) extends AnnotatorModel[GraphExtra
         .filter(entities => entities._1.begin != entities._2.begin && entities._1.end != entities._2.end)
         .toList
     }
-
     val entitiesPairData = annotatedEntitiesPairs.map{ annotatedEntityPair =>
       val dependencyInfoLeft = dependencyData.filter(dependencyInfo =>
         dependencyInfo.beginToken == annotatedEntityPair._1.begin && dependencyInfo.endToken == annotatedEntityPair._1.end

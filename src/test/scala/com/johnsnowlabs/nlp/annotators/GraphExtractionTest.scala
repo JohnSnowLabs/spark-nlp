@@ -3,13 +3,14 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.VERTEX
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import org.scalatest.FlatSpec
+import com.johnsnowlabs.tags.FastTest
 
-class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtractorFixture {
+class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
 
-  "Graph Extractor" should "return dependency graphs between all entities" in {
+  "Graph Extraction" should "return dependency graphs between all entities" taggedAs FastTest in {
 
     val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
     val expectedGraph = Array(Seq(
@@ -31,9 +32,9 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
 
   }
 
-  it should "return dependency graphs for a pair of entities" in {
+  it should "return dependency graphs for a pair of entities" taggedAs FastTest in {
     val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("ORG-LOC"))
@@ -49,9 +50,9 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "return dependency graphs for a subset of entities" in {
+  it should "return dependency graphs for a subset of entities" taggedAs FastTest in {
     val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("ORG-LOC", "ORG-TIME"))
@@ -70,9 +71,9 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "return dependency graphs when entities are ambiguous" in {
+  it should "return dependency graphs when entities are ambiguous" taggedAs FastTest in {
     val testDataSet = getAmbiguousEntitiesDataSet(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("ORG-LOC"))
@@ -93,9 +94,9 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
 
   }
 
-  it should "exclude 0 length paths" in {
+  it should "exclude 0 length paths" taggedAs FastTest in {
     val testDataSet = getAmbiguousEntitiesDataSet(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("LOC-LOC"))
@@ -112,9 +113,9 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "extract graphs for each sentence" in {
+  it should "extract graphs for each sentence" taggedAs FastTest in {
     val testDataSet = getEntitiesFromTwoSentences(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("LOC-TIME"))
@@ -134,10 +135,10 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "filter a sentence when filtering whit min sentence parameter" in {
+  it should "filter a sentence when filtering whit min sentence parameter" taggedAs FastTest in {
 
     val testDataSet = getEntitiesFromTwoSentences(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("LOC-TIME"))
@@ -154,9 +155,9 @@ class GraphExtractorTest extends FlatSpec with SparkSessionTest with GraphExtrac
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "return empty VERTEX token when filtering all long sentence whit max sentence parameter" in {
+  it should "return empty VERTEX token when filtering all long sentence whit max sentence parameter" taggedAs FastTest in {
     val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
-    val graphExtractor = new GraphExtractor()
+    val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "heads", "deprel", "entities")
       .setOutputCol("graph")
       .setEntityRelationships(Array("ORG-LOC"))

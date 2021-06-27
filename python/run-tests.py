@@ -58,14 +58,14 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTemperatureTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTopPTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
-# unittest.TextTestRunner().run(GraphExtractorTestSpec())
+# unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 # Misc tests
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 
-#Functions tests
+# Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
 

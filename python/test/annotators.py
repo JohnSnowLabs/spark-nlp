@@ -1707,11 +1707,11 @@ class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-class GraphExtractorTestSpec(unittest.TestCase):
+class GraphExtractionTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.spark = SparkSessionForTest.spark
-        self.test_data_set = self.spark.createDataFrame([["United canceled the morning flights to Houston"]]).toDF("text")
+        self.data_set = self.spark.createDataFrame([["United canceled the morning flights to Houston"]]).toDF("text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
@@ -1746,15 +1746,15 @@ class GraphExtractorTestSpec(unittest.TestCase):
             .setInputCols(["document", "token", "pos", "dependency"]) \
             .setOutputCol("labdep")
 
-        graph_extractor = GraphExtractor() \
+        graph_extraction = GraphExtraction() \
             .setInputCols(["document", "token", "dependency", "labdep", "entities"]) \
             .setOutputCol("graph") \
 
         pipeline = Pipeline().setStages([document_assembler, tokenizer,
                                          word_embeddings, ner_model, converter,
                                          pos_tagger, dependency_parser, typed_dependency_parser,
-                                         graph_extractor])
+                                         graph_extraction])
 
-        result = pipeline.fit(self.test_data_set).transform(self.test_data_set)
+        result = pipeline.fit(self.data_set).transform(self.data_set)
 
         result.select("graph").show(truncate=False)
