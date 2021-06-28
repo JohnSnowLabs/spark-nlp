@@ -82,4 +82,7 @@ class Chunk2Doc(override val uid: String) extends AnnotatorModel[Chunk2Doc] with
 
 }
 
+/**
+ * This is the companion object of [[Chunk2Doc]]. Please refer to that class for the documentation.
+ */
 object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]

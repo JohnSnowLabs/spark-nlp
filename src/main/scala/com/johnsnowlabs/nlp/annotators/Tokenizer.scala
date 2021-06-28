@@ -459,4 +459,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
 
 }
 
+/**
+ * This is the companion object of [[Tokenizer]]. Please refer to that class for the documentation.
+ */
 object Tokenizer extends DefaultParamsReadable[Tokenizer]

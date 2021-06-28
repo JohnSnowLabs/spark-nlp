@@ -44,7 +44,7 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
     * @group param
     **/
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
-  /** Level of verbosity during training
+  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
     *
     * @group param
     **/

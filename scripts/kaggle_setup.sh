@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="3.1.0"
+SPARKNLP="3.1.1"
 PYSPARK="3.0.2"
 SPARKHOME="spark-3.1.1-bin-hadoop2.7"
 
@@ -19,21 +19,21 @@ echo "setup Kaggle for PySpark $PYSPARK and Spark NLP $SPARKNLP"
 apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
 
 if [[ "$PYSPARK" == "3.1"* ]]; then
-  curl -q "https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz" > "spark-3.1.1-bin-hadoop2.7.tgz"
-  tar -xvf spark-3.1.1-bin-hadoop2.7.tgz > /dev/null
-  SPARKHOME="spark-3.1.1-bin-hadoop2.7"
+  wget -q "https://downloads.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop2.7.tgz" > /dev/null
+  tar -xvf spark-3.1.2-bin-hadoop2.7.tgz > /dev/null
+  SPARKHOME="/content/spark-3.1.2-bin-hadoop2.7"
 elif [[ "$PYSPARK" == "3.0"* ]]; then
-  curl -q "https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop2.7.tgz" > "spark-3.0.2-bin-hadoop2.7.tgz"
-  tar -xvf spark-3.0.2-bin-hadoop2.7.tgz > /dev/null
-  SPARKHOME="spark-3.0.2-bin-hadoop2.7"
+  wget -q "https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop2.7.tgz" > /dev/null
+  tar -xvf spark-3.0.3-bin-hadoop2.7.tgz > /dev/null
+  SPARKHOME="/content/spark-3.0.3-bin-hadoop2.7"
 elif [[ "$PYSPARK" == "2"* ]]; then
-  curl -q "https://downloads.apache.org/spark/spark-2.4.7/spark-2.4.7-bin-hadoop2.7.tgz" > "spark-2.4.7-bin-hadoop2.7.tgz"
-  tar -xvf spark-2.4.7-bin-hadoop2.7.tgz > /dev/null
-  SPARKHOME="spark-2.4.7-bin-hadoop2.7"
+  wget -q "https://downloads.apache.org/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.7.tgz" > /dev/null
+  tar -xvf spark-2.4.8-bin-hadoop2.8.tgz > /dev/null
+  SPARKHOME="/content/spark-2.4.8-bin-hadoop2.7"
 else
-  curl -q "https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz" > "spark-3.1.1-bin-hadoop2.7.tgz"
-  tar -xvf spark-3.1.1-bin-hadoop2.7.tgz > /dev/null
-  SPARKHOME="spark-3.1.1-bin-hadoop2.7"
+  wget -q "https://downloads.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop2.7.tgz" > /dev/null
+  tar -xvf spark-3.1.2-bin-hadoop2.7.tgz > /dev/null
+  SPARKHOME="/content/spark-3.1.2-bin-hadoop2.7"
 fi
 
 export SPARK_HOME=$SPARKHOME

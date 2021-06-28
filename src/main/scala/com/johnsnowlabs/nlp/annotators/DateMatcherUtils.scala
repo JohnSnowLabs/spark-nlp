@@ -51,7 +51,7 @@ trait DateMatcherUtils extends Params {
   /** Relative dates, e.g. tomorrow */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
   private val relativeDatePast = "(?i)(\\d+)\\s+(week|month|year|weeks|months|years)\\s+(ago)".r
-  private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before|day after|day before yesterday|day after tomorrow)".r
+  private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before yesterday|day after tomorrow|day before|day after)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
   /** standard time representations e.g. 05:42:16 or 5am */
@@ -118,7 +118,7 @@ trait DateMatcherUtils extends Params {
   }
 
   /** @group getParam */
-  def getAnchorDateMonth: Int = $(anchorDateMonth)
+  def getAnchorDateMonth: Int = $(anchorDateMonth) + 1
 
   /**
    * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).

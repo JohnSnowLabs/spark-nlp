@@ -41,6 +41,11 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
  *
  * For example `"The 31st of April in the year 2008"` will be converted into `2008/04/31`.
  *
+<<<<<<< HEAD
+=======
+ * Pretrained pipelines are available for this module, see [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
+ *
+>>>>>>> 312-release-candidate
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala DateMatcherTestSpec]].
  *
@@ -144,9 +149,9 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     val possibleDate = extractFormalDate(_text)
       .orElse(extractRelaxedDate(_text))
       .orElse(extractRelativeDate(_text))
-      .orElse(extractRelativeDatePast(_text))
       .orElse(extractTomorrowYesterday(_text))
       .orElse(extractRelativeExactDay(_text))
+      .orElse(extractRelativeDatePast(_text))
 
     possibleDate.orElse(setTimeIfAny(possibleDate, _text))
   }
@@ -278,4 +283,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
 }
 
+/**
+ * This is the companion object of [[DateMatcher]]. Please refer to that class for the documentation.
+ */
 object DateMatcher extends DefaultParamsReadable[DateMatcher]

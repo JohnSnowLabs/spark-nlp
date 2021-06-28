@@ -31,20 +31,83 @@ import java.io.File
 
 /** MarianTransformer: Fast Neural Machine Translation
  *
- * MarianTransformer uses models trained by MarianNMT.
- *
  * Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.
- * It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its development.
+ * It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of
+ * Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its
+ * development. MarianTransformer uses the models trained by MarianNMT.
  *
- * It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by many companies, organizations and research projects (see below for an incomplete list).
+ * It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by
+ * many companies, organizations and research projects.
  *
- * '''Sources''' :
- * MarianNMT [[https://marian-nmt.github.io/]]
- * Marian: Fast Neural Machine Translation in C++ [[https://www.aclweb.org/anthology/P18-4020/]]
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val marian = MarianTransformer.pretrained()
+ *   .setInputCols("sentence")
+ *   .setOutputCol("translation")
+ * }}}
+ * The default model is `"opus_mt_en_fr"`, default language is `"xx"` (meaning multi-lingual), if no values are provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Translation Models Hub]].
  *
- * '''Note''' :
- * Note that this is a very computationally expensive module especially on larger sequence.
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala MarianTransformerTestSpec]].
+ *
+ * '''Sources''' :``
+ *
+ * [[https://marian-nmt.github.io/ MarianNMT at GitHub]]
+ *
+ * [[https://www.aclweb.org/anthology/P18-4020/ Marian: Fast Neural Machine Translation in C++ ]]
+ *
+ * '''Paper Abstract:'''
+ *
+ * ''We present Marian, an efficient and self-contained Neural Machine Translation framework with an integrated
+ * automatic differentiation engine based on dynamic computation graphs. Marian is written entirely in C++. We describe
+ * the design of the encoder-decoder framework and demonstrate that a research-friendly toolkit can achieve high
+ * training and translation speed.''
+
+ * '''Note:'''
+ *
+ * This is a very computationally expensive module especially on larger sequence.
  * The use of an accelerator such as GPU is recommended.
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
+ * import com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence")
+ *
+ * val marian = MarianTransformer.pretrained()
+ *   .setInputCols("sentence")
+ *   .setOutputCol("translation")
+ *   .setMaxInputLength(30)
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     sentence,
+ *     marian
+ *   ))
+ *
+ * val data = Seq("What is the capital of France? We should know this in french.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(translation.result) as result").show(false)
+ * +-------------------------------------+
+ * |result                               |
+ * +-------------------------------------+
+ * |Quelle est la capitale de la France ?|
+ * |On devrait le savoir en français.    |
+ * +-------------------------------------+
+ * }}}
  *
  * @param uid required internal uid for saving annotator
  * @groupname anno Annotator types
@@ -70,21 +133,21 @@ class MarianTransformer(override val uid: String) extends
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("MARIAN_TRANSFORMER"))
 
-  /** Input Annotator Type : TOKEN DOCUMENT
+  /** Input Annotator Type: DOCUMENT
    *
    * @group anno
    * */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
 
   /**
-   * Output Annotator Type : DOCUMENT
+   * Output Annotator Type: DOCUMENT
    *
    * @group anno
    * */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
 
   /**
-   * Vocabulary used to encode and decode piece tokens generated by SentencePiece
+   * Vocabulary used to encode and decode piece tokens generated by SentencePiece.
    * This will be set once the model is created and cannot be changed afterwards
    *
    * @group param
@@ -99,8 +162,7 @@ class MarianTransformer(override val uid: String) extends
   }
 
   /**
-   * Controls the maximum length for encoder inputs (source language texts)
-   * Default: 40
+   * Controls the maximum length for encoder inputs (source language texts) (Default: `40`)
    *
    * @group param
    * */
@@ -113,12 +175,11 @@ class MarianTransformer(override val uid: String) extends
     this
   }
 
-  /** @group getParam * */
+  /** @group getParam */
   def getMaxInputLength: Int = $(maxInputLength)
 
   /**
-   * Controls the maximum length for decoder outputs (target language texts)
-   * Default: 40
+   * Controls the maximum length for decoder outputs (target language texts) (Default: `40`)
    *
    * @group param
    * */
@@ -129,11 +190,11 @@ class MarianTransformer(override val uid: String) extends
     set(maxOutputLength, value)
   }
 
-  /** @group getParam * */
+  /** @group getParam */
   def getMaxOutputLength: Int = $(maxOutputLength)
 
   /**
-   * A string representing the target language in the form of >>id<< (id = valid target language ID)
+   * A string representing the target language in the form of >>id<< (id = valid target language ID) (Default: `""`)
    *
    * langId is only needed if the model generates multi-lingual target language texts.
    * For instance, for a 'en-fr' model this param is not required to be set.
@@ -142,12 +203,12 @@ class MarianTransformer(override val uid: String) extends
    * */
   var langId = new Param[String](this, "langId", "A string representing the target language in the form of >>id<< (id = valid target language ID)")
 
-  /** @group setParam * */
+  /** @group setParam */
   def setLangId(lang: String): MarianTransformer.this.type = {
     set(langId, lang)
   }
 
-  /** @group * */
+  /** @group getParam */
   def getLangId: String = $(langId)
 
   /**
@@ -157,10 +218,10 @@ class MarianTransformer(override val uid: String) extends
    * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  /** @group getSaram * */
+  /** @group getParam */
   def setConfigProtoBytes(bytes: Array[Int]): MarianTransformer.this.type = set(this.configProtoBytes, bytes)
 
-  /** @group setGaram * */
+  /** @group setParam * */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /**
@@ -180,11 +241,7 @@ class MarianTransformer(override val uid: String) extends
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  /**
-   * The Tensorflow Marian Model
-   *
-   * @group param
-   * */
+  /** The Tensorflow Marian Model */
   private var _model: Option[Broadcast[TensorflowMarian]] = None
 
   /** @group setParam * */
@@ -321,4 +378,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
   }
 }
 
+/**
+ * This is the companion object of [[MarianTransformer]]. Please refer to that class for the documentation.
+ */
 object MarianTransformer extends ReadablePretrainedMarianMTModel with ReadMarianMTTensorflowModel with ReadSentencePieceModel

@@ -247,4 +247,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
 }
 
+/**
+ * This is the companion object of [[Normalizer]]. Please refer to that class for the documentation.
+ */
 object Normalizer extends DefaultParamsReadable[Normalizer]

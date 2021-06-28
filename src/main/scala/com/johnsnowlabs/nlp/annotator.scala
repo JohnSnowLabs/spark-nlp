@@ -32,9 +32,8 @@ import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetr
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
-import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadablePretrainedMarianMTModel, ReadT5TransformerTensorflowModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
-
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -183,15 +182,18 @@ package object annotator {
   object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel
 
   type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
-  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel with ReadSentencePieceModel
+  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel
 
   type XlnetEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
-  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel
+  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
 
   type SentimentDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach
   object SentimentDLApproach extends DefaultParamsReadable[SentimentDLApproach]
   type SentimentDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel
   object SentimentDLModel extends ReadablePretrainedSentimentDL with ReadSentimentDLTensorflowModel
+
+  type YakeModel = com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+  object YakeModel extends ParamsAndFeaturesReadable[YakeModel]
 
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
   object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel

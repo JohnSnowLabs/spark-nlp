@@ -302,4 +302,7 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk]{
   }
 
 }
+/**
+ * This is the companion object of [[Doc2Chunk]]. Please refer to that class for the documentation.
+ */
 object Doc2Chunk extends DefaultParamsReadable[Doc2Chunk]

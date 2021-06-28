@@ -8,7 +8,7 @@ tags: [en, licensed]
 supported: true
 task: Spell Check
 language: en
-edition: Spark NLP 3.0.0
+edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
 article_header:
   type: cover

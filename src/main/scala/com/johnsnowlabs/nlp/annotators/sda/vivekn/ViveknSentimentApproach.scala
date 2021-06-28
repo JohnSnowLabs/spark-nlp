@@ -8,13 +8,77 @@ import org.apache.spark.ml.param.{DoubleParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
-/** Inspired on vivekn sentiment analysis algorithm [[https://github.com/vivekn/sentiment/]].
+/** Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan [[https://github.com/vivekn/sentiment/]].
   *
-  * requires sentence boundaries to give score in context. Tokenization to make sure tokens are within bounds. Transitivity requirements are also required.
+  * The algorithm is based on the paper
+  * [[https://arxiv.org/abs/1305.6143 "Fast and accurate sentiment classification using an enhanced Naive Bayes model"]].
   *
+  * The analyzer requires sentence boundaries to give a score in context.
+  * Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn]] for further reference on how to use this API.
+  * The training data needs to consist of a column for normalized text and a label column (either `"positive"` or `"negative"`).
   *
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn ViveknSentimentTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import com.johnsnowlabs.nlp.annotators.Normalizer
+  * import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
+  * import com.johnsnowlabs.nlp.Finisher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val document = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val token = new Tokenizer()
+  *   .setInputCols("document")
+  *   .setOutputCol("token")
+  *
+  * val normalizer = new Normalizer()
+  *   .setInputCols("token")
+  *   .setOutputCol("normal")
+  *
+  * val vivekn = new ViveknSentimentApproach()
+  *   .setInputCols("document", "normal")
+  *   .setSentimentCol("train_sentiment")
+  *   .setOutputCol("result_sentiment")
+  *
+  * val finisher = new Finisher()
+  *   .setInputCols("result_sentiment")
+  *   .setOutputCols("final_sentiment")
+  *
+  * val pipeline = new Pipeline().setStages(Array(document, token, normalizer, vivekn, finisher))
+  *
+  * val training = Seq(
+  *   ("I really liked this movie!", "positive"),
+  *   ("The cast was horrible", "negative"),
+  *   ("Never going to watch this again or recommend it to anyone", "negative"),
+  *   ("It's a waste of time", "negative"),
+  *   ("I loved the protagonist", "positive"),
+  *   ("The music was really really good", "positive")
+  * ).toDF("text", "train_sentiment")
+  * val pipelineModel = pipeline.fit(training)
+  *
+  * val data = Seq(
+  *   "I recommend this movie",
+  *   "Dont waste your time!!!"
+  * ).toDF("text")
+  * val result = pipelineModel.transform(data)
+  *
+  * result.select("final_sentiment").show(false)
+  * +---------------+
+  * |final_sentiment|
+  * +---------------+
+  * |[positive]     |
+  * |[negative]     |
+  * +---------------+
+  * }}}
+  * @see [[com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector SentimentDetector]] for an alternative approach to sentiment detection
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -38,65 +102,65 @@ class ViveknSentimentApproach(override val uid: String)
   override val description: String = "Vivekn inspired sentiment analysis model"
 
 
-  /** column with the sentiment result of every row. Must be 'positive' or 'negative'
+  /** Column with the sentiment result of every row. Must be `"positive"` or `"negative"`
     *
     * @group param
     **/
   val sentimentCol = new Param[String](this, "sentimentCol", "column with the sentiment result of every row. Must be 'positive' or 'negative'")
-  /** Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1
+  /** Removes unfrequent scenarios from scope. The higher the better performance (Default: `1`)
     *
     * @group param
     **/
   val pruneCorpus = new IntParam(this, "pruneCorpus", "Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1")
-  /** proportion of feature content to be considered relevant. Defaults to 0.5
+  /** Proportion of feature content to be considered relevant (Default: `0.5`)
     *
     * @group param
     **/
-  protected val importantFeatureRatio = new DoubleParam(this, "importantFeatureRatio", "proportion of feature content to be considered relevant. Defaults to 0.5")
-  /** proportion to lookahead in unimportant features. Defaults to 0.025
+  val importantFeatureRatio = new DoubleParam(this, "importantFeatureRatio", "Proportion of feature content to be considered relevant. Defaults to 0.5")
+  /** Proportion to lookahead in unimportant features (Default: `0.025`)
     *
     * @group param
     **/
-  protected val unimportantFeatureStep = new DoubleParam(this, "unimportantFeatureStep", "proportion to lookahead in unimportant features. Defaults to 0.025")
-  /** content feature limit, to boost performance in very dirt text. Default disabled with -1
+  val unimportantFeatureStep = new DoubleParam(this, "unimportantFeatureStep", "Proportion to lookahead in unimportant features. Defaults to 0.025")
+  /** content feature limit, to boost performance in very dirt text (Default: Disabled with `-1`)
     *
     * @group param
     **/
-  protected val featureLimit = new IntParam(this, "featureLimit", "content feature limit, to boost performance in very dirt text. Default disabled with -1")
+  val featureLimit = new IntParam(this, "featureLimit", "content feature limit, to boost performance in very dirt text. Default disabled with -1")
 
 
-  /** Set Proportion of feature content to be considered relevant. Defaults to 0.5
+  /** Set Proportion of feature content to be considered relevant (Default: `0.5`)
     *
     * @group setParam
     **/
   def setImportantFeatureRatio(v: Double): this.type = set(importantFeatureRatio, v)
 
-  /** Set Proportion to lookahead in unimportant features. Defaults to 0.025
+  /** Set Proportion to lookahead in unimportant features (Default: `0.025`)
     *
     * @group setParam
     **/
   def setUnimportantFeatureStep(v: Double): this.type = set(unimportantFeatureStep, v)
 
-  /** Set content feature limit, to boost performance in very dirt text. Default disabled with -1
+  /** Set content feature limit, to boost performance in very dirt text (Default: Disabled with `-1`)
     *
     * @group setParam
     **/
   def setFeatureLimit(v: Int): this.type = set(featureLimit, v)
 
 
-  /** Get Proportion of feature content to be considered relevant. Defaults to 0.5
+  /** Get Proportion of feature content to be considered relevant (Default: Disabled with `0.5`)
     *
     * @group getParam
     **/
   def getImportantFeatureRatio(v: Double): Double = $(importantFeatureRatio)
 
-  /** Get Proportion to lookahead in unimportant features. Defaults to 0.025
+  /** Get Proportion to lookahead in unimportant features (Default: `0.025`)
     *
     * @group getParam
     **/
   def getUnimportantFeatureStep(v: Double): Double = $(unimportantFeatureStep)
 
-  /** Get content feature limit, to boost performance in very dirt text. Default disabled with -1
+  /** Get content feature limit, to boost performance in very dirt text (Default: Disabled with `-1`)
     *
     * @group getParam
     **/

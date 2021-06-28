@@ -136,4 +136,7 @@ class SentenceDetector(override val uid: String) extends AnnotatorModel[Sentence
 
 }
 
+/**
+ * This is the companion object of [[SentenceDetector]]. Please refer to that class for the documentation.
+ */
 object SentenceDetector extends DefaultParamsReadable[SentenceDetector]
