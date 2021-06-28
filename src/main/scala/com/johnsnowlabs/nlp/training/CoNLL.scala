@@ -110,7 +110,7 @@ case class CoNLL(documentCol: String = "document",
                  conllPosIndex: Int = 1,
                  conllTextCol: String = "text",
                  labelCol: String = "label",
-                 explodeSentences: Boolean = true
+                 explodeSentences: Boolean = false
                 ) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
