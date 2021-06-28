@@ -51,4 +51,7 @@ class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk] 
 
 }
 
+/**
+ * This is the companion object of [[Token2Chunk]]. Please refer to that class for the documentation.
+ */
 object Token2Chunk extends DefaultParamsReadable[Token2Chunk]

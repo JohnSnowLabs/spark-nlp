@@ -249,4 +249,7 @@ class TextMatcher(override val uid: String) extends AnnotatorApproach[TextMatche
 
 }
 
+/**
+ * This is the companion object of [[TextMatcher]]. Please refer to that class for the documentation.
+ */
 object TextMatcher extends DefaultParamsReadable[TextMatcher]

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
@@ -245,6 +245,30 @@ class NerDLSpec extends FlatSpec {
 
     nerModel.getClasses.foreach(x=>println(x))
 
+  }
+
+  "NerDLModel" should "benchmark test" taggedAs SlowTest in {
+
+    val conll = CoNLL(explodeSentences = false)
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+
+    val nerModel = NerDLModel.pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        embeddings,
+        nerModel
+      ))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_nerdl")
+    }
   }
 
 }

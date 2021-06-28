@@ -120,7 +120,7 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)

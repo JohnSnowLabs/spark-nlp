@@ -80,4 +80,7 @@ class BigTextMatcher(override val uid: String) extends AnnotatorApproach[BigText
   override protected val databases: Array[Name] = BigTextMatcherModel.databases
 }
 
+/**
+ * This is the companion object of [[BigTextMatcher]]. Please refer to that class for the documentation.
+ */
 object BigTextMatcher extends DefaultParamsReadable[BigTextMatcher]
