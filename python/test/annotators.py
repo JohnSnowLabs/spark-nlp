@@ -1730,10 +1730,6 @@ class GraphExtractionTestSpec(unittest.TestCase):
             .setInputCols(["document", "token", "embeddings"]) \
             .setOutputCol("ner")
 
-        converter = NerConverter() \
-            .setInputCols(["document", "token", "ner"]) \
-            .setOutputCol("entities") \
-
         pos_tagger = PerceptronModel.pretrained() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("pos")
@@ -1747,11 +1743,11 @@ class GraphExtractionTestSpec(unittest.TestCase):
             .setOutputCol("labdep")
 
         graph_extraction = GraphExtraction() \
-            .setInputCols(["document", "token", "dependency", "labdep", "entities"]) \
+            .setInputCols(["document", "token", "dependency", "labdep", "ner"]) \
             .setOutputCol("graph") \
 
         pipeline = Pipeline().setStages([document_assembler, tokenizer,
-                                         word_embeddings, ner_model, converter,
+                                         word_embeddings, ner_model,
                                          pos_tagger, dependency_parser, typed_dependency_parser,
                                          graph_extraction])
 

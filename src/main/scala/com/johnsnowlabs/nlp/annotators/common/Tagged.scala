@@ -70,11 +70,12 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
-    items.flatMap(item => item.indexedTaggedWords.map { tag =>
-      val metadata = if (tag.confidence.isDefined) {
-        Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten
+    items.zipWithIndex.flatMap{ case (item, sentenceIndex) => item.indexedTaggedWords.map{ tag =>
+      val metadata: Map[String, String] =  if (tag.confidence.isDefined) {
+        Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten ++
+          Map("sentence" -> sentenceIndex.toString)
       } else {
-        Map("word" -> tag.word) ++ Map.empty[String, String]
+        Map("word" -> tag.word) ++ Map.empty[String, String] ++ Map("sentence" -> sentenceIndex.toString)
       }
       new Annotation(
         annotatorType,
@@ -83,7 +84,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.tag,
         metadata
       )
-    })
+    }}
   }
 
   /**

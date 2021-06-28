@@ -1,10 +1,10 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DEPENDENCY, LABELED_DEPENDENCY}
+import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, NAMED_ENTITY}
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 trait GraphExtractionFixture {
 
@@ -43,13 +43,17 @@ trait GraphExtractionFixture {
     val mockDependencyParserDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockDependencyParserData),
       dependenciesStruct)
 
-    val mockEntitiesData = Seq(Row(
-      List(Row(CHUNK, 0, 5, "United", Map("entity" -> "ORG", "sentence" -> "0"), List()),
-        Row(CHUNK, 20, 26, "morning", Map("entity" -> "TIME", "sentence" -> "0"), List()),
-        Row(CHUNK, 39, 45, "Houston", Map("entity" -> "LOC", "sentence" -> "0"), List()))
+    val mockNerData = Seq(Row(
+      List(Row(NAMED_ENTITY, 0, 5, "B-ORG", Map("entity" -> "United", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 7, 14, "O", Map("entity" -> "canceled", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 16, 18, "O", Map("entity" -> "the", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 20, 26, "B-TIME", Map("entity" -> "morning", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 28, 34, "O", Map("entity" -> "flights", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 36, 37, "O", Map("entity" -> "to", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 39, 45, "B-LOC", Map("entity" -> "Houston", "sentence" -> "0"), List()))
     ))
-    val entitiesStruct = mockStructType(List(("entities", CHUNK)))
-    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockEntitiesData), entitiesStruct)
+    val entitiesStruct = mockStructType(List(("entities", NAMED_ENTITY)))
+    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockNerData), entitiesStruct)
 
     val mockAnnotatorsDataSet = mockDependencyParserDataSet.join(mockEntitiesDataSet)
 
@@ -98,15 +102,20 @@ trait GraphExtractionFixture {
     val mockDependencyParserDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockDependencyParserData),
       dependenciesStruct)
 
-    val mockEntitiesData = Seq(Row(
-      List(Row(CHUNK, 0, 5, "United", Map("entity" -> "ORG", "sentence" -> "0"), List()),
-        Row(CHUNK, 20, 26, "morning", Map("entity" -> "TIME", "sentence" -> "0"), List()),
-        Row(CHUNK, 39, 45, "Houston", Map("entity" -> "LOC", "sentence" -> "0"), List()),
-        Row(CHUNK, 51, 56, "Dallas", Map("entity" -> "LOC", "sentence" -> "0"), List())
-       )
+    val mockNerData = Seq(Row(
+      List(Row(NAMED_ENTITY, 0, 5, "B-ORG", Map("entity" -> "United", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 7, 14, "O", Map("entity" -> "canceled", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 16, 18, "O", Map("entity" -> "the", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 20, 26, "B-TIME", Map("entity" -> "morning", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 28, 34, "O", Map("entity" -> "flights", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 36, 37, "O", Map("entity" -> "to", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 39, 45, "B-LOC", Map("entity" -> "Houston", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 47, 49, "O", Map("entity" -> "and", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 51, 56, "B-LOC", Map("entity" -> "Dallas", "sentence" -> "0"), List())
+      )
     ))
-    val entitiesStruct = mockStructType(List(("entities", CHUNK)))
-    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockEntitiesData), entitiesStruct)
+    val entitiesStruct = mockStructType(List(("entities", NAMED_ENTITY)))
+    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockNerData), entitiesStruct)
 
     val mockAnnotatorsDataSet = mockDependencyParserDataSet.join(mockEntitiesDataSet)
 
@@ -176,16 +185,27 @@ trait GraphExtractionFixture {
     val mockDependencyParserDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockDependencyParserData),
       dependenciesStruct)
 
-    val mockEntitiesData = Seq(Row(
-      List(Row(CHUNK, 0, 5, "United", Map("entity" -> "ORG", "sentence" -> "0"), List()),
-        Row(CHUNK, 20, 26, "morning", Map("entity" -> "TIME", "sentence" -> "0"), List()),
-        Row(CHUNK, 39, 45, "Houston", Map("entity" -> "LOC", "sentence" -> "0"), List()),
-        Row(CHUNK, 65, 70, "London", Map("entity" -> "LOC", "sentence" -> "1"), List()),
-        Row(CHUNK, 72, 79, "tomorrow", Map("entity" -> "TIME", "sentence" -> "1"), List())
+    val mockNerData = Seq(Row(
+      List(Row(NAMED_ENTITY, 0, 5, "B-ORG", Map("entity" -> "United", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 7, 14, "O", Map("entity" -> "canceled", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 16, 18, "O", Map("entity" -> "the", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 20, 26, "B-TIME", Map("entity" -> "morning", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 28, 34, "O", Map("entity" -> "flights", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 36, 37, "O", Map("entity" -> "to", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 39, 45, "B-LOC", Map("entity" -> "Houston", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 46, 46, "O", Map("entity" -> ".", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 48, 49, "O", Map("entity" -> "So", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 50, 50, "O", Map("entity" -> ",", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 52, 52, "O", Map("entity" -> "I", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 54, 57, "O", Map("entity" -> "will", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 59, 60, "O", Map("entity" -> "go", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 62, 63, "O", Map("entity" -> "to", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 65, 70, "B-LOC", Map("entity" -> "London", "sentence" -> "1"), List()),
+        Row(NAMED_ENTITY, 72, 79, "B-TIME", Map("entity" -> "tomorrow", "sentence" -> "1"), List())
       )
     ))
-    val entitiesStruct = mockStructType(List(("entities", CHUNK)))
-    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockEntitiesData), entitiesStruct)
+    val entitiesStruct = mockStructType(List(("entities", NAMED_ENTITY)))
+    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockNerData), entitiesStruct)
 
     val mockAnnotatorsDataSet = mockDependencyParserDataSet.join(mockEntitiesDataSet)
 

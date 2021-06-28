@@ -41,7 +41,6 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    //TODO: Add validation when entities and dependency parser tokens are not the same  e.g. Peter Parker
     //TODO: Add parameter to include the label of a relationship on the path
     //TODO: Add parameter to output path starting from root or bottom
 
@@ -66,7 +65,8 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   private def extractGraphs(annotatedSentence: Seq[Annotation]): Seq[Annotation] = {
     val tokens = annotatedSentence.filter(_.annotatorType == AnnotatorType.TOKEN)
-    val entities = annotatedSentence.filter(annotation => annotation.annotatorType == CHUNK)
+    val nerEntities = annotatedSentence.filter(annotation =>
+      annotation.annotatorType == NAMED_ENTITY && annotation.result != "O")
     val dependencyData = LabeledDependency.unpackHeadAndRelation(annotatedSentence)
 
     val graph = new GraphBuilder(dependencyData.length + 1)
@@ -79,7 +79,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
       throw new UnsupportedOperationException("Dependency data has more than one root")
     }
     val sourceIndex = dependencyData.indexOf(sourceDependency.head) + 1
-    val entitiesPairData = getEntitiesData(entities, dependencyData)
+    val entitiesPairData = getEntitiesData(nerEntities, dependencyData)
     val paths = entitiesPairData.map{ entitiesPairInfo =>
       val leftPath = graph.findPath(sourceIndex, entitiesPairInfo.entitiesIndex._1)
       val rightPath = graph.findPath(sourceIndex, entitiesPairInfo.entitiesIndex._2)
@@ -109,10 +109,11 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
       annotatedEntitiesPairs = annotatedEntities.combinations(2).map(entity => (entity.head, entity.last)).toList
     } else {
       annotatedEntitiesPairs = allowedEntityRelationships.flatMap(entities =>
-        getAnnotatedEntitiesPairs(entities, annotatedEntities))
+        getAnnotatedNerEntitiesPairs(entities, annotatedEntities))
         .filter(entities => entities._1.begin != entities._2.begin && entities._1.end != entities._2.end)
         .toList
     }
+
     val entitiesPairData = annotatedEntitiesPairs.map{ annotatedEntityPair =>
       val dependencyInfoLeft = dependencyData.filter(dependencyInfo =>
         dependencyInfo.beginToken == annotatedEntityPair._1.begin && dependencyInfo.endToken == annotatedEntityPair._1.end
@@ -123,17 +124,17 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
       val indexLeft = dependencyData.indexOf(dependencyInfoLeft.head) + 1
       val indexRight = dependencyData.indexOf(dependencyInfoRight.head) + 1
 
-      EntitiesPairInfo((indexLeft, indexRight), (annotatedEntityPair._1.metadata("entity"),
-        annotatedEntityPair._2.metadata("entity")))
+      EntitiesPairInfo((indexLeft, indexRight), (annotatedEntityPair._1.result.substring(2),
+        annotatedEntityPair._2.result.substring(2)))
     }
     entitiesPairData.distinct
   }
 
-  private def getAnnotatedEntitiesPairs(entities: (String, String), annotatedEntities: Seq[Annotation]):
+  private def getAnnotatedNerEntitiesPairs(entities: (String, String), annotatedEntities: Seq[Annotation]):
   List[(Annotation, Annotation)] = {
 
-    val leftEntities = annotatedEntities.filter(annotatedEntity => annotatedEntity.metadata("entity") == entities._1)
-    val rightEntities = annotatedEntities.filter(annotatedEntity => annotatedEntity.metadata("entity") == entities._2)
+    val leftEntities = annotatedEntities.filter(annotatedEntity => annotatedEntity.result.substring(2) == entities._1)
+    val rightEntities = annotatedEntities.filter(annotatedEntity => annotatedEntity.result.substring(2) == entities._2)
 
     if (leftEntities.length > rightEntities.length) {
       leftEntities.flatMap{ leftEntity => rightEntities.map(rightEntity => (leftEntity, rightEntity))}.toList
@@ -143,10 +144,10 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   }
 
-  case class EntitiesPairInfo(entitiesIndex: (Int, Int), entities: (String, String))
-  case class GraphInfo(entities: (String, String), leftPathIndex: List[Int], rightPathIndex: List[Int])
+  private case class EntitiesPairInfo(entitiesIndex: (Int, Int), entities: (String, String))
+  private case class GraphInfo(entities: (String, String), leftPathIndex: List[Int], rightPathIndex: List[Int])
 
   override val outputAnnotatorType: AnnotatorType = VERTEX
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, DEPENDENCY, LABELED_DEPENDENCY, CHUNK)
+  override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, DEPENDENCY, LABELED_DEPENDENCY, NAMED_ENTITY)
 }

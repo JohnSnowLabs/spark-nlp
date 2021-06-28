@@ -2,8 +2,8 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.VERTEX
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
-import org.scalatest.FlatSpec
 import com.johnsnowlabs.tags.FastTest
+import org.scalatest.FlatSpec
 
 class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
 
