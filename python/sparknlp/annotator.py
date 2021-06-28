@@ -9752,7 +9752,7 @@ class GraphExtraction(AnnotatorModel):
         return self._set(minSentenceSize=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.GraphExtractor", java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.GraphExtraction", java_model=None):
         super(GraphExtraction, self).__init__(
             classname=classname,
             java_model=java_model
