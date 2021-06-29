@@ -23,6 +23,9 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest._
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 
 class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
 
@@ -34,7 +37,6 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -57,7 +59,6 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -80,7 +81,6 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -103,7 +103,6 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -126,7 +125,6 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -149,7 +147,6 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -172,7 +169,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
+      .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
@@ -194,7 +191,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
+      .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
@@ -216,7 +213,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat("MM/dd/yyyy")
-      .setMultiLanguageCapability(true)
+      .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
@@ -230,26 +227,31 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == "09/15/2012")
   }
 
-    "a DateMatcher" should "be catching unspecified italian language dates dynamic group" taggedAs FastTest in {
+  "a DateMatcher" should "be catching unspecified italian language dates dynamic group" taggedAs FastTest in {
 
-      val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia 2 anni fa.")
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Francia 2 anni fa.")
 
-      val dateMatcher = new DateMatcher()
-        .setInputCols("document")
-        .setOutputCol("date")
-        .setFormat("MM/dd/yyyy")
-        .setMultiLanguageCapability(true)
+    val DateFormat = "MM/dd/yyyy"
 
-      val pipeline = new Pipeline().setStages(Array(dateMatcher))
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("it")
 
-      val annotated = pipeline.fit(data).transform(data)
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
 
-      val annotations: Seq[Annotation] =
-        Annotation.getAnnotations(
-          annotated.select("date").collect().head,
-          "date")
+    val annotated = pipeline.fit(data).transform(data)
 
-      println(s"Annotation result: " + annotations.head.result)
-  //    assert(annotations.head.result == "09/15/2012")
-    }
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.minusYears(2L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
 }
