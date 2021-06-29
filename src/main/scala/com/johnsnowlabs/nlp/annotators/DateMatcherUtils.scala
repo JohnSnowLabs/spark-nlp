@@ -17,21 +17,21 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import java.util.Calendar
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
 
+import java.util.Calendar
 import scala.util.matching.Regex
 
 trait DateMatcherUtils extends Params {
 
   /**
-   * Container of a parsed date with identified bounds
-   *
-   * @param calendar [[Calendar]] holding parsed date
-   * @param start    start bound of detected match
-   * @param end      end bound of detected match
-   */
+    * Container of a parsed date with identified bounds
+    *
+    * @param calendar [[Calendar]] holding parsed date
+    * @param start    start bound of detected match
+    * @param end      end bound of detected match
+    */
   private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
   /** Standard formal dates, e.g. 05/17/2014 or 17/05/2014 or 2014/05/17 */
@@ -121,11 +121,11 @@ trait DateMatcherUtils extends Params {
   def getAnchorDateMonth: Int = $(anchorDateMonth) + 1
 
   /**
-   * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).
-   * By default it will use the current day. The first day of the month has value 1.
-   *
-   * @group param
-   */
+    * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).
+    * By default it will use the current day. The first day of the month has value 1.
+    *
+    * @group param
+    */
   val anchorDateDay: Param[Int] = new IntParam(
     this,
     "anchorDateDay",
@@ -165,37 +165,22 @@ trait DateMatcherUtils extends Params {
   /** @group getParam */
   def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
 
-  /** Source language for explicit translation */
-  val multiLanguageCapability: BooleanParam = new BooleanParam(this, "autoLanguageDetection", "Activate auto language detection")
-
-  /** To get to use or not the multi-language translation auto detection.
-   *
-   * @group getParam
-   **/
-  def getMultiLanguageCapability: Boolean = $(multiLanguageCapability)
-
-  /** To set or not the source language for explicit translation auto detection.
-   *
-   * @group setParam
-   **/
-  def setMultiLanguageCapability(value: Boolean): this.type = set(multiLanguageCapability, value)
-
   /** Source language for explicit translation
-   *
-   * @group param
-   **/
+    *
+    * @group param
+    **/
   val sourceLanguage: Param[String] = new Param(this, "sourceLanguage", "source language for explicit translation")
 
   /** To get to use or not the multi-language translation.
-   *
-   * @group getParam
-   **/
+    *
+    * @group getParam
+    **/
   def getSourceLanguage: String = $(sourceLanguage)
 
   /** To set or not the source language for explicit translation.
-   *
-   * @group setParam
-   **/
+    *
+    * @group setParam
+    **/
   def setSourceLanguage(value: String): this.type = set(sourceLanguage, value)
 
   setDefault(
@@ -205,15 +190,14 @@ trait DateMatcherUtils extends Params {
     anchorDateDay -> -1,
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1,
-    multiLanguageCapability -> false,
-    sourceLanguage -> ""
+    sourceLanguage -> "en"
   )
 
   /**
-   * Searches formal date by ordered rules
-   * Matching strategy is to find first match only, ignore additional matches from then
-   * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
-   */
+    * Searches formal date by ordered rules
+    * Matching strategy is to find first match only, ignore additional matches from then
+    * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
+    */
   protected val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
 
   if ($(readMonthFirst))
@@ -230,20 +214,20 @@ trait DateMatcherUtils extends Params {
       .addRule(formalDateShort, "formal date short version")
 
   /**
-   * Searches relaxed dates by ordered rules by more exhaustive to less
-   * Strategy used is to match first only. any other matches discarded
-   * Auto completes short versions of months. Any two digit year is considered to be XX century
-   */
+    * Searches relaxed dates by ordered rules by more exhaustive to less
+    * Strategy used is to match first only. any other matches discarded
+    * Auto completes short versions of months. Any two digit year is considered to be XX century
+    */
   protected val relaxedFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
     .addRule(relaxedYear, "relaxed year")
 
   /**
-   * extracts relative dates. Strategy is to get only first match.
-   * Will always assume relative day from current time at processing
-   * ToDo: Support relative dates from input date
-   */
+    * extracts relative dates. Strategy is to get only first match.
+    * Will always assume relative day from current time at processing
+    * ToDo: Support relative dates from input date
+    */
   protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relativeDatePast, "relative dates in the past")
     .addRule(relativeDate, "relative dates")
@@ -257,12 +241,12 @@ trait DateMatcherUtils extends Params {
     .addRule(relativeExactDay, "relative precise dates")
 
   /**
-   * Searches for times of the day
-   * dateTime If any dates found previously, keep it as part of the final result
-   * text target document
-   *
-   * @return a final possible date if any found
-   */
+    * Searches for times of the day
+    * dateTime If any dates found previously, keep it as part of the final result
+    * text target document
+    *
+    * @return a final possible date if any found
+    */
   protected val timeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(clockTime, "standard time extraction")
     .addRule(altTime, "alternative time format")

@@ -355,8 +355,6 @@ object DateMatcherTranslator extends Serializable {
     // 2. apply translation
     val translated = _translate(text, _sourceLanguageInfo, destination)
 
-    println(translated)
-
     translated
   }
 }
