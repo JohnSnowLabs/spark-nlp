@@ -44,8 +44,7 @@ import org.apache.spark.ml.util.Identifiable
  *   .setToLowercase(true)
  *   .setPattern("\\s+")
  *
- * val pipeline = new Pipeline()
- *   .setStages(Array(
+ * val pipeline = new Pipeline().setStages(Array(
  *     documentAssembler,
  *     regexTokenizer
  *   ))

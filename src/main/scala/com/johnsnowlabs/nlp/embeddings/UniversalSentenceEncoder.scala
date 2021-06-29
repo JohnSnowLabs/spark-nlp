@@ -86,7 +86,7 @@ import java.io.File
  *   .setOutputCol("sentence_embeddings")
  *
  * val embeddingsFinisher = new EmbeddingsFinisher()
- *   .setInputCols("embeddings")
+ *   .setInputCols("sentence_embeddings")
  *   .setOutputCols("finished_embeddings")
  *   .setOutputAsVector(true)
  *   .setCleanAnnotations(false)
