@@ -69,12 +69,12 @@ import scala.util.Random
  *
  * // Then the training can start
  * val nerTagger = new NerDLApproach()
- * .setInputCols("sentence", "token", "embeddings")
- * .setLabelColumn("label")
- * .setOutputCol("ner")
- * .setMaxEpochs(1)
- * .setRandomSeed(0)
- * .setVerbose(0)
+ *   .setInputCols("sentence", "token", "embeddings")
+ *   .setLabelColumn("label")
+ *   .setOutputCol("ner")
+ *   .setMaxEpochs(1)
+ *   .setRandomSeed(0)
+ *   .setVerbose(0)
  *
  * val pipeline = new Pipeline().setStages(Array(
  *   documentAssembler,
