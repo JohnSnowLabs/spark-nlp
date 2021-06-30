@@ -2,7 +2,7 @@
 layout: demohomepage
 title: 
 full_width: true
-permalink: /demo
+permalink: /demos
 key: demo
 license: false
 show_edit_on_github: false
