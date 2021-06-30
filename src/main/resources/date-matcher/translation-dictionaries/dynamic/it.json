@@ -112,49 +112,49 @@
         "secondo"
     ],
 
-    "0 day ago": [
+    "#K# day ago": [
         "oggi"
     ],
-    "0 hour ago": [
+    "#K# hour ago": [
         "quest'ora"
     ],
-    "0 minute ago": [
+    "#K# minute ago": [
         "questo minuto"
     ],
-    "0 month ago": [
+    "#K# month ago": [
         "questo mese"
     ],
-    "0 second ago": [
+    "#K# second ago": [
         "ora"
     ],
-    "0 week ago": [
+    "#K# week ago": [
         "questa settimana"
     ],
-    "0 year ago": [
+    "#K# year ago": [
         "quest'anno"
     ],
-    "1 day ago": [
+    "#K# day ago": [
         "ieri"
     ],
-    "1 month ago": [
+    "#K# month ago": [
         "mese scorso"
     ],
-    "1 week ago": [
+    "#K# week ago": [
         "settimana scorsa"
     ],
-    "1 year ago": [
+    "#K# year ago": [
         "anno scorso"
     ],
-    "in 1 day": [
+    "in #K# day": [
         "domani"
     ],
-    "in 1 month": [
+    "in #K# month": [
         "mese prossimo"
     ],
-    "in 1 week": [
+    "in #K# week": [
         "settimana prossima"
     ],
-    "in 1 year": [
+    "in #K# year": [
         "anno prossimo"
     ],
 

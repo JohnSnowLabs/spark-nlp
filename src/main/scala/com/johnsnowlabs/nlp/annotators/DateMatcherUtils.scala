@@ -50,7 +50,7 @@ trait DateMatcherUtils extends Params {
 
   /** Relative dates, e.g. tomorrow */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
-  private val relativeDatePast = "(?i)(\\d+)\\s+(week|month|year|weeks|months|years)\\s+(ago)".r
+  private val relativeDatePast = "(?i)(\\d+)\\s+(day|days|week|month|year|weeks|months|years)\\s+(ago)".r
   private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before yesterday|day after tomorrow|day before|day after)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
@@ -292,6 +292,7 @@ trait DateMatcherUtils extends Params {
     val amount =  - relativeDatePast.group(1).toInt
 
     relativeDatePast.group(2) match {
+      case "day" | "days" => calendar.add(Calendar.DAY_OF_MONTH, amount)
       case "week" | "weeks" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
       case "month" | "months" => calendar.add(Calendar.MONTH, amount)
       case "year" | "years" => calendar.add(Calendar.YEAR, amount)
