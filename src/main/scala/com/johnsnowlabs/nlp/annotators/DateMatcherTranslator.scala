@@ -24,6 +24,11 @@ object DateMatcherTranslator extends Serializable {
   val NameKey = "name"
   val English = "en"
 
+  val EmptyStr = ""
+  val KeyPlaceholder = "#K#"
+  val ValuePlaceholder = "#V#"
+  val DigitsPattern = """(\\d+)"""
+
   /**
    * Load dictionary from supported language repository.
    * @param language the language dictionary to load. Default is English.
@@ -32,7 +37,7 @@ object DateMatcherTranslator extends Serializable {
   def loadDictionary(language: String = English) = {
     val DictionaryPath = s"$TranslationDataBaseDir$language$JsonSuffix"
 
-    var jsonString = "";
+    var jsonString = EmptyStr;
     try{
       jsonString = Source.fromFile(DictionaryPath).mkString
     } catch {
@@ -78,7 +83,7 @@ object DateMatcherTranslator extends Serializable {
 
   def stringValuesToRegexes(regexValuesIntersection: Set[String]): Set[Regex] = {
     val res = regexValuesIntersection
-      .map(_.replaceAll("#V#", """(\\d+)"""))
+      .map(_.replaceAll(ValuePlaceholder, DigitsPattern))
       .map(_.toLowerCase)
       .map(s => s.r)
     res
@@ -117,7 +122,7 @@ object DateMatcherTranslator extends Serializable {
   }
 
   private def findSentenceMatches(text: String, dictionaryValues: Set[String]) = {
-    val regexValuesIntersection = dictionaryValues.filter(_.contains("#V#"))
+    val regexValuesIntersection = dictionaryValues.filter(_.contains(ValuePlaceholder))
 
     val regexes = stringValuesToRegexes(regexValuesIntersection)
 
@@ -140,7 +145,7 @@ object DateMatcherTranslator extends Serializable {
     val tokenMatches =
       candidateTokens
         .intersect(
-          dictionaryValues.filterNot(_.contains("#V#")))
+          dictionaryValues.filterNot(_.contains(ValuePlaceholder)))
 
     tokenMatches
   }
@@ -176,7 +181,7 @@ object DateMatcherTranslator extends Serializable {
       val (token, index) = indexToken
       val keys = dictionary.keySet
 
-      val getListifiedValues: String => List[String] = dictionary.getOrElse(_, "NA") match {
+      val getListifiedValues: String => List[String] = dictionary.getOrElse(_, NotAvailable) match {
         case l: List[String @unchecked] => l
         case s: String => List(s)
         case m: Map[String @unchecked, Any @unchecked] => m.keySet.toList
@@ -211,9 +216,9 @@ object DateMatcherTranslator extends Serializable {
 
   def searchKeyFromValuesMatch(dictionary: Map[String, Any], k: String, toBeReplaced: String) = {
 
-    val candidates: List[String] = dictionary.getOrElse(k, List("NF")) match {
+    val candidates: List[String] = dictionary.getOrElse(k, List(NotFound)) match {
       case i: List[String @unchecked] => i
-      case _ => List(dictionary.getOrElse(k, List("NF")).toString)
+      case _ => List(dictionary.getOrElse(k, List(NotFound)).toString)
     }
     val res =
       for(c <- candidates
@@ -223,7 +228,7 @@ object DateMatcherTranslator extends Serializable {
     if(!res.isEmpty)
       (k, res.head)
     else
-      (k, "NF")
+      (k, NotFound)
   }
 
   def getKeyFromDictionaryValue(toBeReplaced: Array[String], sourceLanguage: String) = {
@@ -236,7 +241,7 @@ object DateMatcherTranslator extends Serializable {
 
     val replacingKey: Iterable[(String, String)] = iterKeys
       .map(k => searchKeyFromValuesMatch(dictionary, k, toBeReplaced.mkString(SpaceChar)))
-      .filterNot(_._2.equals("NF"))
+      .filterNot(_._2.equals(NotFound))
 
     replacingKey
   }
@@ -275,17 +280,17 @@ object DateMatcherTranslator extends Serializable {
     val strPattern = sourceLanguageInfo.values.flatten.head.r
     val matchingGroup = strPattern.findAllIn(text).toList.head
 
-    val groupTokens = matchingGroup.split(" ")
+    val groupTokens = matchingGroup.split(SpaceChar)
     val toBeReplaced = groupTokens.takeRight(groupTokens.size - 1)
 
     val sourceLanguage = sourceLanguageInfo.head._1
     val replacingKeys = getKeyFromDictionaryValue(toBeReplaced, sourceLanguage)
 
-    var acc = ""
+    var acc = EmptyStr
     replacingKeys.foreach(rk =>
       acc = text.replaceAll(
-        rk._2.replace("#V#", ""),
-        rk._1.replace("#K#", "")))
+        rk._2.replace(ValuePlaceholder, EmptyStr),
+        rk._1.replace(KeyPlaceholder, EmptyStr)))
 
     adjustPlurality(acc)
   }
@@ -327,7 +332,7 @@ object DateMatcherTranslator extends Serializable {
     val predicates = Array(
       !sourceLanguageInfo.keySet.head.isEmpty,
       !sourceLanguageInfo.head._2.isEmpty,
-      sourceLanguageInfo.head._2.toString().split(" ").size != 1
+      sourceLanguageInfo.head._2.toString().split(SpaceChar).size != 1
     )
 
     val res =
