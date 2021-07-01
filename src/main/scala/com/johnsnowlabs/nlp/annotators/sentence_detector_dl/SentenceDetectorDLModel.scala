@@ -34,96 +34,98 @@ import scala.util.Random
 
 case class Metrics(accuracy: Double, recall: Double, precision: Double, f1: Double)
 
-/**
-  * Instantiated Model of the [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach SentenceDetectorDLApproach]].
-  * Detects sentence boundaries using a deep learning approach.
-  *
-  * Pretrained models can be loaded with `pretrained` of the companion object:
-  * {{{
-  * val sentenceDL = SentenceDetectorDLModel.pretrained()
-  *   .setInputCols("document")
-  *   .setOutputCol("sentencesDL")
-  * }}}
-  * The default model is `"sentence_detector_dl"`, if no name is provided.
-  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Sentence+Detection Models Hub]].
-  *
-  * Each extracted sentence can be returned in an Array or exploded to separate rows,
-  * if `explodeSentences` is set to `true`.
-  *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
-  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala SentenceDetectorDLSpec]].
-  * 
-  * ==Example==
-  * In this example, the normal `SentenceDetector` is compared to the `SentenceDetectorDLModel`. In a pipeline,
-  * `SentenceDetectorDLModel` can be used as a replacement for the `SentenceDetector`.
-  * {{{
-  * import spark.implicits._
-  * import com.johnsnowlabs.nlp.base.DocumentAssembler
-  * import com.johnsnowlabs.nlp.annotator.SentenceDetector
-  * import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-  * import org.apache.spark.ml.Pipeline
-  *
-  * val documentAssembler = new DocumentAssembler()
-  *   .setInputCol("text")
-  *   .setOutputCol("document")
-  *
-  * val sentence = new SentenceDetector()
-  *   .setInputCols("document")
-  *   .setOutputCol("sentences")
-  *
-  * val sentenceDL = SentenceDetectorDLModel
-  *   .pretrained("sentence_detector_dl", "en")
-  *   .setInputCols("document")
-  *   .setOutputCol("sentencesDL")
-  *
-  * val pipeline = new Pipeline().setStages(Array(
-  *   documentAssembler,
-  *   sentence,
-  *   sentenceDL
-  * ))
-  *
-  * val data = Seq("""John loves Mary.Mary loves Peter
-  *   Peter loves Helen .Helen loves John;
-  *   Total: four people involved.""").toDF("text")
-  * val result = pipeline.fit(data).transform(data)
-  *
-  * result.selectExpr("explode(sentences.result) as sentences").show(false)
-  * +----------------------------------------------------------+
-  * |sentences                                                 |
-  * +----------------------------------------------------------+
-  * |John loves Mary.Mary loves Peter\n     Peter loves Helen .|
-  * |Helen loves John;                                         |
-  * |Total: four people involved.                              |
-  * +----------------------------------------------------------+
-  *
-  * result.selectExpr("explode(sentencesDL.result) as sentencesDL").show(false)
-  * +----------------------------+
-  * |sentencesDL                 |
-  * +----------------------------+
-  * |John loves Mary.            |
-  * |Mary loves Peter            |
-  * |Peter loves Helen .         |
-  * |Helen loves John;           |
-  * |Total: four people involved.|
-  * +----------------------------+
-  * }}}
-  * @see [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach SentenceDetectorDLApproach]] for training a model yourself
-  * @see [[com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector SentenceDetector]] for non deep learning extraction
-  * @param uid required uid for storing annotator to disk
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  */
+/** Annotator that detects sentence boundaries using a deep learning approach.
+ *
+ * Instantiated Model of the [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach SentenceDetectorDLApproach]].
+ * Detects sentence boundaries using a deep learning approach.
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val sentenceDL = SentenceDetectorDLModel.pretrained()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentencesDL")
+ * }}}
+ * The default model is `"sentence_detector_dl"`, if no name is provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Sentence+Detection Models Hub]].
+ *
+ * Each extracted sentence can be returned in an Array or exploded to separate rows,
+ * if `explodeSentences` is set to `true`.
+ *
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala SentenceDetectorDLSpec]].
+ *
+ * ==Example==
+ * In this example, the normal `SentenceDetector` is compared to the `SentenceDetectorDLModel`. In a pipeline,
+ * `SentenceDetectorDLModel` can be used as a replacement for the `SentenceDetector`.
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotator.SentenceDetector
+ * import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val sentence = new SentenceDetector()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentences")
+ *
+ * val sentenceDL = SentenceDetectorDLModel
+ *   .pretrained("sentence_detector_dl", "en")
+ *   .setInputCols("document")
+ *   .setOutputCol("sentencesDL")
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   sentence,
+ *   sentenceDL
+ * ))
+ *
+ * val data = Seq("""John loves Mary.Mary loves Peter
+ *   Peter loves Helen .Helen loves John;
+ *   Total: four people involved.""").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(sentences.result) as sentences").show(false)
+ * +----------------------------------------------------------+
+ * |sentences                                                 |
+ * +----------------------------------------------------------+
+ * |John loves Mary.Mary loves Peter\n     Peter loves Helen .|
+ * |Helen loves John;                                         |
+ * |Total: four people involved.                              |
+ * +----------------------------------------------------------+
+ *
+ * result.selectExpr("explode(sentencesDL.result) as sentencesDL").show(false)
+ * +----------------------------+
+ * |sentencesDL                 |
+ * +----------------------------+
+ * |John loves Mary.            |
+ * |Mary loves Peter            |
+ * |Peter loves Helen .         |
+ * |Helen loves John;           |
+ * |Total: four people involved.|
+ * +----------------------------+
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach SentenceDetectorDLApproach]] for training a model yourself
+ * @see [[com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector SentenceDetector]] for non deep learning extraction
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class SentenceDetectorDLModel(override val uid: String)
   extends AnnotatorModel[SentenceDetectorDLModel] with HasSimpleAnnotate[SentenceDetectorDLModel]
     with HasStorageRef

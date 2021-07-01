@@ -1,0 +1,1 @@
+|<a href="#{{include.name | downcase | replace: ' ', '-' | replace: '(', '' | replace: ')', ''}}">{{include.name}}</a>|{{include.summary}}|Opensource|

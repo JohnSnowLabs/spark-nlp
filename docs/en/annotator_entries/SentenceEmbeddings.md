@@ -12,6 +12,40 @@ This can be configured with `setPoolingStrategy`, which either be `"AVERAGE"` or
 For more extended examples see the
 [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb).
 and the [SentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala).
+
+> **NOTE:** If you choose `document` as your input for `Tokenizer`, `WordEmbeddings`/`BertEmbeddings`, and `SentenceEmbeddings` then it averages/sums all the embeddings into one array of embeddings. However, if you choose `sentence` as `inputCols` then for each sentence `SentenceEmbeddings` generates one array of embeddings.
+> **TIP:** Here is how you can explode and convert these embeddings into `Vectors` or what's known as `Feature` column so it can be used in Spark ML regression or clustering functions
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+from org.apache.spark.ml.linal import Vector, Vectors
+from pyspark.sql.functions import udf
+# Let's create a UDF to take array of embeddings and output Vectors
+@udf(Vector)
+def convertToVectorUDF(matrix):
+    return Vectors.dense(matrix.toArray.map(_.toDouble))
+
+
+# Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
+pipelineDF.select(explode("sentence_embeddings.embeddings").as("sentence_embedding"))
+.withColumn("features", convertToVectorUDF("sentence_embedding"))
+```
+
+```scala
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+
+// Let's create a UDF to take array of embeddings and output Vectors
+val convertToVectorUDF = udf((matrix : Seq[Float]) => {
+    Vectors.dense(matrix.toArray.map(_.toDouble))
+})
+
+// Now let's explode the sentence_embeddings column and have a new feature column for Spark ML
+pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedding"))
+.withColumn("features", convertToVectorUDF($"sentence_embedding"))
+```
 {%- endcapture -%}
 
 {%- capture input_anno -%}

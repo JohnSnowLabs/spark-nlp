@@ -21,6 +21,52 @@ For available pretrained models please see the [Models Hub](https://nlp.johnsnow
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
 and [StopWordsCleanerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala).
+
+
+> **NOTE:**
+> If you need to `setStopWords` from a text file, you can first read and convert it into an array of string as follows.
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```python
+# your stop words text file, each line is one stop word
+stopwords = sc.textFile("/tmp/stopwords/english.txt").collect()
+
+# simply use it in StopWordsCleaner
+stopWordsCleaner = StopWordsCleaner()\
+      .setInputCols("token")\
+      .setOutputCol("cleanTokens")\
+      .setStopWords(stopwords)\
+      .setCaseSensitive(False)
+
+# or you can use pretrained models for StopWordsCleaner
+stopWordsCleaner = StopWordsCleaner.pretrained()
+      .setInputCols("token")\
+      .setOutputCol("cleanTokens")\
+      .setCaseSensitive(False)
+
+```
+
+```scala
+// your stop words text file, each line is one stop word
+val stopwords = sc.textFile("/tmp/stopwords/english.txt").collect()
+
+// simply use it in StopWordsCleaner
+val stopWordsCleaner = new StopWordsCleaner()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setStopWords(stopwords)
+      .setCaseSensitive(false)
+
+// or you can use pretrained models for StopWordsCleaner
+val stopWordsCleaner = StopWordsCleaner.pretrained()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setCaseSensitive(false)      
+```
+
 {%- endcapture -%}
 
 {%- capture input_anno -%}

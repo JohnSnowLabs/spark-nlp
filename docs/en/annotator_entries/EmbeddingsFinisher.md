@@ -20,7 +20,7 @@ For more extended examples see the
 {%- endcapture -%}
 
 {%- capture input_anno -%}
-NONE
+EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture output_anno -%}

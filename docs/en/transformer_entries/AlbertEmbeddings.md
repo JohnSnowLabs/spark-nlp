@@ -25,6 +25,11 @@ Pretrained models can be loaded with `pretrained` of the companion object:
 val embeddings = AlbertEmbeddings.pretrained()
  .setInputCols("sentence", "token")
  .setOutputCol("embeddings")
+
+# Offline - Download the pretrained model manually and extract it
+albert = AlbertEmbeddings.load("/albert_base_uncased_en_2.5.0_2.4_1588073363475") \
+        .setInputCols("sentence", "token") \
+        .setOutputCol("albert")
 ```
 The default model is `"albert_base_uncased"`, if no name is provided.
 
@@ -41,7 +46,7 @@ https://tfhub.dev/s?q=albert
 
 **Paper abstract:**
 
-''Increasing model size when pretraining natural language representations often results in improved performance on
+*Increasing model size when pretraining natural language representations often results in improved performance on
 downstream tasks. However, at some point further model increases become harder due to GPU/TPU memory limitations and
 longer training times. To address these problems, we present two parameter reduction techniques to lower memory
 consumption and increase the training speed of BERT (Devlin et al., 2019). Comprehensive empirical evidence shows
@@ -49,7 +54,7 @@ that our proposed methods lead to models that scale much better compared to
 the original BERT. We also use a self-supervised loss that focuses on modeling
 inter-sentence coherence, and show it consistently helps downstream tasks with
 multi-sentence inputs. As a result, our best model establishes new state-of-the-art
-results on the GLUE, RACE, and SQuAD benchmarks while having fewer parameters compared to BERT-large.''
+results on the GLUE, RACE, and SQuAD benchmarks while having fewer parameters compared to BERT-large.*
 
 **Tips:**
 ALBERT uses repeating layers which results in a small memory footprint,

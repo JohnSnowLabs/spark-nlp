@@ -1,5 +1,5 @@
 {%- capture title -%}
-NorvigSweeting
+NorvigSweeting Spellchecker
 {%- endcapture -%}
 
 {%- capture model_description -%}
@@ -125,8 +125,7 @@ Trains annotator, that retrieves tokens and makes corrections automatically if n
 The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
 dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
 (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-A dictionary of correct spellings must be provided with `setDictionary` either in the form of a text file or directly
-as an [ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource), where each word is parsed by a regex pattern.
+A dictionary of correct spellings must be provided with `setDictionary` as a text file, where each word is parsed by a regex pattern.
 
 Inspired by Norvig model and [SymSpell](https://github.com/wolfgarbe/SymSpell).
 

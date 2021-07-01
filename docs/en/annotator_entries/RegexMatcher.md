@@ -27,8 +27,7 @@ CHUNK
 Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
 
 A dictionary of predefined regular expressions must be provided with `setRules`.
-The dictionary can be set in either in the form of a delimited text file or directly as an
-[ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource).
+The dictionary can be set as a delimited text file.
 
 Pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
 

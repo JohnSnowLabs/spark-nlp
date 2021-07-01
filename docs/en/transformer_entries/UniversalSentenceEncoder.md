@@ -25,7 +25,7 @@ https://tfhub.dev/google/universal-sentence-encoder/2
 
 **Paper abstract:**
 
-''We present models for encoding sentences into embedding vectors that specifically target transfer learning to other
+*We present models for encoding sentences into embedding vectors that specifically target transfer learning to other
 NLP tasks. The models are efficient and result in accurate performance on diverse transfer tasks. Two variants of the
 encoding models allow for trade-offs between accuracy and compute resources. For both variants, we investigate and
 report the relationship between model complexity, resource consumption, the availability of transfer task training
@@ -34,7 +34,7 @@ word embeddings as well as baselines do not use any transfer learning. We find t
 embeddings tends to outperform word level transfer. With transfer learning via sentence embeddings, we observe
 surprisingly good performance with minimal amounts of supervised training data for a transfer task. We obtain
 encouraging results on Word Embedding Association Tests (WEAT) targeted at detecting model bias. Our pre-trained
-sentence encoding models are made freely available for download and on TF Hub.''
+sentence encoding models are made freely available for download and on TF Hub.*
 {%- endcapture -%}
 
 {%- capture input_anno -%}

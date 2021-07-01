@@ -11,7 +11,7 @@ For more extended examples on document pre-processing see the
 {%- endcapture -%}
 
 {%- capture input_anno -%}
-NONE
+ANY
 {%- endcapture -%}
 
 {%- capture output_anno -%}

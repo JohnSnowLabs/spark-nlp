@@ -17,8 +17,6 @@ plethora of situations where access to training corpora is either limited or res
 The algorithm makes use of the position of a sentence and token. Therefore, to use the annotator, the text should be
 first sent through a Sentence Boundary Detector and then a tokenizer.
 
-See the parameters section for tweakable parameters to get the best result from the annotator.
-
 Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
 Therefore to filter the keywords, an upper bound for the score can be set with `setThreshold`.
 
@@ -31,14 +29,14 @@ and the [YakeTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src
 
 **Paper abstract:**
 
-''As the amount of generated information grows, reading and summarizing texts of large collections turns into a challenging task. Many documents do not come with descriptive terms,
+*As the amount of generated information grows, reading and summarizing texts of large collections turns into a challenging task. Many documents do not come with descriptive terms,
 thus requiring humans to generate keywords on-the-fly. The need to automate this kind of task demands the development of keyword extraction systems with the ability to automatically
 identify keywords within the text. One approach is to resort to machine-learning algorithms. These, however, depend on large annotated text corpora, which are not always available.
 An alternative solution is to consider an unsupervised approach. In this article, we describe YAKE!, a light-weight unsupervised automatic keyword extraction method which rests on
 statistical text features extracted from single documents to select the most relevant keywords of a text. Our system does not need to be trained on a particular set of documents,
 nor does it depend on dictionaries, external corpora, text size, language, or domain. To demonstrate the merits and significance of YAKE!, we compare it against ten state-of-the-art
 unsupervised approaches and one supervised method. Experimental results carried out on top of twenty datasets show that YAKE! significantly outperforms other unsupervised methods on
-texts of different sizes, languages, and domains.''
+texts of different sizes, languages, and domains.*
 {%- endcapture -%}
 
 {%- capture input_anno -%}

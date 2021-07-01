@@ -39,7 +39,7 @@ and [Tokenizer test class](https://github.com/JohnSnowLabs/spark-nlp/blob/master
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
-DOCUMENT // A Tokenizer could require only for now a SentenceDetector annotator
+DOCUMENT
 {%- endcapture -%}
 
 {%- capture approach_output_anno -%}
@@ -115,4 +115,5 @@ approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
+approach_note="All these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions."
 %}

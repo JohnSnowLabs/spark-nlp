@@ -3,7 +3,8 @@ DateMatcher
 {%- endcapture -%}
 
 {%- capture description -%}
-Matches standard date formats into a provided format
+Matches standard date formats into a provided format.
+
 Reads from different forms of date and time expressions and converts them to a provided date format.
 
 Extracts only **one** date per document. Use with sentence detector to find matches in each sentence.
@@ -51,7 +52,8 @@ date = DateMatcher() \
     .setOutputCol("date") \
     .setAnchorDateYear(2020) \
     .setAnchorDateMonth(1) \
-    .setAnchorDateDay(11)
+    .setAnchorDateDay(11) \
+    .setDateFormat("yyyy/MM/dd")
 
 pipeline = Pipeline().setStages([
     documentAssembler,
@@ -88,6 +90,7 @@ val date = new DateMatcher()
   .setAnchorDateYear(2020)
   .setAnchorDateMonth(1)
   .setAnchorDateDay(11)
+  .setDateFormat("yyyy/MM/dd")
 
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,
