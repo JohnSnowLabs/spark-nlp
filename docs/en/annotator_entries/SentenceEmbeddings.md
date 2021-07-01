@@ -1,0 +1,147 @@
+{%- capture title -%}
+SentenceEmbeddings
+{%- endcapture -%}
+
+{%- capture description -%}
+Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence
+or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document
+(depending on the inputCols).
+
+This can be configured with `setPoolingStrategy`, which either be `"AVERAGE"` or `"SUM"`.
+
+For more extended examples see the
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb).
+and the [SentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala).
+{%- endcapture -%}
+
+{%- capture input_anno -%}
+DOCUMENT, WORD_EMBEDDINGS
+{%- endcapture -%}
+
+{%- capture output_anno -%}
+SENTENCE_EMBEDDINGS
+{%- endcapture -%}
+
+{%- capture python_example -%}
+import sparknlp
+from sparknlp.base import *
+from sparknlp.common import *
+from sparknlp.annotator import *
+from sparknlp.training import *
+from pyspark.ml import Pipeline
+
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["document"]) \
+    .setOutputCol("token")
+
+embeddings = WordEmbeddingsModel.pretrained() \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings")
+
+embeddingsSentence = SentenceEmbeddings() \
+    .setInputCols(["document", "embeddings"]) \
+    .setOutputCol("sentence_embeddings") \
+    .setPoolingStrategy("AVERAGE")
+
+embeddingsFinisher = EmbeddingsFinisher() \
+    .setInputCols(["sentence_embeddings"]) \
+    .setOutputCols("finished_embeddings") \
+    .setOutputAsVector(True) \
+    .setCleanAnnotations(False)
+
+pipeline = Pipeline() \
+    .setStages([
+      documentAssembler,
+      tokenizer,
+      embeddings,
+      embeddingsSentence,
+      embeddingsFinisher
+    ])
+
+data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+result = pipeline.fit(data).transform(data)
+
+result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
++--------------------------------------------------------------------------------+
+|                                                                          result|
++--------------------------------------------------------------------------------+
+|[-0.22093398869037628,0.25130119919776917,0.41810303926467896,-0.380883991718...|
++--------------------------------------------------------------------------------+
+
+{%- endcapture -%}
+
+{%- capture scala_example -%}
+import spark.implicits._
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
+import com.johnsnowlabs.nlp.EmbeddingsFinisher
+import org.apache.spark.ml.Pipeline
+
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+  .setInputCols(Array("document"))
+  .setOutputCol("token")
+
+val embeddings = WordEmbeddingsModel.pretrained()
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+
+val embeddingsSentence = new SentenceEmbeddings()
+  .setInputCols(Array("document", "embeddings"))
+  .setOutputCol("sentence_embeddings")
+  .setPoolingStrategy("AVERAGE")
+
+val embeddingsFinisher = new EmbeddingsFinisher()
+  .setInputCols("sentence_embeddings")
+  .setOutputCols("finished_embeddings")
+  .setOutputAsVector(true)
+  .setCleanAnnotations(false)
+
+val pipeline = new Pipeline()
+  .setStages(Array(
+    documentAssembler,
+    tokenizer,
+    embeddings,
+    embeddingsSentence,
+    embeddingsFinisher
+  ))
+
+val data = Seq("This is a sentence.").toDF("text")
+val result = pipeline.fit(data).transform(data)
+
+result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
++--------------------------------------------------------------------------------+
+|                                                                          result|
++--------------------------------------------------------------------------------+
+|[-0.22093398869037628,0.25130119919776917,0.41810303926467896,-0.380883991718...|
++--------------------------------------------------------------------------------+
+
+{%- endcapture -%}
+
+{%- capture api_link -%}
+[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings)
+{%- endcapture -%}
+
+{%- capture source_link -%}
+[SentenceEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings.scala)
+{%- endcapture -%}
+
+{% include templates/anno_template.md
+title=title
+description=description
+input_anno=input_anno
+output_anno=output_anno
+python_example=python_example
+scala_example=scala_example
+api_link=api_link
+source_link=source_link
+%}
