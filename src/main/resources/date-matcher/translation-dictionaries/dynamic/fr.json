@@ -108,49 +108,49 @@
         "s",
         "seconde"
     ],
-    "0 day ago": [
+    "#K# day ago": [
         "aujourd'hui"
     ],
-    "0 hour ago": [
+    "#K# hour ago": [
         "cette heure-ci"
     ],
-    "0 minute ago": [
+    "#K# minute ago": [
         "cette minute-ci"
     ],
-    "0 month ago": [
+    "#K# month ago": [
         "ce mois-ci"
     ],
-    "0 second ago": [
+    "#K# second ago": [
         "maintenant"
     ],
-    "0 week ago": [
+    "#K# week ago": [
         "cette semaine"
     ],
-    "0 year ago": [
+    "#K# year ago": [
         "cette année"
     ],
-    "1 day ago": [
+    "#K# day ago": [
         "hier"
     ],
-    "1 month ago": [
+    "#K# month ago": [
         "le mois dernier"
     ],
-    "1 week ago": [
+    "#K# week ago": [
         "la semaine dernière"
     ],
-    "1 year ago": [
+    "#K# year ago": [
         "l'année dernière"
     ],
-    "in 1 day": [
+    "in #K# day": [
         "demain"
     ],
-    "in 1 month": [
+    "in #K# month": [
         "le mois prochain"
     ],
-    "in 1 week": [
+    "in #K# week": [
         "la semaine prochaine"
     ],
-    "in 1 year": [
+    "in #K# year": [
         "l'année prochaine"
     ],
     "#K# day ago": [

@@ -110,54 +110,55 @@
         "seg",
         "segundo"
     ],
-    "0 day ago": [
+    "#K# day ago": [
         "hoje"
     ],
-    "0 hour ago": [
+    "#K# hour ago": [
         "esta hora"
     ],
-    "0 minute ago": [
+    "#K# minute ago": [
         "este minuto"
     ],
-    "0 month ago": [
+    "#K# month ago": [
         "este mês"
     ],
-    "0 second ago": [
+    "#K# second ago": [
         "agora"
     ],
-    "0 week ago": [
+    "#K# week ago": [
         "esta semana"
     ],
-    "0 year ago": [
+    "#K# year ago": [
         "este ano"
     ],
-    "1 day ago": [
+    "#K# day ago": [
         "ontem"
     ],
-    "1 month ago": [
+    "#K# month ago": [
         "mês passado"
     ],
-    "1 week ago": [
+    "#K# week ago": [
         "semana passada"
     ],
-    "1 year ago": [
+    "#K# year ago": [
         "ano passado"
     ],
-    "in 1 day": [
+    "in #K# day": [
         "amanhã"
     ],
-    "in 1 month": [
+    "in #K# month": [
         "próximo mês"
     ],
-    "in 1 week": [
+    "in #K# week": [
         "próxima semana"
     ],
-    "in 1 year": [
+    "in #K# year": [
         "próximo ano"
     ],
     "#K# day ago": [
         "há #V# dia",
-        "há #V# dias"
+        "há #V# dias",
+        "#V# dias atrás"
     ],
     "#K# hour ago": [
         "há #V# h",
@@ -182,11 +183,13 @@
     "#K# week ago": [
         "há #V# sem",
         "há #V# semana",
-        "há #V# semanas"
+        "há #V# semanas",
+        "#V# semanas atrás"
     ],
     "#K# year ago": [
         "há #V# ano",
-        "há #V# anos"
+        "há #V# anos",
+        "#V# anos atrás"
     ],
     "in #K# day": [
         "em #V# dia",

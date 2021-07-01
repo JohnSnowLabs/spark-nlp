@@ -220,15 +220,27 @@ object DateMatcherTranslator extends Serializable {
       case i: List[String @unchecked] => i
       case _ => List(dictionary.getOrElse(k, List(NotFound)).toString)
     }
+
+    val cardinality: Int = getTimeUnitCardinality(toBeReplaced)
+
     val res =
       for(c <- candidates
-          if c.contains(toBeReplaced)
+          if c.contains(toBeReplaced) || c.replaceAll(ValuePlaceholder, cardinality.toString).contains(toBeReplaced)
           ) yield c
 
     if(!res.isEmpty)
       (k, res.head)
     else
       (k, NotFound)
+  }
+
+  private def getTimeUnitCardinality(text: String) = {
+    val pattern = """(\d+)""".r
+    val cardinality = pattern.findFirstIn(text) match {
+      case Some(m) => m.toInt
+      case _ => -1
+    }
+    cardinality
   }
 
   def getKeyFromDictionaryValue(toBeReplaced: Array[String], sourceLanguage: String) = {
@@ -242,6 +254,8 @@ object DateMatcherTranslator extends Serializable {
     val replacingKey: Iterable[(String, String)] = iterKeys
       .map(k => searchKeyFromValuesMatch(dictionary, k, toBeReplaced.mkString(SpaceChar)))
       .filterNot(_._2.equals(NotFound))
+
+    println(s"replacingKey: $replacingKey")
 
     replacingKey
   }
@@ -286,13 +300,17 @@ object DateMatcherTranslator extends Serializable {
     val sourceLanguage = sourceLanguageInfo.head._1
     val replacingKeys = getKeyFromDictionaryValue(toBeReplaced, sourceLanguage)
 
+    val cardinality = getTimeUnitCardinality(text).toString
+
     var acc = EmptyStr
     replacingKeys.foreach(rk =>
       acc = text.replaceAll(
-        rk._2.replace(ValuePlaceholder, EmptyStr),
-        rk._1.replace(KeyPlaceholder, EmptyStr)))
+        rk._2.replace(ValuePlaceholder, cardinality),
+        rk._1.replace(KeyPlaceholder, cardinality)))
 
-    adjustPlurality(acc)
+    val adjusted = adjustPlurality(acc)
+    println(s"adjusted: $adjusted")
+    adjusted
   }
 
   /**
@@ -335,11 +353,19 @@ object DateMatcherTranslator extends Serializable {
       sourceLanguageInfo.head._2.toString().split(SpaceChar).size != 1
     )
 
+    val key = sourceLanguageInfo.keySet.head
+    val value = sourceLanguageInfo.values.flatten.toList
+      .sortWith(_.length > _.length)
+      .head
+    val _sourceLanguageInfo: Map[String, Set[String]] = Map(key -> Set(value))
+
+    println(s"simplifiedMap: ${_sourceLanguageInfo.mkString}")
+
     val res =
       if(predicates.forall(_.equals(true)))
-        translateBySentence(text, sourceLanguageInfo)
+        translateBySentence(text, _sourceLanguageInfo)
       else
-        translateTokens(text, sourceLanguageInfo)
+        translateTokens(text, _sourceLanguageInfo)
 
     res
   }
@@ -353,12 +379,15 @@ object DateMatcherTranslator extends Serializable {
    * @return the translated text from source language to destination language.
    * */
   def translate(text: String, source: String, destination: String = English): String = {
-
-    // 1. set or detect source language
+    // 1. detect source language
     val _sourceLanguageInfo: Map[String, Set[String]] = detectSourceLanguage(text)
 
-    // 2. apply translation
-    val translated = _translate(text, _sourceLanguageInfo, destination)
+    // 2. apply translation if source is not english
+    val translated =
+      if(!_sourceLanguageInfo.keySet.head.equals(English))
+        _translate(text, _sourceLanguageInfo, destination)
+      else
+        text
 
     translated
   }
