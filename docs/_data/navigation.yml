@@ -101,6 +101,8 @@ docs-en:
         url:    /docs/en/ocr_table_recognition
       - title:  Visual document understanding
         url:    /docs/en/ocr_visual_document_understanding
+      - title:  Object detection
+        url:    /docs/en/ocr_object_detection
       - title:  Structures and helpers
         url:    /docs/en/ocr_structures
       - title:  Release notes
