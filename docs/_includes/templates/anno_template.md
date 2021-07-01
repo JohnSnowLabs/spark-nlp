@@ -17,6 +17,8 @@
 
 | **API:** {{include.api_link}} | **Source:** {{include.source_link}} |
 
+{% if include.python_example and include.scala_example %}
+
 <details>
 
 <summary class="button"><b>Show Example</b></summary>
@@ -36,5 +38,7 @@
 </div>
 
 </details>
+
+{% endif %}
 
 </div>
