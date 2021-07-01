@@ -25,6 +25,11 @@ Pretrained models can be loaded with `pretrained` of the companion object:
 val embeddings = XlnetEmbeddings.pretrained()
   .setInputCols("sentence", "token")
   .setOutputCol("embeddings")
+
+# Offline - Download the pretrained model manually and extract it
+xlnet = XlnetEmbeddings.load("/xlnet_large_cased_en_2.5.0_2.4_1588074397954") \
+        .setInputCols("sentence", "token") \
+        .setOutputCol("xlnet")
 ```
 The default model is `"xlnet_base_cased"`, if no name is provided.
 
@@ -39,7 +44,7 @@ https://github.com/zihangdai/xlnet
 
 **Paper abstract:**
 
-''With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves
+*With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves
 better performance than pretraining approaches based on autoregressive language modeling. However, relying on
 corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune
 discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that
@@ -47,7 +52,7 @@ discrepancy. In light of these pros and cons, we propose XLNet, a generalized au
 factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore,
 XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically,
 under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question
-answering, natural language inference, sentiment analysis, and document ranking.''
+answering, natural language inference, sentiment analysis, and document ranking.*
 {%- endcapture -%}
 
 {%- capture input_anno -%}

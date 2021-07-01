@@ -45,7 +45,8 @@ date = MultiDateMatcher() \
     .setOutputCol("date") \
     .setAnchorDateYear(2020) \
     .setAnchorDateMonth(1) \
-    .setAnchorDateDay(11)
+    .setAnchorDateDay(11) \
+    .setDateFormat("yyyy/MM/dd")
 
 pipeline = Pipeline().setStages([
     documentAssembler,
@@ -82,6 +83,7 @@ val date = new MultiDateMatcher()
   .setAnchorDateYear(2020)
   .setAnchorDateMonth(1)
   .setAnchorDateDay(11)
+  .setDateFormat("yyyy/MM/dd")
 
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,

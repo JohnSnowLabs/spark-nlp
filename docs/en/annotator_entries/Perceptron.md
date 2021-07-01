@@ -1,5 +1,5 @@
 {%- capture title -%}
-Perceptron
+POSTagger (Part of speech tagger)
 {%- endcapture -%}
 
 {%- capture model_description -%}

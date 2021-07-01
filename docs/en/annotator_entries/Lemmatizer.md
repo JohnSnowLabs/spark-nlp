@@ -48,8 +48,7 @@ val lemmatizer = LemmatizerModel.pretrained()
 {%- capture approach_description -%}
 Class to find lemmas out of words with the objective of returning a base dictionary word.
 Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with `setDictionary`.
-The dictionary can be set in either in the form of a delimited text file or directly as an
-[ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource).
+The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with [LemmatizerModel.pretrained](https://nlp.johnsnowlabs.com/api/LemmatizerModel).
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).

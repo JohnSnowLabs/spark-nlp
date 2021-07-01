@@ -33,10 +33,10 @@ and the [MarianTransformerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/bl
 
 **Paper Abstract:**
 
-''We present Marian, an efficient and self-contained Neural Machine Translation framework with an integrated
+*We present Marian, an efficient and self-contained Neural Machine Translation framework with an integrated
 automatic differentiation engine based on dynamic computation graphs. Marian is written entirely in C++. We describe
 the design of the encoder-decoder framework and demonstrate that a research-friendly toolkit can achieve high
-training and translation speed.''
+training and translation speed.*
 
 **Note:**
 

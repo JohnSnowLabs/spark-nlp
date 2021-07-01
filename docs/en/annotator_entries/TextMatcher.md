@@ -27,8 +27,7 @@ CHUNK
 Annotator to match exact phrases (by token) provided in a file against a Document.
 
 A text file of predefined phrases must be provided with `setEntities`.
-The text file can als be set directly as an
-[ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource).
+
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
 and the [TextMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala).

@@ -25,7 +25,7 @@ example shows how to import them.
 
 **Paper Abstract:**
 
-''This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
+*This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
 wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one hundred
 languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly
 outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on
@@ -35,7 +35,7 @@ also present a detailed empirical evaluation of the key factors that are require
 trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high and low resource
 languages at scale. Finally, we show, for the first time, the possibility of multilingual modeling without sacrificing
 per-language performance; XLM-Ris very competitive with strong monolingual models on the GLUE and XNLI benchmarks. We
-will make XLM-R code, data, and models publicly available.''
+will make XLM-R code, data, and models publicly available.*
 
 **Tips:**
   - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does

@@ -1,5 +1,5 @@
 {%- capture title -%}
-SymmetricDelete
+SymmetricDelete Spellchecker
 {%- endcapture -%}
 
 {%- capture model_description -%}

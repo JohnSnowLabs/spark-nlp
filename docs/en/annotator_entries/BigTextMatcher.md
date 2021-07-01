@@ -27,8 +27,7 @@ CHUNK
 Annotator to match exact phrases (by token) provided in a file against a Document.
 
 A text file of predefined phrases must be provided with `setStoragePath`.
-The text file can als be set directly as an
-[ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource).
+
 
 In contrast to the normal `TextMatcher`, the `BigTextMatcher` is designed for large corpora.
 

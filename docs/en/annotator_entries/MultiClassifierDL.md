@@ -333,4 +333,5 @@ approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
+approach_note="This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol"
 %}

@@ -10,8 +10,7 @@ For training your own model, please see the documentation of that class.
 
 A dictionary of predefined sentiment keywords must be provided with `setDictionary`, where each line is a word
 delimited to its class (either `positive` or `negative`).
-The dictionary can be set in either in the form of a delimited text file or directly as an
-[ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource).
+The dictionary can be set as a delimited text file.
 
 By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
 To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
@@ -41,8 +40,7 @@ Trains a rule based sentiment detector, which calculates a score based on predef
 
 A dictionary of predefined sentiment keywords must be provided with `setDictionary`, where each line is a word
 delimited to its class (either `positive` or `negative`).
-The dictionary can be set in either in the form of a delimited text file or directly as an
-[ExternalResource](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/util/io/ExternalResource).
+The dictionary can be set as a delimited text file.
 
 By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
 To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
