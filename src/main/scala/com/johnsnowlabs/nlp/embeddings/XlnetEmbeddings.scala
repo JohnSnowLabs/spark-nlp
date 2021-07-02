@@ -21,6 +21,7 @@ import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
 
 import org.apache.spark.broadcast.Broadcast
@@ -220,6 +221,23 @@ class XlnetEmbeddings(override val uid: String)
     this
   }
 
+  /**
+   * It contains TF model signatures for the laded saved model
+   *
+   * @group param
+   * */
+  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+
+  /** @group setParam */
+  def setSignatures(value: Map[String, String]): this.type = {
+    if (get(signatures).isEmpty)
+      set(signatures, value)
+    this
+  }
+
+  /** @group getParam */
+  def getSignatures: Option[Map[String, String]] = get(this.signatures)
+
   /** The Tensorflow XLNet Model */
   private var _model: Option[Broadcast[TensorflowXlnet]] = None
 
@@ -232,7 +250,8 @@ class XlnetEmbeddings(override val uid: String)
           new TensorflowXlnet(
             tensorflow,
             spp,
-            configProtoBytes = getConfigProtoBytes
+            configProtoBytes = getConfigProtoBytes,
+            signatures = getSignatures
           )
         )
       )
@@ -276,7 +295,7 @@ class XlnetEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModel(path, spark, getModelIfNotSet.tensorflow, "_xlnet", XlnetEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_xlnet", XlnetEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
     writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet", XlnetEmbeddings.sppFile)
 
   }
@@ -307,34 +326,40 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
   override val sppFile: String = "xlnet_spp"
 
   def readTensorflow(instance: XlnetEmbeddings, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_xlnet_tf", initAllTables = true)
+    val tf = readTensorflowModel(path, spark, "_xlnet_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(folder: String, spark: SparkSession): XlnetEmbeddings = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetEmbeddings = {
 
-    val f = new File(folder)
-    val sppModelPath = folder + "/assets"
-    val savedModel = new File(folder, "saved_model.pb")
+    val f = new File(tfModelPath)
+    val sppModelPath = tfModelPath + "/assets"
+    val savedModel = new File(tfModelPath, "saved_model.pb")
     val sppModel = new File(sppModelPath, "spiece.model")
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
+      s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
     require(sppModel.exists(), s"SentencePiece model spiece.model not found in folder $sppModelPath")
 
-    val (wrapper, _) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = true)
+    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
     val spp = SentencePieceWrapper.read(sppModel.toString)
 
-    val xlnet = new XlnetEmbeddings()
+    val _signatures = signatures match {
+      case Some(s) => s
+      case None => throw new Exception("Cannot load signature definitions from model!")
+    }
+
+    new XlnetEmbeddings()
+      .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper, spp)
-    xlnet
+
   }
 }
 
@@ -342,4 +367,4 @@ trait ReadXlnetTensorflowModel extends ReadTensorflowModel with ReadSentencePiec
 /**
  * This is the companion object of [[XlnetEmbeddings]]. Please refer to that class for the documentation.
  */
-object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel
+object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
