@@ -173,8 +173,8 @@ induced 0.1535748762292387 0.33498936903209897 0.9235178224122094 0.115877292039
 ...
 ```
 If a token is not found in the dictionary, then the result will be a zero vector of the same dimension.
-Statistics about the rate of converted tokens, can be retrieved with [WordEmbeddingsModel.withCoverageColumn](https://nlp.johnsnowlabs.com/api/WordEmbeddingsModel)
-and [WordEmbeddingsModel.overallCoverage](https://nlp.johnsnowlabs.com/api/WordEmbeddingsModel).
+Statistics about the rate of converted tokens, can be retrieved with`[WordEmbeddingsModel.withCoverageColumn`
+and `WordEmbeddingsModel.overallCoverage`.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb)
 and the [WordEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala).
