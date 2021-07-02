@@ -59,7 +59,8 @@ import scala.collection.JavaConverters._
  */
 class TensorflowXlnet(val tensorflow: TensorflowWrapper,
                       val spp: SentencePieceWrapper,
-                      configProtoBytes: Option[Array[Byte]] = None
+                      configProtoBytes: Option[Array[Byte]] = None,
+                      signatures: Option[Map[String, String]] = None
                      ) extends Serializable {
 
   // keys representing the input and output tensors of the XLNet model
@@ -124,7 +125,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val maskTensors = tensors.createFloatBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(tokenIdsKey, tokenTensors)
