@@ -220,9 +220,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
             tensorflowWrapper,
             spp,
             $(batchSize),
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )
