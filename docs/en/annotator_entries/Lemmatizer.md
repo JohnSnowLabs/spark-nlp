@@ -49,7 +49,7 @@ val lemmatizer = LemmatizerModel.pretrained()
 Class to find lemmas out of words with the objective of returning a base dictionary word.
 Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with `setDictionary`.
 The dictionary can be set as a delimited text file.
-Pretrained models can be loaded with [LemmatizerModel.pretrained](https://nlp.johnsnowlabs.com/api/LemmatizerModel).
+Pretrained models can be loaded with `LemmatizerModel.pretrained`.
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
