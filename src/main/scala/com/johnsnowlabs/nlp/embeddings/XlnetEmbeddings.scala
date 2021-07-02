@@ -57,6 +57,8 @@ import java.io.File
  *
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddingsTestSpec.scala XlnetEmbeddingsTestSpec]].
+ * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+ * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
  *
  * '''Sources :'''
  *

@@ -48,7 +48,7 @@ import java.io.File
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala DistilBertEmbeddingsTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
- * example shows how to import them.
+ * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
  *
  * The DistilBERT model was proposed in the paper
  * [[https://arxiv.org/abs/1910.01108 DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter]].
@@ -199,6 +199,7 @@ class DistilBertEmbeddings(override val uid: String)
 
   /**
    * It contains TF model signatures for the laded saved model
+   *
    * @group param
    * */
   val signatures = new MapFeature[String, String](model = this, name = "signatures")
