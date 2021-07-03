@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.annotators
 
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import sun.font.TextSourceLabel
 
 import java.io.{FileNotFoundException, IOException}
 import scala.io.Source
@@ -30,10 +29,10 @@ object DateMatcherTranslator extends Serializable {
   val DigitsPattern = """(\\d+)"""
 
   /**
-   * Load dictionary from supported language repository.
-   * @param language the language dictionary to load. Default is English.
-   * @return a map containing the language dictionary or throws an exception.
-   * */
+    * Load dictionary from supported language repository.
+    * @param language the language dictionary to load. Default is English.
+    * @return a map containing the language dictionary or throws an exception.
+    * */
   def loadDictionary(language: String = English) = {
     val DictionaryPath = s"$TranslationDataBaseDir$language$JsonSuffix"
 
@@ -41,8 +40,8 @@ object DateMatcherTranslator extends Serializable {
     try{
       jsonString = Source.fromFile(DictionaryPath).mkString
     } catch {
-      case e: FileNotFoundException => println(s"Couldn't find $language file in repository.")
-      case e: IOException => println("Got an IOException!")
+      case e: FileNotFoundException => throw new Exception(s"Couldn't find $language file in repository.")
+      case e: IOException => throw new Exception("Got an IOException!")
     }
 
     val json = parse(jsonString)
@@ -61,24 +60,36 @@ object DateMatcherTranslator extends Serializable {
     }
 
   /**
-   * Load available language keys to process further matches
-   * @param text: text to match language against.
-   * @return a map containing the matching languages.
-   * */
-  def detectSourceLanguageInfo(text: String) = {
+    * Load available language keys to process further matches
+    * @param text: text to match language against.
+    * @return a map containing the matching languages.
+    * */
+  def _processSourceLanguageInfo(text: String, sourceLanguage: String) = {
     val supportedLanguages =
       scala.io.Source
         .fromFile(SupportedLanguagesFilePath, Encoding)
         .getLines.toList
 
-    val activeLanguages = supportedLanguages.filterNot(_.startsWith(SkipChar)) // skip char
+    if(!sourceLanguage.isEmpty) {
+      val actualLanguage = List(sourceLanguage)
 
-    val matchingLanguages = activeLanguages
-      .map(l => searchForLanguageMatches(text, l))
-      .filterNot(_._1.equals(NotFound))
-      .toMap
+      val matchingLanguages = actualLanguage
+        .map(l => searchForLanguageMatches(text, l))
+        .filterNot(_._1.equals(NotFound))
+        .toMap
 
-    matchingLanguages
+      matchingLanguages
+    } else {
+      // TODO Autodetection flow or Exception
+      val activeLanguages = supportedLanguages.filterNot(_.startsWith(SkipChar)) // skip char
+
+      val matchingLanguages = activeLanguages
+        .map(l => searchForLanguageMatches(text, l))
+        .filterNot(_._1.equals(NotFound))
+        .toMap
+
+      matchingLanguages
+    }
   }
 
   def stringValuesToRegexes(regexValuesIntersection: Set[String]): Set[Regex] = {
@@ -90,12 +101,12 @@ object DateMatcherTranslator extends Serializable {
   }
 
   /**
-   * Search for language matches token by token.
-   *
-   * @param text: the text to process for matching.
-   * @param language: the 2 characters string identifying a supported language.
-   * @return a tuple representing language matches information, i.e. (language, Set(matches))
-   * */
+    * Search for language matches token by token.
+    *
+    * @param text: the text to process for matching.
+    * @param language: the 2 characters string identifying a supported language.
+    * @return a tuple representing language matches information, i.e. (language, Set(matches))
+    * */
   private def searchForLanguageMatches(text: String, language: String) = {
     val dictionary: Map[String, Any] = loadDictionary(language)
 
@@ -109,12 +120,15 @@ object DateMatcherTranslator extends Serializable {
     val sentenceMatches = findSentenceMatches(text, candidates)
     val matches = tokenMatches.union(sentenceMatches.map(_._2.toString))
 
+    // skipping single character matches
+    val filteredMatches = matches.filter(_.length > 1)
+
     val matchingLanguages: (String, Set[String]) =
-      if(matches.size != 0) {
+      if(filteredMatches.size != 0) {
         dictionary
           .asInstanceOf[Map[String, Any]]
           .getOrElse(NameKey, NotAvailable)
-          .toString -> matches
+          .toString -> filteredMatches
       } else
         NotFound -> Set.empty
 
@@ -122,7 +136,7 @@ object DateMatcherTranslator extends Serializable {
   }
 
   private def findSentenceMatches(text: String, dictionaryValues: Set[String]) = {
-    val regexValuesIntersection = dictionaryValues.filter(_.contains(ValuePlaceholder))
+    val regexValuesIntersection = dictionaryValues//.filter(_.contains(ValuePlaceholder))
 
     val regexes = stringValuesToRegexes(regexValuesIntersection)
 
@@ -151,20 +165,20 @@ object DateMatcherTranslator extends Serializable {
   }
 
   /**
-   * Detect the source language by looking for date language matches.
-   *
-   * @param text: the text to detect.
-   * @return the detected language as tuple of matched languages with their frequency.
-   * */
-  def detectSourceLanguage(text: String): Map[String, Set[String]] = {
+    * Process date matches with the source language.
+    *
+    * @param text: the text to detect.
+    * @return the detected language as tuple of matched languages with their frequency.
+    * */
+  def processSourceLanguageInfo(text: String, sourceLanguage: String): Map[String, Set[String]] = {
     // e.g. Map(it -> Set((.*) anni fa))
-    val detectedSourceLanguageInfo: Map[String, Set[String]] = detectSourceLanguageInfo(text)
+    val processedSourceLanguageInfo: Map[String, Set[String]] = _processSourceLanguageInfo(text, sourceLanguage)
 
     // if multiple source languages match we default to english as further processing is not possible
-    if(detectedSourceLanguageInfo.size != 1)
+    if(processedSourceLanguageInfo.size != 1)
       Map(English-> Set())
     else {
-      detectedSourceLanguageInfo
+      processedSourceLanguageInfo
     }
   }
 
@@ -172,10 +186,10 @@ object DateMatcherTranslator extends Serializable {
   type DateMatcherIndexedToken = (String, Int)
 
   /**
-   *  Matches the indexed text token against the passed dictionary.
-   *  @param indexToken the indexed token to match.
-   *  @param dictionary the dictionary to match token against.
-   * */
+    *  Matches the indexed text token against the passed dictionary.
+    *  @param indexToken the indexed token to match.
+    *  @param dictionary the dictionary to match token against.
+    * */
   def matchIndexedToken: (DateMatcherIndexedToken, Map[String, Any]) => DateMatcherIndexedToken =
     (indexToken, dictionary) => {
       val (token, index) = indexToken
@@ -203,11 +217,11 @@ object DateMatcherTranslator extends Serializable {
     }
 
   /**
-   * Apply translation switching token where an index has been translated using the dictionary matching.
-   * @param translatedIndexedToken: the translated index token to replace in text.
-   * @param text: the original text where translation is applied.
-   * @return the text translated using token replacement.
-   * */
+    * Apply translation switching token where an index has been translated using the dictionary matching.
+    * @param translatedIndexedToken: the translated index token to replace in text.
+    * @param text: the original text where translation is applied.
+    * @return the text translated using token replacement.
+    * */
   def applyTranslation(translatedIndexedToken: Array[(String, Int)], text: String) = {
     val tokens = text.split(SpaceChar)
     translatedIndexedToken.map(t => tokens(t._2) = t._1)
@@ -255,8 +269,6 @@ object DateMatcherTranslator extends Serializable {
       .map(k => searchKeyFromValuesMatch(dictionary, k, toBeReplaced.mkString(SpaceChar)))
       .filterNot(_._2.equals(NotFound))
 
-    println(s"replacingKey: $replacingKey")
-
     replacingKey
   }
 
@@ -284,18 +296,23 @@ object DateMatcherTranslator extends Serializable {
   }
 
   /**
-   * Translate sentence from source info.
-   * @param text: sentence to translate.
-   * @param sourceLanguageInfo: the osurce info map.
-   * @return the translated sentence.
-   * */
+    * Translate sentence from source info.
+    * @param text: sentence to translate.
+    * @param sourceLanguageInfo: the source info map.
+    * @return the translated sentence.
+    * */
   def translateBySentence(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
 
     val strPattern = sourceLanguageInfo.values.flatten.head.r
     val matchingGroup = strPattern.findAllIn(text).toList.head
 
-    val groupTokens = matchingGroup.split(SpaceChar)
-    val toBeReplaced = groupTokens.takeRight(groupTokens.size - 1)
+    val toBeReplaced =
+      if(!matchingGroup.contains(ValuePlaceholder) || !matchingGroup.contains(ValuePlaceholder))
+        Array(matchingGroup)
+      else {
+        val groupTokens = matchingGroup.split(SpaceChar)
+        groupTokens.takeRight(groupTokens.size - 1)
+      }
 
     val sourceLanguage = sourceLanguageInfo.head._1
     val replacingKeys = getKeyFromDictionaryValue(toBeReplaced, sourceLanguage)
@@ -309,16 +326,15 @@ object DateMatcherTranslator extends Serializable {
         rk._1.replace(KeyPlaceholder, cardinality)))
 
     val adjusted = adjustPlurality(acc)
-    println(s"adjusted: $adjusted")
     adjusted
   }
 
   /**
-   * Translate tokens from source info token by token.
-   * @param text: sentence to translate.
-   * @param sourceLanguageInfo: the osurce info map.
-   * @return the translated sentence.
-   * */
+    * Translate tokens from source info token by token.
+    * @param text: sentence to translate.
+    * @param sourceLanguageInfo: the osurce info map.
+    * @return the translated sentence.
+    * */
   private def translateTokens(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
 
     if (!sourceLanguageInfo.keySet.head.equals(English)) {
@@ -336,30 +352,28 @@ object DateMatcherTranslator extends Serializable {
   }
 
   /**
-   * Translate the text from source language to destination language.
-   *
-   * @param text the text to translate.
-   * @param sourceLanguageInfo the source language.
-   * @param destination the destination language.
-   * @return the translated text from source language to destination language.
-   * */
+    * Translate the text from source language to destination language.
+    *
+    * @param text the text to translate.
+    * @param sourceLanguageInfo the source language.
+    * @param destination the destination language.
+    * @return the translated text from source language to destination language.
+    * */
   private def _translate(text: String,
                          sourceLanguageInfo: Map[String, Set[String]],
                          destination: String = English) = {
 
-    val predicates = Array(
-      !sourceLanguageInfo.keySet.head.isEmpty,
-      !sourceLanguageInfo.head._2.isEmpty,
-      sourceLanguageInfo.head._2.toString().split(SpaceChar).size != 1
-    )
-
     val key = sourceLanguageInfo.keySet.head
-    val value = sourceLanguageInfo.values.flatten.toList
+    val longestMatch = sourceLanguageInfo.values.flatten.toList
       .sortWith(_.length > _.length)
       .head
-    val _sourceLanguageInfo: Map[String, Set[String]] = Map(key -> Set(value))
+    val _sourceLanguageInfo: Map[String, Set[String]] = Map(key -> Set(longestMatch))
 
-    println(s"simplifiedMap: ${_sourceLanguageInfo.mkString}")
+    val predicates = Array(
+      !_sourceLanguageInfo.keySet.head.isEmpty,
+      !_sourceLanguageInfo.head._2.isEmpty,
+      _sourceLanguageInfo.head._2.toString().split(SpaceChar).size != 1
+    )
 
     val res =
       if(predicates.forall(_.equals(true)))
@@ -371,16 +385,16 @@ object DateMatcherTranslator extends Serializable {
   }
 
   /**
-   * Translate the text from source language to destination language.
-   *
-   * @param text the text to translate.
-   * @param source the source language.
-   * @param destination the destination language.
-   * @return the translated text from source language to destination language.
-   * */
-  def translate(text: String, source: String, destination: String = English): String = {
+    * Translate the text from source language to destination language.
+    *
+    * @param text the text to translate.
+    * @param sourceLanguage the source language.
+    * @param destination the destination language.
+    * @return the translated text from source language to destination language.
+    * */
+  def translate(text: String, sourceLanguage: String, destination: String = English): String = {
     // 1. detect source language
-    val _sourceLanguageInfo: Map[String, Set[String]] = detectSourceLanguage(text)
+    val _sourceLanguageInfo: Map[String, Set[String]] = processSourceLanguageInfo(text, sourceLanguage)
 
     // 2. apply translation if source is not english
     val translated =
