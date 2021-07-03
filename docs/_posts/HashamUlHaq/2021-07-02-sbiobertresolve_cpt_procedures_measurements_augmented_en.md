@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to CPT codes using Sentence Bert Embeddings.
+This model maps medical entities to CPT codes using Sentence Bert Embeddings. The corpus of this model has been extented to measurements, and this model is capable of mapping both procedures and measurement concepts/entities to CPT codes. Measurement codes are helpful in codifying medical entities related to tests and their results.
 
 ## Predicted Entities
 
