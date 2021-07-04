@@ -19,6 +19,7 @@ import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.tensorflow.Graph
 import org.tensorflow.proto.framework.GraphDef
 
+import scala.collection.mutable
 import scala.util.Random
 
 /**
@@ -35,7 +36,7 @@ import scala.util.Random
  *   - a [[com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector SentenceDetector]],
  *   - a [[com.johnsnowlabs.nlp.annotators.Tokenizer Tokenizer]] and
  *   - a [[com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel WordEmbeddingsModel]]
- *   (any embeddings can be chosen, e.g. [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]] for BERT based embeddings).
+ *     (any embeddings can be chosen, e.g. [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]] for BERT based embeddings).
  *
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala NerDLSpec]].
@@ -195,6 +196,12 @@ class NerDLApproach(override val uid: String)
    * @group param
    * */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "Whether to include confidence scores in annotation metadata")
+
+  /** whether to include all confidence scores in annotation metadata or just score of the predicted tag
+   *
+   * @group param
+   * */
+  val includeAllConfidenceScores = new BooleanParam(this, "includeAllConfidenceScores", "whether to include all confidence scores in annotation metadata")
 
   /** Folder path to save training logs (Default: `""`)
    *
@@ -367,6 +374,12 @@ class NerDLApproach(override val uid: String)
    * */
   def setIncludeConfidence(value: Boolean): NerDLApproach.this.type = set(this.includeConfidence, value)
 
+  /** whether to include confidence scores for all tags rather than just for the predicted one
+   *
+   * @group setParam
+   * */
+  def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 70,
@@ -379,6 +392,7 @@ class NerDLApproach(override val uid: String)
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
+    includeAllConfidenceScores -> false,
     enableOutputLogs -> false,
     outputLogsPath -> "",
     enableMemoryOptimizer -> false
@@ -489,8 +503,7 @@ class NerDLApproach(override val uid: String)
 
   }
 
-
-  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]]) = {
+  def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]]): (mutable.Set[String], mutable.Set[Char], Int, Long) = {
 
     var labels = scala.collection.mutable.Set[String]()
     var chars = scala.collection.mutable.Set[Char]()
@@ -499,7 +512,7 @@ class NerDLApproach(override val uid: String)
 
     // try to be frugal with memory and with number of passes thru the iterator
     for (batch <- dsIt) {
-      dsLen += batch.size
+      dsLen += batch.length
       for (datapoint <- batch) {
 
         for (label <- datapoint._1.labels)
