@@ -1553,6 +1553,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
 
+    includeAllConfidenceScores = Param(Params._dummy(), "includeAllConfidenceScores",
+                                       "whether to include all confidence scores in annotation metadata or just the score of the predicted tag",
+                                       TypeConverters.toBoolean)
+
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
@@ -1605,6 +1609,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
+    def setIncludeAllConfidenceScores(self, value):
+        return self._set(includeAllConfidenceScores=value)
+
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
@@ -1630,6 +1637,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             validationSplit=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
+            includeAllConfidenceScores=False,
             enableOutputLogs=False,
             enableMemoryOptimizer=False
         )
@@ -1645,6 +1653,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         )
         self._setDefault(
             includeConfidence=False,
+            includeAllConfidenceScores=False,
             batchSize=8
         )
 
@@ -1652,6 +1661,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    includeAllConfidenceScores = Param(Params._dummy(), "includeAllConfidenceScores",
+                                       "whether to include all confidence scores in annotation metadata or just the score of the predicted tag",
+                                       TypeConverters.toBoolean)
     classes = Param(Params._dummy(), "classes",
                     "get the tags used to trained this NerDLModel",
                     TypeConverters.toListString)
@@ -1661,6 +1673,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
+
+    def setIncludeAllConfidenceScores(self, value):
+        return self._set(includeAllConfidenceScores=value)
 
     @staticmethod
     def pretrained(name="ner_dl", lang="en", remote_loc=None):
