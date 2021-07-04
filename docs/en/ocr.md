@@ -28,6 +28,7 @@ Spark OCR is built on top of ```Apache Spark``` and offers the following capabil
   - Recognizing and highlighting named entities in PDF documents
   - Masking sensitive text in order to de-identify images
 - Table detection and recognition from images
+- Signature detection
 - Visual document understanding
   - Document classification
   - Visual NER
