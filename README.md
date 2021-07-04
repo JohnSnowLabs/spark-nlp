@@ -714,7 +714,7 @@ NOTE: If you are launching a Databricks runtime that is not based on Apache Spar
 
 ## EMR Cluster
 
-To lanuch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.
+To launch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.
 
 A sample of your bootstrap script
 

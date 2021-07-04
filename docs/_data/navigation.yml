@@ -11,7 +11,7 @@ header:
     url: /models
     key: models
   - title: Demo
-    url: /classify_documents
+    url: /demos
   - title: '<span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
@@ -101,6 +101,8 @@ docs-en:
         url:    /docs/en/ocr_table_recognition
       - title:  Visual document understanding
         url:    /docs/en/ocr_visual_document_understanding
+      - title:  Object detection
+        url:    /docs/en/ocr_object_detection
       - title:  Structures and helpers
         url:    /docs/en/ocr_structures
       - title:  Release notes
