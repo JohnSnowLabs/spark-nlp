@@ -19,7 +19,16 @@
 
 {% endif %}
 
+{% if include.approach_source_link %}
+
 | **API:** {{include.approach_api_link}} | **Source:** {{include.approach_source_link}} |
+
+{% else %}
+
+| **API:** {{include.approach_api_link}} |
+
+{% endif %}
+
 
 {% if include.approach_python_example and include.approach_scala_example %}
 
@@ -61,7 +70,16 @@
 
 {% endif %}
 
+{% if include.model_source_link %}
+
 | **API:** {{include.model_api_link}} | **Source:** {{include.model_source_link}} |
+
+{% else %}
+
+| **API:** {{include.model_api_link}} |
+
+{% endif %}
+
 
 {% if include.model_python_example and include.model_scala_example %}
 
