@@ -151,18 +151,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("XLM_ROBERTA_EMBEDDINGS"))
 
-  def sentenceStartTokenId: Int = {
-    0
-  }
-
-  def sentenceEndTokenId: Int = {
-    2
-  }
-
-  def padTokenId: Int = {
-    1
-  }
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
@@ -220,9 +208,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
             tensorflowWrapper,
             spp,
             $(batchSize),
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )
