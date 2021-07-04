@@ -68,9 +68,9 @@ import java.io.File
  * study.''
  *
  * Tips:
- *   - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just
- *     separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
- *   - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input). This could be added if
+ *   - DistilBERT doesn't have `:obj:token_type_ids`, you don't need to indicate which token belongs to which segment. Just
+ *     separate your segments with the separation token `:obj:tokenizer.sep_token` (or `:obj:[SEP]`).
+ *   - DistilBERT doesn't have options to select the input positions (`:obj:position_ids` input). This could be added if
  *     necessary though, just let us know if you need this option.
  *
  * ==Example==

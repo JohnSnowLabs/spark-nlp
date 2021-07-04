@@ -25,10 +25,10 @@ docs-en:
         url:    /docs/en/install
       - title:  General Concepts
         url:    /docs/en/concepts
-      - title:  Transformers
-        url:    /docs/en/transformers
       - title:  Annotators
         url:    /docs/en/annotators
+      - title:  Transformers
+        url:    /docs/en/transformers
       - title:  Helpers
         url:    /docs/en/auxiliary
       - title:  Pipelines
