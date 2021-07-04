@@ -2428,14 +2428,13 @@ class AlbertEmbeddings(AnnotatorModel,
         return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
 
 
-class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class XlnetEmbeddings(AnnotatorModel,
+                      HasEmbeddingsProperties,
+                      HasCaseSensitiveProperties,
+                      HasStorageRef,
+                      HasBatchedAnnotate):
 
     name = "XlnetEmbeddings"
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -2450,9 +2449,6 @@ class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
@@ -2463,9 +2459,10 @@ class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
             java_model=java_model
         )
         self._setDefault(
-            batchSize=32,
+            batchSize=8,
             dimension=768,
-            maxSentenceLength=128
+            maxSentenceLength=128,
+            caseSensitive=True
         )
 
     @staticmethod
