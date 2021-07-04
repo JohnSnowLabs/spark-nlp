@@ -15,7 +15,17 @@
 
 {% endif %}
 
+{% if include.source_link %}
+
 | **API:** {{include.api_link}} | **Source:** {{include.source_link}} |
+
+{% else %}
+
+| **API:** {{include.api_link}} |
+
+
+{% endif %}
+
 
 {% if include.python_example and include.scala_example %}
 
