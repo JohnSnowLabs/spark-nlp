@@ -50,9 +50,9 @@ import scala.collection.mutable
  * import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
  * import org.apache.spark.ml.Pipeline
  *
- * val documentAssembler = new DocumentAssembler().
- *     setInputCol("text").
- *     setOutputCol("doc")
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("doc")
  *
  * val tokenizer = new Tokenizer()
  *   .setInputCols(Array("doc"))
