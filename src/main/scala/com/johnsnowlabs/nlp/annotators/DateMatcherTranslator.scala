@@ -79,7 +79,7 @@ object DateMatcherTranslator extends Serializable {
         .toMap
 
       matchingLanguages
-    } else {
+    }else {
       // TODO Autodetection flow or Exception
       val activeLanguages = supportedLanguages.filterNot(_.startsWith(SkipChar)) // skip char
 
@@ -173,6 +173,8 @@ object DateMatcherTranslator extends Serializable {
   def processSourceLanguageInfo(text: String, sourceLanguage: String): Map[String, Set[String]] = {
     // e.g. Map(it -> Set((.*) anni fa))
     val processedSourceLanguageInfo: Map[String, Set[String]] = _processSourceLanguageInfo(text, sourceLanguage)
+
+    println(s"processedSourceLanguageInfo: ${processedSourceLanguageInfo.mkString(", ")}")
 
     // if multiple source languages match we default to english as further processing is not possible
     if(processedSourceLanguageInfo.size != 1)
@@ -375,11 +377,15 @@ object DateMatcherTranslator extends Serializable {
       _sourceLanguageInfo.head._2.toString().split(SpaceChar).size != 1
     )
 
+    println(s"_sourceLanguageInfo: ${_sourceLanguageInfo.mkString(", ")}")
+
     val res =
       if(predicates.forall(_.equals(true)))
         translateBySentence(text, _sourceLanguageInfo)
       else
         translateTokens(text, _sourceLanguageInfo)
+
+    println(s"res: $res")
 
     res
   }

@@ -148,16 +148,16 @@
     "in 1 day": [
         "domani"
     ],
-    "in #K# month": [
+    "in 1 month": [
         "mese prossimo"
     ],
-    "in #K# week": [
+    "in 1 week": [
         "settimana prossima"
     ],
-    "in #K# year": [
-        "anno prossimo"
+    "in 1 year": [
+        "anno prossimo",
+        "prossimo anno"
     ],
-
     "#K# day ago": [
         "#V# g fa",
         "#V# gg fa",
