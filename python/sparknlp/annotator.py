@@ -2597,7 +2597,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     def setEpochs(self, count):
         return self._set(epochs=count)
 
-    def setInitialBatchSize(self, size):
+    def setBatchSize(self, size):
         return self._set(batchSize=size)
 
     def setInitialRate(self, rate):
