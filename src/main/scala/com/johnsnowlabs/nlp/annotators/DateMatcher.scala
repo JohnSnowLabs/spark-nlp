@@ -199,7 +199,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDateFuture(text: String): Option[MatchedDateTime] = {
-    if(text.contains(relativeFuturePattern) && !text.contains(relativePastPattern))
+    if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
       relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDateFutureContentParse(possibleDate))
     else
