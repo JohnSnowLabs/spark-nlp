@@ -1408,8 +1408,8 @@ class WordSegmenterTestSpec(unittest.TestCase):
         word_segmenter = WordSegmenterApproach() \
             .setInputCols("document") \
             .setOutputCol("token") \
-            .setPosCol("tags") \
-            .setIterations(1) \
+            .setPosColumn("tags") \
+            .setNIterations(1) \
             .fit(self.train)
         pipeline = Pipeline(stages=[
             document_assembler,
