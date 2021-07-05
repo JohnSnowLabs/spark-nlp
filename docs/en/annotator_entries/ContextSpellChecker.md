@@ -214,10 +214,10 @@ val tokenizer = new Tokenizer()
 val spellChecker = new ContextSpellCheckerApproach()
   .setInputCols("token")
   .setOutputCol("corrected")
-  .setWordMaxDist(3)
+  .setWordMaxDistance(3)
   .setBatchSize(24)
   .setEpochs(8)
-  .setLMClasses(1650)  // dependant on vocabulary size
+  .setLanguageModelClasses(1650)  // dependant on vocabulary size
   // .addVocabClass("_NAME_", names) // Extra classes for correction could be added like this
 
 val pipeline = new Pipeline().setStages(Array(
