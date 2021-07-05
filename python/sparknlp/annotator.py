@@ -981,7 +981,7 @@ class PerceptronApproach(AnnotatorApproach):
             nIterations=5
         )
 
-    def setPosCol(self, value):
+    def setPosColumn(self, value):
         return self._set(posCol=value)
 
     def setIterations(self, value):
@@ -2597,7 +2597,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     def setEpochs(self, count):
         return self._set(epochs=count)
 
-    def setInitialBatchSize(self, size):
+    def setBatchSize(self, size):
         return self._set(batchSize=size)
 
     def setInitialRate(self, rate):
@@ -3222,10 +3222,10 @@ class WordSegmenterApproach(AnnotatorApproach):
             nIterations=5, frequencyThreshold=5, ambiguityThreshold=0.97
         )
 
-    def setPosCol(self, value):
+    def setPosColumn(self, value):
         return self._set(posCol=value)
 
-    def setIterations(self, value):
+    def setNIterations(self, value):
         return self._set(nIterations=value)
 
     def setFrequencyThreshold(self, value):

@@ -48,8 +48,8 @@ object SpellCheckerUseCase extends App  {
     .setInputCols("token")
     .setOutputCol("checked")
     .addVocabClass("_NAME_", javaNames)
-    .setLMClasses(1650)
-    .setWordMaxDist(3)
+    .setLanguageModelClasses(1650)
+    .setWordMaxDistance(3)
     .setEpochs(2)
 
   val pipelineTok = new Pipeline().setStages(Array(assembler, tokenizer)).fit(dataset)
