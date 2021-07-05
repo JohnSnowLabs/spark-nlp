@@ -50,6 +50,7 @@ trait DateMatcherUtils extends Params {
 
   /** Relative dates, e.g. tomorrow */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
+  private val relativeDateFuture = "(?i)(in)\\s+(\\d+)\\s+(second|seconds|minute|minutes|day|days|week|weeks|month|months|year|years)".r
   private val relativeDatePast = "(?i)(\\d+)\\s+(day|days|week|month|year|weeks|months|years)\\s+(ago)".r
   private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before yesterday|day after tomorrow|day before|day after)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
@@ -229,6 +230,7 @@ trait DateMatcherUtils extends Params {
     * ToDo: Support relative dates from input date
     */
   protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeDateFuture, "relative dates in the future")
     .addRule(relativeDatePast, "relative dates in the past")
     .addRule(relativeDate, "relative dates")
 
@@ -283,6 +285,23 @@ trait DateMatcherUtils extends Params {
       formalDate.start,
       formalDate.end
     )
+  }
+
+  protected def relativeDateFutureContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
+
+    val relativeDateFuture = date.content
+
+    val calendar = calculateAnchorCalendar()
+    val amount = relativeDateFuture.group(2).toInt
+
+    relativeDateFuture.group(3) match {
+      case "day" | "days" => calendar.add(Calendar.DAY_OF_MONTH, amount)
+      case "week" | "weeks" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
+      case "month" | "months" => calendar.add(Calendar.MONTH, amount)
+      case "year" | "years" => calendar.add(Calendar.YEAR, amount)
+      case _ =>
+    }
+    MatchedDateTime(calendar, relativeDateFuture.start, relativeDateFuture.end)
   }
 
   protected def relativeDatePastContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
