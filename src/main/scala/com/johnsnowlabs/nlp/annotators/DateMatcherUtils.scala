@@ -291,8 +291,6 @@ trait DateMatcherUtils extends Params {
 
     val relativeDateFuture = date.content
 
-    println(relativeDateFuture.toString)
-
     val calendar = calculateAnchorCalendar()
     val amount = relativeDateFuture.group(2).toInt
 
