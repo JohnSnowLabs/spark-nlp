@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
@@ -45,7 +62,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
    *
    * @group param
    * */
-  val rules: ArrayFeature[(String, String)] = new ArrayFeature[(String, String)](this, "rules")
+  val externalRules: ArrayFeature[(String, String)] = new ArrayFeature[(String, String)](this, "rules")
 
   /** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE
    *
@@ -72,13 +89,13 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
    *
    * @group setParam
    * */
-  def setRules(value: Array[(String, String)]): this.type = set(rules, value)
+  def setExternalRules(value: Array[(String, String)]): this.type = set(externalRules, value)
 
   /** Rules represented as Array of Tuples
    *
    * @group getParams
    * */
-  def getRules: Array[(String, String)] = $$(rules)
+  def getExternalRules: Array[(String, String)] = $$(externalRules)
 
   /** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE */
   private def getFactoryStrategy: MatchStrategy = $(strategy) match {
@@ -90,7 +107,7 @@ class RegexMatcherModel(override val uid: String) extends AnnotatorModel[RegexMa
 
   lazy private val matchFactory = RuleFactory
     .lateMatching(TransformStrategy.NO_TRANSFORM)(getFactoryStrategy)
-    .setRules($$(rules).map(r => new RegexRule(r._1, r._2)))
+    .setRules($$(externalRules).map(r => new RegexRule(r._1, r._2)))
 
   /** one-to-many annotation that returns matches as annotations */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
