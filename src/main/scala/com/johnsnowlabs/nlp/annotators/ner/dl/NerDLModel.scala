@@ -260,7 +260,7 @@ class NerDLModel(override val uid: String)
       batch.map(_.rowSentence),
       getConfigProtoBytes,
       includeConfidence = $(includeConfidence),
-      includeAllConfidenceScores = $(includeAllConfidenceScores),
+      includeAllConfidenceScores = $(includeAllConfidenceScores)
     )
 
     val outputBatches = Array.fill[Array[NerTaggedSentence]](tokenized.length)(Array.empty)
