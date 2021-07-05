@@ -101,7 +101,8 @@ import java.util.Calendar
 class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with HasSimpleAnnotate[DateMatcher] with DateMatcherUtils {
 
   // Used for past relative date matches
-  val Ago = "ago"
+  val relativePastPattern = " ago"
+  val relativeFuturePattern = "in "
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
@@ -142,6 +143,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
         text
 
     val possibleDate = extractFormalDate(_text)
+      .orElse(extractRelativeDateFuture(_text))
       .orElse(extractRelaxedDate(_text))
       .orElse(extractRelativeDate(_text))
       .orElse(extractTomorrowYesterday(_text))
@@ -196,8 +198,16 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     } else None
   }
 
+  private def extractRelativeDateFuture(text: String): Option[MatchedDateTime] = {
+    if(text.contains(relativeFuturePattern) && !text.contains(relativePastPattern))
+      relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
+        relativeDateFutureContentParse(possibleDate))
+    else
+      None
+  }
+
   private def extractRelativeDatePast(text: String): Option[MatchedDateTime] = {
-    if(text.contains(Ago))
+    if(text.contains(relativePastPattern))
       relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDatePastContentParse(possibleDate)
       )
@@ -207,7 +217,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
-    if(!text.contains(Ago))
+    if(!text.contains(relativePastPattern))
       relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDateContentParse(possibleDate)
       )
