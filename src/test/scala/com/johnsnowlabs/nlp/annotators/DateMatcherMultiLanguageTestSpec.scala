@@ -21,6 +21,8 @@ import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
 import org.scalatest._
 
 import java.time.LocalDate
@@ -292,6 +294,62 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
+  "a DateMatcher" should "be catching relative numeric date in italian language daily" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Andrò in Italia tra 4 giorni.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("it")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusDays(4L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative numeric date in italian language hourly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Partirò per l'Italia tra 4 ore.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("it")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDateTime = LocalDateTime.now.plusHours(4)
+    val formatter = DateTimeFormat.forPattern(DateFormat)
+    val formattedDateString = formatter.print(localDateTime)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
   /** FRENCH **/
 
   "a DateMatcher" should "be catching formatted french dates" taggedAs FastTest in {
@@ -556,6 +614,62 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
+  "a DateMatcher" should "be catching relative numeric date in french language daily" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("J'irai en Italie dans 4 jours.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusDays(4L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative numeric date in french language hourly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Je pars pour l'Italie dans 4 heures.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDateTime = LocalDateTime.now.plusHours(4)
+    val formatter = DateTimeFormat.forPattern(DateFormat)
+    val formattedDateString = formatter.print(localDateTime)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
   /** PORTUGUESE **/
 
   "a DateMatcher" should "be catching formatted portuguese dates" taggedAs FastTest in {
@@ -794,6 +908,62 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     val localDate = LocalDate.now.plusDays(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
     val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative numeric date in portuguese language daily" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Vou visitar Portugal em 4 dias.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("pt")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusDays(4L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative numeric date in portuguese language hourly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Vou chegar a Portugal em 4 horas.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDateTime = LocalDateTime.now.plusHours(4)
+    val formatter = DateTimeFormat.forPattern(DateFormat)
+    val formattedDateString = formatter.print(localDateTime)
 
     assert(annotations.head.result == formattedDateString)
   }
