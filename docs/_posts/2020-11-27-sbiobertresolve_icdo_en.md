@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-This model maps extracted medical entities to ICD-O codes using chunk embeddings.
+This model maps extracted medical entities to ICD-O codes using Bert Sentence Embeddings.
+
+Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding `Morphology` codes comprising of `Histology` and `Behavior` codes.
 
 ## Predicted Entities 
 ICD-O Codes and their normalized definition with ``sbiobert_base_cased_mli`` embeddings.
