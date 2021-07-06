@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.Given an oncologic...">
-<link rel="canonical" href="/2021/05/16/sbiobertresolve_icdo_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect Entities in General Scope (Few-NERD dataset)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is trained on Few-NERD/inter public dataset and it extracts 8 entities that are in general scope.Predicted EntitiesPERSON, ORGANIZATION...">
+<link rel="canonical" href="/2021/07/02/nerdl_fewnerd_100d_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,85 +403,82 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 16, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-05-16T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>entity_resolution</li><li>clinical</li><li>licensed</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-05-16T00:00:00+00:00">
-    <meta itemprop="keywords" content="entity_resolution,clinical,licensed,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 02, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-02T00:00:00+00:00"></div><header><h1>Detect Entities in General Scope (Few-NERD dataset)</h1></header></div><meta itemprop="headline" content="Detect Entities in General Scope (Few-NERD dataset)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>en</li><li>fewnerd</li><li>public</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,en,fewnerd,public,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.</p>
-
-<p>Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-O codes to present more granularity with respect to body parts mentioned. It also returns the original <code class="language-plaintext highlighter-rouge">Topography</code> codes, <code class="language-plaintext highlighter-rouge">Morphology</code> codes comprising of <code class="language-plaintext highlighter-rouge">Histology</code> and <code class="language-plaintext highlighter-rouge">Behavior</code> codes, and descriptions in the aux metadata.</p>
+<p>This model is trained on Few-NERD/inter public dataset and it extracts 8 entities that are in general scope.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p>ICD-O Codes and their normalized definition with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> embeddings.</p>
+<p><code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">ART</code>, <code class="language-plaintext highlighter-rouge">BUILDING</code>, <code class="language-plaintext highlighter-rouge">PRODUCT</code>, <code class="language-plaintext highlighter-rouge">EVENT</code>, <code class="language-plaintext highlighter-rouge">OTHER</code>.</p>
 
-<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/demo" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icdo_en_3.0.4_3.0_1621191532225.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nerdl_fewnerd_100d_en_3.1.1_2.4_1625227974733.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
+
+<p>The model is trained using <code class="language-plaintext highlighter-rouge">glove_100d</code> word embeddings so, you should use the same embeddings in your nlp pipeline.</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">chunk2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
- 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
- 
-<span class="n">icdo_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icdo"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
-     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">chunk2doc</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">icdo_resolver</span><span class="p">])</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"glove_100d"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret</span><span class="se">\'</span><span class="s">s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">ner</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"nerdl_fewnerd_100d"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
+
+<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+
+<span class="n">l_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
+
+<span class="n">annotations</span> <span class="o">=</span> <span class="n">l_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB)."""</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="n">chunk2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
-     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
-     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">icdo_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icdo"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
-     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">chunk2doc</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">icdo_resolver</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"glove_100d"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"nerdl_fewnerd_100d"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nv">NerConverter</span><span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB)."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
-|               chunk|begin|end|   entity|  code|confidence|         resolutions|               codes|
-+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
-|        hypertension|   68| 79|  PROBLEM|8312/3|    0.3558|Renal cell carcin...|8312/3:::9964/3::...|
-|chronic renal ins...|   83|109|  PROBLEM|9980/3|    0.5290|Refractory anemia...|9980/3:::8312/3::...|
-|                COPD|  113|116|  PROBLEM|9950/3|    0.2092|Polycythemia vera...|9950/3:::8141/3::...|
-|           gastritis|  120|128|  PROBLEM|8150/3|    0.1795|Islet cell carcin...|8150/3:::8153/3::...|
-|                 TIA|  136|138|  PROBLEM|9570/0|    0.4843|Neuroma, NOS:::Ca...|9570/0:::8692/3::...|
-|a non-ST elevatio...|  182|202|  PROBLEM|8343/2|    0.1914|Non-invasive EFVP...|8343/2:::9150/0::...|
-|Guaiac positive s...|  208|229|  PROBLEM|8155/3|    0.1069|Vipoma:::Myeloid ...|8155/3:::9930/3::...|
-|cardiac catheteri...|  295|317|     TEST|8045/3|    0.1144|Combined small ce...|8045/3:::9705/3::...|
-|                PTCA|  324|327|TREATMENT|9735/3|    0.0924|Plasmablastic lym...|9735/3:::9365/3::...|
-|      mid LAD lesion|  332|345|  PROBLEM|9383/1|    0.0845|Subependymoma:::D...|9383/1:::8806/3::...|
-+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------+---------+
+|chunk                             |ner_label|
++----------------------------------+---------+
+|Double Down                       |PRODUCT  |
+|Kentucky Fried Chicken            |BUILDING |
+|KFC                               |BUILDING |
+|Anglo-Egyptian War                |EVENT    |
+|Tell El Kebir                     |EVENT    |
+|Egypt Medal                       |OTHER    |
+|Order of Medjidie                 |OTHER    |
+|Companion of the Order of the Bath|OTHER    |
++----------------------------------+---------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -490,15 +487,19 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_icdo</td>
+      <td>nerdl_fewnerd_100d</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>ner</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.0.4+</td>
+      <td>Spark NLP 3.1.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -506,28 +507,51 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[ner_chunk, sbert_embeddings]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[icdo_code]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
       <td>en</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>Trained on ICD-O Histology Behaviour dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings.
-https://apps.who.int/iris/bitstream/handle/10665/96612/9789241548496_eng.pdf</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-05-16T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Few-NERD:A Few-shot Named Entity Recognition Dataset, author: Ding, Ning and Xu, Guangwei and Chen, Yulin, and Wang, Xiaobin and Han, Xu and Xie, Pengjun and Zheng, Hai-Tao and Liu, Zhiyuan, book title: ACL-IJCNL, 2021.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+-------+------+-------+-------+---------+------+------+
+|      entity|     tp|    fp|     fn|  total|precision|recall|    f1|
++------------+-------+------+-------+-------+---------+------+------+
+|      PERSON|21555.0|6194.0| 5643.0|27198.0|   0.7768|0.7925|0.7846|
+|ORGANIZATION|36744.0|9059.0|13156.0|49900.0|   0.8022|0.7364|0.7679|
+|    LOCATION|36367.0|7521.0| 7006.0|43373.0|   0.8286|0.8385|0.8335|
+|         ART| 6170.0|1649.0| 2998.0| 9168.0|   0.7891| 0.673|0.7264|
+|    BUILDING| 5112.0|2435.0| 3014.0| 8126.0|   0.6774|0.6291|0.6523|
+|     PRODUCT| 8317.0|3253.0| 4325.0|12642.0|   0.7188|0.6579| 0.687|
+|       OTHER|14461.0|4414.0| 5161.0|19622.0|   0.7661| 0.737|0.7513|
+|       EVENT| 6024.0|1880.0| 2275.0| 8299.0|   0.7621|0.7259|0.7436|
++------------+-------+------+-------+-------+---------+------+------+
+
++------------------+
+|             macro|
++------------------+
+|0.7433252741184967|
++------------------+
+
++------------------+
+|             micro|
++------------------+
+|0.7703038245945377|
++------------------+
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -652,7 +676,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/05/16/sbiobertresolve_icd10pcs_en.html">Sentence Entity Resolver for ICD10-PCS (sbiobert_base_cased_mli embeddings)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/05/16/sbiobertresolve_loinc_en.html">Loinc Sentence Entity Resolver</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/02/sbiobertresolve_icdo_base_en.html">Sentence Entity Resolver for ICD-O (base)</a></div></div></div>
 
 </div>
 </div>

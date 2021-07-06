@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.Given an oncologic...">
-<link rel="canonical" href="/2021/05/16/sbiobertresolve_icdo_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect Clinical Entities (ner_jsl)- Spark NLP Model</title><meta name="description" content="DescriptionPretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired b...">
+<link rel="canonical" href="/2021/06/24/ner_jsl_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,23 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 16, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-05-16T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>entity_resolution</li><li>clinical</li><li>licensed</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-05-16T00:00:00+00:00">
-    <meta itemprop="keywords" content="entity_resolution,clinical,licensed,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 24, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-24T00:00:00+00:00"></div><header><h1>Detect Clinical Entities (ner_jsl)</h1></header></div><meta itemprop="headline" content="Detect Clinical Entities (ner_jsl)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>licensed</li><li>en</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-24T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,licensed,en,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.</p>
-
-<p>Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-O codes to present more granularity with respect to body parts mentioned. It also returns the original <code class="language-plaintext highlighter-rouge">Topography</code> codes, <code class="language-plaintext highlighter-rouge">Morphology</code> codes comprising of <code class="language-plaintext highlighter-rouge">Histology</code> and <code class="language-plaintext highlighter-rouge">Behavior</code> codes, and descriptions in the aux metadata.</p>
+<p>Pretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state-of-the-art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. This model is the official version of jsl_ner_wip_clinical model.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p>ICD-O Codes and their normalized definition with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> embeddings.</p>
+<p><code class="language-plaintext highlighter-rouge">Injury_or_Poisoning</code>, <code class="language-plaintext highlighter-rouge">Direction</code>, <code class="language-plaintext highlighter-rouge">Test</code>, <code class="language-plaintext highlighter-rouge">Admission_Discharge</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Relationship_Status</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Respiration</code>, <code class="language-plaintext highlighter-rouge">Hyperlipidemia</code>, <code class="language-plaintext highlighter-rouge">Birth_Entity</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Labour_Delivery</code>, <code class="language-plaintext highlighter-rouge">Family_History_Header</code>, <code class="language-plaintext highlighter-rouge">BMI</code>, <code class="language-plaintext highlighter-rouge">Temperature</code>, <code class="language-plaintext highlighter-rouge">Alcohol</code>, <code class="language-plaintext highlighter-rouge">Kidney_Disease</code>, <code class="language-plaintext highlighter-rouge">Oncological</code>, <code class="language-plaintext highlighter-rouge">Medical_History_Header</code>, <code class="language-plaintext highlighter-rouge">Cerebrovascular_Disease</code>, <code class="language-plaintext highlighter-rouge">Oxygen_Therapy</code>, <code class="language-plaintext highlighter-rouge">O2_Saturation</code>, <code class="language-plaintext highlighter-rouge">Psychological_Condition</code>, <code class="language-plaintext highlighter-rouge">Heart_Disease</code>, <code class="language-plaintext highlighter-rouge">Employment</code>, <code class="language-plaintext highlighter-rouge">Obesity</code>, <code class="language-plaintext highlighter-rouge">Disease_Syndrome_Disorder</code>, <code class="language-plaintext highlighter-rouge">Pregnancy</code>, <code class="language-plaintext highlighter-rouge">ImagingFindings</code>, <code class="language-plaintext highlighter-rouge">Procedure</code>, <code class="language-plaintext highlighter-rouge">Medical_Device</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Section_Header</code>, <code class="language-plaintext highlighter-rouge">Symptom</code>, <code class="language-plaintext highlighter-rouge">Treatment</code>, <code class="language-plaintext highlighter-rouge">Substance</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Drug_Ingredient</code>, <code class="language-plaintext highlighter-rouge">Blood_Pressure</code>, <code class="language-plaintext highlighter-rouge">Diet</code>, <code class="language-plaintext highlighter-rouge">External_body_part_or_region</code>, <code class="language-plaintext highlighter-rouge">LDL</code>, <code class="language-plaintext highlighter-rouge">VS_Finding</code>, <code class="language-plaintext highlighter-rouge">Allergen</code>, <code class="language-plaintext highlighter-rouge">EKG_Findings</code>, <code class="language-plaintext highlighter-rouge">Imaging_Technique</code>,  <code class="language-plaintext highlighter-rouge">Triglycerides</code>, <code class="language-plaintext highlighter-rouge">RelativeTime</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Pulse</code>, <code class="language-plaintext highlighter-rouge">Social_History_Header</code>, <code class="language-plaintext highlighter-rouge">Substance_Quantity</code>, <code class="language-plaintext highlighter-rouge">Diabetes</code>, <code class="language-plaintext highlighter-rouge">Modifier</code>, <code class="language-plaintext highlighter-rouge">Internal_organ_or_component</code>, <code class="language-plaintext highlighter-rouge">Clinical_Dept</code>, <code class="language-plaintext highlighter-rouge">Form</code>, <code class="language-plaintext highlighter-rouge">Drug_BrandName</code>, <code class="language-plaintext highlighter-rouge">Strength</code>, <code class="language-plaintext highlighter-rouge">Fetus_NewBorn</code>, <code class="language-plaintext highlighter-rouge">RelativeDate</code>, <code class="language-plaintext highlighter-rouge">Height</code>, <code class="language-plaintext highlighter-rouge">Test_Result</code>, <code class="language-plaintext highlighter-rouge">Sexually_Active_or_Sexual_Orientation</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Time</code>, <code class="language-plaintext highlighter-rouge">Weight</code>, <code class="language-plaintext highlighter-rouge">Vaccine</code>, <code class="language-plaintext highlighter-rouge">Vital_Signs_Header</code>, <code class="language-plaintext highlighter-rouge">Communicable_Disease</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Overweight</code>, <code class="language-plaintext highlighter-rouge">Hypertension</code>, <code class="language-plaintext highlighter-rouge">HDL</code>, <code class="language-plaintext highlighter-rouge">Total_Cholesterol</code>, <code class="language-plaintext highlighter-rouge">Smoking</code>, <code class="language-plaintext highlighter-rouge">Date</code></p>
 
-<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/demo" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icdo_en_3.0.4_3.0_1621191532225.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SIGN_SYMP.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_en_3.1.0_2.4_1624566960534.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -428,60 +426,59 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">chunk2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
- 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
- 
-<span class="n">icdo_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icdo"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
-     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="n">embeddings_clinical</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'embeddings_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'embeddings'</span><span class="p">)</span>
+<span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_jsl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings_clinical</span><span class="p">,</span>  <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">chunk2doc</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">icdo_resolver</span><span class="p">])</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret</span><span class="se">\'</span><span class="s">s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
-
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">]))</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="n">chunk2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
-     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
-     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">icdo_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icdo"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
-     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">embeddings_clinical</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_jsl"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings_clinical</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">chunk2doc</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">icdo_resolver</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
-|               chunk|begin|end|   entity|  code|confidence|         resolutions|               codes|
-+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
-|        hypertension|   68| 79|  PROBLEM|8312/3|    0.3558|Renal cell carcin...|8312/3:::9964/3::...|
-|chronic renal ins...|   83|109|  PROBLEM|9980/3|    0.5290|Refractory anemia...|9980/3:::8312/3::...|
-|                COPD|  113|116|  PROBLEM|9950/3|    0.2092|Polycythemia vera...|9950/3:::8141/3::...|
-|           gastritis|  120|128|  PROBLEM|8150/3|    0.1795|Islet cell carcin...|8150/3:::8153/3::...|
-|                 TIA|  136|138|  PROBLEM|9570/0|    0.4843|Neuroma, NOS:::Ca...|9570/0:::8692/3::...|
-|a non-ST elevatio...|  182|202|  PROBLEM|8343/2|    0.1914|Non-invasive EFVP...|8343/2:::9150/0::...|
-|Guaiac positive s...|  208|229|  PROBLEM|8155/3|    0.1069|Vipoma:::Myeloid ...|8155/3:::9930/3::...|
-|cardiac catheteri...|  295|317|     TEST|8045/3|    0.1144|Combined small ce...|8045/3:::9705/3::...|
-|                PTCA|  324|327|TREATMENT|9735/3|    0.0924|Plasmablastic lym...|9735/3:::9365/3::...|
-|      mid LAD lesion|  332|345|  PROBLEM|9383/1|    0.0845|Subependymoma:::D...|9383/1:::8806/3::...|
-+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------------+----------------------------+
+|chunk                                    |ner_label                   |
++-----------------------------------------+----------------------------+
+|21-day-old                               |Age                         |
+|Caucasian                                |Race_Ethnicity              |
+|male                                     |Gender                      |
+|for 2 days                               |Duration                    |
+|congestion                               |Symptom                     |
+|mom                                      |Gender                      |
+|yellow                                   |Modifier                    |
+|discharge                                |Symptom                     |
+|nares                                    |External_body_part_or_region|
+|she                                      |Gender                      |
+|mild                                     |Modifier                    |
+|problems with his breathing <span class="k">while </span>feeding|Symptom                     |
+|perioral cyanosis                        |Symptom                     |
+|retractions                              |Symptom                     |
+|One day ago                              |RelativeDate                |
+|mom                                      |Gender                      |
+|Tylenol                                  |Drug_BrandName              |
+|Baby                                     |Age                         |
+|decreased p.o. intake                    |Symptom                     |
+|His                                      |Gender                      |
++-----------------------------------------+----------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -490,11 +487,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_icdo</td>
+      <td>ner_jsl</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.0.4+</td>
+      <td>Spark NLP for Healthcare 3.1.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -506,28 +503,117 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[ner_chunk, sbert_embeddings]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[icdo_code]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
       <td>en</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>Trained on ICD-O Histology Behaviour dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings.
-https://apps.who.int/iris/bitstream/handle/10665/96612/9789241548496_eng.pdf</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-05-16T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on data gathered and manually annotated by John Snow Labs. https://www.johnsnowlabs.com/data/</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+------+------+------+------+---------+------+------+
+|              entity|    tp|    fp|    fn| total|precision|recall|    f1|
++--------------------+------+------+------+------+---------+------+------+
+|          VS_Finding| 235.0|  46.0|  43.0| 278.0|   0.8363|0.8453|0.8408|
+|           Direction|3972.0| 465.0| 458.0|4430.0|   0.8952|0.8966|0.8959|
+|         Respiration|  82.0|   4.0|   4.0|  86.0|   0.9535|0.9535|0.9535|
+|Cerebrovascular_D...|  93.0|  20.0|  24.0| 117.0|    0.823|0.7949|0.8087|
+|Family_History_He...|  88.0|   6.0|   3.0|  91.0|   0.9362| 0.967|0.9514|
+|       Heart_Disease| 447.0|  82.0| 119.0| 566.0|    0.845|0.7898|0.8164|
+|     ImagingFindings|  66.0|  44.0|  91.0| 157.0|      0.6|0.4204|0.4944|
+|        RelativeTime| 158.0|  80.0|  59.0| 217.0|   0.6639|0.7281|0.6945|
+|            Strength| 624.0|  58.0|  53.0| 677.0|    0.915|0.9217|0.9183|
+|             Smoking| 121.0|  11.0|   4.0| 125.0|   0.9167| 0.968|0.9416|
+|      Medical_Device|3716.0| 491.0| 466.0|4182.0|   0.8833|0.8886|0.8859|
+|        EKG_Findings|  44.0|  37.0|  57.0| 101.0|   0.5432|0.4356|0.4835|
+|               Pulse| 136.0|  22.0|  14.0| 150.0|   0.8608|0.9067|0.8831|
+|Psychological_Con...| 135.0|   9.0|  29.0| 164.0|   0.9375|0.8232|0.8766|
+|          Overweight|   2.0|   1.0|   0.0|   2.0|   0.6667|   1.0|   0.8|
+|       Triglycerides|   3.0|   0.0|   2.0|   5.0|      1.0|   0.6|  0.75|
+|             Obesity|  42.0|   5.0|   6.0|  48.0|   0.8936| 0.875|0.8842|
+| Admission_Discharge| 318.0|  24.0|  11.0| 329.0|   0.9298|0.9666|0.9478|
+|                 HDL|   3.0|   0.0|   0.0|   3.0|      1.0|   1.0|   1.0|
+|            Diabetes| 110.0|  14.0|   8.0| 118.0|   0.8871|0.9322|0.9091|
+|      Section_Header|3740.0| 148.0| 157.0|3897.0|   0.9619|0.9597|0.9608|
+|                 Age| 627.0|  75.0|  48.0| 675.0|   0.8932|0.9289|0.9107|
+|       O2_Saturation|  34.0|  14.0|  17.0|  51.0|   0.7083|0.6667|0.6869|
+|      Kidney_Disease|  96.0|  12.0|  34.0| 130.0|   0.8889|0.7385|0.8067|
+|                Test|2504.0| 545.0| 498.0|3002.0|   0.8213|0.8341|0.8276|
+|Communicable_Disease|  21.0|  10.0|   6.0|  27.0|   0.6774|0.7778|0.7241|
+|        Hypertension| 162.0|   5.0|  10.0| 172.0|   0.9701|0.9419|0.9558|
+|External_body_par...|2626.0| 356.0| 413.0|3039.0|   0.8806|0.8641|0.8723|
+|      Oxygen_Therapy|  81.0|  15.0|  14.0|  95.0|   0.8438|0.8526|0.8482|
+|            Modifier|2341.0| 404.0| 539.0|2880.0|   0.8528|0.8128|0.8324|
+|         Test_Result|1007.0| 214.0| 255.0|1262.0|   0.8247|0.7979|0.8111|
+|                 BMI|   9.0|   1.0|   0.0|   9.0|      0.9|   1.0|0.9474|
+|     Labour_Delivery|  57.0|  23.0|  33.0|  90.0|   0.7125|0.6333|0.6706|
+|          Employment| 271.0|  59.0|  55.0| 326.0|   0.8212|0.8313|0.8262|
+|       Fetus_NewBorn|  66.0|  33.0|  51.0| 117.0|   0.6667|0.5641|0.6111|
+|       Clinical_Dept| 923.0| 110.0|  83.0|1006.0|   0.8935|0.9175|0.9053|
+|                Time|  29.0|  13.0|  16.0|  45.0|   0.6905|0.6444|0.6667|
+|           Procedure|3185.0| 462.0| 501.0|3686.0|   0.8733|0.8641|0.8687|
+|                Diet|  36.0|  20.0|  45.0|  81.0|   0.6429|0.4444|0.5255|
+|         Oncological| 459.0|  61.0|  55.0| 514.0|   0.8827| 0.893|0.8878|
+|                 LDL|   3.0|   0.0|   3.0|   6.0|      1.0|   0.5|0.6667|
+|             Symptom|7104.0|1302.0|1200.0|8304.0|   0.8451|0.8555|0.8503|
+|         Temperature| 116.0|   6.0|   8.0| 124.0|   0.9508|0.9355|0.9431|
+|  Vital_Signs_Header| 215.0|  29.0|  24.0| 239.0|   0.8811|0.8996|0.8903|
+| Relationship_Status|  49.0|   2.0|   1.0|  50.0|   0.9608|  0.98|0.9703|
+|   Total_Cholesterol|  11.0|   4.0|   5.0|  16.0|   0.7333|0.6875|0.7097|
+|      Blood_Pressure| 158.0|  18.0|  22.0| 180.0|   0.8977|0.8778|0.8876|
+| Injury_or_Poisoning| 579.0| 130.0| 127.0| 706.0|   0.8166|0.8201|0.8184|
+|     Drug_Ingredient|1716.0| 153.0| 132.0|1848.0|   0.9181|0.9286|0.9233|
+|           Treatment| 136.0|  36.0|  60.0| 196.0|   0.7907|0.6939|0.7391|
+|           Pregnancy| 123.0|  36.0|  51.0| 174.0|   0.7736|0.7069|0.7387|
+|             Vaccine|  13.0|   2.0|   6.0|  19.0|   0.8667|0.6842|0.7647|
+|Disease_Syndrome_...|2981.0| 559.0| 446.0|3427.0|   0.8421|0.8699|0.8557|
+|              Height|  30.0|  10.0|  15.0|  45.0|     0.75|0.6667|0.7059|
+|           Frequency| 595.0|  99.0| 138.0| 733.0|   0.8573|0.8117|0.8339|
+|               Route| 858.0|  76.0|  89.0| 947.0|   0.9186| 0.906|0.9123|
+|            Duration| 351.0|  99.0| 108.0| 459.0|     0.78|0.7647|0.7723|
+|        Death_Entity|  43.0|  14.0|   5.0|  48.0|   0.7544|0.8958| 0.819|
+|Internal_organ_or...|6477.0| 972.0| 991.0|7468.0|   0.8695|0.8673|0.8684|
+|             Alcohol|  80.0|  18.0|  13.0|  93.0|   0.8163|0.8602|0.8377|
+|  Substance_Quantity|   6.0|   7.0|   4.0|  10.0|   0.4615|   0.6|0.5217|
+|                Date| 498.0|  38.0|  19.0| 517.0|   0.9291|0.9632|0.9459|
+|      Hyperlipidemia|  47.0|   3.0|   3.0|  50.0|     0.94|  0.94|  0.94|
+|Social_History_He...|  99.0|   7.0|   7.0| 106.0|    0.934| 0.934| 0.934|
+|      Race_Ethnicity| 116.0|   0.0|   0.0| 116.0|      1.0|   1.0|   1.0|
+|   Imaging_Technique|  40.0|  18.0|  47.0|  87.0|   0.6897|0.4598|0.5517|
+|      Drug_BrandName| 859.0|  62.0|  61.0| 920.0|   0.9327|0.9337|0.9332|
+|        RelativeDate| 566.0| 124.0| 143.0| 709.0|   0.8203|0.7983|0.8091|
+|              Gender|6096.0|  80.0| 101.0|6197.0|    0.987|0.9837|0.9854|
+|              Dosage| 244.0|  31.0|  57.0| 301.0|   0.8873|0.8106|0.8472|
+|                Form| 234.0|  32.0|  55.0| 289.0|   0.8797|0.8097|0.8432|
+|Medical_History_H...| 114.0|   9.0|  10.0| 124.0|   0.9268|0.9194|0.9231|
+|        Birth_Entity|   4.0|   2.0|   3.0|   7.0|   0.6667|0.5714|0.6154|
+|           Substance|  59.0|   8.0|  11.0|  70.0|   0.8806|0.8429|0.8613|
+|Sexually_Active_o...|   5.0|   3.0|   4.0|   9.0|    0.625|0.5556|0.5882|
+|              Weight|  90.0|  10.0|  21.0| 111.0|      0.9|0.8108|0.8531|
++--------------------+------+------+------+------+---------+------+------+
++------------------+
+|             macro|
++------------------+
+|0.8148272404223572|
++------------------+
++------------------+
+|             micro|
++------------------+
+|0.8787830228117498|
++------------------+
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-06-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -652,7 +738,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/05/16/sbiobertresolve_icd10pcs_en.html">Sentence Entity Resolver for ICD10-PCS (sbiobert_base_cased_mli embeddings)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/05/16/sbiobertresolve_loinc_en.html">Loinc Sentence Entity Resolver</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/06/24/ner_genetic_variants_en.html">Detect Genomic Variant Information (ner_genetic_variants)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/06/24/ner_jsl_greedy_en.html">Detect Clinical Entities (ner_jsl_greedy)</a></div></div></div>
 
 </div>
 </div>

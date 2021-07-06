@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>ICDO Entity Resolver- Spark NLP Model</title><meta name="description" content="DescriptionEntity Resolution model Based on KNN using Word Embeddings + Word Movers DistancePredicted EntitiesICD-O Codes and their normalized definition wit...">
+<!-- End Google Tag Manager --><title>ICDO Entity Resolver- Spark NLP Model</title><meta name="description" content="DescriptionEntity Resolution model Based on KNN using Word Embeddings + Word Movers Distance to map medical entities to ICD-O codes.Given an oncological enti...">
 <link rel="canonical" href="/2021/04/02/chunkresolve_icdo_clinical_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,7 +409,9 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance</p>
+<p>Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance to map medical entities to ICD-O codes.</p>
+
+<p>Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding <code class="language-plaintext highlighter-rouge">Morphology</code> codes comprising of <code class="language-plaintext highlighter-rouge">Histology</code> and <code class="language-plaintext highlighter-rouge">Behavior</code> codes.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 

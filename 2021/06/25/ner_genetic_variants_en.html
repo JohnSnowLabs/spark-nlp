@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.Given an oncologic...">
-<link rel="canonical" href="/2021/05/16/sbiobertresolve_icdo_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect Genomic Variant Information (ner_genetic_variants)- Spark NLP Model</title><meta name="description" content="DescriptionThis model extracts genetic variant information from the medical text and is trained on the tmVar 2.0 dataset that can be found at https://www.ncb...">
+<link rel="canonical" href="/2021/06/25/ner_genetic_variants_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,23 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>May 16, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-05-16T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>entity_resolution</li><li>clinical</li><li>licensed</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-05-16T00:00:00+00:00">
-    <meta itemprop="keywords" content="entity_resolution,clinical,licensed,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 25, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-25T00:00:00+00:00"></div><header><h1>Detect Genomic Variant Information (ner_genetic_variants)</h1></header></div><meta itemprop="headline" content="Detect Genomic Variant Information (ner_genetic_variants)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>en</li><li>clinical</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-06-25T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,en,clinical,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.</p>
-
-<p>Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-O codes to present more granularity with respect to body parts mentioned. It also returns the original <code class="language-plaintext highlighter-rouge">Topography</code> codes, <code class="language-plaintext highlighter-rouge">Morphology</code> codes comprising of <code class="language-plaintext highlighter-rouge">Histology</code> and <code class="language-plaintext highlighter-rouge">Behavior</code> codes, and descriptions in the aux metadata.</p>
+<p>This model extracts genetic variant information from the medical text and is trained on the tmVar 2.0 dataset that can be found at https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/tmvar/</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p>ICD-O Codes and their normalized definition with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> embeddings.</p>
+<p><code class="language-plaintext highlighter-rouge">DNAMutation</code>, <code class="language-plaintext highlighter-rouge">ProteinMutation</code>, <code class="language-plaintext highlighter-rouge">SNP</code></p>
 
-<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/demo" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icdo_en_3.0.4_3.0_1621191532225.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_genetic_variants_en_3.1.0_3.0_1624607526370.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -428,60 +426,64 @@
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">chunk2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
- 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
- 
-<span class="n">icdo_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icdo"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
-     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="n">embeddings_clinical</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'embeddings_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'embeddings'</span><span class="p">)</span>
+<span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_genetic_variants"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings_clinical</span><span class="p">,</span>  <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">chunk2doc</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">icdo_resolver</span><span class="p">])</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret</span><span class="se">\'</span><span class="s">s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
-
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The mutation pattern of mitochondrial DNA (mtDNA) in mainland Chinese patients with mitochondrial myopathy, encephalopathy, lactic acidosis and stroke-like episodes (MELAS) has been rarely reported, though previous data suggested that the mutation pattern of MELAS could be different among geographically localized populations. We presented the results of comprehensive mtDNA mutation analysis in 92 unrelated Chinese patients with MELAS (85 with classic MELAS and 7 with MELAS/Leigh syndrome (LS) overlap syndrome). The mtDNA A3243G mutation was the most common causal genotype in this patient group (79/92 and 85.9%). The second common gene mutation was G13513A (7/92 and 7.6%). Additionally, we identified T10191C (p.S45P) in ND3, A11470C (p. K237N) in ND4, T13046C (p.M237T) in ND5 and a large-scale deletion (13025-13033:14417-14425) involving partial ND5 and ND6 subunits of complex I in one patient each. Among them, A11470C, T13046C and the single deletion were novel mutations. In summary, patients with mutations affecting mitochondrially encoded complex I (MTND) reached 12.0% (11/92) in this group. It is noteworthy that all seven patients with MELAS/LS overlap syndrome were associated with MTND mutations. Our data emphasize the important role of MTND mutations in the pathogenicity of MELAS, especially MELAS/LS overlap syndrome.PURPOSE: Genes in the complement pathway, including complement factor H (CFH), C2/BF, and C3, have been reported to be associated with age-related macular degeneration (AMD). Genetic variants, single-nucleotide polymorphisms (SNPs), in these genes were geno-typed for a case-control association study in a mainland Han Chinese population. METHODS: One hundred and fifty-eight patients with wet AMD, 80 patients with soft drusen, and 220 matched control subjects were recruited among Han Chinese in mainland China. Seven SNPs in CFH and two SNPs in C2, CFB', and C3 were genotyped using the ABI SNaPshot method. A deletion of 84,682 base pairs covering the CFHR1 and CFHR3 genes was detected by direct polymerase chain reaction and gel electrophoresis. RESULTS: Four SNPs, including rs3753394 (P = 0.0276), rs800292 (P = 0.0266), rs1061170 (P = 0.00514), and rs1329428 (P = 0.0089), in CFH showed a significant association with wet AMD in the cohort of this study. A haplotype containing these four SNPs (CATA) significantly increased protection of wet AMD with a P value of 0.0005 and an odds ratio of 0.29 (95% confidence interval: 0.15-0.60). Unlike in other populations, rs2274700 and rs1410996 did not show a significant association with AMD in the Chinese population of this study. None of the SNPs in CFH showed a significant association with drusen, and none of the SNPs in CFH, C2, CFB, and C3 showed a significant association with either wet AMD or drusen in the cohort of this study. The CFHR1 and CFHR3 deletion was not polymorphic in the Chinese population and was not associated with wet AMD or drusen. CONCLUSION: This study showed that SNPs rs3753394 (P = 0.0276), rs800292 (P = 0.0266), rs1061170 (P = 0.00514), and rs1329428 (P = 0.0089), but not rs7535263, rs1410996, or rs2274700, in CFH were significantly associated with wet AMD in a mainland Han Chinese population. This study showed that CFH was more likely to be AMD susceptibility gene at Chr.1q31 based on the finding that the CFHR1 and CFHR3 deletion was not polymorphic in the cohort of this study, and none of the SNPs that were significantly associated with AMD in a white population in C2, CFB, and C3 genes showed a significant association with AMD."</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">]))</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="n">chunk2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
-     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
-     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">icdo_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icdo"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
-     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
-     <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">embeddings_clinical</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_genetic_variants"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings_clinical</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">chunk2doc</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">icdo_resolver</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The mutation pattern of mitochondrial DNA (mtDNA) in mainland Chinese patients with mitochondrial myopathy, encephalopathy, lactic acidosis and stroke-like episodes (MELAS) has been rarely reported, though previous data suggested that the mutation pattern of MELAS could be different among geographically localized populations. We presented the results of comprehensive mtDNA mutation analysis in 92 unrelated Chinese patients with MELAS (85 with classic MELAS and 7 with MELAS/Leigh syndrome (LS) overlap syndrome). The mtDNA A3243G mutation was the most common causal genotype in this patient group (79/92 and 85.9%). The second common gene mutation was G13513A (7/92 and 7.6%). Additionally, we identified T10191C (p.S45P) in ND3, A11470C (p. K237N) in ND4, T13046C (p.M237T) in ND5 and a large-scale deletion (13025-13033:14417-14425) involving partial ND5 and ND6 subunits of complex I in one patient each. Among them, A11470C, T13046C and the single deletion were novel mutations. In summary, patients with mutations affecting mitochondrially encoded complex I (MTND) reached 12.0% (11/92) in this group. It is noteworthy that all seven patients with MELAS/LS overlap syndrome were associated with MTND mutations. Our data emphasize the important role of MTND mutations in the pathogenicity of MELAS, especially MELAS/LS overlap syndrome.PURPOSE: Genes in the complement pathway, including complement factor H (CFH), C2/BF, and C3, have been reported to be associated with age-related macular degeneration (AMD). Genetic variants, single-nucleotide polymorphisms (SNPs), in these genes were geno-typed for a case-control association study in a mainland Han Chinese population. METHODS: One hundred and fifty-eight patients with wet AMD, 80 patients with soft drusen, and 220 matched control subjects were recruited among Han Chinese in mainland China. Seven SNPs in CFH and two SNPs in C2, CFB', and C3 were genotyped using the ABI SNaPshot method. A deletion of 84,682 base pairs covering the CFHR1 and CFHR3 genes was detected by direct polymerase chain reaction and gel electrophoresis. RESULTS: Four SNPs, including rs3753394 (P = 0.0276), rs800292 (P = 0.0266), rs1061170 (P = 0.00514), and rs1329428 (P = 0.0089), in CFH showed a significant association with wet AMD in the cohort of this study. A haplotype containing these four SNPs (CATA) significantly increased protection of wet AMD with a P value of 0.0005 and an odds ratio of 0.29 (95% confidence interval: 0.15-0.60). Unlike in other populations, rs2274700 and rs1410996 did not show a significant association with AMD in the Chinese population of this study. None of the SNPs in CFH showed a significant association with drusen, and none of the SNPs in CFH, C2, CFB, and C3 showed a significant association with either wet AMD or drusen in the cohort of this study. The CFHR1 and CFHR3 deletion was not polymorphic in the Chinese population and was not associated with wet AMD or drusen. CONCLUSION: This study showed that SNPs rs3753394 (P = 0.0276), rs800292 (P = 0.0266), rs1061170 (P = 0.00514), and rs1329428 (P = 0.0089), but not rs7535263, rs1410996, or rs2274700, in CFH were significantly associated with wet AMD in a mainland Han Chinese population. This study showed that CFH was more likely to be AMD susceptibility gene at Chr.1q31 based on the finding that the CFHR1 and CFHR3 deletion was not polymorphic in the cohort of this study, and none of the SNPs that were significantly associated with AMD in a white population in C2, CFB, and C3 genes showed a significant association with AMD."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
-|               chunk|begin|end|   entity|  code|confidence|         resolutions|               codes|
-+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
-|        hypertension|   68| 79|  PROBLEM|8312/3|    0.3558|Renal cell carcin...|8312/3:::9964/3::...|
-|chronic renal ins...|   83|109|  PROBLEM|9980/3|    0.5290|Refractory anemia...|9980/3:::8312/3::...|
-|                COPD|  113|116|  PROBLEM|9950/3|    0.2092|Polycythemia vera...|9950/3:::8141/3::...|
-|           gastritis|  120|128|  PROBLEM|8150/3|    0.1795|Islet cell carcin...|8150/3:::8153/3::...|
-|                 TIA|  136|138|  PROBLEM|9570/0|    0.4843|Neuroma, NOS:::Ca...|9570/0:::8692/3::...|
-|a non-ST elevatio...|  182|202|  PROBLEM|8343/2|    0.1914|Non-invasive EFVP...|8343/2:::9150/0::...|
-|Guaiac positive s...|  208|229|  PROBLEM|8155/3|    0.1069|Vipoma:::Myeloid ...|8155/3:::9930/3::...|
-|cardiac catheteri...|  295|317|     TEST|8045/3|    0.1144|Combined small ce...|8045/3:::9705/3::...|
-|                PTCA|  324|327|TREATMENT|9735/3|    0.0924|Plasmablastic lym...|9735/3:::9365/3::...|
-|      mid LAD lesion|  332|345|  PROBLEM|9383/1|    0.0845|Subependymoma:::D...|9383/1:::8806/3::...|
-+--------------------+-----+---+---------+------+----------+--------------------+--------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------+---------------+
+|chunk    |ner_label      |
++---------+---------------+
+|A3243G   |DNAMutation    |
+|G13513A  |DNAMutation    |
+|T10191C  |DNAMutation    |
+|p.S45P   |ProteinMutation|
+|A11470C  |DNAMutation    |
+|p. K237N |ProteinMutation|
+|T13046C  |DNAMutation    |
+|p.       |ProteinMutation|
+|M237T    |ProteinMutation|
+|A11470C  |DNAMutation    |
+|T13046C  |DNAMutation    |
+|rs3753394|SNP            |
+|rs800292 |SNP            |
+|rs1061170|SNP            |
+|rs1329428|SNP            |
+|rs2274700|SNP            |
+|rs1410996|SNP            |
+|rs3753394|SNP            |
+|rs800292 |SNP            |
+|rs1061170|SNP            |
+|rs1329428|SNP            |
+|rs7535263|SNP            |
+|rs1410996|SNP            |
+|rs2274700|SNP            |
++---------+---------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -490,11 +492,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_icdo</td>
+      <td>ner_genetic_variants</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.0.4+</td>
+      <td>Spark NLP for Healthcare 3.1.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -506,28 +508,34 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[ner_chunk, sbert_embeddings]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[icdo_code]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
       <td>en</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>Trained on ICD-O Histology Behaviour dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings.
-https://apps.who.int/iris/bitstream/handle/10665/96612/9789241548496_eng.pdf</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-05-16T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/tmvar/</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------+-------+-------+-------+-------+-----------+--------+--------+
+|entity            | tp    | fp    | fn    | total | precision | recall | f1     |
++------------------+-------+-------+-------+-------+-----------+--------+--------+
+|SNP               | 38.0  | 0.0   | 0.0   | 38.0  | 1.0       | 1.0    | 1.0    |
+|ProteinMutation   | 171.0 | 21.0  | 19.0  | 190.0 | 0.8906    | 0.9    | 0.8953 |
+|DNAMutation       | 161.0 | 47.0  | 42.0  | 203.0 | 0.774     | 0.7931 | 0.7835 |
++------------------+-------+-------+-------+-------+-----------+--------+--------+
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-06-25T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -652,7 +660,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/05/16/sbiobertresolve_icd10pcs_en.html">Sentence Entity Resolver for ICD10-PCS (sbiobert_base_cased_mli embeddings)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/05/16/sbiobertresolve_loinc_en.html">Loinc Sentence Entity Resolver</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/06/24/ner_jsl_greedy_en.html">Detect Clinical Entities (ner_jsl_greedy)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/06/30/ner_deid_generic_augmented_en.html">Detect PHI for Deidentification (Generic - Augmented)</a></div></div></div>
 
 </div>
 </div>
