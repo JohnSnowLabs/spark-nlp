@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -182,11 +182,11 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep">dep</a></dd></dl></div>
     </li><li class="current-entities indented6">
-                        <a class="object" href="DependencyParserApproach$.html" title=""></a>
-                        <a class="class" href="DependencyParserApproach.html" title="Unlabeled parser that finds a grammatical relation between two words in a sentence."></a>
-                        <a href="DependencyParserApproach.html" title="Unlabeled parser that finds a grammatical relation between two words in a sentence.">DependencyParserApproach</a>
+                        <a class="object" href="DependencyParserApproach$.html" title="This is the companion object of DependencyParserApproach."></a>
+                        <a class="class" href="DependencyParserApproach.html" title="Trains an unlabeled parser that finds a grammatical relations between two words in a sentence."></a>
+                        <a href="DependencyParserApproach.html" title="Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.">DependencyParserApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="DependencyParserModel$.html" title=""></a>
+                        <a class="object" href="DependencyParserModel$.html" title="This is the companion object of DependencyParserModel."></a>
                         <a class="class" href="" title="Unlabeled parser that finds a grammatical relation between two words in a sentence."></a>
                         <a href="" title="Unlabeled parser that finds a grammatical relation between two words in a sentence.">DependencyParserModel</a>
                       </li><li class="current-entities indented6">
@@ -235,8 +235,69 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Unlabeled parser that finds a grammatical relation between two words in a sentence. Its input is a directory with dependency treebank files.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep</a> for further reference on how to use this API.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Unlabeled parser that finds a grammatical relation between two words in a sentence.</p><p>Dependency parser provides information about word relationship. For example, dependency parsing can tell you what
+the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+you find precise answers to specific questions.</p><p>This is the instantiated model of the <a href="DependencyParserApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach">DependencyParserApproach</a>.
+For training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> dependencyParserApproach = DependencyParserModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"pos"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"dependency"</span>)</pre><p>The default model is <code>&quot;dependency_conllu&quot;</code>, if no name is provided.
+For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb" target="_blank">Spark NLP Workshop</a>
+and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala" target="_blank">DependencyParserApproachTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> dependencyParser = DependencyParserModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"pos"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"dependency"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  posTagger,
+  dependencyParser
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"Unions representing workers at Turner Newall say they are 'disappointed' after talks with stricken parent "</span> +
+    <span class="lit">"firm Federal Mogul."</span>
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(arrays_zip(token.result, dependency.result)) as cols"</span>)
+  .selectExpr(<span class="lit">"cols['0'] as token"</span>, <span class="lit">"cols['1'] as dependency"</span>).show(<span class="num">8</span>, truncate = <span class="kw">false</span>)
++------------+------------+
+|token       |dependency  |
++------------+------------+
+|Unions      |ROOT        |
+|representing|workers     |
+|workers     |Unions      |
+|at          |Turner      |
+|Turner      |workers     |
+|Newall      |say         |
+|say         |Unions      |
+|they        |disappointed|
++------------+------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../typdep/TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserMdoel</a> to extract labels for the dependencies</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -1648,7 +1709,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">perceptron</span><span class="result">: <a href="../../../serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<a href="GreedyTransition/DependencyMaker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.DependencyMaker">DependencyMaker</a>]</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
+      <p class="shortcomment cmt">Model that was set during training
+</p>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2306,7 +2368,7 @@ metadata is built at schema level to record annotations structural information o
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
               <div class="comment cmt"><p>Required input and expected output annotator types</p></div>

@@ -14,30 +14,97 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 
 /**
-  * ClassifierDL is a generic Multi-class Text Classification. ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
-  * The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to 100 classes
-  *
-  * NOTE: This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-  *
-  * NOTE: UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala]] for further reference on how to use this API
-  *
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  *
-  **/
+ * ClassifierDL for generic Multi-class Text Classification.
+ *
+ * ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+ * The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to
+ * 100 classes.
+ *
+ * This is the instantiated model of the [[ClassifierDLApproach]].
+ * For training your own model, please see the documentation of that class.
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val classifierDL = ClassifierDLModel.pretrained()
+ *   .setInputCols("sentence_embeddings")
+ *   .setOutputCol("classification")
+ * }}}
+ * The default model is `"classifierdl_use_trec6"`, if no name is provided. It uses embeddings from the
+ * [[com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder UniversalSentenceEncoder]] and is trained on the
+ * [[https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels TREC-6]] dataset.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+ *
+ * For extended examples of usage, see the
+ * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala ClassifierDLTestSpec]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotator.SentenceDetector
+ * import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel
+ * import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val sentence = new SentenceDetector()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence")
+ *
+ * val useEmbeddings = UniversalSentenceEncoder.pretrained()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence_embeddings")
+ *
+ * val sarcasmDL = ClassifierDLModel.pretrained("classifierdl_use_sarcasm")
+ *   .setInputCols("sentence_embeddings")
+ *   .setOutputCol("sarcasm")
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     sentence,
+ *     useEmbeddings,
+ *     sarcasmDL
+ *   ))
+ *
+ * val data = Seq(
+ *   "I'm ready!",
+ *   "If I could put into words how much I love waking up at 6 am on Mondays I would."
+ * ).toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out")
+ *   .selectExpr("out.sentence.result as sentence", "out.sarcasm.result as sarcasm")
+ *   .show(false)
+ * +-------------------------------------------------------------------------------+-------+
+ * |sentence                                                                       |sarcasm|
+ * +-------------------------------------------------------------------------------+-------+
+ * |I'm ready!                                                                     |normal |
+ * |If I could put into words how much I love waking up at 6 am on Mondays I would.|sarcasm|
+ * +-------------------------------------------------------------------------------+-------+
+ * }}}
+ *
+ * @see [[MultiClassifierDLModel]] for multi-class classification
+ * @see [[SentimentDLModel]] for sentiment analysis
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ *
+ * */
 class ClassifierDLModel(override val uid: String)
   extends AnnotatorModel[ClassifierDLModel] with HasSimpleAnnotate[ClassifierDLModel]
     with WriteTensorflowModel
@@ -46,56 +113,58 @@ class ClassifierDLModel(override val uid: String)
   def this() = this(Identifiable.randomUID("ClassifierDLModel"))
 
   /** Output annotator type : SENTENCE_EMBEDDINGS
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
   /** Output annotator type : CATEGORY
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: String = CATEGORY
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** Tensorflow config Protobytes passed to the TF session
-    *
-    * @group setParam
-    **/
+   *
+   * @group setParam
+   * */
   def setConfigProtoBytes(
                            bytes: Array[Int]
                          ): ClassifierDLModel.this.type = set(this.configProtoBytes, bytes)
 
   /** Tensorflow config Protobytes passed to the TF session
-    *
-    * @group getParam
-    **/
+   *
+   * @group getParam
+   * */
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
-  /**
-    * datasetParams
-    *
-    * @group param */
+  /** Dataset params
+   *
+   * @group param
+   * */
   val datasetParams = new StructFeature[ClassifierDatasetEncoderParams](this, "datasetParams")
 
-  val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
+  /** Labels used to train this model
+   *
+   * @group param
+   */
+  val classes = new StringArrayParam(this, "classes", "Labels used to train this model")
 
-  /**
-    * datasetParams
-    *
-    * @group setParam */
+  /** Dataset params
+   *
+   * @group setParam
+   * */
   def setDatasetParams(params: ClassifierDatasetEncoderParams): ClassifierDLModel.this.type =
     set(this.datasetParams, params)
 
-  /** @group param */
   private var _model: Option[Broadcast[TensorflowClassifier]] = None
 
-  /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 
@@ -116,13 +185,12 @@ class ClassifierDLModel(override val uid: String)
     this
   }
 
-  /** @group getParam */
   def getModelIfNotSet: TensorflowClassifier = _model.get.value
 
-  /** get the tags used to trained this NerDLModel
-    *
-    * @group getParam
-    **/
+  /** Labels used to train this model
+   *
+   * @group getParam
+   * */
   def getClasses: Array[String] = {
     val encoder = new ClassifierDatasetEncoder(datasetParams.get.get)
     set(classes, encoder.tags)
@@ -135,11 +203,11 @@ class ClassifierDLModel(override val uid: String)
   }
 
   /**
-    * takes a document and annotations and produces new annotations of this annotator's annotation type
-    *
-    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
-    */
+   * takes a document and annotations and produces new annotations of this annotator's annotation type
+   *
+   * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+   * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+   */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = annotations
       .filter(_.annotatorType == SENTENCE_EMBEDDINGS)
@@ -147,7 +215,7 @@ class ClassifierDLModel(override val uid: String)
       .toSeq
       .sortBy(_._1)
 
-    if(sentences.nonEmpty)
+    if (sentences.nonEmpty)
       getModelIfNotSet.predict(sentences, getConfigProtoBytes)
     else Seq.empty[Annotation]
 
@@ -178,7 +246,9 @@ trait ReadablePretrainedClassifierDL
 
   /** Java compliant-overrides */
   override def pretrained(): ClassifierDLModel = pretrained(defaultModelName.get, defaultLang, defaultLoc)
+
   override def pretrained(name: String): ClassifierDLModel = pretrained(name, defaultLang, defaultLoc)
+
   override def pretrained(name: String, lang: String): ClassifierDLModel = pretrained(name, lang, defaultLoc)
 }
 
@@ -199,4 +269,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
   addReader(readTensorflow)
 }
 
+/**
+ * This is the companion object of [[ClassifierDLModel]]. Please refer to that class for the documentation.
+ */
 object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel

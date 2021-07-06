@@ -31,6 +31,7 @@ class SentimentDLTestSpec extends FlatSpec {
       .setMaxEpochs(1)
       .setLr(5e-3f)
       .setDropout(0.5f)
+      .setRandomSeed(44)
 
     val pipeline = new Pipeline()
       .setStages(

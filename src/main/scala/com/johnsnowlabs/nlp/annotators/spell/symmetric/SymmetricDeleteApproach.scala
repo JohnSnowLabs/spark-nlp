@@ -11,39 +11,97 @@ import org.apache.spark.sql.{AnalysisException, Dataset}
 
 import scala.collection.mutable.ListBuffer
 
-/** Created by danilo 16/04/2018,
-  * Symmetric Delete spelling correction algorithm. It retrieves tokens and utilizes distance metrics to compute possible derived words.
-  *
-  * Inspired by [[https://github.com/wolfgarbe/SymSpell]]
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala]] for further reference.
-  *
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  **/
+/** Created by danilo 16/04/2018 */
+
+/** Trains a Symmetric Delete spelling correction algorithm.
+ * Retrieves tokens and utilizes distance metrics to compute possible derived words.
+ *
+ * Inspired by [[https://github.com/wolfgarbe/SymSpell SymSpell]].
+ *
+ * For instantiated/pretrained models, see [[SymmetricDeleteModel]].
+ *
+ * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala SymmetricDeleteModelTestSpec]] for further reference.
+ *
+ * ==Example==
+ * In this example, the dictionary `"words.txt"` has the form of
+ * {{{
+ * ...
+ * gummy
+ * gummic
+ * gummier
+ * gummiest
+ * gummiferous
+ * ...
+ * }}}
+ * This dictionary is then set to be the basis of the spell checker.
+ * {{{
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols("document")
+ *   .setOutputCol("token")
+ *
+ * val spellChecker = new SymmetricDeleteApproach()
+ *   .setInputCols("token")
+ *   .setOutputCol("spell")
+ *   .setDictionary("src/test/resources/spell/words.txt")
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   tokenizer,
+ *   spellChecker
+ * ))
+ *
+ * val pipelineModel = pipeline.fit(trainingData)
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach NorvigSweetingApproach]] for an alternative approach to spell checking
+ * @see [[com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach ContextSpellCheckerApproach]] for a DL based approach
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ * */
 class SymmetricDeleteApproach(override val uid: String)
   extends AnnotatorApproach[SymmetricDeleteModel]
     with SymmetricDeleteParams {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
 
-  /** Spell checking algorithm inspired on Symmetric Delete algorith */
+  /** Spell checking algorithm inspired on Symmetric Delete algorithm */
   override val description: String = "Spell checking algorithm inspired on Symmetric Delete algorithm"
-  /** file with a list of correct words
-    *
-    * @group param
-    **/
+  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance.
+   *
+   * Needs `"tokenPattern"` (Default: `\S+`) for parsing the resource.
+   * ==Example==
+   * {{{
+   * ...
+   * gummy
+   * gummic
+   * gummier
+   * gummiest
+   * gummiferous
+   * ...
+   * }}}
+   *
+   * @group param
+   * */
   val dictionary = new ExternalResourceParam(this, "dictionary", "file with a list of correct words")
 
   setDefault(
@@ -53,19 +111,33 @@ class SymmetricDeleteApproach(override val uid: String)
     dupsLimit -> 2
   )
 
-  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
-    *
-    * @group setParam
-    **/
+  /** External dictionary already in the form of [[ExternalResource]], for which the Map member `options`
+   * has an entry defined for `"tokenPattern"`.
+   * ==Example==
+   * {{{
+   * val resource = ExternalResource(
+   *   "src/test/resources/spell/words.txt",
+   *   ReadAs.TEXT,
+   *   Map("tokenPattern" -> "\\S+")
+   * )
+   * val spellChecker = new SymmetricDeleteApproach()
+   *   .setInputCols("token")
+   *   .setOutputCol("spell")
+   *   .setDictionary(resource)
+   * }}}
+   * @group setParam
+   * */
   def setDictionary(value: ExternalResource): this.type = {
     require(value.options.contains("tokenPattern"), "dictionary needs 'tokenPattern' regex in dictionary for separating words")
     set(dictionary, value)
   }
 
-  /** Optional dictionary of properly written words. If provided, significantly boosts spell checking performance
-    *
-    * @group setParam
-    **/
+  /** Path to file with properly spelled words, `tokenPattern` is the regex pattern to identify them in text,
+   * readAs can be `ReadAs.TEXT` or `ReadAs.SPARK`, with options passed to Spark reader if the latter is set.
+   * Dictionary needs `tokenPattern` regex for separating words.
+   *
+   * @group setParam
+   * */
   def setDictionary(path: String,
                     tokenPattern: String = "\\S+",
                     readAs: ReadAs.Format = ReadAs.TEXT,
@@ -74,41 +146,40 @@ class SymmetricDeleteApproach(override val uid: String)
 
 
   /** Output annotator type : TOKEN
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
   /** Input annotator type : TOKEN
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("SYMSPELL")) // constructor required for the annotator to work in python
 
   /** Created by danilo 14/04/2018
-    * Given a word, derive strings with up to maxEditDistance characters
-    * deleted
-    * */
+   * Given a word, derive strings with up to maxEditDistance characters
+   * deleted
+   * */
   def getDeletes(word: String, med: Int): List[String] = {
 
     var deletes = new ListBuffer[String]()
     var queueList = List(word)
     val x = 1 to med
-    x.foreach( _ =>
-    {
+    x.foreach(_ => {
       var tempQueue = new ListBuffer[String]()
       queueList.foreach(w => {
-        if (w.length > 1){
+        if (w.length > 1) {
           val y = 0 until w.length
           y.foreach(c => { //character index
             //result of word minus c
-            val wordMinus = w.substring(0, c).concat(w.substring(c+1, w.length))
-            if (!deletes.contains(wordMinus)){
+            val wordMinus = w.substring(0, c).concat(w.substring(c + 1, w.length))
+            if (!deletes.contains(wordMinus)) {
               deletes += wordMinus
             }
-            if (!tempQueue.contains(wordMinus)){
+            if (!tempQueue.contains(wordMinus)) {
               tempQueue += wordMinus
             }
           }) // End y.foreach
@@ -123,18 +194,18 @@ class SymmetricDeleteApproach(override val uid: String)
   }
 
   /** Created by danilo 26/04/2018
-    * Computes derived words from a frequency of words
-    * */
+   * Computes derived words from a frequency of words
+   * */
   def derivedWordDistances(wordFrequencies: List[(String, Long)], maxEditDistance: Int): Map[String, (List[String], Long)] = {
 
-    val derivedWords = scala.collection.mutable.Map(wordFrequencies.map{a => (a._1, (ListBuffer.empty[String], a._2))}:_*)
+    val derivedWords = scala.collection.mutable.Map(wordFrequencies.map { a => (a._1, (ListBuffer.empty[String], a._2)) }: _*)
 
-    wordFrequencies.foreach{case (word, _) =>
+    wordFrequencies.foreach { case (word, _) =>
 
       val deletes = getDeletes(word, maxEditDistance)
 
-      deletes.foreach( deleteItem => {
-        if (derivedWords.contains(deleteItem)){
+      deletes.foreach(deleteItem => {
+        if (derivedWords.contains(deleteItem)) {
           // add (correct) word to delete's suggested correction list
           derivedWords(deleteItem)._1 += word
         } else {
@@ -202,4 +273,8 @@ class SymmetricDeleteApproach(override val uid: String)
 
 }
 // This objects reads the class' properties, it enables reading the model after it is stored
+
+/**
+ * This is the companion object of [[SymmetricDeleteApproach]]. Please refer to that class for the documentation.
+ */
 object SymmetricDeleteApproach extends DefaultParamsReadable[SymmetricDeleteApproach]

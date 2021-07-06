@@ -60,5 +60,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/IMAGE_TO_TEXT.ipynb
+        - title: DOCX to Text
+          id: docx-to-text
+          image: 
+              src: /assets/images/correct.svg
+          image2: 
+              src: /assets/images/correct_f.svg
+          excerpt: Extract text from Word documents with Spark OCR
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/DOCX_TO_TEXT
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrDocToText.ipynb
         
 ---

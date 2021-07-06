@@ -66,7 +66,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["Die kodes wat gebruik word , moet duidelik en verstaanbaar vir leerders en ouers wees ."]}))
+example = spark.createDataFrame([['Die kodes wat gebruik word , moet duidelik en verstaanbaar vir leerders en ouers wees .']], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -84,7 +84,8 @@ val pos = PerceptronModel.pretrained("pos_afribooms", "af")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["Die kodes wat gebruik word , moet duidelik en verstaanbaar vir leerders en ouers wees ."].toDS.toDF("text")).transform(data)
+val data = Seq("Die kodes wat gebruik word , moet duidelik en verstaanbaar vir leerders en ouers wees .").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

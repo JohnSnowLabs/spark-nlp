@@ -56,7 +56,8 @@ val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare"
 	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 val pipeline = new Pipeline().setStages(Array(documenter, model))
-val result = pipeline.fit(Seq.empty["John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved."].toDS.toDF("text")).transform(data)
+val data = Seq("John loves Mary.Mary loves Peter. Peter loves Helen .Helen loves John; Total: four people involved.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

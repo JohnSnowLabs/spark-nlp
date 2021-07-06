@@ -4,7 +4,7 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2021-03-20"
+modify_date: "2021-06-07"
 use_language_switcher: "Python-Scala"
 
 ---
@@ -60,7 +60,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.0.2 pyspark==3.1.1 jupyter
+$ pip install spark-nlp==3.1.1 pyspark==3.1.1 jupyter
 $ jupyter notebook
 ```
 
@@ -269,7 +269,7 @@ from sparknlp import Finisher
 from pyspark.ml import Pipeline
 from sparknlp.pretrained import PretrainedPipeline
 
-finisher = Finisher().setInputCols(["token", "lemma", "pos"])
+finisher = Finisher().setInputCols(["token", "lemmas", "pos"])
 explain_pipeline_model = PretrainedPipeline("explain_document_ml").model
 
 pipeline = Pipeline() \

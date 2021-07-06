@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -266,11 +266,11 @@
                         <a class="class" href="TypedDependencyParser.html" title="Labeled parser that finds a grammatical relation between two words in a sentence."></a>
                         <a href="TypedDependencyParser.html" title="Labeled parser that finds a grammatical relation between two words in a sentence.">TypedDependencyParser</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="TypedDependencyParserApproach$.html" title=""></a>
+                        <a class="object" href="TypedDependencyParserApproach$.html" title="This is the companion object of TypedDependencyParserApproach."></a>
                         <a class="class" href="" title="Labeled parser that finds a grammatical relation between two words in a sentence."></a>
                         <a href="" title="Labeled parser that finds a grammatical relation between two words in a sentence.">TypedDependencyParserApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="TypedDependencyParserModel$.html" title=""></a>
+                        <a class="object" href="TypedDependencyParserModel$.html" title="This is the companion object of TypedDependencyParserModel."></a>
                         <a class="class" href="TypedDependencyParserModel.html" title="Labeled parser that finds a grammatical relation between two words in a sentence."></a>
                         <a href="TypedDependencyParserModel.html" title="Labeled parser that finds a grammatical relation between two words in a sentence.">TypedDependencyParserModel</a>
                       </li>
@@ -303,8 +303,57 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Labeled parser that finds a grammatical relation between two words in a sentence. Its input is a CoNLL2009 or ConllU dataset.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep" target="_blank"></a> for further reference on this API.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Labeled parser that finds a grammatical relation between two words in a sentence.
+Its input is either a CoNLL2009 or ConllU dataset.</p><p>For instantiated/pretrained models, see <a href="TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserModel</a>.</p><p>Dependency parsers provide information about word relationship. For example, dependency parsing can tell you what
+the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+you find precise answers to specific questions.</p><p>The parser requires the dependant tokens beforehand with e.g. <a href="../dep/DependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel">DependencyParser</a>.
+The required training data can be set in two different ways (only one can be chosen for a particular model):</p><ul><li>Dataset in the <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html" target="_blank">CoNLL 2009 format</a> set with <code>setConll2009</code></li><li>Dataset in the <a href="https://universaldependencies.org/format.html" target="_blank">CoNLL-U format</a> set with <code>setConllU</code></li></ul><p>Apart from that, no additional training data is needed.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproachTestSpec.scala" target="_blank">TypedDependencyParserApproachTestSpec</a> for further reference on this API.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> dependencyParser = DependencyParserModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"pos"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"dependency"</span>)
+
+<span class="kw">val</span> typedDependencyParser = <span class="kw">new</span> TypedDependencyParserApproach()
+  .setInputCols(<span class="lit">"dependency"</span>, <span class="lit">"pos"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"dependency_type"</span>)
+  .setConllU(<span class="lit">"src/test/resources/parser/labeled/train_small.conllu.txt"</span>)
+  .setNumberOfIterations(<span class="num">1</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  posTagger,
+  dependencyParser,
+  typedDependencyParser
+))
+
+<span class="cmt">// Additional training data is not needed, the dependency parser relies on CoNLL-U only.</span>
+<span class="kw">val</span> emptyDataSet = <span class="std">Seq</span>.empty[<span class="std">String</span>].toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> pipelineModel = pipeline.fit(emptyDataSet)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -1508,7 +1557,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">numberOfIterations</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Number of iterations in training, converges to better accuracy
+      <p class="shortcomment cmt">Number of iterations in training, converges to better accuracy (Default: <code>10</code>)
 </p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#onTrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="onTrained(model:M,spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="onTrained(TypedDependencyParserModel,SparkSession):Unit"></a>
@@ -2062,7 +2111,7 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
               <div class="comment cmt"><p>Required input and expected output annotator types</p></div>

@@ -11,10 +11,24 @@ import org.apache.spark.ml.util.Identifiable
   */
 
 /**
-  * Gives a good or bad score to a sentence based on the approach used
+  * Rule based sentiment detector, which calculates a score based on predefined keywords.
   *
+  * This is the instantiated model of the [[SentimentDetector]].
+  * For training your own model, please see the documentation of that class.
+  *
+  * A dictionary of predefined sentiment keywords must be provided with `setDictionary`, where each line is a word
+  * delimited to its class (either `positive` or `negative`).
+  * The dictionary can be set in either in the form of a delimited text file or directly as an
+  * [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
+  *
+  * By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
+  * To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
+  *
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala SentimentTestSpec]].
+  *
+  * @see [[com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach ViveknSentimentApproach]] for an alternative approach to sentiment extraction
   * @param uid internal uid needed for saving annotator to disk
-  * @@ model: Implementation to be applied for sentiment analysis
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
@@ -27,7 +41,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[SentimentDetectorModel] with HasSimpleAnnotate[SentimentDetectorModel] {
 
@@ -55,68 +69,68 @@ class SentimentDetectorModel(override val uid: String) extends AnnotatorModel[Se
 
   def this() = this(Identifiable.randomUID("SENTIMENT"))
 
-  /** multiplier for positive sentiments. Defaults 1.0
+  /** Multiplier for positive sentiments (Default: `1.0`)
     *
     * @group param
     **/
-  val positiveMultiplier = new DoubleParam(this, "positiveMultiplier", "multiplier for positive sentiments. Defaults 1.0")
-  /** multiplier for negative sentiments. Defaults -1.0
+  val positiveMultiplier = new DoubleParam(this, "positiveMultiplier", "Multiplier for positive sentiments. Defaults 1.0")
+  /** Multiplier for negative sentiments (Default: `-1.0`)
     *
     * @group param
     **/
-  val negativeMultiplier = new DoubleParam(this, "negativeMultiplier", "multiplier for negative sentiments. Defaults -1.0")
-  /** multiplier for increment sentiments. Defaults 2.0
+  val negativeMultiplier = new DoubleParam(this, "negativeMultiplier", "Multiplier for negative sentiments. Defaults -1.0")
+  /** Multiplier for increment sentiments (Default: `2.0`)
     *
     * @group param
     **/
-  val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "multiplier for increment sentiments. Defaults 2.0")
-  /** multiplier for decrement sentiments. Defaults -2.0
+  val incrementMultiplier = new DoubleParam(this, "incrementMultiplier", "Multiplier for increment sentiments. Defaults 2.0")
+  /** Multiplier for decrement sentiments (Default: `-2.0`)
     *
     * @group param
     **/
-  val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "multiplier for decrement sentiments. Defaults -2.0")
-  /** multiplier for revert sentiments. Defaults -1.0
+  val decrementMultiplier = new DoubleParam(this, "decrementMultiplier", "Multiplier for decrement sentiments. Defaults -2.0")
+  /** Multiplier for revert sentiments (Default: `-1.0`)
     *
     * @group param
     **/
-  val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "multiplier for revert sentiments. Defaults -1.0")
-  /** if true, score will show as a string type containing a double value, else will output string \"positive\" or \"negative\". Defaults false
+  val reverseMultiplier = new DoubleParam(this, "reverseMultiplier", "Multiplier for revert sentiments. Defaults -1.0")
+  /** if true, score will show as a string type containing a double value, else will output string `"positive"` or `"negative"` (Default: `false`)
     *
     * @group param
     **/
   val enableScore = new BooleanParam(this, "enableScore", "if true, score will show as a string type containing a double value, else will output string \"positive\" or \"negative\". Defaults false")
 
-  /** Multiplier for positive sentiments. Defaults 1.0
+  /** Multiplier for positive sentiments (Default: `1.0`)
     *
     * @group setParam
     **/
   def setPositiveMultipler(v: Double): this.type = set(positiveMultiplier, v)
 
-  /** Multiplier for negative sentiments. Defaults -1.0
+  /** Multiplier for negative sentiments (Default: `-1.0`)
     *
     * @group setParam
     **/
   def setNegativeMultipler(v: Double): this.type = set(negativeMultiplier, v)
 
-  /** Multiplier for increment sentiments. Defaults 2.0
+  /** Multiplier for increment sentiments (Default: `2.0`)
     *
     * @group setParam
     **/
   def setIncrementMultipler(v: Double): this.type = set(incrementMultiplier, v)
 
-  /** Multiplier for decrement sentiments. Defaults -2.0
+  /** Multiplier for decrement sentiments (Default: `-2.0`)
     *
     * @group setParam
     **/
   def setDecrementMultipler(v: Double): this.type = set(decrementMultiplier, v)
 
-  /** Multiplier for revert sentiments. Defaults -1.0
+  /** Multiplier for revert sentiments (Default: `-1.0`)
     *
     * @group setParam
     **/
   def setReverseMultipler(v: Double): this.type = set(reverseMultiplier, v)
 
-  /** If true, score will show as a string type containing a double value, else will output string "positive" or "negative". Defaults false
+  /** If true, score will show as a string type containing a double value, else will output string `"positive"` or `"negative"` (Default: `false`)
     *
     * @group setParam
     **/

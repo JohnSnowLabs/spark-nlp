@@ -33,7 +33,7 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
 
   "AlbertEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+    val smallCorpus = ResourceHelper.spark.read.option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
@@ -48,7 +48,10 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AlbertEmbeddings.pretrained()
+    val embeddings = AlbertEmbeddings.
+      loadSavedModel(
+        "/Users/maziyar/Downloads/albert-base-v2",
+        ResourceHelper.spark)
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 
@@ -74,12 +77,14 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
   "AlbertEmbeddings" should "benchmark test" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
-    val conll = CoNLL(explodeSentences = true)
+    val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = AlbertEmbeddings.pretrained()
+    val embeddings = AlbertEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+      .setMaxSentenceLength(512)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -112,6 +117,53 @@ class AlbertEmbeddingsTestSpec extends FlatSpec {
       // it is normal that the embeddings is less than total tokens in a sentence/document
       // tokens generate multiple sub-wrods or pieces which won't be included in the final results
       assert(totalTokens >= totalEmbeddings)
+
     }
+  }
+
+  "AlbertEmbeddings" should "be aligned with custome tokens from Tokenizer" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "EU rejects German call to boycott British lamb .",
+      "TORONTO 1996-08-21"
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = AlbertEmbeddings
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("token").show(false)
+    pipelineDF.select("embeddings.result").show(false)
+    pipelineDF
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("token_size") =!= col("embed_size"))
+      .select("token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total tokens: $totalTokens")
+    println(s"total embeddings: $totalEmbeddings")
+
   }
 }

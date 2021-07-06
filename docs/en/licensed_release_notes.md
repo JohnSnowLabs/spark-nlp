@@ -4,8 +4,546 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2021-04-26
+modify_date: 2021-05-07
 ---
+
+# Release Notes Spark NLP Healthcare
+
+## 3.1.1
+We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!
+
+#### Highlights
++ MedicalNerModel new parameter `includeAllConfidenceScores`.
++ MedicalNerModel new parameter `inferenceBatchSize`.
++ New Resolver Models
++ Updated Resolver Models
++ Getting Started with Spark NLP for Healthcare Notebook in Databricks
+
+#### MedicalNer new parameter `includeAllConfidenceScores`
+You can now customize whether you will require confidence score for every token(both entities and non-entities) at the output of the MedicalNerModel, or just for the tokens recognized as entities.
+
+#### MedicalNerModel new parameter `inferenceBatchSize`
+You can now control the batch size used during inference as a separate parameter from the one you used during training of the model. This can be useful in the situation in which the hardware on which you run inference has different capacity. For example, when you have lower available memory during inference, you can reduce the batch size.
+ 
+#### New Resolver Models
+We trained three new sentence entity resolver models. 
+
++ `sbertresolve_snomed_bodyStructure_med` and `sbiobertresolve_snomed_bodyStructure` models map extracted medical (anatomical structures) entities to Snomed codes (body structure version). 
+
+     + `sbertresolve_snomed_bodyStructure_med` : Trained  with using `sbert_jsl_medium_uncased` embeddings.
+     + `sbiobertresolve_snomed_bodyStructure`  : Trained with using `sbiobert_base_cased_mli` embeddings.
+
+*Example* :
+```
+documentAssembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("ner_chunk")
+jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased','en','clinical/models')\
+      .setInputCols(["ner_chunk"])\
+      .setOutputCol("sbert_embeddings")
+snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med, "en", "clinical/models) \
+      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setOutputCol("snomed_code")
+snomed_pipelineModel = PipelineModel(
+    stages = [
+        documentAssembler,
+        jsl_sbert_embedder,
+        snomed_resolver])
+snomed_lp = LightPipeline(snomed_pipelineModel)
+result = snomed_lp.fullAnnotate("Amputation stump")
+```
+
+*Result*:
+```bash
+|    | chunks           | code     | resolutions                                                                                                                                                                                                                                  | all_codes                                                                                       | all_distances                                                               |
+|---:|:-----------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
+|  0 | amputation stump | 38033009 | [Amputation stump, Amputation stump of upper limb, Amputation stump of left upper limb, Amputation stump of lower limb, Amputation stump of left lower limb, Amputation stump of right upper limb, Amputation stump of right lower limb, ...]| ['38033009', '771359009', '771364008', '771358001', '771367001', '771365009', '771368006', ...] | ['0.0000', '0.0773', '0.0858', '0.0863', '0.0905', '0.0911', '0.0972', ...] |
+```
+ +  `sbiobertresolve_icdo_augmented` : This model maps extracted medical entities to ICD-O codes using sBioBert sentence embeddings. This model is augmented using the site information coming from ICD10 and synonyms coming from SNOMED vocabularies. It is trained with a dataset that is 20x larger than the previous version of ICDO resolver. Given the oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-10 codes to present more granularity with respect to body parts mentioned. It also returns the original histological behavioral codes and descriptions in the aux metadata.
+
+*Example*:
+
+```
+...
+chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+ 
+sbert_embedder = BertSentenceEmbeddings\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+     .setInputCols(["ner_chunk_doc"])\
+     .setOutputCol("sbert_embeddings")
+ 
+icdo_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icdo_augmented","en", "clinical/models") \
+     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+     .setOutputCol("resolution")\
+     .setDistanceFunction("EUCLIDEAN")
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icdo_resolver])
+empty_data = spark.createDataFrame([[""]]).toDF("text")
+model = nlpPipeline.fit(empty_data)
+results = model.transform(spark.createDataFrame([["The patient is a very pleasant 61-year-old female with a strong family history of colon polyps. The patient reports her first polyps noted at the age of 50. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. She also has history of several malignancies in the family. Her father died of a brain tumor at the age of 81. Her sister died at the age of 65 breast cancer. She has two maternal aunts with history of lung cancer both of whom were smoker. Also a paternal grandmother who was diagnosed with leukemia at 86 and a paternal grandfather who had B-cell lymphoma."]]).toDF("text"))
+```
+
+*Result*:
+
+```
++--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
+|               chunk|begin|end|     entity|         code|        all_k_resolutions|              all_k_codes|
++--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
+|        mesothelioma|  255|266|Oncological|9971/3||C38.3|malignant mediastinal ...|9971/3||C38.3:::8854/3...|
+|several malignancies|  293|312|Oncological|8894/3||C39.8|overlapping malignant ...|8894/3||C39.8:::8070/2...|
+|         brain tumor|  350|360|Oncological|9562/0||C71.9|cancer of the brain:::...|9562/0||C71.9:::9070/3...|
+|       breast cancer|  413|425|Oncological|9691/3||C50.9|carcinoma of breast:::...|9691/3||C50.9:::8070/2...|
+|         lung cancer|  471|481|Oncological|8814/3||C34.9|malignant tumour of lu...|8814/3||C34.9:::8550/3...|
+|            leukemia|  560|567|Oncological|9670/3||C80.9|anemia in neoplastic d...|9670/3||C80.9:::9714/3...|
+|     B-cell lymphoma|  610|624|Oncological|9818/3||C77.9|secondary malignant ne...|9818/3||C77.9:::9655/3...|
++--------------------+-----+---+-----------+-------------+-------------------------+-------------------------+
+```
+
+ 
+#### Updated Resolver Models
+We updated `sbiobertresolve_snomed_findings` and `sbiobertresolve_cpt_procedures_augmented` resolver models to reflect the latest changes in the official terminologies.
+
+#### Getting Started with Spark NLP for Healthcare Notebook in Databricks
+We prepared a new notebook for those who want to get started with Spark NLP for Healthcare in Databricks : [Getting Started with Spark NLP for Healthcare Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/databricks/python/healthcare_case_studies/Get_Started_Spark_NLP_for_Healthcare.ipynb) 
+
+## 3.1.0
+We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!
+#### Highlights
++ Improved load time & memory consumption for SentenceResolver models.
++ New JSL Bert Models.
++ JSL SBert Model Speed Benchmark.
++ New ICD10CM resolver models.
++ New Deidentification NER models.
++ New column returned in DeidentificationModel
++ New Reidentification feature
++ New Deidentification Pretrained Pipelines
++ Chunk filtering based on confidence
++ Extended regex dictionary fuctionallity in Deidentification
++ Enhanced RelationExtractionDL Model to create and identify relations between entities across the entire document
++ MedicalNerApproach can now accept a graph file directly.
++ MedicalNerApproach can now accept a user-defined name for log file.
++ More improvements in Scaladocs. 
++ Bug fixes in Deidentification module.
++ New notebooks.
+
+
+
+#### Sentence Resolver Models load time improvement
+Sentence resolver models now have faster load times, with a speedup of about 6X when compared to previous versions.
+Also, the load process now is more  memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
+
+#### New JSL SBert Models
+We trained new sBert models in TF2 and fined tuned on MedNLI, NLI and UMLS datasets with various parameters to cover common NLP tasks in medical domain. You can find the details in the following table.
+
++ `sbiobert_jsl_cased`
++ `sbiobert_jsl_umls_cased`
++ `sbert_jsl_medium_uncased`
++ `sbert_jsl_medium_umls_uncased`
++ `sbert_jsl_mini_uncased`
++ `sbert_jsl_mini_umls_uncased`
++ `sbert_jsl_tiny_uncased`
++ `sbert_jsl_tiny_umls_uncased`
+
+#### JSL SBert Model Speed Benchmark
+| JSL SBert Model| Base Model | Is Cased | Train Datasets | Inference speed (100 rows) |
+|-|-|-|-|-|
+| sbiobert_jsl_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI| 274,53 |
+| sbiobert_jsl_umls_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI, umls | 274,52 |
+| sbert_jsl_medium_uncased | uncased_L-8_H-512_A-8 | Uncased | medNLI, allNLI| 80,40 |
+| sbert_jsl_medium_umls_uncased | uncased_L-8_H-512_A-8 | Uncased | medNLI, allNLI, umls | 78,35 |
+| sbert_jsl_mini_uncased | uncased_L-4_H-256_A-4 | Uncased | medNLI, allNLI| 10,68 |
+| sbert_jsl_mini_umls_uncased | uncased_L-4_H-256_A-4 | Uncased | medNLI, allNLI, umls | 10,29 |
+| sbert_jsl_tiny_uncased | uncased_L-2_H-128_A-2 | Uncased | medNLI, allNLI| 4,54 |
+| sbert_jsl_tiny_umls_uncased | uncased_L-2_H-128_A-2 | Uncased | medNLI, allNL, umls | 4,54 |
+
+#### New ICD10CM resolver models:
+These models map clinical entities and concepts to ICD10 CM codes using sentence bert embeddings. They also return the official resolution text within the brackets inside the metadata. Both models are augmented with synonyms, and previous augmentations are flexed according to cosine distances to unnormalized terms (ground truths).
+
++ `sbiobertresolve_icd10cm_slim_billable_hcc`: Trained with classic sbiobert mli. (`sbiobert_base_cased_mli`)
+
+Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbiobertresolve_icd10cm_slim_billable_hcc_en.html
+
++ `sbertresolve_icd10cm_slim_billable_hcc_med`: Trained with new jsl sbert(`sbert_jsl_medium_uncased`)
+
+Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/25/sbertresolve_icd10cm_slim_billable_hcc_med_en.html
+
+
+*Example*: 'bladder cancer' 
++ `sbiobertresolve_icd10cm_augmented_billable_hcc`
+
+| chunks | code | all_codes | resolutions |all_distances | 100x Loop(sec) |
+|-|-|-|-|-|-|
+| bladder cancer | C679 | [C679, Z126, D090, D494, C7911] | [bladder cancer, suspected bladder cancer, cancer in situ of urinary bladder, tumor of bladder neck, malignant tumour of bladder neck] | [0.0000, 0.0904, 0.0978, 0.1080, 0.1281] | 26,9 |
+
++ ` sbiobertresolve_icd10cm_slim_billable_hcc`
+
+| chunks | code | all_codes | resolutions |all_distances | 100x Loop(sec) |
+| - | - | - | - | - | - |
+| bladder cancer | D090 | [D090, D494, C7911, C680, C679] | [cancer in situ of urinary bladder [Carcinoma in situ of bladder], tumor of bladder neck [Neoplasm of unspecified behavior of bladder], malignant tumour of bladder neck [Secondary malignant neoplasm of bladder], carcinoma of urethra [Malignant neoplasm of urethra], malignant tumor of urinary bladder [Malignant neoplasm of bladder, unspecified]] | [0.0978, 0.1080, 0.1281, 0.1314, 0.1284] | 20,9 |
+
++ `sbertresolve_icd10cm_slim_billable_hcc_med`
+
+| chunks | code | all_codes | resolutions |all_distances | 100x Loop(sec) |
+| - | - | - | - | - | - |
+| bladder cancer | C671 | [C671, C679, C61, C672, C673] | [bladder cancer, dome [Malignant neoplasm of dome of bladder], cancer of the urinary bladder [Malignant neoplasm of bladder, unspecified], prostate cancer [Malignant neoplasm of prostate], cancer of the urinary bladder] | [0.0894, 0.1051, 0.1184, 0.1180, 0.1200] | 12,8 | 
+
+#### New Deidentification NER Models
+
+We trained four new NER models to find PHI data (protected health information) that may need to be deidentified. `ner_deid_generic_augmented` and `ner_deid_subentity_augmented` models are trained with a combination of 2014 i2b2 Deid dataset and in-house annotations as well as some augmented version of them. Compared to the same test set coming from 2014 i2b2 Deid dataset, we achieved a better accuracy and generalisation on some entity labels as summarised in the following tables. We also trained the same models with `glove_100d` embeddings to get more memory friendly versions.    
+
++ `ner_deid_generic_augmented`  : Detects PHI 7 entities (`DATE`, `NAME`, `LOCATION`, `PROFESSION`, `CONTACT`, `AGE`, `ID`).
+
+Models Hub Page : https://nlp.johnsnowlabs.com/2021/06/01/ner_deid_generic_augmented_en.html
+
+| entity| ner_deid_large (v3.0.3 and before)|ner_deid_generic_augmented (v3.1.0)|
+|--|:--:|:--:|
+|   CONTACT| 0.8695|0.9592 |
+|      NAME| 0.9452|0.9648 |
+|      DATE| 0.9778|0.9855 |
+|  LOCATION| 0.8755|0.923 |
+
++ `ner_deid_subentity_augmented`: Detects PHI 23 entities (`MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE`)
+
+Models Hub Page : https://nlp.johnsnowlabs.com/2021/06/01/ner_deid_subentity_augmented_en.html
+
+|entity| ner_deid_enriched (v3.0.3 and before)| ner_deid_subentity_augmented (v3.1.0)|
+|-------------|:------:|:--------:|
+|     HOSPITAL| 0.8519| 0.8983 |
+|         DATE| 0.9766| 0.9854 |
+|         CITY| 0.7493| 0.8075 |
+|       STREET| 0.8902| 0.9772 |
+|          ZIP| 0.8| 0.9504 |
+|        PHONE| 0.8615| 0.9502 |
+|       DOCTOR| 0.9191| 0.9347 |
+|          AGE| 0.9416| 0.9469 |
+
++ `ner_deid_generic_glove`: Small version of `ner_deid_generic_augmented` and detects 7 entities.
++ `ner_deid_subentity_glove`: Small version of `ner_deid_subentity_augmented` and detects 23 entities.
+
+*Example*:
+
+Scala
+```scala
+...
+val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
+      .setInputCols(Array("sentence", "token", "embeddings")) \
+      .setOutputCol("ner")
+...
+val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."].toDS.toDF("text")).transform(data)
+```
+
+Python
+```bash
+...
+deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
+      .setInputCols(["sentence", "token", "embeddings"]) \
+      .setOutputCol("ner")
+...
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."""]})))
+```
+*Results*:
+```bash
++-----------------------------+-------------+
+|chunk                        |ner_label    |
++-----------------------------+-------------+
+|2093-01-13                   |DATE         |
+|David Hale                   |DOCTOR       |
+|Hendrickson, Ora             |PATIENT      |
+|7194334                      |MEDICALRECORD|
+|01/13/93                     |DATE         |
+|Oliveira                     |DOCTOR       |
+|25-year-old                  |AGE          |
+|1-11-2000                    |DATE         |
+|Cocke County Baptist Hospital|HOSPITAL     |
+|0295 Keats Street.           |STREET       |
+|(302) 786-5227               |PHONE        |
+|Brothers Coal-Mine           |ORGANIZATION |
++-----------------------------+-------------+
+``` 
+
+
+#### New column returned in DeidentificationModel
+
+DeidentificationModel now can return a new column to save the mappings between the mask/obfuscated entities and original entities.
+This column is optional and you can set it up with the `.setReturnEntityMappings(True)` method. The default value is False.
+Also, the name for the column can be changed using the following method; `.setMappingsColumn("newAlternativeName")`
+The new column will produce annotations with the following structure,
+```
+Annotation(
+  type: chunk, 
+  begin: 17, 
+  end: 25, 
+  result: 47,
+    metadata:{
+        originalChunk -> 01/13/93  //Original text of the chunk
+        chunk -> 0  // The number of the chunk in the sentence
+        beginOriginalChunk -> 95 // Start index of the original chunk
+        endOriginalChunk -> 102  // End index of the original chunk
+        entity -> AGE // Entity of the chunk
+        sentence -> 2 // Number of the sentence
+    }
+)
+```
+
+#### New Reidentification feature
+
+With the new ReidetificationModel, the user can go back to the original sentences using the mappings columns and the deidentification sentences.
+
+*Example:*
+
+Scala
+
+```scala
+val redeidentification = new ReIdentification()
+     .setInputCols(Array("mappings", "deid_chunks"))
+     .setOutputCol("original")
+```
+
+Python
+
+```scala
+reDeidentification = ReIdentification()
+     .setInputCols(["mappings","deid_chunks"])
+     .setOutputCol("original")
+```
+
+#### New Deidentification Pretrained Pipelines
+We developed a `clinical_deidentification` pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`, `CITY`, `COUNTRY`, `DOCTOR`, `HOSPITAL`, `IDNUM`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`,  `STREET`, `USERNAME`, `ZIP`, `ACCOUNT`, `LICENSE`, `VIN`, `SSN`, `DLN`, `PLATE`, `IPADDR` entities. 
+
+Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html
+
+There is also a lightweight version of the same pipeline trained with memory efficient `glove_100d`embeddings.
+Here are the model names:
+- clinical_deidentification
+- clinical_deidentification_glove
+
+*Example:*
+
+Python:
+```bash 
+from sparknlp.pretrained import PretrainedPipeline
+deid_pipeline = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
+
+deid_pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286.")
+```
+Scala:
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+val deid_pipeline = PretrainedPipeline("clinical_deidentification","en","clinical/models")
+
+val result = deid_pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286.")
+```
+Result:
+```bash
+{'sentence': ['Record date : 2093-01-13, David Hale, M.D.',
+   'IP: 203.120.223.13.',
+   'The driver's license no:A334455B.',
+   'the SSN:324598674 and e-mail: hale@gmail.com.',
+   'Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93.',
+   'PCP : Oliveira, 25 years-old.',
+   'Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286.'],
+'masked': ['Record date : <DATE>, <DOCTOR>, M.D.',
+   'IP: <IPADDR>.',
+   'The driver's license <DLN>.',
+   'the <SSN> and e-mail: <EMAIL>.',
+   'Name : <PATIENT> MR. # <MEDICALRECORD> Date : <DATE>.',
+   'PCP : <DOCTOR>, <AGE> years-old.',
+   'Record date : <DATE>, Patient's VIN : <VIN>.'],
+'obfuscated': ['Record date : 2093-01-18, Dr Alveria Eden, M.D.',
+   'IP: 001.001.001.001.',
+   'The driver's license K783518004444.',
+   'the SSN-400-50-8849 and e-mail: Merilynn@hotmail.com.',
+   'Name : Charls Danger MR. # J3366417 Date : 01-18-1974.',
+   'PCP : Dr Sina Sewer, 55 years-old.',
+   'Record date : 2079-11-23, Patient's VIN : 6ffff55gggg666777.'],
+'ner_chunk': ['2093-01-13',
+   'David Hale',
+   'no:A334455B',
+   'SSN:324598674',
+   'Hendrickson, Ora',
+   '719435',
+   '01/13/93',
+   'Oliveira',
+   '25',
+   '2079-11-09',
+   '1HGBH41JXMN109286']}
+```
+
+#### Chunk filtering based on confidence
+
+We added a new annotator ChunkFiltererApproach that allows to load a csv with both entities and confidence thresholds. 
+This annotator will produce a ChunkFilterer model.
+
+You can load the dictionary with the following property `setEntitiesConfidenceResource()`.
+
+An example dictionary is:
+
+```CSV
+TREATMENT,0.7
+```
+
+With that dictionary, the user can filter the chunks corresponding to treatment entities which have confidence lower than 0.7.
+
+Example:
+
+We have a ner_chunk column and sentence column with the following data:
+
+Ner_chunk
+```
+|[{chunk, 141, 163, the genomicorganization, {entity -> TREATMENT, sentence -> 0, chunk -> 0, confidence -> 0.57785}, []}, {chunk, 209, 267, a candidate gene forType II 
+           diabetes mellitus, {entity -> PROBLEM, sentence -> 0, chunk -> 1, confidence -> 0.6614286}, []}, {chunk, 394, 408, byapproximately, {entity -> TREATMENT, sentence -> 1, chunk -> 2, confidence -> 0.7705}, []}, {chunk, 478, 508, single nucleotide polymorphisms, {entity -> TREATMENT, sentence -> 2, chunk -> 3, confidence -> 0.7204666}, []}, {chunk, 559, 581, aVal366Ala substitution, {entity -> TREATMENT, sentence -> 2, chunk -> 4, confidence -> 0.61505}, []}, {chunk, 588, 601, an 8 base-pair, {entity -> TREATMENT, sentence -> 2, chunk -> 5, confidence -> 0.29226667}, []}, {chunk, 608, 625, insertion/deletion, {entity -> PROBLEM, sentence -> 3, chunk -> 6, confidence -> 0.9841}, []}]|
++-------
+```
+Sentence
+```
+[{document, 0, 298, The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family.Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II 
+             diabetes mellitus in the Pima Indian population., {sentence -> 0}, []}, {document, 300, 460, The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons ,separated byapproximately 2.2 and approximately 2.6 kb introns, respectively., {sentence -> 1}, []}, {document, 462, 601, We identified14 single nucleotide polymorphisms (SNPs),
+             including one that predicts aVal366Ala substitution, and an 8 base-pair, {sentence -> 2}, []}, {document, 603, 626, (bp) insertion/deletion., {sentence -> 3}, []}]
+```
+
+We can filter the entities using the following annotator:
+
+```python
+        chunker_filter = ChunkFiltererApproach().setInputCols("sentence", "ner_chunk") \
+            .setOutputCol("filtered") \
+            .setCriteria("regex") \
+            .setRegex([".*"]) \         
+            .setEntitiesConfidenceResource("entities_confidence.csv")
+
+```
+Where entities-confidence.csv has the following data:
+
+```csv
+TREATMENT,0.7
+PROBLEM,0.9
+```
+We can use that chunk_filter:
+
+```
+chunker_filter.fit(data).transform(data)
+```
+Producing the following entities:
+
+```
+|[{chunk, 394, 408, byapproximately, {entity -> TREATMENT, sentence -> 1, chunk -> 2, confidence -> 0.7705}, []}, {chunk, 478, 508, single nucleotide polymorphisms, {entity -> TREATMENT, sentence -> 2, chunk -> 3, confidence -> 0.7204666}, []}, {chunk, 608, 625, insertion/deletion, {entity -> PROBLEM, sentence -> 3, chunk -> 6, confidence -> 0.9841}, []}]|
+
+```
+As you can see, only the treatment entities with confidence score of more than 0.7, and the problem entities with confidence score of more than 0.9 have been kept in the output.
+
+
+#### Extended regex dictionary fuctionallity in Deidentification
+
+The RegexPatternsDictionary can now use a regex that spawns the 2 previous token and the 2 next tokens.
+That feature is implemented using regex groups.
+
+Examples: 
+
+Given the sentence `The patient with ssn 123123123` we can use the following regex to capture the entitty `ssn (\d{9})`
+Given the sentence `The patient has 12 years` we can use the following regex to capture the entitty `(\d{2}) years`
+
+#### Enhanced RelationExtractionDL Model to create and identify relations between entities across the entire document
+
+A new option has been added to `RENerChunksFilter` to support pairing entities from different sentences using `.setDocLevelRelations(True)`, to pass to the Relation Extraction Model. The RelationExtractionDL Model has also been updated to process document-level relations.
+
+How to use:
+
+```python
+        re_dl_chunks = RENerChunksFilter() \
+            .setInputCols(["ner_chunks", "dependencies"])\
+            .setDocLevelRelations(True)\
+            .setMaxSyntacticDistance(7)\
+            .setOutputCol("redl_ner_chunks")  
+```
+
+Examples:
+
+Given a document containing multiple sentences: `John somkes cigrettes. He also consumes alcohol.`, now we can generate relation pairs across sentences and relate `alcohol` with `John` .
+
+#### Set NER graph explicitely in MedicalNerApproach
+Now MedicalNerApproach can receives the path to the graph directly. When a graph location is provided through this method, previous graph search behavior is disabled.
+```
+MedicalNerApproach.setGraphFile(graphFilePath)
+```
+
+#### MedicalNerApproach can now accept a user-defined name for log file.
+Now MedicalNerApproach can accept a user-defined name for the log file. If not such a name is provided, the conventional naming will take place.
+```
+MedicalNerApproach.setLogPrefix("oncology_ner")
+```
+This will result in `oncology_ner_20210605_141701.log` filename being used, in which the `20210605_141701` is a timestamp.
+
+#### New Notebooks
+
++ A [new notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.4.Biomedical_NER_SparkNLP_paper_reproduce.ipynb)  to reproduce our peer-reviewed NER paper (https://arxiv.org/abs/2011.06315)
++ New databricks [case study notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/case_studies). In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.
+
+
+### 3.0.3
+
+We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!
+
+#### Highlights
+
++ Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.
++ New feature for random displacement of dates on deidentification model.
++ Five new pretrained pipelines to map terminologies across each other (from UMLS to ICD10, from RxNorm to MeSH etc.)
++ AnnotationToolReader support for Spark 2.3. The tool that helps model training on Spark-NLP to leverage data annotated using JSL Annotation Tool now has support for Spark 2.3.
++ Updated documentation (Scaladocs) covering more APIs, and examples. 
+
+#### Five new resolver models:
+
++ `sbiobertresolve_umls_major_concepts`: This model returns CUI (concept unique identifier) codes for Clinical Findings, Medical Devices, Anatomical Structures and Injuries & Poisoning terms.            
++ `sbiobertresolve_umls_findings`: This model returns CUI (concept unique identifier) codes for 200K concepts from clinical findings.
++ `sbiobertresolve_loinc`: Map clinical NER entities to LOINC codes using `sbiobert`.
++ `sbluebertresolve_loinc`: Map clinical NER entities to LOINC codes using `sbluebert`.
++ `sbiobertresolve_HPO`: This model returns Human Phenotype Ontology (HPO) codes for phenotypic abnormalities encountered in human diseases. It also returns associated codes from the following vocabularies for each HPO code:
+
+		* MeSH (Medical Subject Headings)
+		* SNOMED
+		* UMLS (Unified Medical Language System )
+		* ORPHA (international reference resource for information on rare diseases and orphan drugs)
+		* OMIM (Online Mendelian Inheritance in Man)
+
+  *Related Notebook*: [Resolver Models](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb)
+  
+#### New feature on Deidentification Module
++ isRandomDateDisplacement(True): Be able to apply a random displacement on obfuscation dates. The randomness is based on the seed.
++ Fix random dates when the format is not correct. Now you can repeat an execution using a seed for dates. Random dates will be based on the seed. 
+
+#### Five new healthcare code mapping pipelines:
+
++ `icd10cm_umls_mapping`: This pretrained pipeline maps ICD10CM codes to UMLS codes without using any text data. You’ll just feed white space-delimited ICD10CM codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'icd10cm': ['M89.50', 'R82.2', 'R09.01'], 
+          'umls': ['C4721411', 'C0159076', 'C0004044']}
+
++ `mesh_umls_mapping`: This pretrained pipeline maps MeSH codes to UMLS codes without using any text data. You’ll just feed white space-delimited MeSH codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'mesh': ['C028491', 'D019326', 'C579867'],
+         'umls': ['C0970275', 'C0886627', 'C3696376']}
+
++ `rxnorm_umls_mapping`: This pretrained pipeline maps RxNorm codes to UMLS codes without using any text data. You’ll just feed white space-delimited RxNorm codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'rxnorm': ['1161611', '315677', '343663'],
+         'umls': ['C3215948', 'C0984912', 'C1146501']}
+
++ `rxnorm_mesh_mapping`: This pretrained pipeline maps RxNorm codes to MeSH codes without using any text data. You’ll just feed white space-delimited RxNorm codes and it will return the corresponding MeSH codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'rxnorm': ['1191', '6809', '47613'],
+         'mesh': ['D001241', 'D008687', 'D019355']}
+
++ `snomed_umls_mapping`: This pretrained pipeline maps SNOMED codes to UMLS codes without using any text data. You’ll just feed white space-delimited SNOMED codes and it will return the corresponding UMLS codes as a list. If there is no mapping, the original code is returned with no mapping.
+
+      {'snomed': ['733187009', '449433008', '51264003'],
+         'umls': ['C4546029', 'C3164619', 'C0271267']}
+
+  *Related Notebook*: [Healthcare Code Mapping](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb)
+
 
 ### 3.0.2
 

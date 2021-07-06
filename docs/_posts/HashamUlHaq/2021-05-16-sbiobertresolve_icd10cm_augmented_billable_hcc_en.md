@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to ICD10-CM codes using chunk embeddings (augmented with synonyms, four times richer than previous resolver). It also adds support of 7-digit codes with HCC status.For reference: http://www.formativhealth.com/wp-content/uploads/2018/06/HCC-White-Paper.pdf
+This model maps extracted medical entities to ICD10-CM codes using chunk embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. The load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.. It also adds support of 7-digit codes with HCC status.For reference: http://www.formativhealth.com/wp-content/uploads/2018/06/HCC-White-Paper.pdf
 
 ## Predicted Entities
 
@@ -64,7 +64,8 @@ val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
-val result = bert_pipeline_icd.fit(Seq.empty["metastatic lung cancer"].toDS.toDF("text")).transform(data)
+val data = Seq("metastatic lung cancer").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

@@ -19,6 +19,7 @@ data:
       source: yes
       source: 
         - title: SNOMED coding
+          hide: yes
           id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
@@ -33,6 +34,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
         - title: ICDO coding
+          hide: yes
           id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
@@ -47,6 +49,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
         - title: ICD10-CM coding 
+          hide: yes
           id: icd10-cm_coding
           image: 
               src: /assets/images/Detect_risk_factors.svg
@@ -61,6 +64,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: RxNORM coding
+          hide: yes
           id: rxnorm_coding
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg
@@ -73,5 +77,34 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb               
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb
+        - title: Logical Observation Identifiers Names and Codes (LOINC)
+          hide: yes
+          id: logical-observation-identifiers-names-and-codes
+          image: 
+              src: /assets/images/Detect_drugs_and_prescriptions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
+          excerpt: Map clinical NER entities to Logical Observation Identifiers Names and Codes (LOINC) using our pre-trained model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb
+        - title: Map Healthcare Codes
+          id: logical-observation-identifiers-names-and-codes
+          image: 
+              src: /assets/images/Detect_traffic_information_in_text.svg
+          image2: 
+              src: /assets/images/Detect_traffic_information_in_text_f.svg
+          excerpt: These pretrained pipelines map various codes (e.g., ICD10CM codes to SNOMED codes) without using any text data.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_CODE_MAPPING/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL              
 ---

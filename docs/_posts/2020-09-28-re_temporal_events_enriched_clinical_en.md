@@ -60,7 +60,8 @@ val clinical_re_Model = RelationExtractionModel()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model))
 
-val result = pipeline.fit(Seq.empty["""The patient is a 56-year-old right-handed female with longstanding intermittent right low back pain, who was involved in a motor vehicle accident in September of 2005. At that time, she did not notice any specific injury, but five days later, she started getting abnormal right low back pain."""].toDS.toDF("text")).transform(data)
+val data = Seq("The patient is a 56-year-old right-handed female with longstanding intermittent right low back pain, who was involved in a motor vehicle accident in September of 2005. At that time, she did not notice any specific injury, but five days later, she started getting abnormal right low back pain.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 
 ```

@@ -44,7 +44,7 @@ pipeline = Pipeline(stages=[
         word_segmenter
         ])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-example = spark.createDataFrame(pd.DataFrame({'text': ["""清代は湖北省が置かれ、そのまま現代の行政区分になっている。"""]}))
+example = spark.createDataFrame([['清代は湖北省が置かれ、そのまま現代の行政区分になっている。']], ["text"])
 result = model.transform(example)
 ```
 
@@ -54,7 +54,8 @@ val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
         .setInputCols("document")
         .setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-val result = pipeline.fit(Seq.empty["清代は湖北省が置かれ、そのまま現代の行政区分になっている。"].toDS.toDF("text")).transform(data)
+val data = Seq("清代は湖北省が置かれ、そのまま現代の行政区分になっている。").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

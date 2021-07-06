@@ -48,14 +48,14 @@ sbert_embedder = BertSentenceEmbeddings\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 
-resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_major_concepts", "en", "clinical/models") \
+resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_HPO", "en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 
 pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokens, embeddings, ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-model = LightPipeline(pipeline.fit(spark.createDataFrame(pd.DataFrame({'text':['']}))))
+model = LightPipeline(pipeline.fit(spark.createDataFrame([['']], ["text"])))
 
 text="""These disorders include cancer, bipolar disorder, schizophrenia, autism, Cri-du-chat syndrome, myopia, cortical cataract-linked Alzheimer's disease, and infectious diseases"""
 

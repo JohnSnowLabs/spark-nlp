@@ -70,7 +70,21 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL
+            url: https://demo.johnsnowlabs.com/healthcare/RE_BODYPART_ENT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb
+        - title: Detect how dates relate to clinical entities
+          id: detect_how_dates_relate_to_clinical_entities
+          image: 
+              src: /assets/images/ExtractRelationships_2.svg
+          image2: 
+              src: /assets/images/ExtractRelationships_2_f.svg
+          excerpt: Detect clinical entities such as problems, tests and treatments, and how they relate to specific dates.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_DATE/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb

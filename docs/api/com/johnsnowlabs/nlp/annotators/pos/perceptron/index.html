@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -170,17 +170,17 @@
                         <a class="class" href="AveragedPerceptron.html" title=""></a>
                         <a href="AveragedPerceptron.html" title="">AveragedPerceptron</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="PerceptronApproach$.html" title=""></a>
-                        <a class="class" href="PerceptronApproach.html" title="Averaged Perceptron model to tag words part-of-speech."></a>
-                        <a href="PerceptronApproach.html" title="Averaged Perceptron model to tag words part-of-speech.">PerceptronApproach</a>
+                        <a class="object" href="PerceptronApproach$.html" title="This is the companion object of PerceptronApproach."></a>
+                        <a class="class" href="PerceptronApproach.html" title="Trains an averaged Perceptron model to tag words part-of-speech."></a>
+                        <a href="PerceptronApproach.html" title="Trains an averaged Perceptron model to tag words part-of-speech.">PerceptronApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="PerceptronApproachDistributed$.html" title=""></a>
+                        <a class="object" href="PerceptronApproachDistributed$.html" title="This is the companion object of PerceptronApproachDistributed."></a>
                         <a class="class" href="PerceptronApproachDistributed.html" title="Distributed Averaged Perceptron model to tag words part-of-speech."></a>
                         <a href="PerceptronApproachDistributed.html" title="Distributed Averaged Perceptron model to tag words part-of-speech.">PerceptronApproachDistributed</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="PerceptronModel$.html" title=""></a>
-                        <a class="class" href="PerceptronModel.html" title="Part of speech tagger that might use different approaches"></a>
-                        <a href="PerceptronModel.html" title="Part of speech tagger that might use different approaches">PerceptronModel</a>
+                        <a class="object" href="PerceptronModel$.html" title="This is the companion object of PerceptronModel."></a>
+                        <a class="class" href="PerceptronModel.html" title="Averaged Perceptron model to tag words part-of-speech."></a>
+                        <a href="PerceptronModel.html" title="Averaged Perceptron model to tag words part-of-speech.">PerceptronModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="PerceptronPredictionUtils.html" title=""></a>
@@ -300,11 +300,70 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Averaged Perceptron model to tag words part-of-speech." href="PerceptronApproach.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></span>
+        <a title="Trains an averaged Perceptron model to tag words part-of-speech." href="PerceptronApproach.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronTrainingUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronTrainingUtils">PerceptronTrainingUtils</a></span>
       </span>
       
-      <p class="shortcomment cmt">Averaged Perceptron model to tag words part-of-speech.</p><div class="fullcomment"><div class="comment cmt"><p>Averaged Perceptron model to tag words part-of-speech.</p><p>Sets a POS tag to each word within a sentence. Its train data (train_pos) is a spark dataset of POS format values with Annotation columns.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron</a> for further reference on how to use this API.
-</p></div></div>
+      <p class="shortcomment cmt">Trains an averaged Perceptron model to tag words part-of-speech.</p><div class="fullcomment"><div class="comment cmt"><p>Trains an averaged Perceptron model to tag words part-of-speech.
+Sets a POS tag to each word within a sentence.</p><p>For pretrained models please see the <a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>.</p><p>The training data needs to be in a Spark DataFrame, where the column needs to consist of
+<a href="../../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotations</a> of type <code>POS</code>. The <code>Annotation</code> needs to have member <code>result</code>
+set to the POS tag and have a <code>&quot;word&quot;</code> mapping to its word inside of member <code>metadata</code>.
+This DataFrame for training can easily created by the helper class <a href="../../../training/POS.html" class="extype" name="com.johnsnowlabs.nlp.training.POS">POS</a>.</p><pre>POS().readDataset(spark, datasetPath).selectExpr(<span class="lit">"explode(tags) as tags"</span>).show(<span class="kw">false</span>)
++---------------------------------------------+
+|tags                                         |
++---------------------------------------------+
+|[pos, <span class="num">0</span>, <span class="num">5</span>, NNP, [word -&gt; Pierre], []]       |
+|[pos, <span class="num">7</span>, <span class="num">12</span>, NNP, [word -&gt; Vinken], []]      |
+|[pos, <span class="num">14</span>, <span class="num">14</span>, ,, [word -&gt; ,], []]            |
+|[pos, <span class="num">31</span>, <span class="num">34</span>, MD, [word -&gt; will], []]        |
+|[pos, <span class="num">36</span>, <span class="num">39</span>, VB, [word -&gt; join], []]        |
+|[pos, <span class="num">41</span>, <span class="num">43</span>, DT, [word -&gt; the], []]         |
+|[pos, <span class="num">45</span>, <span class="num">49</span>, NN, [word -&gt; board], []]       |
+                      ...</pre><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb" target="_blank">Spark NLP Workshop</a>
+and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">PerceptronApproach tests</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.training.POS
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> datasetPath = <span class="lit">"src/test/resources/anc-pos-corpus-small/test-training.txt"</span>
+<span class="kw">val</span> trainingPerceptronDF = POS().readDataset(spark, datasetPath)
+
+<span class="kw">val</span> trainedPos = <span class="kw">new</span> PerceptronApproach()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+  .setPosColumn(<span class="lit">"tags"</span>)
+  .fit(trainingPerceptronDF)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  trainedPos
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"To be or not to be, is this the question?"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"pos.result"</span>).show(<span class="kw">false</span>)
++--------------------------------------------------+
+|result                                            |
++--------------------------------------------------+
+|[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|
++--------------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PerceptronApproachDistributedextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel]withPerceptronTrainingUtils"></a><a id="PerceptronApproachDistributed:PerceptronApproachDistributed"></a>
       <span class="permalink">
@@ -334,11 +393,56 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Part of speech tagger that might use different approaches" href="PerceptronModel.html"><span class="name">PerceptronModel</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronPredictionUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronPredictionUtils">PerceptronPredictionUtils</a></span>
+        <a title="Averaged Perceptron model to tag words part-of-speech." href="PerceptronModel.html"><span class="name">PerceptronModel</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>] with <a href="PerceptronPredictionUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronPredictionUtils">PerceptronPredictionUtils</a></span>
       </span>
       
-      <p class="shortcomment cmt">Part of speech tagger that might use different approaches</p><div class="fullcomment"><div class="comment cmt"><p>Part of speech tagger that might use different approaches</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron</a> for further reference on how to use this API.
-</p></div></div>
+      <p class="shortcomment cmt">Averaged Perceptron model to tag words part-of-speech.</p><div class="fullcomment"><div class="comment cmt"><p>Averaged Perceptron model to tag words part-of-speech.
+Sets a POS tag to each word within a sentence.</p><p>This is the instantiated model of the
+<a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>.
+For training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)</pre><p>The default model is <code>&quot;pos_anc&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging" target="_blank">Models Hub</a>.
+Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  tokenizer,
+  posTagger
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Peter Pipers employees are picking pecks of pickled peppers"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(pos) as pos"</span>).show(<span class="kw">false</span>)
++-------------------------------------------+
+|pos                                        |
++-------------------------------------------+
+|[pos, <span class="num">0</span>, <span class="num">4</span>, NNP, [word -&gt; Peter], []]      |
+|[pos, <span class="num">6</span>, <span class="num">11</span>, NNP, [word -&gt; Pipers], []]    |
+|[pos, <span class="num">13</span>, <span class="num">21</span>, NNS, [word -&gt; employees], []]|
+|[pos, <span class="num">23</span>, <span class="num">25</span>, VBP, [word -&gt; are], []]      |
+|[pos, <span class="num">27</span>, <span class="num">33</span>, VBG, [word -&gt; picking], []]  |
+|[pos, <span class="num">35</span>, <span class="num">39</span>, NNS, [word -&gt; pecks], []]    |
+|[pos, <span class="num">41</span>, <span class="num">42</span>, IN, [word -&gt; of], []]        |
+|[pos, <span class="num">44</span>, <span class="num">50</span>, JJ, [word -&gt; pickled], []]   |
+|[pos, <span class="num">52</span>, <span class="num">58</span>, NNS, [word -&gt; peppers], []]  |
++-------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronPredictionUtils" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="PerceptronPredictionUtilsextendsPerceptronUtils"></a><a id="PerceptronPredictionUtils:PerceptronPredictionUtils"></a>
       <span class="permalink">
@@ -459,7 +563,7 @@
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+                <li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PerceptronApproach"></a><a id="PerceptronApproach:PerceptronApproach"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach$.html" title="Permalink">
@@ -471,11 +575,12 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="PerceptronApproach$.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="This is the companion object of PerceptronApproach." href="PerceptronApproach$.html"><span class="name">PerceptronApproach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This is the companion object of <a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="PerceptronApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach">PerceptronApproach</a>. Please refer to that class for the documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PerceptronApproachDistributed"></a><a id="PerceptronApproachDistributed:PerceptronApproachDistributed"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproachDistributed$.html" title="Permalink">
@@ -487,11 +592,12 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="PerceptronApproachDistributed$.html"><span class="name">PerceptronApproachDistributed</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PerceptronApproachDistributed.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="This is the companion object of PerceptronApproachDistributed." href="PerceptronApproachDistributed$.html"><span class="name">PerceptronApproachDistributed</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PerceptronApproachDistributed.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This is the companion object of <a href="PerceptronApproachDistributed.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="PerceptronApproachDistributed.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproachDistributed">PerceptronApproachDistributed</a>. Please refer to that class for the documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PerceptronModel"></a><a id="PerceptronModel:PerceptronModel"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel$.html" title="Permalink">
@@ -503,10 +609,11 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="PerceptronModel$.html"><span class="name">PerceptronModel</span></a><span class="result"> extends <a href="ReadablePretrainedPerceptron.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron">ReadablePretrainedPerceptron</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="This is the companion object of PerceptronModel." href="PerceptronModel$.html"><span class="name">PerceptronModel</span></a><span class="result"> extends <a href="ReadablePretrainedPerceptron.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron">ReadablePretrainedPerceptron</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">This is the companion object of <a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a>. Please refer to that class for the documentation.
+</p></div></div>
     </li>
               </ol>
             </div>

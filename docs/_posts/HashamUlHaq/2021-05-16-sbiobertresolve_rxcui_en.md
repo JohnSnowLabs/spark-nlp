@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver for RxCUI (``sbiobert_base_cased_mli`` embeddings)
+title: Sentence Entity Resolver for RxCUI (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
 name: sbiobertresolve_rxcui
 date: 2021-05-16
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to RxCUI codes using chunk embeddings.
+This model maps extracted medical entities to RxCUI codes using chunk embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
 
 ## Predicted Entities
 
@@ -66,7 +66,8 @@ val rxcui_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxc
      .setDistanceFunction("EUCLIDEAN")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, rxcui_resolver))
 
-val result = pipeline.fit(Seq.empty["He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day"].toDS.toDF("text")).transform(data)
+val data = Seq("He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

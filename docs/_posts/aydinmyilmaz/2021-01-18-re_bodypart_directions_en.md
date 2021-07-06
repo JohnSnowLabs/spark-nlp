@@ -80,7 +80,7 @@ val re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en
     .setRelationPairs(pair_list)
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
-val result = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 ```
 

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: clean_stop
 date: 2021-03-24
 tags: [open_source, english, clean_stop, pipeline, en]
+supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: en
 edition: Spark NLP 3.0.0

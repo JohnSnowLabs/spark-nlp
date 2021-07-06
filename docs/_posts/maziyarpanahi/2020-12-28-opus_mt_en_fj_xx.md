@@ -5,10 +5,10 @@ author: John Snow Labs
 name: opus_mt_en_fj
 date: 2020-12-28
 task: Translation
-language: fj
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, en, fj, xx]
-supported: false
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

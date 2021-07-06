@@ -51,7 +51,7 @@ data = ["""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 60 mg per
 
 model = pipeline_snomed.fit(spark.createDataFrame([['']]).toDF("text"))
 
-results = model.transform(spark.createDataFrame(pd.DataFrame({"text": data})))
+results = model.transform(spark.createDataFrame([["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."]], ["text"]))
 ```
 ```scala
 ...
@@ -68,7 +68,7 @@ val data = Array("""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 
 
 """Tylenol 650 mg p.o . q . 4-6h p.r.n . headache or pain ; acyclovir 400 mg p.o . t.i.d .; acyclovir topical t.i.d . to be applied to lesion on corner of mouth ; Peridex 15 ml p.o . b.i.d .; Mycelex 1 troche p.o . t.i.d .; g-csf 404 mcg subcu q.d .; folic acid 1 mg p.o . q.d .; lorazepam 1-2 mg p.o . q . 4-6h p.r.n . nausea and vomiting ; Miracle Cream topical q.d . p.r.n . perianal irritation ; Eucerin Cream topical b.i.d .; Zantac 150 mg p.o . b.i.d .; Restoril 15-30 mg p.o . q . h.s . p.r.n . insomnia ; multivitamin 1 tablet p.o . q.d .; viscous lidocaine 15 ml p.o . q . 3h can be applied to corner of mouth or lips p.r.n . pain control .""")
 
-val result = pipeline.fit(Seq.empty[''].toDS.toDF("text")).transform(data)
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
 </div>
 

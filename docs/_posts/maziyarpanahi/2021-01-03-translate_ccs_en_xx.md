@@ -5,10 +5,10 @@ author: John Snow Labs
 name: translate_ccs_en
 date: 2021-01-03
 task: [Translation, Pipeline Public]
-language: ccs
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, ccs, en, xx]
-supported: false
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

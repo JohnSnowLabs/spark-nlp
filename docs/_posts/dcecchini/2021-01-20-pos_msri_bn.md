@@ -57,7 +57,7 @@ pipeline = Pipeline(stages=[
         posTagger
     ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"]}))
+example = spark.createDataFrame([["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"]], ["text"])
 
 result = pipeline.fit(example).transform(example)
 ```
@@ -80,7 +80,8 @@ val pos = PerceptronModel.pretrained("pos_lst20", "th")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
 
-val result = pipeline.fit(Seq.empty["বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷"].toDS.toDF("text")).transform(data)
+val data = Seq("বাসস্থান-ঘরগৃহস্থালি তোড়া ভাষায় গ্রামকেও বলে ` মোদ ' ৷").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

@@ -43,7 +43,8 @@ val pos = PerceptronModel.pretrained("pos_ud_padt", "ar")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["كرستيانو رونالدو لاعب برتغالي محترف يلعب في صفوف منتخب البرتغال لكرة القدم"].toDS.toDF("text")).transform(data)
+val data = Seq("كرستيانو رونالدو لاعب برتغالي محترف يلعب في صفوف منتخب البرتغال لكرة القدم").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

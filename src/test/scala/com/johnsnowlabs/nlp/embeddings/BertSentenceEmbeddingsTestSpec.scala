@@ -1,13 +1,30 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
+import com.johnsnowlabs.nlp.annotator.{SentenceDetectorDLModel, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest._
@@ -124,4 +141,36 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
 
     assert(totalSentences == totalEmbeddings)
   }
+
+  "BertSentenceEmbeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Something is weird on the notebooks, something is happening."
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tfModelPath = "src/test/resources/tf-hub-bert/model"
+
+    val embeddings = BertSentenceEmbeddings.loadSavedModel(tfModelPath, ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("bert")
+      .setStorageRef("tf_hub_bert_test")
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    pipeline.fit(ddd).write.overwrite().save("./tmp_bert_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
+
+    pipelineModel.transform(ddd)
+  }
+
 }

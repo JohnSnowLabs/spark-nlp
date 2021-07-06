@@ -22,11 +22,60 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
 
-/**
-  * A tokenizer that splits text by regex pattern.
-  *
-  * @see [[RegexTokenizer]]
-  */
+/** A tokenizer that splits text by a regex pattern.
+ *
+ * The pattern needs to be set with `setPattern` and this sets the delimiting pattern or how the tokens should be split.
+ * By default this pattern is `\s+` which means that tokens should be split by 1 or more whitespace characters.
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.RegexTokenizer
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val regexTokenizer = new RegexTokenizer()
+ *   .setInputCols("document")
+ *   .setOutputCol("regexToken")
+ *   .setToLowercase(true)
+ *   .setPattern("\\s+")
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     regexTokenizer
+ *   ))
+ *
+ * val data = Seq("This is my first sentence.\nThis is my second.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("regexToken.result").show(false)
+ * +-------------------------------------------------------+
+ * |result                                                 |
+ * +-------------------------------------------------------+
+ * |[this, is, my, first, sentence., this, is, my, second.]|
+ * +-------------------------------------------------------+
+ * }}}
+ *
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class RegexTokenizer(override val uid: String)
   extends AnnotatorModel[RegexTokenizer]
     with HasSimpleAnnotate[RegexTokenizer] {
@@ -35,25 +84,25 @@ class RegexTokenizer(override val uid: String)
 
 
   /** Output annotator type: TOKEN
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
-  /** Input annotator type: TOKEN
-    *
-    * @group anno
-    **/
+  /** Input annotator type: DOCUMENT
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   def this() = this(Identifiable.randomUID("RegexTokenizer"))
 
 
   /**
-    * Regex pattern used to match delimiters
-    * Default: `"\\s+"`
-    * @group param
-    */
+   * Regex pattern used to match delimiters (Default: `"\\s+"`)
+   *
+   * @group param
+   */
   val pattern: Param[String] = new Param(this, "pattern", "regex pattern used for tokenizing")
 
   /** @group setParam */
@@ -63,10 +112,10 @@ class RegexTokenizer(override val uid: String)
   def getPattern: String = $(pattern)
 
   /**
-    * Indicates whether to convert all characters to lowercase before tokenizing.
-    * Default: true
-    * @group param
-    **/
+   * Indicates whether to convert all characters to lowercase before tokenizing (Default: `false`).
+   *
+   * @group param
+   * */
   val toLowercase: BooleanParam = new BooleanParam(this, "toLowercase",
     "Indicates whether to convert all characters to lowercase before tokenizing.\n")
 
@@ -77,10 +126,11 @@ class RegexTokenizer(override val uid: String)
   def getToLowercase: Boolean = $(toLowercase)
 
   /**
-    * Minimum token length, greater than or equal to 0.
-    * Default: 1, to avoid returning empty strings
-    * @group param
-    */
+   * Minimum token length, greater than or equal to 0 (Default: `1`).
+   * Default is 1, to avoid returning empty strings.
+   *
+   * @group param
+   */
   val minLength: IntParam = new IntParam(this, "minLength", "minimum token length (>= 0)",
     ParamValidators.gtEq(0))
 
@@ -91,9 +141,10 @@ class RegexTokenizer(override val uid: String)
   def getMinLength: Int = $(minLength)
 
   /**
-    * Maximum token length, greater than or equal to 1.
-    * @group param
-    */
+   * Maximum token length, greater than or equal to 1.
+   *
+   * @group param
+   */
   val maxLength: IntParam = new IntParam(this, "maxLength", "maximum token length (>= 1)",
     ParamValidators.gtEq(1))
 
@@ -104,10 +155,11 @@ class RegexTokenizer(override val uid: String)
   def getMaxLength: Int = $(maxLength)
 
   /**
-    * Indicates whether to apply the regex tokenization using a positional mask to guarantee the incremental progression
-    * Default: false
-    * @group param
-    **/
+   * Indicates whether to apply the regex tokenization using a positional mask to guarantee the incremental progression
+   * (Default: `false`).
+   *
+   * @group param
+   * */
   val positionalMask: BooleanParam =
     new BooleanParam(this,
       "positionalMask",
@@ -129,11 +181,11 @@ class RegexTokenizer(override val uid: String)
   )
 
   /**
-    * This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
-    *
-    * @param sentences to tag
-    * @return Seq of TokenizedSentence objects
-    */
+   * This func generates a Seq of TokenizedSentences from a Seq of Sentences preserving positional progression
+   *
+   * @param sentences to tag
+   * @return Seq of TokenizedSentence objects
+   */
   def tagWithPositionalMask(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
 
     def calculateIndex(indexType: String, mask: Array[Int], text: String, token: String) = {
@@ -143,7 +195,7 @@ class RegexTokenizer(override val uid: String)
         case "end" =>
           val endIndex = tokenBeginIndex + token.length
           for (i <- Range(0, endIndex)) mask(i) = 1
-          endIndex - 1
+          if (endIndex == 0) endIndex else endIndex - 1
       }
     }
 
@@ -153,7 +205,7 @@ class RegexTokenizer(override val uid: String)
       val _mask = new Array[Int](_content.length)
 
       val tokens = re.split(_content)
-        .map{ token =>
+        .map { token =>
           IndexedToken(
             token,
             calculateIndex("begin", _mask, _content, token),
@@ -167,18 +219,18 @@ class RegexTokenizer(override val uid: String)
   }
 
   /**
-    * This func generates a Seq of TokenizedSentences from a Seq of Sentences.
-    *
-    * @param sentences to tag
-    * @return Seq of TokenizedSentence objects
-    */
+   * This func generates a Seq of TokenizedSentences from a Seq of Sentences.
+   *
+   * @param sentences to tag
+   * @return Seq of TokenizedSentence objects
+   */
   def tag(sentences: Seq[Sentence]): Seq[TokenizedSentence] = {
     sentences.map { text =>
       var curPos = 0
 
       val re = $(pattern).r
       val str = if ($(toLowercase)) text.content.toLowerCase() else text.content
-      val tokens = re.split(str).map{token =>
+      val tokens = re.split(str).map { token =>
         val indexedTokens = IndexedToken(
           token,
           text.start + curPos,
@@ -193,7 +245,7 @@ class RegexTokenizer(override val uid: String)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
-    val tokenized = if(getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
+    val tokenized = if (getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
     TokenizedWithSentence.pack(tokenized)
   }
 }

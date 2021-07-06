@@ -6,6 +6,10 @@ import org.apache.spark.sql.Dataset
 
 trait HasStorageRef extends ParamsAndFeaturesWritable {
 
+  /** Unique identifier for storage (Default: `this.uid`)
+   *
+   * @group param
+   */
   val storageRef = new Param[String](this, "storageRef", "storage unique identifier")
 
   setDefault(storageRef, this.uid)

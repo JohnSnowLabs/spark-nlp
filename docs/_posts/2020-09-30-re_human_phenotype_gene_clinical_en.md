@@ -63,7 +63,8 @@ val clinical_re_Model = RelationExtractionModel()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model))
 
-val result = pipeline.fit(Seq.empty["Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3"].toDS.toDF("text")).transform(data)
+val data = Seq("Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>

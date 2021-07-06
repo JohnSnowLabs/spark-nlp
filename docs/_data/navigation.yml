@@ -11,7 +11,7 @@ header:
     url: /models
     key: models
   - title: Demo
-    url: /classify_documents
+    url: /demos
   - title: '<span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
@@ -49,10 +49,20 @@ docs-en:
     children:
       - title:  Getting Started
         url:    /docs/en/alab
+      - title:  License Setup  
+        url:    /docs/en/byol
       - title:  Start Page 
         url:    /docs/en/start_page
+      - title:  User Management
+        url:    /docs/en/user_management
       - title:  Project Setup
         url:    /docs/en/project_setup
+      - title:  NLP Models Hub  
+        url:    /docs/en/models_hub
+      - title:  Preannotations with Spark NLP
+        url:    /docs/en/preannotations
+      - title:  Active Learning
+        url:    /docs/en/active_learning
       - title:  Import Documents 
         url:    /docs/en/import
       - title:  Tasks
@@ -87,6 +97,12 @@ docs-en:
         url:    /docs/en/ocr_install
       - title:  Pipeline components
         url:    /docs/en/ocr_pipeline_components
+      - title:  Table recognition
+        url:    /docs/en/ocr_table_recognition
+      - title:  Visual document understanding
+        url:    /docs/en/ocr_visual_document_understanding
+      - title:  Object detection
+        url:    /docs/en/ocr_object_detection
       - title:  Structures and helpers
         url:    /docs/en/ocr_structures
       - title:  Release notes

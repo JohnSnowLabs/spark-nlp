@@ -5,6 +5,7 @@ author: John Snow Labs
 name: tfhub_use_multi
 date: 2021-05-06
 tags: [xx, open_source, embeddings]
+supported: true
 task: Embeddings
 language: xx
 edition: Spark NLP 3.0.0
