@@ -758,6 +758,7 @@ A sample of your software configuration in JSON on S3 (must be public access):
     }
 }
 ]
+```
 
 A sample of AWS CLI to launch EMR cluster:
 
