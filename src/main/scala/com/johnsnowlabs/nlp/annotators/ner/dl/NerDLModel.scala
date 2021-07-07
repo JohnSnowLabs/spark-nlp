@@ -167,10 +167,17 @@ class NerDLModel(override val uid: String)
    * */
   val includeConfidence = new BooleanParam(this, "includeConfidence", "Whether to include confidence scores in annotation metadata")
 
+  /** whether to include all confidence scores in annotation metadata or just score of the predicted tag
+   *
+   * @group param
+   * */
+  val includeAllConfidenceScores = new BooleanParam(this, "includeAllConfidenceScores", "whether to include all confidence scores in annotation metadata")
+
   val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
   setDefault(
     includeConfidence -> false,
+    includeAllConfidenceScores -> false,
     batchSize -> 8
   )
 
@@ -198,6 +205,12 @@ class NerDLModel(override val uid: String)
    * */
   def setIncludeConfidence(value: Boolean): this.type = set(this.includeConfidence, value)
 
+  /** whether to include confidence scores for all tags rather than just for the predicted one
+   *
+   * @group setParam
+   * */
+  def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
+
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
    *
    * @group getParam
@@ -222,6 +235,12 @@ class NerDLModel(override val uid: String)
    * */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
+  /** whether to include all confidence scores in annotation metadata or just the score of the predicted tag
+   *
+   * @group getParam
+   * */
+  def getIncludeAllConfidenceScores: Boolean = $(includeAllConfidenceScores)
+
   /** get the tags used to trained this NerDLModel
    *
    * @group getParam
@@ -237,7 +256,12 @@ class NerDLModel(override val uid: String)
   def tag(tokenized: Array[Array[WordpieceEmbeddingsSentence]]): Seq[Array[NerTaggedSentence]] = {
     val batch = tokenized.zipWithIndex.flatMap { case (t, i) => t.map(RowIdentifiedSentence(i, _)) }
     // Predict
-    val labels = getModelIfNotSet.predict(batch.map(_.rowSentence), getConfigProtoBytes, includeConfidence = $(includeConfidence))
+    val labels = getModelIfNotSet.predict(
+      batch.map(_.rowSentence),
+      getConfigProtoBytes,
+      includeConfidence = $(includeConfidence),
+      includeAllConfidenceScores = $(includeAllConfidenceScores)
+    )
 
     val outputBatches = Array.fill[Array[NerTaggedSentence]](tokenized.length)(Array.empty)
 
