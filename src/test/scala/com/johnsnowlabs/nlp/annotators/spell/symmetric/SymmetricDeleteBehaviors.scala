@@ -314,4 +314,31 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     }
   }
 
+  def testTrainUniqueWordsOnly(): Unit = {
+    "Using a corpus with only unique words" should "successfully correct words" taggedAs FastTest in {
+
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols("token")
+        .setOutputCol("spell")
+        .setDictionary("src/test/resources/spell/words.txt")
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          spell,
+          finisher
+        ))
+
+      val uniqueWordsTrain = Seq("Only unique words.").toDF("text")
+      val model = pipeline.fit(uniqueWordsTrain)
+
+      val result = model.transform(predictionDataSet)
+      assert(result.isInstanceOf[DataFrame])
+      result.select("finished_spell").show(false)
+    }
+  }
 }

@@ -18,45 +18,47 @@ class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehavior
 
   "a simple isolated symmetric spell checker with noisy word" should behave like testSimpleCheck(
     Seq(("CARDIOVASCULAR:", "CARDIOVASCULAR:")))
-/*
-  "an isolated symmetric spell checker " should behave like testSeveralChecks(Seq(
-    ("problex", "problem"),
-    ("contende", "continue"),
-    ("pronounciation", "pronounciation"),
-    ("localy", "local"),
-    ("compair", "company")
-  ))
 
-  "a symmetric spell checker " should behave like testAccuracyChecks(Seq(
-    ("mral", "meal"),
-    ("delicatly", "delicately"),
-    ("efusive", "effusive"),
-    ("lauging", "laughing"),
-    ("juuuuuuuuuuuuuuuussssssssssttttttttttt", "just"),
-    ("screeeeeeeewed", "screwed"),
-    ("readampwritepeaceee", "readampwritepeaceee")
-  ))
+  it should behave like testTrainUniqueWordsOnly()
+  /*
+    "an isolated symmetric spell checker " should behave like testSeveralChecks(Seq(
+      ("problex", "problem"),
+      ("contende", "continue"),
+      ("pronounciation", "pronounciation"),
+      ("localy", "local"),
+      ("compair", "company")
+    ))
 
-  "a good sized dataframe with Spark pipeline" should behave like testBigPipeline
+    "a symmetric spell checker " should behave like testAccuracyChecks(Seq(
+      ("mral", "meal"),
+      ("delicatly", "delicately"),
+      ("efusive", "effusive"),
+      ("lauging", "laughing"),
+      ("juuuuuuuuuuuuuuuussssssssssttttttttttt", "just"),
+      ("screeeeeeeewed", "screwed"),
+      ("readampwritepeaceee", "readampwritepeaceee")
+    ))
 
-  "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict
+    "a good sized dataframe with Spark pipeline" should behave like testBigPipeline
 
-  "a loaded model " should behave like testLoadModel()
+    "a good sized dataframe with Spark pipeline and spell checker dictionary" should behave like testBigPipelineDict
 
-  "a symmetric spell checker with empty dataset" should behave like testEmptyDataset
+    "a loaded model " should behave like testLoadModel()
 
-  "A symmetric spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
-    "mral",
-    "delicatly",
-    "efusive",
-    "lauging",
-    "juuuuuuuuuuuuuuuussssssssssttttttttttt",
-    "screeeeeeeewed",
-    "readampwritepeaceee"
-  ))
+    "a symmetric spell checker with empty dataset" should behave like testEmptyDataset
 
-  it should behave like trainSpellCheckerModelFromFit
+    "A symmetric spell checker trained from fit" should behave like trainFromFitSpellChecker(Seq(
+      "mral",
+      "delicatly",
+      "efusive",
+      "lauging",
+      "juuuuuuuuuuuuuuuussssssssssttttttttttt",
+      "screeeeeeeewed",
+      "readampwritepeaceee"
+    ))
 
-  it should behave like raiseErrorWhenWrongColumnIsSent
-*/
+    it should behave like trainSpellCheckerModelFromFit
+
+    it should behave like raiseErrorWhenWrongColumnIsSent
+  */
 }
