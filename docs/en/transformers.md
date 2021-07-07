@@ -40,8 +40,8 @@ BertSentenceEmbeddings |  ❎  | ✅   | BERT - Small BERT - ELECTRA
 DistilBertEmbeddings|   |  ✅   | DistilBERT
 RoBertaEmbeddings |   | ✅   | RoBERTa - DistilRoBERTa
 XlmRoBertaEmbeddings |   | ✅   | XLM-RoBERTa
-AlbertEmbeddings | ❎  |  ❎  |
-XlnetEmbeddings |   | ❎  |
+AlbertEmbeddings | ❎  |  ✅  |
+XlnetEmbeddings |   | ✅  |
 ElmoEmbeddings | ❎  |  ❎  |
 UniversalSentenceEncoder |  ❎ |   |
 T5Transformer |   |  ❌ |
@@ -56,7 +56,8 @@ BertSentenceEmbeddings | [HuggingFace in Spark NLP - BERT Sentence](https://gith
 DistilBertEmbeddings| [HuggingFace in Spark NLP - DistilBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb)
 RoBertaEmbeddings | [HuggingFace in Spark NLP - RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb)
 XlmRoBertaEmbeddings | [HuggingFace in Spark NLP - XLM-RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb)
-
+AlbertEmbeddings | [HuggingFace in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb)
+XlnetEmbeddings | [HuggingFace in Spark NLP - XLNet](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark_NLP%20-%20XLNet.ipynb)
 
 ### Limitations
 
