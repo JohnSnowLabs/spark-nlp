@@ -148,13 +148,16 @@
         "mañana"
     ],
     "in 1 month": [
-        "el próximo mes"
+        "el próximo mes",
+        "el mes que viene"
     ],
     "in 1 week": [
-        "la próxima semana"
+        "la próxima semana",
+        "la semana que viene"
     ],
     "in 1 year": [
-        "el próximo año"
+        "el próximo año",
+        "el año que viene"
     ],
     "#K# day ago": [
         "hace #V# día",
@@ -192,7 +195,8 @@
     ],
     "in #K# day": [
         "dentro de #V# día",
-        "dentro de #V# días"
+        "dentro de #V# días",
+        "en #V# días"
     ],
     "in #K# hour": [
         "dentro de #V# h",
