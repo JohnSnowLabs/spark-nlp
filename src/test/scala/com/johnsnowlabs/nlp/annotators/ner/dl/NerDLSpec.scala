@@ -271,5 +271,27 @@ class NerDLSpec extends FlatSpec {
     }
   }
 
+  "NerDLModel" should "work with confidence scores enabled" taggedAs SlowTest in {
+
+    val conll = CoNLL(explodeSentences = false)
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+
+    val nerModel = NerDLModel.pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setIncludeConfidence(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        embeddings,
+        nerModel
+      ))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+    pipelineDF.select("ner").show(1, false)
+  }
+
 }
 
