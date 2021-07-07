@@ -1,0 +1,69 @@
+﻿sparknlp.annotator.TokenizerModel
+=================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: TokenizerModel
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TokenizerModel.__init__
+      ~TokenizerModel.addSplitChars
+      ~TokenizerModel.clear
+      ~TokenizerModel.copy
+      ~TokenizerModel.explainParam
+      ~TokenizerModel.explainParams
+      ~TokenizerModel.extractParamMap
+      ~TokenizerModel.getInputCols
+      ~TokenizerModel.getLazyAnnotator
+      ~TokenizerModel.getOrDefault
+      ~TokenizerModel.getOutputCol
+      ~TokenizerModel.getParam
+      ~TokenizerModel.getParamValue
+      ~TokenizerModel.hasDefault
+      ~TokenizerModel.hasParam
+      ~TokenizerModel.isDefined
+      ~TokenizerModel.isSet
+      ~TokenizerModel.load
+      ~TokenizerModel.pretrained
+      ~TokenizerModel.read
+      ~TokenizerModel.save
+      ~TokenizerModel.set
+      ~TokenizerModel.setInputCols
+      ~TokenizerModel.setLazyAnnotator
+      ~TokenizerModel.setOutputCol
+      ~TokenizerModel.setParamValue
+      ~TokenizerModel.setParams
+      ~TokenizerModel.setSplitChars
+      ~TokenizerModel.setSplitPattern
+      ~TokenizerModel.transform
+      ~TokenizerModel.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TokenizerModel.caseSensitiveExceptions
+      ~TokenizerModel.exceptions
+      ~TokenizerModel.getter_attrs
+      ~TokenizerModel.inputCols
+      ~TokenizerModel.lazyAnnotator
+      ~TokenizerModel.name
+      ~TokenizerModel.outputCol
+      ~TokenizerModel.params
+      ~TokenizerModel.rules
+      ~TokenizerModel.splitChars
+      ~TokenizerModel.splitPattern
+      ~TokenizerModel.targetPattern
+   
+   

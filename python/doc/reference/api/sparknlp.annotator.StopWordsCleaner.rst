@@ -1,0 +1,67 @@
+﻿sparknlp.annotator.StopWordsCleaner
+===================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: StopWordsCleaner
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StopWordsCleaner.__init__
+      ~StopWordsCleaner.clear
+      ~StopWordsCleaner.copy
+      ~StopWordsCleaner.explainParam
+      ~StopWordsCleaner.explainParams
+      ~StopWordsCleaner.extractParamMap
+      ~StopWordsCleaner.getInputCols
+      ~StopWordsCleaner.getLazyAnnotator
+      ~StopWordsCleaner.getOrDefault
+      ~StopWordsCleaner.getOutputCol
+      ~StopWordsCleaner.getParam
+      ~StopWordsCleaner.getParamValue
+      ~StopWordsCleaner.hasDefault
+      ~StopWordsCleaner.hasParam
+      ~StopWordsCleaner.isDefined
+      ~StopWordsCleaner.isSet
+      ~StopWordsCleaner.load
+      ~StopWordsCleaner.loadDefaultStopWords
+      ~StopWordsCleaner.pretrained
+      ~StopWordsCleaner.read
+      ~StopWordsCleaner.save
+      ~StopWordsCleaner.set
+      ~StopWordsCleaner.setCaseSensitive
+      ~StopWordsCleaner.setInputCols
+      ~StopWordsCleaner.setLazyAnnotator
+      ~StopWordsCleaner.setLocale
+      ~StopWordsCleaner.setOutputCol
+      ~StopWordsCleaner.setParamValue
+      ~StopWordsCleaner.setParams
+      ~StopWordsCleaner.setStopWords
+      ~StopWordsCleaner.transform
+      ~StopWordsCleaner.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StopWordsCleaner.caseSensitive
+      ~StopWordsCleaner.getter_attrs
+      ~StopWordsCleaner.inputCols
+      ~StopWordsCleaner.lazyAnnotator
+      ~StopWordsCleaner.locale
+      ~StopWordsCleaner.name
+      ~StopWordsCleaner.outputCol
+      ~StopWordsCleaner.params
+      ~StopWordsCleaner.stopWords
+   
+   

@@ -1,0 +1,77 @@
+﻿sparknlp.annotator.BertEmbeddings
+=================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: BertEmbeddings
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BertEmbeddings.__init__
+      ~BertEmbeddings.clear
+      ~BertEmbeddings.copy
+      ~BertEmbeddings.explainParam
+      ~BertEmbeddings.explainParams
+      ~BertEmbeddings.extractParamMap
+      ~BertEmbeddings.getBatchSize
+      ~BertEmbeddings.getCaseSensitive
+      ~BertEmbeddings.getDimension
+      ~BertEmbeddings.getInputCols
+      ~BertEmbeddings.getLazyAnnotator
+      ~BertEmbeddings.getOrDefault
+      ~BertEmbeddings.getOutputCol
+      ~BertEmbeddings.getParam
+      ~BertEmbeddings.getParamValue
+      ~BertEmbeddings.getStorageRef
+      ~BertEmbeddings.hasDefault
+      ~BertEmbeddings.hasParam
+      ~BertEmbeddings.isDefined
+      ~BertEmbeddings.isSet
+      ~BertEmbeddings.load
+      ~BertEmbeddings.loadSavedModel
+      ~BertEmbeddings.pretrained
+      ~BertEmbeddings.read
+      ~BertEmbeddings.save
+      ~BertEmbeddings.set
+      ~BertEmbeddings.setBatchSize
+      ~BertEmbeddings.setCaseSensitive
+      ~BertEmbeddings.setConfigProtoBytes
+      ~BertEmbeddings.setDimension
+      ~BertEmbeddings.setInputCols
+      ~BertEmbeddings.setLazyAnnotator
+      ~BertEmbeddings.setMaxSentenceLength
+      ~BertEmbeddings.setOutputCol
+      ~BertEmbeddings.setParamValue
+      ~BertEmbeddings.setParams
+      ~BertEmbeddings.setStorageRef
+      ~BertEmbeddings.transform
+      ~BertEmbeddings.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BertEmbeddings.batchSize
+      ~BertEmbeddings.caseSensitive
+      ~BertEmbeddings.configProtoBytes
+      ~BertEmbeddings.dimension
+      ~BertEmbeddings.getter_attrs
+      ~BertEmbeddings.inputCols
+      ~BertEmbeddings.lazyAnnotator
+      ~BertEmbeddings.maxSentenceLength
+      ~BertEmbeddings.name
+      ~BertEmbeddings.outputCol
+      ~BertEmbeddings.params
+      ~BertEmbeddings.storageRef
+   
+   

@@ -1,0 +1,62 @@
+﻿sparknlp.annotator.NerCrfModel
+==============================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: NerCrfModel
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~NerCrfModel.__init__
+      ~NerCrfModel.clear
+      ~NerCrfModel.copy
+      ~NerCrfModel.explainParam
+      ~NerCrfModel.explainParams
+      ~NerCrfModel.extractParamMap
+      ~NerCrfModel.getInputCols
+      ~NerCrfModel.getLazyAnnotator
+      ~NerCrfModel.getOrDefault
+      ~NerCrfModel.getOutputCol
+      ~NerCrfModel.getParam
+      ~NerCrfModel.getParamValue
+      ~NerCrfModel.hasDefault
+      ~NerCrfModel.hasParam
+      ~NerCrfModel.isDefined
+      ~NerCrfModel.isSet
+      ~NerCrfModel.load
+      ~NerCrfModel.pretrained
+      ~NerCrfModel.read
+      ~NerCrfModel.save
+      ~NerCrfModel.set
+      ~NerCrfModel.setIncludeConfidence
+      ~NerCrfModel.setInputCols
+      ~NerCrfModel.setLazyAnnotator
+      ~NerCrfModel.setOutputCol
+      ~NerCrfModel.setParamValue
+      ~NerCrfModel.setParams
+      ~NerCrfModel.transform
+      ~NerCrfModel.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NerCrfModel.getter_attrs
+      ~NerCrfModel.includeConfidence
+      ~NerCrfModel.inputCols
+      ~NerCrfModel.lazyAnnotator
+      ~NerCrfModel.name
+      ~NerCrfModel.outputCol
+      ~NerCrfModel.params
+   
+   

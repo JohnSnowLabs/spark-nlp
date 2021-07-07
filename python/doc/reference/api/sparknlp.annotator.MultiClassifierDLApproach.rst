@@ -1,0 +1,82 @@
+﻿sparknlp.annotator.MultiClassifierDLApproach
+============================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: MultiClassifierDLApproach
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MultiClassifierDLApproach.__init__
+      ~MultiClassifierDLApproach.clear
+      ~MultiClassifierDLApproach.copy
+      ~MultiClassifierDLApproach.explainParam
+      ~MultiClassifierDLApproach.explainParams
+      ~MultiClassifierDLApproach.extractParamMap
+      ~MultiClassifierDLApproach.fit
+      ~MultiClassifierDLApproach.fitMultiple
+      ~MultiClassifierDLApproach.getInputCols
+      ~MultiClassifierDLApproach.getLazyAnnotator
+      ~MultiClassifierDLApproach.getOrDefault
+      ~MultiClassifierDLApproach.getOutputCol
+      ~MultiClassifierDLApproach.getParam
+      ~MultiClassifierDLApproach.getParamValue
+      ~MultiClassifierDLApproach.hasDefault
+      ~MultiClassifierDLApproach.hasParam
+      ~MultiClassifierDLApproach.isDefined
+      ~MultiClassifierDLApproach.isSet
+      ~MultiClassifierDLApproach.load
+      ~MultiClassifierDLApproach.read
+      ~MultiClassifierDLApproach.save
+      ~MultiClassifierDLApproach.set
+      ~MultiClassifierDLApproach.setBatchSize
+      ~MultiClassifierDLApproach.setConfigProtoBytes
+      ~MultiClassifierDLApproach.setEnableOutputLogs
+      ~MultiClassifierDLApproach.setInputCols
+      ~MultiClassifierDLApproach.setLabelColumn
+      ~MultiClassifierDLApproach.setLazyAnnotator
+      ~MultiClassifierDLApproach.setLr
+      ~MultiClassifierDLApproach.setMaxEpochs
+      ~MultiClassifierDLApproach.setOutputCol
+      ~MultiClassifierDLApproach.setOutputLogsPath
+      ~MultiClassifierDLApproach.setParamValue
+      ~MultiClassifierDLApproach.setRandomSeed
+      ~MultiClassifierDLApproach.setShufflePerEpoch
+      ~MultiClassifierDLApproach.setThreshold
+      ~MultiClassifierDLApproach.setValidationSplit
+      ~MultiClassifierDLApproach.setVerbose
+      ~MultiClassifierDLApproach.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MultiClassifierDLApproach.batchSize
+      ~MultiClassifierDLApproach.configProtoBytes
+      ~MultiClassifierDLApproach.enableOutputLogs
+      ~MultiClassifierDLApproach.getter_attrs
+      ~MultiClassifierDLApproach.inputCols
+      ~MultiClassifierDLApproach.labelColumn
+      ~MultiClassifierDLApproach.lazyAnnotator
+      ~MultiClassifierDLApproach.lr
+      ~MultiClassifierDLApproach.maxEpochs
+      ~MultiClassifierDLApproach.outputCol
+      ~MultiClassifierDLApproach.outputLogsPath
+      ~MultiClassifierDLApproach.params
+      ~MultiClassifierDLApproach.randomSeed
+      ~MultiClassifierDLApproach.shufflePerEpoch
+      ~MultiClassifierDLApproach.threshold
+      ~MultiClassifierDLApproach.validationSplit
+      ~MultiClassifierDLApproach.verbose
+   
+   
