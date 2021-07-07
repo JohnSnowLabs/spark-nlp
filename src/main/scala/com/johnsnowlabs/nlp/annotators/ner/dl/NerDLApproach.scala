@@ -452,7 +452,7 @@ class NerDLApproach(override val uid: String)
     val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
 
     val ner = try {
-      val model = new TensorflowNer(tf, encoder, $(batchSize), Verbose($(verbose)))
+      val model = new TensorflowNer(tf, encoder, Verbose($(verbose)))
       if (isDefined(randomSeed)) {
         Random.setSeed($(randomSeed))
       }
@@ -465,6 +465,7 @@ class NerDLApproach(override val uid: String)
         $(lr),
         $(po),
         $(dropout),
+        $(batchSize),
         graphFileName = graphFile,
         test = testIteratorFunc(),
         endEpoch = $(maxEpochs),

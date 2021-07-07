@@ -175,11 +175,7 @@ class NerDLModel(override val uid: String)
 
   val classes = new StringArrayParam(this, "classes", "keep an internal copy of classes for Python")
 
-  setDefault(
-    includeConfidence -> false,
-    includeAllConfidenceScores -> false,
-    batchSize -> 8
-  )
+  private var _model: Option[Broadcast[TensorflowNer]] = None
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
    *
@@ -210,6 +206,24 @@ class NerDLModel(override val uid: String)
    * @group setParam
    * */
   def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
+
+  def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
+    if (_model.isEmpty) {
+      require(datasetParams.isSet, "datasetParams must be set before usage")
+
+      val encoder = new NerDatasetEncoder(datasetParams.get.get)
+      _model = Some(
+        spark.sparkContext.broadcast(
+          new TensorflowNer(
+            tf,
+            encoder,
+            Verbose.Silent
+          )
+        )
+      )
+    }
+    this
+  }
 
   /** Minimum probability. Used only if there is no CRF on top of LSTM layer.
    *
@@ -251,6 +265,12 @@ class NerDLModel(override val uid: String)
     encoder.tags
   }
 
+  setDefault(
+    includeConfidence -> false,
+    includeAllConfidenceScores -> false,
+    batchSize -> 8
+  )
+
   private case class RowIdentifiedSentence(rowIndex: Int, rowSentence: WordpieceEmbeddingsSentence)
 
   def tag(tokenized: Array[Array[WordpieceEmbeddingsSentence]]): Seq[Array[NerTaggedSentence]] = {
@@ -284,27 +304,6 @@ class NerDLModel(override val uid: String)
     }
     outputBatches
   }
-
-  def setModelIfNotSet(spark: SparkSession, tf: TensorflowWrapper): this.type = {
-    if (_model.isEmpty) {
-      require(datasetParams.isSet, "datasetParams must be set before usage")
-
-      val encoder = new NerDatasetEncoder(datasetParams.get.get)
-      _model = Some(
-        spark.sparkContext.broadcast(
-          new TensorflowNer(
-            tf,
-            encoder,
-            $(batchSize),
-            Verbose.Silent
-          )
-        )
-      )
-    }
-    this
-  }
-
-  private var _model: Option[Broadcast[TensorflowNer]] = None
 
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     validateStorageRef(dataset, $(inputCols), AnnotatorType.WORD_EMBEDDINGS)
