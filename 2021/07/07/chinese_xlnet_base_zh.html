@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Detect Entities in General Scope (Few-NERD dataset)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is trained on Few-NERD/inter public dataset and it extracts 8 entities that are in general scope.Predicted EntitiesPERSON, ORGANIZATION...">
-<link rel="canonical" href="/2021/07/02/nerdl_fewnerd_100d_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Chinese Pre-Trained XLNet (Base)- Spark NLP Model</title><meta name="description" content="DescriptionXLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective. Addition...">
+<link rel="canonical" href="/2021/07/07/chinese_xlnet_base_zh.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,83 +403,42 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 02, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-02T00:00:00+00:00"></div><header><h1>Detect Entities in General Scope (Few-NERD dataset)</h1></header></div><meta itemprop="headline" content="Detect Entities in General Scope (Few-NERD dataset)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>en</li><li>fewnerd</li><li>public</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-02T00:00:00+00:00">
-    <meta itemprop="keywords" content="ner,en,fewnerd,public,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 07, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-07T00:00:00+00:00"></div><header><h1>Chinese Pre-Trained XLNet (Base)</h1></header></div><meta itemprop="headline" content="Chinese Pre-Trained XLNet (Base)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>embeddings</li><li>xlnet</li><li>zh</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-07T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,embeddings,xlnet,zh"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is trained on Few-NERD/inter public dataset and it extracts 8 entities that are in general scope.</p>
+<p>XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective. Additionally, XLNet employs Transformer-XL as the backbone model, exhibiting excellent performance for language tasks involving long context. Overall, XLNet achieves state-of-the-art (SOTA) results on various downstream language tasks including question answering, natural language inference, sentiment analysis, and document ranking. The details are described in the paper “<a href="https://arxiv.org/abs/1906.08237">​XLNet: Generalized Autoregressive Pretraining for Language Understanding</a>”</p>
 
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">ART</code>, <code class="language-plaintext highlighter-rouge">BUILDING</code>, <code class="language-plaintext highlighter-rouge">PRODUCT</code>, <code class="language-plaintext highlighter-rouge">EVENT</code>, <code class="language-plaintext highlighter-rouge">OTHER</code>.</p>
+<p>This model is based on CMU/Google official XLNet: https://github.com/zihangdai/xlnet</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nerdl_fewnerd_100d_en_3.1.1_2.4_1625227974733.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/chinese_xlnet_base_zh_3.1.2_2.4_1625668114420.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
-
-<p>The model is trained using <code class="language-plaintext highlighter-rouge">glove_100d</code> word embeddings so, you should use the same embeddings in your nlp pipeline.</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"glove_100d"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
-          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-
-<span class="n">ner</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"nerdl_fewnerd_100d"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner_chunk'</span><span class="p">)</span>
-
-<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
-
-<span class="n">l_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-
-<span class="n">annotations</span> <span class="o">=</span> <span class="n">l_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"""The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB)."""</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlnetEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"chinese_xlnet_base"</span><span class="p">,</span> <span class="s">"zh"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlnetEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"chinese_xlnet_base"</span><span class="o">,</span> <span class="s">"zh"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+</code></pre></div>  </div>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"glove_100d"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
 
-<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"nerdl_fewnerd_100d"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nv">NerConverter</span><span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The Double Down is a sandwich offered by Kentucky Fried Chicken (KFC) restaurants. He did not see active service again until 1882, when he took part in the Anglo-Egyptian War, and was present at the battle of Tell El Kebir (September 1882), for which he was mentioned in dispatches, received the Egypt Medal with clasp and the 3rd class of the Order of Medjidie, and was appointed a Companion of the Order of the Bath (CB)."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"I love NLP"</span><span class="p">]</span>
+<span class="n">embeddings_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'zh.embed.chinese_xlnet_base'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">embeddings_df</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------+---------+
-|chunk                             |ner_label|
-+----------------------------------+---------+
-|Double Down                       |PRODUCT  |
-|Kentucky Fried Chicken            |BUILDING |
-|KFC                               |BUILDING |
-|Anglo-Egyptian War                |EVENT    |
-|Tell El Kebir                     |EVENT    |
-|Egypt Medal                       |OTHER    |
-|Order of Medjidie                 |OTHER    |
-|Companion of the Order of the Bath|OTHER    |
-+----------------------------------+---------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -487,15 +446,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>nerdl_fewnerd_100d</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>ner</td>
+      <td>chinese_xlnet_base</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.1.1+</td>
+      <td>Spark NLP 3.1.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -507,51 +462,27 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[token, sentence]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>zh</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>Few-NERD:A Few-shot Named Entity Recognition Dataset, author: Ding, Ning and Xu, Guangwei and Chen, Yulin, and Wang, Xiaobin and Han, Xu and Xie, Pengjun and Zheng, Hai-Tao and Liu, Zhiyuan, book title: ACL-IJCNL, 2021.</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+-------+------+-------+-------+---------+------+------+
-|      entity|     tp|    fp|     fn|  total|precision|recall|    f1|
-+------------+-------+------+-------+-------+---------+------+------+
-|      PERSON|21555.0|6194.0| 5643.0|27198.0|   0.7768|0.7925|0.7846|
-|ORGANIZATION|36744.0|9059.0|13156.0|49900.0|   0.8022|0.7364|0.7679|
-|    LOCATION|36367.0|7521.0| 7006.0|43373.0|   0.8286|0.8385|0.8335|
-|         ART| 6170.0|1649.0| 2998.0| 9168.0|   0.7891| 0.673|0.7264|
-|    BUILDING| 5112.0|2435.0| 3014.0| 8126.0|   0.6774|0.6291|0.6523|
-|     PRODUCT| 8317.0|3253.0| 4325.0|12642.0|   0.7188|0.6579| 0.687|
-|       OTHER|14461.0|4414.0| 5161.0|19622.0|   0.7661| 0.737|0.7513|
-|       EVENT| 6024.0|1880.0| 2275.0| 8299.0|   0.7621|0.7259|0.7436|
-+------------+-------+------+-------+-------+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.7433252741184967|
-+------------------+
-
-+------------------+
-|             micro|
-+------------------+
-|0.7703038245945377|
-+------------------+
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-02T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p><a href="https://huggingface.co/hfl/chinese-xlnet-base">https://huggingface.co/hfl/chinese-xlnet-base</a></p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-07T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -676,7 +607,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/02/sbiobertresolve_icdo_base_en.html">Sentence Entity Resolver for ICD-O (base)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/07/07/chinese_xlnet_base_zh.html">Chinese Pre-Trained XLNet (Base)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/02/nerdl_fewnerd_100d_en.html">Detect Entities in General Scope (Few-NERD dataset)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/07/07/xlnet_base_cased_en.html">XLNet Embeddings (Base Cased)</a></div></div></div>
 
 </div>
 </div>
