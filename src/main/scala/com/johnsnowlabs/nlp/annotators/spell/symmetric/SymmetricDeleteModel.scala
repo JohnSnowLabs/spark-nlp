@@ -243,6 +243,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     if (value < $(minFrequency)) {
       return 0
     }
+    if ($(maxFrequency) == $(minFrequency)){
+      return 1
+    }
     val normalizedValue = (value - $(maxFrequency)).toDouble / ($(maxFrequency) - $(minFrequency)).toDouble
     BigDecimal(normalizedValue).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble
   }
