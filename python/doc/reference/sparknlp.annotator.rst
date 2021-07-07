@@ -1,0 +1,89 @@
+sparknlp.annotator module
+=========================
+
+Annotators
+----------
+
+.. currentmodule:: sparknlp.annotator
+
+.. autosummary::
+   :toctree: api/
+
+   RecursiveTokenizer
+   RecursiveTokenizerModel
+   Tokenizer
+   TokenizerModel
+   RegexTokenizer
+   ChunkTokenizer
+   ChunkTokenizerModel
+   Token2Chunk
+   Stemmer
+   Chunker
+   DocumentNormalizer
+   Normalizer
+   NormalizerModel
+   RegexMatcher
+   RegexMatcherModel
+   Lemmatizer
+   LemmatizerModel
+   DateMatcherUtils
+   DateMatcher
+   MultiDateMatcher
+   TextMatcher
+   TextMatcherModel
+   BigTextMatcher
+   BigTextMatcherModel
+   PerceptronApproach
+   PerceptronModel
+   SentenceDetectorParams
+   SentenceDetector
+   SentimentDetector
+   SentimentDetectorModel
+   ViveknSentimentApproach
+   ViveknSentimentModel
+   NorvigSweetingApproach
+   NorvigSweetingModel
+   SymmetricDeleteApproach
+   SymmetricDeleteModel
+   NerApproach
+   NerCrfApproach
+   NerCrfModel
+   NerDLApproach
+   NerDLModel
+   NerConverter
+   DependencyParserApproach
+   DependencyParserModel
+   TypedDependencyParserApproach
+   TypedDependencyParserModel
+   WordEmbeddings
+   WordEmbeddingsModel
+   BertEmbeddings
+   BertSentenceEmbeddings
+   SentenceEmbeddings
+   StopWordsCleaner
+   NGramGenerator
+   ChunkEmbeddings
+   NerOverwriter
+   UniversalSentenceEncoder
+   ElmoEmbeddings
+   ClassifierDLApproach
+   ClassifierDLModel
+   AlbertEmbeddings
+   XlnetEmbeddings
+   ContextSpellCheckerApproach
+   ContextSpellCheckerModel
+   SentimentDLApproach
+   SentimentDLModel
+   LanguageDetectorDL
+   MultiClassifierDLApproach
+   MultiClassifierDLModel
+   YakeModel
+   SentenceDetectorDLModel
+   SentenceDetectorDLApproach
+   WordSegmenterApproach
+   WordSegmenterModel
+   T5Transformer
+   MarianTransformer
+   DistilBertEmbeddings
+   RoBertaEmbeddings
+   XlmRoBertaEmbeddings

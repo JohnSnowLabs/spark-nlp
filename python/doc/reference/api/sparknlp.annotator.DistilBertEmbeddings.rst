@@ -1,0 +1,77 @@
+﻿sparknlp.annotator.DistilBertEmbeddings
+=======================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: DistilBertEmbeddings
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DistilBertEmbeddings.__init__
+      ~DistilBertEmbeddings.clear
+      ~DistilBertEmbeddings.copy
+      ~DistilBertEmbeddings.explainParam
+      ~DistilBertEmbeddings.explainParams
+      ~DistilBertEmbeddings.extractParamMap
+      ~DistilBertEmbeddings.getBatchSize
+      ~DistilBertEmbeddings.getCaseSensitive
+      ~DistilBertEmbeddings.getDimension
+      ~DistilBertEmbeddings.getInputCols
+      ~DistilBertEmbeddings.getLazyAnnotator
+      ~DistilBertEmbeddings.getOrDefault
+      ~DistilBertEmbeddings.getOutputCol
+      ~DistilBertEmbeddings.getParam
+      ~DistilBertEmbeddings.getParamValue
+      ~DistilBertEmbeddings.getStorageRef
+      ~DistilBertEmbeddings.hasDefault
+      ~DistilBertEmbeddings.hasParam
+      ~DistilBertEmbeddings.isDefined
+      ~DistilBertEmbeddings.isSet
+      ~DistilBertEmbeddings.load
+      ~DistilBertEmbeddings.loadSavedModel
+      ~DistilBertEmbeddings.pretrained
+      ~DistilBertEmbeddings.read
+      ~DistilBertEmbeddings.save
+      ~DistilBertEmbeddings.set
+      ~DistilBertEmbeddings.setBatchSize
+      ~DistilBertEmbeddings.setCaseSensitive
+      ~DistilBertEmbeddings.setConfigProtoBytes
+      ~DistilBertEmbeddings.setDimension
+      ~DistilBertEmbeddings.setInputCols
+      ~DistilBertEmbeddings.setLazyAnnotator
+      ~DistilBertEmbeddings.setMaxSentenceLength
+      ~DistilBertEmbeddings.setOutputCol
+      ~DistilBertEmbeddings.setParamValue
+      ~DistilBertEmbeddings.setParams
+      ~DistilBertEmbeddings.setStorageRef
+      ~DistilBertEmbeddings.transform
+      ~DistilBertEmbeddings.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DistilBertEmbeddings.batchSize
+      ~DistilBertEmbeddings.caseSensitive
+      ~DistilBertEmbeddings.configProtoBytes
+      ~DistilBertEmbeddings.dimension
+      ~DistilBertEmbeddings.getter_attrs
+      ~DistilBertEmbeddings.inputCols
+      ~DistilBertEmbeddings.lazyAnnotator
+      ~DistilBertEmbeddings.maxSentenceLength
+      ~DistilBertEmbeddings.name
+      ~DistilBertEmbeddings.outputCol
+      ~DistilBertEmbeddings.params
+      ~DistilBertEmbeddings.storageRef
+   
+   

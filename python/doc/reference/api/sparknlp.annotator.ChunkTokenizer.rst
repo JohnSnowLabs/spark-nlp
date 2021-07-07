@@ -1,0 +1,93 @@
+﻿sparknlp.annotator.ChunkTokenizer
+=================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: ChunkTokenizer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ChunkTokenizer.__init__
+      ~ChunkTokenizer.addContextChars
+      ~ChunkTokenizer.addException
+      ~ChunkTokenizer.addInfixPattern
+      ~ChunkTokenizer.addSplitChars
+      ~ChunkTokenizer.clear
+      ~ChunkTokenizer.copy
+      ~ChunkTokenizer.explainParam
+      ~ChunkTokenizer.explainParams
+      ~ChunkTokenizer.extractParamMap
+      ~ChunkTokenizer.fit
+      ~ChunkTokenizer.fitMultiple
+      ~ChunkTokenizer.getCaseSensitiveExceptions
+      ~ChunkTokenizer.getContextChars
+      ~ChunkTokenizer.getExceptions
+      ~ChunkTokenizer.getInfixPatterns
+      ~ChunkTokenizer.getInputCols
+      ~ChunkTokenizer.getLazyAnnotator
+      ~ChunkTokenizer.getOrDefault
+      ~ChunkTokenizer.getOutputCol
+      ~ChunkTokenizer.getParam
+      ~ChunkTokenizer.getParamValue
+      ~ChunkTokenizer.getPrefixPattern
+      ~ChunkTokenizer.getSplitChars
+      ~ChunkTokenizer.getSuffixPattern
+      ~ChunkTokenizer.hasDefault
+      ~ChunkTokenizer.hasParam
+      ~ChunkTokenizer.isDefined
+      ~ChunkTokenizer.isSet
+      ~ChunkTokenizer.load
+      ~ChunkTokenizer.read
+      ~ChunkTokenizer.save
+      ~ChunkTokenizer.set
+      ~ChunkTokenizer.setCaseSensitiveExceptions
+      ~ChunkTokenizer.setContextChars
+      ~ChunkTokenizer.setExceptions
+      ~ChunkTokenizer.setInfixPatterns
+      ~ChunkTokenizer.setInputCols
+      ~ChunkTokenizer.setLazyAnnotator
+      ~ChunkTokenizer.setMaxLength
+      ~ChunkTokenizer.setMinLength
+      ~ChunkTokenizer.setOutputCol
+      ~ChunkTokenizer.setParamValue
+      ~ChunkTokenizer.setPrefixPattern
+      ~ChunkTokenizer.setSplitChars
+      ~ChunkTokenizer.setSplitPattern
+      ~ChunkTokenizer.setSuffixPattern
+      ~ChunkTokenizer.setTargetPattern
+      ~ChunkTokenizer.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ChunkTokenizer.caseSensitiveExceptions
+      ~ChunkTokenizer.contextChars
+      ~ChunkTokenizer.exceptions
+      ~ChunkTokenizer.exceptionsPath
+      ~ChunkTokenizer.getter_attrs
+      ~ChunkTokenizer.infixPatterns
+      ~ChunkTokenizer.inputCols
+      ~ChunkTokenizer.lazyAnnotator
+      ~ChunkTokenizer.maxLength
+      ~ChunkTokenizer.minLength
+      ~ChunkTokenizer.name
+      ~ChunkTokenizer.outputCol
+      ~ChunkTokenizer.params
+      ~ChunkTokenizer.prefixPattern
+      ~ChunkTokenizer.splitChars
+      ~ChunkTokenizer.splitPattern
+      ~ChunkTokenizer.suffixPattern
+      ~ChunkTokenizer.targetPattern
+   
+   
