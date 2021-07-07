@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel</title>
-          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel" />
-          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel" />
+          <title>Spark NLP 3.1.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel</title>
+          <meta name="description" content="Spark NLP 3.1.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel" />
+          <meta name="keywords" content="Spark NLP 3.1.2 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -256,9 +256,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
-<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().
-    setInputCol(<span class="lit">"text"</span>).
-    setOutputCol(<span class="lit">"doc"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"doc"</span>)
 
 <span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"doc"</span>))
@@ -2326,9 +2326,9 @@ AnnotatorType is used both as input and output columns if not specified
       
       <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel"></a><a id="setConfigProtoBytes(Array[Int]):ContextSpellCheckerModel"></a>
+      <a id="setConfigProtoBytes(bytes:Array[Int]):ContextSpellCheckerModel.this.type"></a><a id="setConfigProtoBytes(Array[Int]):ContextSpellCheckerModel.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.html#setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.html#setConfigProtoBytes(bytes:Array[Int]):ContextSpellCheckerModel.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2337,7 +2337,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a></span>
+        <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>.this.type</span>
       </span>
       
       <p class="shortcomment cmt"></p>
@@ -2773,10 +2773,10 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel#setWordMaxDist" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setWordMaxDist(k:Int):ContextSpellCheckerModel.this.type"></a><a id="setWordMaxDist(Int):ContextSpellCheckerModel.this.type"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel#setWordMaxDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setWordMaxDistance(k:Int):ContextSpellCheckerModel.this.type"></a><a id="setWordMaxDistance(Int):ContextSpellCheckerModel.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.html#setWordMaxDist(k:Int):ContextSpellCheckerModel.this.type" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerModel.html#setWordMaxDistance(k:Int):ContextSpellCheckerModel.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2785,7 +2785,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setWordMaxDist</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>.this.type</span>
+        <span class="name">setWordMaxDistance</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>.this.type</span>
       </span>
       
       <p class="shortcomment cmt"></p>
