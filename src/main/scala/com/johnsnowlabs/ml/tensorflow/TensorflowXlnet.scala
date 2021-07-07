@@ -18,6 +18,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -63,13 +64,9 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
                       signatures: Option[Map[String, String]] = None
                      ) extends Serializable {
 
-  // keys representing the input and output tensors of the XLNet model
-  private val tokenIdsKey = "input_ids"
-  private val maskIdsKey = "input_mask"
-  private val segmentIdsKey = "segment_ids"
-  private val outputSequenceKey = "module/seq_out"
+  val _tfXlnetSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  // keys representing the input and output tensors of the ALBERT model
+  // keys representing the input and output tensors of the XLNet model
   private val SentenceStartTokenId = spp.getSppModel.pieceToId("<cls>")
   private val SentenceEndTokenId = spp.getSppModel.pieceToId("<sep>")
   private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>")
@@ -103,7 +100,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val maxSentenceLength = sequencesLength.max
 
     val tokenBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
-    val maskBuffers = tensors.createFloatBuffer(batch.length * maxSentenceLength)
+    val maskBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
     val segmentBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -117,21 +114,21 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
       val newTokenIds = tokenIds ++ padding
 
       tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0f else 1f))
+      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
     }
 
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createFloatBufferTensor(shape, maskBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
-      .feed(tokenIdsKey, tokenTensors)
-      .feed(maskIdsKey, maskTensors)
-      .feed(segmentIdsKey, segmentTensors)
-      .fetch(outputSequenceKey)
+      .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
+      .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
