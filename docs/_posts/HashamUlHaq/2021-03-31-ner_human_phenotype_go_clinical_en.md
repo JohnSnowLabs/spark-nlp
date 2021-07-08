@@ -60,7 +60,8 @@ val ner = MedicalNerModel.pretrained("ner_human_phenotype_go_clinical", "en", "c
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
 
-val result = pipeline.fit(Seq.empty["Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad."].toDS.toDF("text")).transform(data)
+val data = Seq("Another disease that shares two of the tumor components of CT, namely GIST and tricarboxylic acid cycle is the Carney-Stratakis syndrome (CSS) or dyad.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

@@ -75,7 +75,8 @@ val clinical_assertion = AssertionDLModel.pretrained("assertion_dl_large", "en",
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, nerConverter, clinical_assertion))
 
-val result = pipeline.fit(Seq.empty["Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer."].toDS.toDF("text")).transform(data)
+val data = Seq("Patient with severe fever and sore throat. He shows no stomach pain and he maintained on an epidural and PCA for pain control. He also became short of breath with climbing a flight of stairs. After CT, lung tumor located at the right lower lobe. Father with Alzheimer.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>

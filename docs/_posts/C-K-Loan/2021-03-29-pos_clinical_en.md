@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Parts of Speech Tagger pretraiend of clinical data
+title: Part of Speech Tagger Pretrained with Clinical Data
 author: John Snow Labs
 name: pos_clinical
 date: 2021-03-29
@@ -18,8 +18,6 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier predicts a grammatical label for every token in the input text. Implemented with an `averaged perceptron architecture`. This model was trained on additional medical data.
-
-## Predicted Entities
 
 ## Predicted Entities
 
@@ -57,7 +55,7 @@ A [Part of Speech](https://en.wikipedia.org/wiki/Part_of_speech) classifier pred
     tokenizer          =  new Tokenizer().setInputCols("document").setOutputCol("token")
     pos                =  PerceptronModel.pretrained("pos_clinical","en","clinical/models").setInputCols("token","document")
     pipeline = Pipeline(stages=[document_assembler, tokenizer, pos])
-    df = spark.createDataFrame(pd.DataFrame({'text': ["POS assigns each token in a sentence a grammatical label"]}))
+    df = spark.createDataFrame([['POS assigns each token in a sentence a grammatical label']], ["text"])
     result = pipeline.fit(df).transform(df)
     result.select("pos.result").show(false)
 ```

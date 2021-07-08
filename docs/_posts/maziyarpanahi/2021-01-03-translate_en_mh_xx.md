@@ -5,10 +5,10 @@ author: John Snow Labs
 name: translate_en_mh
 date: 2021-01-03
 task: [Translation, Pipeline Public]
-language: mh
+language: xx
 edition: Spark NLP 2.7.0
 tags: [open_source, seq2seq, translation, pipeline, en, mh, xx]
-supported: false
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

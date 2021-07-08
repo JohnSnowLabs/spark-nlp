@@ -5,6 +5,7 @@ author: John Snow Labs
 name: onto_recognize_entities_bert_small
 date: 2021-03-22
 tags: [open_source, english, onto_recognize_entities_bert_small, pipeline, en]
+supported: true
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
 language: en
 edition: Spark NLP 3.0.0

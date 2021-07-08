@@ -70,7 +70,7 @@ val re_model = RelationExtractionModel().pretrained("re_bodypart_proceduretest",
     .setRelationPairs(Array("external_body_part_or_region-test")) # Possible relation pairs. Default: All Relations.
 
 val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer,tokenizer, words_embedder, pos_tagger,  clinical_ner_tagger,ner_chunker, dependency_parser,re_model))
-val model = nlpPipeline.fit(Seq.empty[""].toDS.toDF("text"))
+val result = pipeline.fit(Seq.empty[String]).transform(data)
 
 val annotations = light_pipeline.fullAnnotate(''''TECHNIQUE IN DETAIL: After informed consent was obtained from the patient and his mother, the chest was scanned with portable ultrasound.'''')
 ```

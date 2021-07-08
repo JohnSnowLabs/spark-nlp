@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -170,13 +170,13 @@
                         <a class="object" href="LoadsContrib$.html" title=""></a>
                         <a href="LoadsContrib$.html" title="">LoadsContrib</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="NerDLApproach$.html" title=""></a>
+                        <a class="object" href="NerDLApproach$.html" title="This is the companion object of NerDLApproach."></a>
                         <a class="class" href="NerDLApproach.html" title="This Named Entity recognition annotator allows to train generic NER model based on Neural Networks."></a>
                         <a href="NerDLApproach.html" title="This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.">NerDLApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="NerDLModel$.html" title=""></a>
-                        <a class="class" href="" title="This Named Entity recognition annotator allows to train generic NER model based on Neural Networks."></a>
-                        <a href="" title="This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.">NerDLModel</a>
+                        <a class="object" href="NerDLModel$.html" title="This is the companion object of NerDLModel."></a>
+                        <a class="class" href="" title="This Named Entity recognition annotator is a generic NER model based on Neural Networks."></a>
+                        <a href="" title="This Named Entity recognition annotator is a generic NER model based on Neural Networks.">NerDLModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="object" href="NerDLModelPythonReader$.html" title=""></a>
@@ -223,9 +223,60 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations columns. Also the user has to provide word embeddings annotation column.
-Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl</a> for further reference on how to use this API.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This Named Entity recognition annotator is a generic NER model based on Neural Networks.</p><p>Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.</p><p>This is the instantiated model of the <a href="NerDLApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach">NerDLApproach</a>.
+For training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> nerModel = NerDLModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)</pre><p>The default model is <code>&quot;ner_dl&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.
+Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
+For example, the default model <code>&quot;ner_dl&quot;</code> requires the
+<a href="../../../embeddings/WordEmbeddingsModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddings</a> <code>&quot;glove_100d&quot;</code>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
+and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala" target="_blank">NerDLSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="cmt">// First extract the prerequisites for the NerDLModel</span>
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"bert"</span>)
+
+<span class="cmt">// Then NER can be extracted</span>
+<span class="kw">val</span> nerTagger = NerDLModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"bert"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  embeddings,
+  nerTagger
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"U.N. official Ekeus heads for Baghdad."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.select(<span class="lit">"ner.result"</span>).show(<span class="kw">false</span>)
++------------------------------------+
+|result                              |
++------------------------------------+
+|[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
++------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../crf/NerCrfModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel">NerCrfModel</a> for a generic CRF approach</p></span><span class="cmt"><p><a href="../NerConverter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverter">NerConverter</a> to further process the results</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -291,7 +342,7 @@ Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-t
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel"></a><a id="&lt;init&gt;:NerDLModel"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" title="Permalink">
@@ -306,7 +357,7 @@ Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-t
         <span class="name">NerDLModel</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -583,7 +634,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">batchSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Size of every batch.</p><div class="fullcomment"><div class="comment cmt"><p>Size of every batch.
+      <p class="shortcomment cmt">Size of every batch (Default depends on model).</p><div class="fullcomment"><div class="comment cmt"><p>Size of every batch (Default depends on model).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel#beforeAnnotate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeAnnotate(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.Dataset[_]"></a><a id="beforeAnnotate(Dataset[_]):Dataset[_]"></a>
@@ -1118,7 +1169,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">getIncludeConfidence</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">whether to include confidence scores in annotation metadata
+      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata
 </p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
@@ -1332,7 +1383,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">includeConfidence</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">whether to include confidence scores in annotation metadata
+      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata (Default: <code>false</code>)
 </p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
@@ -1381,8 +1432,8 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Required input Annotators coulumns, expects DOCUMENT, TOKEN, WORD_EMBEDDINGS
-</p><div class="fullcomment"><div class="comment cmt"><p>Required input Annotators coulumns, expects DOCUMENT, TOKEN, WORD_EMBEDDINGS
+      <p class="shortcomment cmt">Input Annotator Types: DOCUMENT, TOKEN, WORD_EMBEDDINGS
+</p><div class="fullcomment"><div class="comment cmt"><p>Input Annotator Types: DOCUMENT, TOKEN, WORD_EMBEDDINGS
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel">NerDLModel</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
@@ -1794,8 +1845,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">outputAnnotatorType</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Output Annnotator type : NAMED_ENTITY
-</p><div class="fullcomment"><div class="comment cmt"><p>Output Annnotator type : NAMED_ENTITY
+      <p class="shortcomment cmt">Output Annnotator type: NAMED_ENTITY
+</p><div class="fullcomment"><div class="comment cmt"><p>Output Annnotator type: NAMED_ENTITY
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel">NerDLModel</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
@@ -2146,7 +2197,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setIncludeConfidence</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel">NerDLModel</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">whether to include confidence scores in annotation metadata
+      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata
 </p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):NerDLModel.this.type"></a>
@@ -2277,7 +2328,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.storage.HasStorageRef#storageRef" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="storageRef:org.apache.spark.ml.param.Param[String]"></a><a id="storageRef:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.html#storageRef:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2292,7 +2343,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">storageRef</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
+      <p class="shortcomment cmt">Unique identifier for storage (Default: <code>this.uid</code>)
+</p><div class="fullcomment"><div class="comment cmt"><p>Unique identifier for storage (Default: <code>this.uid</code>)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2625,9 +2678,9 @@ metadata is built at schema level to record annotations structural information o
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel#writeTensorflowModelV2" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="writeTensorflowModelV2(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]]):Unit"></a><a id="writeTensorflowModelV2(String,SparkSession,TensorflowWrapper,String,String,Option[Array[Byte]]):Unit"></a>
+      <a id="writeTensorflowModelV2(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]],savedSignatures:Option[Map[String,String]]):Unit"></a><a id="writeTensorflowModelV2(String,SparkSession,TensorflowWrapper,String,String,Option[Array[Byte]],Option[Map[String,String]]):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.html#writeTensorflowModelV2(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]]):Unit" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.html#writeTensorflowModelV2(path:String,spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,suffix:String,filename:String,configProtoBytes:Option[Array[Byte]],savedSignatures:Option[Map[String,String]]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2636,7 +2689,7 @@ metadata is built at schema level to record annotations structural information o
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">writeTensorflowModelV2</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="tensorflow">tensorflow: <a href="../../../../ml/tensorflow/TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filename">filename: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">writeTensorflowModelV2</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="tensorflow">tensorflow: <a href="../../../../ml/tensorflow/TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filename">filename: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="savedSignatures">savedSignatures: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a></dd></dl></div>
@@ -2701,20 +2754,20 @@ metadata is built at schema level to record annotations structural information o
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="anno">
-              <h3>anno</h3>
-              
-            </div><div class="group" name="getParam">
-              <h3>getParam</h3>
-              
-            </div><div class="group" name="param">
-              <h3>param</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

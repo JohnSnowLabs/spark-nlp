@@ -7,6 +7,77 @@ key: docs-ocr-release-notes
 modify_date: "2020-04-08"
 ---
 
+## 3.4.0
+
+#### Overview
+
+Signature Detection in image-based documents.
+
+#### New Features
+
+* [ImageSignatureDetector](ocr_object_detection#imagesignaturedetector) is a DL model for detect signature on the image.
+
+
+#### New notebooks
+
+* [Image Signature Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.4.0/jupyter/SparkOcrImageSignatureDetection.ipynb)
+
+
+## 3.3.0
+
+#### Overview
+
+Table detection and recognition for scanned documents.
+
+For table detection we added ___ImageTableDetector___. 
+It based on __CascadeTabNet__ which used _Cascade mask Region-based CNN High-Resolution Network_ (Cascade mask R-CNN HRNet).
+Model was pre-trained on the __COCO dataset__ and fine tuned on __ICDAR 2019__ competitions dataset for table detection. It demonstrates state of the art results for ICDAR 2013 and TableBank. And top results for ICDAR 2019.
+
+More details please read in [Table Detection & Extraction in Spark OCR](https://medium.com/spark-nlp/table-detection-extraction-in-spark-ocr-50765c6cedc9)
+
+#### New Features
+
+* [ImageTableDetector](ocr_table_recognition#imagetabledetector) is a DL model for detect tables on the image.
+* [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) is a transformer for detect regions of cells in the table image.
+* [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable) is a transformer for extract text from the detected cells.
+
+#### New notebooks
+
+* [Image Table Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.3.0/jupyter/SparkOcrImageTableDetection.ipynb)
+* [Image Cell Recognition example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.3.0/jupyter/SparkOcrImageTableCellRecognition.ipynb)
+* [Image Table Recognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.3.0/jupyter/SparkOcrImageTableRecognition.ipynb)
+
+
+## 3.2.0
+
+#### Overview
+
+Multi-modal visual document understanding, built on the LayoutLM architecture.
+It achieves new state-of-the-art accuracy in several downstream tasks,
+including form understanding and receipt understanding.
+
+
+#### New Features
+
+* [VisualDocumentNER](ocr_pipeline_components#visualdocumentner) is a DL model for NER problem using text and layout data.
+  Currently available pre-trained model on the SROIE dataset.
+
+
+#### Enhancements
+
+* Added support `SPARK_OCR_LICENSE` env key for read license.
+* Update dependencies and sync Spark versions with Spark NLP.
+
+
+#### Bugfixes
+
+* Fixed an issue that some ImageReaderSpi plugins are unavailable in the fat jar.
+
+#### New notebooks
+
+* [Visual Document NER](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.2.0/jupyter/SparkOCRVisualDocumentNer.ipynb)
+
+
 
 ## 3.1.0
 

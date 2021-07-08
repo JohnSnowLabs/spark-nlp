@@ -56,7 +56,8 @@ val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models")
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, clinical_ner_converter))
-val result = pipeline.fit(Seq.empty["Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom"].toDS.toDF("text")).transform(data)
+val data = Seq("Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 

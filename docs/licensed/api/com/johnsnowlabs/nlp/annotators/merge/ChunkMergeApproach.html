@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,12 +151,24 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="" title="Merges NER Chunks by prioritizing overlapping indices (chunks with longer lengths and highest information will be kept from each ner model) Labels can be changed by setReplaceDictResource."></a>
-                        <a href="" title="Merges NER Chunks by prioritizing overlapping indices (chunks with longer lengths and highest information will be kept from each ner model) Labels can be changed by setReplaceDictResource.">ChunkMergeApproach</a>
+                        <a class="object" href="Asc$.html" title=""></a>
+                        <a href="Asc$.html" title="">Asc</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="" title="Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing chunks)."></a>
+                        <a href="" title="Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing chunks).">ChunkMergeApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="ChunkMergeModel$.html" title=""></a>
                         <a class="class" href="ChunkMergeModel.html" title="Merges entities coming from different CHUNK annotations"></a>
                         <a href="ChunkMergeModel.html" title="Merges entities coming from different CHUNK annotations">ChunkMergeModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="object" href="Desc$.html" title=""></a>
+                        <a href="Desc$.html" title="">Desc</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="Order.html" title=""></a>
+                        <a href="Order.html" title="">Order</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedChunkMerge.html" title=""></a>
@@ -189,8 +201,11 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Merges NER Chunks by prioritizing overlapping indices
-(chunks with longer lengths and highest information will be kept from each ner model)
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing
+chunks). The merger of the two chunk columns is made by selecting one chunk from one of the columns according
+to certain criteria.
+The decision on which chunk to select is made according to the chunk indices in the source document.
+(chunks with longer lengths and highest information will be kept from each source)
 Labels can be changed by <a href="#setReplaceDictResource(path:String,readAs:com.johnsnowlabs.nlp.util.io.ReadAs.Format,options:Map[String,String]):ChunkMergeApproach.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach#setReplaceDictResource">setReplaceDictResource</a>.</p><h4>Example</h4><p>Define a pipeline with 2 different NER models with a ChunkMergeApproach at the end</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>((<span class="lit">"A 63-year-old man presents to the hospital ..."</span>)).toDF(<span class="lit">"text"</span>)
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
   <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>),
@@ -456,6 +471,23 @@ result.selectExpr(<span class="lit">"explode(merged_chunk) as a"</span>)
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach#chunkPrecedence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="chunkPrecedence:org.apache.spark.ml.param.Param[String]"></a><a id="chunkPrecedence:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeApproach.html#chunkPrecedence:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">chunkPrecedence</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Select what is the priorization when two chunks have the same start and end indices.Possibles values [entity|identifier|field]
+</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):ChunkMergeApproach.this.type"></a>
       <span class="permalink">
@@ -1559,6 +1591,22 @@ result.selectExpr(<span class="lit">"explode(merged_chunk) as a"</span>)
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach#setChunkPrecedence" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setChunkPrecedence(m:String):ChunkMergeApproach.this.type"></a><a id="setChunkPrecedence(String):ChunkMergeApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/merge/ChunkMergeApproach.html#setChunkPrecedence(m:String):ChunkMergeApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setChunkPrecedence</span><span class="params">(<span name="m">m: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach">ChunkMergeApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Select what is the priorization when one chunk has the same start and end chunk.Possibles values [entity|identifier|field]</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):ChunkMergeApproach.this.type"></a>
       <span class="permalink">

@@ -46,7 +46,8 @@ val pos = PerceptronModel.pretrained("pos_ud_htb", "he")
     .setInputCols(Array("document", "token"))
     .setOutputCol("pos")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val result = pipeline.fit(Seq.empty["ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה"].toDS.toDF("text")).transform(data)
+val data = Seq("ב- 25 לאוגוסט עצר השב"כ את מוחמד אבו-ג'וייד , אזרח ירדני , שגויס לארגון הפת"ח והופעל על ידי חיזבאללה").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

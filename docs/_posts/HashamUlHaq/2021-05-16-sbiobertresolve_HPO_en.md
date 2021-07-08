@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps phenotypic abnormalities encountered in human diseases to Human Phenotype Ontology (HPO) codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
+This model maps phenotypic abnormalities encountered in human diseases to Human Phenotype Ontology (HPO) codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
 
 ## Predicted Entities
 
@@ -49,7 +49,7 @@ resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_HPO", "en", "
 
 pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokens, embeddings, ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-model = LightPipeline(pipeline.fit(spark.createDataFrame(pd.DataFrame({'text':['']}))))
+model = LightPipeline(pipeline.fit(spark.createDataFrame([['']], ["text"])))
 
 text="""These disorders include cancer, bipolar disorder, schizophrenia, autism, Cri-du-chat syndrome, myopia, cortical cataract-linked Alzheimer's disease, and infectious diseases"""
 

@@ -6,7 +6,7 @@ name: redl_bodypart_direction_biobert
 date: 2021-02-04
 task: Relation Extraction
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -106,7 +106,8 @@ val re_model = RelationExtractionDLModel()
     .setOutputCol("relations")
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia"].toDS.toDF("text")).transform(data)
+val data = Seq("MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
@@ -133,7 +134,7 @@ val result = pipeline.fit(Seq.empty["MRI demonstrated infarction in the upper br
 {:.table-model}
 |---|---|
 |Model Name:|redl_bodypart_direction_biobert|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:|Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

@@ -19,6 +19,7 @@ data:
       source: yes
       source: 
         - title: ICD10 coding for German
+          hide: yes
           id: icd10_coding_for_german
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
@@ -74,4 +75,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
+        - title: Detect Diagnoses And Procedures In Spanish
+          id: detect-diagnoses-and-procedures-in-spanish
+          image: 
+              src: /assets/images/Detect_drugs_and_prescriptions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
+          excerpt: Automatically identify diagnoses and procedures in Spanish clinical documents using the pre-trained Spark NLP clinical model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC_ES/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC_ES.ipynb       
+        
 ---

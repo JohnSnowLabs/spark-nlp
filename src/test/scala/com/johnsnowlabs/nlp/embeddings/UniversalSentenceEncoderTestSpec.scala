@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.EmbeddingsFinisher
@@ -6,9 +23,11 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
+
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, Normalizer, SQLTransformer}
 import org.apache.spark.sql.functions._
+
 import org.scalatest._
 
 class UniversalSentenceEncoderTestSpec extends FlatSpec {
@@ -166,6 +185,7 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
       .pretrained("tfhub_use_multi", "xx")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
+      .setLoadSP(true)
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(
@@ -174,9 +194,13 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
         useEmbeddings
       ))
 
-    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    val pipelineModel = pipeline.fit(smallCorpus)
+    val pipelineDF = pipelineModel.transform(smallCorpus)
     println(pipelineDF.count())
     pipelineDF.show
+
+    pipelineModel.stages.last.asInstanceOf[UniversalSentenceEncoder].write.overwrite().save("./tmp_tfhub_use_multi")
+    UniversalSentenceEncoder.load("./tmp_tfhub_use_multi")
 
   }
 

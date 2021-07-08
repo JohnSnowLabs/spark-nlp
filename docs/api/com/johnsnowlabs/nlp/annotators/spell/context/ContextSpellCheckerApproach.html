@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach</title>
-          <meta name="description" content="Spark NLP 3.0.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.2 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -187,12 +187,12 @@
                         <a href="CandidateStrategy$.html" title="">CandidateStrategy</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">ContextSpellCheckerApproach</a>
+                        <a class="class" href="" title="Trains a deep-learning based Noisy Channel Model Spell Algorithm."></a>
+                        <a href="" title="Trains a deep-learning based Noisy Channel Model Spell Algorithm.">ContextSpellCheckerApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="ContextSpellCheckerModel$.html" title=""></a>
-                        <a class="class" href="ContextSpellCheckerModel.html" title=""></a>
-                        <a href="ContextSpellCheckerModel.html" title="">ContextSpellCheckerModel</a>
+                        <a class="object" href="ContextSpellCheckerModel$.html" title="This is the companion object of ContextSpellCheckerModel."></a>
+                        <a class="class" href="ContextSpellCheckerModel.html" title="Implements a deep-learning based Noisy Channel Model Spell Algorithm."></a>
+                        <a href="ContextSpellCheckerModel.html" title="Implements a deep-learning based Noisy Channel Model Spell Algorithm.">ContextSpellCheckerModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="HasTransducerFeatures.html" title=""></a>
@@ -241,7 +241,47 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a deep-learning based Noisy Channel Model Spell Algorithm.
+Correction candidates are extracted combining context information and word information.</p><p>For instantiated/pretrained models, see <a href="ContextSpellCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel">ContextSpellCheckerModel</a>.</p><p>Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
+certain number of errors, <code>ContextSpellChecker</code> will rank correction sequences according to three things:</p><ol class="decimal"><li>Different correction candidates for each word — <b>word level</b>.</li><li>The surrounding text of each word, i.e. it’s context — <b>sentence level</b>.</li><li>The relative cost of different correction candidates according to the edit operations at the character level it requires — <b>subword level</b>.</li></ol><p>For an in-depth explanation of the module see the article <a href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc" target="_blank">Applying Context Aware Spell Checking in Spark NLP</a>.</p><p>For extended examples of usage, see the article <a href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf" target="_blank">Training a Contextual Spell Checker for Italian Language</a>,
+the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb" target="_blank">Spark NLP Workshop</a>
+and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala" target="_blank">ContextSpellCheckerTestSpec</a>.</p><h4>Example</h4><p>For this example, we use the first Sherlock Holmes book as the training dataset.</p><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
+
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> spellChecker = <span class="kw">new</span> ContextSpellCheckerApproach()
+  .setInputCols(<span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"corrected"</span>)
+  .setWordMaxDist(<span class="num">3</span>)
+  .setBatchSize(<span class="num">24</span>)
+  .setEpochs(<span class="num">8</span>)
+  .setLMClasses(<span class="num">1650</span>)  <span class="cmt">// dependant on vocabulary size</span>
+  <span class="cmt">// .addVocabClass("_NAME_", names) // Extra classes for correction could be added like this</span>
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  tokenizer,
+  spellChecker
+))
+
+<span class="kw">val</span> path = <span class="lit">"src/test/resources/spell/sherlockholmes.txt"</span>
+<span class="kw">val</span> dataset = spark.sparkContext.textFile(path)
+  .toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> pipelineModel = pipeline.fit(dataset)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../norvig/NorvigSweetingApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach">NorvigSweetingApproach</a>
+     and <a href="../symmetric/SymmetricDeleteApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach">SymmetricDeleteApproach</a>
+     for alternative approaches to spell checking</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -262,7 +302,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -291,7 +331,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;():com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach"></a><a id="&lt;init&gt;:ContextSpellCheckerApproach"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#&lt;init&gt;():com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" title="Permalink">
@@ -306,8 +346,8 @@
         <span class="name">ContextSpellCheckerApproach</span><span class="params">()</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach"></a><a id="&lt;init&gt;:ContextSpellCheckerApproach"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" title="Permalink">
@@ -322,7 +362,7 @@
         <span class="name">ContextSpellCheckerApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -512,10 +552,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#addRegexClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="addRegexClass(usrLabel:String,usrRegex:String,userDist:Int):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach"></a><a id="addRegexClass(String,String,Int):ContextSpellCheckerApproach"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#addRegexClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addRegexClass(usrLabel:String,usrRegex:String,userDist:Int):ContextSpellCheckerApproach.this.type"></a><a id="addRegexClass(String,String,Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#addRegexClass(usrLabel:String,usrRegex:String,userDist:Int):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#addRegexClass(usrLabel:String,usrRegex:String,userDist:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -524,14 +564,15 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addRegexClass</span><span class="params">(<span name="usrLabel">usrLabel: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="usrRegex">usrRegex: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="userDist">userDist: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a></span>
+        <span class="name">addRegexClass</span><span class="params">(<span name="usrLabel">usrLabel: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="usrRegex">usrRegex: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="userDist">userDist: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#addVocabClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="addVocabClass(usrLabel:String,vocabList:java.util.ArrayList[String],userDist:Int):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach"></a><a id="addVocabClass(String,ArrayList[String],Int):ContextSpellCheckerApproach"></a>
+      <p class="shortcomment cmt">Adds a new class of words to correct, based on regex.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a new class of words to correct, based on regex.
+</p></div><dl class="paramcmts block"><dt class="param">usrLabel</dt><dd class="cmt"><p>Name of the class</p></dd><dt class="param">usrRegex</dt><dd class="cmt"><p>Regex to add</p></dd><dt class="param">userDist</dt><dd class="cmt"><p>Maximal distance to the word</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#addVocabClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addVocabClass(usrLabel:String,vocabList:java.util.ArrayList[String],userDist:Int):ContextSpellCheckerApproach.this.type"></a><a id="addVocabClass(String,ArrayList[String],Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#addVocabClass(usrLabel:String,vocabList:java.util.ArrayList[String],userDist:Int):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#addVocabClass(usrLabel:String,vocabList:java.util.ArrayList[String],userDist:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -540,10 +581,11 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addVocabClass</span><span class="params">(<span name="usrLabel">usrLabel: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vocabList">vocabList: <span class="extype" name="java.util.ArrayList">ArrayList</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="userDist">userDist: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a></span>
+        <span class="name">addVocabClass</span><span class="params">(<span name="usrLabel">usrLabel: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vocabList">vocabList: <span class="extype" name="java.util.ArrayList">ArrayList</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="userDist">userDist: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Adds a new class of words to correct, based on a vocabulary.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a new class of words to correct, based on a vocabulary.
+</p></div><dl class="paramcmts block"><dt class="param">usrLabel</dt><dd class="cmt"><p>Name of the class</p></dd><dt class="param">vocabList</dt><dd class="cmt"><p>Vocabulary as a list</p></dd><dt class="param">userDist</dt><dd class="cmt"><p>Maximal distance to the word</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -576,7 +618,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="WeightedLevenshtein.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein">WeightedLevenshtein</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#batchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="batchSize:org.apache.spark.ml.param.IntParam"></a><a id="batchSize:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#batchSize:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -591,7 +633,7 @@
         <span class="name">batchSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Batch size for the training in NLM (Default: <code>24</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
       <span class="permalink">
@@ -608,7 +650,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#caseStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#caseStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="caseStrategy:org.apache.spark.ml.param.IntParam"></a><a id="caseStrategy:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#caseStrategy:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -623,7 +665,7 @@
         <span class="name">caseStrategy</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">What case combinations to try when generating candidates (Default: <code>CandidateStrategy.ALL</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -640,7 +682,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#classCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#classCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="classCount:org.apache.spark.ml.param.Param[Double]"></a><a id="classCount:Param[Double]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#classCount:org.apache.spark.ml.param.Param[Double]" title="Permalink">
@@ -655,7 +697,7 @@
         <span class="name">classCount</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Min number of times the word need to appear in corpus to not be considered of a special class (Default: <code>15.0</code>).</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -696,7 +738,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#compoundCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#compoundCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="compoundCount:org.apache.spark.ml.param.Param[Int]"></a><a id="compoundCount:Param[Int]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#compoundCount:org.apache.spark.ml.param.Param[Int]" title="Permalink">
@@ -711,11 +753,11 @@
         <span class="name">compoundCount</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Min number of times a compound word should appear to be included in vocab (Default: <code>5</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#computeClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="computeClasses(vocab:scala.collection.mutable.HashMap[String,Double],total:Double,k:Int):scala.collection.immutable.Map[String,(Int,Int)]"></a><a id="computeClasses(HashMap[String,Double],Double,Int):Map[String,(Int,Int)]"></a>
+      <a id="computeClasses(vocab:scala.collection.mutable.HashMap[String,Double],total:Double,k:Int):Map[String,(Int,Int)]"></a><a id="computeClasses(HashMap[String,Double],Double,Int):Map[String,(Int,Int)]"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#computeClasses(vocab:scala.collection.mutable.HashMap[String,Double],total:Double,k:Int):scala.collection.immutable.Map[String,(Int,Int)]" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#computeClasses(vocab:scala.collection.mutable.HashMap[String,Double],total:Double,k:Int):Map[String,(Int,Int)]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -724,11 +766,11 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">computeClasses</span><span class="params">(<span name="vocab">vocab: <span class="extype" name="scala.collection.mutable.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Double">Double</span>]</span>, <span name="total">total: <span class="extype" name="scala.Double">Double</span></span>, <span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
+        <span class="name">computeClasses</span><span class="params">(<span name="vocab">vocab: <span class="extype" name="scala.collection.mutable.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Double">Double</span>]</span>, <span name="total">total: <span class="extype" name="scala.Double">Double</span></span>, <span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#configProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="configProtoBytes:org.apache.spark.ml.param.IntArrayParam"></a><a id="configProtoBytes:IntArrayParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#configProtoBytes:org.apache.spark.ml.param.IntArrayParam" title="Permalink">
@@ -743,7 +785,8 @@
         <span class="name">configProtoBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Configproto from tensorflow, serialized into byte array.</p><div class="fullcomment"><div class="comment cmt"><p>Configproto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a><a id="copy(ParamMap):Estimator[ContextSpellCheckerModel]"></a>
       <span class="permalink">
@@ -808,7 +851,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> → <a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#epochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#epochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="epochs:org.apache.spark.ml.param.IntParam"></a><a id="epochs:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#epochs:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -823,7 +866,7 @@
         <span class="name">epochs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Number of epochs to train the language model (Default: <code>2</code>).</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -856,7 +899,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#errorThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#errorThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="errorThreshold:org.apache.spark.ml.param.FloatParam"></a><a id="errorThreshold:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#errorThreshold:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -871,7 +914,7 @@
         <span class="name">errorThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Threshold perplexity for a word to be considered as an error (Default: <code>10f</code>).</p>
     </li><li name="org.apache.spark.ml.param.Params#explainParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="explainParam(param:org.apache.spark.ml.param.Param[_]):String"></a><a id="explainParam(Param[_]):String"></a>
       <span class="permalink">
@@ -952,7 +995,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#finalRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#finalRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="finalRate:org.apache.spark.ml.param.FloatParam"></a><a id="finalRate:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#finalRate:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -967,7 +1010,7 @@
         <span class="name">finalRate</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Final learning rate for the LM (Default: <code>0.0005f</code>).</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -1075,9 +1118,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#genVocab" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="genVocab(dataset:org.apache.spark.sql.Dataset[_]):(scala.collection.mutable.HashMap[String,Double],scala.collection.immutable.Map[String,(Int,Int)])"></a><a id="genVocab(Dataset[_]):(HashMap[String,Double],Map[String,(Int,Int)])"></a>
+      <a id="genVocab(dataset:org.apache.spark.sql.Dataset[_]):(scala.collection.mutable.HashMap[String,Double],Map[String,(Int,Int)])"></a><a id="genVocab(Dataset[_]):(HashMap[String,Double],Map[String,(Int,Int)])"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#genVocab(dataset:org.apache.spark.sql.Dataset[_]):(scala.collection.mutable.HashMap[String,Double],scala.collection.immutable.Map[String,(Int,Int)])" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#genVocab(dataset:org.apache.spark.sql.Dataset[_]):(scala.collection.mutable.HashMap[String,Double],Map[String,(Int,Int)])" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1086,7 +1129,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">genVocab</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: (<span class="extype" name="scala.collection.mutable.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Double">Double</span>], <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)])</span>
+        <span class="name">genVocab</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>)</span><span class="result">: (<span class="extype" name="scala.collection.mutable.HashMap">HashMap</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Double">Double</span>], <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)])</span>
       </span>
       
       
@@ -1189,7 +1232,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#getConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getConfigProtoBytes:Option[Array[Byte]]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#getConfigProtoBytes:Option[Array[Byte]]" title="Permalink">
@@ -1204,7 +1247,7 @@
         <span class="name">getConfigProtoBytes</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -1352,7 +1395,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#initialRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#initialRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="initialRate:org.apache.spark.ml.param.FloatParam"></a><a id="initialRate:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#initialRate:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -1367,7 +1410,7 @@
         <span class="name">initialRate</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Initial learning rate for the LM (Default: <code>.7f</code>).</p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">
@@ -1400,7 +1443,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1415,7 +1458,9 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator type</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+      <p class="shortcomment cmt">Input Annotator Types: TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Input Annotator Types: TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> → <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1500,7 +1545,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#languageModelClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#languageModelClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="languageModelClasses:org.apache.spark.ml.param.Param[Int]"></a><a id="languageModelClasses:Param[Int]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#languageModelClasses:org.apache.spark.ml.param.Param[Int]" title="Permalink">
@@ -1515,7 +1560,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">languageModelClasses</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Number of classes to use during factorization of the softmax output in the LM (Default: <code>2000</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a><a id="lazyAnnotator:BooleanParam"></a>
       <span class="permalink">
@@ -1772,7 +1817,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#maxCandidates" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#maxCandidates" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxCandidates:org.apache.spark.ml.param.IntParam"></a><a id="maxCandidates:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#maxCandidates:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1787,8 +1832,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">maxCandidates</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum number of candidates for every word (Default: <code>6</code>).</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#maxSentLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxSentLen:org.apache.spark.ml.param.IntParam"></a><a id="maxSentLen:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#maxSentLen:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1803,8 +1848,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">maxSentLen</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#maxWindowLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum length for a sentence - internal use during training (Default: <code>250</code>)
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#maxWindowLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxWindowLen:org.apache.spark.ml.param.IntParam"></a><a id="maxWindowLen:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#maxWindowLen:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1819,8 +1865,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">maxWindowLen</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#minCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Maximum size for the window used to remember history prior to every correction (Default: <code>5</code>).</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#minCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="minCount:org.apache.spark.ml.param.Param[Double]"></a><a id="minCount:Param[Double]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#minCount:org.apache.spark.ml.param.Param[Double]" title="Permalink">
@@ -1835,7 +1881,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">minCount</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Min number of times a token should appear to be included in vocab (Default: <code>3.0</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1922,7 +1968,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:ContextSpellCheckerApproach.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#outputAnnotatorType:ContextSpellCheckerApproach.this.AnnotatorType" title="Permalink">
@@ -1937,7 +1983,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+      <p class="shortcomment cmt">Output Annotator Types: TOKEN
+</p><div class="fullcomment"><div class="comment cmt"><p>Output Annotator Types: TOKEN
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a> → <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2109,7 +2157,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setBatchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setBatchSize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setBatchSize(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setBatchSize(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setBatchSize(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2124,8 +2172,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setBatchSize</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setBlackListMinFreq" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setBlackListMinFreq" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setBlackListMinFreq(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setBlackListMinFreq(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setBlackListMinFreq(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2140,8 +2188,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setBlackListMinFreq</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setCaseStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setCaseStrategy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setCaseStrategy(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setCaseStrategy(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setCaseStrategy(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2156,8 +2204,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setCaseStrategy</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setClassThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setClassThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setClassThreshold(t:Double):ContextSpellCheckerApproach.this.type"></a><a id="setClassThreshold(Double):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setClassThreshold(t:Double):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2172,11 +2220,11 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setClassThreshold</span><span class="params">(<span name="t">t: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach"></a><a id="setConfigProtoBytes(Array[Int]):ContextSpellCheckerApproach"></a>
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setConfigProtoBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setConfigProtoBytes(bytes:Array[Int]):ContextSpellCheckerApproach.this.type"></a><a id="setConfigProtoBytes(Array[Int]):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setConfigProtoBytes(bytes:Array[Int]):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setConfigProtoBytes(bytes:Array[Int]):ContextSpellCheckerApproach.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2185,10 +2233,10 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a></span>
+        <span class="name">setConfigProtoBytes</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a><a id="setDefault[T](StructFeature[T],()⇒T):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -2285,7 +2333,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setEpochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setEpochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setEpochs(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setEpochs(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setEpochs(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2300,8 +2348,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setEpochs</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setErrorThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setErrorThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setErrorThreshold(t:Float):ContextSpellCheckerApproach.this.type"></a><a id="setErrorThreshold(Float):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setErrorThreshold(t:Float):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2316,8 +2364,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setErrorThreshold</span><span class="params">(<span name="t">t: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setFinalLearningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setFinalLearningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setFinalLearningRate(r:Float):ContextSpellCheckerApproach.this.type"></a><a id="setFinalLearningRate(Float):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setFinalLearningRate(r:Float):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2332,8 +2380,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setFinalLearningRate</span><span class="params">(<span name="r">r: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setInitialLearningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setInitialLearningRate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setInitialLearningRate(r:Float):ContextSpellCheckerApproach.this.type"></a><a id="setInitialLearningRate(Float):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setInitialLearningRate(r:Float):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2348,7 +2396,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setInitialLearningRate</span><span class="params">(<span name="r">r: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -2381,7 +2429,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setLMClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setLMClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setLMClasses(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setLMClasses(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setLMClasses(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2396,7 +2444,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setLMClasses</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -2413,7 +2461,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setMaxCandidates" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setMaxCandidates" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxCandidates(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setMaxCandidates(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setMaxCandidates(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2428,8 +2476,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setMaxCandidates</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setMaxWindowLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setMaxWindowLen" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxWindowLen(w:Int):ContextSpellCheckerApproach.this.type"></a><a id="setMaxWindowLen(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setMaxWindowLen(w:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2444,8 +2492,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setMaxWindowLen</span><span class="params">(<span name="w">w: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setMinCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setMinCount" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMinCount(threshold:Double):ContextSpellCheckerApproach.this.type"></a><a id="setMinCount(Double):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setMinCount(threshold:Double):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2460,7 +2508,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setMinCount</span><span class="params">(<span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
@@ -2477,7 +2525,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setSpecialClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setSpecialClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setSpecialClasses(parsers:List[com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser]):ContextSpellCheckerApproach.this.type"></a><a id="setSpecialClasses(List[SpecialClassParser]):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setSpecialClasses(parsers:List[com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser]):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2492,8 +2540,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setSpecialClasses</span><span class="params">(<span name="parsers">parsers: <span class="extype" name="scala.List">List</span>[<a href="parser/SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setTradeoff" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setTradeoff" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setTradeoff(alpha:Float):ContextSpellCheckerApproach.this.type"></a><a id="setTradeoff(Float):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setTradeoff(alpha:Float):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2508,8 +2556,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setTradeoff</span><span class="params">(<span name="alpha">alpha: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setValidationFraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setValidationFraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setValidationFraction(r:Float):ContextSpellCheckerApproach.this.type"></a><a id="setValidationFraction(Float):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setValidationFraction(r:Float):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2524,8 +2572,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setValidationFraction</span><span class="params">(<span name="r">r: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setWeights" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setWeights" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setWeights(filePath:String):ContextSpellCheckerApproach.this.type"></a><a id="setWeights(String):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setWeights(filePath:String):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2540,8 +2588,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setWeights</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setWordMaxDist" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#setWordMaxDist" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setWordMaxDist(k:Int):ContextSpellCheckerApproach.this.type"></a><a id="setWordMaxDist(Int):ContextSpellCheckerApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#setWordMaxDist(k:Int):ContextSpellCheckerApproach.this.type" title="Permalink">
@@ -2556,8 +2604,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setWordMaxDist</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach">ContextSpellCheckerApproach</a>.this.type</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#specialClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#specialClasses" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="specialClasses:org.apache.spark.ml.param.Param[List[com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser]]"></a><a id="specialClasses:Param[List[SpecialClassParser]]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#specialClasses:org.apache.spark.ml.param.Param[List[com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser]]" title="Permalink">
@@ -2572,7 +2620,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">specialClasses</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.List">List</span>[<a href="parser/SpecialClassParser.html" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.context.parser.SpecialClassParser">SpecialClassParser</a>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">List of parsers for special classes (Default: <code>List(new DateToken, new NumberToken)</code>).</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2605,7 +2653,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Identifiable → AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#tradeoff" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#tradeoff" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="tradeoff:org.apache.spark.ml.param.Param[Float]"></a><a id="tradeoff:Param[Float]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#tradeoff:org.apache.spark.ml.param.Param[Float]" title="Permalink">
@@ -2620,7 +2668,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">tradeoff</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Float">Float</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Tradeoff between the cost of a word error and a transition in the language model (Default: <code>18.0f</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#train" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="train(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel"></a><a id="train(Dataset[_],Option[PipelineModel]):ContextSpellCheckerModel"></a>
       <span class="permalink">
@@ -2704,7 +2752,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#validationFraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#validationFraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="validationFraction:org.apache.spark.ml.param.FloatParam"></a><a id="validationFraction:FloatParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#validationFraction:org.apache.spark.ml.param.FloatParam" title="Permalink">
@@ -2719,7 +2767,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">validationFraction</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Percentage of datapoints to use for validation (Default: <code>.1f</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein#wLevenshteinDist" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wLevenshteinDist(s1:String,s2:String,weights:Map[String,Map[String,Float]]):Float"></a><a id="wLevenshteinDist(String,String,Map[String,Map[String,Float]]):Float"></a>
       <span class="permalink">
@@ -2804,7 +2852,7 @@ AnnotatorType is used both as input and output columns if not specified
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#weightedDistPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#weightedDistPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="weightedDistPath:org.apache.spark.ml.param.Param[String]"></a><a id="weightedDistPath:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#weightedDistPath:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -2819,8 +2867,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">weightedDistPath</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#wordMaxDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">The path to the file containing the weights for the levenshtein distance.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach#wordMaxDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="wordMaxDistance:org.apache.spark.ml.param.IntParam"></a><a id="wordMaxDistance:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach.html#wordMaxDistance:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -2835,7 +2883,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">wordMaxDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Maximum distance for the generated candidates for every word (Default: <code>3</code>).</p>
     </li><li name="org.apache.spark.ml.util.DefaultParamsWritable#write" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="write:org.apache.spark.ml.util.MLWriter"></a><a id="write:MLWriter"></a>
       <span class="permalink">
@@ -2903,8 +2951,20 @@ AnnotatorType is used both as input and output columns if not specified
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="setParam">
+              <h3>Parameter setters</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

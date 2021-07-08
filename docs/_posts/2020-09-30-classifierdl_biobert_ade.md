@@ -67,7 +67,8 @@ val classsifierADE = ClassifierDLModel.pretrained("classifierdl_ade_biobert", "e
       .setInputCols(Array("sentence", "sentence_embeddings")) 
       .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifierADE))
-val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred vision after taking an insulin"].toDS.toDF("text")).transform(data)
+val data = Seq("I feel a bit drowsy & have a little blurred vision after taking an insulin").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

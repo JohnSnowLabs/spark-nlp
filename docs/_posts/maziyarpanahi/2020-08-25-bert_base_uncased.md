@@ -8,7 +8,7 @@ task: Embeddings
 language: en
 edition: Spark NLP 2.6.0
 tags: [open_source, embeddings, en]
-supported: false
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -35,7 +35,7 @@ embeddings = BertEmbeddings.pretrained("bert_base_uncased", "en") \
       .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": ["I love NLP"]})))
+result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
 ```
 
 ```scala
@@ -44,7 +44,8 @@ val embeddings = BertEmbeddings.pretrained("bert_base_uncased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val result = pipeline.fit(Seq.empty["I love NLP"].toDS.toDF("text")).transform(data)
+val data = Seq("I love NLP").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: ner_deidentify_dl
 date: 2021-02-01
 tags: [ner, deidentify, en, clinical, licensed]
+supported: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -33,8 +34,8 @@ Model is trained with the 'embeddings_clinical' word embeddings model, so be sur
 ```python
 ...
 
-model = NerDLModel.pretrained("ner_deidentify_dl","en","clinical/models")
-    .setInputCols("sentence","token","word_embeddings")
+model = NerDLModel.pretrained("ner_deidentify_dl","en","clinical/models") \
+    .setInputCols("sentence","token","word_embeddings") \
     .setOutputCol("ner")
 
 ...
@@ -44,7 +45,7 @@ nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 input_text = [ '''A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 month years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street''']
-result = pipeline_model.transform(spark.createDataFrame(pd.DataFrame({"text": input_text})))
+result = pipeline_model.transform(spark.createDataFrame([input_text], ["text"]))
 ```
 ```scala
 val model = NerDLModel.pretrained("ner_deidentify_dl","en","clinical/models")

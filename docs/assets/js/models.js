@@ -30,6 +30,15 @@
     return params;
   };
 
+  const formatNumber = (value) => {
+    return String(value)
+      .split('')
+      .reverse()
+      .map((v, i) => (i > 0 && i % 3 === 0 ? v + ',' : v))
+      .reverse()
+      .join('');
+  };
+
   const useFilterQuery = () => {
     const [state, setState] = useState({
       value: 'idle',
@@ -283,7 +292,7 @@
             e(
               'div',
               { className: 'model-items__header-total-results' },
-              'Models & Pipelines: ' + meta.totalItems
+              formatNumber(meta.totalItems) + ' Models & Pipelines Results:'
             ),
             e('label', { className: 'model-items__header-supported' }, [
               e('input', {

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: dependency_typed_conllu
 date: 2021-03-27
 tags: [typed_dependency_parsing, labelled_dependency_parsing, dependency_parsing, en, open_source]
+supported: true
 task: Relation Extraction
 language: en
 edition: Spark NLP 3.0.0

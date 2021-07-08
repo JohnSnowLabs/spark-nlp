@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
@@ -15,7 +32,7 @@ import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetr
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
-import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadablePretrainedMarianMTModel, ReadT5TransformerTensorflowModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
 import org.apache.spark.ml.util.DefaultParamsReadable
 
@@ -165,15 +182,18 @@ package object annotator {
   object ClassifierDLModel extends ReadablePretrainedClassifierDL with ReadClassifierDLTensorflowModel
 
   type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
-  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel with ReadSentencePieceModel
+  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel
 
   type XlnetEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
-  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel with ReadSentencePieceModel
+  object XlnetEmbeddings extends ReadablePretrainedXlnetModel with ReadXlnetTensorflowModel
 
   type SentimentDLApproach = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach
   object SentimentDLApproach extends DefaultParamsReadable[SentimentDLApproach]
   type SentimentDLModel = com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel
   object SentimentDLModel extends ReadablePretrainedSentimentDL with ReadSentimentDLTensorflowModel
+
+  type YakeModel = com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+  object YakeModel extends ParamsAndFeaturesReadable[YakeModel]
 
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
   object LanguageDetectorDL extends ReadablePretrainedLanguageDetectorDLModel with ReadLanguageDetectorDLTensorflowModel
@@ -206,5 +226,14 @@ package object annotator {
   
   type T5Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
   object T5Transformer extends ReadablePretrainedT5TransformerModel with ReadT5TransformerTensorflowModel with ReadSentencePieceModel
+
+  type DistilBertEmbeddings = com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
+  object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertTensorflowModel
+
+  type RoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings
+  object RoBertaEmbeddings extends ReadablePretrainedRobertaModel with ReadRobertaTensorflowModel
+
+  type XlmRoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings
+  object XlmRoBertaEmbeddings extends ReadablePretrainedXlmRobertaModel with ReadXlmRobertaTensorflowModel
 
 }
