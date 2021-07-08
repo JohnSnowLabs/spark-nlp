@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps phenotypic abnormalities encountered in human diseases to Human Phenotype Ontology (HPO) codes.
+This model maps phenotypic abnormalities encountered in human diseases to Human Phenotype Ontology (HPO) codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
 
 ## Predicted Entities
 

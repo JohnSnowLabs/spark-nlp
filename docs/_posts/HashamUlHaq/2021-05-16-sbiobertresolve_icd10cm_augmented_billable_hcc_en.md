@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to ICD10-CM codes using chunk embeddings (augmented with synonyms, four times richer than previous resolver). It also adds support of 7-digit codes with HCC status.For reference: http://www.formativhealth.com/wp-content/uploads/2018/06/HCC-White-Paper.pdf
+This model maps extracted medical entities to ICD10-CM codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings, (augmented with synonyms, four times richer than previous resolver). It also adds support of 7-digit codes with HCC status.For reference: http://www.formativhealth.com/wp-content/uploads/2018/06/HCC-White-Paper.pdf
 
 ## Predicted Entities
 

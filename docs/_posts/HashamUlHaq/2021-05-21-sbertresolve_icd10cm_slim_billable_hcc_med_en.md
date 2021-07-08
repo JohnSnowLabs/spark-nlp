@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to ICD10-CM codes using sentence embeddings. This model has been augmented with synonyms and synonyms having low cosine similarity are dropped. It utilises fine-tunes Sentence Bert Model `sbert_jsl_medium_uncased`
+This model maps extracted medical entities to ICD10-CM codes using sentence embeddings. This model has been augmented with synonyms, and synonyms having low cosine similarity are dropped, making the model slim. It utilises fine-tuned `sbert_jsl_medium_uncased` Sentence Bert Model.
 
 ## Predicted Entities
 

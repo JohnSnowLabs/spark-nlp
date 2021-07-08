@@ -17,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to RxNorm codes using chunk embeddings.
+This model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
 
 ## Predicted Entities
 
-RxNorm Codes and their normalized definition with ``sbiobert_base_cased_mli`` embeddings.
+Predicts RxNorm Codes and their normalized definition for each chunk.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}

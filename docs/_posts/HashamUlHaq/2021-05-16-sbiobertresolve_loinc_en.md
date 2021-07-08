@@ -17,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Map clinical NER entities to LOINC codes.
+This model maps clinical entities and concepts (lab results) to LOINC codes codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
 
 ## Predicted Entities
 
-LOINC codes - per input NER entity
+Predicts LOINC Codes and their normalized definition for each chunk.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}

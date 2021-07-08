@@ -17,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to ICD10-PCS codes using chunk embeddings.
+This model maps extracted medical entities to ICD10-PCS codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
 
 ## Predicted Entities
 
-ICD10-PCS Codes and their normalized definition with ``sbiobert_base_cased_mli`` embeddings.
+Predicts ICD10-PCS Codes and their normalized definitions.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}

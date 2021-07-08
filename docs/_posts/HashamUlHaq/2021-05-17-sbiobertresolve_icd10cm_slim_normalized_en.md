@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps clinical entities and concepts to ICD10 CM codes using sentence biobert embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped . It also returns the official resolution text within the brackets inside the metadata
+This model maps clinical entities and concepts to ICD10 CM codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. In this model, synonyms having low cosine similarity to unnormalized terms are dropped, making the model slim. It also returns the official resolution text within the brackets inside the metadata
 
 ## Predicted Entities
 

@@ -17,11 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to Snomed codes (INT version) using chunk embeddings.
+This model maps clinical entities and concepts to Snomed codes (INT version) codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
+
 
 ## Predicted Entities
 
-Snomed Codes and their normalized definition with ``sbiobert_base_cased_mli`` embeddings.
+Predicts Snomed Codes and their normalized definition for each chunk.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
