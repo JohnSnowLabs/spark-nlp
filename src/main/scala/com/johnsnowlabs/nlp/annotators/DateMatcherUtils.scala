@@ -230,8 +230,9 @@ trait DateMatcherUtils extends Params {
     * ToDo: Support relative dates from input date
     */
   protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    .addRule(relativeDateFuture, "relative dates in the future")
+    // order is relevant for some languages, i.e. in german where "ago"(past) and "in"(future) coexist in the sentence
     .addRule(relativeDatePast, "relative dates in the past")
+    .addRule(relativeDateFuture, "relative dates in the future")
     .addRule(relativeDate, "relative dates")
 
   /** Searches for relative informal dates such as today or the day after tomorrow */
