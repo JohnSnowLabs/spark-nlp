@@ -433,7 +433,7 @@
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
 
-<span class="n">snomed_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbertresolve_snomed_bodyStructure_med, "</span><span class="n">en</span><span class="s">", "</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="p">)</span> \
+<span class="n">snomed_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbertresolve_snomed_bodyStructure_med"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"snomed_code"</span><span class="p">)</span>
 
@@ -454,7 +454,7 @@
      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])\</span>
      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">snomed_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbertresolve_snomed_bodyStructure_med, "</span><span class="n">en</span><span class="s">", "</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">)</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">snomed_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbertresolve_snomed_bodyStructure_med"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sbert_embeddings</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"snomed_code"</span><span class="o">)</span>
 
