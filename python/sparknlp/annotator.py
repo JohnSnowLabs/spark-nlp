@@ -981,7 +981,7 @@ class PerceptronApproach(AnnotatorApproach):
             nIterations=5
         )
 
-    def setPosCol(self, value):
+    def setPosColumn(self, value):
         return self._set(posCol=value)
 
     def setIterations(self, value):
@@ -1553,6 +1553,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
 
+    includeAllConfidenceScores = Param(Params._dummy(), "includeAllConfidenceScores",
+                                       "whether to include all confidence scores in annotation metadata or just the score of the predicted tag",
+                                       TypeConverters.toBoolean)
+
     enableOutputLogs = Param(Params._dummy(), "enableOutputLogs",
                              "Whether to use stdout in addition to Spark logs.",
                              TypeConverters.toBoolean)
@@ -1605,6 +1609,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
 
+    def setIncludeAllConfidenceScores(self, value):
+        return self._set(includeAllConfidenceScores=value)
+
     def setEnableOutputLogs(self, value):
         return self._set(enableOutputLogs=value)
 
@@ -1630,6 +1637,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             validationSplit=float(0.0),
             evaluationLogExtended=False,
             includeConfidence=False,
+            includeAllConfidenceScores=False,
             enableOutputLogs=False,
             enableMemoryOptimizer=False
         )
@@ -1645,6 +1653,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         )
         self._setDefault(
             includeConfidence=False,
+            includeAllConfidenceScores=False,
             batchSize=8
         )
 
@@ -1652,6 +1661,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
+    includeAllConfidenceScores = Param(Params._dummy(), "includeAllConfidenceScores",
+                                       "whether to include all confidence scores in annotation metadata or just the score of the predicted tag",
+                                       TypeConverters.toBoolean)
     classes = Param(Params._dummy(), "classes",
                     "get the tags used to trained this NerDLModel",
                     TypeConverters.toListString)
@@ -1661,6 +1673,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
     def setIncludeConfidence(self, value):
         return self._set(includeConfidence=value)
+
+    def setIncludeAllConfidenceScores(self, value):
+        return self._set(includeAllConfidenceScores=value)
 
     @staticmethod
     def pretrained(name="ner_dl", lang="en", remote_loc=None):
@@ -2428,14 +2443,13 @@ class AlbertEmbeddings(AnnotatorModel,
         return ResourceDownloader.downloadModel(AlbertEmbeddings, name, lang, remote_loc)
 
 
-class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+class XlnetEmbeddings(AnnotatorModel,
+                      HasEmbeddingsProperties,
+                      HasCaseSensitiveProperties,
+                      HasStorageRef,
+                      HasBatchedAnnotate):
 
     name = "XlnetEmbeddings"
-
-    batchSize = Param(Params._dummy(),
-                      "batchSize",
-                      "Batch size. Large values allows faster processing but requires more memory.",
-                      typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -2450,9 +2464,6 @@ class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
     def setConfigProtoBytes(self, b):
         return self._set(configProtoBytes=b)
 
-    def setBatchSize(self, value):
-        return self._set(batchSize=value)
-
     def setMaxSentenceLength(self, value):
         return self._set(maxSentenceLength=value)
 
@@ -2463,9 +2474,10 @@ class XlnetEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
             java_model=java_model
         )
         self._setDefault(
-            batchSize=32,
+            batchSize=8,
             dimension=768,
-            maxSentenceLength=128
+            maxSentenceLength=128,
+            caseSensitive=True
         )
 
     @staticmethod
@@ -2585,7 +2597,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     def setEpochs(self, count):
         return self._set(epochs=count)
 
-    def setInitialBatchSize(self, size):
+    def setBatchSize(self, size):
         return self._set(batchSize=size)
 
     def setInitialRate(self, rate):
@@ -3210,10 +3222,10 @@ class WordSegmenterApproach(AnnotatorApproach):
             nIterations=5, frequencyThreshold=5, ambiguityThreshold=0.97
         )
 
-    def setPosCol(self, value):
+    def setPosColumn(self, value):
         return self._set(posCol=value)
 
-    def setIterations(self, value):
+    def setNIterations(self, value):
         return self._set(nIterations=value)
 
     def setFrequencyThreshold(self, value):

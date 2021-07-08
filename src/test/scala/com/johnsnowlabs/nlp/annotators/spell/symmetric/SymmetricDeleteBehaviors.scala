@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
@@ -11,7 +28,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import org.scalatest._
 
 
-trait SymmetricDeleteBehaviors { this: FlatSpec =>
+trait SymmetricDeleteBehaviors {
+  this: FlatSpec =>
 
   private val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   private val predictionDataSet = ContentProvider.parquetData.limit(500)
@@ -63,21 +81,21 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     pipeline.fit(emptyDataSet).transform(corpusDataSet)
   }
 
-  def testSimpleCheck(wordAnswer: Seq[(String, String)]): Unit ={
-     it should "successfully correct a misspell" taggedAs FastTest in {
-       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
-       val spellChecker = new SymmetricDeleteApproach()
-         .setInputCols("token")
-         .setOutputCol("spell")
-         .fit(trainDataSet)
-       val misspell = wordAnswer.head._1
+  def testSimpleCheck(wordAnswer: Seq[(String, String)]): Unit = {
+    it should "successfully correct a misspell" taggedAs FastTest in {
+      val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
+      val spellChecker = new SymmetricDeleteApproach()
+        .setInputCols("token")
+        .setOutputCol("spell")
+        .fit(trainDataSet)
+      val misspell = wordAnswer.head._1
 
       val correction = spellChecker.checkSpellWord(misspell)
       assert(correction._1 == wordAnswer.head._2)
     }
   }
 
-  def testSeveralChecks(wordAnswer:  Seq[(String, String)]): Unit = {
+  def testSeveralChecks(wordAnswer: Seq[(String, String)]): Unit = {
     s"symspell checker " should s"successfully correct several misspells" taggedAs FastTest in {
 
       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
@@ -86,7 +104,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         .setOutputCol("spell")
         .fit(trainDataSet)
 
-      wordAnswer.foreach( wa => {
+      wordAnswer.foreach(wa => {
         val misspell = wa._1
         val correction = spellChecker.checkSpellWord(misspell)
         assert(correction._1 == wa._2)
@@ -127,7 +145,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         ))
 
       val model = pipeline.fit(trainDataSet)
-      
+
       assert(model.transform(predictionDataSet).isInstanceOf[DataFrame])
     }
   }
@@ -163,11 +181,11 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
         var correctedData = model.transform(predictionDataSet)
         correctedData = correctedData.withColumn("prediction",
           when(col("word") === col("finished_spell"), 1).otherwise(0))
-        val rightCorrections = correctedData.filter(col("prediction")===1).count()
-        val wrongCorrections = correctedData.filter(col("prediction")===0).count()
+        val rightCorrections = correctedData.filter(col("prediction") === 1).count()
+        val wrongCorrections = correctedData.filter(col("prediction") === 0).count()
         printf("Right Corrections: %d \n", rightCorrections)
         printf("Wrong Corrections: %d \n", wrongCorrections)
-        val accuracy = rightCorrections.toFloat/(rightCorrections+wrongCorrections).toFloat
+        val accuracy = rightCorrections.toFloat / (rightCorrections + wrongCorrections).toFloat
         printf("Accuracy: %f\n", accuracy)
       }
     }
@@ -200,23 +218,23 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   def testEmptyDataset(): Unit = {
     it should "rise an error message" taggedAs FastTest in {
 
-    val spell = new SymmetricDeleteApproach()
-      .setInputCols(Array("token"))
-      .setDictionary("src/test/resources/spell/words.txt")
-      .setOutputCol("spell")
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols(Array("token"))
+        .setDictionary("src/test/resources/spell/words.txt")
+        .setOutputCol("spell")
 
-    val finisher = new Finisher()
-      .setInputCols("spell")
-      .setOutputAsArray(false)
-      .setIncludeMetadata(false)
+      val finisher = new Finisher()
+        .setInputCols("spell")
+        .setOutputAsArray(false)
+        .setIncludeMetadata(false)
 
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        spell,
-        finisher
-      ))
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          spell,
+          finisher
+        ))
 
       import SparkAccessor.spark.implicits._
 
@@ -278,11 +296,11 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
 
     val predictionDataSet = words.toDF("text")
     val model = pipeline.fit(trainDataSet)
-    model.transform(predictionDataSet).select("spell").show(1,false)
+    model.transform(predictionDataSet).select("spell").show(1, false)
   }
 
   def trainSpellCheckerModelFromFit(): Unit = {
-    "" should "trained a model from fit when dataset with array annotation is used"  in {
+    "" should "trained a model from fit when dataset with array annotation is used" in {
       val trainDataSet = getTrainDataSet("src/test/resources/spell/sherlockholmes.txt")
 
       val spell = new SymmetricDeleteApproach()
@@ -298,7 +316,7 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
   }
 
   def raiseErrorWhenWrongColumnIsSent(): Unit = {
-    "" should "raise an error when dataset without array annotation is used"  in {
+    "" should "raise an error when dataset without array annotation is used" in {
       val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
       val expectedErrorMessage = "Train dataset must have an array annotation type column"
       val spell = new SymmetricDeleteApproach()
@@ -314,4 +332,31 @@ trait SymmetricDeleteBehaviors { this: FlatSpec =>
     }
   }
 
+  def testTrainUniqueWordsOnly(): Unit = {
+    "Using a corpus with only unique words" should "successfully correct words" taggedAs FastTest in {
+
+      val spell = new SymmetricDeleteApproach()
+        .setInputCols("token")
+        .setOutputCol("spell")
+        .setDictionary("src/test/resources/spell/words.txt")
+
+      val finisher = new Finisher()
+        .setInputCols("spell")
+
+      val pipeline = new Pipeline()
+        .setStages(Array(
+          documentAssembler,
+          tokenizer,
+          spell,
+          finisher
+        ))
+
+      val uniqueWordsTrain = Seq("Only unique words.").toDF("text")
+      val model = pipeline.fit(uniqueWordsTrain)
+
+      val result = model.transform(predictionDataSet)
+      assert(result.isInstanceOf[DataFrame])
+      result.select("finished_spell").show(false)
+    }
+  }
 }

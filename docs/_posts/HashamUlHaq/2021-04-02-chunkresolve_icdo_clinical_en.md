@@ -17,7 +17,10 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
+Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance to map medical entities to ICD-O codes.
+
+Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding `Morphology` codes comprising of `Histology` and `Behavior` codes.
+
 
 ## Predicted Entities
 

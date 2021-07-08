@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to ICD-O codes using chunk embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
+This model maps extracted medical entities to ICD-O codes (Topography & Morphology codes) using BioBert Sentence Embeddings.
+
+Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-O codes to present more granularity with respect to body parts mentioned. It also returns the original `Topography` codes, `Morphology` codes comprising of `Histology` and `Behavior` codes, and descriptions in the aux metadata.
 
 ## Predicted Entities
 
