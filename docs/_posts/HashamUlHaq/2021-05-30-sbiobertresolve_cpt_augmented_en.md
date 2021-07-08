@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to CPT codes using Sentence Bert Embeddings.
+This model maps extracted medical entities to CPT codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. This model is enriched with augmented data for better performance.
 
 ## Predicted Entities
 
