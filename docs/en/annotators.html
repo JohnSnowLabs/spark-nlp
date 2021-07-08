@@ -5590,7 +5590,7 @@ For usage and examples see the documentation of the main class.</p>
 
     <p>Uses a reference file to match a set of regular expressions and associate them with a provided identifier.</p>
 
-    <p>A dictionary of predefined regular expressions must be provided with <code class="language-plaintext highlighter-rouge">setRules</code>.
+    <p>A dictionary of predefined regular expressions must be provided with <code class="language-plaintext highlighter-rouge">setExternalRules</code>.
 The dictionary can be set as a delimited text file.</p>
 
     <p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
@@ -5677,7 +5677,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">regexMatcher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RegexMatcher</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setRules</span><span class="o">(</span><span class="s">"src/test/resources/regex-matcher/rules.txt"</span><span class="o">,</span>  <span class="s">","</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setExternalRules</span><span class="o">(</span><span class="s">"src/test/resources/regex-matcher/rules.txt"</span><span class="o">,</span>  <span class="s">","</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"regex"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setStrategy</span><span class="o">(</span><span class="s">"MATCH_ALL"</span><span class="o">)</span>

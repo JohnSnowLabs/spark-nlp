@@ -1,2 +1,4 @@
-docs/_posts/muhammetsnts/2021-06-15-sbertresolve_snomed_bodyStructure_med_en.md
-docs/_posts/muhammetsnts/2021-06-15-sbertresolve_snomed_bodyStructure_med_en.md
+docs/en/annotator_entries/RegexMatcher.md
+src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcher.scala
+docs/en/annotator_entries/RegexMatcher.md
+src/main/scala/com/johnsnowlabs/nlp/annotators/RegexMatcher.scala
