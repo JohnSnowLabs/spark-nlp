@@ -26,7 +26,7 @@ CHUNK
 {%- capture approach_description -%}
 Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
 
-A dictionary of predefined regular expressions must be provided with `setRules`.
+A dictionary of predefined regular expressions must be provided with `setExternalRules`.
 The dictionary can be set as a delimited text file.
 
 Pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
@@ -102,7 +102,7 @@ val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol
 val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
 
 val regexMatcher = new RegexMatcher()
-  .setRules("src/test/resources/regex-matcher/rules.txt",  ",")
+  .setExternalRules("src/test/resources/regex-matcher/rules.txt",  ",")
   .setInputCols(Array("sentence"))
   .setOutputCol("regex")
   .setStrategy("MATCH_ALL")
