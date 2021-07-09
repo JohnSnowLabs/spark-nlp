@@ -50,7 +50,7 @@ trait DateMatcherUtils extends Params {
 
   /** Relative dates, e.g. tomorrow */
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
-  private val relativeDateFuture = "(?i)(in)\\s+(\\d+)\\s+(second|seconds|minute|minutes|day|days|week|weeks|month|months|year|years)".r
+  private val relativeDateFuture = "(?i)(in)\\s+(\\d+)\\s+(second|seconds|minute|minutes|hour|hours|day|days|week|weeks|month|months|year|years)".r
   private val relativeDatePast = "(?i)(\\d+)\\s+(day|days|week|month|year|weeks|months|years)\\s+(ago)".r
   private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before yesterday|day after tomorrow|day before|day after)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
@@ -230,10 +230,13 @@ trait DateMatcherUtils extends Params {
     * ToDo: Support relative dates from input date
     */
   protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
-    // order is relevant for some languages, i.e. in german where "ago"(past) and "in"(future) coexist in the sentence
-    .addRule(relativeDatePast, "relative dates in the past")
-    .addRule(relativeDateFuture, "relative dates in the future")
     .addRule(relativeDate, "relative dates")
+
+  protected val relativePastFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeDatePast, "relative dates in the past")
+
+  protected val relativeFutureFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+    .addRule(relativeDateFuture, "relative dates in the future")
 
   /** Searches for relative informal dates such as today or the day after tomorrow */
   protected val tyFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
@@ -296,6 +299,7 @@ trait DateMatcherUtils extends Params {
     val amount = relativeDateFuture.group(2).toInt
 
     relativeDateFuture.group(3) match {
+      case "hour" | "hours" => calendar.add(Calendar.HOUR_OF_DAY, amount)
       case "day" | "days" => calendar.add(Calendar.DAY_OF_MONTH, amount)
       case "week" | "weeks" => calendar.add(Calendar.WEEK_OF_MONTH, amount)
       case "month" | "months" => calendar.add(Calendar.MONTH, amount)

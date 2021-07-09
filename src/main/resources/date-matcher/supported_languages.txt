@@ -31,7 +31,7 @@
 #cy
 #da
 #dav
-#de
+de
 #dje
 #dsb
 #dua
@@ -40,9 +40,9 @@
 #ebu
 #ee
 #el
-#en
+en
 #eo
-#es
+es
 #et
 #eu
 #ewo

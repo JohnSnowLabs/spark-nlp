@@ -201,7 +201,8 @@
     "in #K# hour": [
         "dentro de #V# h",
         "dentro de #V# hora",
-        "dentro de #V# horas"
+        "dentro de #V# horas",
+        "en #V# horas"
     ],
     "in #K# minute": [
         "dentro de #V# min",

@@ -950,7 +950,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
       .setInputCols("document")
       .setOutputCol("date")
       .setFormat(DateFormat)
-      .setSourceLanguage("fr")
+      .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
 

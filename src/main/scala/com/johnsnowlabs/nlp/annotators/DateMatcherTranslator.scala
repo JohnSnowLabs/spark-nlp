@@ -93,9 +93,10 @@ object DateMatcherTranslator extends Serializable {
     }
   }
 
-  def stringValuesToRegexes(regexValuesIntersection: Set[String]): Set[Regex] = {
+  def stringValuesToRegexes(regexValuesIntersection: Set[String], sourceLanguage: String): Set[Regex] = {
     val res = regexValuesIntersection
       .map(_.replaceAll(ValuePlaceholder, DigitsPattern))
+      .filterNot(_.equals(sourceLanguage))
       .map(_.toLowerCase)
       .map(s => s.r)
     res
@@ -105,11 +106,11 @@ object DateMatcherTranslator extends Serializable {
     * Search for language matches token by token.
     *
     * @param text: the text to process for matching.
-    * @param language: the 2 characters string identifying a supported language.
+    * @param sourceLanguage: the 2 characters string identifying a supported language.
     * @return a tuple representing language matches information, i.e. (language, Set(matches))
     * */
-  private def searchForLanguageMatches(text: String, language: String) = {
-    val dictionary: Map[String, Any] = loadDictionary(language)
+  private def searchForLanguageMatches(text: String, sourceLanguage: String) = {
+    val dictionary: Map[String, Any] = loadDictionary(sourceLanguage)
 
     // contains all the retrieved values
     val candidates = dictionary
@@ -118,7 +119,7 @@ object DateMatcherTranslator extends Serializable {
       .toSet
 
     val tokenMatches = findTokenMatches(text, candidates)
-    val sentenceMatches = findSentenceMatches(text, candidates)
+    val sentenceMatches = findSentenceMatches(text, candidates, sourceLanguage)
     val matches = tokenMatches.union(sentenceMatches.map(_._2.toString))
 
     // skipping single character matches
@@ -136,9 +137,9 @@ object DateMatcherTranslator extends Serializable {
     matchingLanguages
   }
 
-  private def findSentenceMatches(text: String, dictionaryValues: Set[String]) = {
+  private def findSentenceMatches(text: String, dictionaryValues: Set[String], sourceLanguage: String) = {
 
-    val regexes = stringValuesToRegexes(dictionaryValues)
+    val regexes = stringValuesToRegexes(dictionaryValues, sourceLanguage)
 
     val sentenceMatches =
       for (regex <- regexes;
