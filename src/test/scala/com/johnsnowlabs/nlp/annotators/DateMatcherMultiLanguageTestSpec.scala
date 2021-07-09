@@ -1340,227 +1340,227 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
-//  "a DateMatcher" should "be catching relative unformatted spanish language dates weekly" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("Llegué a España hace 2 semanas.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.minusWeeks(2L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative unformatted spanish language dates daily" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("Llegué a España hace 2 días.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.minusDays(2L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative unformatted spanish language future dates yearly" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("El año que viene volveré a España.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.plusYears(1L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative unformatted spanish language future dates monthly" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("El mes que viene volveré a España.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.plusMonths(1L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative unformatted spanish language future dates weekly" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("La semana que viene me voy a España.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.plusWeeks(1L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative unformatted spanish language future dates daily" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("Mañana me voy a España.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.plusDays(1L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative numeric date in spanish language daily" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("Visitaré España en 4 días.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDate = LocalDate.now.plusDays(4L)
-//    val formatter = DateTimeFormatter.ofPattern(DateFormat)
-//    val formattedDateString = localDate.format(formatter)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
-//
-//  "a DateMatcher" should "be catching relative numeric date in spanish language hourly" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild("Visitaré España en 4 horas.")
-//
-//    val DateFormat = "MM/dd/yyyy"
-//
-//    val dateMatcher = new DateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat(DateFormat)
-//      .setSourceLanguage("es")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    val localDateTime = LocalDateTime.now.plusHours(4)
-//    val formatter = DateTimeFormat.forPattern(DateFormat)
-//    val formattedDateString = formatter.print(localDateTime)
-//
-//    assert(annotations.head.result == formattedDateString)
-//  }
+  "a DateMatcher" should "be catching relative unformatted german language dates weekly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Ich bin vor 2 wochen in Deutschland angekommen.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.minusWeeks(2L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative unformatted german language dates daily" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Ich bin vor 2 tagen in Deutschland angekommen.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.minusDays(2L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative unformatted german language future dates yearly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Nächstes jahr fahre ich nach Deutschland.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusYears(1L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative unformatted german language future dates monthly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Nächsten monat fahre ich nach Deutschland.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusMonths(1L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative unformatted german language future dates weekly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Nächste woche fahre ich nach Deutschland.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusWeeks(1L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative unformatted german language future dates daily" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Morgen fahre ich nach Deutschland.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusDays(1L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative numeric date in german language daily" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Ich werde Deutschland in 4 tagen besuchen.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDate = LocalDate.now.plusDays(4L)
+    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formattedDateString = localDate.format(formatter)
+
+    assert(annotations.head.result == formattedDateString)
+  }
+
+  "a DateMatcher" should "be catching relative numeric date in german language hourly" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Ich werde Deutschland in 4 stunden besuchen.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDateTime = LocalDateTime.now.plusHours(4)
+    val formatter = DateTimeFormat.forPattern(DateFormat)
+    val formattedDateString = formatter.print(localDateTime)
+
+    assert(annotations.head.result == formattedDateString)
+  }
 }
