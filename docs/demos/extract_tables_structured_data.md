@@ -59,5 +59,33 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/
           - text: Colab Netbook
             type: blue_btn
-            url:      
+            url:   
+        - title: Classify visual documents
+          id: classify_visual_documents
+          image: 
+              src: /assets/images/Classify_visual_documents.svg
+          image2: 
+              src: /assets/images/Classify_visual_documents_f.svg
+          excerpt: Classify documents using text and layout data
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/CLASSIFY_DOCUMENT/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb
+        - title: Detect tables in documents
+          id: detect_tables_in_documents
+          image: 
+              src: /assets/images/Detect_tables_in_documents.svg
+          image2: 
+              src: /assets/images/Detect_tables_in_documents_f.svg
+          excerpt: Detect tables on the image by a pretrained model based on CascadeTabNet.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/TABLE_DETECTION/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
 ---
