@@ -143,12 +143,12 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
         text
 
     val possibleDate = extractFormalDate(_text)
+      .orElse(extractRelativeDatePast(_text))
       .orElse(extractRelativeDateFuture(_text))
       .orElse(extractRelaxedDate(_text))
       .orElse(extractRelativeDate(_text))
       .orElse(extractTomorrowYesterday(_text))
       .orElse(extractRelativeExactDay(_text))
-      .orElse(extractRelativeDatePast(_text))
 
     possibleDate.orElse(setTimeIfAny(possibleDate, _text))
   }
@@ -200,15 +200,15 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   private def extractRelativeDateFuture(text: String): Option[MatchedDateTime] = {
     if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
-      relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
+      relativeFutureFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDateFutureContentParse(possibleDate))
     else
       None
   }
 
   private def extractRelativeDatePast(text: String): Option[MatchedDateTime] = {
-    if(text.contains(relativePastPattern))
-      relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
+    if(!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
+      relativePastFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDatePastContentParse(possibleDate)
       )
     else
@@ -217,7 +217,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
-    if(!text.contains(relativePastPattern))
+    if(!"in\\s+[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
       relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDateContentParse(possibleDate)
       )
