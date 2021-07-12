@@ -10,8 +10,8 @@ import scala.util.matching.Regex
 
 object DateMatcherTranslator extends Serializable {
 
-  val SupportedLanguagesFilePath = "src/main/resources/date-matcher/supported_languages.txt"
-  val TranslationDataBaseDir = "src/main/resources/date-matcher/translation-dictionaries/dynamic/"
+  val SupportedLanguagesFilePath = "/date-matcher/supported_languages.txt"
+  val TranslationDataBaseDir = "/date-matcher/translation-dictionaries/dynamic/"
 
   val JsonSuffix = ".json"
   val Encoding = "utf-8"
@@ -39,7 +39,7 @@ object DateMatcherTranslator extends Serializable {
 
     var jsonString = EmptyStr;
     try{
-      jsonString = Source.fromFile(DictionaryPath).mkString
+      jsonString = Source.fromInputStream(getClass.getResourceAsStream(DictionaryPath)).mkString
     } catch {
       case e: FileNotFoundException => throw new Exception(s"Couldn't find $language file in repository.")
       case e: IOException => throw new Exception("Got an IOException!")
@@ -67,9 +67,9 @@ object DateMatcherTranslator extends Serializable {
     * */
   def _processSourceLanguageInfo(text: String, sourceLanguage: String) = {
     val supportedLanguages =
-      scala.io.Source
-        .fromFile(SupportedLanguagesFilePath, Encoding)
-        .getLines.toList
+      Source.fromInputStream(getClass.getResourceAsStream(SupportedLanguagesFilePath))
+        .getLines()
+        .toList
 
     if(!sourceLanguage.isEmpty) {
       val actualLanguage = List(sourceLanguage)
