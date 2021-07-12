@@ -13,6 +13,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+"""Contains all the basic components to create a Spark NLP Pipeline.
+
+Notes
+-----
+This module contains extensions to the Spark Pipeline interface in the form of
+the :class:`LightPipeline` and :class:`RecursivePipeline` which offer additional
+functionality.
+"""
+
 from abc import ABC
 
 from pyspark import keyword_only
@@ -28,6 +37,19 @@ import sparknlp.internal as _internal
 
 class LightPipeline:
     def __init__(self, pipelineModel, parse_embeddings=False):
+        """Creates a LightPipeline from a Spark PipelineModel.
+
+        LightPipelines are Spark ML pipelines converted into a single machine but the multi-threaded task,
+        becoming more than 10x times faster for smaller amounts of data (small is relative, but 50k
+        sentences are roughly a good maximum). They have the same interface as regular PipelineModels.
+
+        Parameters
+        ----------
+        pipelineModel : PipelineModel
+            The PipelineModel containing Spark NLP Annotators
+        parse_embeddings : bool, optional
+            Whether to prase embeddings, by default False
+        """
         self.pipeline_model = pipelineModel
         self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 

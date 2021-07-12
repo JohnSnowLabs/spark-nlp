@@ -32,7 +32,6 @@ pyspark_version = "3.0.2"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.mathjax",
     "sphinx.ext.autosummary",
@@ -41,9 +40,13 @@ extensions = [
     "sphinx-prompt",
     "sphinx_toggleprompt",
     # "sphinx_copybutton", # TODO
-    "sphinx_substitution_extensions"
+    "sphinx_substitution_extensions",
+    "sphinx.ext.intersphinx",
 ]
 
+intersphinx_mapping = {
+    "spark": ("https://spark.apache.org/docs/latest/api/python/", None),
+}
 # plotly plot directive
 # plotly_include_source = True
 # plotly_html_show_formats = False
@@ -63,7 +66,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 html_logo = "resources/logo.png"
-
+html_favicon = "resources/fav.ico"
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -83,7 +86,7 @@ html_static_path = ["_static"]
 autodoc_docstring_signature = True
 autosummary_generate = True
 numpydoc_show_class_members = False  # Or add Method section in doc strings? https://stackoverflow.com/questions/65198998/sphinx-warning-autosummary-stub-file-not-found-for-the-methods-of-the-class-c
-
+autoclass_content = "both"  # use init as doc
 
 # -- More Configutration -----------------------------------------------------
 

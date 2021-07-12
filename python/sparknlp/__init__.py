@@ -59,7 +59,44 @@ embeddings = annotator
 
 
 def start(gpu=False, spark23=False, spark24=False, memory="16G", real_time_output=False, output_level=1):
+    """Starts a PySpark instance with default parameters for Spark NLP.
 
+    The default parameters would result in the equivalent of:
+
+    .. code-block:: python
+        :substitutions:
+
+        SparkSession.builder \\
+            .appName("Spark NLP") \\
+            .master("local[*]") \\
+            .config("spark.driver.memory", "16G") \\
+            .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \\
+            .config("spark.kryoserializer.buffer.max", "2000M") \\
+            .config("spark.driver.maxResultSize", "0") \\
+            .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:|release|") \\
+            .getOrCreate()
+
+    Parameters
+    ----------
+    gpu : bool, optional
+        Whether to enable GPU acceleration (must be set up correctly), by default False
+    spark23 : bool, optional
+        Whether to use the Spark 2.3.x version of Spark NLP, by default False
+    spark24 : bool, optional
+        Whether to use the Spark 2.4.x version of Spark NLP, by default False
+    memory : str, optional
+        How much memory to allocate for the Spark driver, by default "16G"
+    real_time_output : bool, optional
+        Whether to ouput in real time, by default False
+    output_level : int, optional
+        Output level for logs, by default 1
+
+    Returns
+    -------
+    :class:`SparkSession`
+        The initiated Spark session.
+
+    """
     current_version = "3.1.2"
 
     class SparkNLPConfig:
@@ -190,4 +227,11 @@ def start(gpu=False, spark23=False, spark24=False, memory="16G", real_time_outpu
 
 
 def version():
-    return '3.1.2'
+    """Returns the current Spark NLP version.
+
+    Returns
+    -------
+    str
+        The current Spark NLP version.
+    """
+    return '3.1.1'
