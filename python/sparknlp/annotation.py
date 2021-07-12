@@ -13,12 +13,35 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+"""Contains the Annotation data format
+"""
+
 from pyspark.sql.types import *
 
 
 class Annotation:
 
     def __init__(self, annotator_type, begin, end, result, metadata, embeddings):
+        """Represents the output of Spark NLP Annotators and their details
+
+        Parameters
+        ----------
+        annotator_type : str
+            The type of the output of the annotator.
+            Possible values are ``DOCUMENT, TOKEN, WORDPIECE,
+            WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, ENTITY, SENTIMENT, POS, CHUNK, NAMED_ENTITY,
+            NEGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, KEYWORD, DUMMY``.
+        begin : int
+            The index of the first character under this annotation.
+        end : int
+            The index of the last character under this annotation.
+        result : str
+            The resulting string of the annotation.
+        metadata : dict
+            Associated metadata for this annotation
+        embeddings : list
+            Embeddings vector where applicable
+        """
         self.annotator_type = annotator_type
         self.begin = begin
         self.end = end
@@ -27,6 +50,18 @@ class Annotation:
         self.embeddings = embeddings
 
     def copy(self, result):
+        """Creates new Annotation with a different result, containing all settings of this Annotation.
+
+        Parameters
+        ----------
+        result : str
+            The result of the annotation that should be copied.
+
+        Returns
+        -------
+        Annotation
+            Newly created Annotation
+        """
         return Annotation(self.annotator_type, self.begin, self.end, result, self.metadata, self.embeddings)
 
     def __str__(self):
@@ -43,6 +78,13 @@ class Annotation:
 
     @staticmethod
     def dataType():
+        """Returns a Spark :class:`StructType`, that represents the schema of the Annotation.
+
+        Returns
+        -------
+        StructType
+            Spark Schema of the Annotation
+        """
         return StructType([
             StructField('annotatorType', StringType(), False),
             StructField('begin', IntegerType(), False),
@@ -54,14 +96,45 @@ class Annotation:
 
     @staticmethod
     def arrayType():
+        """Returns a Spark :class:`ArrayType`, that contains the :func:`dataType` of the annotation.
+
+        Returns
+        -------
+        ArrayType
+            ArrayType with the Annotation data type.
+        """
         return ArrayType(Annotation.dataType())
 
     @staticmethod
     def fromRow(row):
+        """Creates a Annotation from a Spark :class:`Row`.
+
+        Parameters
+        ----------
+        row : Row
+            Spark row containing columns for ``annotatorType, begin, end, result, metadata, embeddings``.
+
+        Returns
+        -------
+        Annotation
+            The new Annotation.
+        """
         return Annotation(row.annotatorType, row.begin, row.end, row.result, row.metadata, row.embeddings)
 
     @staticmethod
     def toRow(annotation):
+        """Transforms an Annotation to a Spark :class:`Row`.
+
+        Parameters
+        ----------
+        annotation : Annotation
+            The Annotation to be transformed.
+
+        Returns
+        -------
+        Row
+            The new Row.
+        """
         from pyspark.sql import Row
         return Row(annotation.annotator_type, annotation.begin, annotation.end, annotation.result, annotation.metadata, annotation.embeddings)
 

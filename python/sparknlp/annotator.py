@@ -13,6 +13,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+"""Module containing all available Annotators of Spark NLP.
+Each Annotator...
+
+"""
+
 import sys
 from sparknlp.common import *
 
@@ -53,7 +58,66 @@ seq2seq = sys.modules[__name__]
 ws = sys.modules[__name__]
 
 
+
 class RecursiveTokenizer(AnnotatorApproach):
+    """Tokenizes raw text recursively based on a handful of definable rules.
+
+    Unlike the Tokenizer, the RecursiveTokenizer operates based on these array string parameters only:
+     - ``prefixes``: Strings that will be split when found at the beginning of token.
+     - ``suffixes``: Strings that will be split when found at the end of token.
+     - ``infixes``: Strings that will be split when found at the middle of token.
+     - ``whitelist``: Whitelist of strings not to split
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__
+    and the `TokenizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = RecursiveTokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer
+        ])
+
+        data = spark.createDataFrame([["One, after the Other, (and) again. PO, QAM,"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("token.result").show(truncate=False)
+        +------------------------------------------------------------------+
+        |result                                                            |
+        +------------------------------------------------------------------+
+        |[One, ,, after, the, Other, ,, (, and, ), again, ., PO, ,, QAM, ,]|
+        +------------------------------------------------------------------+
+
+    """
     name = 'RecursiveTokenizer'
 
     prefixes = Param(Params._dummy(),
@@ -105,6 +169,22 @@ class RecursiveTokenizer(AnnotatorApproach):
 
 
 class RecursiveTokenizerModel(AnnotatorModel):
+    """Instantiated model of the RecursiveTokenizer.
+    For usage and examples see the documentation of the main class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = 'RecursiveTokenizerModel'
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RecursiveTokenizerModel", java_model=None):
@@ -115,6 +195,54 @@ class RecursiveTokenizerModel(AnnotatorModel):
 
 
 class Tokenizer(AnnotatorApproach):
+    """Tokenizes raw text in document type columns into TokenizedSentence .
+
+    This class represents a non fitted tokenizer. Fitting it will cause the internal RuleFactory to construct the rules for tokenizing from the input configuration.
+
+    Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
+
+    For extended examples of usage see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
+    and `Tokenizer test class <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala>`__
+
+    =================================================================================== ======================
+    Input Annotation types                                                              Output Annotation type
+    =================================================================================== ======================
+    ``DOCUMENT // A Tokenizer could require only for now a SentenceDetector annotator`` ``TOKEN``
+    =================================================================================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        data = spark.createDataFrame([["I'd like to say we didn't expect that. Jane's boyfriend."]]).toDF("text")
+        documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+        tokenizer = Tokenizer().setInputCols(["document"]).setOutputCol("token").fit(data)
+
+        pipeline = Pipeline().setStages([documentAssembler, tokenizer]).fit(data)
+        result = pipeline.transform(data)
+
+        result.selectExpr("token.result").show(truncate=False)
+        +-----------------------------------------------------------------------+
+        |output                                                                 |
+        +-----------------------------------------------------------------------+
+        |[I'd, like, to, say, we, didn't, expect, that, ., Jane's, boyfriend, .]|
+        +-----------------------------------------------------------------------+
+
+    """
 
     targetPattern = Param(Params._dummy(),
                           "targetPattern",
@@ -280,6 +408,25 @@ class Tokenizer(AnnotatorApproach):
 
 
 class TokenizerModel(AnnotatorModel):
+    """Tokenizes raw text into word pieces, tokens. Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
+
+    This class represents an already fitted Tokenizer model.
+
+    See the main class Tokenizer for more examples of usage.
+
+    ================================================================================== ======================
+    Input Annotation types                                                             Output Annotation type
+    ================================================================================== ======================
+    ``DOCUMENT //A Tokenizer could require only for now a SentenceDetector annotator`` ``TOKEN``
+    ================================================================================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = "TokenizerModel"
 
     exceptions = Param(Params._dummy(),
@@ -343,6 +490,60 @@ class TokenizerModel(AnnotatorModel):
 
 
 class RegexTokenizer(AnnotatorModel):
+    """A tokenizer that splits text by a regex pattern.
+
+    The pattern needs to be set with ``setPattern`` and this sets the delimiting pattern or how the tokens should be split.
+    By default this pattern is ``\s+`` which means that tokens should be split by 1 or more whitespace characters.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        regexTokenizer = RegexTokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("regexToken") \\
+            .setToLowercase(True) \\
+            .setPattern("\\s+")
+
+        pipeline = Pipeline().setStages([
+                documentAssembler,
+                regexTokenizer
+            ])
+
+        data = spark.createDataFrame([["This is my first sentence. This is my second."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("regexToken.result").show(truncate=False)
+        +-------------------------------------------------------+
+        |result                                                 |
+        +-------------------------------------------------------+
+        |[this, is, my, first, sentence., this, is, my, second.]|
+        +-------------------------------------------------------+
+
+    """
 
     name = "RegexTokenizer"
 
@@ -400,6 +601,80 @@ class RegexTokenizer(AnnotatorModel):
 
 
 class ChunkTokenizer(Tokenizer):
+    """Tokenizes and flattens extracted NER chunks.
+
+    The ChunkTokenizer will split the extracted NER ``CHUNK`` type Annotations and will create ``TOKEN`` type Annotations.
+    The result is then flattened, resulting in a single array.
+
+    For extended examples of usage, see the `ChunkTokenizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkTokenizerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``CHUNK``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentenceDetector = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        entityExtractor = TextMatcher() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.TEXT) \\
+            .setOutputCol("entity")
+
+        chunkTokenizer = ChunkTokenizer() \\
+            .setInputCols(["entity"]) \\
+            .setOutputCol("chunk_token")
+
+        pipeline = Pipeline().setStages([
+              documentAssembler,
+              sentenceDetector,
+              tokenizer,
+              entityExtractor,
+              chunkTokenizer
+            ])
+
+        data = spark.createDataFrame([[
+            "Hello world, my name is Michael, I am an artist and I work at Benezar",
+            "Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("entity.result as entity" , "chunk_token.result as chunk_token").show(truncate=False)
+        +-----------------------------------------------+---------------------------------------------------+
+        |entity                                         |chunk_token                                        |
+        +-----------------------------------------------+---------------------------------------------------+
+        |[world, Michael, work at Benezar]              |[world, Michael, work, at, Benezar]                |
+        |[engineer from Farendell, last year, last week]|[engineer, from, Farendell, last, year, last, week]|
+        +-----------------------------------------------+---------------------------------------------------+
+
+    """
     name = 'ChunkTokenizer'
 
     @keyword_only
@@ -411,6 +686,22 @@ class ChunkTokenizer(Tokenizer):
 
 
 class ChunkTokenizerModel(TokenizerModel):
+    """Instantiated model of the ChunkTokenizer.
+    For usage and examples see the documentation of the main class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``CHUNK``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = 'ChunkTokenizerModel'
 
     @keyword_only
@@ -422,6 +713,66 @@ class ChunkTokenizerModel(TokenizerModel):
 
 
 class Token2Chunk(AnnotatorModel):
+    """Converts ``TOKEN`` type Annotations to ``CHUNK`` type.
+
+    This can be useful if a entities have been already extracted as ``TOKEN`` and following annotators require ``CHUNK`` types.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        token2chunk = Token2Chunk() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("chunk")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            token2chunk
+        ])
+
+        data = spark.createDataFrame([["One Two Three Four"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(chunk) as result").show(truncate=False)
+        +------------------------------------------+
+        |result                                    |
+        +------------------------------------------+
+        |[chunk, 0, 2, One, [sentence -> 0], []]   |
+        |[chunk, 4, 6, Two, [sentence -> 0], []]   |
+        |[chunk, 8, 12, Three, [sentence -> 0], []]|
+        |[chunk, 14, 17, Four, [sentence -> 0], []]|
+        +------------------------------------------+
+
+    """
     name = "Token2Chunk"
 
     def __init__(self):
@@ -429,6 +780,62 @@ class Token2Chunk(AnnotatorModel):
 
 
 class Stemmer(AnnotatorModel):
+    """Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        stemmer = Stemmer() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("stem")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            stemmer
+        ])
+
+        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \\
+            .toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("stem.result").show(truncate = False)
+        +-------------------------------------------------------------+
+        |result                                                       |
+        +-------------------------------------------------------------+
+        |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
+        +-------------------------------------------------------------+
+
+    """
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
 
@@ -443,6 +850,100 @@ class Stemmer(AnnotatorModel):
 
 
 class Chunker(AnnotatorModel):
+    """This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.
+    Extracted part-of-speech tags are mapped onto the sentence, which can then be parsed by regular expressions.
+    The part-of-speech tags are wrapped by angle brackets ``<>`` to be easily distinguishable in the text itself.
+    This example sentence will result in the form:
+
+    .. code-block:: python
+
+        "Peter Pipers employees are picking pecks of pickled peppers."
+        "<NNP><NNP><NNS><VBP><VBG><NNS><IN><JJ><NNS><.>"
+
+
+    To then extract these tags, ``regexParsers`` need to be set with e.g.:
+
+    .. code-block:: python
+
+        chunker = Chunker() \\
+            .setInputCols(["sentence", "pos"]) \\
+            .setOutputCol("chunk") \\
+            .setRegexParsers(["<NNP>+", "<NNS>+"])
+
+
+    When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
+    ``"<NNP>+"`` means 1 or more nouns in succession. Additional patterns can also be set with ``addRegexParsers``.
+
+    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
+    and the  `ChunkerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, POS``      ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        POSTag = PerceptronModel.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("pos")
+
+        chunker = Chunker() \\
+            .setInputCols(["sentence", "pos"]) \\
+            .setOutputCol("chunk") \\
+            .setRegexParsers(["<NNP>+", "<NNS>+"])
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              sentence,
+              tokenizer,
+              POSTag,
+              chunker
+            ])
+
+        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(chunk) as result").show(truncate=False)
+        +-------------------------------------------------------------+
+        |result                                                       |
+        +-------------------------------------------------------------+
+        |[chunk, 0, 11, Peter Pipers, [sentence -> 0, chunk -> 0], []]|
+        |[chunk, 13, 21, employees, [sentence -> 0, chunk -> 1], []]  |
+        |[chunk, 35, 39, pecks, [sentence -> 0, chunk -> 2], []]      |
+        |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
+        +-------------------------------------------------------------+
+
+    """
 
     regexParsers = Param(Params._dummy(),
                          "regexParsers",
@@ -460,6 +961,77 @@ class Chunker(AnnotatorModel):
 
 
 class DocumentNormalizer(AnnotatorModel):
+    """Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.
+    Removes all dirty characters from text following one or more input regex patterns.
+    Can apply not wanted character removal with a specific policy.
+    Can apply lower case normalization.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        cleanUpPatterns = ["<[^>]>"]
+
+        documentNormalizer = DocumentNormalizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("normalizedDocument") \\
+            .setAction("clean") \\
+            .setPatterns(cleanUpPatterns) \\
+            .setReplacement(" ") \\
+            .setPolicy("pretty_all") \\
+            .setLowercase(True)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            documentNormalizer
+        ])
+
+        text =
+            \"\"\"
+        <div id="theworldsgreatest" class='my-right my-hide-small my-wide toptext' style="font-family:'Segoe UI',Arial,sans-serif">
+            THE WORLD'S LARGEST WEB DEVELOPER SITE
+            <h1 style="font-size:300%;">THE WORLD'S LARGEST WEB DEVELOPER SITE</h1>
+            <p style="font-size:160%;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum..</p>
+        </div>
+
+        </div>\"\"\"
+        data = spark.createDataFrame([[text]]).toDF("text")
+        pipelineModel = pipeline.fit(data)
+
+        result = pipelineModel.transform(data)
+        result.selectExpr("normalizedDocument.result").show(truncate=False)
+        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the 1960s with the release of letraset sheets containing lorem ipsum passages, and more recently with desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
+        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+    """
 
     action = Param(Params._dummy(),
                    "action",
@@ -523,6 +1095,66 @@ class DocumentNormalizer(AnnotatorModel):
 
 
 class Normalizer(AnnotatorApproach):
+    """Annotator that cleans out tokens. Requires stems, hence tokens.
+    Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        normalizer = Normalizer() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("normalized") \\
+            .setLowercase(True) \\
+            .setCleanupPatterns([\"\"\"[^\w\d\s]\"\"\"]) # remove punctuations (keep alphanumeric chars)
+        # if we don't set CleanupPatterns, it will only keep alphabet letters ([^A-Za-z])
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            normalizer
+        ])
+
+        data = spark.createDataFrame([["John and Peter are brothers. However they don't support each other that much."]]) \\
+            .toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("normalized.result").show(truncate = False)
+        +----------------------------------------------------------------------------------------+
+        |result                                                                                  |
+        +----------------------------------------------------------------------------------------+
+        |[john, and, peter, are, brothers, however, they, dont, support, each, other, that, much]|
+        +----------------------------------------------------------------------------------------+
+
+    """
 
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",
@@ -585,6 +1217,21 @@ class Normalizer(AnnotatorApproach):
 
 
 class NormalizerModel(AnnotatorModel):
+    """Instantiated Model of the Normalizer. For usage and examples, please see the documentation of that class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
 
     cleanupPatterns = Param(Params._dummy(),
                             "cleanupPatterns",
@@ -609,6 +1256,72 @@ class NormalizerModel(AnnotatorModel):
 
 
 class RegexMatcher(AnnotatorApproach):
+    """Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
+
+    A dictionary of predefined regular expressions must be provided with ``setExternalRules``.
+    The dictionary can be set in either in the form of a delimited text file or directly as an
+    ExternalResource.
+
+    Pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
+    and the `RegexMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the `rules.txt` has the form of
+        #
+        # the\s\w+, followed by 'the'
+        # ceremonies, ceremony
+        #
+        # where each regex is separated by the identifier by `","`
+
+        documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+
+        sentence = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+
+        regexMatcher = RegexMatcher() \\
+            .setExternalRules("src/test/resources/regex-matcher/rules.txt",  ",") \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("regex") \\
+            .setStrategy("MATCH_ALL")
+
+        pipeline = Pipeline().setStages([documentAssembler, sentence, regexMatcher])
+
+        data = spark.createDataFrame([[
+            "My first sentence with the first rule. This is my second sentence with ceremonies rule."
+        ]]).toDF("text")
+        results = pipeline.fit(data).transform(data)
+
+        results.selectExpr("explode(regex) as result").show(truncate=False)
+        +--------------------------------------------------------------------------------------------+
+        |result                                                                                      |
+        +--------------------------------------------------------------------------------------------+
+        |[chunk, 23, 31, the first, [identifier -> followed by 'the', sentence -> 0, chunk -> 0], []]|
+        |[chunk, 71, 80, ceremonies, [identifier -> ceremony, sentence -> 1, chunk -> 0], []]        |
+        +--------------------------------------------------------------------------------------------+
+
+    """
 
     strategy = Param(Params._dummy(),
                      "strategy",
@@ -640,6 +1353,22 @@ class RegexMatcher(AnnotatorApproach):
 
 
 class RegexMatcherModel(AnnotatorModel):
+    """Instantiated model of the RegexMatcher.
+    For usage and examples see the documentation of the main class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel", java_model=None):
         super(RegexMatcherModel, self).__init__(
             classname=classname,
@@ -650,6 +1379,86 @@ class RegexMatcherModel(AnnotatorModel):
 
 
 class Lemmatizer(AnnotatorApproach):
+    """Class to find lemmas out of words with the objective of returning a base dictionary word.
+    Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with ``setDictionary``.
+    The dictionary can be set in either in the form of a delimited text file or directly as an
+    ExternalResource.
+    Pretrained models can be loaded with LemmatizerModel.pretrained.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
+    and the `LemmatizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the lemma dictionary `lemmas_small.txt` has the form of
+        #
+        # ...
+        # pick	->	pick	picks	picking	picked
+        # peck	->	peck	pecking	pecked	pecks
+        # pickle	->	pickle	pickles	pickled	pickling
+        # pepper	->	pepper	peppers	peppered	peppering
+        # ...
+        #
+        # where each key is delimited by `->` and values are delimited by `\t`
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentenceDetector = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        lemmatizer = Lemmatizer() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("lemma") \\
+            .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              sentenceDetector,
+              tokenizer,
+              lemmatizer
+            ])
+
+        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \\
+            .toDF("text")
+
+        result = pipeline.fit(data).transform(data)
+        result.selectExpr("lemma.result").show(truncate=False)
+        +------------------------------------------------------------------+
+        |result                                                            |
+        +------------------------------------------------------------------+
+        |[Peter, Pipers, employees, are, pick, peck, of, pickle, pepper, .]|
+        +------------------------------------------------------------------+
+
+    """
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "lemmatizer external dictionary." +
@@ -674,6 +1483,37 @@ class Lemmatizer(AnnotatorApproach):
 
 
 class LemmatizerModel(AnnotatorModel):
+    """Instantiated Model of the Lemmatizer. For usage and examples, please see the documentation of that class.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # The lemmatizer from the example of the Lemmatizer can be replaced with:
+        lemmatizer = LemmatizerModel.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("lemma")
+
+    """
     name = "LemmatizerModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.LemmatizerModel", java_model=None):
@@ -748,6 +1588,83 @@ class DateMatcherUtils(Params):
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
+    """Matches standard date formats into a provided format
+    Reads from different forms of date and time expressions and converts them to a provided date format.
+
+    Extracts only **one** date per document. Use with sentence detector to find matches in each sentence.
+    To extract multiple dates from a document, please use the MultiDateMatcher.
+
+    Reads the following kind of dates:
+
+    .. code-block:: python
+
+        "1978-01-28", "1984/04/02,1/02/1980", "2/28/79", "The 31st of April in the year 2008",
+        "Fri, 21 Nov 1997", "Jan 21, ‘97", "Sun", "Nov 21", "jan 1st", "next thursday",
+        "last wednesday", "today", "tomorrow", "yesterday", "next week", "next month",
+        "next year", "day after", "the day before", "0600h", "06:00 hours", "6pm", "5:30 a.m.",
+        "at 5", "12:59", "23:59", "1988/11/23 6pm", "next week at 7.30", "5 am tomorrow"
+
+
+
+    For example ``"The 31st of April in the year 2008"`` will be converted into ``2008/04/31``.
+
+    Pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb>`__
+    and the `DateMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DATE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        date = DateMatcher() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("date") \\
+            .setAnchorDateYear(2020) \\
+            .setAnchorDateMonth(1) \\
+            .setAnchorDateDay(11)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            date
+        ])
+
+        data = spark.createDataFrame([["Fri, 21 Nov 1997", "next week at 7.30", "see you a day after"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("date").show(truncate=False)
+        +-------------------------------------------------+
+        |date                                             |
+        +-------------------------------------------------+
+        |5, 15, 1997/11/21, [sentence -> 0], [] |
+        |0, 8, 2020/01/18, [sentence -> 0], []  |
+        |10, 18, 2020/01/12, [sentence -> 0], []|
+        +-------------------------------------------------+
+
+    """
 
     name = "DateMatcher"
 
@@ -765,6 +1682,77 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
 
 class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
+    """Matches standard date formats into a provided format.
+
+    Reads the following kind of dates:
+
+    .. code-block:: python
+
+        "1978-01-28", "1984/04/02,1/02/1980", "2/28/79", "The 31st of April in the year 2008",
+        "Fri, 21 Nov 1997", "Jan 21, ‘97", "Sun", "Nov 21", "jan 1st", "next thursday",
+        "last wednesday", "today", "tomorrow", "yesterday", "next week", "next month",
+        "next year", "day after", "the day before", "0600h", "06:00 hours", "6pm", "5:30 a.m.",
+        "at 5", "12:59", "23:59", "1988/11/23 6pm", "next week at 7.30", "5 am tomorrow"
+
+
+
+    For example ``"The 31st of April in the year 2008"`` will be converted into ``2008/04/31``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb>`__
+    and the `MultiDateMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcherTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DATE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        date = MultiDateMatcher() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("date") \\
+            .setAnchorDateYear(2020) \\
+            .setAnchorDateMonth(1) \\
+            .setAnchorDateDay(11)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            date
+        ])
+
+        data = spark.createDataFrame([["I saw him yesterday and he told me that he will visit us next week"]]) \\
+            .toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(date) as dates").show(truncate=False)
+        +-----------------------------------------------+
+        |dates                                          |
+        +-----------------------------------------------+
+        |[date, 57, 65, 2020/01/18, [sentence -> 0], []]|
+        |[date, 10, 18, 2020/01/10, [sentence -> 0], []]|
+        +-----------------------------------------------+
+
+    """
 
     name = "MultiDateMatcher"
 
@@ -779,6 +1767,76 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
 
 class TextMatcher(AnnotatorApproach):
+    """Annotator to match exact phrases (by token) provided in a file against a Document.
+
+    A text file of predefined phrases must be provided with ``setEntities``.
+    The text file can als be set directly as an
+    ExternalResource.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
+    and the `TextMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the entities file is of the form
+        #
+        # ...
+        # dolore magna aliqua
+        # lorem ipsum dolor. sit
+        # laborum
+        # ...
+        #
+        # where each line represents an entity phrase to be extracted.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        data = spark.createDataFrame([["Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum"]]).toDF("text")
+        entityExtractor = TextMatcher() \\
+            .setInputCols(["document", "token"]) \\
+            .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT) \\
+            .setOutputCol("entity") \\
+            .setCaseSensitive(False) \\
+            .setTokenizer(tokenizer.fit(data))
+
+        pipeline = Pipeline().setStages([documentAssembler, tokenizer, entityExtractor])
+        results = pipeline.fit(data).transform(data)
+
+        results.selectExpr("explode(entity) as result").show(truncate=False)
+        +------------------------------------------------------------------------------------------+
+        |result                                                                                    |
+        +------------------------------------------------------------------------------------------+
+        |[chunk, 6, 24, dolore magna aliqua, [entity -> entity, sentence -> 0, chunk -> 0], []]    |
+        |[chunk, 27, 48, Lorem ipsum dolor. sit, [entity -> entity, sentence -> 0, chunk -> 1], []]|
+        |[chunk, 53, 59, laborum, [entity -> entity, sentence -> 0, chunk -> 2], []]               |
+        +------------------------------------------------------------------------------------------+
+
+    """
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -832,6 +1890,22 @@ class TextMatcher(AnnotatorApproach):
 
 
 class TextMatcherModel(AnnotatorModel):
+    """Instantiated model of the TextMatcher.
+    For usage and examples see the documentation of the main class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = "TextMatcherModel"
 
     mergeOverlapping = Param(Params._dummy(),
@@ -877,6 +1951,74 @@ class TextMatcherModel(AnnotatorModel):
 
 
 class BigTextMatcher(AnnotatorApproach, HasStorage):
+    """Annotator to match exact phrases (by token) provided in a file against a Document.
+
+    A text file of predefined phrases must be provided with ``setStoragePath``.
+    The text file can als be set directly as an
+    ExternalResource.
+
+    In contrast to the normal ``TextMatcher``, the ``BigTextMatcher`` is designed for large corpora.
+
+    For extended examples of usage, see the `BigTextMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcherTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the entities file is of the form
+        #
+        # ...
+        # dolore magna aliqua
+        # lorem ipsum dolor. sit
+        # laborum
+        # ...
+        #
+        # where each line represents an entity phrase to be extracted.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        data = spark.createDataFrame([["Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum"]]).toDF("text")
+        entityExtractor = BigTextMatcher() \\
+            .setInputCols(["document", "token"]) \\
+            .setStoragePath("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT) \\
+            .setOutputCol("entity") \\
+            .setCaseSensitive(False)
+
+        pipeline = Pipeline().setStages([documentAssembler, tokenizer, entityExtractor])
+        results = pipeline.fit(data).transform(data)
+        results.selectExpr("explode(entity)").show(truncate=False)
+        +--------------------------------------------------------------------+
+        |col                                                                 |
+        +--------------------------------------------------------------------+
+        |[chunk, 6, 24, dolore magna aliqua, [sentence -> 0, chunk -> 0], []]|
+        |[chunk, 53, 59, laborum, [sentence -> 0, chunk -> 1], []]           |
+        +--------------------------------------------------------------------+
+
+    """
 
     entities = Param(Params._dummy(),
                      "entities",
@@ -922,6 +2064,22 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 
 
 class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
+    """Instantiated model of the BigTextMatcher.
+    For usage and examples see the documentation of the main class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = "BigTextMatcherModel"
     databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
 
@@ -963,6 +2121,98 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
 
 
 class PerceptronApproach(AnnotatorApproach):
+    """Trains an averaged Perceptron model to tag words part-of-speech.
+    Sets a POS tag to each word within a sentence.
+
+    For pretrained models please see the PerceptronModel.
+
+    The training data needs to be in a Spark DataFrame, where the column needs to consist of
+    Annotations of type ``POS``. The ``Annotation`` needs to have member ``result``
+    set to the POS tag and have a ``"word"`` mapping to its word inside of member ``metadata``.
+    This DataFrame for training can easily created by the helper class POS.
+
+    .. code-block:: python
+
+        POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(truncate=False)
+        +---------------------------------------------+
+        |tags                                         |
+        +---------------------------------------------+
+        |[pos, 0, 5, NNP, [word -> Pierre], []]       |
+        |[pos, 7, 12, NNP, [word -> Vinken], []]      |
+        |[pos, 14, 14, ,, [word -> ,], []]            |
+        |[pos, 31, 34, MD, [word -> will], []]        |
+        |[pos, 36, 39, VB, [word -> join], []]        |
+        |[pos, 41, 43, DT, [word -> the], []]         |
+        |[pos, 45, 49, NN, [word -> board], []]       |
+                                ...
+
+
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb>`__
+    and `PerceptronApproach tests <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN, DOCUMENT``    ``POS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        datasetPath = "src/test/resources/anc-pos-corpus-small/test-training.txt"
+        trainingPerceptronDF = POS().readDataset(spark, datasetPath)
+
+        trainedPos = PerceptronApproach() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("pos") \\
+            .setPosColumn("tags") \\
+            .fit(trainingPerceptronDF)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            trainedPos
+        ])
+
+        data = spark.createDataFrame([["To be or not to be, is this the question?"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("pos.result").show(truncate=False)
+        +--------------------------------------------------+
+        |result                                            |
+        +--------------------------------------------------+
+        |[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|
+        +--------------------------------------------------+
+
+    """
     posCol = Param(Params._dummy(),
                    "posCol",
                    "column of Array of POS tags that match tokens",
@@ -995,6 +2245,89 @@ class PerceptronApproach(AnnotatorApproach):
 
 
 class PerceptronModel(AnnotatorModel):
+    """Averaged Perceptron model to tag words part-of-speech.
+    Sets a POS tag to each word within a sentence.
+
+    This is the instantiated model of the
+    PerceptronApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("pos")
+
+
+    The default model is ``"pos_anc"``, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging>`__.
+    Additionally, pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN, DOCUMENT``    ``POS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("pos")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            posTagger
+        ])
+
+        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(pos) as pos").show(truncate=False)
+        +-------------------------------------------+
+        |pos                                        |
+        +-------------------------------------------+
+        |[pos, 0, 4, NNP, [word -> Peter], []]      |
+        |[pos, 6, 11, NNP, [word -> Pipers], []]    |
+        |[pos, 13, 21, NNS, [word -> employees], []]|
+        |[pos, 23, 25, VBP, [word -> are], []]      |
+        |[pos, 27, 33, VBG, [word -> picking], []]  |
+        |[pos, 35, 39, NNS, [word -> pecks], []]    |
+        |[pos, 41, 42, IN, [word -> of], []]        |
+        |[pos, 44, 50, JJ, [word -> pickled], []]   |
+        |[pos, 52, 58, NNS, [word -> peppers], []]  |
+        +-------------------------------------------+
+
+    """
     name = "PerceptronModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel", java_model=None):
@@ -1047,6 +2380,62 @@ class SentenceDetectorParams:
 
 
 class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
+    """Annotator that detects sentence boundaries using any provided approach.
+
+    Each extracted sentence can be returned in an Array or exploded to separate rows,
+    if ``explodeSentences`` is set to ``true``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence
+        ])
+
+        data = spark.createDataFrame([["This is my first sentence. This my second. How about a third?"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(sentence) as sentences").show(truncate=False)
+        +------------------------------------------------------------------+
+        |sentences                                                         |
+        +------------------------------------------------------------------+
+        |[document, 0, 25, This is my first sentence., [sentence -> 0], []]|
+        |[document, 27, 41, This my second., [sentence -> 1], []]          |
+        |[document, 43, 60, How about a third?, [sentence -> 2], []]       |
+        +------------------------------------------------------------------+
+
+    """
 
     name = 'SentenceDetector'
 
@@ -1096,6 +2485,92 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
 
 class SentimentDetector(AnnotatorApproach):
+    """Trains a rule based sentiment detector, which calculates a score based on predefined keywords.
+
+    A dictionary of predefined sentiment keywords must be provided with ``setDictionary``, where each line is a word
+    delimited to its class (either ``positive`` or ``negative``).
+    The dictionary can be set in either in the form of a delimited text file or directly as an
+    ExternalResource.
+
+    By default, the sentiment score will be assigned labels ``"positive"`` if the score is ``>= 0``, else ``"negative"``.
+    To retrieve the raw sentiment scores, ``enableScore`` needs to be set to ``true``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__
+    and the `SentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN, DOCUMENT``    ``SENTIMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the dictionary `default-sentiment-dict.txt` has the form of
+        #
+        # ...
+        # cool,positive
+        # superb,positive
+        # bad,negative
+        # uninspired,negative
+        # ...
+        #
+        # where each sentiment keyword is delimited by `","`.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        lemmatizer = Lemmatizer() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("lemma") \\
+            .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
+
+        sentimentDetector = SentimentDetector() \\
+            .setInputCols(["lemma", "document"]) \\
+            .setOutputCol("sentimentScore") \\
+            .setDictionary("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ",", ReadAs.TEXT)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            lemmatizer,
+            sentimentDetector,
+        ])
+
+        data = spark.createDataFrame([[
+            "The staff of the restaurant is nice",
+            "I recommend others to avoid because it is too expensive"
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("sentimentScore.result").show(truncate=False)
+        +----------+  #  +------+ for enableScore set to True
+        |result    |  #  |result|
+        +----------+  #  +------+
+        |[positive]|  #  |[1.0] |
+        |[negative]|  #  |[-2.0]|
+        +----------+  #  +------+
+
+    """
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "path for dictionary to sentiment analysis",
@@ -1149,6 +2624,35 @@ class SentimentDetector(AnnotatorApproach):
 
 
 class SentimentDetectorModel(AnnotatorModel):
+    """Rule based sentiment detector, which calculates a score based on predefined keywords.
+
+    This is the instantiated model of the SentimentDetector.
+    For training your own model, please see the documentation of that class.
+
+    A dictionary of predefined sentiment keywords must be provided with ``setDictionary``, where each line is a word
+    delimited to its class (either ``positive`` or ``negative``).
+    The dictionary can be set in either in the form of a delimited text file or directly as an
+    ExternalResource.
+
+    By default, the sentiment score will be assigned labels ``"positive"`` if the score is ``>= 0``, else ``"negative"``.
+    To retrieve the raw sentiment scores, ``enableScore`` needs to be set to ``true``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__
+    and the `SentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN, DOCUMENT``    ``SENTIMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = "SentimentDetectorModel"
 
     positiveMultiplier = Param(Params._dummy(),
@@ -1165,6 +2669,90 @@ class SentimentDetectorModel(AnnotatorModel):
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
+    """Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.
+
+    The algorithm is based on the paper
+    `"Fast and accurate sentiment classification using an enhanced Naive Bayes model" <https://arxiv.org/abs/1305.6143>`__.
+
+    The analyzer requires sentence boundaries to give a score in context.
+    Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
+
+    The training data needs to consist of a column for normalized text and a label column (either ``"positive"`` or ``"negative"``).
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
+    and the `ViveknSentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN, DOCUMENT``    ``SENTIMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        document = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        token = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        normalizer = Normalizer() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("normal")
+
+        vivekn = ViveknSentimentApproach() \\
+            .setInputCols(["document", "normal"]) \\
+            .setSentimentCol("train_sentiment") \\
+            .setOutputCol("result_sentiment")
+
+        finisher = Finisher() \\
+            .setInputCols(["result_sentiment"]) \\
+            .setOutputCols("final_sentiment")
+
+        pipeline = Pipeline().setStages([document, token, normalizer, vivekn, finisher])
+
+        training = spark.createDataFrame([[
+            "I really liked this movie!", "positive"),
+            ("The cast was horrible", "negative"),
+            ("Never going to watch this again or recommend it to anyone", "negative"),
+            ("It's a waste of time", "negative"),
+            ("I loved the protagonist", "positive"),
+            ("The music was really really good", "positive"
+        ]]).toDF("text", "train_sentiment")
+        pipelineModel = pipeline.fit(training)
+
+        data = spark.createDataFrame([[
+            "I recommend this movie",
+            "Dont waste your time!!!"
+        ]]).toDF("text")
+        result = pipelineModel.transform(data)
+
+        result.select("final_sentiment").show(truncate=False)
+        +---------------+
+        |final_sentiment|
+        +---------------+
+        |[positive]     |
+        |[negative]     |
+        +---------------+
+
+    """
     sentimentCol = Param(Params._dummy(),
                          "sentimentCol",
                          "column with the sentiment result of every row. Must be 'positive' or 'negative'",
@@ -1207,6 +2795,33 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
 
 class ViveknSentimentModel(AnnotatorModel):
+    """Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.
+
+    The algorithm is based on the paper
+    `"Fast and accurate sentiment classification using an enhanced Naive Bayes model" <https://arxiv.org/abs/1305.6143>`__.
+
+    This is the instantiated model of the ViveknSentimentApproach.
+    For training your own model, please see the documentation of that class.
+
+    The analyzer requires sentence boundaries to give a score in context.
+    Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
+    and the `ViveknSentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN, DOCUMENT``    ``SENTIMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
     name = "ViveknSentimentModel"
 
     importantFeatureRatio = Param(Params._dummy(),
@@ -1237,6 +2852,77 @@ class ViveknSentimentModel(AnnotatorModel):
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
+    """Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.
+
+    The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+    dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+    (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+    A dictionary of correct spellings must be provided with ``setDictionary`` either in the form of a text file or directly
+    as an ExternalResource, where each word is parsed by a regex pattern.
+
+    Inspired by Norvig model and `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+
+    For instantiated/pretrained models, see NorvigSweetingModel.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
+    and the `NorvigSweetingTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the dictionary `"words.txt"` has the form of
+        #
+        # ...
+        # gummy
+        # gummic
+        # gummier
+        # gummiest
+        # gummiferous
+        # ...
+        #
+        # This dictionary is then set to be the basis of the spell checker.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        spellChecker = NorvigSweetingApproach() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("spell") \\
+            .setDictionary("src/test/resources/spell/words.txt")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            spellChecker
+        ])
+
+        pipelineModel = pipeline.fit(trainingData)
+
+    """
     dictionary = Param(Params._dummy(),
                        "dictionary",
                        "dictionary needs 'tokenPattern' regex in dictionary for separating words",
@@ -1319,6 +3005,85 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
 
 class NorvigSweetingModel(AnnotatorModel):
+    """This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.
+    Inspired by Norvig model and `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+
+    The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+    dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+    (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+
+    This is the instantiated model of the NorvigSweetingApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        spellChecker = NorvigSweetingModel.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("spell") \\
+            .setDoubleVariants(True)
+
+
+    The default model is ``"spellcheck_norvig"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
+    and the `NorvigSweetingTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        spellChecker = NorvigSweetingModel.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("spell")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            spellChecker
+        ])
+
+        data = spark.createDataFrame([["somtimes i wrrite wordz erong."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+        result.select("spell.result").show(truncate=False)
+        +--------------------------------------+
+        |result                                |
+        +--------------------------------------+
+        |[sometimes, i, write, words, wrong, .]|
+        +--------------------------------------+
+
+    """
     name = "NorvigSweetingModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel", java_model=None):
@@ -1334,6 +3099,71 @@ class NorvigSweetingModel(AnnotatorModel):
 
 
 class SymmetricDeleteApproach(AnnotatorApproach):
+    """Trains a Symmetric Delete spelling correction algorithm.
+    Retrieves tokens and utilizes distance metrics to compute possible derived words.
+
+    Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+
+    For instantiated/pretrained models, see SymmetricDeleteModel.
+
+    See `SymmetricDeleteModelTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala>`__ for further reference.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the dictionary `"words.txt"` has the form of
+        #
+        # ...
+        # gummy
+        # gummic
+        # gummier
+        # gummiest
+        # gummiferous
+        # ...
+        #
+        # This dictionary is then set to be the basis of the spell checker.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        spellChecker = SymmetricDeleteApproach() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("spell") \\
+            .setDictionary("src/test/resources/spell/words.txt")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            spellChecker
+        ])
+
+        pipelineModel = pipeline.fit(trainingData)
+
+    """
     corpus = Param(Params._dummy(),
                    "corpus",
                    "folder or file with text that teaches about the language",
@@ -1394,6 +3224,79 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
 
 class SymmetricDeleteModel(AnnotatorModel):
+    """Symmetric Delete spelling correction algorithm.
+
+    The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+    dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+    (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+
+    Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        spell = SymmetricDeleteModel.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("spell")
+
+
+    The default model is ``"spellcheck_sd"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+
+    See `SymmetricDeleteModelTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala>`__ for further reference.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        spellChecker = SymmetricDeleteModel.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("spell")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            spellChecker
+        ])
+
+        data = spark.createDataFrame([["spmetimes i wrrite wordz erong."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+        result.select("spell.result").show(truncate=False)
+        +--------------------------------------+
+        |result                                |
+        +--------------------------------------+
+        |[sometimes, i, write, words, wrong, .]|
+        +--------------------------------------+
+
+    """
     name = "SymmetricDeleteModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel",
@@ -1446,6 +3349,81 @@ class NerApproach(Params):
 
 
 class NerCrfApproach(AnnotatorApproach, NerApproach):
+    """Algorithm for training a Named Entity Recognition Model
+
+    For instantiated/pretrained models, see NerCrfModel.
+
+    This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
+    algorithm. The training data should be a labeled Spark Dataset, e.g. CoNLL 2003 IOB with
+    ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` and an
+    additional label column of annotator type ``NAMED_ENTITY``.
+    Excluding the label, this can be done with for example
+      - a SentenceDetector,
+      - a Tokenizer,
+      - a PerceptronModel and
+      - a WordEmbeddingsModel.
+
+    Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb>`__
+    and the `NerCrfApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproachTestSpec.scala>`__.
+
+    ========================================= ======================
+    Input Annotation types                    Output Annotation type
+    ========================================= ======================
+    ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` ``NAMED_ENTITY``
+    ========================================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
+        # If a custom dataset is used, these need to be defined.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("embeddings") \\
+            .setCaseSensitive(False)
+
+        nerTagger = NerCrfApproach() \\
+            .setInputCols(["sentence", "token", "pos", "embeddings"]) \\
+            .setLabelColumn("label") \\
+            .setMinEpochs(1) \\
+            .setMaxEpochs(3) \\
+            .setC0(34) \\
+            .setL2(3.0) \\
+            .setOutputCol("ner")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            embeddings,
+            nerTagger
+        ])
+
+
+        conll = CoNLL()
+        trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+
+        pipelineModel = pipeline.fit(trainingData)
+
+    """
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
 
@@ -1502,6 +3480,101 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
 
 
 class NerCrfModel(AnnotatorModel):
+    """Extracts Named Entities based on a CRF Model.
+
+    This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
+    algorithm. The data should have columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS``.
+    These can be extracted with for example
+      - a SentenceDetector,
+      - a Tokenizer and
+      - a PerceptronModel.
+
+    This is the instantiated model of the NerCrfApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        nerTagger = NerCrfModel.pretrained() \\
+            .setInputCols(["sentence", "token", "word_embeddings", "pos"]) \\
+            .setOutputCol("ner"
+
+
+    The default model is ``"ner_crf"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb>`__.
+
+    ========================================= ======================
+    Input Annotation types                    Output Annotation type
+    ========================================= ======================
+    ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` ``NAMED_ENTITY``
+    ========================================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        # First extract the prerequisites for the NerCrfModel
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("word_embeddings")
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("pos")
+
+        # Then NER can be extracted
+        nerTagger = NerCrfModel.pretrained() \\
+            .setInputCols(["sentence", "token", "word_embeddings", "pos"]) \\
+            .setOutputCol("ner")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            embeddings,
+            posTagger,
+            nerTagger
+        ])
+
+        data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("ner.result").show(truncate=False)
+        +------------------------------------+
+        |result                              |
+        +------------------------------------+
+        |[I-ORG, O, O, I-PER, O, O, I-LOC, O]|
+        +------------------------------------+
+
+    """
     name = "NerCrfModel"
 
     includeConfidence = Param(Params._dummy(), "includeConfidence", "external features is a delimited text. needs 'delimiter' in options",
@@ -1523,6 +3596,88 @@ class NerCrfModel(AnnotatorModel):
 
 
 class NerDLApproach(AnnotatorApproach, NerApproach):
+    """This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.
+
+    The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
+
+    For instantiated/pretrained models, see NerDLModel.
+
+    The training data should be a labeled Spark Dataset, in the format of CoNLL
+    2003 IOB with ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` and an
+    additional label column of annotator type ``NAMED_ENTITY``.
+    Excluding the label, this can be done with for example
+      - a SentenceDetector,
+      - a Tokenizer and
+      - a WordEmbeddingsModel
+        (any embeddings can be chosen, e.g. BertEmbeddings for BERT based embeddings).
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner>`__
+    and the `NerDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala>`__.
+
+    ==================================== ======================
+    Input Annotation types               Output Annotation type
+    ==================================== ======================
+    ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` ``NAMED_ENTITY``
+    ==================================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        # First extract the prerequisites for the NerDLApproach
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        embeddings = BertEmbeddings.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("embeddings")
+
+        # Then the training can start
+        nerTagger = NerDLApproach() \\
+            .setInputCols(["sentence", "token", "embeddings"]) \\
+            .setLabelColumn("label") \\
+            .setOutputCol("ner") \\
+            .setMaxEpochs(1) \\
+            .setRandomSeed(0) \\
+            .setVerbose(0)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            embeddings,
+            nerTagger
+        ])
+
+        # We use the text and labels from the CoNLL dataset
+        conll = CoNLL()
+        trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+
+        pipelineModel = pipeline.fit(trainingData)
+
+    """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
@@ -1644,6 +3799,98 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
 
 class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
+    """This Named Entity recognition annotator is a generic NER model based on Neural Networks.
+
+    Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
+
+    This is the instantiated model of the NerDLApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        nerModel = NerDLModel.pretrained() \\
+            .setInputCols(["sentence", "token", "embeddings"]) \\
+            .setOutputCol("ner")
+
+
+    The default model is ``"ner_dl"``, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+    Additionally, pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+
+    Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
+    For example, the default model ``"ner_dl"`` requires the
+    WordEmbeddings ``"glove_100d"``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__
+    and the `NerDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala>`__.
+
+    ==================================== ======================
+    Input Annotation types               Output Annotation type
+    ==================================== ======================
+    ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` ``NAMED_ENTITY``
+    ==================================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        # First extract the prerequisites for the NerDLModel
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("bert")
+
+        # Then NER can be extracted
+        nerTagger = NerDLModel.pretrained() \\
+            .setInputCols(["sentence", "token", "bert"]) \\
+            .setOutputCol("ner")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            embeddings,
+            nerTagger
+        ])
+
+        data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("ner.result").show(truncate=False)
+        +------------------------------------+
+        |result                              |
+        +------------------------------------+
+        |[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
+        +------------------------------------+
+
+    """
     name = "NerDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel", java_model=None):
@@ -1684,6 +3931,69 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
 
 class NerConverter(AnnotatorModel):
+    """Converts a IOB or IOB2 representation of NER to a user-friendly one,
+    by associating the tokens of recognized entities and their label. Results in ``CHUNK`` Annotation type.
+
+    NER chunks can then be filtered by setting a whitelist with ``setWhiteList``.
+    Chunks with no associated entity (tagged "O") are filtered.
+
+    See also `Inside–outside–beginning (tagging) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`__ for more information.
+
+    ================================= ======================
+    Input Annotation types            Output Annotation type
+    ================================= ======================
+    ``DOCUMENT, TOKEN, NAMED_ENTITY`` ``CHUNK``
+    ================================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # This is a continuation of the example of the NerDLModel. See that class
+        # on how to extract the entities.
+        # The output of the NerDLModel follows the Annotator schema and can be converted like so:
+        result.selectExpr("explode(ner)").show(truncate=False)
+        +----------------------------------------------------+
+        |col                                                 |
+        +----------------------------------------------------+
+        |[named_entity, 0, 2, B-ORG, [word -> U.N], []]      |
+        |[named_entity, 3, 3, O, [word -> .], []]            |
+        |[named_entity, 5, 12, O, [word -> official], []]    |
+        |[named_entity, 14, 18, B-PER, [word -> Ekeus], []]  |
+        |[named_entity, 20, 24, O, [word -> heads], []]      |
+        |[named_entity, 26, 28, O, [word -> for], []]        |
+        |[named_entity, 30, 36, B-LOC, [word -> Baghdad], []]|
+        |[named_entity, 37, 37, O, [word -> .], []]          |
+        +----------------------------------------------------+
+
+        # After the converter is used:
+        converter = NerConverter() \\
+            .setInputCols(["sentence", "token", "ner"]) \\
+            .setOutputCol("entities") \\
+            .setPreservePosition(False)
+
+        converter.transform(result).selectExpr("explode(entities)").show(truncate=False)
+        +------------------------------------------------------------------------+
+        |col                                                                     |
+        +------------------------------------------------------------------------+
+        |[chunk, 0, 2, U.N, [entity -> ORG, sentence -> 0, chunk -> 0], []]      |
+        |[chunk, 14, 18, Ekeus, [entity -> PER, sentence -> 0, chunk -> 1], []]  |
+        |[chunk, 30, 36, Baghdad, [entity -> LOC, sentence -> 0, chunk -> 2], []]|
+        +------------------------------------------------------------------------+
+
+    """
     name = 'NerConverter'
 
     whiteList = Param(
@@ -1702,6 +4012,79 @@ class NerConverter(AnnotatorModel):
 
 
 class DependencyParserApproach(AnnotatorApproach):
+    """Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.
+
+    For instantiated/pretrained models, see DependencyParserModel.
+
+    Dependency parser provides information about word relationship. For example, dependency parsing can tell you what
+    the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+    you find precise answers to specific questions.
+
+    The required training data can be set in two different ways (only one can be chosen for a particular model):
+      - Dependency treebank in the `Penn Treebank format <http://www.nltk.org/nltk_data/>`__ set with ``setDependencyTreeBank``
+      - Dataset in the `CoNLL-U format <https://universaldependencies.org/format.html>`__ set with ``setConllU``
+
+    Apart from that, no additional training data is needed.
+
+    See `DependencyParserApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala>`__ for further reference on how to use this API.
+
+    ======================== ======================
+    Input Annotation types   Output Annotation type
+    ======================== ======================
+    ``DOCUMENT, POS, TOKEN`` ``DEPENDENCY``
+    ======================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("pos")
+
+        dependencyParserApproach = DependencyParserApproach() \\
+            .setInputCols(["sentence", "pos", "token"]) \\
+            .setOutputCol("dependency") \\
+            .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            posTagger,
+            dependencyParserApproach
+        ])
+
+        # Additional training data is not needed, the dependency parser relies on the dependency tree bank / CoNLL-U only.
+        emptyDataSet = .empty[String].toDF("text")
+        pipelineModel = pipeline.fit(emptyDataSet)
+
+    """
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
                                "Dependency treebank source files",
@@ -1739,6 +4122,103 @@ class DependencyParserApproach(AnnotatorApproach):
 
 
 class DependencyParserModel(AnnotatorModel):
+    """Unlabeled parser that finds a grammatical relation between two words in a sentence.
+
+    Dependency parser provides information about word relationship. For example, dependency parsing can tell you what
+    the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+    you find precise answers to specific questions.
+
+    This is the instantiated model of the DependencyParserApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        dependencyParserApproach = DependencyParserModel.pretrained() \\
+            .setInputCols(["sentence", "pos", "token"]) \\
+            .setOutputCol("dependency")
+
+
+    The default model is ``"dependency_conllu"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__
+    and the `DependencyParserApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala>`__.
+
+    ================================ ======================
+    Input Annotation types           Output Annotation type
+    ================================ ======================
+    ``[String]DOCUMENT, POS, TOKEN`` ``DEPENDENCY``
+    ================================ ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("pos")
+
+        dependencyParser = DependencyParserModel.pretrained() \\
+            .setInputCols(["sentence", "pos", "token"]) \\
+            .setOutputCol("dependency")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            posTagger,
+            dependencyParser
+        ])
+
+        data = spark.createDataFrame([[
+            "Unions representing workers at Turner Newall say they are 'disappointed' after talks with stricken parent " +
+              "firm Federal Mogul."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(arrays_zip(token.result, dependency.result)) as cols") \\
+            .selectExpr("cols['0'] as token", "cols['1'] as dependency").show(8, truncate = False)
+        +------------+------------+
+        |token       |dependency  |
+        +------------+------------+
+        |Unions      |ROOT        |
+        |representing|workers     |
+        |workers     |Unions      |
+        |at          |Turner      |
+        |Turner      |workers     |
+        |Newall      |say         |
+        |say         |Unions      |
+        |they        |disappointed|
+        +------------+------------+
+
+    """
     name = "DependencyParserModel"
 
     perceptron = Param(Params._dummy(),
@@ -1759,6 +4239,87 @@ class DependencyParserModel(AnnotatorModel):
 
 
 class TypedDependencyParserApproach(AnnotatorApproach):
+    """Labeled parser that finds a grammatical relation between two words in a sentence.
+    Its input is either a CoNLL2009 or ConllU dataset.
+
+    For instantiated/pretrained models, see TypedDependencyParserModel.
+
+    Dependency parsers provide information about word relationship. For example, dependency parsing can tell you what
+    the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+    you find precise answers to specific questions.
+
+    The parser requires the dependant tokens beforehand with e.g. DependencyParser.
+    The required training data can be set in two different ways (only one can be chosen for a particular model):
+      - Dataset in the `CoNLL 2009 format <https://ufal.mff.cuni.cz/conll2009-st/trial-data.html>`__ set with ``setConll2009``
+      - Dataset in the `CoNLL-U format <https://universaldependencies.org/format.html>`__ set with ``setConllU``
+
+    Apart from that, no additional training data is needed.
+
+    See `TypedDependencyParserApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproachTestSpec.scala>`__ for further reference on this API.
+
+    ========================== ======================
+    Input Annotation types     Output Annotation type
+    ========================== ======================
+    ``TOKEN, POS, DEPENDENCY`` ``LABELED_DEPENDENCY``
+    ========================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("pos")
+
+        dependencyParser = DependencyParserModel.pretrained() \\
+            .setInputCols(["sentence", "pos", "token"]) \\
+            .setOutputCol("dependency")
+
+        typedDependencyParser = TypedDependencyParserApproach() \\
+            .setInputCols(["dependency", "pos", "token"]) \\
+            .setOutputCol("dependency_type") \\
+            .setConllU("src/test/resources/parser/labeled/train_small.conllu.txt") \\
+            .setNumberOfIterations(1)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            posTagger,
+            dependencyParser,
+            typedDependencyParser
+        ])
+
+        # Additional training data is not needed, the dependency parser relies on CoNLL-U only.
+        emptyDataSet = .empty[String].toDF("text")
+        pipelineModel = pipeline.fit(emptyDataSet)
+
+    """
     conll2009 = Param(Params._dummy(),
                       "conll2009",
                       "Path to file with CoNLL 2009 format",
@@ -1795,6 +4356,109 @@ class TypedDependencyParserApproach(AnnotatorApproach):
 
 
 class TypedDependencyParserModel(AnnotatorModel):
+    """Labeled parser that finds a grammatical relation between two words in a sentence.
+    Its input is either a CoNLL2009 or ConllU dataset.
+
+    Dependency parsers provide information about word relationship. For example, dependency parsing can tell you what
+    the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+    you find precise answers to specific questions.
+
+    The parser requires the dependant tokens beforehand with e.g. DependencyParser.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        typedDependencyParser = TypedDependencyParserModel.pretrained() \\
+            .setInputCols(["dependency", "pos", "token"]) \\
+            .setOutputCol("dependency_type")
+
+
+    The default model is ``"dependency_typed_conllu"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__
+    and the `TypedDependencyModelTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala>`__.
+
+    ========================== ======================
+    Input Annotation types     Output Annotation type
+    ========================== ======================
+    ``TOKEN, POS, DEPENDENCY`` ``LABELED_DEPENDENCY``
+    ========================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        posTagger = PerceptronModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("pos")
+
+        dependencyParser = DependencyParserModel.pretrained() \\
+            .setInputCols(["sentence", "pos", "token"]) \\
+            .setOutputCol("dependency")
+
+        typedDependencyParser = TypedDependencyParserModel.pretrained() \\
+            .setInputCols(["dependency", "pos", "token"]) \\
+            .setOutputCol("dependency_type")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            posTagger,
+            dependencyParser,
+            typedDependencyParser
+        ])
+
+        data = spark.createDataFrame([[
+            "Unions representing workers at Turner Newall say they are 'disappointed' after talks with stricken parent " +
+              "firm Federal Mogul."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(arrays_zip(token.result, dependency.result, dependency_type.result)) as cols") \\
+            .selectExpr("cols['0'] as token", "cols['1'] as dependency", "cols['2'] as dependency_type") \\
+            .show(8, truncate = False)
+        +------------+------------+---------------+
+        |token       |dependency  |dependency_type|
+        +------------+------------+---------------+
+        |Unions      |ROOT        |root           |
+        |representing|workers     |amod           |
+        |workers     |Unions      |flat           |
+        |at          |Turner      |case           |
+        |Turner      |workers     |flat           |
+        |Newall      |say         |nsubj          |
+        |say         |Unions      |parataxis      |
+        |they        |disappointed|nsubj          |
+        +------------+------------+---------------+
+
+    """
 
     name = "TypedDependencyParserModel"
 
@@ -1832,6 +4496,100 @@ class TypedDependencyParserModel(AnnotatorModel):
 
 
 class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
+    """Word Embeddings lookup annotator that maps tokens to vectors.
+
+    For instantiated/pretrained models, see WordEmbeddingsModel.
+
+    A custom token lookup dictionary for embeddings can be set with ``setStoragePath``.
+    Each line of the provided file needs to have a token, followed by their vector representation, delimited by a spaces.
+
+    .. code-block:: python
+
+        ...
+        are 0.39658191506190343 0.630968081620067 0.5393722253731201 0.8428180123359783
+        were 0.7535235923631415 0.9699218875629833 0.10397182122983872 0.11833962569383116
+        stress 0.0492683418305907 0.9415954572751959 0.47624463167525755 0.16790967216778263
+        induced 0.1535748762292387 0.33498936903209897 0.9235178224122094 0.1158772920395934
+        ...
+
+
+    If a token is not found in the dictionary, then the result will be a zero vector of the same dimension.
+    Statistics about the rate of converted tokens, can be retrieved with WordEmbeddingsModel.withCoverageColumn
+    and WordEmbeddingsModel.overallCoverage.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
+    and the `WordEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the file `random_embeddings_dim4.txt` has the form of the content above.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = WordEmbeddings() \\
+            .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT) \\
+            .setStorageRe("glove_4d") \\
+            .setDimension(4) \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              tokenizer,
+              embeddings,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["The patient was diagnosed with diabetes."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(truncate=False)
+        +----------------------------------------------------------------------------------+
+        |result                                                                            |
+        +----------------------------------------------------------------------------------+
+        |[0.9439099431037903,0.4707513153553009,0.806300163269043,0.16176554560661316]     |
+        |[0.7966810464859009,0.5551124811172485,0.8861005902290344,0.28284206986427307]    |
+        |[0.025029370561242104,0.35177749395370483,0.052506182342767715,0.1887107789516449]|
+        |[0.08617766946554184,0.8399239182472229,0.5395117998123169,0.7864698767662048]    |
+        |[0.6599600911140442,0.16109347343444824,0.6041093468666077,0.8913561105728149]    |
+        |[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |
+        |[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |
+        +----------------------------------------------------------------------------------+
+
+    """
 
     name = "WordEmbeddings"
 
@@ -1865,6 +4623,116 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
 
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
+    """Word Embeddings lookup annotator that maps tokens to vectors
+
+    This is the instantiated model of WordEmbeddings.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+              .setInputCols(["document", "token"]) \\
+              .setOutputCol("embeddings")
+
+
+    The default model is ``"glove_100d"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:
+      - ``withCoverageColumn(dataset, embeddingsCol, outputCol)``:
+        Adds a custom column with word coverage stats for the embedded field:
+        (``coveredWords``, ``totalWords``, ``coveragePercentage``). This creates a new column with statistics for each row.
+
+    .. code-block:: python
+
+              wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, "embeddings", "cov_embeddings")
+              wordsCoverage.select("text","cov_embeddings").show(truncate=False)
+              +-------------------+--------------+
+              |text               |cov_embeddings|
+              +-------------------+--------------+
+              |This is a sentence.|[5, 5, 1.0]   |
+              +-------------------+--------------+
+
+
+      - ``overallCoverage(dataset, embeddingsCol)``:
+        Calculates overall word coverage for the whole data in the embedded field.
+        This returns a single coverage object considering all rows in the field.
+
+    .. code-block:: python
+
+              wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,"embeddings").percentage
+              1.0
+
+
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
+    and the `WordEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              tokenizer,
+              embeddings,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[-0.570580005645752,0.44183000922203064,0.7010200023651123,-0.417129993438720...|
+        |[-0.542639970779419,0.4147599935531616,1.0321999788284302,-0.4024400115013122...|
+        |[-0.2708599865436554,0.04400600120425224,-0.020260000601410866,-0.17395000159...|
+        |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|
+        |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "WordEmbeddingsModel"
     databases = ['EMBEDDINGS']
@@ -1911,6 +4779,108 @@ class BertEmbeddings(AnnotatorModel,
                      HasCaseSensitiveProperties,
                      HasStorageRef,
                      HasBatchedAnnotate):
+    """Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
+    vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = BertEmbeddings.pretrained() \\
+            .setInputCols(["token", "document"]) \\
+            .setOutputCol("bert_embeddings")
+
+
+    The default model is ``"small_bert_L2_768"``, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__
+    and the `BertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    **Sources** :
+
+    `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding <https://arxiv.org/abs/1810.04805>`__
+
+    https://github.com/google-research/bert
+
+    **Paper abstract**
+
+    *We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
+    from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
+    representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
+    result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
+    state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
+    substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
+    obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
+    to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
+    question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
+    absolute improvement).*
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en") \\
+            .setInputCols(["token", "document"]) \\
+            .setOutputCol("bert_embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["bert_embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            embeddings,
+            embeddingsFinisher
+        ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[-2.3497989177703857,0.480538547039032,-0.3238905668258667,-1.612930893898010...|
+        |[-2.1357314586639404,0.32984697818756104,-0.6032363176345825,-1.6791689395904...|
+        |[-1.8244884014129639,-0.27088963985443115,-1.059438943862915,-0.9817547798156...|
+        |[-1.1648050546646118,-0.4725411534309387,-0.5938255786895752,-1.5780693292617...|
+        |[-0.9125322699546814,0.4563939869403839,-0.3975459933280945,-1.81611204147338...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "BertEmbeddings"
 
@@ -1961,6 +4931,104 @@ class BertSentenceEmbeddings(AnnotatorModel,
                              HasCaseSensitiveProperties,
                              HasStorageRef,
                              HasBatchedAnnotate):
+    """Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
+    vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = BertSentenceEmbeddings.pretrained() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("sentence_bert_embeddings")
+
+
+    The default model is ``"sent_small_bert_L2_768"``, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb>`__
+    and the `BertSentenceEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala>`__.
+
+    **Sources** :
+
+    `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding <https://arxiv.org/abs/1810.04805>`__
+
+    https://github.com/google-research/bert
+
+    **Paper abstract**
+
+    *We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
+    from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
+    representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
+    result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
+    state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
+    substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
+    obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
+    to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
+    question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
+    absolute improvement).*
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128") \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("sentence_bert_embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["sentence_bert_embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            embeddings,
+            embeddingsFinisher
+        ])
+
+        data = spark.createDataFrame([["John loves apples. Mary loves oranges. John loves Mary."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[-0.8951074481010437,0.13753940165042877,0.3108254075050354,-1.65693199634552...|
+        |[-0.6180210709571838,-0.12179657071828842,-0.191165953874588,-1.4497021436691...|
+        |[-0.822715163230896,0.7568016648292542,-0.1165061742067337,-1.59048593044281,...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "BertSentenceEmbeddings"
 
@@ -2014,6 +5082,82 @@ class BertSentenceEmbeddings(AnnotatorModel,
 
 
 class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
+    """Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence
+    or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document
+    (depending on the inputCols).
+
+    This can be configured with ``setPoolingStrategy``, which either be ``"AVERAGE"`` or ``"SUM"``.
+
+    For more extended examples see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb>`__.
+    and the `SentenceEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala>`__.
+
+    ============================= =======================
+    Input Annotation types        Output Annotation type
+    ============================= =======================
+    ``DOCUMENT, WORD_EMBEDDINGS`` ``SENTENCE_EMBEDDINGS``
+    ============================= =======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings")
+
+        embeddingsSentence = SentenceEmbeddings() \\
+            .setInputCols(["document", "embeddings"]) \\
+            .setOutputCol("sentence_embeddings") \\
+            .setPoolingStrategy("AVERAGE")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              tokenizer,
+              embeddings,
+              embeddingsSentence,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[-0.22093398869037628,0.25130119919776917,0.41810303926467896,-0.380883991718...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "SentenceEmbeddings"
 
@@ -2039,6 +5183,90 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
 
 
 class StopWordsCleaner(AnnotatorModel):
+    """This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer)
+    and drops all the stop words from the input sequences.
+
+    By default, it uses stop words from MLlibs
+    `StopWordsRemover <https://spark.apache.org/docs/latest/ml-features#stopwordsremover>`__.
+    Stop words can also be defined by explicitly setting them with ``setStopWords(value: Array[String])`` or loaded from
+    pretrained models using ``pretrained`` of its companion object.
+
+    .. code-block:: python
+
+        stopWords = StopWordsCleaner.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("cleanTokens") \\
+            .setCaseSensitive(False)
+        # will load the default pretrained model ``"stopwords_en"``.
+
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
+    and `StopWordsCleanerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentenceDetector = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        stopWords = StopWordsCleaner() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("cleanTokens") \\
+            .setCaseSensitive(False)
+
+        pipeline = Pipeline().setStages([
+              documentAssembler,
+              sentenceDetector,
+              tokenizer,
+              stopWords
+            ])
+
+        data = spark.createDataFrame([[
+            "This is my first sentence. This is my second.",
+            "This is my third sentence. This is my forth."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("cleanTokens.result").show(truncate=False)
+        +-------------------------------+
+        |result                         |
+        +-------------------------------+
+        |[first, sentence, ., second, .]|
+        |[third, sentence, ., forth, .] |
+        +-------------------------------+
+
+    """
 
     name = "StopWordsCleaner"
 
@@ -2088,6 +5316,80 @@ class StopWordsCleaner(AnnotatorModel):
 
 
 class NGramGenerator(AnnotatorModel):
+    """A feature transformer that converts the input array of strings (annotatorType TOKEN) into an
+    array of n-grams (annotatorType CHUNK).
+    Null values in the input array are ignored.
+    It returns an array of n-grams where each n-gram is represented by a space-separated string of
+    words.
+
+    When the input is empty, an empty array is returned.
+    When the input array length is less than n (number of elements per n-gram), no n-grams are
+    returned.
+
+    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb>`__
+    and the `NGramGeneratorTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        nGrams = NGramGenerator() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("ngrams") \\
+            .setN(2)
+
+        pipeline = Pipeline().setStages([
+              documentAssembler,
+              sentence,
+              tokenizer,
+              nGrams
+            ])
+
+        data = spark.createDataFrame([["This is my sentence."]]).toDF("text")
+        results = pipeline.fit(data).transform(data)
+
+        results.selectExpr("explode(ngrams) as result").show(truncate=False)
+        +------------------------------------------------------------+
+        |result                                                      |
+        +------------------------------------------------------------+
+        |[chunk, 0, 6, This is, [sentence -> 0, chunk -> 0], []]     |
+        |[chunk, 5, 9, is my, [sentence -> 0, chunk -> 1], []]       |
+        |[chunk, 8, 18, my sentence, [sentence -> 0, chunk -> 2], []]|
+        |[chunk, 11, 19, sentence ., [sentence -> 0, chunk -> 3], []]|
+        +------------------------------------------------------------+
+
+    """
 
     name = "NGramGenerator"
 
@@ -2127,6 +5429,91 @@ class NGramGenerator(AnnotatorModel):
 
 
 class ChunkEmbeddings(AnnotatorModel):
+    """This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either
+    Chunker, NGramGenerator,
+    or NerConverter outputs.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__
+    and the `ChunkEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala>`__.
+
+    ========================== ======================
+    Input Annotation types     Output Annotation type
+    ========================== ======================
+    ``CHUNK, WORD_EMBEDDINGS`` ``WORD_EMBEDDINGS``
+    ========================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        # Extract the Embeddings from the NGrams
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        nGrams = NGramGenerator() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("chunk") \\
+            .setN(2)
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("embeddings") \\
+            .setCaseSensitive(False)
+
+        # Convert the NGram chunks into Word Embeddings
+        chunkEmbeddings = ChunkEmbeddings() \\
+            .setInputCols(["chunk", "embeddings"]) \\
+            .setOutputCol("chunk_embeddings") \\
+            .setPoolingStrategy("AVERAGE")
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              sentence,
+              tokenizer,
+              nGrams,
+              embeddings,
+              chunkEmbeddings
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(chunk_embeddings) as result") \\
+            .select("result.annotatorType", "result.result", "result.embeddings") \\
+            .show(5, 80)
+        +---------------+----------+--------------------------------------------------------------------------------+
+        |  annotatorType|    result|                                                                      embeddings|
+        +---------------+----------+--------------------------------------------------------------------------------+
+        |word_embeddings|   This is|[-0.55661, 0.42829502, 0.86661, -0.409785, 0.06316501, 0.120775, -0.0732005, ...|
+        |word_embeddings|      is a|[-0.40674996, 0.22938299, 0.50597, -0.288195, 0.555655, 0.465145, 0.140118, 0...|
+        |word_embeddings|a sentence|[0.17417, 0.095253006, -0.0530925, -0.218465, 0.714395, 0.79860497, 0.0129999...|
+        |word_embeddings|sentence .|[0.139705, 0.177955, 0.1887775, -0.45545, 0.20030999, 0.461557, -0.07891501, ...|
+        +---------------+----------+--------------------------------------------------------------------------------+
+
+    """
 
     name = "ChunkEmbeddings"
 
@@ -2163,6 +5550,21 @@ class ChunkEmbeddings(AnnotatorModel):
 
 
 class NerOverwriter(AnnotatorModel):
+    """
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``NAMED_ENTITY``       ``NAMED_ENTITY``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+
+    """
 
     name = "NerOverwriter"
 
@@ -2186,6 +5588,102 @@ class NerOverwriter(AnnotatorModel):
 
 
 class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
+    """The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("sentence_embeddings")
+
+
+    The default model is ``"tfhub_use"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
+    and the `UniversalSentenceEncoderTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala>`__.
+
+    **Sources:**
+
+    `Universal Sentence Encoder <https://arxiv.org/abs/1803.11175>`__
+
+    https://tfhub.dev/google/universal-sentence-encoder/2
+
+    **Paper abstract:**
+
+    *We present models for encoding sentences into embedding vectors that specifically target transfer learning to other
+    NLP tasks. The models are efficient and result in accurate performance on diverse transfer tasks. Two variants of the
+    encoding models allow for trade-offs between accuracy and compute resources. For both variants, we investigate and
+    report the relationship between model complexity, resource consumption, the availability of transfer task training
+    data, and task performance. Comparisons are made with baselines that use word level transfer learning via pretrained
+    word embeddings as well as baselines do not use any transfer learning. We find that transfer learning using sentence
+    embeddings tends to outperform word level transfer. With transfer learning via sentence embeddings, we observe
+    surprisingly good performance with minimal amounts of supervised training data for a transfer task. We obtain
+    encouraging results on Word Embedding Association Tests (WEAT) targeted at detecting model bias. Our pre-trained
+    sentence encoding models are made freely available for download and on TF Hub.*
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        embeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("sentence_embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              sentence,
+              embeddings,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[0.04616805538535118,0.022307956591248512,-0.044395286589860916,-0.0016493503...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "UniversalSentenceEncoder"
 
@@ -2230,6 +5728,115 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
 
 class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
+    """Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark.
+
+    Note that this is a very computationally expensive module compared to word embedding modules that only perform
+    embedding lookups. The use of an accelerator is recommended.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = ElmoEmbeddings.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("elmo_embeddings")
+
+
+    The default model is ``"elmo"``, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    The pooling layer can be set with ``setPoolingLayer`` to the following values:
+      - ``"word_emb"``: the character-based word representations with shape ``[batch_size, max_length, 512]``.
+      - ``"lstm_outputs1"``: the first LSTM hidden state with shape ``[batch_size, max_length, 1024]``.
+      - ``"lstm_outputs2"``: the second LSTM hidden state with shape ``[batch_size, max_length, 1024]``.
+      - ``"elmo"``: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape ``[batch_size, max_length, 1024]``.
+
+    For extended examples of usage, see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_elmo.ipynb>`__
+    and the `ElmoEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala>`__.
+
+    **Sources:**
+
+    https://tfhub.dev/google/elmo/3
+
+    `Deep contextualized word representations <https://arxiv.org/abs/1802.05365>`__
+
+    **Paper abstract:**
+
+    *We introduce a new type of deep contextualized word representation that models both (1) complex characteristics of
+    word use (e.g., syntax and semantics), and (2) how these uses vary across linguistic contexts (i.e., to model
+    polysemy). Our word vectors are learned functions of the internal states of a deep bidirectional language model
+    (biLM), which is pre-trained on a large text corpus. We show that these representations can be easily added to
+    existing models and significantly improve the state of the art across six challenging NLP problems, including
+    question answering, textual entailment and sentiment analysis. We also present an analysis showing that exposing the
+    deep internals of the pre-trained network is crucial, allowing downstream models to mix different types of
+    semi-supervision signals.*
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = ElmoEmbeddings.pretrained() \\
+            .setPoolingLayer("word_emb") \\
+            .setInputCols(["token", "document"]) \\
+            .setOutputCol("embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            embeddings,
+            embeddingsFinisher
+        ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[6.662458181381226E-4,-0.2541114091873169,-0.6275503039360046,0.5787073969841...|
+        |[0.19154725968837738,0.22998669743537903,-0.2894386649131775,0.21524395048618...|
+        |[0.10400570929050446,0.12288510054349899,-0.07056470215320587,-0.246389418840...|
+        |[0.49932169914245605,-0.12706467509269714,0.30969417095184326,0.2643227577209...|
+        |[-0.8871506452560425,-0.20039963722229004,-1.0601330995559692,0.0348707810044...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "ElmoEmbeddings"
 
@@ -2290,6 +5897,87 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
 
 class ClassifierDLApproach(AnnotatorApproach):
+    """Trains a ClassifierDL for generic Multi-class Text Classification.
+
+    ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+    The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to
+    100 classes.
+
+    For instantiated/pretrained models, see ClassifierDLModel.
+
+    **Notes**:
+      - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+      - UniversalSentenceEncoder,
+        BertSentenceEmbeddings, or
+        SentenceEmbeddings can be used for the ``inputCol``.
+
+    For extended examples of usage, see the Spark NLP Workshop
+    `[1]  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala>`__
+    `[2]  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__
+    and the `ClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala>`__.
+
+    ======================= ======================
+    Input Annotation types  Output Annotation type
+    ======================= ======================
+    ``SENTENCE_EMBEDDINGS`` ``CATEGORY``
+    ======================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the training data `"sentiment.csv"` has the form of
+        #
+        # text,label
+        # This movie is the best movie I have wached ever! In my opinion this movie can win an award.,0
+        # This was a terrible movie! The acting was bad really bad!,1
+        # ...
+        #
+        # Then traning can be done like so:
+
+        smallCorpus = spark.read.option("header","True").csv("src/test/resources/classifier/sentiment.csv")
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence_embeddings")
+
+        docClassifier = ClassifierDLApproach() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("category") \\
+            .setLabelColumn("label") \\
+            .setBatchSize(64) \\
+            .setMaxEpochs(20) \\
+            .setLr(5e-3) \\
+            .setDropout(0.5)
+
+        pipeline = Pipeline() \\
+            .setStages(
+              [
+                documentAssembler,
+                useEmbeddings,
+                docClassifier
+              ]
+            )
+
+        pipelineModel = pipeline.fit(smallCorpus)
+
+    """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
@@ -2371,6 +6059,97 @@ class ClassifierDLApproach(AnnotatorApproach):
 
 
 class ClassifierDLModel(AnnotatorModel, HasStorageRef):
+    """ClassifierDL for generic Multi-class Text Classification.
+
+    ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input for text classifications.
+    The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to
+    100 classes.
+
+    This is the instantiated model of the ClassifierDLApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        classifierDL = ClassifierDLModel.pretrained() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("classification")
+
+
+    The default model is ``"classifierdl_use_trec6"``, if no name is provided. It uses embeddings from the
+    UniversalSentenceEncoder and is trained on the
+    `TREC-6 <https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels>`__ dataset.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
+    For extended examples of usage, see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb>`__
+    and the `ClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala>`__.
+
+    ======================= ======================
+    Input Annotation types  Output Annotation type
+    ======================= ======================
+    ``SENTENCE_EMBEDDINGS`` ``CATEGORY``
+    ======================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence_embeddings")
+
+        sarcasmDL = ClassifierDLModel.pretrained("classifierdl_use_sarcasm") \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("sarcasm")
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              sentence,
+              useEmbeddings,
+              sarcasmDL
+            ])
+
+        data = spark.createDataFrame([[
+            "I'm ready!",
+            "If I could put into words how much I love waking up at 6 am on Mondays I would."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out") \\
+            .selectExpr("out.sentence.result as sentence", "out.sarcasm.result as sarcasm") \\
+            .show(truncate=False)
+        +-------------------------------------------------------------------------------+-------+
+        |sentence                                                                       |sarcasm|
+        +-------------------------------------------------------------------------------+-------+
+        |I'm ready!                                                                     |normal |
+        |If I could put into words how much I love waking up at 6 am on Mondays I would.|sarcasm|
+        +-------------------------------------------------------------------------------+-------+
+
+    """
     name = "ClassifierDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel", java_model=None):
@@ -2399,6 +6178,127 @@ class AlbertEmbeddings(AnnotatorModel,
                        HasCaseSensitiveProperties,
                        HasStorageRef,
                        HasBatchedAnnotate):
+    """ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS - Google Research, Toyota Technological Institute at Chicago
+
+    These word embeddings represent the outputs generated by the Albert model.
+    All official Albert releases by google in TF-HUB are supported with this Albert Wrapper:
+
+    **Ported TF-Hub Models:**
+
+    ``"albert_base_uncased"``    | `albert_base <https://tfhub.dev/google/albert_base/3>`__       |  768-embed-dim,   12-layer,  12-heads, 12M parameters
+
+    ``"albert_large_uncased"``   | `albert_large <https://tfhub.dev/google/albert_large/3>`__     |  1024-embed-dim,  24-layer,  16-heads, 18M parameters
+
+    ``"albert_xlarge_uncased"``  | `albert_xlarge <https://tfhub.dev/google/albert_xlarge/3>`__   |  2048-embed-dim,  24-layer,  32-heads, 60M parameters
+
+    ``"albert_xxlarge_uncased"`` | `albert_xxlarge <https://tfhub.dev/google/albert_xxlarge/3>`__ |  4096-embed-dim,  12-layer,  64-heads, 235M parameters
+
+    This model requires input tokenization with SentencePiece model, which is provided by Spark-NLP (See tokenizers package).
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = AlbertEmbeddings.pretrained() \\
+         .setInputCols(["sentence", "token"]) \\
+         .setOutputCol("embeddings")
+
+
+    The default model is ``"albert_base_uncased"``, if no name is provided.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__
+    and the `AlbertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    **Sources:**
+
+    `ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS <https://arxiv.org/pdf/1909.11942.pdf>`__
+
+    https://github.com/google-research/ALBERT
+
+    https://tfhub.dev/s?q=albert
+
+    **Paper abstract:**
+
+    *Increasing model size when pretraining natural language representations often results in improved performance on
+    downstream tasks. However, at some point further model increases become harder due to GPU/TPU memory limitations and
+    longer training times. To address these problems, we present two parameter reduction techniques to lower memory
+    consumption and increase the training speed of BERT (Devlin et al., 2019). Comprehensive empirical evidence shows
+    that our proposed methods lead to models that scale much better compared to
+    the original BERT. We also use a self-supervised loss that focuses on modeling
+    inter-sentence coherence, and show it consistently helps downstream tasks with
+    multi-sentence inputs. As a result, our best model establishes new state-of-the-art
+    results on the GLUE, RACE, and SQuAD benchmarks while having fewer parameters compared to BERT-large.*
+
+    **Tips:**
+    ALBERT uses repeating layers which results in a small memory footprint,
+    however the computational cost remains similar to a BERT-like architecture with
+    the same number of hidden layers as it has to iterate through the same number of (repeating) layers.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = AlbertEmbeddings.pretrained() \\
+            .setInputCols(["token", "document"]) \\
+            .setOutputCol("embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            embeddings,
+            embeddingsFinisher
+        ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[1.1342473030090332,-1.3855540752410889,0.9818322062492371,-0.784737348556518...|
+        |[0.847029983997345,-1.047153353691101,-0.1520637571811676,-0.6245765686035156...|
+        |[-0.009860038757324219,-0.13450059294700623,2.707749128341675,1.2916892766952...|
+        |[-0.04192575812339783,-0.5764210224151611,-0.3196685314178467,-0.527840495109...|
+        |[0.15583214163780212,-0.1614152491092682,-0.28423872590065,-0.135491415858268...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "AlbertEmbeddings"
 
@@ -2448,6 +6348,120 @@ class XlnetEmbeddings(AnnotatorModel,
                       HasCaseSensitiveProperties,
                       HasStorageRef,
                       HasBatchedAnnotate):
+    """XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding
+
+    XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language
+    modeling objective. Additionally, XLNet employs Transformer-XL as the backbone model, exhibiting excellent performance
+    for language tasks involving long context. Overall, XLNet achieves state-of-the-art (SOTA) results on various
+    downstream language tasks including question answering, natural language inference, sentiment analysis, and document
+    ranking.
+
+    These word embeddings represent the outputs generated by the XLNet models.
+
+    Note that this is a very computationally expensive module compared to word embedding modules that only perform embedding lookups.
+    The use of an accelerator is recommended.
+
+    ``"xlnet_large_cased"`` = `XLNet-Large <https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip>`__ | 24-layer, 1024-hidden, 16-heads
+
+    ``"xlnet_base_cased"`` = `XLNet-Base <https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip>`__    |  12-layer, 768-hidden, 12-heads. This model is trained on full data (different from the one in the paper).
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = XlnetEmbeddings.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("embeddings")
+
+
+    The default model is ``"xlnet_base_cased"``, if no name is provided.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb>`__
+    and the `XlnetEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddingsTestSpec.scala>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    **Sources :**
+
+    `XLNet: Generalized Autoregressive Pretraining for Language Understanding <https://arxiv.org/abs/1906.08237>`__
+
+    https://github.com/zihangdai/xlnet
+
+    **Paper abstract:**
+
+    *With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves
+    better performance than pretraining approaches based on autoregressive language modeling. However, relying on
+    corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune
+    discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that
+    (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the
+    factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore,
+    XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically,
+    under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question
+    answering, natural language inference, sentiment analysis, and document ranking.*
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = XlnetEmbeddings.pretrained() \\
+            .setInputCols(["token", "document"]) \\
+            .setOutputCol("embeddings")
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            embeddings,
+            embeddingsFinisher
+        ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[-0.6287205219268799,-0.4865287244319916,-0.186111718416214,0.234187275171279...|
+        |[-1.1967450380325317,0.2746637463569641,0.9481253027915955,0.3431355059146881...|
+        |[-1.0777631998062134,-2.092679977416992,-1.5331977605819702,-1.11190271377563...|
+        |[-0.8349916934967041,-0.45627787709236145,-0.7890847325325012,-1.028069257736...|
+        |[-0.134845569729805,-0.11672890186309814,0.4945235550403595,-0.66587203741073...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "XlnetEmbeddings"
 
@@ -2493,6 +6507,78 @@ class XlnetEmbeddings(AnnotatorModel,
 
 
 class ContextSpellCheckerApproach(AnnotatorApproach):
+    """Trains a deep-learning based Noisy Channel Model Spell Algorithm.
+    Correction candidates are extracted combining context information and word information.
+
+    For instantiated/pretrained models, see ContextSpellCheckerModel.
+
+    Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
+    certain number of errors, ``ContextSpellChecker`` will rank correction sequences according to three things:
+     1. Different correction candidates for each word — **word level**.
+     1. The surrounding text of each word, i.e. it’s context — **sentence level**.
+     1. The relative cost of different correction candidates according to the edit operations at the character level it requires — **subword level**.
+
+    For an in-depth explanation of the module see the article `Applying Context Aware Spell Checking in Spark NLP <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
+
+    For extended examples of usage, see the article `Training a Contextual Spell Checker for Italian Language <https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf>`__,
+    the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb>`__
+    and the `ContextSpellCheckerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # For this example, we use the first Sherlock Holmes book as the training dataset.
+
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        spellChecker = ContextSpellCheckerApproach() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("corrected") \\
+            .setWordMaxDistance(3) \\
+            .setBatchSize(24) \\
+            .setEpochs(8) \\
+            .setLanguageModelClasses(1650)  # dependant on vocabulary size
+            # .addVocabClass("_NAME_", names) # Extra classes for correction could be added like this
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            spellChecker
+        ])
+
+        path = "src/test/resources/spell/sherlockholmes.txt"
+        dataset = spark.sparkContext.textFile(path) \\
+            .toDF("text")
+        pipelineModel = pipeline.fit(dataset)
+
+    """
 
     name = "ContextSpellCheckerApproach"
 
@@ -2651,6 +6737,89 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
 
 class ContextSpellCheckerModel(AnnotatorModel):
+    """Implements a deep-learning based Noisy Channel Model Spell Algorithm.
+    Correction candidates are extracted combining context information and word information.
+
+    Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
+    certain number of errors, ``ContextSpellChecker`` will rank correction sequences according to three things:
+     1. Different correction candidates for each word — **word level**.
+     1. The surrounding text of each word, i.e. it’s context — **sentence level**.
+     1. The relative cost of different correction candidates according to the edit operations at the character level it requires — **subword level**.
+
+    For an in-depth explanation of the module see the article `Applying Context Aware Spell Checking in Spark NLP <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
+
+    This is the instantiated model of the ContextSpellCheckerApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        spellChecker = ContextSpellCheckerModel.pretrained() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("checked")
+
+
+    The default model is ``"spellcheck_dl"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb>`__
+    and the `ContextSpellCheckerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("doc")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["doc"]) \\
+            .setOutputCol("token")
+
+        spellChecker = ContextSpellCheckerModel \\
+            .pretrained() \\
+            .setTradeOff(12.0) \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("checked")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            tokenizer,
+            spellChecker
+        ])
+
+        data = spark.createDataFrame([["It was a cold , dreary day and the country was white with smow ."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("checked.result").show(truncate=False)
+        +--------------------------------------------------------------------------------+
+        |result                                                                          |
+        +--------------------------------------------------------------------------------+
+        |[It, was, a, cold, ,, dreary, day, and, the, country, was, white, with, snow, .]|
+        +--------------------------------------------------------------------------------+
+
+    """
     name = "ContextSpellCheckerModel"
 
     wordMaxDistance = Param(Params._dummy(),
@@ -2761,6 +6930,84 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
 
 class SentimentDLApproach(AnnotatorApproach):
+    """Trains a SentimentDL, an annotator for multi-class sentiment analysis.
+
+    In natural language processing, sentiment analysis is the task of classifying the affective state or subjective view
+    of a text. A common example is if either a product review or tweet can be interpreted positively or negatively.
+
+    For the instantiated/pretrained models, see SentimentDLModel.
+
+    **Notes**:
+      - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+        So positive sentiment can be expressed as either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or ``1``.
+      - UniversalSentenceEncoder,
+        BertSentenceEmbeddings, or
+        SentenceEmbeddings can be used for the ``inputCol``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__
+    and the `SentimentDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala>`__.
+
+    ======================= ======================
+    Input Annotation types  Output Annotation type
+    ======================= ======================
+    ``SENTENCE_EMBEDDINGS`` ``CATEGORY``
+    ======================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, `sentiment.csv` is in the form
+        #
+        # text,label
+        # This movie is the best movie I have watched ever! In my opinion this movie can win an award.,0
+        # This was a terrible movie! The acting was bad really bad!,1
+        #
+        # The model can then be trained with
+
+        smallCorpus = spark.read.option("header", "True").csv("src/test/resources/classifier/sentiment.csv")
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence_embeddings")
+
+        docClassifier = SentimentDLApproach() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("sentiment") \\
+            .setLabelColumn("label") \\
+            .setBatchSize(32) \\
+            .setMaxEpochs(1) \\
+            .setLr(5e-3) \\
+            .setDropout(0.5)
+
+        pipeline = Pipeline() \\
+            .setStages(
+              [
+                documentAssembler,
+                useEmbeddings,
+                docClassifier
+              ]
+            )
+
+        pipelineModel = pipeline.fit(smallCorpus)
+
+    """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
@@ -2853,6 +7100,87 @@ class SentimentDLApproach(AnnotatorApproach):
 
 
 class SentimentDLModel(AnnotatorModel, HasStorageRef):
+    """SentimentDL, an annotator for multi-class sentiment analysis.
+
+    In natural language processing, sentiment analysis is the task of classifying the affective state or subjective view
+    of a text. A common example is if either a product review or tweet can be interpreted positively or negatively.
+
+    This is the instantiated model of the SentimentDLApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        sentiment = SentimentDLModel.pretrained() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("sentiment")
+
+
+    The default model is ``"sentimentdl_use_imdb"``, if no name is provided. It is english sentiment analysis trained on
+    the IMDB dataset.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb>`__
+    and the `SentimentDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala>`__.
+
+    ======================= ======================
+    Input Annotation types  Output Annotation type
+    ======================= ======================
+    ``SENTENCE_EMBEDDINGS`` ``CATEGORY``
+    ======================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence_embeddings")
+
+        sentiment = SentimentDLModel.pretrained("sentimentdl_use_twitter") \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setThreshold(0.7) \\
+            .setOutputCol("sentiment")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            useEmbeddings,
+            sentiment
+        ])
+
+        data = spark.createDataFrame([[
+            "Wow, the new video is awesome!",
+            "bruh what a damn waste of time"
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("text", "sentiment.result").show(truncate=False)
+        +------------------------------+----------+
+        |text                          |result    |
+        +------------------------------+----------+
+        |Wow, the new video is awesome!|[positive]|
+        |bruh what a damn waste of time|[negative]|
+        +------------------------------+----------+
+
+    """
     name = "SentimentDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel", java_model=None):
@@ -2889,6 +7217,84 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
 
 
 class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
+    """Language Identification and Detection by using CNN and RNN architectures in TensorFlow.
+
+    ``LanguageDetectorDL`` is an annotator that detects the language of documents or sentences depending on the inputCols.
+    The models are trained on large datasets such as Wikipedia and Tatoeba.
+    Depending on the language (how similar the characters are), the LanguageDetectorDL works
+    best with text longer than 140 characters.
+    The output is a language code in `Wiki Code style <https://en.wikipedia.org/wiki/List_of_Wikipedias>`__.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        Val languageDetector = LanguageDetectorDL.pretrained() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("language")
+
+
+    The default model is ``"ld_wiki_tatoeba_cnn_21"``, default language is ``"xx"`` (meaning multi-lingual),
+    if no values are provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Language+Detection>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb>`__
+    And the `LanguageDetectorDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``LANGUAGE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        languageDetector = LanguageDetectorDL.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("language")
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              languageDetector
+            ])
+
+        data = spark.createDataFrame([[
+            "Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.",
+            "Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.",
+            "Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("language.result").show(truncate=False)
+        +------+
+        |result|
+        +------+
+        |[en]  |
+        |[fr]  |
+        |[de]  |
+        +------+
+
+    """
     name = "LanguageDetectorDL"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL", java_model=None):
@@ -2929,6 +7335,118 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
 
 
 class MultiClassifierDLApproach(AnnotatorApproach):
+    """Trains a MultiClassifierDL for Multi-label Text Classification.
+
+    MultiClassifierDL uses a Bidirectional GRU with a convolutional model that we have built inside TensorFlow and supports
+    up to 100 classes.
+
+    For instantiated/pretrained models, see MultiClassifierDLModel.
+
+    The input to ``MultiClassifierDL`` are Sentence Embeddings such as the state-of-the-art
+    UniversalSentenceEncoder,
+    BertSentenceEmbeddings, or
+    SentenceEmbeddings.
+
+    In machine learning, multi-label classification and the strongly related problem of multi-output classification are
+    variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
+    classification is a generalization of multiclass classification, which is the single-label problem of categorizing
+    instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many
+    of the classes the instance can be assigned to.
+    Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
+    (assigning a value of 0 or 1 for each element (label) in y).
+
+    **Notes**:
+      - This annotator requires an array of labels in type of String.
+      - UniversalSentenceEncoder,
+        BertSentenceEmbeddings, or
+        SentenceEmbeddings can be used for the ``inputCol``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__
+    and the `MultiClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala>`__.
+
+    ======================= ======================
+    Input Annotation types  Output Annotation type
+    ======================= ======================
+    ``SENTENCE_EMBEDDINGS`` ``CATEGORY``
+    ======================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the training data has the form (Note: labels can be arbitrary)
+        #
+        # mr,re
+        # "name[Alimentum], area[city centre], familyFriendly[no], near[Burger King]",Alimentum is an adult establish found in the city centre area near Burger King.
+        # "name[Alimentum], area[city centre], familyFriendly[yes]",Alimentum is a family-friendly place in the city centre.
+        # ...
+        #
+        # It needs some pre-processing first, so the labels are of type `Array[String]`. This can be done like so:
+
+        # Process training data to create text with associated array of labels
+        de splitAndTrim = udf { labels: String =>
+            labels.split(", ").map(x=>x.trim)
+        }
+
+        smallCorpus = spark.read \\
+            .option("header", True) \\
+            .option("inferSchema", True) \\
+            .option("mode", "DROPMALFORMED") \\
+            .csv("src/test/resources/classifier/e2e.csv") \\
+            .withColumn("labels", splitAndTrim(col("mr"))) \\
+            .withColumn("text", col("re")) \\
+            .drop("mr")
+
+        smallCorpus.printSchema()
+        # root
+        # |-- re: string (nullable = True)
+        # |-- labels: array (nullable = True)
+        # |    |-- element: string (containsNull = True)
+
+        # Then create pipeline for training
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document") \\
+            .setCleanupMode("shrink")
+
+        embeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("embeddings")
+
+        docClassifier = MultiClassifierDLApproach() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCol("category") \\
+            .setLabelColumn("labels") \\
+            .setBatchSize(128) \\
+            .setMaxEpochs(10) \\
+            .setLr(1e-3) \\
+            .setThreshold(0.5) \\
+            .setValidationSplit(0.1)
+
+        pipeline = Pipeline() \\
+            .setStages(
+              [
+                documentAssembler,
+                embeddings,
+                docClassifier
+              ]
+            )
+
+        pipelineModel = pipeline.fit(smallCorpus)
+
+    """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
 
@@ -3016,6 +7534,100 @@ class MultiClassifierDLApproach(AnnotatorApproach):
 
 
 class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
+    """MultiClassifierDL for Multi-label Text Classification.
+
+    MultiClassifierDL Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes.
+    The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art
+    UniversalSentenceEncoder,
+    BertSentenceEmbeddings, or
+    SentenceEmbeddings.
+
+    This is the instantiated model of the MultiClassifierDLApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        multiClassifier = MultiClassifierDLModel.pretrained() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("categories")
+
+
+    The default model is ``"multiclassifierdl_use_toxic"``, if no name is provided. It uses embeddings from the
+    UniversalSentenceEncoder and classifies toxic comments.
+    The data is based on the
+    `Jigsaw Toxic Comment Classification Challenge <https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview>`__.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
+    In machine learning, multi-label classification and the strongly related problem of multi-output classification are
+    variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
+    classification is a generalization of multiclass classification, which is the single-label problem of categorizing
+    instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many
+    of the classes the instance can be assigned to.
+    Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
+    (assigning a value of 0 or 1 for each element (label) in y).
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__
+    and the `MultiClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala>`__.
+
+    ======================= ======================
+    Input Annotation types  Output Annotation type
+    ======================= ======================
+    ``SENTENCE_EMBEDDINGS`` ``CATEGORY``
+    ======================= ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence_embeddings")
+
+        multiClassifierDl = MultiClassifierDLModel.pretrained() \\
+            .setInputCols(["sentence_embeddings"]) \\
+            .setOutputCol("classifications")
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              useEmbeddings,
+              multiClassifierDl
+            ])
+
+        data = spark.createDataFrame([[
+            "This is pretty good stuff!",
+            "Wtf kind of crap is this"
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("text", "classifications.result").show(truncate=False)
+        +--------------------------+----------------+
+        |text                      |result          |
+        +--------------------------+----------------+
+        |This is pretty good stuff!|[]              |
+        |Wtf kind of crap is this  |[toxic, obscene]|
+        +--------------------------+----------------+
+
+    """
     name = "MultiClassifierDLModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel", java_model=None):
@@ -3047,6 +7659,116 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
 
 
 class YakeModel(AnnotatorModel):
+    """Yake is an Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction
+    algorithm.
+
+    Extracting keywords from texts has become a challenge for individuals and organizations as the information grows in
+    complexity and size. The need to automate this task so that text can be processed in a timely and adequate manner has
+    led to the emergence of automatic keyword extraction tools. Yake is a novel feature-based system for multi-lingual
+    keyword extraction, which supports texts of different sizes, domain or languages. Unlike other approaches, Yake does
+    not rely on dictionaries nor thesauri, neither is trained against any corpora. Instead, it follows an unsupervised
+    approach which builds upon features extracted from the text, making it thus applicable to documents written in
+    different languages without the need for further knowledge. This can be beneficial for a large number of tasks and a
+    plethora of situations where access to training corpora is either limited or restricted.
+    The algorithm makes use of the position of a sentence and token. Therefore, to use the annotator, the text should be
+    first sent through a Sentence Boundary Detector and then a tokenizer.
+
+    See the parameters section for tweakable parameters to get the best result from the annotator.
+
+    Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
+    Therefore to filter the keywords, an upper bound for the score can be set with ``setThreshold``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/8.Keyword_Extraction_YAKE_v3.0.ipynb>`__
+    and the `YakeTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala>`__.
+
+     **Sources** :
+
+    `Campos, R., Mangaravite, V., Pasquali, A., Jatowt, A., Jorge, A., Nunes, C. and Jatowt, A. (2020). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences Journal. Elsevier, Vol 509, pp 257-289 <https://www.sciencedirect.com/science/article/pii/S0020025519308588>`__
+
+    **Paper abstract:**
+
+    *As the amount of generated information grows, reading and summarizing texts of large collections turns into a challenging task. Many documents do not come with descriptive terms,
+    thus requiring humans to generate keywords on-the-fly. The need to automate this kind of task demands the development of keyword extraction systems with the ability to automatically
+    identify keywords within the text. One approach is to resort to machine-learning algorithms. These, however, depend on large annotated text corpora, which are not always available.
+    An alternative solution is to consider an unsupervised approach. In this article, we describe YAKE!, a light-weight unsupervised automatic keyword extraction method which rests on
+    statistical text features extracted from single documents to select the most relevant keywords of a text. Our system does not need to be trained on a particular set of documents,
+    nor does it depend on dictionaries, external corpora, text size, language, or domain. To demonstrate the merits and significance of YAKE!, we compare it against ten state-of-the-art
+    unsupervised approaches and one supervised method. Experimental results carried out on top of twenty datasets show that YAKE! significantly outperforms other unsupervised methods on
+    texts of different sizes, languages, and domains.*
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``TOKEN``              ``KEYWORD``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentenceDetector = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        token = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token") \\
+            .setContextChars(["(", "]", "?", "!", ".", ","))
+
+        keywords = YakeModel() \\
+            .setInputCols(["token"]) \\
+            .setOutputCol("keywords") \\
+            .setThreshold(0.6) \\
+            .setMinNGrams(2) \\
+            .setNKeywords(10)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentenceDetector,
+            token,
+            keywords
+        ])
+
+        data = spark.createDataFrame([[
+            "Sources tell us that Google is acquiring Kaggle, a platform that hosts data science and machine learning competitions. Details about the transaction remain somewhat vague, but given that Google is hosting its Cloud Next conference in San Francisco this week, the official announcement could come as early as tomorrow. Reached by phone, Kaggle co-founder CEO Anthony Goldbloom declined to deny that the acquisition is happening. Google itself declined 'to comment on rumors'. Kaggle, which has about half a million data scientists on its platform, was founded by Goldbloom  and Ben Hamner in 2010. The service got an early start and even though it has a few competitors like DrivenData, TopCoder and HackerRank, it has managed to stay well ahead of them by focusing on its specific niche. The service is basically the de facto home for running data science and machine learning competitions. With Kaggle, Google is buying one of the largest and most active communities for data scientists - and with that, it will get increased mindshare in this community, too (though it already has plenty of that thanks to Tensorflow and other projects). Kaggle has a bit of a history with Google, too, but that's pretty recent. Earlier this month, Google and Kaggle teamed up to host a $100,000 machine learning competition around classifying YouTube videos. That competition had some deep integrations with the Google Cloud Platform, too. Our understanding is that Google will keep the service running - likely under its current name. While the acquisition is probably more about Kaggle's community than technology, Kaggle did build some interesting tools for hosting its competition and 'kernels', too. On Kaggle, kernels are basically the source code for analyzing data sets and developers can share this code on the platform (the company previously called them 'scripts'). Like similar competition-centric sites, Kaggle also runs a job board, too. It's unclear what Google will do with that part of the service. According to Crunchbase, Kaggle raised $12.5 million (though PitchBook says it's $12.75) since its   launch in 2010. Investors in Kaggle include Index Ventures, SV Angel, Max Levchin, NaRavikant, Google chie economist Hal Varian, Khosla Ventures and Yuri Milner"
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        # combine the result and score (contained in keywords.metadata)
+        scores = result \\
+            .selectExpr("explode(arrays_zip(keywords.result, keywords.metadata)) as resultTuples") \\
+            .select($"resultTuples.0" as "keyword", $"resultTuples.1.score")
+
+        # Order ascending, as lower scores means higher importance
+        scores.orderBy("score").show(5, truncate = False)
+        +---------------------+-------------------+
+        |keyword              |score              |
+        +---------------------+-------------------+
+        |google cloud         |0.32051516486864573|
+        |google cloud platform|0.37786450577630676|
+        |ceo anthony goldbloom|0.39922830978423146|
+        |san francisco        |0.40224744669493756|
+        |anthony goldbloom    |0.41584827825302534|
+        +---------------------+-------------------+
+
+    """
     name = "YakeModel"
     @keyword_only
     def __init__(self):
@@ -3101,6 +7823,99 @@ class YakeModel(AnnotatorModel):
 
 
 class SentenceDetectorDLModel(AnnotatorModel):
+    """Annotator that detects sentence boundaries using a deep learning approach.
+
+    Instantiated Model of the SentenceDetectorDLApproach.
+    Detects sentence boundaries using a deep learning approach.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        sentenceDL = SentenceDetectorDLModel.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentencesDL")
+
+
+    The default model is ``"sentence_detector_dl"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Sentence+Detection>`__.
+
+    Each extracted sentence can be returned in an Array or exploded to separate rows,
+    if ``explodeSentences`` is set to ``true``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
+    and the `SentenceDetectorDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, the normal `SentenceDetector` is compared to the `SentenceDetectorDLModel`. In a pipeline,
+        # `SentenceDetectorDLModel` can be used as a replacement for the `SentenceDetector`.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentences")
+
+        sentenceDL = SentenceDetectorDLModel \\
+            .pretrained("sentence_detector_dl", "en") \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentencesDL")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            sentenceDL
+        ])
+
+        data = spark.createDataFrame([[\"\"\"John loves Mary.Mary loves Peter
+            Peter loves Helen .Helen loves John;
+            Total: four people involved.\"\"\"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(sentences.result) as sentences").show(truncate=False)
+        +----------------------------------------------------------+
+        |sentences                                                 |
+        +----------------------------------------------------------+
+        |John loves Mary.Mary loves Peter\n     Peter loves Helen .|
+        |Helen loves John;                                         |
+        |Total: four people involved.                              |
+        +----------------------------------------------------------+
+
+        result.selectExpr("explode(sentencesDL.result) as sentencesDL").show(truncate=False)
+        +----------------------------+
+        |sentencesDL                 |
+        +----------------------------+
+        |John loves Mary.            |
+        |Mary loves Peter            |
+        |Peter loves Helen .         |
+        |Helen loves John;           |
+        |Total: four people involved.|
+        +----------------------------+
+
+    """
     name = "SentenceDetectorDLModel"
 
     modelArchitecture = Param(Params._dummy(), "modelArchitecture", "Model architecture (CNN)",
@@ -3131,6 +7946,71 @@ class SentenceDetectorDLModel(AnnotatorModel):
 
 
 class SentenceDetectorDLApproach(AnnotatorApproach):
+    """Trains an annotator that detects sentence boundaries using a deep learning approach.
+
+    For pretrained models see SentenceDetectorDLModel.
+
+    Currently, only the CNN model is supported for training, but in the future the architecture of the model can
+    be set with ``setModelArchitecture``.
+
+    The default model ``"cnn"`` is based on the paper
+    `Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed) <https://konvens.org/proceedings/2019/papers/KONVENS2019_paper_41.pdf>`__
+    using a CNN architecture. We also modified the original implementation a little bit to cover broken sentences and some impossible end of line chars.
+
+    Each extracted sentence can be returned in an Array or exploded to separate rows,
+    if ``explodeSentences`` is set to ``true``.
+
+    For extended examples of usage, see the `SentenceDetectorDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # The training process needs data, where each data point is a sentence.
+        # In this example the `train.txt` file has the form of
+        #
+        # ...
+        # Slightly more moderate language would make our present situation – namely the lack of progress – a little easier.
+        # His political successors now have great responsibilities to history and to the heritage of values bequeathed to them by Nelson Mandela.
+        # ...
+        #
+        # where each line is one sentence.
+        # Training can then be started like so:
+
+        trainingData = spark.read.text("train.txt").toDF("text")
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentenceDetector = SentenceDetectorDLApproach() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentences") \\
+            .setEpochsNumber(100)
+
+        pipeline = Pipeline().setStages([documentAssembler, sentenceDetector])
+
+        model = pipeline.fit(trainingData)
+
+    """
 
     name = "SentenceDetectorDLApproach"
 
@@ -3192,6 +8072,75 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
 
 class WordSegmenterApproach(AnnotatorApproach):
+    """Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.
+
+    Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
+    Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
+    impossible. The WordSegmenter is trained to understand these languages and split them into semantically correct parts.
+
+    For instantiated/pretrained models, see WordSegmenterModel.
+
+    To train your own model, a training dataset consisting of
+    `Part-Of-Speech tags <https://en.wikipedia.org/wiki/Part-of-speech_tagging>`__ is required. The data has to be loaded
+    into a dataframe, where the column is an Annotation of type ``"POS"``. This can be
+    set with ``setPosColumn``.
+
+    **Tip**: The helper class POS might be useful to read training data into data frames.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__
+    and the `WordSegmenterTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+        # In this example, `"chinese_train.utf8"` is in the form of
+        #
+        # 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
+        #
+        # and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        wordSegmenter = WordSegmenterApproach() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token") \\
+            .setPosColumn("tags") \\
+            .setNIterations(5)
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            wordSegmenter
+        ])
+
+        trainingDataSet = POS().readDataset(
+            spark,
+            "src/test/resources/word-segmenter/chinese_train.utf8"
+        )
+
+        pipelineModel = pipeline.fit(trainingDataSet)
+
+    """
     name = "WordSegmenterApproach"
 
     posCol = Param(Params._dummy(),
@@ -3248,6 +8197,77 @@ class WordSegmenterApproach(AnnotatorApproach):
 
 
 class WordSegmenterModel(AnnotatorModel):
+    """WordSegmenter which tokenizes non-english or non-whitespace separated texts.
+
+    Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
+    Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
+    impossible. The WordSegmenter is trained to understand these languages and plit them into semantically correct parts.
+
+    This is the instantiated model of the WordSegmenterApproach.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        wordSegmenter = WordSegmenterModel.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("words_segmented")
+
+
+    The default model is ``"wordseg_pku"``, default language is ``"zh"``, if no values are provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__
+    and the `WordSegmenterTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TOKEN``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        wordSegmenter = WordSegmenterModel.pretrained() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            wordSegmenter
+        ])
+
+        data = spark.createDataFrame([["然而，這樣的處理也衍生了一些問題。"]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("token.result").show(truncate=False)
+        +--------------------------------------------------------+
+        |result                                                  |
+        +--------------------------------------------------------+
+        |[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。    ]|
+        +--------------------------------------------------------+
+
+    """
     name = "WordSegmenterModel"
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel", java_model=None):
@@ -3263,6 +8283,110 @@ class WordSegmenterModel(AnnotatorModel):
 
 
 class T5Transformer(AnnotatorModel):
+    """T5: the Text-To-Text Transfer Transformer
+
+    T5 reconsiders all NLP tasks into a unified text-to-text-format where the input and output are always
+    text strings, in contrast to BERT-style models that can only output either a class label or a span of the input.
+    The text-to-text framework is able to use the same model, loss function, and hyper-parameters on any NLP task,
+    including machine translation, document summarization, question answering, and classification tasks
+    (e.g., sentiment analysis). T5 can even apply to regression tasks by training it to predict the string
+    representation of a number instead of the number itself.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        t5 = T5Transformer.pretrained() \\
+            .setTask("summarize:") \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("summaries")
+
+
+    The default model is ``"t5_small"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?q=t5>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb>`__
+    and the `T5TestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala>`__.
+
+    **Sources:**
+     - `Exploring Transfer Learning with T5: the Text-To-Text Transfer Transformer <https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html>`__
+     - `Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer <https://arxiv.org/abs/1910.10683>`__
+     - https://github.com/google-research/text-to-text-transfer-transformer
+
+    **Paper Abstract:**
+
+    *Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a downstream
+    task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness of transfer
+    learning has given rise to a diversity of approaches, methodology, and practice. In this paper, we explore the
+    landscape of transfer learning techniques for NLP by introducing a unified framework that converts all text-based
+    language problems into a text-to-text format. Our systematic study compares pre-training objectives, architectures,
+    unlabeled data sets, transfer approaches, and other factors on dozens of language understanding tasks. By combining
+    the insights from our exploration with scale and our new Colossal Clean Crawled Corpus, we achieve state-of-the-art
+    results on many benchmarks covering summarization, question answering, text classification, and more. To facilitate
+    future work on transfer learning for NLP, we release our data set, pre-trained models, and code.*
+
+    **Note:**
+
+    This is a very computationally expensive module especially on larger sequence.
+    The use of an accelerator such as GPU is recommended.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained("t5_small") \\
+            .setTask("summarize:") \\
+            .setInputCols(["documents"]) \\
+            .setMaxOutputLength(200) \\
+            .setOutputCol("summaries")
+
+        pipeline = Pipeline().setStages([documentAssembler, t5])
+
+        data = spark.createDataFrame([[
+            "Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a " +
+              "downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness" +
+              " of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this " +
+              "paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework " +
+              "that converts all text-based language problems into a text-to-text format. Our systematic study compares " +
+              "pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens " +
+              "of language understanding tasks. By combining the insights from our exploration with scale and our new " +
+              "Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering " +
+              "summarization, question answering, text classification, and more. To facilitate future work on transfer " +
+              "learning for NLP, we release our data set, pre-trained models, and code."
+        ]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.select("summaries.result").show(truncate=False)
+        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |result                                                                                                                                                                                                        |
+        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, methodologies, and practice .]|
+        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+    """
 
     name = "T5Transformer"
 
@@ -3333,6 +8457,104 @@ class T5Transformer(AnnotatorModel):
 
 
 class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
+    """MarianTransformer: Fast Neural Machine Translation
+
+    Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.
+    It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of
+    Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its
+    development. MarianTransformer uses the models trained by MarianNMT.
+
+    It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by
+    many companies, organizations and research projects.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        marian = MarianTransformer.pretrained() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("translation")
+
+
+    The default model is ``"opus_mt_en_fr"``, default language is ``"xx"`` (meaning multi-lingual), if no values are provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Translation>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb>`__
+    and the `MarianTransformerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala>`__.
+
+    **Sources** :
+
+    `MarianNMT at GitHub <https://marian-nmt.github.io/>`__
+
+    `Marian: Fast Neural Machine Translation in C++  <https://www.aclweb.org/anthology/P18-4020/>`__
+
+    **Paper Abstract:**
+
+    *We present Marian, an efficient and self-contained Neural Machine Translation framework with an integrated
+    automatic differentiation engine based on dynamic computation graphs. Marian is written entirely in C++. We describe
+    the design of the encoder-decoder framework and demonstrate that a research-friendly toolkit can achieve high
+    training and translation speed.*
+
+    **Note:**
+
+    This is a very computationally expensive module especially on larger sequence.
+    The use of an accelerator such as GPU is recommended.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx") \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        marian = MarianTransformer.pretrained() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("translation") \\
+            .setMaxInputLength(30)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              sentence,
+              marian
+            ])
+
+        data = spark.createDataFrame([["What is the capital of France? We should know this in french."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(translation.result) as result").show(truncate=False)
+        +-------------------------------------+
+        |result                               |
+        +-------------------------------------+
+        |Quelle est la capitale de la France ?|
+        |On devrait le savoir en français.    |
+        +-------------------------------------+
+
+    """
 
     name = "MarianTransformer"
 
@@ -3389,6 +8611,114 @@ class DistilBertEmbeddings(AnnotatorModel,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
                            HasBatchedAnnotate):
+    """DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
+    ``bert-base-uncased``, runs 60% faster while preserving over 95% of BERT's performances as measured on the GLUE language understanding benchmark.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = DistilBertEmbeddings.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings")
+
+
+    The default model is ``"distilbert_base_cased"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb>`__
+    and the `DistilBertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    The DistilBERT model was proposed in the paper
+    `DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter <https://arxiv.org/abs/1910.01108>`__.
+
+    **Paper Abstract:**
+
+    *As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
+    operating these large models in on-the-edge and/or under constrained computational training or inference budgets
+    remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
+    model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
+    counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
+    knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
+    40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
+    biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
+    distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
+    demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
+    study.*
+
+    Tips:
+      - DistilBERT doesn't have ``:obj:token_type_ids``, you don't need to indicate which token belongs to which segment. Just
+        separate your segments with the separation token ``:obj:tokenizer.sep_token`` (or ``:obj:[SEP]``).
+      - DistilBERT doesn't have options to select the input positions (``:obj:position_ids`` input). This could be added if
+        necessary though, just let us know if you need this option.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = DistilBertEmbeddings.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings") \\
+            .setCaseSensitive(True)
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              tokenizer,
+              embeddings,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[0.1127224713563919,-0.1982710212469101,0.5360898375511169,-0.272536993026733...|
+        |[0.35534414649009705,0.13215228915214539,0.40981462597846985,0.14036104083061...|
+        |[0.328085333108902,-0.06269335001707077,-0.017595693469047546,-0.024373905733...|
+        |[0.15617232024669647,0.2967822253704071,0.22324979305267334,-0.04568954557180...|
+        |[0.45411425828933716,0.01173491682857275,0.190129816532135,0.1178255230188369...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "DistilBertEmbeddings"
 
@@ -3439,6 +8769,111 @@ class RoBertaEmbeddings(AnnotatorModel,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
                         HasBatchedAnnotate):
+    """The RoBERTa model was proposed in `RoBERTa: A Robustly Optimized BERT Pretraining Approach <https://arxiv.org/abs/1907.11692>`__
+    by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.
+    It is based on Google's BERT model released in 2018.
+
+    It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = RoBertaEmbeddings.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings")
+
+
+    The default model is ``"roberta_base"``, if no name is provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__
+    and the `RoBertaEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    **Paper Abstract:**
+
+    *Language model pretraining has led to significant performance gains but careful comparison between different
+    approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes,
+    and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication
+    study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and
+    training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every
+    model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results
+    highlight the importance of previously overlooked design choices, and raise questions about the source of recently
+    reported improvements. We release our models and code.*
+
+    Tips:
+      - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
+      - RoBERTa doesn't have :obj:``token_type_ids``, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:``tokenizer.sep_token`` (or :obj:``</s>``)
+
+    The original code can be found `````here````` https://github.com/pytorch/fairseq/tree/master/examples/roberta.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = RoBertaEmbeddings.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings") \\
+            .setCaseSensitive(True)
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              tokenizer,
+              embeddings,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[0.18792399764060974,-0.14591649174690247,0.20547787845134735,0.1468472778797...|
+        |[0.22845706343650818,0.18073144555091858,0.09725798666477203,-0.0417917296290...|
+        |[0.07037967443466187,-0.14801117777824402,-0.03603338822722435,-0.17893412709...|
+        |[-0.08734266459941864,0.2486150562763214,-0.009067727252840996,-0.24408400058...|
+        |[0.22409197688102722,-0.4312366545200348,0.1401449590921402,0.356410235166549...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "RoBertaEmbeddings"
 
@@ -3489,6 +8924,115 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
                            HasBatchedAnnotate):
+    """The XLM-RoBERTa model was proposed in `Unsupervised Cross-lingual Representation Learning at Scale <https://arxiv.org/abs/1911.02116>`__
+    by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
+    Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based on Facebook's
+    RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl
+    data.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+        embeddings = XlmRoBertaEmbeddings.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings")
+
+
+    The default model is ``"xlm_roberta_base"``, default language is ``"xx"`` (meaning multi-lingual), if no values are provided.
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__
+    and the `XlmRoBertaEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    **Paper Abstract:**
+
+    *This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
+    wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one hundred
+    languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly
+    outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on
+    XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on
+    low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model. We
+    also present a detailed empirical evaluation of the key factors that are required to achieve these gains, including the
+    trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high and low resource
+    languages at scale. Finally, we show, for the first time, the possibility of multilingual modeling without sacrificing
+    per-language performance; XLM-Ris very competitive with strong monolingual models on the GLUE and XNLI benchmarks. We
+    will make XLM-R code, data, and models publicly available.*
+
+    **Tips:**
+      - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
+        not require **lang** parameter to understand which language is used, and should be able to determine the correct
+        language from the input ids.
+      - This implementation is the same as RoBERTa. Refer to the RoBertaEmbeddings for usage examples
+        as well as the information relative to the inputs and outputs.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``WORD_EMBEDDINGS``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    TODO
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("token")
+
+        embeddings = XlmRoBertaEmbeddings.pretrained() \\
+            .setInputCols(["document", "token"]) \\
+            .setOutputCol("embeddings") \\
+            .setCaseSensitive(True)
+
+        embeddingsFinisher = EmbeddingsFinisher() \\
+            .setInputCols(["embeddings"]) \\
+            .setOutputCols("finished_embeddings") \\
+            .setOutputAsVector(True) \\
+            .setCleanAnnotations(False)
+
+        pipeline = Pipeline() \\
+            .setStages([
+              documentAssembler,
+              tokenizer,
+              embeddings,
+              embeddingsFinisher
+            ])
+
+        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+        +--------------------------------------------------------------------------------+
+        |                                                                          result|
+        +--------------------------------------------------------------------------------+
+        |[-0.05969233065843582,-0.030789051204919815,0.04443822056055069,0.09564960747...|
+        |[-0.038839809596538544,0.011712731793522835,0.019954433664679527,0.0667808502...|
+        |[-0.03952755779027939,-0.03455188870429993,0.019103847444057465,0.04311436787...|
+        |[-0.09579929709434509,0.02494969218969345,-0.014753809198737144,0.10259044915...|
+        |[0.004710011184215546,-0.022148698568344116,0.011723337695002556,-0.013356896...|
+        +--------------------------------------------------------------------------------+
+
+    """
 
     name = "XlmRoBertaEmbeddings"
 

@@ -32,7 +32,7 @@ Content
 
     getting_started/index
     annotators/index
-    reference/modules
+    reference/index
 
 TODO
 https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/customizing.html#custom-css
