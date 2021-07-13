@@ -31,7 +31,7 @@ Content
     :maxdepth: 2
 
     getting_started/index
-    annotators/index
+    user_guide/index
     reference/index
 
 TODO
