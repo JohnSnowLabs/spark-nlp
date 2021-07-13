@@ -42,6 +42,7 @@ unittest.TextTestRunner().run(YakeModelTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
+unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 # Should be locally tested
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
@@ -59,7 +60,6 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTemperatureTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTopPTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
-# unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 # Misc tests
 

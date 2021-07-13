@@ -9725,12 +9725,27 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
 class GraphExtraction(AnnotatorModel):
 
-    name = "GraphExtractor"
+    name = "GraphExtraction"
 
-    entityRelationships = Param(Params._dummy(),
-                                "entityRelationships",
-                                "Entity relationships we are interested in",
-                                typeConverter=TypeConverters.toListString)
+    relationshipTypes = Param(Params._dummy(),
+                              "relationshipTypes",
+                              "Find paths between a pair of token and entity",
+                              typeConverter=TypeConverters.toListString)
+
+    entityTypes = Param(Params._dummy(),
+                        "entityTypes",
+                        "Find paths between a pair of entities",
+                        typeConverter=TypeConverters.toListString)
+
+    explodeEntities = Param(Params._dummy(),
+                            "explodeEntities",
+                            "When set to true find paths between entities",
+                            typeConverter=TypeConverters.toBoolean)
+
+    rootTokens = Param(Params._dummy(),
+                       "rootTokens",
+                       "Tokens to be consider as root to start traversing the paths. Use it along with explodeEntities",
+                       typeConverter=TypeConverters.toBoolean)
 
     maxSentenceSize = Param(Params._dummy(),
                             "maxSentenceSize",
@@ -9742,14 +9757,71 @@ class GraphExtraction(AnnotatorModel):
                             "Minimum sentence size that the annotator will process. Above this, the sentence is skipped",
                             typeConverter=TypeConverters.toInt)
 
-    def setEntityRelatonships(self, value):
-        return self._set(entityRelationships=value)
+    mergeEntities = Param(Params._dummy(),
+                          "mergeEntities",
+                          "Merge same neighboring entities as a single token",
+                          typeConverter=TypeConverters.toBoolean)
+
+    includeEdges = Param(Params._dummy(),
+                         "includeEdges",
+                         "Whether to include edges when building paths",
+                         typeConverter=TypeConverters.toBoolean)
+
+    delimiter = Param(Params._dummy(),
+                      "delimiter",
+                      "Delimiter symbol used for path output",
+                      typeConverter=TypeConverters.toString)
+
+    posModel = Param(Params._dummy(),
+                     "posModel",
+                     "Pretrained POS Model",
+                     typeConverter=TypeConverters.identity)
+
+    dependencyParserModel = Param(Params._dummy(),
+                                  "dependencyParserModel",
+                                  "Pretrained Dependency Parser Model",
+                                  typeConverter=TypeConverters.identity)
+
+    typedDependencyParserModel = Param(Params._dummy(),
+                                       "typedDependencyParserModel",
+                                       "Pretrained Typed Dependency Parser Model",
+                                       typeConverter=TypeConverters.identity)
+
+    def setRelationshipTypes(self, value):
+        return self._set(relationshipTypes=value)
+
+    def setEntityTypes(self, value):
+        return self._set(entityTypes=value)
+
+    def setExplodeEntities(self, value):
+        return self._set(explodeEntities=value)
+
+    def setRootTokens(self, value):
+        return self._set(rootTokens=value)
 
     def setMaxSentenceSize(self, value):
         return self._set(maxSentenceSize=value)
 
     def setMinSentenceSize(self, value):
         return self._set(minSentenceSize=value)
+
+    def setMergeEntities(self, value):
+        return self._set(mergeEntities=value)
+
+    def setIncludeEdges(self, value):
+        return self._set(includeEdges=value)
+
+    def setDelimiter(self, value):
+        return self._set(delimiter=value)
+
+    # def setPosModel(self, value):
+    #     return self._set(posModel=value)
+    #
+    # def setDependencyParserModel(self, value):
+    #     return self._set(dependencyParserModel=value)
+    #
+    # def setTypedDependencyParserModel(self, value):
+    #     return self._set(typedDependencyParserModel=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.GraphExtraction", java_model=None):
