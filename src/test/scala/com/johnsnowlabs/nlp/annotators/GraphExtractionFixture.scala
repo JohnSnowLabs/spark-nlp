@@ -368,53 +368,44 @@ trait GraphExtractionFixture {
 
   def getPubTatorEntities(spark: SparkSession, pipeline: Pipeline): DataFrame = {
     import spark.implicits._
-    val textDataSet = Seq("Influence of interleukin-6 gene polymorphisms on coronary artery calcification in patients with psoriasis")
+    val textDataSet = Seq("Influence of interleukin-6 gene polymorphisms on coronary_artery_calcification in patients with psoriasis")
       .toDS.toDF("text")
     val tokenDataSet = pipeline.fit(textDataSet).transform(textDataSet)
     val mockDependencyParserData = Seq(Row(
-      List(Row(DEPENDENCY, 0, 4, "tonight", Map("head" -> "2", "head.begin" -> "6", "head.end" -> "12",
+      List(Row(DEPENDENCY, 0, 8, "polymorphisms", Map("head" -> "5", "head.begin" -> "32", "head.end" -> "44",
         "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 6, 12, "sees", Map("head" -> "8", "head.begin" -> "32", "head.end" -> "35",
+        Row(DEPENDENCY, 10, 11, "gene", Map("head" -> "4", "head.begin" -> "27", "head.end" -> "30",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 13, 13, "sees", Map("head" -> "8", "head.begin" -> "32", "head.end" -> "35",
+        Row(DEPENDENCY, 13, 25, "gene", Map("head" -> "4", "head.begin" -> "27", "head.end" -> "30",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 15, 16, "time", Map("head" -> "6", "head.begin" -> "22", "head.end" -> "25",
+        Row(DEPENDENCY, 27, 30, "Influence", Map("head" -> "1", "head.begin" -> "0", "head.end" -> "8",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 18, 20, "time", Map("head" -> "6", "head.begin" -> "22", "head.end" -> "25",
+        Row(DEPENDENCY, 32, 44, "ROOT", Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 22, 25, "sees", Map("head" -> "8", "head.begin" -> "32", "head.end" -> "35",
+        Row(DEPENDENCY, 46, 47, "coronary_artery_calcification", Map("head" -> "7", "head.begin" -> "49", "head.end" -> "77",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 27, 30, "sees", Map("head" -> "8", "head.begin" -> "32", "head.end" -> "35",
+        Row(DEPENDENCY, 49, 77, "polymorphisms", Map("head" -> "5", "head.begin" -> "32", "head.end" -> "44",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 32, 35, "ROOT", Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
+        Row(DEPENDENCY, 79, 80, "patients", Map("head" -> "9", "head.begin" -> "82", "head.end" -> "89",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 37, 40, "goes", Map("head" -> "12", "head.begin" -> "51", "head.end" -> "54",
+        Row(DEPENDENCY, 82, 89, "coronary artery calcification", Map("head" -> "7", "head.begin" -> "49", "head.end" -> "77",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 42, 44, "Mary", Map("head" -> "11", "head.begin" -> "46", "head.end" -> "49",
+        Row(DEPENDENCY, 91, 94, "psoriasis", Map("head" -> "11", "head.begin" -> "96", "head.end" -> "104",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 46, 49, "Bill", Map("head" -> "9", "head.begin" -> "37", "head.end" -> "40",
-          "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 51, 54, "sees", Map("head" -> "8", "head.begin" -> "32", "head.end" -> "35",
-          "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 56, 57, "Pasadena", Map("head" -> "14", "head.begin" -> "59", "head.end" -> "66",
-          "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 59, 66, "goes", Map("head" -> "12", "head.begin" -> "51", "head.end" -> "54",
+        Row(DEPENDENCY, 96, 104, "patients", Map("head" -> "9", "head.begin" -> "82", "head.end" -> "89",
           "sentence" -> "0"), List())
       ),
-      List(Row(LABELED_DEPENDENCY, 0, 4, "advmod", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 6, 12, "obl:tmod", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 13, 13, "punct", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 15, 16, "case", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 18, 20, "det", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 22, 25, "obl", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 27, 30, "nsubj", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 32, 35, "root", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 37, 40, "nsubj", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 42, 44, "cc", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 46, 49, "conj", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 51, 54, "ccomp", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 56, 57, "case", Map("sentence" -> "0"), List()),
-        Row(LABELED_DEPENDENCY, 59, 66, "obl", Map("sentence" -> "0"), List())
+      List(Row(LABELED_DEPENDENCY, 0, 8, "nsubj", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 10, 11, "case", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 13, 25, "amod", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 27, 30, "nmod", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 32, 44, "root", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 46, 47, "case", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 47, 77, "nmod", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 79, 80, "case", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 82, 89, "nmod", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 91, 94, "case", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 96, 104, "nmod", Map("sentence" -> "0"), List())
       )
     ))
 
@@ -423,20 +414,17 @@ trait GraphExtractionFixture {
       dependenciesStruct)
 
     val mockNerData = Seq(Row(
-      List(Row(NAMED_ENTITY, 0, 4, "O", Map("entity" -> "Later", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 6, 12, "O", Map("entity" -> "tonight", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 13, 13, "O", Map("entity" -> ",", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 15, 16, "O", Map("entity" -> "by", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 18, 20, "O", Map("entity" -> "the", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 22, 25, "O", Map("entity" -> "time", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 27, 30, "B-PER", Map("entity" -> "John", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 32, 35, "O", Map("entity" -> "sees", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 37, 40, "B-PER", Map("entity" -> "Bill", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 42, 44, "O", Map("entity" -> "and", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 46, 49, "B-PER", Map("entity" -> "Mary", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 51, 54, "O", Map("entity" -> "goes", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 56, 57, "O", Map("entity" -> "to", "sentence" -> "0"), List()),
-        Row(NAMED_ENTITY, 59, 66, "B-LOC", Map("entity" -> "Pasadena", "sentence" -> "0"), List())
+      List(Row(NAMED_ENTITY, 0, 8, "O", Map("entity" -> "Influence", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 10, 11, "O", Map("entity" -> "of", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 13, 25, "B-GENE", Map("entity" -> "interleukin-6", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 27, 30, "O", Map("entity" -> "gene", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 32, 44, "O", Map("entity" -> "polymorphisms", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 46, 47, "O", Map("entity" -> "on", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 47, 77, "B-DISEASE", Map("entity" -> "coronary_artery_calcification", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 79, 80, "O", Map("entity" -> "in", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 82, 89, "O", Map("entity" -> "patients", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 91, 94, "O", Map("entity" -> "with", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 96, 104, "O", Map("entity" -> "psoriasis", "sentence" -> "0"), List())
       )
     ))
 

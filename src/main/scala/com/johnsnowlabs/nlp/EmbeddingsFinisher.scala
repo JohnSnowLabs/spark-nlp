@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.util.FinisherUtil
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.linalg.SQLDataTypes.VectorType
 import org.apache.spark.ml.linalg.Vectors
@@ -220,20 +221,8 @@ class EmbeddingsFinisher(override val uid: String)
     getInputCols.foreach {
       annotationColumn =>
 
-        /**
-          * Check if the inputCols exist
-          */
-        require(getInputCols.forall(schema.fieldNames.contains),
-          s"pipeline annotator stages incomplete. " +
-            s"expected: ${getInputCols.mkString(", ")}, " +
-            s"found: ${schema.fields.filter(_.dataType == ArrayType(Annotation.dataType)).map(_.name).mkString(", ")}, " +
-            s"among available: ${schema.fieldNames.mkString(", ")}")
-
-        /**
-          * Check if the annotationColumn is(are) Spark NLP annotations
-          */
-        require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
-          s"column [$annotationColumn] must be an NLP Annotation column")
+        FinisherUtil.checkIfInputColsExist(getInputCols, schema)
+        FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
 
         /**
           * Check if the annotationColumn has embeddings
@@ -243,12 +232,7 @@ class EmbeddingsFinisher(override val uid: String)
           s"column [$annotationColumn] must be a type of either WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings")
 
     }
-    val metadataFields =  getOutputCols.flatMap(outputCol => {
-      if ($(outputAsVector))
-        Some(StructField(outputCol + "_metadata", MapType(StringType, StringType), nullable = false))
-      else
-        None
-    })
+    val metadataFields = FinisherUtil.getMetadataFields(getOutputCols, $(outputAsVector))
 
     val outputFields = schema.fields ++
       getOutputCols.map(outputCol => {
@@ -258,9 +242,8 @@ class EmbeddingsFinisher(override val uid: String)
           StructField(outputCol, ArrayType(FloatType), nullable = false)
       }) ++ metadataFields
 
-    val cleanFields = if ($(cleanAnnotations)) outputFields.filterNot(f =>
-      f.dataType == ArrayType(Annotation.dataType)
-    ) else outputFields
+    val cleanFields = FinisherUtil.getCleanFields($(cleanAnnotations), outputFields)
+
     StructType(cleanFields)
   }
 

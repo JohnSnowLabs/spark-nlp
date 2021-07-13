@@ -12,12 +12,12 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
   val tokenizerPipeline = new Pipeline()
   val tokenizerWithSentencePipeline = new Pipeline()
   val documentAssembler = new DocumentAssembler()
+  val tokenizer = new Tokenizer()
 
   override def beforeAll(): Unit = {
     super.beforeAll()
 
     documentAssembler.setInputCol("text").setOutputCol("document")
-    val tokenizer = new Tokenizer()
     tokenizer.setInputCols("document").setOutputCol("token")
     tokenizerPipeline.setStages(Array(documentAssembler, tokenizer))
 

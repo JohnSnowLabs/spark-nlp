@@ -1739,17 +1739,12 @@ class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
 class GraphExtractionTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.spark = SparkSessionForTest.spark
-        self.data_set = self.spark.createDataFrame([["United canceled the morning flights to Houston"]]).toDF("text")
+        self.spark = SparkContextForTest.spark
+        self.data_set = self.spark.createDataFrame([["Peter Parker is a nice person and lives in New York"]]).toDF("text")
 
     def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \
-            .setInputCols("document") \
-            .setOutputCol("token")
+        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
         word_embeddings = WordEmbeddingsModel.pretrained() \
             .setInputCols(["document", "token"]) \
@@ -1764,22 +1759,28 @@ class GraphExtractionTestSpec(unittest.TestCase):
             .setOutputCol("pos")
 
         dependency_parser = DependencyParserModel.pretrained() \
-            .setInputCols(["document", "token", "pos"]) \
+            .setInputCols(["document", "pos", "token"]) \
             .setOutputCol("dependency")
 
         typed_dependency_parser = TypedDependencyParserModel.pretrained() \
-            .setInputCols(["document", "token", "pos", "dependency"]) \
+            .setInputCols(["token", "pos", "dependency"]) \
             .setOutputCol("labdep")
 
         graph_extraction = GraphExtraction() \
-            .setInputCols(["document", "token", "dependency", "labdep", "ner"]) \
+            .setInputCols(["document", "token", "ner"]) \
             .setOutputCol("graph") \
+            .setRelationshipTypes(["person-PER", "person-LOC"])
+
+        graph_finisher = GraphFinisher() \
+            .setInputCol("graph") \
+            .setOutputCol("finisher")
 
         pipeline = Pipeline().setStages([document_assembler, tokenizer,
-                                         word_embeddings, ner_model,
-                                         pos_tagger, dependency_parser, typed_dependency_parser,
-                                         graph_extraction])
+                                         word_embeddings, ner_model, pos_tagger,
+                                         dependency_parser, typed_dependency_parser])
 
-        result = pipeline.fit(self.data_set).transform(self.data_set)
+        test_data_set = pipeline.fit(self.data_set).transform(self.data_set)
+        pipeline_finisher = Pipeline().setStages([graph_extraction, graph_finisher])
 
-        result.select("graph").show(truncate=False)
+        graph_data_set = pipeline_finisher.fit(test_data_set).transform(test_data_set)
+        graph_data_set.show(truncate=False)
