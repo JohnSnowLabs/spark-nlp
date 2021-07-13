@@ -1,5 +1,6 @@
+#############
 API Reference
-================
+#############
 
 This page lists an overview of all Spark NLP modules, classes, functions and methods.
 

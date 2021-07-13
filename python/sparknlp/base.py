@@ -39,9 +39,13 @@ class LightPipeline:
     def __init__(self, pipelineModel, parse_embeddings=False):
         """Creates a LightPipeline from a Spark PipelineModel.
 
-        LightPipelines are Spark ML pipelines converted into a single machine but the multi-threaded task,
-        becoming more than 10x times faster for smaller amounts of data (small is relative, but 50k
-        sentences are roughly a good maximum). They have the same interface as regular PipelineModels.
+        LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark ML Pipeline.
+        The difference is that it’s execution does not hold to Spark principles, instead it
+        computes everything locally (but in parallel) in order to achieve fast results when
+        dealing with small amounts of data. This means, we do not input a Spark Dataframe, but
+        a string or an Array of strings instead, to be annotated. To create Light Pipelines,
+        you need to input an already trained (fit) Spark ML Pipeline. It’s transform() stage
+        is converted into annotate() instead.
 
         Parameters
         ----------

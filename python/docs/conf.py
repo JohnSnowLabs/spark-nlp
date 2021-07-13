@@ -33,10 +33,9 @@ pyspark_version = "3.0.2"
 # ones.
 extensions = [
     "sphinx.ext.viewcode",
-    "sphinx.ext.mathjax",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.autosummary",
     "numpydoc",  # handle NumPy documentation formatted docstrings.
-    # "sphinx_plotly_directive",  # For visualize plot result
     "sphinx-prompt",
     "sphinx_toggleprompt",
     # "sphinx_copybutton", # TODO
@@ -47,13 +46,7 @@ extensions = [
 intersphinx_mapping = {
     "spark": ("https://spark.apache.org/docs/latest/api/python/", None),
 }
-# plotly plot directive
-# plotly_include_source = True
-# plotly_html_show_formats = False
-# plotly_html_show_source_link = False
-# plotly_pre_code = """import numpy as np
-# import pandas as pd
-# import pyspark.pandas as ps"""
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -65,8 +58,8 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "resources/logo.png"
-html_favicon = "resources/fav.ico"
+html_logo = "_static/logo.png"
+html_favicon = "_static/fav.ico"
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -79,16 +72,18 @@ html_theme = "pydata_sphinx_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-
+html_css_files = [
+    "css/custom.css",
+]
 # -- Options for autodoc --------------------------------------------------
 
 # Look at the first line of the docstring for function and method signatures.
 autodoc_docstring_signature = True
 autosummary_generate = True
 numpydoc_show_class_members = False  # Or add Method section in doc strings? https://stackoverflow.com/questions/65198998/sphinx-warning-autosummary-stub-file-not-found-for-the-methods-of-the-class-c
-autoclass_content = "both"  # use init as doc
+autoclass_content = "both"  # use __init__ as doc as well
 
-# -- More Configutration -----------------------------------------------------
+# -- More Configurations -----------------------------------------------------
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
