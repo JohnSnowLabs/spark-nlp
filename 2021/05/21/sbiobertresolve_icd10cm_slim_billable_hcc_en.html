@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for billable ICD10-CM HCC codes (Slim)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD10-CM codes using sentence embeddings. This model has been augmented with synonyms and synonyms h...">
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for billable ICD10-CM HCC codes (Slim)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD10-CM codes using sbiobert_base_cased_mli Sentence Bert Embeddings. This model has been augmented...">
 <link rel="canonical" href="/2021/05/21/sbiobertresolve_icd10cm_slim_billable_hcc_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,7 +409,7 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps extracted medical entities to ICD10-CM codes using sentence embeddings. This model has been augmented with synonyms and synonyms having low cosine similarity are dropped.</p>
+<p>This model maps extracted medical entities to ICD10-CM codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings. This model has been augmented with synonyms and synonyms having low cosine similarity are dropped, making the model slim.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 

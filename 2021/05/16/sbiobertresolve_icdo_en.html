@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.Given an oncologic...">
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD-O (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using sbiobert_base_cased_mli Sentence Bert Embeddin...">
 <link rel="canonical" href="/2021/05/16/sbiobertresolve_icdo_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,13 +409,13 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using BioBert Sentence Embeddings.</p>
+<p>This model maps extracted medical entities to ICD-O codes (Topography &amp; Morphology codes) using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings.</p>
 
 <p>Given an oncological entity found in the text (via NER models like ner_jsl), it returns top terms and resolutions along with the corresponding ICD-O codes to present more granularity with respect to body parts mentioned. It also returns the original <code class="language-plaintext highlighter-rouge">Topography</code> codes, <code class="language-plaintext highlighter-rouge">Morphology</code> codes comprising of <code class="language-plaintext highlighter-rouge">Histology</code> and <code class="language-plaintext highlighter-rouge">Behavior</code> codes, and descriptions in the aux metadata.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p>ICD-O Codes and their normalized definition with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> embeddings.</p>
+<p>Predicts ICD-O Codes and their normalized definition for each chunk.</p>
 
 <p class="btn-box"><a href="https://nlp.johnsnowlabs.com/demo" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
