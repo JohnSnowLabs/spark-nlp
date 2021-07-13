@@ -23,6 +23,8 @@ Getting Started
 Spark NLP Cheat Sheet
 *********************
 
+This cheat sheet can be used as a quick reference on how to set up your environment:
+
 .. code-block:: bash
     :substitutions:
 
@@ -60,9 +62,9 @@ Spark NLP is built on top of Apache Spark `3.x`. For using Spark NLP you need:
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to `Spark documentation <https://spark.apache.org/docs/latest/api/python/index.html>`_ to get started with Spark.
 
-*************
-Quick Install
-*************
+************
+Installation
+************
 
 First, let's make sure the installed java version is Java 8 (Oracle or OpenJDK):
 
@@ -112,6 +114,13 @@ Now you should be ready to create a jupyter notebook with Spark NLP running:
 ****************************************
 Starting a Spark NLP Session from Python
 ****************************************
+
+A Spark session for Spark NLP can be created (or retrieved) by using :func:`sparknlp.start`:
+
+.. code-block:: python
+
+    import sparknlp
+    spark = sparknlp.start()
 
 If you need to manually start SparkSession because you have other configurations and ``sparknlp.start()`` is not including them,
 you can manually start the SparkSession with:

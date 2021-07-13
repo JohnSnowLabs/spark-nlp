@@ -2,10 +2,19 @@
 User Guide
 ##########
 
-**********
-Annotators
-**********
+This guide is an overview and explains the important features of Spark NLP.
+The in-depth documentation can be found in the :ref:`API Reference`.
+For more explanations, see also the `Main Page <https://nlp.johnsnowlabs.com/docs/en/quickstart/>`_
+and the `Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop>`_ for more examples.
 
-All annotators in Spark NLP share a common interface.
+.. toctree::
+    :maxdepth: 2
 
-:mod:`sparknlp.annotator`
+    annotation
+    annotators
+    pretrained_models
+    custom_pipelines
+    pretrained_pipelines
+    training
+    light_pipelines
+    helpers

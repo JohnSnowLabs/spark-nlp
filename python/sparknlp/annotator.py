@@ -14,8 +14,6 @@
 #  limitations under the License.
 
 """Module containing all available Annotators of Spark NLP.
-Each Annotator...
-
 """
 
 import sys

@@ -17,11 +17,14 @@
 
 .. Spark NLP documentation master file
 
-#####################################
-Welcome to Spark NLP's Documentation!
-#####################################
+#######################
+Spark NLP Documentation
+#######################
 
 `Main Page <https://nlp.johnsnowlabs.com/>`_ | `GitHub <https://github.com/JohnSnowLabs/spark-nlp>`_ | `Issues <https://github.com/JohnSnowLabs/spark-nlp/issues>`_ | `Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop>`_ | `Models Hub <https://nlp.johnsnowlabs.com/models>`_
+
+Welcome to Spark NLP's Python documentation! This page contains information how to use the
+library with examples.
 
 *******
 Content
@@ -33,6 +36,4 @@ Content
     getting_started/index
     user_guide/index
     reference/index
-
-TODO
-https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/customizing.html#custom-css
+    development/index
