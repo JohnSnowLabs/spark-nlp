@@ -36,7 +36,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.autosummary",
     "numpydoc",  # handle NumPy documentation formatted docstrings.
-    "sphinx_plotly_directive",  # For visualize plot result
+    # "sphinx_plotly_directive",  # For visualize plot result
     "sphinx-prompt",
     "sphinx_toggleprompt",
     # "sphinx_copybutton", # TODO
