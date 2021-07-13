@@ -29,6 +29,9 @@ object DateMatcherTranslator extends Serializable {
   val DigitsPattern = """(\\d+)"""
   val NotDetected = "-1"
 
+  val AccentsPattern = "\\p{InCombiningDiacriticalMarks}+"
+  val PunctuationPattern = "[^a-zA-Z0-9 \\/]"
+
   /**
     * Load dictionary from supported language repository.
     * @param language the language dictionary to load. Default is English.
@@ -186,8 +189,14 @@ object DateMatcherTranslator extends Serializable {
   // utility type
   type DateMatcherIndexedToken = (String, Int)
 
+  private def adjustPunctuation(text: String): String = {
+    text.replaceAll("\\.|,|!|\\?|:",EmptyStr)
+  }
+
+
   /**
     *  Matches the indexed text token against the passed dictionary.
+    *
     *  @param indexToken the indexed token to match.
     *  @param dictionary the dictionary to match token against.
     * */
@@ -205,7 +214,7 @@ object DateMatcherTranslator extends Serializable {
 
       val translated: Set[(String, Int)] =
         for(k <- keys
-            if getListifiedValues(k).contains(token.toLowerCase)
+            if getListifiedValues(k).contains(token)
             ) yield (k, index)
 
       // only first match if any is returned
@@ -348,18 +357,21 @@ object DateMatcherTranslator extends Serializable {
     * */
   private def translateTokens(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
 
+    // tokens can have punctuation so we remove it
+    val _text = adjustPunctuation(text)
+
     if (!sourceLanguageInfo.keySet.head.equals(English)) {
       val sourceLanguageDictionary: Map[String, Any] = loadDictionary(sourceLanguageInfo.keySet.head)
 
       val translatedIndexedToken: Array[DateMatcherIndexedToken] =
-        text
+        _text
           .split(SpaceChar).zipWithIndex
           .map(matchIndexedToken(_, sourceLanguageDictionary))
 
-      applyTranslation(translatedIndexedToken, text)
+      applyTranslation(translatedIndexedToken, _text)
     }
     else
-      text
+      _text
   }
 
   /**
@@ -398,21 +410,25 @@ object DateMatcherTranslator extends Serializable {
   /**
     * Translate the text from source language to destination language.
     *
-    * @param text the text to translate.
+    * @param _text the text to translate.
     * @param sourceLanguage the source language.
     * @param destination the destination language.
     * @return the translated text from source language to destination language.
     * */
   def translate(text: String, sourceLanguage: String, destination: String = English): String = {
+
+    // 0. normalize
+    val _text = text.toLowerCase
+
     // 1. detect source language
-    val _sourceLanguageInfo: Map[String, Set[String]] = processSourceLanguageInfo(text, sourceLanguage)
+    val _sourceLanguageInfo: Map[String, Set[String]] = processSourceLanguageInfo(_text, sourceLanguage)
 
     // 2. apply translation if source is not english
     val translated =
       if(!_sourceLanguageInfo.keySet.head.equals(English))
-        _translate(text, _sourceLanguageInfo, destination)
+        _translate(_text, _sourceLanguageInfo, destination)
       else
-        text
+        _text
 
     translated
   }

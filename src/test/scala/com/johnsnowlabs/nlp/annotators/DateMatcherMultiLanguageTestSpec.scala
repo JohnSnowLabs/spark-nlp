@@ -1563,4 +1563,34 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
 
     assert(annotations.head.result == formattedDateString)
   }
+
+  "a DateMatcher" should "be catching relative date in italian with complex sentence" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Così il ct azzurro Roberto Mancini, oggi, poco prima di entrare al Quirinale dove l'Italia campione " +
+        "d'Europa sta per essere accolta dal Presidente della Repubblica Sergio Mattarella.")
+
+    val DateFormat = "MM/dd/yyyy"
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat(DateFormat)
+      .setSourceLanguage("it")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val localDateTime = LocalDateTime.now
+    val formatter = DateTimeFormat.forPattern(DateFormat)
+    val formattedDateString = formatter.print(localDateTime)
+
+    assert(annotations.head.result == formattedDateString)
+  }
 }
