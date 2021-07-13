@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
+import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, Finisher}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.FlatSpec
@@ -25,13 +25,13 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,TIME",
         "path" -> "canceled,United,canceled,flights,morning",
-        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->morning")),
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,morning")),
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
         "path" -> "canceled,United,canceled,flights,Houston",
-        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,Houston")),
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "TIME,LOC",
         "path" -> "canceled,flights,morning,canceled,flights,Houston",
-        "left_path" -> "canceled->flights->morning", "right_path" -> "canceled->flights->Houston"))
+        "left_path" -> "canceled,flights,morning", "right_path" -> "canceled,flights,Houston"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -51,7 +51,7 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
         "path" -> "canceled,United,canceled,flights,Houston",
-        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,Houston")),
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -70,10 +70,10 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
         "path" -> "canceled,United,canceled,flights,Houston",
-        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,Houston")),
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,TIME",
         "path" -> "canceled,United,canceled,flights,morning",
-        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->morning"))
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,morning"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -92,11 +92,11 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
         "path" -> "canceled,United,canceled,flights,Houston",
-        "left_path" -> "canceled->United", "right_path" -> "canceled->flights->Houston")),
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,Houston")),
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
         "path" -> "canceled,United,canceled,flights,Houston,Dallas",
-        "left_path" -> "canceled->United",
-        "right_path" -> "canceled->flights->Houston->Dallas"))
+        "left_path" -> "canceled,United",
+        "right_path" -> "canceled,flights,Houston,Dallas"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -116,8 +116,8 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "LOC,LOC",
         "path" -> "canceled,flights,Houston,Dallas,canceled,flights,Houston",
-        "left_path" -> "canceled->flights->Houston->Dallas",
-        "right_path" -> "canceled->flights->Houston"))
+        "left_path" -> "canceled,flights,Houston,Dallas",
+        "right_path" -> "canceled,flights,Houston"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -136,11 +136,11 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "LOC,TIME",
         "path" -> "canceled,flights,Houston,canceled,flights,morning",
-        "left_path" -> "canceled->flights->Houston", "right_path" -> "canceled->flights->morning")),
+        "left_path" -> "canceled,flights,Houston", "right_path" -> "canceled,flights,morning")),
       Annotation(NODE, 59, 60, "go", Map("entities" -> "LOC,TIME",
         "path" -> "go,London,go,tomorrow",
-        "left_path" -> "go->London",
-        "right_path" -> "go->tomorrow"))
+        "left_path" -> "go,London",
+        "right_path" -> "go,tomorrow"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -161,7 +161,7 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "LOC,TIME",
         "path" -> "canceled,flights,Houston,canceled,flights,morning",
-        "left_path" -> "canceled->flights->Houston", "right_path" -> "canceled->flights->morning"))
+        "left_path" -> "canceled,flights,Houston", "right_path" -> "canceled,flights,morning"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -208,7 +208,7 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
     val expectedGraph = Array(Seq(
       Annotation(NODE, 51, 54, "goes", Map("entities" -> "PER,LOC",
         "path" -> "goes,Bill,goes,Pasadena",
-        "left_path" -> "goes->Bill", "right_path" -> "goes->Pasadena"))
+        "left_path" -> "goes,Bill", "right_path" -> "goes,Pasadena"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -223,10 +223,9 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("sees-PER"))
-
-    val expectedGraph = Array(Seq(
-      Annotation(NODE, 32, 35, "sees", Map("relationship" -> "sees,PER",
-        "path" -> "sees,John,sees,goes,Bill,sees,goes,Bill,Mary"))
+    val expectedGraph = Array(Seq(Annotation(NODE, 32, 35, "sees", Map("relationship" -> "sees,PER",
+      "path1" -> "sees,nsubj,John", "path2" -> "sees,ccomp,goes,nsubj,Bill",
+      "path3" -> "sees,ccomp,goes,nsubj,Bill,conj,Mary"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -241,12 +240,31 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("goes-PER", "goes-LOC"))
-
+      .setIncludeEdges(false)
     val expectedGraph = Array(Seq(
       Annotation(NODE, 51, 54, "goes", Map("relationship" -> "goes,PER",
-        "path" -> "goes,Bill,goes,Bill,Mary")),
+        "path1" -> "goes,Bill", "path2" -> "goes,Bill,Mary")),
       Annotation(NODE, 51, 54, "goes", Map("relationship" -> "goes,LOC",
-        "path" -> "goes,Pasadena"))
+        "path1" -> "goes,Pasadena"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "find paths with edges between relationship types when merging entities" in {
+    val testDataSet = getPubTatorEntities(spark, tokenizerPipeline)
+    val graphExtractor = new GraphExtraction()
+      .setInputCols("document", "token", "entities")
+      .setOutputCol("graph")
+      .setRelationshipTypes(Array("polymorphisms-GENE", "polymorphisms-DISEASE"))
+    val expectedGraph = Array(Seq(
+      Annotation(NODE, 32, 44, "polymorphisms", Map("relationship" -> "polymorphisms,GENE",
+        "path1" -> "polymorphisms,nsubj,Influence,nmod,gene,amod,interleukin-6")),
+      Annotation(NODE, 32, 44, "polymorphisms", Map("relationship" -> "polymorphisms,DISEASE",
+        "path1" -> "polymorphisms,nmod,coronary_artery_calcification"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)

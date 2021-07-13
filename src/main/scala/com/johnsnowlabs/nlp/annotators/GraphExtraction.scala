@@ -6,11 +6,12 @@ import com.johnsnowlabs.nlp.annotators.common.{LabeledDependency, NerTagged}
 import com.johnsnowlabs.nlp.annotators.ner.NerTagsEncoding
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
-import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronModel, PerceptronPredictionUtils}
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.{AveragedPerceptron, PerceptronModel}
+import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.GraphBuilder
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.array
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -18,8 +19,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import scala.collection.immutable.Map
 
 class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtraction]
-  with HasSimpleAnnotate[GraphExtraction]
-  with PerceptronPredictionUtils {
+  with HasSimpleAnnotate[GraphExtraction] {
 
   def this() = this(Identifiable.randomUID("GRAPH_EXTRACTOR"))
 
@@ -44,6 +44,22 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   protected val mergeEntities = new BooleanParam(this, "mergeEntities",
     "Merge same neighboring entities as a single token")
 
+  protected val includeEdges = new BooleanParam(this, "includeEdges",
+    "Whether to include edges when building paths")
+
+  protected val delimiter = new Param[String](this, "delimiter",
+    "Delimiter symbol used for path output")
+
+  protected val posModel = new StructFeature[PerceptronModel](this, "posModel")
+
+//  protected val posModel = new Param[PerceptronModel](this, "posModel", "posModel")
+
+  protected val dependencyParserModel: StructFeature[DependencyParserModel] =
+    new StructFeature[DependencyParserModel](this, "dependencyParserModel")
+
+  protected val typedDependencyParserModel: StructFeature[TypedDependencyParserModel] =
+    new StructFeature[TypedDependencyParserModel](this, "typedDependencyParserModel")
+
   def setRelationshipTypes (value: Array[String]): this.type = set(relationshipTypes, value)
 
   def setEntityTypes(value: Array[String]): this.type = set(entityTypes, value)
@@ -58,8 +74,19 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   def setMergeEntities(value: Boolean): this.type = set(mergeEntities, value)
 
+  def setIncludeEdges(value: Boolean): this.type = set(includeEdges, value)
+
+  def setDelimiter(value: String): this.type = set(delimiter, value)
+
+//  def setPosModel(value: PerceptronModel): this.type = set(posModel, value)
+//
+//  def setDependencyParserModel(value: DependencyParserModel): this.type = set(dependencyParserModel, value)
+//
+//  def setTypedDependencyParserModel(value: TypedDependencyParserModel): this.type = set(typedDependencyParserModel, value)
+
   setDefault(entityTypes -> Array(), explodeEntities -> false, maxSentenceSize -> 1000, minSentenceSize -> 2,
-    mergeEntities -> false, rootTokens -> Array(), relationshipTypes -> Array())
+    mergeEntities -> false, rootTokens -> Array(), relationshipTypes -> Array(), includeEdges -> true,
+    delimiter -> ",")
 
   private lazy val allowedEntityRelationships = $(entityTypes).map{ entityRelationship =>
     val result = entityRelationship.split("-")
@@ -71,6 +98,14 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     (result.head, result.last)
   }.distinct
 
+  private lazy val posPretrainedModel: Option[PerceptronModel] = if (posModel.isSet) Some(posModel.getOrDefault) else None
+
+  private lazy val dependencyParserPretrainedModel: Option[DependencyParserModel] =
+    if (dependencyParserModel.isSet) Some(dependencyParserModel.getOrDefault) else None
+
+  private lazy val typedDependencyParserPretrainedModel: Option[TypedDependencyParserModel] =
+    if (typedDependencyParserModel.isSet) Some(typedDependencyParserModel.getOrDefault) else None
+
   override def _transform(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
     if ($(mergeEntities)) {
       super._transform(dataset, recursivePipeline)
@@ -81,7 +116,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
           field.metadata.getString("annotatorType") == LABELED_DEPENDENCY)
       if (structFields.length < 2 ) {
         throw new IllegalArgumentException(s"Missing either $DEPENDENCY or $LABELED_DEPENDENCY annotators. " +
-          s"Make sure such annotators exist in your pipeline")
+          s"Make sure such annotators exist in your pipeline or setMergeEntities parameter to True")
       }
 
       val columnNames = structFields.map(structField => structField.name)
@@ -99,9 +134,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    //TODO: Add parameter to include the label of a relationship on the path
     //TODO: Add parameter to output path starting from root or bottom
-
     val sentenceIndexesToSkip = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
       .filter(annotation => annotation.result.length > $(maxSentenceSize) || annotation.result.length < $(minSentenceSize))
       .map(annotation => annotation.metadata("sentence")).toList.distinct
@@ -127,18 +160,23 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
       val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN)
       val nerEntities = annotations.filter(annotation =>
         annotation.annotatorType == TOKEN && annotation.metadata("entity") != "O")
-      val dependencyData = LabeledDependency.unpackHeadAndRelation(annotations)
-      val annotationsInfo = AnnotationsInfo(tokens, nerEntities, dependencyData)
 
-      val graph = new GraphBuilder(dependencyData.length + 1)
-      dependencyData.zipWithIndex.foreach { case (dependencyInfo, index) =>
-        graph.addEdge(dependencyInfo.headIndex, index + 1)
-      }
-
-      if ($(explodeEntities)) {
-        extractGraphsFromEntities(annotationsInfo, graph)
+      if (nerEntities.isEmpty) {
+        Seq(Annotation(NODE, 0, 0, "", Map()))
       } else {
-        extractGraphsFromRelationships(annotationsInfo, graph)
+        val dependencyData = LabeledDependency.unpackHeadAndRelation(annotations)
+        val annotationsInfo = AnnotationsInfo(tokens, nerEntities, dependencyData)
+
+        val graph = new GraphBuilder(dependencyData.length + 1)
+        dependencyData.zipWithIndex.foreach { case (dependencyInfo, index) =>
+          graph.addEdge(dependencyInfo.headIndex, index + 1)
+        }
+
+        if ($(explodeEntities)) {
+          extractGraphsFromEntities(annotationsInfo, graph)
+        } else {
+          extractGraphsFromRelationships(annotationsInfo, graph)
+        }
       }
     }
 
@@ -150,11 +188,13 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     val relatedAnnotatedTokens = mergeRelatedTokens(annotationsToProcess)
     val sentence = annotationsToProcess.filter(_.annotatorType == AnnotatorType.DOCUMENT)
     val posInput = sentence ++ relatedAnnotatedTokens
-    val posAnnotations = getPosAnnotations(posInput)
+    val posAnnotations = PretrainedAnnotations.getPos(posInput, posPretrainedModel)
     val dependencyParserInput = sentence ++ relatedAnnotatedTokens ++ posAnnotations
-    val dependencyParserAnnotations = getDependencyParserAnnotations(dependencyParserInput)
+    val dependencyParserAnnotations = PretrainedAnnotations.getDependencyParser(dependencyParserInput,
+      dependencyParserPretrainedModel)
     val typedDependencyParserInput = relatedAnnotatedTokens ++ posAnnotations ++ dependencyParserAnnotations
-    val typedDependencyParserAnnotations = getTypedDependencyParserAnnotations(typedDependencyParserInput)
+    val typedDependencyParserAnnotations = PretrainedAnnotations.getTypedDependencyParser(typedDependencyParserInput,
+      typedDependencyParserPretrainedModel)
     relatedAnnotatedTokens ++ dependencyParserAnnotations ++ typedDependencyParserAnnotations
   }
 
@@ -189,29 +229,6 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     )
   }
 
-  private def getPosAnnotations(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val averagePerceptron = $$(PerceptronModel.pretrained().model)
-    val posTagger = new PerceptronModel().setModel(averagePerceptron)
-    posTagger.annotate(annotations)
-  }
-
-  private def getDependencyParserAnnotations(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val perceptron = $$(DependencyParserModel.pretrained().perceptron)
-    val dependencyParser = new DependencyParserModel().setPerceptron(perceptron)
-    val dependencyParserAnnotations = dependencyParser.annotate(annotations)
-    dependencyParserAnnotations
-  }
-
-  private def getTypedDependencyParserAnnotations(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val dependencyPipe = $$(TypedDependencyParserModel.pretrained().trainDependencyPipe)
-    val trainOptions = $$(TypedDependencyParserModel.pretrained().trainOptions)
-    val typedDependencyParser = new TypedDependencyParserModel()
-      .setDependencyPipe(dependencyPipe)
-      .setOptions(trainOptions)
-      .setConllFormat("2009")
-    typedDependencyParser.annotate(annotations)
-  }
-
   private def extractGraphsFromEntities(annotationsInfo: AnnotationsInfo, graph: GraphBuilder): Seq[Annotation] = {
 
     var rootIndices: Array[Int] = Array()
@@ -241,20 +258,34 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
         .map(nerEntity => annotationsInfo.tokens.indexOf(nerEntity) + 1)
 
       rootData.flatMap{ rootInfo =>
-        val path = entityIndexes.flatMap{ entityIndex =>
-          val nodesIndexesPath = graph.findPath(rootInfo._2, entityIndex)
-          val nodesResult = nodesIndexesPath.map(nodeIndex => annotationsInfo.tokens(nodeIndex - 1).result)
-          if (nodesResult.isEmpty) None else Some(nodesResult.mkString(","))
-        }
-        if (path.nonEmpty) {
+        val paths = entityIndexes.flatMap(entityIndex =>
+          buildPath(graph, (rootInfo._2, entityIndex), annotationsInfo.dependencyData))
+        val pathsMap = paths.zipWithIndex.flatMap{ case (path, index) => Map(s"path${(index + 1).toString}" -> path)}.toMap
+        if (paths.nonEmpty) {
           Some(Annotation(NODE, rootInfo._1.begin, rootInfo._1.end, rootInfo._1.result,
-            Map("relationship" -> s"${rootInfo._1.result},${relationshipTypes._2}", "path" -> path.mkString(","))))
+            Map("relationship" -> s"${rootInfo._1.result},${relationshipTypes._2}") ++ pathsMap)
+          )
         } else {
           None
         }
       }
     }
     annotatedGraphPaths
+  }
+
+  private def buildPath(graph: GraphBuilder, nodesIndexes: (Int, Int), dependencyData: Seq[DependencyInfo]):
+  Option[String] = {
+    val nodesIndexesPath = graph.findPath(nodesIndexes._1, nodesIndexes._2)
+    val path = nodesIndexesPath.map{ nodeIndex =>
+      val dependencyInfo =  dependencyData(nodeIndex - 1)
+      var result = dependencyInfo.token
+      if ($(includeEdges)) {
+        val edge = if (dependencyInfo.relation == "*root*") "" else dependencyInfo.relation + $(delimiter)
+        result = edge + dependencyInfo.token
+      }
+      result
+    }
+    if (path.isEmpty) None else Some(path.mkString($(delimiter)))
   }
 
   private def getAnnotatedPaths(entitiesPairData: List[EntitiesPairInfo], graph: GraphBuilder,
@@ -276,11 +307,11 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
       val rightEntity = path.entities._2
       val leftPathTokens = path.leftPathIndex.map(index => tokens(index - 1).result)
       val rightPathTokens = path.rightPathIndex.map(index => tokens(index - 1).result)
-      val fullPath = leftPathTokens.mkString(",") + "," + rightPathTokens.mkString(",")
+      val fullPath = leftPathTokens.mkString($(delimiter)) + $(delimiter) + rightPathTokens.mkString($(delimiter))
 
       Annotation(NODE, sourceToken.begin, sourceToken.end, sourceToken.result,
         Map("entities" -> s"$leftEntity,$rightEntity", "path" -> fullPath,
-          "left_path" -> leftPathTokens.mkString("->"), "right_path" -> rightPathTokens.mkString("->"))
+          "left_path" -> leftPathTokens.mkString($(delimiter)), "right_path" -> rightPathTokens.mkString($(delimiter)))
       )
     }
     annotatedPaths
