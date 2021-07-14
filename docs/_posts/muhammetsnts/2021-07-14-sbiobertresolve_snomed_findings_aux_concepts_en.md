@@ -98,7 +98,7 @@ val result = snomed_lp.fullAnnotate("bladder cancer")
 |Input Labels:|[sentence_embeddings]|
 |Output Labels:|[snomed_code]|
 |Language:|en|
-|Case sensitive:|true|
+|Case sensitive:|False|
 
 ## Data Source
 
