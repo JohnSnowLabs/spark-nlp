@@ -524,10 +524,200 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="release-notes-spark-nlp-healthcare">Release Notes Spark NLP Healthcare</h1>
 
+<h2 id="312">3.1.2</h2>
+<p>We are glad to announce that Spark NLP for Healthcare 3.1.2 has been released!.
+This release comes with new features, new models, bug fixes, and examples.</p>
+
+<h4 id="highlights">Highlights</h4>
+<ul>
+  <li>Support for Fine-tuning of Ner models.</li>
+  <li>More builtin(pre-defined) graphs for MedicalNerApproach.</li>
+  <li>Date Normalizer.</li>
+  <li>New Relation Extraction Models for ADE.</li>
+  <li>Bug Fixes.</li>
+  <li>Support for user-defined Custom Transformer.</li>
+  <li>Java Workshop Examples.</li>
+  <li>Deprecated Compatibility class in Python.</li>
+</ul>
+
+<h5 id="support-for-fine-tuning-of-ner-models">Support for Fine Tuning of Ner models</h5>
+
+<p>Users can now resume training/fine-tune existing(already trained) Spark NLP MedicalNer models on new data. Users can simply provide the path to any existing MedicalNer model and train it further on the new dataset:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">().</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"/path/to/trained/medicalnermodel"</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>If the new dataset contains new tags/labels/entities, users can choose to override existing tags with the new ones. The default behaviour is to reset the list of existing tags and generate a new list from the new dataset. It is also possible to preserve the existing tags by setting the ‘overrideExistingTags’ parameter:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"/path/to/trained/medicalnermodel"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOverrideExistingTags</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Setting overrideExistingTags to false is intended to be used when resuming trainig on the same, or very similar dataset (i.e. with the same tags or with just a few different ones).</p>
+
+<p>If tags overriding is disabled, and new tags are found in the training set, then the approach will try to allocate them to unused output nodes, if any. It is also possible to override specific tags of the old model by mapping them to new tags:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"/path/to/trained/medicalnermodel"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOverrideExistingTags</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setTagsMapping</span><span class="p">(</span><span class="s">"B-PER,B-VIP"</span><span class="p">,</span> <span class="s">"I-PER,I-VIP"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In this case, the new tags ‘B-VIP’ and ‘I-VIP’ will replace the already trained tags ‘B-PER’ and ‘I-PER’. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.</p>
+
+<p>Jupyter Notebook: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb</p>
+
+<h5 id="more-builtin-graphs-for-medicalnerapproach">More builtin graphs for MedicalNerApproach</h5>
+
+<p>Seventy new TensorFlow graphs have been added to the library of available graphs which are used to train MedicalNer models. The graph with the optimal set of parameters is automatically chosen by MedicalNerApproach.</p>
+
+<h5 id="datenormalizer">DateNormalizer</h5>
+
+<p>New annotator that normalize dates to the format YYYY/MM/DD.
+This annotator identifies dates in chunk annotations, and transform these dates to the format YYYY/MM/DD.
+Both the input and output formats for the annotator are <code class="language-plaintext highlighter-rouge">chunk</code>.</p>
+
+<p>Example:</p>
+
+<p>Python
+``` - Jan 30, 2018 - 13.04.1999 - 3April 2020
+       sentences = [
+            [‘08/02/2018’],
+            [‘11/2018’],
+            [‘11/01/2018’],
+            [‘12Mar2021’],
+            [‘Jan 30, 2018’],
+            [‘13.04.1999’],
+            [‘3April 2020’],
+            [‘next monday’],
+            [‘today’],
+            [‘next week’],
+        ]
+        df = spark.createDataFrame(sentences).toDF(“text”)
+        document_assembler = DocumentAssembler().setInputCol(‘text’).setOutputCol(‘document’)
+        chunksDF = document_assembler.transform(df)
+        aa = map_annotations_col(chunksDF.select(“document”),
+                            lambda x: [Annotation(‘chunk’, a.begin, a.end, a.result, a.metadata, a.embeddings) for a in x], “document”,
+                            “chunk_date”, “chunk”)
+        dateNormalizer = DateNormalizer().setInputCols(‘chunk_date’).setOutputCol(‘date’).setAnchorDateYear(2021).setAnchorDateMonth(2).setAnchorDateDay(27)
+        dateDf = dateNormalizer.transform(aa)
+        dateDf.select(“date.result”,”text”).show()</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```bash
+     
++-----------+----------+
+|text        |  date    |
++-----------+----------+
+|08/02/2018  |2018/08/02|
+|11/2018     |2018/11/DD|
+|11/01/2018  |2018/11/01|
+|12Mar2021   |2021/03/12|
+|Jan 30, 2018|2018/01/30|
+|13.04.1999  |1999/04/13|
+|3April 2020 |2020/04/03|
+|next Monday |2021/06/19|
+|today       |2021/06/12|
+|next week   |2021/06/19|
++-----------+----------+
+</code></pre></div></div>
+
+<h5 id="new-relation-extraction-models-for-ade">New Relation Extraction Models for ADE</h5>
+
+<p>We are releasing new Relation Extraction models for ADE (Adverse Drug Event). This model is available in both <code class="language-plaintext highlighter-rouge">RelationExtraction</code> and Bert based <code class="language-plaintext highlighter-rouge">RelationExtractionDL</code> versions, and is capabale of linking drugs with ADE mentions.</p>
+
+<p>Example</p>
+
+<p>Python</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ade_re_model = new RelationExtractionModel().pretrained('ner_ade_clinical', 'en', 'clinical/models')\
+                                     .setInputCols(["embeddings", "pos_tags", "ner_chunk", "dependencies"])\
+                                     .setOutputCol("relations")\
+                                     .setPredictionThreshold(0.5)\
+                                     .setRelationPairs(['ade-drug', 'drug-ade'])
+    pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, 
+                                                   dependency_parser, re_ner_chunk_filter, re_model])
+    text ="""A 30 year old female presented with tense bullae due to excessive use of naproxin, and leg cramps relating to oxaprozin."""
+
+    p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+    
+    result = p_model.transform(data)
+       
+</code></pre></div></div>
+
+<p>Results</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk1        | entity1    |  chunk2       | entity2   |    result  |
+|---:|:--------------|:-----------|:--------------|:----------|-----------:|
+|  0 | tense bullae  | ADE        | naproxin      | DRUG      |          1 |
+|  1 | tense bullae  | ADE        | oxaprozin     | DRUG      |          0 |
+|  2 | naproxin      | DRUG       | leg cramps    | ADE       |          0 |
+|  3 | leg cramps    | ADE        | oxaprozin     | DRUG      |          1 |
+
+</code></pre></div></div>
+
+<p>Benchmarking
+Model: <code class="language-plaintext highlighter-rouge">re_ade_clinical</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+              precision    recall  f1-score   support
+           0       0.85      0.89      0.87      1670
+           1       0.88      0.84      0.86      1673
+   micro avg       0.87      0.87      0.87      3343
+   macro avg       0.87      0.87      0.87      3343
+weighted avg       0.87      0.87      0.87      3343
+</code></pre></div></div>
+
+<p>Model: <code class="language-plaintext highlighter-rouge">redl_ade_biobert</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Relation           Recall Precision        F1   Support
+0                   0.894     0.946     0.919      1011
+1                   0.963     0.926     0.944      1389
+Avg.                0.928     0.936     0.932
+Weighted Avg.       0.934     0.934     0.933
+</code></pre></div></div>
+
+<h5 id="bug-fixes">Bug Fixes</h5>
+<ul>
+  <li>RelationExtractionDLModel had an issue(BufferOverflowException) on versions 3.1.0 and 3.1.1, which is fixed with this release.</li>
+  <li>Some pretrained RelationExtractionDLModels got outdated after release 3.0.3, new updated models were created, tested and made available to be used with versions 3.0.3, and later.</li>
+  <li>Some SentenceEntityResolverModels which did not work with Spark 2.4/2.3 were fixed.</li>
+</ul>
+
+<h5 id="support-for-user-defined-custom-transformer">Support for user-defined Custom Transformer.</h5>
+<p>Utility classes to define custom transformers in python are included in this release. This allows users to define functions in Python to manipulate Spark-NLP annotations. This new Transformers can be added to pipelines like any of the other models you’re already familiar with.
+Example how to use the custom transformer.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">def</span> <span class="nf">myFunction</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
+            <span class="c1"># lower case the content of the annotations
+</span>            <span class="k">return</span> <span class="p">[</span><span class="n">a</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annotations</span><span class="p">]</span>
+
+        <span class="n">custom_transformer</span> <span class="o">=</span> <span class="n">CustomTransformer</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">myFunction</span><span class="p">).</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"custom"</span><span class="p">)</span>
+        <span class="n">outputDf</span> <span class="o">=</span> <span class="n">custom_transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">outdf</span><span class="p">).</span><span class="n">select</span><span class="p">(</span><span class="s">"custom"</span><span class="p">).</span><span class="n">toPandas</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h5 id="java-workshop-examples">Java Workshop Examples</h5>
+
+<p>Add Java examples in the workshop repository.
+https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare</p>
+
+<h5 id="deprecated-compatibility-class-in-python">Deprecated Compatibility class in Python</h5>
+
+<p>Due to active release cycle, we are adding &amp; training new pretrained models at each release and it might be tricky to maintain the backward compatibility or keep up with the latest models and versions, especially for the users using our models locally in air-gapped networks.</p>
+
+<p>We are releasing a new utility class to help you check your local &amp; existing models with the latest version of everything we have up to date. You will not need to specify your AWS credentials from now on. This new class is now replacing the previous Compatibility class written in Python and CompatibilityBeta class written in Scala.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp_jsl.compatibility import Compatibility
+
+compatibility = Compatibility(spark)
+
+print(compatibility.findVersion('sentence_detector_dl_healthcare'))
+</code></pre></div></div>
+
+<p>Output</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{'name': 'sentence_detector_dl_healthcare', 'sparkVersion': '2.4', 'version': '2.6.0', 'language': 'en', 'date': '2020-09-13T14:44:42.565', 'readyToUse': 'true'}, {'name': 'sentence_detector_dl_healthcare', 'sparkVersion': '2.4', 'version': '2.7.0', 'language': 'en', 'date': '2021-03-16T08:42:34.391', 'readyToUse': 'true'}]
+</code></pre></div></div>
+
 <h2 id="311">3.1.1</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!</p>
 
-<h4 id="highlights">Highlights</h4>
+<h4 id="highlights-1">Highlights</h4>
 <ul>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code>.</li>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code>.</li>
@@ -627,7 +817,7 @@ results = model.transform(spark.createDataFrame([["The patient is a very pleasan
 
 <h2 id="310">3.1.0</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 <ul>
   <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
   <li>New JSL Bert Models.</li>
@@ -1129,7 +1319,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights-2">Highlights</h4>
+<h4 id="highlights-3">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -1212,7 +1402,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-3">Highlights</h4>
+<h4 id="highlights-4">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -1234,7 +1424,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-4">Highlights:</h4>
+<h4 id="highlights-5">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -1362,11 +1552,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-5">Highlights:</h4>
+<h4 id="highlights-6">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-6">Highlights:</h4>
+<h4 id="highlights-7">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -1474,7 +1664,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-7">Highlights:</h4>
+<h4 id="highlights-8">Highlights:</h4>
 
 <ul>
   <li>
@@ -1775,7 +1965,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-8">Highlights:</h4>
+<h4 id="highlights-9">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -1965,7 +2155,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-9">Highlights:</h4>
+<h4 id="highlights-10">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -2049,7 +2239,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-10">Highlights:</h4>
+<h4 id="highlights-11">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>
