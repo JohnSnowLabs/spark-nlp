@@ -20,28 +20,28 @@ from pyspark.sql.types import *
 
 
 class Annotation:
+    """Represents the output of Spark NLP Annotators and their details
+
+    Parameters
+    ----------
+    annotator_type : str
+        The type of the output of the annotator.
+        Possible values are ``DOCUMENT, TOKEN, WORDPIECE,
+        WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, ENTITY, SENTIMENT, POS, CHUNK, NAMED_ENTITY,
+        NEGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, KEYWORD, DUMMY``.
+    begin : int
+        The index of the first character under this annotation.
+    end : int
+        The index of the last character under this annotation.
+    result : str
+        The resulting string of the annotation.
+    metadata : dict
+        Associated metadata for this annotation
+    embeddings : list
+        Embeddings vector where applicable
+    """
 
     def __init__(self, annotator_type, begin, end, result, metadata, embeddings):
-        """Represents the output of Spark NLP Annotators and their details
-
-        Parameters
-        ----------
-        annotator_type : str
-            The type of the output of the annotator.
-            Possible values are ``DOCUMENT, TOKEN, WORDPIECE,
-            WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, ENTITY, SENTIMENT, POS, CHUNK, NAMED_ENTITY,
-            NEGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, KEYWORD, DUMMY``.
-        begin : int
-            The index of the first character under this annotation.
-        end : int
-            The index of the last character under this annotation.
-        result : str
-            The resulting string of the annotation.
-        metadata : dict
-            Associated metadata for this annotation
-        embeddings : list
-            Embeddings vector where applicable
-        """
         self.annotator_type = annotator_type
         self.begin = begin
         self.end = end

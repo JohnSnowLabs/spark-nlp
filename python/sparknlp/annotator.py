@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""Module containing all available Annotators of Spark NLP.
+"""Module containing all available Annotators of Spark NLP and their base classes.
 """
 
 import sys
@@ -60,11 +60,14 @@ ws = sys.modules[__name__]
 class RecursiveTokenizer(AnnotatorApproach):
     """Tokenizes raw text recursively based on a handful of definable rules.
 
-    Unlike the Tokenizer, the RecursiveTokenizer operates based on these array string parameters only:
-     - ``prefixes``: Strings that will be split when found at the beginning of token.
-     - ``suffixes``: Strings that will be split when found at the end of token.
-     - ``infixes``: Strings that will be split when found at the middle of token.
-     - ``whitelist``: Whitelist of strings not to split
+    Unlike the Tokenizer, the RecursiveTokenizer operates based on these array
+    string parameters only:
+
+    - ``prefixes``: Strings that will be split when found at the beginning of
+      token.
+    - ``suffixes``: Strings that will be split when found at the end of token.
+    - ``infixes``: Strings that will be split when found at the middle of token.
+    - ``whitelist``: Whitelist of strings not to split
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__
     and the `TokenizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala>`__.
@@ -78,7 +81,14 @@ class RecursiveTokenizer(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    prefixes
+        strings to be considered independent tokens when found at the beginning of a word
+    suffixes
+        strings to be considered independent tokens when found at the end of a word
+    infixes
+        strings to be considered independent tokens when found in the middle of a word
+    whitelist
+        strings to be considered as single tokens
 
     Examples
     --------
@@ -178,9 +188,7 @@ class RecursiveTokenizerModel(AnnotatorModel):
 
     Parameters
     ----------
-
-    TODO
-
+    None
 
     """
     name = 'RecursiveTokenizerModel'
@@ -212,7 +220,30 @@ class Tokenizer(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    targetPattern
+        pattern to grab from text as token candidates. Defaults \S+
+    prefixPattern
+        regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)
+    suffixPattern
+        regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z
+    infixPatterns
+        regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults
+    exceptions
+        Words that won't be affected by tokenization rules
+    exceptionsPath
+        path to file containing list of exceptions
+    caseSensitiveExceptions
+        Whether to care for case sensitiveness in exceptions
+    contextChars
+        character list used to separate from token boundaries
+    splitPattern
+        character list used to separate from the inside of tokens
+    splitChars
+        character list used to separate from the inside of tokens
+    minLength
+        Set the minimum allowed legth for each token
+    maxLength
+        Set the maximum allowed legth for each token
 
     Examples
     --------
@@ -421,7 +452,18 @@ class TokenizerModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    exceptions
+        Words that won't be affected by tokenization rules
+    caseSensitiveExceptions
+        Whether to care for case sensitiveness in exceptions
+    targetPattern
+        pattern to grab from text as token candidates. Defaults \S+
+    rules
+        Rules structure factory containing pre processed regex rules
+    splitPattern
+        character list used to separate from the inside of tokens
+    splitChars
+        character list used to separate from the inside of tokens
 
 
     """
@@ -502,7 +544,16 @@ class RegexTokenizer(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    minLength
+        Set the minimum allowed legth for each token
+    maxLength
+        Set the maximum allowed legth for each token
+    toLowercase
+        Indicates whether to convert all characters to lowercase before tokenizing.
+    pattern
+        regex pattern used for tokenizing. Defaults \S+
+    positionalMask
+        Using a positional mask to guarantee the incremental progression of the tokenization.
 
     Examples
     --------
@@ -615,7 +666,7 @@ class ChunkTokenizer(Tokenizer):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -696,7 +747,7 @@ class ChunkTokenizerModel(TokenizerModel):
     Parameters
     ----------
 
-    TODO
+
 
 
     """
@@ -724,7 +775,7 @@ class Token2Chunk(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -790,7 +841,8 @@ class Stemmer(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    language
+        stemmer algorithm
 
     Examples
     --------
@@ -884,7 +936,8 @@ class Chunker(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    regexParsers
+        an array of grammar based chunk parsers
 
     Examples
     --------
@@ -975,7 +1028,18 @@ class DocumentNormalizer(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    action
+        action to perform applying regex patterns on text
+    patterns
+        normalization regex patterns which match will be removed from document. Defaults is <[^>]*>
+    replacement
+        replacement string to apply when regexes match
+    lowercase
+        whether to convert strings to lowercase
+    policy
+        policy to remove pattern from text
+    encoding
+        file encoding to apply on normalized documents
 
     Examples
     --------
@@ -1107,7 +1171,16 @@ class Normalizer(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    cleanupPatterns
+        normalization regex patterns which match will be removed from token
+    lowercase
+        whether to convert strings to lowercase
+    slangDictionary
+        slang dictionary is a delimited text. needs 'delimiter' in options
+    minLength
+        Set the minimum allowed legth for each token
+    maxLength
+        Set the maximum allowed legth for each token
 
     Examples
     --------
@@ -1226,7 +1299,10 @@ class NormalizerModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    cleanupPatterns
+        normalization regex patterns which match will be removed from token
+    lowercase
+        whether to convert strings to lowercase
 
 
     """
@@ -1274,7 +1350,10 @@ class RegexMatcher(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    strategy
+        MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
+    externalRules
+        external resource to rules, needs 'delimiter' in options
 
     Examples
     --------
@@ -1363,7 +1442,7 @@ class RegexMatcherModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
 
     """
@@ -1396,7 +1475,8 @@ class Lemmatizer(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    dictionary
+        lemmatizer external dictionary.
 
     Examples
     --------
@@ -1493,7 +1573,7 @@ class LemmatizerModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -1527,6 +1607,8 @@ class LemmatizerModel(AnnotatorModel):
 
 
 class DateMatcherUtils(Params):
+    """Base class for DateMatcher Annotators
+    """
     dateFormat = Param(Params._dummy(),
                        "dateFormat",
                        "desired format for dates extracted",
@@ -1620,7 +1702,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -1708,7 +1790,7 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -1783,7 +1865,16 @@ class TextMatcher(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    entities
+        ExternalResource for entities
+    caseSensitive
+        whether to match regardless of case. Defaults true
+    mergeOverlapping
+        whether to merge overlapping matched chunks. Defaults false
+    entityValue
+        value for the entity metadata field
+    buildFromTokens
+        whether the TextMatcher should take the CHUNK from TOKEN or not
 
     Examples
     --------
@@ -1900,7 +1991,14 @@ class TextMatcherModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    mergeOverlapping
+        whether to merge overlapping matched chunks. Defaults false
+    searchTrie
+        searchTrie
+    entityValue
+        value for the entity metadata field
+    buildFromTokens
+        whether the TextMatcher should take the CHUNK from TOKEN or not
 
 
     """
@@ -1968,7 +2066,14 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
     Parameters
     ----------
 
-    TODO
+    entities
+        ExternalResource for entities
+    caseSensitive
+        whether to ignore case in index lookups
+    mergeOverlapping
+        whether to merge overlapping matched chunks. Defaults false
+    tokenizer
+        TokenizerModel to use to tokenize input file for building a Trie
 
     Examples
     --------
@@ -2074,7 +2179,12 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     Parameters
     ----------
 
-    TODO
+    caseSensitive
+        whether to ignore case in index lookups
+    mergeOverlapping
+        whether to merge overlapping matched chunks. Defaults false
+    searchTrie
+        searchTrie
 
 
     """
@@ -2158,7 +2268,10 @@ class PerceptronApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    posCol
+        column of Array of POS tags that match tokens
+    nIterations
+        Number of iterations in training, converges to better accuracy
 
     Examples
     --------
@@ -2275,7 +2388,7 @@ class PerceptronModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -2341,6 +2454,9 @@ class PerceptronModel(AnnotatorModel):
 
 
 class SentenceDetectorParams:
+    """Base class for SentenceDetector parameters
+    """
+
     useAbbreviations = Param(Params._dummy(),
                              "useAbbreviations",
                              "whether to apply abbreviations at sentence detection",
@@ -2394,7 +2510,8 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     Parameters
     ----------
 
-    TODO
+    detectLists
+        whether detect lists during sentence detection
 
     Examples
     --------
@@ -2505,7 +2622,20 @@ class SentimentDetector(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    dictionary
+        path for dictionary to sentiment analysis
+    positiveMultiplier
+        multiplier for positive sentiments. Defaults 1.0
+    negativeMultiplier
+        multiplier for negative sentiments. Defaults -1.0
+    incrementMultiplier
+        multiplier for increment sentiments. Defaults 2.0
+    decrementMultiplier
+        multiplier for decrement sentiments. Defaults -2.0
+    reverseMultiplier
+        multiplier for revert sentiments. Defaults -1.0
+    enableScore
+        if true, score will show as the double value, else will output string \
 
     Examples
     --------
@@ -2647,7 +2777,8 @@ class SentimentDetectorModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    positiveMultiplier
+        multiplier for positive sentiments. Defaults 1.0
 
 
     """
@@ -2689,7 +2820,16 @@ class ViveknSentimentApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    sentimentCol
+        column with the sentiment result of every row. Must be 'positive' or 'negative'
+    pruneCorpus
+        Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1
+    importantFeatureRatio
+        proportion of feature content to be considered relevant. Defaults to 0.5
+    unimportantFeatureStep
+        proportion to lookahead in unimportant features. Defaults to 0.025
+    featureLimit
+        content feature limit, to boost performance in very dirt text. Default disabled with -1
 
     Examples
     --------
@@ -2816,7 +2956,12 @@ class ViveknSentimentModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    importantFeatureRatio
+        proportion of feature content to be considered relevant. Defaults to 0.5
+    unimportantFeatureStep
+        proportion to lookahead in unimportant features. Defaults to 0.025
+    featureLimit
+        content feature limit, to boost performance in very dirt text. Default disabled with -1
 
 
     """
@@ -2874,7 +3019,26 @@ class NorvigSweetingApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    dictionary
+        dictionary needs 'tokenPattern' regex in dictionary for separating words
+    caseSensitive
+        whether to ignore case sensitivty
+    doubleVariants
+        whether to use more expensive spell checker
+    shortCircuit
+        whether to use faster mode
+    frequencyPriority
+        applies frequency over hamming in intersections. When false hamming takes priority
+    wordSizeIgnore
+        minimum size of word before ignoring. Defaults to 3
+    dupsLimit
+        maximum duplicate of characters in a word to consider. Defaults to 2
+    reductLimit
+        word reductions limit. Defaults to 3
+    intersections
+        hamming intersections to attempt. Defaults to 10
+    vowelSwapLimit
+        vowel swap attempts. Defaults to 6
 
     Examples
     --------
@@ -3039,7 +3203,7 @@ class NorvigSweetingModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -3115,7 +3279,18 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    corpus
+        folder or file with text that teaches about the language
+    dictionary
+        folder or file with text that teaches about the language
+    maxEditDistance
+        max edit distance characters to derive strings from a word
+    frequencyThreshold
+        minimum frequency of words to be considered from training.
+    deletesThreshold
+        minimum frequency of corrections a word needs to have to be considered from training.
+    dupsLimit
+        maximum duplicate of characters in a word to consider. Defaults to 2
 
     Examples
     --------
@@ -3253,7 +3428,7 @@ class SymmetricDeleteModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -3311,6 +3486,8 @@ class SymmetricDeleteModel(AnnotatorModel):
 
 
 class NerApproach(Params):
+    """Base class for Ner*Approach Annotators
+    """
     labelColumn = Param(Params._dummy(),
                         "labelColumn",
                         "Column with label per each token",
@@ -3375,7 +3552,18 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     Parameters
     ----------
 
-    TODO
+    l2
+        L2 regularization coefficient
+    c0
+        c0 params defining decay speed for gradient
+    lossEps
+        If Epoch relative improvement less than eps then training is stopped
+    minW
+        Features with less weights then this param value will be filtered
+    includeConfidence
+        external features is a delimited text. needs 'delimiter' in options
+    externalFeatures
+        Additional dictionaries paths to use as a features
 
     Examples
     --------
@@ -3513,7 +3701,8 @@ class NerCrfModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    includeConfidence
+        external features is a delimited text. needs 'delimiter' in options
 
     Examples
     --------
@@ -3621,7 +3810,36 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     Parameters
     ----------
 
-    TODO
+    lr
+        Learning Rate
+    po
+        Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)
+    batchSize
+        Batch size
+    dropout
+        Dropout coefficient
+    graphFolder
+        Folder path that contain external graph files
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    useContrib
+        whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
+    validationSplit
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    evaluationLogExtended
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    testDataset
+        Path to test dataset. If set used to calculate statistic on it during training.
+    includeConfidence
+        whether to include confidence scores in annotation metadata
+    includeAllConfidenceScores
+        whether to include all confidence scores in annotation metadata or just the score of the predicted tag
+    enableOutputLogs
+        Whether to use stdout in addition to Spark logs.
+    outputLogsPath
+        Folder path to save training logs
+    enableMemoryOptimizer
+        Whether to optimize for large datasets or not. Enabling this option can slow down training.
 
     Examples
     --------
@@ -3834,7 +4052,14 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    includeConfidence
+        whether to include confidence scores in annotation metadata
+    includeAllConfidenceScores
+        whether to include all confidence scores in annotation metadata or just the score of the predicted tag
+    classes
+        get the tags used to trained this NerDLModel
 
     Examples
     --------
@@ -3946,7 +4171,8 @@ class NerConverter(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    whiteList
+        If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels
 
     Examples
     --------
@@ -4035,7 +4261,12 @@ class DependencyParserApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    dependencyTreeBank
+        Dependency treebank source files
+    conllU
+        Universal Dependencies source files
+    numberOfIterations
+        Number of iterations in training, converges to better accuracy
 
     Examples
     --------
@@ -4153,7 +4384,8 @@ class DependencyParserModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    perceptron
+        Dependency parsing perceptron features
 
     Examples
     --------
@@ -4264,7 +4496,12 @@ class TypedDependencyParserApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    conll2009
+        Path to file with CoNLL 2009 format
+    conllU
+        Universal Dependencies source files
+    numberOfIterations
+        Number of iterations in training, converges to better accuracy
 
     Examples
     --------
@@ -4387,7 +4624,14 @@ class TypedDependencyParserModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    trainOptions
+        Training Options
+    trainParameters
+        Training Parameters
+    trainDependencyPipe
+        Training dependency pipe
+    conllFormat
+        CoNLL Format
 
     Examples
     --------
@@ -4527,7 +4771,10 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     Parameters
     ----------
 
-    TODO
+    writeBufferSize
+        buffer size limit before dumping to disk storage while writing
+    readCacheSize
+        cache size for items retrieved from storage. Increase for performance but higher memory consumption
 
     Examples
     --------
@@ -4676,7 +4923,8 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     Parameters
     ----------
 
-    TODO
+    readCacheSize
+        cache size for items retrieved from storage. Increase for performance but higher memory consumption
 
     Examples
     --------
@@ -4826,7 +5074,10 @@ class BertEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    maxSentenceLength
+        Max sentence length to process
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -4976,7 +5227,12 @@ class BertSentenceEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    maxSentenceLength
+        Max sentence length to process
+    isLong
+        Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -5099,7 +5355,8 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     Parameters
     ----------
 
-    TODO
+    poolingStrategy
+        Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
 
     Examples
     --------
@@ -5212,7 +5469,12 @@ class StopWordsCleaner(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    stopWords
+        The words to be filtered out
+    caseSensitive
+        whether to do a case sensitive
+    locale
+        locale of the input. ignored when case sensitive
 
     Examples
     --------
@@ -5336,7 +5598,12 @@ class NGramGenerator(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    n
+        number elements per n-gram (>=1)
+    enableCumulative
+        whether to calculate just the actual n-grams
+    delimiter
+        String to use to join the tokens
 
     Examples
     --------
@@ -5443,7 +5710,10 @@ class ChunkEmbeddings(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    poolingStrategy
+        Choose how you would like to aggregate Word Embeddings to Chunk Embeddings:
+    skipOOV
+        Whether to discard default vectors for OOV words from the aggregation / pooling
 
     Examples
     --------
@@ -5548,7 +5818,10 @@ class ChunkEmbeddings(AnnotatorModel):
 
 
 class NerOverwriter(AnnotatorModel):
-    """
+    """Overwrites entities of specified strings.
+
+    The input for this Annotator have to be entities that are already extracted, Annotator type ``NAMED_ENTITY``.
+    The strings specified with ``setStopWords`` will have new entities assigned to, specified with ``setNewResult``.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -5559,11 +5832,99 @@ class NerOverwriter(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    stopWords
+        The words to be overwritten
+    newResult
+        new NER class to apply to those stopwords
 
+    Examples
+    --------
+
+    .. code-block:: python
+
+        import sparknlp
+        from sparknlp.base import *
+        from sparknlp.common import *
+        from sparknlp.annotator import *
+        from sparknlp.training import *
+        from pyspark.ml import Pipeline
+
+        # First extract the prerequisite Entities
+        documentAssembler = DocumentAssembler() \\
+            .setInputCol("text") \\
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \\
+            .setInputCols(["document"]) \\
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \\
+            .setInputCols(["sentence"]) \\
+            .setOutputCol("token")
+
+        embeddings = WordEmbeddingsModel.pretrained() \\
+            .setInputCols(["sentence", "token"]) \\
+            .setOutputCol("bert")
+
+        nerTagger = NerDLModel.pretrained() \\
+            .setInputCols(["sentence", "token", "bert"]) \\
+            .setOutputCol("ner")
+
+        pipeline = Pipeline().setStages([
+            documentAssembler,
+            sentence,
+            tokenizer,
+            embeddings,
+            nerTagger
+        ])
+
+        data = spark.createDataFrame([["Spark NLP Crosses Five Million Downloads, John Snow Labs Announces."]]).toDF("text")
+        result = pipeline.fit(data).transform(data)
+
+        result.selectExpr("explode(ner)").show(truncate=False)
+        # +------------------------------------------------------+
+        # |col                                                   |
+        # +------------------------------------------------------+
+        # |[named_entity, 0, 4, B-ORG, [word -> Spark], []]      |
+        # |[named_entity, 6, 8, I-ORG, [word -> NLP], []]        |
+        # |[named_entity, 10, 16, O, [word -> Crosses], []]      |
+        # |[named_entity, 18, 21, O, [word -> Five], []]         |
+        # |[named_entity, 23, 29, O, [word -> Million], []]      |
+        # |[named_entity, 31, 39, O, [word -> Downloads], []]    |
+        # |[named_entity, 40, 40, O, [word -> ,], []]            |
+        # |[named_entity, 42, 45, B-ORG, [word -> John], []]     |
+        # |[named_entity, 47, 50, I-ORG, [word -> Snow], []]     |
+        # |[named_entity, 52, 55, I-ORG, [word -> Labs], []]     |
+        # |[named_entity, 57, 65, I-ORG, [word -> Announces], []]|
+        # |[named_entity, 66, 66, O, [word -> .], []]            |
+        # +------------------------------------------------------+
+
+        # The recognized entities can then be overwritten
+        nerOverwriter = NerOverwriter() \\
+            .setInputCols(["ner"]) \\
+            .setOutputCol("ner_overwritten") \\
+            .setStopWords(["Million"]) \\
+            .setNewResult("B-CARDINAL")
+
+        nerOverwriter.transform(result).selectExpr("explode(ner_overwritten)").show(truncate=False)
+        +---------------------------------------------------------+
+        |col                                                      |
+        +---------------------------------------------------------+
+        |[named_entity, 0, 4, B-ORG, [word -> Spark], []]         |
+        |[named_entity, 6, 8, I-ORG, [word -> NLP], []]           |
+        |[named_entity, 10, 16, O, [word -> Crosses], []]         |
+        |[named_entity, 18, 21, O, [word -> Five], []]            |
+        |[named_entity, 23, 29, B-CARDINAL, [word -> Million], []]|
+        |[named_entity, 31, 39, O, [word -> Downloads], []]       |
+        |[named_entity, 40, 40, O, [word -> ,], []]               |
+        |[named_entity, 42, 45, B-ORG, [word -> John], []]        |
+        |[named_entity, 47, 50, I-ORG, [word -> Snow], []]        |
+        |[named_entity, 52, 55, I-ORG, [word -> Labs], []]        |
+        |[named_entity, 57, 65, I-ORG, [word -> Announces], []]   |
+        |[named_entity, 66, 66, O, [word -> .], []]               |
+        +---------------------------------------------------------+
 
     """
-
     name = "NerOverwriter"
 
     @keyword_only
@@ -5631,7 +5992,10 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
     Parameters
     ----------
 
-    TODO
+    loadSP
+        Whether to load SentencePiece ops file which is required only by multi-lingual models.
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -5780,7 +6144,12 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     Parameters
     ----------
 
-    TODO
+    batchSize
+        Batch size. Large values allows faster processing but requires more memory.
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    poolingLayer
+        Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo
 
     Examples
     --------
@@ -5923,7 +6292,28 @@ class ClassifierDLApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    lr
+        Learning Rate
+    batchSize
+        Batch size
+    dropout
+        Dropout coefficient
+    maxEpochs
+        Maximum number of epochs to train
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    validationSplit
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    enableOutputLogs
+        Whether to use stdout in addition to Spark logs.
+    outputLogsPath
+        Folder path to save training logs
+    labelColumn
+        Column with label per each token
+    verbose
+        Level of verbosity during training
+    randomSeed
+        Random seed
 
     Examples
     --------
@@ -6093,7 +6483,10 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    classes
+        get the tags used to trained this ClassifierDLModel
 
     Examples
     --------
@@ -6243,7 +6636,10 @@ class AlbertEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    maxSentenceLength
+        Max sentence length to process
 
     Examples
     --------
@@ -6406,7 +6802,10 @@ class XlnetEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    maxSentenceLength
+        Max sentence length to process
 
     Examples
     --------
@@ -6531,7 +6930,40 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    languageModelClasses
+        Number of classes to use during factorization of the softmax output in the LM.
+    wordMaxDistance
+        Maximum distance for the generated candidates for every word.
+    maxCandidates
+        Maximum number of candidates for every word.
+    caseStrategy
+        What case combinations to try when generating candidates.
+    errorThreshold
+        Threshold perplexity for a word to be considered as an error.
+    epochs
+        Number of epochs to train the language model.
+    batchSize
+        Batch size for the training in NLM.
+    initialRate
+        Initial learning rate for the LM.
+    finalRate
+        Final learning rate for the LM.
+    validationFraction
+        Percentage of datapoints to use for validation.
+    minCount
+        Min number of times a token should appear to be included in vocab.
+    compoundCount
+        Min number of times a compound word should appear to be included in vocab.
+    classCount
+        Min number of times the word need to appear in corpus to not be considered of a special class.
+    tradeoff
+        Tradeoff between the cost of a word error and a transition in the language model.
+    weightedDistPath
+        The path to the file containing the weights for the levenshtein distance.
+    maxWindowLen
+        Maximum size for the window used to remember history prior to every correction.
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -6773,7 +7205,28 @@ class ContextSpellCheckerModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    wordMaxDistance
+        Maximum distance for the generated candidates for every word.
+    maxCandidates
+        Maximum number of candidates for every word.
+    caseStrategy
+        What case combinations to try when generating candidates.
+    errorThreshold
+        Threshold perplexity for a word to be considered as an error.
+    tradeoff
+        Tradeoff between the cost of a word error and a transition in the language model.
+    weightedDistPath
+        The path to the file containing the weights for the levenshtein distance.
+    maxWindowLen
+        Maximum size for the window used to remember history prior to every correction.
+    gamma
+        Controls the influence of individual word frequency in the decision.
+    correctSymbols
+        Whether to correct special symbols or skip spell checking for them
+    compareLowcase
+        If true will compare tokens in low case with vocabulary
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -6954,7 +7407,32 @@ class SentimentDLApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    lr
+        Learning Rate
+    batchSize
+        Batch size
+    dropout
+        Dropout coefficient
+    maxEpochs
+        Maximum number of epochs to train
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    validationSplit
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    enableOutputLogs
+        Whether to use stdout in addition to Spark logs.
+    outputLogsPath
+        Folder path to save training logs
+    labelColumn
+        Column with label per each token
+    verbose
+        Level of verbosity during training
+    randomSeed
+        Random seed
+    threshold
+        The minimum threshold for the final result otheriwse it will be neutral
+    thresholdLabel
+        In case the score is less than threshold, what should be the label. Default is neutral.
 
     Examples
     --------
@@ -7131,7 +7609,14 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    threshold
+        The minimum threshold for the final result otheriwse it will be neutral
+    thresholdLabel
+        In case the score is less than threshold, what should be the label. Default is neutral.
+    classes
+        get the tags used to trained this SentimentDLModel
 
     Examples
     --------
@@ -7248,7 +7733,16 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    threshold
+        The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.
+    thresholdLabel
+        In case the score is less than threshold, what should be the label. Default is neutral.
+    coalesceSentences
+        If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.
+    languages
+        get the languages used to trained the model
 
     Examples
     --------
@@ -7371,7 +7865,30 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    lr
+        Learning Rate
+    batchSize
+        Batch size
+    maxEpochs
+        Maximum number of epochs to train
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    validationSplit
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+    enableOutputLogs
+        Whether to use stdout in addition to Spark logs.
+    outputLogsPath
+        Folder path to save training logs
+    labelColumn
+        Column with label per each token
+    verbose
+        Level of verbosity during training
+    randomSeed
+        Random seed
+    shufflePerEpoch
+        whether to shuffle the training data on each Epoch
+    threshold
+        The minimum threshold for each label to be accepted. Default is 0.5
 
     Examples
     --------
@@ -7578,7 +8095,12 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    threshold
+        The minimum threshold for each label to be accepted. Default is 0.5
+    classes
+        get the tags used to trained this MultiClassifierDLModel
 
     Examples
     --------
@@ -7703,7 +8225,18 @@ class YakeModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    minNGrams
+        Minimum N-grams a keyword should have
+    maxNGrams
+        Maximum N-grams a keyword should have
+    threshold
+        Keyword Score threshold
+    windowSize
+        Window size for Co-Occurrence
+    nKeywords
+        Number of Keywords to extract
+    stopWords
+        the words to be filtered out. by default it's english stop words from Spark ML
 
     Examples
     --------
@@ -7853,7 +8386,10 @@ class SentenceDetectorDLModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    modelArchitecture
+        Model architecture (CNN)
+    explodeSentences
+        whether to explode each sentence into a different row, for better parallelization. Defaults to false.
 
     Examples
     --------
@@ -7969,7 +8505,18 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    modelArchitecture
+        Model architecture (CNN)
+    impossiblePenultimates
+        Impossible penultimates - list of strings which a sentence can't end with
+    validationSplit
+        Choose the proportion of training dataset to be validated against the model on each
+    epochsNumber
+        Number of epochs for the optimization process
+    outputLogsPath
+        Path to folder where logs will be saved. If no path is specified, no logs are generated
+    explodeSentences
+        whether to explode each sentence into a different row, for better parallelization. Defaults to false.
 
     Examples
     --------
@@ -8097,7 +8644,14 @@ class WordSegmenterApproach(AnnotatorApproach):
     Parameters
     ----------
 
-    TODO
+    posCol
+        column of Array of POS tags that match tokens
+    nIterations
+        Number of iterations in training, converges to better accuracy
+    frequencyThreshold
+        How many times at least a tag on a word to be marked as frequent
+    ambiguityThreshold
+        How much percentage of total amount of words are covered to be marked as frequent
 
     Examples
     --------
@@ -8228,7 +8782,7 @@ class WordSegmenterModel(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+
 
     Examples
     --------
@@ -8337,7 +8891,26 @@ class T5Transformer(AnnotatorModel):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    task
+        Transformer's task, e.g. summarize>
+    minOutputLength
+        Minimum length of the sequence to be generated
+    maxOutputLength
+        Maximum length of output text
+    doSample
+        Whether or not to use sampling; use greedy decoding otherwise
+    temperature
+        The value used to module the next token probabilities
+    topK
+        The number of highest probability vocabulary tokens to keep for top-k-filtering
+    topP
+        If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation
+    repetitionPenalty
+        The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details
+    noRepeatNgramSize
+        If set to int > 0, all ngrams of that size can only occur once
 
     Examples
     --------
@@ -8507,7 +9080,14 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     Parameters
     ----------
 
-    TODO
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+    langId
+        Transformer's task, e.g. summarize>
+    maxInputLength
+        Controls the maximum length for encoder inputs (source language texts)
+    maxOutputLength
+        Controls the maximum length for decoder outputs (target language texts)
 
     Examples
     --------
@@ -8661,7 +9241,10 @@ class DistilBertEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    maxSentenceLength
+        Max sentence length to process
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -8816,7 +9399,10 @@ class RoBertaEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    maxSentenceLength
+        Max sentence length to process
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------
@@ -8975,7 +9561,10 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
-    TODO
+    maxSentenceLength
+        Max sentence length to process
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
     Examples
     --------

@@ -81,7 +81,7 @@ html_css_files = [
 autodoc_docstring_signature = True
 autosummary_generate = True
 numpydoc_show_class_members = False  # Or add Method section in doc strings? https://stackoverflow.com/questions/65198998/sphinx-warning-autosummary-stub-file-not-found-for-the-methods-of-the-class-c
-autoclass_content = "both"  # use __init__ as doc as well
+# autoclass_content = "both"  # use __init__ as doc as well
 
 # -- More Configurations -----------------------------------------------------
 
