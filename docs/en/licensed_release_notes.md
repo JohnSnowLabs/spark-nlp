@@ -4,7 +4,7 @@ header: true
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2021-05-07
+modify_date: 2021-07-14
 ---
 
 # Release Notes Spark NLP Healthcare
@@ -29,13 +29,13 @@ This release comes with new features, new models, bug fixes, and examples.
 
 Users can now resume training/fine-tune existing(already trained) Spark NLP MedicalNer models on new data. Users can simply provide the path to any existing MedicalNer model and train it further on the new dataset:
 
-```python
+```
 ner_tagger = MedicalNerApproach().setPretrainedModelPath("/path/to/trained/medicalnermodel") 
 ```
 
 If the new dataset contains new tags/labels/entities, users can choose to override existing tags with the new ones. The default behaviour is to reset the list of existing tags and generate a new list from the new dataset. It is also possible to preserve the existing tags by setting the 'overrideExistingTags' parameter:
 
-```python
+```
 ner_tagger = MedicalNerApproach()\
   .setPretrainedModelPath("/path/to/trained/medicalnermodel")\
   .setOverrideExistingTags(False)
@@ -46,16 +46,16 @@ Setting overrideExistingTags to false is intended to be used when resuming train
 If tags overriding is disabled, and new tags are found in the training set, then the approach will try to allocate them to unused output nodes, if any. It is also possible to override specific tags of the old model by mapping them to new tags:
 
 
-```python
+```bash
 ner_tagger = MedicalNerApproach()\
   .setPretrainedModelPath("/path/to/trained/medicalnermodel")\
   .setOverrideExistingTags(False)\
   .setTagsMapping("B-PER,B-VIP", "I-PER,I-VIP")
 ```
 
-In this case, the new tags 'B-VIP' and 'I-VIP' will replace the already trained tags 'B-PER' and 'I-PER'. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.
+In this case, the new tags `B-VIP` and `I-VIP` will replace the already trained tags 'B-PER' and 'I-PER'. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.
 
-Jupyter Notebook: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb
+Jupyter Notebook: [Finetuning Medical NER Model Notebook] (https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)
 
 ##### More builtin graphs for MedicalNerApproach
 
@@ -70,29 +70,29 @@ Both the input and output formats for the annotator are `chunk`.
 
 Example:
 
-Python
-``` - Jan 30, 2018 - 13.04.1999 - 3April 2020
-       sentences = [
-            ['08/02/2018'],
-            ['11/2018'],
-            ['11/01/2018'],
-            ['12Mar2021'],
-            ['Jan 30, 2018'],
-            ['13.04.1999'],
-            ['3April 2020'],
-            ['next monday'],
-            ['today'],
-            ['next week'],
-        ]
-        df = spark.createDataFrame(sentences).toDF("text")
-        document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
-        chunksDF = document_assembler.transform(df)
-        aa = map_annotations_col(chunksDF.select("document"),
-                            lambda x: [Annotation('chunk', a.begin, a.end, a.result, a.metadata, a.embeddings) for a in x], "document",
-                            "chunk_date", "chunk")
-        dateNormalizer = DateNormalizer().setInputCols('chunk_date').setOutputCol('date').setAnchorDateYear(2021).setAnchorDateMonth(2).setAnchorDateDay(27)
-        dateDf = dateNormalizer.transform(aa)
-        dateDf.select("date.result","text").show()
+
+```bash
+	sentences = [
+		    ['08/02/2018'],
+		    ['11/2018'],
+		    ['11/01/2018'],
+		    ['12Mar2021'],
+		    ['Jan 30, 2018'],
+		    ['13.04.1999'],
+		    ['3April 2020'],
+		    ['next monday'],
+		    ['today'],
+		    ['next week'],
+	]
+	df = spark.createDataFrame(sentences).toDF("text")
+	document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
+	chunksDF = document_assembler.transform(df)
+	aa = map_annotations_col(chunksDF.select("document"),
+				    lambda x: [Annotation('chunk', a.begin, a.end, a.result, a.metadata, a.embeddings) for a in x], "document",
+				    "chunk_date", "chunk")
+	dateNormalizer = DateNormalizer().setInputCols('chunk_date').setOutputCol('date').setAnchorDateYear(2021).setAnchorDateMonth(2).setAnchorDateDay(27)
+	dateDf = dateNormalizer.transform(aa)
+	dateDf.select("date.result","text").show()
 ```
 
 ```bash
@@ -119,8 +119,7 @@ We are releasing new Relation Extraction models for ADE (Adverse Drug Event). Th
 
 Example
 
-Python
-```
+```bash
     ade_re_model = new RelationExtractionModel().pretrained('ner_ade_clinical', 'en', 'clinical/models')\
                                      .setInputCols(["embeddings", "pos_tags", "ner_chunk", "dependencies"])\
                                      .setOutputCol("relations")\
